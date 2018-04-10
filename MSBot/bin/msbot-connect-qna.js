@@ -54,14 +54,14 @@ async function processConnectQnaArgs(config) {
     if (!args.hasOwnProperty('name'))
         throw new Error("missing --name");
     if (!args.subscriptionKey || !utils_1.uuidValidate(args.subscriptionKey))
-        throw new Error("bad or missing --subscriptionKey");
+        throw new Error("bad or missing --subscriptionKey. See http://aka.ms/qnakeys for help.");
     // add the service
     config.connectService({
         type: BotConfig_1.ServiceType.QnA,
         name: args.name,
         id: args.kbid,
         kbid: args.kbid,
-        subscriptionKey: args.subscriptionKey
+        subscriptionKey: config.encryptValue(args.subscriptionKey)
     });
     await config.Save();
     return config;

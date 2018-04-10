@@ -57,9 +57,10 @@ async function processConnectLuisArgs(config) {
     if (!args.version || parseInt(args.version))
         throw new Error("bad or missing --version");
     if (!args.authoringKey || !utils_1.uuidValidate(args.authoringKey))
-        throw new Error("bad or missing --authoringKey");
-    if (!args.subscriptionKey || !utils_1.uuidValidate(args.subscriptionKey))
-        throw new Error("bad or missing --subscriptionKey");
+        throw new Error("bad or missing --authoringKey. See http://aka.ms/luiskeys for help");
+    /*if (!args.subscriptionKey || !utils_1.uuidValidate(args.subscriptionKey))
+        throw new Error("bad or missing --subscriptionKey. See http://aka.ms/luiskeys for help");
+    */
     // add the service
     config.connectService({
         type: BotConfig_1.ServiceType.Luis,
