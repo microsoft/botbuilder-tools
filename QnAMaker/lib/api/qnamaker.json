@@ -88,7 +88,7 @@
   },
   "knowledgebase": {
     "className": "Knowledgebase",
-    "url": "/knowledgebase/{kbId}",
+    "url": "/knowledgebases/{kbId}",
     "operations": {
       "replaceKnowledgebase": {
         "name": "replaceKnowledgebase",
@@ -188,6 +188,30 @@
           }
         ],
         "description": "Get metadata about a knowledgebase"
+      },
+      "updateKnowledgebase": {
+        "name": "updateKnowledgebase",
+        "method": "PATCH",
+        "methodAlias": "update",
+        "target": [
+          "kb",
+          "knowledgebase"
+        ],
+        "command": "qnamaker update kb --in updateKb.json --kbId <string>",
+        "pathFragment": "",
+        "params": [
+          {
+            "type": "string",
+            "name": "kbId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "description": "Knowledgebase id"
+          }
+        ],
+        "description": "Add or delete QnA Pairs and / or URLs to an existing knowledge base",
+        "entityName": "updateKb",
+        "entityType": "UpdateKbOperationDTO"
       }
     }
   },
