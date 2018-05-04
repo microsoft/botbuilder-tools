@@ -32,5 +32,11 @@ class Knowledgebase extends ServiceBase {
     getKnowledgebaseDetails(params) {
         return this.createRequest('', params, 'get');
     }
+    /**
+    * 
+    */
+    updateKnowledgebase(params , updateKb/* UpdateKbOperationDTO */) {
+        return this.createRequest('', params, 'PATCH', updateKb);
+    }
 }
 module.exports = Knowledgebase;
