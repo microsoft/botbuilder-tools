@@ -17,40 +17,32 @@ program.Command.prototype.unknownOption = function (flag: any) {
     program.help();
 };
 
-interface ExportArgs {
-    bot: string;
-    secret: string;
+interface ImportArgs {
+    importDir: string;
+    bot?: string;
+    secret?: string;
     output?: string;
+    authoringKey: string;
+    subscriptionKey: string;
+    environment?: string;
+    region: string;
 }
 
 program
-    .name('msbot export')
-    .description('export all of the connected services to local files')
-    .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
+    .name('msbot import')
+    .description('import connected services to local files')
+    .arguments("<importDir>")
+    .option('--authoringKey <authoringkey>', 'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
+    .option('--region <region>', 'LUIS authoring region like "westus"')
+    .option('--subscriptionKey <subscriptionKey>', 'Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)')
+    .option('--environment <environment>', 'QnA Maker environment to use, either prod or test, defaults to prod.')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
-    .option("-o, --output <path>", 'output directory.  If not present will default to bot file directory.')
+    .option("-o, --output <path>", 'output directory for new .bot file.  If not present will default to current directory.')
     .action((cmd, actions) => {
     });
 
-let args = <ExportArgs><any>program.parse(process.argv);
-var botPath: string;
-if (!args.bot) {
-    botPath = process.cwd();
-    BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
-        .then(processExportArgs)
-        .catch((reason) => {
-            console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
-            showErrorHelp();
-        });
-} else {
-    botPath = Path.dirname(args.bot);
-    BotConfig.Load(args.bot, args.secret)
-        .then(processExportArgs)
-        .catch((reason) => {
-            console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
-            showErrorHelp();
-        });
-}
+let args = <ImportArgs><any>program.parse(process.argv);
+processImportArgs(args);
 
 function ensureDir(dir: string) {
     if (fs.existsSync(dir))
@@ -59,9 +51,9 @@ function ensureDir(dir: string) {
         fs.mkdirSync(dir);
 }
 
-function luisExport(service: IConnectedService, dir: string) {
+function luisImport(service: IConnectedService, dir: string) {
     var luis = <ILuisService>service;
-    var cmd = 'luis export version'
+    var cmd = 'luis import version'
         + ' --appId ' + luis.appId
         + ' --authoringKey ' + luis.authoringKey
         + ' --versionId ' + luis.version
@@ -76,18 +68,17 @@ function luisExport(service: IConnectedService, dir: string) {
         });
 }
 
-async function processExportArgs(config: BotConfig): Promise<void> {
+async function processImportArgs(args: ImportArgs): Promise<void> {
     // Process each service in config and add to appropriate directory
-    var output = (args.output || botPath) + "/" + config.name;
-    var dispatchDir = output + "/dispatch";
-    var fileDir = output + "/file";
-    var luisDir = output + "/luis";
-    var qnaDir = output + "/qna";
-    ensureDir(output);
-    ensureDir(dispatchDir);
-    ensureDir(fileDir);
-    ensureDir(luisDir);
-    ensureDir(qnaDir);
+    var outputDir = (args.output || ".");
+    if (!args.environment)
+        args.environment = "prod";
+    var dispatchDir = args.importDir + "/dispatch";
+    var fileDir = args.importDir + "/file";
+    var luisDir = args.importDir + "/luis";
+    var qnaDir = args.importDir + "/qna";
+    ensureDir(outputDir);
+    /*
     Promise.all(
         config.services.map(service => {
             switch (service.type) {
@@ -120,12 +111,14 @@ async function processExportArgs(config: BotConfig): Promise<void> {
             }
         }))
         .then(res => {
-            var path = output + '/' + Path.basename(args.bot);
+            var path = outputDir + '/' + Path.basename(args.bot);
             return fs.writeJSON(path, config, {spaces: 2});
+            
         })
         .catch(err => {
             console.log(err);
         })
+        */
 }
 
 function showErrorHelp() {

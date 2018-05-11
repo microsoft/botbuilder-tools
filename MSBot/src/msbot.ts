@@ -50,6 +50,9 @@ program
 program
     .command('list', 'list all connected services');
 
+program
+    .command('export', 'export service information to be used in import');
+
 const args = program.parse(process.argv);
 
 // args should be undefined is subcommand is executed
