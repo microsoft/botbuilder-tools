@@ -4,7 +4,7 @@
  */
 const {insertParametersFromObject} = require('../utils/insertParametersFromObject');
 const deriveParamsFromPath = require('../utils/deriveParamsFromPath');
-
+const fetch = require('node-fetch');
 /**
  * Base class for all services
  */
@@ -33,6 +33,7 @@ class ServiceBase {
      * @returns {Promise<Response>} The promise representing the request
      */
     createRequest(pathFragment, params, method, dataModel = null) {
+        if (params) Object.assign(ServiceBase.config,params);
         const {commonHeaders: headers, endpoint} = this;
         const {endpointBasePath, appId, versionId} = ServiceBase.config;
         const tokenizedUrl = endpointBasePath + endpoint + pathFragment;
