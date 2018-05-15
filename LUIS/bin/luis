@@ -89,7 +89,7 @@ async function runProgram() {
     const requestBody = await validateArguments(args, operation);
 
     // INVOKE operation
-    let result={};
+    let result = {};
 
     switch (verb) {
         // ------------------ ADD  ------------------
@@ -421,8 +421,7 @@ async function runProgram() {
                     break;
 
                 default:
-                    throw new Error();
-                    break;
+                    throw new Error(`Unknown resource: ${target}`);
             }
             break;
         // ------------------ SUGGEST ------------------
@@ -436,8 +435,7 @@ async function runProgram() {
                     break;
 
                 default:
-                    throw new Error();
-                    break;
+                    throw new Error(`Unknown resource: ${target}`);
             }
             break;
         // ------------------ TRAIN ------------------
@@ -452,8 +450,19 @@ async function runProgram() {
                     break;
 
                 default:
-                    throw new Error();
+                    throw new Error(`Unknown resource: ${target}`);
+            }
+            break;
+
+        // ------------------- RENAME ----------------
+        case "rename":
+            switch (target) {
+
+                case "version":
+                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
                     break;
+                default:
+                    throw new Error(`Unknown resource: ${target}`);
             }
             break;
 
@@ -530,12 +539,8 @@ async function runProgram() {
                 case "sublist":
                     result = await client.model.updateSubList(args.region, args.appId, args.versionId, args.clEntityId, args.subListId, requestBody, args);
                     break;
-                case "version":
-                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
-                    break;
                 default:
-                    throw new Error();
-                    break;
+                    throw new Error(`Unknown resource: ${target}`);
             }
             break;
 

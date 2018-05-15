@@ -550,11 +550,11 @@
     },
     {
         "method": "put",
-        "methodAlias": "update",
+        "methodAlias": "rename",
         "target": [
             "version"
         ],
-        "command": "luis update version --in versionUpdateObject.json --appId <string> --versionId <string>",
+        "command": "luis rename version --in versionUpdateObject.json --appId <string> --versionId <string>",
         "pathFragment": "/{versionId}/",
         "params": [
             {

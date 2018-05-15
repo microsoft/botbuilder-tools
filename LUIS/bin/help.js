@@ -145,6 +145,7 @@ function getGeneralHelpContents(output) {
             [chalk.cyan.bold("list"), "list resources"],
             [chalk.cyan.bold("publish"), "publish resource"],
             [chalk.cyan.bold("query"), "query model for prediction"],
+            [chalk.cyan.bold("rename"), "change the name of a resource"],
             [chalk.cyan.bold("set"), "change the .luisrc settings"],
             [chalk.cyan.bold("suggest"), "suggest resources"],
             [chalk.cyan.bold("train"), "train resource"],
