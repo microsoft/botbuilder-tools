@@ -10,7 +10,8 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}\\bin\\luis",
             "args": [
-                "set", "MemoryBot"
+                "list","apps"
+                //"set", "test1"
             ]
         }
     ]
