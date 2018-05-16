@@ -58,31 +58,25 @@ export interface ILuisService extends IConnectedService {
     // luis appid
     appId: string;
 
+   // authoring endpoint
+    authoringEndpoint: string;
+
     // authoring key for using authoring api
     authoringKey: string;
 
     // subscription key for using calling model api for predictions
-    subscriptionKey: string;
+    publishedKey: string;
 
+     // published endpoint including any parameters like spellCheck or staging
+    publishedEndpoint: string; 
+    
     // version of the application
-    version: string;
+    versionId: string;
 }
 
-export interface IDispatchService extends IConnectedService {
+export interface IDispatchService extends ILuisService {
     // type = ServiceTypes.Dispatch
     // id = appid
-
-    // luis appid
-    appId: string;
-
-    // authoring key for using authoring api
-    authoringKey: string;
-
-    // subscription key for using calling model api for predictions
-    subscriptionKey: string;
-
-    // version of the application
-    version: string;
 
     // service Ids that the dispatch model will dispatch across
     serviceIds: string[];
@@ -103,6 +97,9 @@ export interface IQnAService extends IConnectedService {
 
     // endpointKey for querying the kb 
     endpointKey: string;
+
+    // environment
+    environment: string;
 }
 
 export interface IFileService extends IConnectedService {

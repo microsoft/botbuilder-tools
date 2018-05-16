@@ -27,9 +27,9 @@ export class BotConfig extends BotConfigModel {
     protected encryptedProperties: { [key: string]: string[]; } = {
         endpoint: ['appPassword'],
         abs: ['appPassword'],
-        luis: ['authoringKey', 'subscriptionKey'],
+        luis: ['authoringKey', 'publishedKey'],
         qna: ['subscriptionKey'],
-        dispatch: ['authoringKey', 'subscriptionKey']
+        dispatch: ['authoringKey', 'publishedKey']
     };
 
     constructor(secret?: string) {
@@ -42,7 +42,7 @@ export class BotConfig extends BotConfigModel {
             .where(file => path.extname(<string>file) == '.bot');
 
         if (files.any()) {
-            return await BotConfig.Load(<string>files.first(), secret);
+            return await BotConfig.Load(folder + "/" + <string>files.first(), secret);
         }
         throw new Error(`Error: no bot file found in ${folder}. Choose a different location or use msbot init to create a .bot file."`);
     }
@@ -50,10 +50,19 @@ export class BotConfig extends BotConfigModel {
     // load the config file
     public static async Load(botpath: string, secret?: string): Promise<BotConfig> {
         let bot = new BotConfig(secret);
-        Object.assign(bot, JSON.parse(await txtfile.read(botpath)));
+        let json = JSON.parse(await txtfile.read(botpath));
+        for (var service of json.services) {
+            if (service.type === "luis") {
+                if (service.version) service.versionId = service.version;
+                if (service.subscriptionKey) service.publishedKey = service.subscriptionKey;
+                delete service.version;
+                delete service.subscriptionKey;
+            }
+        }
+        Object.assign(bot, json);
         bot.internal.location = botpath;
 
-        let hasSecret = ( secret && bot.secretKey && bot.secretKey.length > 0 );
+        let hasSecret = (secret && bot.secretKey && bot.secretKey.length > 0);
         if (hasSecret)
             bot.decryptAll();
 
@@ -62,7 +71,7 @@ export class BotConfig extends BotConfigModel {
 
     // save the config file
     public async save(botpath?: string): Promise<void> {
-        let hasSecret = ( this.secretKey && this.secretKey.length > 0 );
+        let hasSecret = (this.secretKey && this.secretKey.length > 0);
 
         // make sure that all dispatch serviceIds still match services that are in the bot
         for (let service of this.services) {
@@ -139,8 +148,8 @@ export class BotConfig extends BotConfigModel {
         let encryptedProperties = this.getEncryptedProperties(<ServiceType>service.type);
         for (let i = 0; i < encryptedProperties.length; i++) {
             let prop = encryptedProperties[i];
-            let val = <string>( <any>service )[prop];
-            ( <any>service )[prop] = this.encryptValue(val);
+            let val = <string>(<any>service)[prop];
+            (<any>service)[prop] = this.encryptValue(val);
         }
         return service;
     }
@@ -150,8 +159,8 @@ export class BotConfig extends BotConfigModel {
         let encryptedProperties = this.getEncryptedProperties(<ServiceType>service.type);
         for (let i = 0; i < encryptedProperties.length; i++) {
             let prop = encryptedProperties[i];
-            let val = <string>( <any>service )[prop];
-            ( <any>service )[prop] = this.decryptValue(val);
+            let val = <string>(<any>service)[prop];
+            (<any>service)[prop] = this.decryptValue(val);
         }
         return service;
     }

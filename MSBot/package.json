@@ -38,7 +38,9 @@
   },
   "dependencies": {
     "chalk": "^2.3.2",
+    "child-process-promise": "^2.2.1",
     "commander": "^2.15.1",
+    "del": "^3.0.0",
     "fs-extra": "^5.0.0",
     "get-stdin": "^6.0.0",
     "linq-collections": "^1.0.251",

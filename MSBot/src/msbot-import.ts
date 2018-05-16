@@ -18,27 +18,34 @@ program.Command.prototype.unknownOption = function (flag: any) {
 };
 
 interface ImportArgs {
-    importDir: string;
-    bot?: string;
-    secret?: string;
-    output?: string;
+    args: string[];
     authoringKey: string;
-    subscriptionKey: string;
-    environment?: string;
+    output?: string;
+    publishedKey: string;
+    publishedEndpoint: string;
     region: string;
+
+    // QnA
+    environment?: string;
+    subscriptionKey: string;
+
+    // Common
+    secret?: string;
 }
 
 program
-    .name('msbot import')
-    .description('import connected services to local files')
-    .arguments("<importDir>")
-    .option('--authoringKey <authoringkey>', 'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
-    .option('--region <region>', 'LUIS authoring region like "westus"')
-    .option('--subscriptionKey <subscriptionKey>', 'Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)')
-    .option('--environment <environment>', 'QnA Maker environment to use, either prod or test, defaults to prod.')
+    .name('msbot import <importDir>')
+    .description('import connected services from the importDir and generate services and a .bot file.')
+    .option("<importDir>", "Directory with export files.")
+    .option('-a, --authoringKey <authoringkey>', 'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
+    .option('-r --region <region>', 'LUIS authoring region like "westus" which is the default.')
+    .option('--publishedKey <publishedKey>', 'Key for calling published endpoint, default is authoringKey')
+    .option('--publishedEndpoint <publishedEndpoint>', 'How to call published model, default is authoring region')
+    .option('-s, --subscriptionKey <subscriptionKey>', 'Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)')
+    .option('-e, --environment <environment>', 'QnA Maker environment to use, either prod or test, defaults to prod.')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option("-o, --output <path>", 'output directory for new .bot file.  If not present will default to current directory.')
-    .action((cmd, actions) => {
+    .action((cmd: any, actions: any) => {
     });
 
 let args = <ImportArgs><any>program.parse(process.argv);
@@ -51,33 +58,105 @@ function ensureDir(dir: string) {
         fs.mkdirSync(dir);
 }
 
-function luisImport(service: IConnectedService, dir: string) {
-    var luis = <ILuisService>service;
-    var cmd = 'luis import version'
-        + ' --appId ' + luis.appId
-        + ' --authoringKey ' + luis.authoringKey
+function findService(type: string, name: string, bot: BotConfig) {
+    return bot.services.find(service => service.type === type && service.name === name);
+}
+
+function findLuisService(name: string, bot: BotConfig) {
+    return <ILuisService>findService("luis", name, bot);
+}
+
+async function luisImport(path: string, args: ImportArgs, bot: BotConfig) {
+    var name = Path.basename(path, ".json");
+    var service = findLuisService(name, bot);
+    if (!service) throw ".Bot file is missing exported service " + name;
+    service.authoringKey = args.authoringKey;
+    service.authoringEndpoint = "http://" + args.region + ".api.cognitive.microsoft.com/luis/api/v2.0";
+    service.publishedKey = args.publishedKey && service.authoringKey;
+    if (args.publishedEndpoint) {
+        service.publishedEndpoint = args.publishedEndpoint;
+    } else if (service.publishedEndpoint) {
+        service.publishedEndpoint = service.publishedEndpoint.replace(/(.*\/\/)([^.]*)/, "$1" + args.region);
+    }
+    var importCmd = 'luis import version'
+        + ' --in "' + path
+        + '" --authoringKey "' + service.authoringKey
+        + '" --versionId "' + service.versionId
+        + '" --endpointBasePath "' + service.authoringEndpoint + '"';
+    return exec(importCmd)
+        .then(function (model: any) {
+            service.appId = model.id;
+            service.id = model.id;
+            if (!service.publishedEndpoint)
+                service.publishedEndpoint = service.authoringEndpoint + "/apps/" + service.appId;
+            var trainCmd = 'luis train version'
+                + ' --appId "' + service.appId
+                + '" --authoringKey "' + service.authoringKey
+                + '" --endpointBasePath "' + service.authoringEndpoint
+                + '" --versionId "' + service.versionId + '"';
+            return exec(trainCmd)
+        })
+        .then(function (train: any) {
+            var publishCmd = 'luis publish version'
+                + ' --appId "' + service.appId
+                + '" --authoringKey "' + service.authoringKey
+                + '" --endpointBasePath "' + service.authoringEndpoint
+                + '" --versionId "' + service.versionId + '"';
+            // TODO: How do you specify environment?  Can get from publishedEndpoint to add param, but don't know how to specify here
+            return exec(publishCmd)
+        })
+        .catch(function (err: any) {
+            console.error("Failed importing LUIS service " + name);
+            console.error(err.toString());
+        });
+}
+
+async function qnaImport(file: string, args: ImportArgs) {
+    /* TODO
+    var cmd = 'qnamaker import version'
+        + ' --authoringKey ' + args.authoringKey
         + ' --versionId ' + luis.version
         // TODO: This should be comeing from the .bot file
         + ' --endpointBasePath ' + 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0';
-    luis.appId = "";
-    luis.authoringKey = "";
-    luis.subscriptionKey = "";
+    // luis.appId = "";
+    // luis.authoringKey = "";
+    // luis.subscriptionKey = "";
     return exec(cmd)
         .then(function (res: any) {
             return fs.writeJSON(dir + "/" + luis.name + ".json", res);
         });
+        */
 }
 
+
 async function processImportArgs(args: ImportArgs): Promise<void> {
-    // Process each service in config and add to appropriate directory
+    var importDir = args.args[0];
     var outputDir = (args.output || ".");
     if (!args.environment)
         args.environment = "prod";
-    var dispatchDir = args.importDir + "/dispatch";
-    var fileDir = args.importDir + "/file";
-    var luisDir = args.importDir + "/luis";
-    var qnaDir = args.importDir + "/qna";
-    ensureDir(outputDir);
+    var dispatchDir = importDir + "/dispatch/";
+    var fileDir = importDir + "/file/";
+    var luisDir = importDir + "/luis/";
+    var qnaDir = importDir + "/qna/";
+
+    BotConfig.LoadBotFromFolder(importDir, undefined)
+        .then(bot => {
+            Promise.all(
+                [fs.readdir(luisDir)
+                    .then(files => {
+                        return Promise.all(files.map(file => { return luisImport(luisDir + file, args, bot); }));
+                    }),
+                fs.readdir(qnaDir)
+                    .then(files => {
+                        return Promise.all(files.map(file => { return qnaImport(file, args); }))
+                    })
+                ]);
+        })
+        .catch((reason) => {
+            console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
+            showErrorHelp();
+        });
+
     /*
     Promise.all(
         config.services.map(service => {

@@ -6,21 +6,25 @@ import { ILuisService, ServiceType } from '../schema';
 import { ConnectedService } from './connectedService';
 
 export class LuisService extends ConnectedService implements ILuisService {
-    public readonly type = ServiceType.Luis;
-    public appId = '';
     public authoringKey = '';
-    public subscriptionKey = '';
-    public version = '';
+    public authoringEndpoint = '';
+    public id = '';
+    public name = '';
+    public appId = '';
+    public publishedEndpoint = '';
+    public publishedKey = '';
+    public readonly type = ServiceType.Luis;
+    public versionId = '';
 
     constructor(source: ILuisService = {} as ILuisService) {
         super(source);
-        const { appId = '', authoringKey = '', subscriptionKey = '', version = '' } = source;
+        const { appId = '', authoringKey = '', publishedKey = '', versionId = '' } = source;
         this.id = appId;
-        Object.assign(this, { appId, authoringKey, subscriptionKey, version });
+        Object.assign(this, { appId, authoringKey, publishedKey, versionId });
     }
 
     public toJSON(): ILuisService {
-        const { appId, authoringKey, id, name, subscriptionKey, type, version } = this;
-        return { type: ServiceType.Luis, id: appId, name, version, appId, authoringKey, subscriptionKey };
+        const { appId, authoringKey, authoringEndpoint, id, name, publishedKey, publishedEndpoint, type, versionId } = this;
+        return { type: ServiceType.Luis, id: appId, name, versionId, appId, authoringKey, authoringEndpoint, publishedKey, publishedEndpoint };
     }
 }

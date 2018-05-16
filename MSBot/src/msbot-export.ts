@@ -25,7 +25,7 @@ interface ExportArgs {
 
 program
     .name('msbot export')
-    .description('export all of the connected services to local files')
+    .description('export all of the connected services to local files.')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option("-o, --output <path>", 'output directory.  If not present will default to bot file directory.')
@@ -59,17 +59,19 @@ function ensureDir(dir: string) {
         fs.mkdirSync(dir);
 }
 
-function luisExport(service: IConnectedService, dir: string) {
+async function luisExport(service: IConnectedService, dir: string) {
     var luis = <ILuisService>service;
     var cmd = 'luis export version'
         + ' --appId ' + luis.appId
         + ' --authoringKey ' + luis.authoringKey
-        + ' --versionId ' + luis.version
-        // TODO: This should be comeing from the .bot file
-        + ' --endpointBasePath ' + 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0';
+        + ' --versionId ' + luis.versionId
+        // TODO: This should be coming from the .bot file
+        // Need to fix ILuisService to include it.  Init does specify it now.
+        + ' --endpointBasePath ' + luis.authoringEndpoint;
+    luis.id = "";
     luis.appId = "";
     luis.authoringKey = "";
-    luis.subscriptionKey = "";
+    luis.publishedKey = "";
     return exec(cmd)
         .then(function (res: any) {
             return fs.writeJSON(dir + "/" + luis.name + ".json", res);
@@ -107,7 +109,7 @@ async function processExportArgs(config: BotConfig): Promise<void> {
                         + ' --kbId ' + qna.kbId
                         + ' --subscriptionKey ' + qna.subscriptionKey
                         // TODO: Environment should come from .bot file
-                        + ' --environment ' + 'prod';
+                        + ' --environment ' + qna.environment;
                     qna.kbId = "";
                     qna.endpointKey = "";
                     qna.hostname = "";
@@ -121,7 +123,7 @@ async function processExportArgs(config: BotConfig): Promise<void> {
         }))
         .then(res => {
             var path = output + '/' + Path.basename(args.bot);
-            return fs.writeJSON(path, config, {spaces: 2});
+            return fs.writeJSON(path, config, { spaces: 2 });
         })
         .catch(err => {
             console.log(err);

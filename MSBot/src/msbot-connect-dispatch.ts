@@ -30,9 +30,9 @@ program
     .description('Connect the bot to a dispatch model')
     .option('-n, --name <name>', 'name for the dispatch')
     .option('-a, --appId <appid>', 'LUID AppId for the dispatch app')
-    .option('-v, --version <version>', 'version for the dispatch app, (example: 0.1)')
+    .option('-v, --versionId <versionId>', 'version for the dispatch app, (example: 0.1)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating the dispatch model via the LUIS authoring API\n')
-    .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
+    .option('--publishedKey <publishedKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
@@ -80,14 +80,14 @@ async function processConnectDispatch(config: BotConfig): Promise<BotConfig> {
     if (!args.appId || !uuidValidate(args.appId))
         throw new Error('bad or missing --appId');
 
-    if (!args.version)
-        throw new Error('bad or missing --version');
+    if (!args.versionId)
+        throw new Error('bad or missing --versionId');
 
     if (!args.authoringKey || !uuidValidate(args.authoringKey))
         throw new Error('bad or missing --authoringKey');
 
-    if (args.subscriptionKey && !uuidValidate(args.subscriptionKey))
-        throw new Error('bad --subscriptionKey');
+    if (args.publishedKey && !uuidValidate(args.publishedKey))
+        throw new Error('bad --publishedKey');
 
     if (!args.id)
         args.id = args.appId;
