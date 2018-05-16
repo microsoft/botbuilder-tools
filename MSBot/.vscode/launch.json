@@ -48,8 +48,7 @@
                 "/tmp/AspNetCore-Luis-Dispatch-Bot",
                 "--authoringKey", "0f43266ab91447ec8d705897381478c5",
                 "--region", "westus",
-                "--subscriptionKey", "6f4f3589510043288fb6fd21a06df2cf",
-
+                "--publishedKey", "6f4f3589510043288fb6fd21a06df2cf",
             ]
         }
     ]
