@@ -199,9 +199,9 @@ module.exports.parseFile = function(fileContent, log)
                                     // add this to entities collection unless it already exists
                                     addItemIfNotPresent(LUISJsonStruct, LUISObjNameEnum.ENTITIES, entity);
                                     // clean up uttearnce to only include labelledentityValue and add to utterances collection
-                                    var startPos = updatedUtterance.search(srcEntityStructure);
-                                    var endPos = startPos + labelledValue.length - 1;
                                     updatedUtterance = updatedUtterance.replace("{" + entity + "=" + labelledValue + "}", labelledValue);
+                                    var startPos = updatedUtterance.indexOf(srcEntityStructure);
+                                    var endPos = startPos + labelledValue.length - 1;
                                     entitiesInUtterance.push({
                                         "type": "simple",
                                         "value": {
