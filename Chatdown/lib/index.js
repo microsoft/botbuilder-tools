@@ -120,6 +120,9 @@ module.exports = async function readContents(fileContents, args) {
     // We've run out of lines but may still have
     // an activity waiting.
     if (currentActivity) {
+        if (currentActivity.text.endsWith('\n')){
+            currentActivity.text = currentActivity.text.slice(0, -1);
+        }
         activities.push(currentActivity);
     }
     return activities;
