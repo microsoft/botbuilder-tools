@@ -110,10 +110,9 @@ async function processExportArgs(config: BotConfig): Promise<void> {
                         qna.environment = "prod";
                     }
                     var cmd = 'qnamaker export kb'
-                        + ' --kbId ' + qna.kbId
-                        + ' --subscriptionKey ' + qna.subscriptionKey
-                        // TODO: Environment should come from .bot file
-                        + ' --environment ' + qna.environment;
+                        + ' --kbId "' + qna.kbId
+                        + '" --subscriptionKey "' + qna.subscriptionKey
+                        + '" --environment "' + qna.environment + '"';
                     qna.kbId = "";
                     qna.endpointKey = "";
                     qna.hostname = "";

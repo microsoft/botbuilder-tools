@@ -42,7 +42,6 @@ program
     .option('--publishedKey <publishedKey>', 'Key for calling published endpoint, default is authoringKey')
     .option('--publishedEndpoint <publishedEndpoint>', 'How to call published model, default is authoring region')
     .option('-s, --subscriptionKey <subscriptionKey>', 'Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)')
-    .option('-e, --environment <environment>', 'QnA Maker environment to use, either prod or test, defaults to prod.')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option("-o, --output <path>", 'output directory for new .bot file.  If not present will default to current directory.')
     .action((cmd: any, actions: any) => {
@@ -132,8 +131,6 @@ async function qnaImport(file: string, args: ImportArgs) {
 async function processImportArgs(args: ImportArgs): Promise<void> {
     var importDir = args.args[0];
     var outputDir = (args.output || ".");
-    if (!args.environment)
-        args.environment = "prod";
     var dispatchDir = importDir + "/dispatch/";
     var fileDir = importDir + "/file/";
     var luisDir = importDir + "/luis/";
