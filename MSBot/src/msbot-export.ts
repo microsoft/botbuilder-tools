@@ -61,20 +61,21 @@ function ensureDir(dir: string) {
 
 async function luisExport(service: IConnectedService, dir: string) {
     var luis = <ILuisService>service;
+    if (!luis.authoringEndpoint) {
+        luis.authoringEndpoint = "https://westus.api.cognitive.microsoft.com/luis/api/v2.0/";
+    }
     var cmd = 'luis export version'
-        + ' --appId ' + luis.appId
-        + ' --authoringKey ' + luis.authoringKey
-        + ' --versionId ' + luis.versionId
-        // TODO: This should be coming from the .bot file
-        // Need to fix ILuisService to include it.  Init does specify it now.
-        + ' --endpointBasePath ' + luis.authoringEndpoint;
+        + ' --appId "' + luis.appId
+        + '" --authoringKey "' + luis.authoringKey
+        + '" --versionId "' + luis.versionId
+        + '" --endpointBasePath "' + luis.authoringEndpoint + '"';
     luis.id = "";
     luis.appId = "";
     luis.authoringKey = "";
     luis.publishedKey = "";
     return exec(cmd)
         .then(function (res: any) {
-            return fs.writeJSON(dir + "/" + luis.name + ".json", res);
+            return fs.writeJSON(dir + "/" + luis.name + ".json", res.stdout);
         });
 }
 
@@ -105,6 +106,9 @@ async function processExportArgs(config: BotConfig): Promise<void> {
                 }
                 case ServiceType.QnA: {
                     var qna = <IQnAService>service;
+                    if (!qna.environment) {
+                        qna.environment = "prod";
+                    }
                     var cmd = 'qnamaker export kb'
                         + ' --kbId ' + qna.kbId
                         + ' --subscriptionKey ' + qna.subscriptionKey
@@ -116,7 +120,7 @@ async function processExportArgs(config: BotConfig): Promise<void> {
                     qna.subscriptionKey = "";
                     return exec(cmd)
                         .then(function (res: any) {
-                            return fs.writeJSON(qnaDir + "/" + qna.name + ".json", res);
+                            return fs.writeJSON(qnaDir + "/" + qna.name + ".json", res.stdout);
                         })
                 }
             }
