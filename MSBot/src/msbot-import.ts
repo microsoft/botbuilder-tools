@@ -95,11 +95,13 @@ async function luisImport(path: string, args: ImportArgs, bot: BotConfig, map: {
     let keyAndBase =
         ' --authoringKey "' + service.authoringKey + '"'
         + ' --endpointBasePath "' + service.authoringEndpoint + '"';
+    let imported = false;
     let importCmd = 'luis import application'
         + ' --in "' + path + '"' + keyAndBase;
     return exec(importCmd)
         .then(function (res: any) {
             let model = JSON.parse(res.stdout);
+            imported = true;
             service.appId = model.id;
             map[<string>service.id] = model.id;
             service.id = model.id;
@@ -108,21 +110,24 @@ async function luisImport(path: string, args: ImportArgs, bot: BotConfig, map: {
             }
             let trainCmd = 'luis train version'
                 + ' --appId "' + service.appId + '"'
-                + ' --versionId "' + service.version + '"';
-            + keyAndBase;
-            return exec(trainCmd)
+                + ' --versionId "' + service.version + '"'
+                + ' --wait'
+                + keyAndBase;
+            return exec(trainCmd);
         })
         .then(function (train: any) {
             let publishCmd = 'luis publish version'
-                + ' --appId "' + service.appId
-                + ' --versionId "' + service.version + '"';
-            + keyAndBase;
-            return exec(publishCmd)
+                + ' --appId "' + service.appId + '"'
+                + ' --versionId "' + service.version + '"'
+                + keyAndBase;
+            return exec(publishCmd);
         })
         .then(function (publish:any) {
             console.error("Imported, trained and published LUIS app " + name + " version " + service.version);
         })
         .catch(function (err: any) {
+            let msg = "Failed importing LUIS service " + name + err;
+            if (imported) throw msg;
             let list = 'luis list apps' + keyAndBase;
             return exec(list)
                 .then(function (listRes: any) {
@@ -134,7 +139,7 @@ async function luisImport(path: string, args: ImportArgs, bot: BotConfig, map: {
                         map[<string>service.id] = app.id;
                         service.id = app.id;
                     } else {
-                        throw "Failed importing LUIS service " + name;
+                        throw msg;
                     }
                 });
         });
@@ -160,6 +165,7 @@ async function qnaImport(path: string, args: ImportArgs, bot: BotConfig, map: { 
                     + key
                     + ' --wait ' + ' -q'
                     + ' --name "' + service.name + '"';
+                isNew = true;
                 return exec(create);
             }
         })
@@ -190,7 +196,7 @@ async function qnaImport(path: string, args: ImportArgs, bot: BotConfig, map: { 
             if (isNew) console.error("Imported and published QnA Maker knowledge base " + name + " to " + service.environment);
         })
         .catch(function (err: any) {
-            throw "Failed importing QnA Maker knowledge base " + name;
+            throw "Failed importing QnA Maker knowledge base " + name + err;
         });
 }
 
