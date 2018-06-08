@@ -27,9 +27,9 @@ export class BotConfig extends BotConfigModel {
     protected encryptedProperties: { [key: string]: string[]; } = {
         endpoint: ['appPassword'],
         abs: ['appPassword'],
-        luis: ['authoringKey', 'publishedKey'],
+        luis: ['authoringKey', 'subscriptionKey'],
         qna: ['subscriptionKey'],
-        dispatch: ['authoringKey', 'publishedKey']
+        dispatch: ['authoringKey', 'subscriptionKey']
     };
 
     constructor(secret?: string) {
@@ -51,14 +51,6 @@ export class BotConfig extends BotConfigModel {
     public static async Load(botpath: string, secret?: string): Promise<BotConfig> {
         let bot = new BotConfig(secret);
         let json = JSON.parse(await txtfile.read(botpath));
-        for (var service of json.services) {
-            if (service.type === "luis") {
-                if (service.version) service.versionId = service.version;
-                if (service.subscriptionKey) service.publishedKey = service.subscriptionKey;
-                delete service.version;
-                delete service.subscriptionKey;
-            }
-        }
         Object.assign(bot, json);
         bot.internal.location = botpath;
 

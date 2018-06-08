@@ -29,9 +29,9 @@ program
     .description('Connect the bot to a LUIS application')
     .option('-n, --name <name>', 'name for the LUIS app')
     .option('-a, --appId <appid>', 'AppId for the LUIS App')
-    .option('-v, --versionId <versionId>', 'version for the LUIS App, (example: 0.1)')
+    .option('-v, --version <version>', 'version for the LUIS App, (example: 0.1)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
-    .option('--publishedKey <publishedKey>', '(OPTIONAL) subscription key used for querying a LUIS model\n')
+    .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying a LUIS model\n')
     .option("--authoringEndpoint <authoringEndpoint>", "Base URL for authoring this model.  Default is westus.")
     .option("--publishedEndpoint <publishedEndpoint>", "Base URL where runtime model is published.")
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
@@ -81,8 +81,8 @@ async function processConnectLuisArgs(config: BotConfig): Promise<BotConfig> {
     if (!args.appId || !uuidValidate(args.appId))
         throw new Error('bad or missing --appId');
 
-    if (!args.versionId)
-        throw new Error('bad or missing --versionId');
+    if (!args.version)
+        throw new Error('bad or missing --version');
 
     if (!args.authoringKey || !uuidValidate(args.authoringKey))
         throw new Error('bad or missing --authoringKey');
@@ -90,8 +90,8 @@ async function processConnectLuisArgs(config: BotConfig): Promise<BotConfig> {
     if (!args.id)
         args.id = args.appId;
 
-    //if (!args.publishedKey || !uuidValidate(args.publishedKey))
-    //    throw new Error("bad or missing --publishedKey");
+    //if (!args.subscriptionKey || !uuidValidate(args.subscriptionKey))
+    //    throw new Error("bad or missing --subscriptionKey");
 
     // add the service
     let newService = new LuisService(args);

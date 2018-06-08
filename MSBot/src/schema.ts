@@ -65,13 +65,13 @@ export interface ILuisService extends IConnectedService {
     authoringKey: string;
 
     // subscription key for using calling model api for predictions
-    publishedKey: string;
+    subscriptionKey: string;
 
      // published endpoint including any parameters like spellCheck or staging
     publishedEndpoint: string; 
     
     // version of the application
-    versionId: string;
+    version: string;
 }
 
 export interface IDispatchService extends ILuisService {

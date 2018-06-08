@@ -86,7 +86,7 @@ async function luisImport(path: string, args: ImportArgs, bot: BotConfig, map: {
     if (args.region) {
         service.authoringEndpoint = "https://" + args.region + ".api.cognitive.microsoft.com/luis/api/v2.0";
     }
-    service.publishedKey = args.publishedKey && service.authoringKey;
+    service.subscriptionKey = args.subscriptionKey && service.authoringKey;
     if (args.publishedEndpoint) {
         service.publishedEndpoint = args.publishedEndpoint;
     } else if (service.publishedEndpoint) {
@@ -108,14 +108,14 @@ async function luisImport(path: string, args: ImportArgs, bot: BotConfig, map: {
             }
             let trainCmd = 'luis train version'
                 + ' --appId "' + service.appId + '"'
-                + ' --versionId "' + service.versionId + '"';
+                + ' --versionId "' + service.version + '"';
             + keyAndBase;
             return exec(trainCmd)
         })
         .then(function (train: any) {
             let publishCmd = 'luis publish version'
                 + ' --appId "' + service.appId
-                + ' --versionId "' + service.versionId + '"';
+                + ' --versionId "' + service.version + '"';
             + keyAndBase;
             return exec(publishCmd)
         })

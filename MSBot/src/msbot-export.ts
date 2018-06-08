@@ -67,12 +67,11 @@ async function luisExport(service: IConnectedService, dir: string) {
     let cmd = 'luis export version'
         + ' --appId "' + luis.appId + '"'
         + ' --authoringKey "' + luis.authoringKey + '"'
-        // TODO: Dispatch puts version, not verisionId in .bot file which is not the interface
-        + ' --versionId "' + (luis.versionId || (<any>luis).version) + '"'
+        + ' --versionId "' + luis.version + '"'
         + ' --endpointBasePath "' + luis.authoringEndpoint + '"';
     luis.appId = "";
     luis.authoringKey = "";
-    luis.publishedKey = "";
+    luis.subscriptionKey = "";
     return exec(cmd)
         .then(function (res: any) {
             return fs.writeJSON(dir + "/" + luis.name + ".json", JSON.parse(res.stdout), {spaces: 2});
