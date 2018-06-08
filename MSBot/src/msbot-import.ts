@@ -119,6 +119,9 @@ async function luisImport(path: string, args: ImportArgs, bot: BotConfig, map: {
             + keyAndBase;
             return exec(publishCmd)
         })
+        .then(function (publish:any) {
+            console.error("Imported, trained and published LUIS app " + name + " version " + service.version);
+        })
         .catch(function (err: any) {
             let list = 'luis list apps' + keyAndBase;
             return exec(list)
@@ -170,6 +173,7 @@ async function qnaImport(path: string, args: ImportArgs, bot: BotConfig, map: { 
             service.kbId = kb.id;
             map[<string>service.id] = kb.id;
             service.id = kb.id;
+            service.hostname = kb.hostName;
             let publish = 'qnamaker publish kb'
                 + ' --kbId "' + service.kbId + '"'
                 + ' --environment ' + service.environment
@@ -183,9 +187,10 @@ async function qnaImport(path: string, args: ImportArgs, bot: BotConfig, map: { 
         .then(function (keysRes: any) {
             let keys = JSON.parse(keysRes.stdout);
             service.endpointKey = keys.primaryEndpointKey;
+            if (isNew) console.error("Imported and published QnA Maker knowledge base " + name + " to " + service.environment);
         })
         .catch(function (err: any) {
-            throw "Failed importing QnA Maker service " + name;
+            throw "Failed importing QnA Maker knowledge base " + name;
         });
 }
 
