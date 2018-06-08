@@ -250,6 +250,46 @@ Example using ID:
 msbot disconnect "339411fa-ac8d-47ad-8d92-4b083a2c5305"
 ```
 
+# Export from services to files
+
+To export from all of your services in a form that can be imported later.
+
+```shell
+msbot export [options]
+```
+
+This will result in exports from all of your services being stored in a directory with the name of your bot file.
+
+Options:
+
+| Option                        | Description                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+|   -b, --bot <path>  |   path to bot file.  If omitted, local folder will look for a .bot file |
+|    --secret <secret>   | bot file secret password for encrypting service secrets |
+|   -o, --output <path> |  output directory.  If not present will default to bot file directory.|
+|    -h, --help          | output usage information|
+
+# Import from files to services
+
+Recreate all of your bot services from exported files. 
+
+```shell
+msbot import <importDir> [options]
+```
+
+| Option                        | Description                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+|   <importDir>                               | Directory with export files.|
+|    -a, --authoringKey <authoringkey>        | authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)|
+|    -r --region <region>                     | LUIS authoring region like "westus" which is the default.|
+|    --publishedKey <publishedKey>            | Key for calling published LUIS endpoint, default is authoringKey|
+|    --publishedEndpoint <publishedEndpoint>  | How to call published LUIS model, default is authoring region|
+|    -s, --subscriptionKey <subscriptionKey>  | Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)|
+|    --secret <secret>                        | bot file secret password for encrypting service secrets|
+|    -o, --output <path>                      | output directory for new .bot file.  If not present will default to current directory.|
+|    -h, --help                               | output usage information|
+
+
 # Bot Secrets
 
 It is useful for tools like the emulator to have secure access to keys it needs to work with the services that are connected to the bot.  The MSBot tool supports this by allowing you to specify a **secret** which is a password that is used to encrypt/decrypt secure keys in the .bot file.
