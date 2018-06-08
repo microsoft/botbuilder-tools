@@ -39,8 +39,8 @@ program
     .option("<importDir>", "Directory with export files.")
     .option('-a, --authoringKey <authoringkey>', 'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
     .option('-r --region <region>', 'LUIS authoring region like "westus" which is the default.')
-    .option('--publishedKey <publishedKey>', 'Key for calling published endpoint, default is authoringKey')
-    .option('--publishedEndpoint <publishedEndpoint>', 'How to call published model, default is authoring region')
+    .option('--publishedKey <publishedKey>', 'Key for calling published LUIS endpoint, default is authoringKey')
+    .option('--publishedEndpoint <publishedEndpoint>', 'How to call published LUIS model, default is authoring region')
     .option('-s, --subscriptionKey <subscriptionKey>', 'Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option("-o, --output <path>", 'output directory for new .bot file.  If not present will default to current directory.')
@@ -62,146 +62,197 @@ function findService(type: string, name: string, bot: BotConfig) {
 }
 
 function findLuisService(name: string, bot: BotConfig) {
-    return <ILuisService>findService("luis", name, bot);
+    let service = <ILuisService>findService("luis", name, bot);
+    if (!service) {
+        service = <ILuisService>findService("dispatch", name, bot);
+    }
+    return service;
 }
 
-async function luisImport(path: string, args: ImportArgs, bot: BotConfig) {
-    var name = Path.basename(path, ".json");
-    var service = findLuisService(name, bot);
+function findQnAService(name: string, bot: BotConfig) {
+    return <IQnAService>findService("qna", name, bot);
+}
+
+function findFileService(name: string, bot: BotConfig) {
+    return <IFileService>findService("file", name, bot);
+}
+
+async function luisImport(path: string, args: ImportArgs, bot: BotConfig, map: { [key: string]: string }) {
+    let name = Path.basename(path, ".json");
+    let service = findLuisService(name, bot);
     if (!service) throw ".Bot file is missing exported service " + name;
+    if (!args.authoringKey) throw "Must include --authoringKey to import LUIS models";
     service.authoringKey = args.authoringKey;
-    service.authoringEndpoint = "http://" + args.region + ".api.cognitive.microsoft.com/luis/api/v2.0";
+    if (args.region) {
+        service.authoringEndpoint = "https://" + args.region + ".api.cognitive.microsoft.com/luis/api/v2.0";
+    }
     service.publishedKey = args.publishedKey && service.authoringKey;
     if (args.publishedEndpoint) {
         service.publishedEndpoint = args.publishedEndpoint;
     } else if (service.publishedEndpoint) {
         service.publishedEndpoint = service.publishedEndpoint.replace(/(.*\/\/)([^.]*)/, "$1" + args.region);
     }
-    var importCmd = 'luis import version'
-        + ' --in "' + path
-        + '" --authoringKey "' + service.authoringKey
-        + '" --versionId "' + service.versionId
-        + '" --endpointBasePath "' + service.authoringEndpoint + '"';
+    let keyAndBase =
+        ' --authoringKey "' + service.authoringKey + '"'
+        + ' --endpointBasePath "' + service.authoringEndpoint + '"';
+    let importCmd = 'luis import application'
+        + ' --in "' + path + '"' + keyAndBase;
     return exec(importCmd)
-        .then(function (model: any) {
+        .then(function (res: any) {
+            let model = JSON.parse(res.stdout);
             service.appId = model.id;
+            map[<string>service.id] = model.id;
             service.id = model.id;
-            if (!service.publishedEndpoint)
+            if (!service.publishedEndpoint) {
                 service.publishedEndpoint = service.authoringEndpoint + "/apps/" + service.appId;
-            var trainCmd = 'luis train version'
-                + ' --appId "' + service.appId
-                + '" --authoringKey "' + service.authoringKey
-                + '" --endpointBasePath "' + service.authoringEndpoint
-                + '" --versionId "' + service.versionId + '"';
+            }
+            let trainCmd = 'luis train version'
+                + ' --appId "' + service.appId + '"'
+                + ' --versionId "' + service.versionId + '"';
+            + keyAndBase;
             return exec(trainCmd)
         })
         .then(function (train: any) {
-            var publishCmd = 'luis publish version'
+            let publishCmd = 'luis publish version'
                 + ' --appId "' + service.appId
-                + '" --authoringKey "' + service.authoringKey
-                + '" --endpointBasePath "' + service.authoringEndpoint
-                + '" --versionId "' + service.versionId + '"';
-            // TODO: How do you specify environment?  Can get from publishedEndpoint to add param, but don't know how to specify here
+                + ' --versionId "' + service.versionId + '"';
+            + keyAndBase;
             return exec(publishCmd)
         })
         .catch(function (err: any) {
-            console.error("Failed importing LUIS service " + name);
-            console.error(err.toString());
+            let list = 'luis list apps' + keyAndBase;
+            return exec(list)
+                .then(function (listRes: any) {
+                    let apps = JSON.parse(listRes.stdout);
+                    let app = apps.find(function (a: any) { return a.name === name; } );
+                    if (app) {
+                        console.error("LUIS already includes service " + name);
+                        service.appId = app.id;
+                        map[<string>service.id] = app.id;
+                        service.id = app.id;
+                    } else {
+                        throw "Failed importing LUIS service " + name;
+                    }
+                });
         });
 }
 
-async function qnaImport(file: string, args: ImportArgs) {
-    /* TODO
-    var cmd = 'qnamaker import version'
-        + ' --authoringKey ' + args.authoringKey
-        + ' --versionId ' + luis.version
-        // TODO: This should be comeing from the .bot file
-        + ' --endpointBasePath ' + 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0';
-    // luis.appId = "";
-    // luis.authoringKey = "";
-    // luis.subscriptionKey = "";
-    return exec(cmd)
-        .then(function (res: any) {
-            return fs.writeJSON(dir + "/" + luis.name + ".json", res);
+async function qnaImport(path: string, args: ImportArgs, bot: BotConfig, map: { [key: string]: string }) {
+    let name = Path.basename(path, ".json");
+    let service = findQnAService(name, bot);
+    let key = ' --subscriptionKey "' + args.subscriptionKey + '"';
+    if (!args.subscriptionKey) throw "Must include --subscriptionKey to import QnA Maker.";
+    service.subscriptionKey = args.subscriptionKey;
+    let list = 'qnamaker list kbs' + key;
+    let isNew: boolean = false;
+    return exec(list)
+        .then(function (listRes: any) {
+            let kbs: any[] = JSON.parse(listRes.stdout).knowledgebases;
+            let kb = kbs.find(kb => kb.name === service.name);
+            if (kb) {
+                console.error("QnA Maker already has knowledge base " + service.name);
+            } else {
+                let create = 'qnamaker create kb'
+                    + ' --in "' + path + '"'
+                    + key
+                    + ' --wait ' + ' -q'
+                    + ' --name "' + service.name + '"';
+                return exec(create);
+            }
+        })
+        .then(function (createRes: any) {
+            let list = 'qnamaker list kbs' + key;
+            return exec(list);
+        })
+        .then(function (listRes: any) {
+            let kbs: any[] = JSON.parse(listRes.stdout).knowledgebases;
+            let kb = kbs.find(kb => kb.name === service.name);
+            service.kbId = kb.id;
+            map[<string>service.id] = kb.id;
+            service.id = kb.id;
+            let publish = 'qnamaker publish kb'
+                + ' --kbId "' + service.kbId + '"'
+                + ' --environment ' + service.environment
+                + key;
+            return exec(publish);
+        })
+        .then(function (publishRes: any) {
+            let keysCmd = "qnamaker list endpointkeys" + key;
+            return exec(keysCmd);
+        })
+        .then(function (keysRes: any) {
+            let keys = JSON.parse(keysRes.stdout);
+            service.endpointKey = keys.primaryEndpointKey;
+        })
+        .catch(function (err: any) {
+            throw "Failed importing QnA Maker service " + name;
         });
-        */
 }
 
+async function fileImport(path: string, args: ImportArgs, bot: BotConfig, map: { [key: string]: string }) {
+    let name = Path.basename(path);
+    let service = findFileService(name, bot);
+    service.filePath = path.replace(/\//g, '\\');
+    map[<string>service.id] = service.filePath;
+    service.id = service.filePath;
+}
 
 async function processImportArgs(args: ImportArgs): Promise<void> {
-    var importDir = args.args[0];
-    var outputDir = (args.output || ".");
-    var dispatchDir = importDir + "/dispatch/";
-    var fileDir = importDir + "/file/";
-    var luisDir = importDir + "/luis/";
-    var qnaDir = importDir + "/qna/";
+    let importDir = args.args[0];
+    let outputDir = (args.output || ".");
+    let dispatchDir = importDir + "/dispatch/";
+    let fileDir = importDir + "/file/";
+    let luisDir = importDir + "/luis/";
+    let qnaDir = importDir + "/qna/";
+    let newBot: BotConfig;
+    let map: { [key: string]: string } = {};
 
     BotConfig.LoadBotFromFolder(importDir, undefined)
         .then(bot => {
-            Promise.all(
-                [fs.readdir(luisDir)
-                    .then(files => {
-                        return Promise.all(files.map(file => { return luisImport(luisDir + file, args, bot); }));
-                    }),
-                fs.readdir(qnaDir)
-                    .then(files => {
-                        return Promise.all(files.map(file => { return qnaImport(file, args); }))
-                    })
+            newBot = bot;
+            return Promise.all(
+                [
+                    fs.readdir(luisDir)
+                        .then(files => {
+                            return Promise.all(files.map(file => { return luisImport(luisDir + file, args, bot, map); }));
+                        }),
+                    fs.readdir(dispatchDir)
+                        .then(files => {
+                            return Promise.all(files.map(file => { return luisImport(dispatchDir + file, args, bot, map); }));
+                        }),
+                    fs.readdir(qnaDir)
+                        .then(files => {
+                            return Promise.all(files.map(file => { return qnaImport(qnaDir + file, args, bot, map); }))
+                        }),
+                    fs.readdir(fileDir)
+                        .then(files => {
+                            return Promise.all(files.map(file => { return fileImport(fileDir + file, args, bot, map); }));
+                        })
                 ]);
+        })
+        .then((res) => {
+            for (let service of newBot.services) {
+                if (service.type === "dispatch") {
+                    let dispatch = <IDispatchService>service;
+                    dispatch.serviceIds = dispatch.serviceIds.map(function (value) {
+                        return map[value];
+                    });
+                }
+            }
+            var outPath = outputDir + '/' + newBot.name + '.bot';
+            return fs.writeJSON(outPath, newBot, { spaces: 2 })
+                .then(function (res: any) { console.error("Successfully imported services from " + importDir + " and new bot file is in " + outPath );});
         })
         .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
             showErrorHelp();
         });
 
-    /*
-    Promise.all(
-        config.services.map(service => {
-            switch (service.type) {
-                case ServiceType.Dispatch: {
-                    return luisExport(service, dispatchDir);
-                }
-                case ServiceType.File: {
-                    var file = <IFileService>service;
-                    return fs.copy(file.filePath, fileDir + "/" + Path.basename(file.filePath));
-                }
-                case ServiceType.Luis: {
-                    return luisExport(service, luisDir);
-                }
-                case ServiceType.QnA: {
-                    var qna = <IQnAService>service;
-                    var cmd = 'qnamaker export kb'
-                        + ' --kbId ' + qna.kbId
-                        + ' --subscriptionKey ' + qna.subscriptionKey
-                        // TODO: Environment should come from .bot file
-                        + ' --environment ' + 'prod';
-                    qna.kbId = "";
-                    qna.endpointKey = "";
-                    qna.hostname = "";
-                    qna.subscriptionKey = "";
-                    return exec(cmd)
-                        .then(function (res: any) {
-                            return fs.writeJSON(qnaDir + "/" + qna.name + ".json", res);
-                        })
-                }
-            }
-        }))
-        .then(res => {
-            var path = outputDir + '/' + Path.basename(args.bot);
-            return fs.writeJSON(path, config, {spaces: 2});
-            
-        })
-        .catch(err => {
-            console.log(err);
-        })
-        */
+    function showErrorHelp() {
+        program.outputHelp((str) => {
+            console.error(str);
+            return '';
+        });
+        process.exit(1);
+    }
 }
-
-function showErrorHelp() {
-    program.outputHelp((str) => {
-        console.error(str);
-        return '';
-    });
-    process.exit(1);
-}
-

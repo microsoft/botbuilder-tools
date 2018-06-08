@@ -33,7 +33,7 @@ program
     });
 
 let args = <ExportArgs><any>program.parse(process.argv);
-var botPath: string;
+let botPath: string;
 if (!args.bot) {
     botPath = process.cwd();
     BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
@@ -60,32 +60,32 @@ function ensureDir(dir: string) {
 }
 
 async function luisExport(service: IConnectedService, dir: string) {
-    var luis = <ILuisService>service;
+    let luis = <ILuisService>service;
     if (!luis.authoringEndpoint) {
         luis.authoringEndpoint = "https://westus.api.cognitive.microsoft.com/luis/api/v2.0/";
     }
-    var cmd = 'luis export version'
-        + ' --appId "' + luis.appId
-        + '" --authoringKey "' + luis.authoringKey
-        + '" --versionId "' + luis.versionId
-        + '" --endpointBasePath "' + luis.authoringEndpoint + '"';
-    luis.id = "";
+    let cmd = 'luis export version'
+        + ' --appId "' + luis.appId + '"'
+        + ' --authoringKey "' + luis.authoringKey + '"'
+        // TODO: Dispatch puts version, not verisionId in .bot file which is not the interface
+        + ' --versionId "' + (luis.versionId || (<any>luis).version) + '"'
+        + ' --endpointBasePath "' + luis.authoringEndpoint + '"';
     luis.appId = "";
     luis.authoringKey = "";
     luis.publishedKey = "";
     return exec(cmd)
         .then(function (res: any) {
-            return fs.writeJSON(dir + "/" + luis.name + ".json", res.stdout);
+            return fs.writeJSON(dir + "/" + luis.name + ".json", JSON.parse(res.stdout), {spaces: 2});
         });
 }
 
 async function processExportArgs(config: BotConfig): Promise<void> {
     // Process each service in config and add to appropriate directory
-    var output = (args.output || botPath) + "/" + config.name;
-    var dispatchDir = output + "/dispatch";
-    var fileDir = output + "/file";
-    var luisDir = output + "/luis";
-    var qnaDir = output + "/qna";
+    let output = (args.output || botPath) + "/" + config.name;
+    let dispatchDir = output + "/dispatch";
+    let fileDir = output + "/file";
+    let luisDir = output + "/luis";
+    let qnaDir = output + "/qna";
     ensureDir(output);
     ensureDir(dispatchDir);
     ensureDir(fileDir);
@@ -98,18 +98,20 @@ async function processExportArgs(config: BotConfig): Promise<void> {
                     return luisExport(service, dispatchDir);
                 }
                 case ServiceType.File: {
-                    var file = <IFileService>service;
-                    return fs.copy(file.filePath, fileDir + "/" + Path.basename(file.filePath));
+                    let file = <IFileService>service;
+                    let path = file.filePath;
+                    file.filePath = "";
+                    return fs.copy(path, fileDir + "/" + Path.basename(path));
                 }
                 case ServiceType.Luis: {
                     return luisExport(service, luisDir);
                 }
                 case ServiceType.QnA: {
-                    var qna = <IQnAService>service;
+                    let qna = <IQnAService>service;
                     if (!qna.environment) {
                         qna.environment = "prod";
                     }
-                    var cmd = 'qnamaker export kb'
+                    let cmd = 'qnamaker export kb'
                         + ' --kbId "' + qna.kbId
                         + '" --subscriptionKey "' + qna.subscriptionKey
                         + '" --environment "' + qna.environment + '"';
@@ -119,13 +121,16 @@ async function processExportArgs(config: BotConfig): Promise<void> {
                     qna.subscriptionKey = "";
                     return exec(cmd)
                         .then(function (res: any) {
-                            return fs.writeJSON(qnaDir + "/" + qna.name + ".json", res.stdout);
+                            let obj = JSON.parse(res.stdout);
+                            obj.qnaList = obj.qnaDocuments;
+                            delete obj.qnaDocuments;
+                            return fs.writeJSON(qnaDir + "/" + qna.name + ".json", obj, {spaces:2});
                         })
                 }
             }
         }))
         .then(res => {
-            var path = output + '/' + Path.basename(args.bot);
+            let path = output + '/' + Path.basename(args.bot);
             return fs.writeJSON(path, config, { spaces: 2 });
         })
         .catch(err => {
