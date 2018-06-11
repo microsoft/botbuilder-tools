@@ -3,6 +3,19 @@ const chatdown = require('../lib');
 
 describe('The chatdown lib', () => {
     describe('should correctly output data', () => {
+
+        it('when converts the conversation', async () => {
+            const conversation = `
+            user=Joe
+            bot=LulaBot
+            user: Hello!
+            bot: Hi user`;
+
+            const activities = await chatdown(conversation, {});
+            assert.equal(activities[0].text, 'Hello!');
+            assert.equal(activities[1].text, 'Hi user');
+        });
+
         it('when the input chat contains an attachment', async () => {
             const conversation = `
             user=Joe

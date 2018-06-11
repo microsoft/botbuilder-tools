@@ -120,6 +120,7 @@ module.exports = async function readContents(fileContents, args) {
     // We've run out of lines but may still have
     // an activity waiting.
     if (currentActivity) {
+        currentActivity.text = (currentActivity.text || '').trimRight();
         activities.push(currentActivity);
     }
     return activities;
