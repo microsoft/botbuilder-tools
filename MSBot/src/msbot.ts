@@ -50,6 +50,12 @@ program
 program
     .command('list', 'list all connected services');
 
+program
+    .command('export', 'export service information to be used in import');
+
+program
+    .command('import <importDir>', 'import services an export and construct a bot file to refer to them.')
+
 const args = program.parse(process.argv);
 
 // args should be undefined is subcommand is executed

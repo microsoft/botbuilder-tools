@@ -29,7 +29,7 @@ program
     .name('msbot connect dispatch')
     .description('Connect the bot to a dispatch model')
     .option('-n, --name <name>', 'name for the dispatch')
-    .option('-a, --appId <appid>', 'LUID AppId for the dispatch app')
+    .option('-a, --appId <appid>', 'LUIS AppId for the dispatch app')
     .option('-v, --version <version>', 'version for the dispatch app, (example: 0.1)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating the dispatch model via the LUIS authoring API\n')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')

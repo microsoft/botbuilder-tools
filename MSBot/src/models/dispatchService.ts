@@ -6,11 +6,15 @@ import { IDispatchService, ServiceType } from '../schema';
 import { ConnectedService } from './connectedService';
 
 export class DispatchService extends ConnectedService implements IDispatchService {
+    public name = '';
+    public id = '';
     public readonly type = ServiceType.Dispatch;
     public appId = '';
     public authoringKey = '';
+    public authoringEndpoint = '';
     public serviceIds: string[] = [];
     public subscriptionKey = '';
+    public publishedEndpoint = '';
     public version = '';
 
     constructor(source: IDispatchService = {} as IDispatchService) {
@@ -21,7 +25,7 @@ export class DispatchService extends ConnectedService implements IDispatchServic
     }
 
     public toJSON(): IDispatchService {
-        const { appId, authoringKey, name, serviceIds, subscriptionKey, version } = this;
-        return {  type: ServiceType.Dispatch, id: appId, name, appId, authoringKey, serviceIds, subscriptionKey, version };
+        const { appId, authoringKey, authoringEndpoint, name, serviceIds, subscriptionKey, publishedEndpoint, version } = this;
+        return {  type: ServiceType.Dispatch, id: this.appId, name, appId, authoringKey, authoringEndpoint, serviceIds, subscriptionKey, publishedEndpoint, version };
     }
 }

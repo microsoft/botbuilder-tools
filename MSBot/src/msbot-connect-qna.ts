@@ -12,6 +12,7 @@ import { QnaMakerService } from './models';
 import { IQnAService, ServiceType } from './schema';
 import { uuidValidate } from './utils';
 import * as validurl from 'valid-url';
+import { WSAEINVALIDPROCTABLE } from 'constants';
 
 program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -33,6 +34,7 @@ program
     .option('--subscriptionKey <subscriptionKey>', 'Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)')
     .option('--endpointKey <endpointKey>', 'endpointKey for calling the QnA service (from https://qnamaker.ai portal or qnamaker list endpointkeys command)')
     .option('--hostname <url>', 'url for private QnA service (example: https://myqna.azurewebsites.net)')
+    .option('-e, --environment <environment>', 'Host environment to use, either prod the default or test.')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
@@ -90,6 +92,11 @@ async function processConnectQnaArgs(config: BotConfig): Promise<BotConfig> {
 
     if (!args.hostname || !validurl.isWebUri(args.hostname))
         throw new Error('bad or missing --hostname');
+
+    if (!args.environment) args.environment = 'prod';
+
+    if (args.environment != 'prod' && args.environment != 'test') 
+        throw new Error('--environment must be prod or test');
 
     // add the service
     let newService = new QnaMakerService(args);

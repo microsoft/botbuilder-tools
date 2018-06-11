@@ -6,10 +6,14 @@ import { ILuisService, ServiceType } from '../schema';
 import { ConnectedService } from './connectedService';
 
 export class LuisService extends ConnectedService implements ILuisService {
-    public readonly type = ServiceType.Luis;
-    public appId = '';
     public authoringKey = '';
+    public authoringEndpoint = '';
+    public id = '';
+    public name = '';
+    public appId = '';
+    public publishedEndpoint = '';
     public subscriptionKey = '';
+    public readonly type = ServiceType.Luis;
     public version = '';
 
     constructor(source: ILuisService = {} as ILuisService) {
@@ -20,7 +24,7 @@ export class LuisService extends ConnectedService implements ILuisService {
     }
 
     public toJSON(): ILuisService {
-        const { appId, authoringKey, id, name, subscriptionKey, type, version } = this;
-        return { type: ServiceType.Luis, id: appId, name, version, appId, authoringKey, subscriptionKey };
+        const { appId, authoringKey, authoringEndpoint, id, name, subscriptionKey, publishedEndpoint, type, version } = this;
+        return { type: ServiceType.Luis, id: appId, name, version, appId, authoringKey, authoringEndpoint, subscriptionKey, publishedEndpoint };
     }
 }

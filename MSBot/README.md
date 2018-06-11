@@ -151,14 +151,14 @@ With the following options:
 | --secret <secret>         | (Required) bot file secret password for encrypting service secrets |
 | -n, --name <name>         | name of the LUIS application                                |
 | -a, --appId  <appid>      | (Required) application ID for the LUIS application|
-|-v, --version <version>        |version for the LUIS App, (example: v0.1)|
+|-v, --version <version>        |version for the LUIS App, (example: 0.1)|
 |  --authoringKey <authoringkey>  |(Required) authoring key for authoring LUIS models via the authoring API |
 | -h, --help                   | output usage information|
 
 Here is an example invocation:
 
 ```shell
-msbot connect luis --secret EncryptItPlease --name "My Luis Model" --appId "562789d2-a344-445c-b4b1-41e8583f9f72" --version v0.1 --authoringKey "6e5adf8b-88ea-46f3-ba2c-c97ecacd4304"
+msbot connect luis --secret EncryptItPlease --name "My Luis Model" --appId "562789d2-a344-445c-b4b1-41e8583f9f72" --version 0.1 --authoringKey "6e5adf8b-88ea-46f3-ba2c-c97ecacd4304"
 ```
 
 
@@ -179,6 +179,7 @@ With the following options:
 | --secret <secret>             | (Required) bot file secret password for encrypting service secrets |
 | -n, --name <name>             | name of the QnA knowledge base                                 |
 | -k, --kbId <kbId>                    |QnA knowledge base Id|
+| -e, --environment <environment> | QnA environment, default is prod. | 
 | --subscriptionKey <subscriptionKey> | SubscriptionKey for accessing the QnA service|
 | -h, --help                    | output usage information                                     |
 
@@ -204,7 +205,7 @@ Options:
 |--secret <secret>                    | bot file secret password for encrypting service secrets|
 |-n, --name <name>                    | name for the dispatch|
 |-a, --appId <appid>                  | LUIS AppId for the dispatch app|
-|-v, --version <version>              | version for the dispatch app (example: 0.1)|
+|-v, --version <version>          | version for the dispatch app (example: 0.1)|
 |--subscriptionKey <subscriptionKey>  | subscription key used for querying the dispatch model|
 |--authoringKey <authoringkey>        | authoring key for using manipulating the dispatch model via the LUIS authoring API|
 |--stdin                              | arguments are passed in as JSON object via stdin|
@@ -248,6 +249,46 @@ Example using ID:
 ```shell
 msbot disconnect "339411fa-ac8d-47ad-8d92-4b083a2c5305"
 ```
+
+# Export from services to files
+
+To export from all of your services in a form that can be imported later.
+
+```shell
+msbot export [options]
+```
+
+This will result in exports from all of your services being stored in a directory with the name of your bot file.
+
+Options:
+
+| Option                        | Description                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+|   -b, --bot <path>  |   path to bot file.  If omitted, local folder will look for a .bot file |
+|    --secret <secret>   | bot file secret password for encrypting service secrets |
+|   -o, --output <path> |  output directory.  If not present will default to bot file directory.|
+|    -h, --help          | output usage information|
+
+# Import from files to services
+
+Recreate all of your bot services from exported files. 
+
+```shell
+msbot import <importDir> [options]
+```
+
+| Option                        | Description                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+|   <importDir>                               | Directory with export files.|
+|    -a, --authoringKey <authoringkey>        | authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)|
+|    -r --region <region>                     | LUIS authoring region like "westus" which is the default.|
+|    --subscriptionKey <subscriptionKey>            | Key for calling published LUIS endpoint, default is authoringKey|
+|    --publishedEndpoint <publishedEndpoint>  | How to call published LUIS model, default is authoring region|
+|    -s, --subscriptionKey <subscriptionKey>  | Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)|
+|    --secret <secret>                        | bot file secret password for encrypting service secrets|
+|    -o, --output <path>                      | output directory for new .bot file.  If not present will default to current directory.|
+|    -h, --help                               | output usage information|
+
 
 # Bot Secrets
 
