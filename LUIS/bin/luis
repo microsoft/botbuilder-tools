@@ -314,7 +314,7 @@ async function runProgram() {
                 case "status":
                     result = await client.train.getStatus(args.region, args.appId, args.versionId, args);
                     if (args.wait) {
-                        result = await waitForTrainingToComplete(config, operation, args, requestBody);
+                        result = await waitForTrainingToComplete(client, args);
                     }
                     break;
                 case "version":
@@ -445,7 +445,7 @@ async function runProgram() {
                     result = await client.train.trainVersion(args.region, args.appId, args.versionId, args);
 
                     if (args.wait) {
-                        result = await waitForTrainingToComplete(config, operation, args, requestBody);
+                        result = await waitForTrainingToComplete(client, args);
                     }
                     break;
 
@@ -643,14 +643,11 @@ async function initializeConfig() {
     return true;
 }
 
-async function waitForTrainingToComplete(config, args, requestBody) {
+async function waitForTrainingToComplete(client, args) {
     do {
         let total = 0;
         let trained = 0;
-        let response = await new Train().GetStatus({ applicationId: args.applicationId || config.applicationId, versionId: args.versionId || config.versionId });
-        if (response.Error)
-            throw new Error(response.error);
-        result = await response.json();
+        result = await client.train.getStatus(args.region, args.appId, args.versionId, args);
         isTrained = true;
         for (let model of result) {
             total++;
