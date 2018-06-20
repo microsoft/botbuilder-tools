@@ -205,21 +205,35 @@ async function runProgram() {
             switch (target) {
                 case "app":
                 case "application":
-                    let app = await client.apps.get(args.region, args.appId, args);
-                    if (app.error) {
-                        throw new Error(app.error);
+                    {
+                        let app = await client.apps.get(args.region, args.appId, args);
+                        if (app.error) {
+                            throw new Error(app.error);
+                        }
+                        let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} (${app.id})? [no] `, { defaultResponse: 'no' });
+                        if (answer.length == 0 || answer[0] != 'y') {
+                            process.stderr.write('delete operation canceled\n');
+                            process.exit(1);
+                            return;
+                        }
+                        result = await client.apps.deleteMethod(args.region, args.appId, args);
                     }
-                    let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} (${app.id})? [no] `, { defaultResponse: 'no' });
-                    if (answer.length == 0 || answer[0] != 'y') {
-                        process.stderr.write('delete operation canceled\n');
-                        process.exit(1);
-                        return;
-                    }
-                    result = await client.apps.deleteMethod(args.region, args.appId, args);
                     break;
 
                 case "version":
-                    result = await client.versions.deleteMethod(args.region, args.appId, args.versionId, args);
+                    {
+                        let app = await client.apps.get(args.region, args.appId, args);
+                        if (app.error) {
+                            throw new Error(app.error);
+                        }
+                        let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} version ${args.versionId}? [no] `, { defaultResponse: 'no' });
+                        if (answer.length == 0 || answer[0] != 'y') {
+                            process.stderr.write('delete operation canceled\n');
+                            process.exit(1);
+                            return;
+                        }
+                        result = await client.versions.deleteMethod(args.region, args.appId, args.versionId, args);
+                    }
                     break;
 
                 default:
@@ -229,9 +243,8 @@ async function runProgram() {
         // ------------------ EXPORT ------------------
         case "export":
             switch (target) {
-                case "app":
-                case "application":
-                    result = await client.apps.get(args.region, args.appId, args);
+                case "version":
+                    result = await client.versions.exportMethod(args.region, args.appId, args.versionId, args);
                     break;
                 case "closedlist":
                     result = await client.model.getClosedList(args.region, args.appId, args.versionId, args.clEntityId, args);
