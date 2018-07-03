@@ -432,7 +432,7 @@ function getIncrementedDate(byThisAmount = messageTimeGap) {
  * @param {string} fileContents The contents containing the lines to iterate.
  */
 function* fileLineIterator(fileContents) {
-    var parts = fileContents.split('\r\n');
+    var parts = fileContents.split(/\r?\n/);
     for (part of parts) {
         yield part;
     }
