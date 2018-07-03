@@ -74,7 +74,8 @@ async function runProgram() {
     args.customHeaders = { "accept-language": "en-US" };
     if (!args.region)
         args.region = "westus";
-    const client = new LuisAuthoring(args.authoringKey);
+    let credentials = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": args.authoringKey } });
+    const client = new LuisAuthoring(credentials);
 
     // special non-operation commands
     switch (args._[0]) {

@@ -6,35 +6,31 @@
 
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/mappers";
-import { LuisAuthoring } from "../luisAuthoring";
-
-const WebResource = msRest.WebResource;
+import * as Mappers from "../models/trainMappers";
+import { LuisAuthoringContext } from "../luisAuthoringContext";
 
 /** Class representing a Train. */
 export class Train {
-  private readonly client: LuisAuthoring;
+  private readonly client: LuisAuthoringContext;
+
   /**
    * Create a Train.
-   * @param {LuisAuthoring} client Reference to the service client.
+   * @param {LuisAuthoringContext} client Reference to the service client.
    */
-  constructor(client: LuisAuthoring) {
+  constructor(client: LuisAuthoringContext) {
     this.client = client;
   }
 
   /**
-   * Sends a training request for a version of a specified LUIS app. This POST
-   * request initiates a request asynchronously. To determine whether the
-   * training request is successful, submit a GET request to get training status.
-   * Note: The application version is not fully trained unless all the models
-   * (intents and entities) are trained successfully or are up to date. To verify
-   * training success, get the training status at least once after training is
-   * complete.
+   * Sends a training request for a version of a specified LUIS app. This POST request initiates a
+   * request asynchronously. To determine whether the training request is successful, submit a GET
+   * request to get training status. Note: The application version is not fully trained unless all
+   * the models (intents and entities) are trained successfully or are up to date. To verify training
+   * success, get the training status at least once after training is complete.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -44,117 +40,38 @@ export class Train {
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async trainVersionWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async trainVersionWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EnqueueTrainingResponse>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/train';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'POST';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 202) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 202) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = Mappers.EnqueueTrainingResponse;
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId
+          },
+          options),
+        trainVersionOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
-   * Gets the training status of all models (intents and entities) for the
-   * specified LUIS app. You must call the train API to train the LUIS app before
-   * you call this API to get training status. "appID" specifies the LUIS app ID.
-   * "versionId" specifies the version number of the LUIS app. For example,
-   * "0.1".
+   * Gets the training status of all models (intents and entities) for the specified LUIS app. You
+   * must call the train API to train the LUIS app before you call this API to get training status.
+   * "appID" specifies the LUIS app ID. "versionId" specifies the version number of the LUIS app. For
+   * example, "0.1".
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -164,133 +81,39 @@ export class Train {
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async getStatusWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async getStatusWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ModelTrainingInfo[]>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/train';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'GET';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = {
-              required: false,
-              serializedName: 'parsedResponse',
-              type: {
-                name: 'Sequence',
-                element: {
-                    required: false,
-                    serializedName: 'ModelTrainingInfoElementType',
-                    type: {
-                      name: 'Composite',
-                      className: 'ModelTrainingInfo'
-                    }
-                }
-              }
-            };
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId
+          },
+          options),
+        getStatusOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
-   * Sends a training request for a version of a specified LUIS app. This POST
-   * request initiates a request asynchronously. To determine whether the
-   * training request is successful, submit a GET request to get training status.
-   * Note: The application version is not fully trained unless all the models
-   * (intents and entities) are trained successfully or are up to date. To verify
-   * training success, get the training status at least once after training is
-   * complete.
+   * Sends a training request for a version of a specified LUIS app. This POST request initiates a
+   * request asynchronously. To determine whether the training request is successful, submit a GET
+   * request to get training status. Note: The application version is not fully trained unless all
+   * the models (intents and entities) are trained successfully or are up to date. To verify training
+   * success, get the training status at least once after training is complete.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -298,19 +121,14 @@ export class Train {
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.EnqueueTrainingResponse} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.EnqueueTrainingResponse} for more
-   *                      information.
-   *
+   *                      See {@link Models.EnqueueTrainingResponse} for more information.
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   trainVersion(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<Models.EnqueueTrainingResponse>;
   trainVersion(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase): Promise<Models.EnqueueTrainingResponse>;
@@ -324,7 +142,7 @@ export class Train {
     let cb = callback as msRest.ServiceCallback<Models.EnqueueTrainingResponse>;
     if (!callback) {
       return this.trainVersionWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.EnqueueTrainingResponse);
+        return Promise.resolve(operationRes.parsedBody as Models.EnqueueTrainingResponse);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -333,23 +151,21 @@ export class Train {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.EnqueueTrainingResponse;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.EnqueueTrainingResponse;
+        return cb(err, result, data.request, data);
       });
     }
   }
 
   /**
-   * Gets the training status of all models (intents and entities) for the
-   * specified LUIS app. You must call the train API to train the LUIS app before
-   * you call this API to get training status. "appID" specifies the LUIS app ID.
-   * "versionId" specifies the version number of the LUIS app. For example,
-   * "0.1".
+   * Gets the training status of all models (intents and entities) for the specified LUIS app. You
+   * must call the train API to train the LUIS app before you call this API to get training status.
+   * "appID" specifies the LUIS app ID. "versionId" specifies the version number of the LUIS app. For
+   * example, "0.1".
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -357,17 +173,14 @@ export class Train {
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.ModelTrainingInfo[]} [result]   - The deserialized result object if an error did not occur.
    *
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   getStatus(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<Models.ModelTrainingInfo[]>;
   getStatus(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase): Promise<Models.ModelTrainingInfo[]>;
@@ -381,7 +194,7 @@ export class Train {
     let cb = callback as msRest.ServiceCallback<Models.ModelTrainingInfo[]>;
     if (!callback) {
       return this.getStatusWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.ModelTrainingInfo[]);
+        return Promise.resolve(operationRes.parsedBody as Models.ModelTrainingInfo[]);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -390,10 +203,145 @@ export class Train {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.ModelTrainingInfo[];
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.ModelTrainingInfo[];
+        return cb(err, result, data.request, data);
       });
     }
   }
 
 }
+
+// Operation Specifications
+const trainVersionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/train",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  ],
+  responses: {
+    202: {
+      bodyMapper: Mappers.EnqueueTrainingResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const getStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/train",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            serializedName: "ModelTrainingInfoElementType",
+            type: {
+              name: "Composite",
+              className: "ModelTrainingInfo"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};

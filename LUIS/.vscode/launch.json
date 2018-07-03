@@ -10,7 +10,7 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}\\bin\\luis",
             "args": [
-                "rename", "-h"
+                "export", "version"
                 //"set", "test1"
             ]
         }

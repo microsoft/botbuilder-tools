@@ -53,7 +53,7 @@
     }
   ],
   "paths": {
-    "/apps/{appId}/versions/{versionId}/patterns": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns": {
       "post": {
         "description": "[DEPRECATED NOTICE: This operation will soon be removed] Creates a new pattern feature.",
         "operationId": "Features_CreatePatternFeature",
@@ -143,7 +143,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/phraselists": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists": {
       "post": {
         "description": "Creates a new phraselist feature.",
         "operationId": "Features_AddPhraseList",
@@ -231,7 +231,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/features": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/features": {
       "get": {
         "description": "Gets all the extraction features for the specified application version.",
         "operationId": "Features_List",
@@ -273,7 +273,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/patterns/{patternId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}": {
       "get": {
         "description": "[DEPRECATED NOTICE: This operation will soon be removed] Gets the specified pattern feature's info.",
         "operationId": "Features_GetPatternFeatureInfo",
@@ -413,7 +413,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}": {
       "get": {
         "description": "Gets phraselist feature info.",
         "operationId": "Features_GetPhraseList",
@@ -549,7 +549,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/example": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/example": {
       "post": {
         "description": "Adds a labeled example to the application.",
         "operationId": "Examples_Add",
@@ -597,7 +597,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/examples": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/examples": {
       "post": {
         "description": "Adds a batch of labeled examples to the application.",
         "operationId": "Examples_Batch",
@@ -691,7 +691,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/examples/{exampleId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/examples/{exampleId}": {
       "delete": {
         "description": "Deletes the labeled example with the specified ID.",
         "operationId": "Examples_Delete",
@@ -734,7 +734,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/intents": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/intents": {
       "post": {
         "description": "Adds an intent classifier to the application.",
         "operationId": "Model_AddIntent",
@@ -817,7 +817,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/entities": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/entities": {
       "post": {
         "description": "Adds an entity extractor to the application.",
         "operationId": "Model_AddEntity",
@@ -906,7 +906,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/hierarchicalentities": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities": {
       "post": {
         "description": "Adds a hierarchical entity extractor to the application version.",
         "operationId": "Model_AddHierarchicalEntity",
@@ -995,7 +995,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/compositeentities": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities": {
       "post": {
         "description": "Adds a composite entity extractor to the application.",
         "operationId": "Model_AddCompositeEntity",
@@ -1084,7 +1084,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/closedlists": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists": {
       "get": {
         "description": "Gets information about the closedlist models.",
         "operationId": "Model_ListClosedLists",
@@ -1173,7 +1173,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/prebuilts": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts": {
       "post": {
         "description": "Adds a list of prebuilt entity extractors to the application.",
         "operationId": "Model_AddPrebuilt",
@@ -1261,7 +1261,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/listprebuilts": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/listprebuilts": {
       "get": {
         "description": "Gets all the available prebuilt entity extractors for the application.",
         "operationId": "Model_ListPrebuiltEntities",
@@ -1297,7 +1297,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/models": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/models": {
       "get": {
         "description": "Gets information about the application version models.",
         "operationId": "Model_ListModels",
@@ -1339,7 +1339,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/models/{modelId}/examples": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/models/{modelId}/examples": {
       "get": {
         "description": "Gets the utterances for the given model in the given app version.",
         "operationId": "Model_Examples",
@@ -1389,7 +1389,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/intents/{intentId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}": {
       "get": {
         "description": "Gets information about the intent model.",
         "operationId": "Model_GetIntent",
@@ -1521,7 +1521,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/entities/{entityId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}": {
       "get": {
         "description": "Gets information about the entity model.",
         "operationId": "Model_GetEntity",
@@ -1661,7 +1661,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}": {
       "get": {
         "description": "Gets information about the hierarchical entity model.",
         "operationId": "Model_GetHierarchicalEntity",
@@ -1786,7 +1786,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}": {
       "get": {
         "description": "Gets information about the composite entity model.",
         "operationId": "Model_GetCompositeEntity",
@@ -1911,7 +1911,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}": {
       "get": {
         "description": "Gets information of a closed list model.",
         "operationId": "Model_GetClosedList",
@@ -2105,7 +2105,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/prebuilts/{prebuiltId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{prebuiltId}": {
       "get": {
         "description": "Gets information about the prebuilt entity model.",
         "operationId": "Model_GetPrebuilt",
@@ -2191,7 +2191,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists/{subListId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists/{subListId}": {
       "delete": {
         "description": "Deletes a sublist of a specific closed list model.",
         "operationId": "Model_DeleteSubList",
@@ -2303,7 +2303,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/intents/{intentId}/suggest": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/suggest": {
       "get": {
         "description": "Suggests examples that would improve the accuracy of the intent model.",
         "operationId": "Model_GetIntentSuggestions",
@@ -2345,7 +2345,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/entities/{entityId}/suggest": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/suggest": {
       "get": {
         "description": "Get suggestion examples that would improve the accuracy of the entity model.",
         "operationId": "Model_GetEntitySuggestions",
@@ -2392,7 +2392,7 @@
         }
       }
     },
-    "/apps/": {
+    "/luis/api/v2.0/apps/": {
       "post": {
         "description": "Creates a new LUIS app.",
         "operationId": "Apps_Add",
@@ -2469,7 +2469,7 @@
         }
       }
     },
-    "/apps/import": {
+    "/luis/api/v2.0/apps/import": {
       "post": {
         "description": "Imports an application to LUIS, the application's structure should be included in in the request body.",
         "operationId": "Apps_Import",
@@ -2518,7 +2518,7 @@
         }
       }
     },
-    "/apps/assistants": {
+    "/luis/api/v2.0/apps/assistants": {
       "get": {
         "description": "Gets the endpoint URLs for the prebuilt Cortana applications.",
         "operationId": "Apps_ListCortanaEndpoints",
@@ -2546,7 +2546,7 @@
         }
       }
     },
-    "/apps/domains": {
+    "/luis/api/v2.0/apps/domains": {
       "get": {
         "description": "Gets the available application domains.",
         "operationId": "Apps_ListDomains",
@@ -2574,7 +2574,7 @@
         }
       }
     },
-    "/apps/usagescenarios": {
+    "/luis/api/v2.0/apps/usagescenarios": {
       "get": {
         "description": "Gets the application available usage scenarios.",
         "operationId": "Apps_ListUsageScenarios",
@@ -2602,7 +2602,7 @@
         }
       }
     },
-    "/apps/cultures": {
+    "/luis/api/v2.0/apps/cultures": {
       "get": {
         "description": "Gets the supported application cultures.",
         "operationId": "Apps_ListSupportedCultures",
@@ -2630,7 +2630,7 @@
         }
       }
     },
-    "/apps/{appId}/querylogs": {
+    "/luis/api/v2.0/apps/{appId}/querylogs": {
       "get": {
         "description": "Gets the query logs of the past month for the application.",
         "operationId": "Apps_DownloadQueryLogs",
@@ -2665,7 +2665,7 @@
         }
       }
     },
-    "/apps/{appId}": {
+    "/luis/api/v2.0/apps/{appId}": {
       "get": {
         "description": "Gets the application info.",
         "operationId": "Apps_Get",
@@ -2772,7 +2772,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/clone": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/clone": {
       "post": {
         "description": "Creates a new version using the current snapshot of the selected application version.",
         "operationId": "Versions_Clone",
@@ -2819,7 +2819,7 @@
         }
       }
     },
-    "/apps/{appId}/publish": {
+    "/luis/api/v2.0/apps/{appId}/publish": {
       "post": {
         "description": "Publishes a specific version of the application.",
         "operationId": "Apps_Publish",
@@ -2864,7 +2864,7 @@
         }
       }
     },
-    "/apps/{appId}/versions": {
+    "/luis/api/v2.0/apps/{appId}/versions": {
       "get": {
         "description": "Gets the application versions info.",
         "operationId": "Versions_List",
@@ -2906,7 +2906,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/": {
       "get": {
         "description": "Gets the version info.",
         "operationId": "Versions_Get",
@@ -3022,7 +3022,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/export": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/export": {
       "get": {
         "description": "Exports a LUIS application to JSON format.",
         "operationId": "Versions_Export",
@@ -3058,7 +3058,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/train": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/train": {
       "post": {
         "description": "Sends a training request for a version of a specified LUIS app. This POST request initiates a request asynchronously. To determine whether the training request is successful, submit a GET request to get training status. Note: The application version is not fully trained unless all the models (intents and entities) are trained successfully or are up to date. To verify training success, get the training status at least once after training is complete.",
         "operationId": "Train_TrainVersion",
@@ -3129,7 +3129,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/import": {
+    "/luis/api/v2.0/apps/{appId}/versions/import": {
       "post": {
         "description": "Imports a new version into a LUIS application.",
         "operationId": "Versions_Import",
@@ -3180,7 +3180,7 @@
         }
       }
     },
-    "/apps/{appId}/settings": {
+    "/luis/api/v2.0/apps/{appId}/settings": {
       "get": {
         "description": "Get the application settings.",
         "operationId": "Apps_GetSettings",
@@ -3256,7 +3256,7 @@
         }
       }
     },
-    "/apps/{appId}/publishsettings": {
+    "/luis/api/v2.0/apps/{appId}/publishsettings": {
       "get": {
         "description": "Get the application publish settings.",
         "operationId": "Apps_GetPublishSettings",
@@ -3332,7 +3332,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/suggest": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/suggest": {
       "delete": {
         "description": "Deleted an unlabelled utterance.",
         "operationId": "Versions_DeleteUnlabelledUtterance",
@@ -3380,7 +3380,7 @@
         }
       }
     },
-    "/apps/{appId}/permissions": {
+    "/luis/api/v2.0/apps/{appId}/permissions": {
       "get": {
         "description": "Gets the list of user emails that have permissions to access your application.",
         "operationId": "Permissions_List",
@@ -3542,7 +3542,7 @@
         }
       }
     },
-    "/apps/{appId}/endpoints": {
+    "/luis/api/v2.0/apps/{appId}/endpoints": {
       "get": {
         "description": "Returns the available endpoint deployment regions and URLs.",
         "operationId": "Apps_ListEndpoints",
@@ -3575,7 +3575,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists": {
       "post": {
         "description": "Adds a list to an existing closed list.",
         "operationId": "Model_AddSubList",
@@ -3631,7 +3631,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/customprebuiltdomains": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltdomains": {
       "post": {
         "description": "Adds a customizable prebuilt domain along with all of its models to this application.",
         "operationId": "Model_AddCustomPrebuiltDomain",
@@ -3679,7 +3679,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/customprebuiltintents": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltintents": {
       "post": {
         "description": "Adds a custom prebuilt intent model to the application.",
         "operationId": "Model_AddCustomPrebuiltIntent",
@@ -3762,7 +3762,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/customprebuiltentities": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities": {
       "post": {
         "description": "Adds a custom prebuilt entity model to the application.",
         "operationId": "Model_AddCustomPrebuiltEntity",
@@ -3845,7 +3845,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/customprebuiltmodels": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltmodels": {
       "get": {
         "description": "Gets all custom prebuilt models information of this application.",
         "operationId": "Model_ListCustomPrebuiltModels",
@@ -3881,7 +3881,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/customprebuiltdomains/{domainName}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltdomains/{domainName}": {
       "delete": {
         "description": "Deletes a prebuilt domain's models from the application.",
         "operationId": "Model_DeleteCustomPrebuiltDomain",
@@ -3924,7 +3924,7 @@
         }
       }
     },
-    "/apps/customprebuiltdomains": {
+    "/luis/api/v2.0/apps/customprebuiltdomains": {
       "get": {
         "description": "Gets all the available custom prebuilt domains for all cultures.",
         "operationId": "Apps_ListAvailableCustomPrebuiltDomains",
@@ -3993,7 +3993,7 @@
         }
       }
     },
-    "/apps/customprebuiltdomains/{culture}": {
+    "/luis/api/v2.0/apps/customprebuiltdomains/{culture}": {
       "get": {
         "description": "Gets all the available custom prebuilt domains for a specific culture.",
         "operationId": "Apps_ListAvailableCustomPrebuiltDomainsForCulture",
@@ -4030,7 +4030,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}": {
       "get": {
         "description": "Gets information about the hierarchical entity child model.",
         "operationId": "Model_GetHierarchicalEntityChild",
@@ -4184,7 +4184,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children": {
       "post": {
         "description": "Creates a single child in an existing hierarchical entity model.",
         "operationId": "Model_AddHierarchicalEntityChild",
@@ -4241,7 +4241,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/children": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/children": {
       "post": {
         "description": "Creates a single child in an existing composite entity model.",
         "operationId": "Model_AddCompositeEntityChild",
@@ -4298,7 +4298,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/children/{cChildId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/children/{cChildId}": {
       "delete": {
         "description": "Deletes a composite entity extractor child from the application.",
         "operationId": "Model_DeleteCompositeEntityChild",
@@ -4345,7 +4345,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/regexentities": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities": {
       "get": {
         "summary": "Gets information about the regex entity models.",
         "operationId": "Model_GetRegexEntityInfos",
@@ -4434,7 +4434,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/patternanyentities": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities": {
       "get": {
         "summary": "Get information about the Pattern.Any entity models.",
         "operationId": "Model_GetPatternAnyEntityInfos",
@@ -4523,7 +4523,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/entities/{entityId}/roles": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles": {
       "get": {
         "summary": "Get All Entity Roles for a given entity",
         "operationId": "Model_GetEntityRoles",
@@ -4622,7 +4622,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles": {
       "get": {
         "summary": "Get All Entity Roles for a given entity",
         "operationId": "Model_GetPrebuiltEntityRoles",
@@ -4721,7 +4721,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles": {
       "get": {
         "summary": "Get All Entity Roles for a given entity",
         "operationId": "Model_GetClosedListEntityRoles",
@@ -4820,7 +4820,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles": {
       "get": {
         "summary": "Get All Entity Roles for a given entity",
         "operationId": "Model_GetRegexEntityRoles",
@@ -4919,7 +4919,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles": {
       "get": {
         "summary": "Get All Entity Roles for a given entity",
         "operationId": "Model_GetCompositeEntityRoles",
@@ -5008,7 +5008,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles": {
       "get": {
         "summary": "Get All Entity Roles for a given entity",
         "operationId": "Model_GetPatternAnyEntityRoles",
@@ -5107,7 +5107,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles": {
       "get": {
         "summary": "Get All Entity Roles for a given entity",
         "operationId": "Model_GetHierarchicalEntityRoles",
@@ -5196,7 +5196,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles": {
       "get": {
         "summary": "Get All Entity Roles for a given entity",
         "operationId": "Model_GetCustomPrebuiltEntityRoles",
@@ -5295,7 +5295,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist": {
       "get": {
         "summary": "Get the explicit list of the pattern.any entity.",
         "operationId": "Model_GetExplicitList",
@@ -5393,7 +5393,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}": {
       "get": {
         "summary": "Gets information of a regex entity model.",
         "operationId": "Model_GetRegexEntityEntityInfo",
@@ -5533,7 +5533,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}": {
       "get": {
         "summary": "Gets information about the application version's Pattern.Any model.",
         "operationId": "Model_GetPatternAnyEntityInfo",
@@ -5673,7 +5673,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}": {
       "get": {
         "summary": "Get one entity role for a given entity",
         "operationId": "Model_GetEntityRole",
@@ -5837,7 +5837,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}": {
       "get": {
         "summary": "Get one entity role for a given entity",
         "operationId": "Model_GetPrebuiltEntityRole",
@@ -6001,7 +6001,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}": {
       "get": {
         "summary": "Get one entity role for a given entity",
         "operationId": "Model_GetClosedListEntityRole",
@@ -6165,7 +6165,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}": {
       "get": {
         "summary": "Get one entity role for a given entity",
         "operationId": "Model_GetRegexEntityRole",
@@ -6329,7 +6329,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}": {
       "get": {
         "summary": "Get one entity role for a given entity",
         "operationId": "Model_GetCompositeEntityRole",
@@ -6478,7 +6478,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}": {
       "get": {
         "summary": "Get one entity role for a given entity",
         "operationId": "Model_GetPatternAnyEntityRole",
@@ -6642,7 +6642,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}": {
       "get": {
         "summary": "Get one entity role for a given entity",
         "operationId": "Model_GetHierarchicalEntityRole",
@@ -6791,7 +6791,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}": {
       "get": {
         "summary": "Get one entity role for a given entity",
         "operationId": "Model_GetCustomEntityRole",
@@ -6955,7 +6955,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}": {
       "get": {
         "summary": "Get the explicit list of the pattern.any entity.",
         "operationId": "Model_GetExplicitListItem",
@@ -7119,7 +7119,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/patternrule": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrule": {
       "post": {
         "summary": "Adds one pattern to the specified application.",
         "operationId": "Pattern_AddPattern",
@@ -7167,7 +7167,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/patternrules": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules": {
       "get": {
         "summary": "Returns an application version's patterns.",
         "operationId": "Pattern_GetPatterns",
@@ -7357,7 +7357,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/patternrules/{patternId}": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules/{patternId}": {
       "put": {
         "summary": "Updates a pattern",
         "operationId": "Pattern_UpdatePattern",
@@ -7455,7 +7455,7 @@
         }
       }
     },
-    "/apps/{appId}/versions/{versionId}/intents/{intentId}/patternrules": {
+    "/luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/patternrules": {
       "get": {
         "summary": "Returns patterns to be retrieved for the specific intent.",
         "operationId": "Pattern_GetIntentPatterns",

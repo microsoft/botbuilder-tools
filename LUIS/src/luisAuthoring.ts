@@ -8,14 +8,9 @@ import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
+import { LuisAuthoringContext } from "./luisAuthoringContext";
 
-const packageName = "luis-apis";
-const packageVersion = "4.0.0";
-
-class LuisAuthoring extends msRest.ServiceClient {
-  credentials: msRest.ServiceClientCredentials;
-  baseUri: string;
-
+class LuisAuthoring extends LuisAuthoringContext {
   // Operation groups
   features: operations.Features;
   examples: operations.Examples;
@@ -25,14 +20,11 @@ class LuisAuthoring extends msRest.ServiceClient {
   train: operations.Train;
   permissions: operations.Permissions;
   pattern: operations.Pattern;
-  serializer: msRest.Serializer;
 
   /**
    * @class
    * Initializes a new instance of the LuisAuthoring class.
    * @constructor
-   *
-   * @param {string} authoringKey - Subscription credentials which uniquely identify client subscription.
    *
    * @param {object} [options] - The parameter options
    *
@@ -44,18 +36,8 @@ class LuisAuthoring extends msRest.ServiceClient {
    * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
    *
    */
-  constructor(authoringKey: string, options?: msRest.ServiceClientOptions) {
-    let credentials = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": authoringKey } });
-
-    if (!options)
-      options = {};
-
-      super(credentials, options);
-
-    this.baseUri = 'https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0';
-    this.credentials = credentials;
-
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
+  constructor(credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
+    super(credentials, options);
     this.features = new operations.Features(this);
     this.examples = new operations.Examples(this);
     this.model = new operations.Model(this);
@@ -64,8 +46,9 @@ class LuisAuthoring extends msRest.ServiceClient {
     this.train = new operations.Train(this);
     this.permissions = new operations.Permissions(this);
     this.pattern = new operations.Pattern(this);
-    this.serializer = new msRest.Serializer(Mappers);
   }
 }
+
+// Operation Specifications
 
 export { LuisAuthoring, Models as LuisAuthoringModels, Mappers as LuisAuthoringMappers };

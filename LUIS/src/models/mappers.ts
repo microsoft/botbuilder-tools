@@ -6,31 +6,30 @@
 
 
 export const EntityLabelObject = {
-  required: false,
-  serializedName: 'EntityLabelObject',
+  serializedName: "EntityLabelObject",
   type: {
-    name: 'Composite',
-    className: 'EntityLabelObject',
+    name: "Composite",
+    className: "EntityLabelObject",
     modelProperties: {
       entityName: {
         required: true,
-        serializedName: 'entityName',
+        serializedName: "entityName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       startCharIndex: {
         required: true,
-        serializedName: 'startCharIndex',
+        serializedName: "startCharIndex",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       endCharIndex: {
         required: true,
-        serializedName: 'endCharIndex',
+        serializedName: "endCharIndex",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -38,52 +37,47 @@ export const EntityLabelObject = {
 };
 
 export const ApplicationCreateObject = {
-  required: false,
-  serializedName: 'ApplicationCreateObject',
+  serializedName: "ApplicationCreateObject",
   type: {
-    name: 'Composite',
-    className: 'ApplicationCreateObject',
+    name: "Composite",
+    className: "ApplicationCreateObject",
     modelProperties: {
       culture: {
         required: true,
-        serializedName: 'culture',
+        serializedName: "culture",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       domain: {
-        required: false,
-        serializedName: 'domain',
+        serializedName: "domain",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       description: {
-        required: false,
-        serializedName: 'description',
+        serializedName: "description",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       initialVersionId: {
-        required: false,
-        serializedName: 'initialVersionId',
+        serializedName: "initialVersionId",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       usageScenario: {
-        required: false,
-        serializedName: 'usageScenario',
+        serializedName: "usageScenario",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       name: {
         required: true,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -91,17 +85,15 @@ export const ApplicationCreateObject = {
 };
 
 export const PrebuiltDomainCreateBaseObject = {
-  required: false,
-  serializedName: 'PrebuiltDomainCreateBaseObject',
+  serializedName: "PrebuiltDomainCreateBaseObject",
   type: {
-    name: 'Composite',
-    className: 'PrebuiltDomainCreateBaseObject',
+    name: "Composite",
+    className: "PrebuiltDomainCreateBaseObject",
     modelProperties: {
       domainName: {
-        required: false,
-        serializedName: 'domainName',
+        serializedName: "domainName",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -109,24 +101,21 @@ export const PrebuiltDomainCreateBaseObject = {
 };
 
 export const PrebuiltDomainCreateObject = {
-  required: false,
-  serializedName: 'PrebuiltDomainCreateObject',
+  serializedName: "PrebuiltDomainCreateObject",
   type: {
-    name: 'Composite',
-    className: 'PrebuiltDomainCreateObject',
+    name: "Composite",
+    className: "PrebuiltDomainCreateObject",
     modelProperties: {
       domainName: {
-        required: false,
-        serializedName: 'domainName',
+        serializedName: "domainName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       culture: {
-        required: false,
-        serializedName: 'culture',
+        serializedName: "culture",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -134,24 +123,21 @@ export const PrebuiltDomainCreateObject = {
 };
 
 export const PrebuiltDomainModelCreateObject = {
-  required: false,
-  serializedName: 'PrebuiltDomainModelCreateObject',
+  serializedName: "PrebuiltDomainModelCreateObject",
   type: {
-    name: 'Composite',
-    className: 'PrebuiltDomainModelCreateObject',
+    name: "Composite",
+    className: "PrebuiltDomainModelCreateObject",
     modelProperties: {
       domainName: {
-        required: false,
-        serializedName: 'domainName',
+        serializedName: "domainName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       modelName: {
-        required: false,
-        serializedName: 'modelName',
+        serializedName: "modelName",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -159,31 +145,27 @@ export const PrebuiltDomainModelCreateObject = {
 };
 
 export const HierarchicalEntityModel = {
-  required: false,
-  serializedName: 'HierarchicalEntityModel',
+  serializedName: "HierarchicalEntityModel",
   type: {
-    name: 'Composite',
-    className: 'HierarchicalEntityModel',
+    name: "Composite",
+    className: "HierarchicalEntityModel",
     modelProperties: {
       children: {
-        required: false,
-        serializedName: 'children',
+        serializedName: "children",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -191,31 +173,27 @@ export const HierarchicalEntityModel = {
 };
 
 export const CompositeEntityModel = {
-  required: false,
-  serializedName: 'CompositeEntityModel',
+  serializedName: "CompositeEntityModel",
   type: {
-    name: 'Composite',
-    className: 'CompositeEntityModel',
+    name: "Composite",
+    className: "CompositeEntityModel",
     modelProperties: {
       children: {
-        required: false,
-        serializedName: 'children',
+        serializedName: "children",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -223,31 +201,30 @@ export const CompositeEntityModel = {
 };
 
 export const JSONEntity = {
-  required: false,
-  serializedName: 'JSONEntity',
+  serializedName: "JSONEntity",
   type: {
-    name: 'Composite',
-    className: 'JSONEntity',
+    name: "Composite",
+    className: "JSONEntity",
     modelProperties: {
       startPos: {
         required: true,
-        serializedName: 'startPos',
+        serializedName: "startPos",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       endPos: {
         required: true,
-        serializedName: 'endPos',
+        serializedName: "endPos",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       entity: {
         required: true,
-        serializedName: 'entity',
+        serializedName: "entity",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -255,17 +232,15 @@ export const JSONEntity = {
 };
 
 export const ApplicationSettingUpdateObject = {
-  required: false,
-  serializedName: 'ApplicationSettingUpdateObject',
+  serializedName: "ApplicationSettingUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'ApplicationSettingUpdateObject',
+    name: "Composite",
+    className: "ApplicationSettingUpdateObject",
     modelProperties: {
       publicProperty: {
-        required: false,
-        serializedName: 'public',
+        serializedName: "public",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -273,31 +248,27 @@ export const ApplicationSettingUpdateObject = {
 };
 
 export const PublishSettingUpdateObject = {
-  required: false,
-  serializedName: 'PublishSettingUpdateObject',
+  serializedName: "PublishSettingUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'PublishSettingUpdateObject',
+    name: "Composite",
+    className: "PublishSettingUpdateObject",
     modelProperties: {
       sentimentAnalysis: {
-        required: false,
-        serializedName: 'sentimentAnalysis',
+        serializedName: "sentimentAnalysis",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       },
       speech: {
-        required: false,
-        serializedName: 'speech',
+        serializedName: "speech",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       },
       spellChecker: {
-        required: false,
-        serializedName: 'spellChecker',
+        serializedName: "spellChecker",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -305,39 +276,34 @@ export const PublishSettingUpdateObject = {
 };
 
 export const ExampleLabelObject = {
-  required: false,
-  serializedName: 'ExampleLabelObject',
+  serializedName: "ExampleLabelObject",
   type: {
-    name: 'Composite',
-    className: 'ExampleLabelObject',
+    name: "Composite",
+    className: "ExampleLabelObject",
     modelProperties: {
       text: {
-        required: false,
-        serializedName: 'text',
+        serializedName: "text",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       entityLabels: {
-        required: false,
-        serializedName: 'entityLabels',
+        serializedName: "entityLabels",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityLabelObjectElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityLabelObject'
-              }
+            serializedName: "EntityLabelObjectElementType",
+            type: {
+              name: "Composite",
+              className: "EntityLabelObject"
+            }
           }
         }
       },
       intentName: {
-        required: false,
-        serializedName: 'intentName',
+        serializedName: "intentName",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -345,32 +311,28 @@ export const ExampleLabelObject = {
 };
 
 export const PhraselistCreateObject = {
-  required: false,
-  serializedName: 'PhraselistCreateObject',
+  serializedName: "PhraselistCreateObject",
   type: {
-    name: 'Composite',
-    className: 'PhraselistCreateObject',
+    name: "Composite",
+    className: "PhraselistCreateObject",
     modelProperties: {
       phrases: {
-        required: false,
-        serializedName: 'phrases',
+        serializedName: "phrases",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       isExchangeable: {
-        required: false,
-        serializedName: 'isExchangeable',
+        serializedName: "isExchangeable",
         defaultValue: true,
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -378,30 +340,26 @@ export const PhraselistCreateObject = {
 };
 
 export const SubClosedList = {
-  required: false,
-  serializedName: 'SubClosedList',
+  serializedName: "SubClosedList",
   type: {
-    name: 'Composite',
-    className: 'SubClosedList',
+    name: "Composite",
+    className: "SubClosedList",
     modelProperties: {
       canonicalForm: {
-        required: false,
-        serializedName: 'canonicalForm',
+        serializedName: "canonicalForm",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       list: {
-        required: false,
-        serializedName: 'list',
+        serializedName: "list",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -410,38 +368,16 @@ export const SubClosedList = {
 };
 
 export const SubClosedListResponse = {
-  required: false,
-  serializedName: 'SubClosedListResponse',
+  serializedName: "SubClosedListResponse",
   type: {
-    name: 'Composite',
-    className: 'SubClosedListResponse',
+    name: "Composite",
+    className: "SubClosedListResponse",
     modelProperties: {
-      canonicalForm: {
-        required: false,
-        serializedName: 'canonicalForm',
-        type: {
-          name: 'String'
-        }
-      },
-      list: {
-        required: false,
-        serializedName: 'list',
-        type: {
-          name: 'Sequence',
-          element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
-          }
-        }
-      },
+      ...SubClosedList.type.modelProperties,
       id: {
-        required: false,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -449,24 +385,21 @@ export const SubClosedListResponse = {
 };
 
 export const ApplicationUpdateObject = {
-  required: false,
-  serializedName: 'ApplicationUpdateObject',
+  serializedName: "ApplicationUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'ApplicationUpdateObject',
+    name: "Composite",
+    className: "ApplicationUpdateObject",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       description: {
-        required: false,
-        serializedName: 'description',
+        serializedName: "description",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -474,31 +407,27 @@ export const ApplicationUpdateObject = {
 };
 
 export const JSONRegexFeature = {
-  required: false,
-  serializedName: 'JSONRegexFeature',
+  serializedName: "JSONRegexFeature",
   type: {
-    name: 'Composite',
-    className: 'JSONRegexFeature',
+    name: "Composite",
+    className: "JSONRegexFeature",
     modelProperties: {
       pattern: {
-        required: false,
-        serializedName: 'pattern',
+        serializedName: "pattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       activated: {
-        required: false,
-        serializedName: 'activated',
+        serializedName: "activated",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -506,32 +435,28 @@ export const JSONRegexFeature = {
 };
 
 export const PatternUpdateObject = {
-  required: false,
-  serializedName: 'PatternUpdateObject',
+  serializedName: "PatternUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'PatternUpdateObject',
+    name: "Composite",
+    className: "PatternUpdateObject",
     modelProperties: {
       pattern: {
-        required: false,
-        serializedName: 'pattern',
+        serializedName: "pattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       isActive: {
-        required: false,
-        serializedName: 'isActive',
+        serializedName: "isActive",
         defaultValue: true,
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -539,45 +464,39 @@ export const PatternUpdateObject = {
 };
 
 export const ClosedList = {
-  required: false,
-  serializedName: 'ClosedList',
+  serializedName: "ClosedList",
   type: {
-    name: 'Composite',
-    className: 'ClosedList',
+    name: "Composite",
+    className: "ClosedList",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       subLists: {
-        required: false,
-        serializedName: 'subLists',
+        serializedName: "subLists",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'SubClosedListElementType',
-              type: {
-                name: 'Composite',
-                className: 'SubClosedList'
-              }
+            serializedName: "SubClosedListElementType",
+            type: {
+              name: "Composite",
+              className: "SubClosedList"
+            }
           }
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -586,30 +505,26 @@ export const ClosedList = {
 };
 
 export const WordListObject = {
-  required: false,
-  serializedName: 'WordListObject',
+  serializedName: "WordListObject",
   type: {
-    name: 'Composite',
-    className: 'WordListObject',
+    name: "Composite",
+    className: "WordListObject",
     modelProperties: {
       canonicalForm: {
-        required: false,
-        serializedName: 'canonicalForm',
+        serializedName: "canonicalForm",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       list: {
-        required: false,
-        serializedName: 'list',
+        serializedName: "list",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -618,24 +533,21 @@ export const WordListObject = {
 };
 
 export const ClosedListModelPatchObject = {
-  required: false,
-  serializedName: 'ClosedListModelPatchObject',
+  serializedName: "ClosedListModelPatchObject",
   type: {
-    name: 'Composite',
-    className: 'ClosedListModelPatchObject',
+    name: "Composite",
+    className: "ClosedListModelPatchObject",
     modelProperties: {
       subLists: {
-        required: false,
-        serializedName: 'subLists',
+        serializedName: "subLists",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'WordListObjectElementType',
-              type: {
-                name: 'Composite',
-                className: 'WordListObject'
-              }
+            serializedName: "WordListObjectElementType",
+            type: {
+              name: "Composite",
+              className: "WordListObject"
+            }
           }
         }
       }
@@ -644,38 +556,33 @@ export const ClosedListModelPatchObject = {
 };
 
 export const JSONModelFeature = {
-  required: false,
-  serializedName: 'JSONModelFeature',
+  serializedName: "JSONModelFeature",
   type: {
-    name: 'Composite',
-    className: 'JSONModelFeature',
+    name: "Composite",
+    className: "JSONModelFeature",
     modelProperties: {
       activated: {
-        required: false,
-        serializedName: 'activated',
+        serializedName: "activated",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       words: {
-        required: false,
-        serializedName: 'words',
+        serializedName: "words",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       mode: {
-        required: false,
-        serializedName: 'mode',
+        serializedName: "mode",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -683,17 +590,15 @@ export const JSONModelFeature = {
 };
 
 export const ModelCreateObject = {
-  required: false,
-  serializedName: 'ModelCreateObject',
+  serializedName: "ModelCreateObject",
   type: {
-    name: 'Composite',
-    className: 'ModelCreateObject',
+    name: "Composite",
+    className: "ModelCreateObject",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -701,24 +606,21 @@ export const ModelCreateObject = {
 };
 
 export const PatternCreateObject = {
-  required: false,
-  serializedName: 'PatternCreateObject',
+  serializedName: "PatternCreateObject",
   type: {
-    name: 'Composite',
-    className: 'PatternCreateObject',
+    name: "Composite",
+    className: "PatternCreateObject",
     modelProperties: {
       pattern: {
-        required: false,
-        serializedName: 'pattern',
+        serializedName: "pattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -726,30 +628,26 @@ export const PatternCreateObject = {
 };
 
 export const WordListBaseUpdateObject = {
-  required: false,
-  serializedName: 'WordListBaseUpdateObject',
+  serializedName: "WordListBaseUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'WordListBaseUpdateObject',
+    name: "Composite",
+    className: "WordListBaseUpdateObject",
     modelProperties: {
       canonicalForm: {
-        required: false,
-        serializedName: 'canonicalForm',
+        serializedName: "canonicalForm",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       list: {
-        required: false,
-        serializedName: 'list',
+        serializedName: "list",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -758,38 +656,33 @@ export const WordListBaseUpdateObject = {
 };
 
 export const JSONUtterance = {
-  required: false,
-  serializedName: 'JSONUtterance',
+  serializedName: "JSONUtterance",
   type: {
-    name: 'Composite',
-    className: 'JSONUtterance',
+    name: "Composite",
+    className: "JSONUtterance",
     modelProperties: {
       text: {
-        required: false,
-        serializedName: 'text',
+        serializedName: "text",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       intent: {
-        required: false,
-        serializedName: 'intent',
+        serializedName: "intent",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       entities: {
-        required: false,
-        serializedName: 'entities',
+        serializedName: "entities",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'JSONEntityElementType',
-              type: {
-                name: 'Composite',
-                className: 'JSONEntity'
-              }
+            serializedName: "JSONEntityElementType",
+            type: {
+              name: "Composite",
+              className: "JSONEntity"
+            }
           }
         }
       }
@@ -798,17 +691,15 @@ export const JSONUtterance = {
 };
 
 export const ModelUpdateObject = {
-  required: false,
-  serializedName: 'ModelUpdateObject',
+  serializedName: "ModelUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'ModelUpdateObject',
+    name: "Composite",
+    className: "ModelUpdateObject",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -816,32 +707,28 @@ export const ModelUpdateObject = {
 };
 
 export const ClosedListModelUpdateObject = {
-  required: false,
-  serializedName: 'ClosedListModelUpdateObject',
+  serializedName: "ClosedListModelUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'ClosedListModelUpdateObject',
+    name: "Composite",
+    className: "ClosedListModelUpdateObject",
     modelProperties: {
       subLists: {
-        required: false,
-        serializedName: 'subLists',
+        serializedName: "subLists",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'WordListObjectElementType',
-              type: {
-                name: 'Composite',
-                className: 'WordListObject'
-              }
+            serializedName: "WordListObjectElementType",
+            type: {
+              name: "Composite",
+              className: "WordListObject"
+            }
           }
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -849,32 +736,28 @@ export const ClosedListModelUpdateObject = {
 };
 
 export const ClosedListModelCreateObject = {
-  required: false,
-  serializedName: 'ClosedListModelCreateObject',
+  serializedName: "ClosedListModelCreateObject",
   type: {
-    name: 'Composite',
-    className: 'ClosedListModelCreateObject',
+    name: "Composite",
+    className: "ClosedListModelCreateObject",
     modelProperties: {
       subLists: {
-        required: false,
-        serializedName: 'subLists',
+        serializedName: "subLists",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'WordListObjectElementType',
-              type: {
-                name: 'Composite',
-                className: 'WordListObject'
-              }
+            serializedName: "WordListObjectElementType",
+            type: {
+              name: "Composite",
+              className: "WordListObject"
+            }
           }
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -882,102 +765,94 @@ export const ClosedListModelCreateObject = {
 };
 
 export const VersionInfo = {
-  required: false,
-  serializedName: 'VersionInfo',
+  serializedName: "VersionInfo",
   type: {
-    name: 'Composite',
-    className: 'VersionInfo',
+    name: "Composite",
+    className: "VersionInfo",
     modelProperties: {
       version: {
         required: true,
-        serializedName: 'version',
+        serializedName: "version",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       createdDateTime: {
-        required: false,
-        serializedName: 'createdDateTime',
+        serializedName: "createdDateTime",
         type: {
-          name: 'DateTime'
+          name: "DateTime"
         }
       },
       lastModifiedDateTime: {
-        required: false,
-        serializedName: 'lastModifiedDateTime',
+        serializedName: "lastModifiedDateTime",
         type: {
-          name: 'DateTime'
+          name: "DateTime"
         }
       },
       lastTrainedDateTime: {
-        required: false,
-        serializedName: 'lastTrainedDateTime',
+        serializedName: "lastTrainedDateTime",
         type: {
-          name: 'DateTime'
+          name: "DateTime"
         }
       },
       lastPublishedDateTime: {
-        required: false,
-        serializedName: 'lastPublishedDateTime',
+        serializedName: "lastPublishedDateTime",
         type: {
-          name: 'DateTime'
+          name: "DateTime"
         }
       },
       endpointUrl: {
-        required: false,
-        serializedName: 'endpointUrl',
+        serializedName: "endpointUrl",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       assignedEndpointKey: {
-        required: false,
-        serializedName: 'assignedEndpointKey',
+        serializedName: "assignedEndpointKey",
         type: {
-          name: 'Dictionary',
+          name: "Dictionary",
           value: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       },
       externalApiKeys: {
-        required: false,
-        serializedName: 'externalApiKeys',
+        serializedName: "externalApiKeys",
         type: {
-          name: 'Object'
+          name: "Object"
         }
       },
       intentsCount: {
-        required: false,
-        serializedName: 'intentsCount',
+        serializedName: "intentsCount",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       entitiesCount: {
-        required: false,
-        serializedName: 'entitiesCount',
+        serializedName: "entitiesCount",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       endpointHitsCount: {
-        required: false,
-        serializedName: 'endpointHitsCount',
+        serializedName: "endpointHitsCount",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       trainingStatus: {
         required: true,
-        serializedName: 'trainingStatus',
+        serializedName: "trainingStatus",
         type: {
-          name: 'Enum',
-          allowedValues: [ 'NeedsTraining', 'InProgress', 'Trained' ]
+          name: "Enum",
+          allowedValues: [
+            "NeedsTraining",
+            "InProgress",
+            "Trained"
+          ]
         }
       }
     }
@@ -985,17 +860,15 @@ export const VersionInfo = {
 };
 
 export const TaskUpdateObject = {
-  required: false,
-  serializedName: 'TaskUpdateObject',
+  serializedName: "TaskUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'TaskUpdateObject',
+    name: "Composite",
+    className: "TaskUpdateObject",
     modelProperties: {
       version: {
-        required: false,
-        serializedName: 'version',
+        serializedName: "version",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -1003,40 +876,35 @@ export const TaskUpdateObject = {
 };
 
 export const PhraselistUpdateObject = {
-  required: false,
-  serializedName: 'PhraselistUpdateObject',
+  serializedName: "PhraselistUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'PhraselistUpdateObject',
+    name: "Composite",
+    className: "PhraselistUpdateObject",
     modelProperties: {
       phrases: {
-        required: false,
-        serializedName: 'phrases',
+        serializedName: "phrases",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       isActive: {
-        required: false,
-        serializedName: 'isActive',
+        serializedName: "isActive",
         defaultValue: true,
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       },
       isExchangeable: {
-        required: false,
-        serializedName: 'isExchangeable',
+        serializedName: "isExchangeable",
         defaultValue: true,
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -1044,24 +912,21 @@ export const PhraselistUpdateObject = {
 };
 
 export const PrebuiltDomainObject = {
-  required: false,
-  serializedName: 'PrebuiltDomainObject',
+  serializedName: "PrebuiltDomainObject",
   type: {
-    name: 'Composite',
-    className: 'PrebuiltDomainObject',
+    name: "Composite",
+    className: "PrebuiltDomainObject",
     modelProperties: {
       domainName: {
-        required: false,
-        serializedName: 'domain_name',
+        serializedName: "domain_name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       modelName: {
-        required: false,
-        serializedName: 'model_name',
+        serializedName: "model_name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -1069,52 +934,45 @@ export const PrebuiltDomainObject = {
 };
 
 export const HierarchicalModel = {
-  required: false,
-  serializedName: 'HierarchicalModel',
+  serializedName: "HierarchicalModel",
   type: {
-    name: 'Composite',
-    className: 'HierarchicalModel',
+    name: "Composite",
+    className: "HierarchicalModel",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       children: {
-        required: false,
-        serializedName: 'children',
+        serializedName: "children",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       },
       inherits: {
-        required: false,
-        serializedName: 'inherits',
+        serializedName: "inherits",
         type: {
-          name: 'Composite',
-          className: 'PrebuiltDomainObject'
+          name: "Composite",
+          className: "PrebuiltDomainObject"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -1123,32 +981,28 @@ export const HierarchicalModel = {
 };
 
 export const ApplicationPublishObject = {
-  required: false,
-  serializedName: 'ApplicationPublishObject',
+  serializedName: "ApplicationPublishObject",
   type: {
-    name: 'Composite',
-    className: 'ApplicationPublishObject',
+    name: "Composite",
+    className: "ApplicationPublishObject",
     modelProperties: {
       versionId: {
-        required: false,
-        serializedName: 'versionId',
+        serializedName: "versionId",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       isStaging: {
-        required: false,
-        serializedName: 'isStaging',
+        serializedName: "isStaging",
         defaultValue: false,
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       },
       region: {
-        required: false,
-        serializedName: 'region',
+        serializedName: "region",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -1156,44 +1010,38 @@ export const ApplicationPublishObject = {
 };
 
 export const PatternAny = {
-  required: false,
-  serializedName: 'PatternAny',
+  serializedName: "PatternAny",
   type: {
-    name: 'Composite',
-    className: 'PatternAny',
+    name: "Composite",
+    className: "PatternAny",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       explicitList: {
-        required: false,
-        serializedName: 'explicitList',
+        serializedName: "explicitList",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -1202,37 +1050,32 @@ export const PatternAny = {
 };
 
 export const RegexEntity = {
-  required: false,
-  serializedName: 'RegexEntity',
+  serializedName: "RegexEntity",
   type: {
-    name: 'Composite',
-    className: 'RegexEntity',
+    name: "Composite",
+    className: "RegexEntity",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       regexPattern: {
-        required: false,
-        serializedName: 'regexPattern',
+        serializedName: "regexPattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -1241,30 +1084,26 @@ export const RegexEntity = {
 };
 
 export const PrebuiltEntity = {
-  required: false,
-  serializedName: 'PrebuiltEntity',
+  serializedName: "PrebuiltEntity",
   type: {
-    name: 'Composite',
-    className: 'PrebuiltEntity',
+    name: "Composite",
+    className: "PrebuiltEntity",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -1273,24 +1112,21 @@ export const PrebuiltEntity = {
 };
 
 export const PatternRule = {
-  required: false,
-  serializedName: 'PatternRule',
+  serializedName: "PatternRule",
   type: {
-    name: 'Composite',
-    className: 'PatternRule',
+    name: "Composite",
+    className: "PatternRule",
     modelProperties: {
       pattern: {
-        required: false,
-        serializedName: 'pattern',
+        serializedName: "pattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       intent: {
-        required: false,
-        serializedName: 'intent',
+        serializedName: "intent",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -1298,215 +1134,186 @@ export const PatternRule = {
 };
 
 export const LuisApp = {
-  required: false,
-  serializedName: 'LuisApp',
+  serializedName: "LuisApp",
   type: {
-    name: 'Composite',
-    className: 'LuisApp',
+    name: "Composite",
+    className: "LuisApp",
     modelProperties: {
       additionalProperties: {
-        required: false,
         type: {
-          name: 'Dictionary',
+          name: "Dictionary",
           value: {
-              required: false,
-              serializedName: 'ObjectElementType',
-              type: {
-                name: 'Object'
-              }
+            serializedName: "ObjectElementType",
+            type: {
+              name: "Object"
+            }
           }
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       versionId: {
-        required: false,
-        serializedName: 'versionId',
+        serializedName: "versionId",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       desc: {
-        required: false,
-        serializedName: 'desc',
+        serializedName: "desc",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       culture: {
-        required: false,
-        serializedName: 'culture',
+        serializedName: "culture",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       intents: {
-        required: false,
-        serializedName: 'intents',
+        serializedName: "intents",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'HierarchicalModelElementType',
-              type: {
-                name: 'Composite',
-                className: 'HierarchicalModel'
-              }
+            serializedName: "HierarchicalModelElementType",
+            type: {
+              name: "Composite",
+              className: "HierarchicalModel"
+            }
           }
         }
       },
       entities: {
-        required: false,
-        serializedName: 'entities',
+        serializedName: "entities",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'HierarchicalModelElementType',
-              type: {
-                name: 'Composite',
-                className: 'HierarchicalModel'
-              }
+            serializedName: "HierarchicalModelElementType",
+            type: {
+              name: "Composite",
+              className: "HierarchicalModel"
+            }
           }
         }
       },
       closedLists: {
-        required: false,
-        serializedName: 'closedLists',
+        serializedName: "closedLists",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'ClosedListElementType',
-              type: {
-                name: 'Composite',
-                className: 'ClosedList'
-              }
+            serializedName: "ClosedListElementType",
+            type: {
+              name: "Composite",
+              className: "ClosedList"
+            }
           }
         }
       },
       composites: {
-        required: false,
-        serializedName: 'composites',
+        serializedName: "composites",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'HierarchicalModelElementType',
-              type: {
-                name: 'Composite',
-                className: 'HierarchicalModel'
-              }
+            serializedName: "HierarchicalModelElementType",
+            type: {
+              name: "Composite",
+              className: "HierarchicalModel"
+            }
           }
         }
       },
       patternAnyEntities: {
-        required: false,
-        serializedName: 'patternAnyEntities',
+        serializedName: "patternAnyEntities",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'PatternAnyElementType',
-              type: {
-                name: 'Composite',
-                className: 'PatternAny'
-              }
+            serializedName: "PatternAnyElementType",
+            type: {
+              name: "Composite",
+              className: "PatternAny"
+            }
           }
         }
       },
       regexEntities: {
-        required: false,
-        serializedName: 'regex_entities',
+        serializedName: "regex_entities",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'RegexEntityElementType',
-              type: {
-                name: 'Composite',
-                className: 'RegexEntity'
-              }
+            serializedName: "RegexEntityElementType",
+            type: {
+              name: "Composite",
+              className: "RegexEntity"
+            }
           }
         }
       },
       prebuiltEntities: {
-        required: false,
-        serializedName: 'prebuiltEntities',
+        serializedName: "prebuiltEntities",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'PrebuiltEntityElementType',
-              type: {
-                name: 'Composite',
-                className: 'PrebuiltEntity'
-              }
+            serializedName: "PrebuiltEntityElementType",
+            type: {
+              name: "Composite",
+              className: "PrebuiltEntity"
+            }
           }
         }
       },
       regexFeatures: {
-        required: false,
-        serializedName: 'regex_features',
+        serializedName: "regex_features",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'JSONRegexFeatureElementType',
-              type: {
-                name: 'Composite',
-                className: 'JSONRegexFeature'
-              }
+            serializedName: "JSONRegexFeatureElementType",
+            type: {
+              name: "Composite",
+              className: "JSONRegexFeature"
+            }
           }
         }
       },
       modelFeatures: {
-        required: false,
-        serializedName: 'model_features',
+        serializedName: "model_features",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'JSONModelFeatureElementType',
-              type: {
-                name: 'Composite',
-                className: 'JSONModelFeature'
-              }
+            serializedName: "JSONModelFeatureElementType",
+            type: {
+              name: "Composite",
+              className: "JSONModelFeature"
+            }
           }
         }
       },
       patterns: {
-        required: false,
-        serializedName: 'patterns',
+        serializedName: "patterns",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'PatternRuleElementType',
-              type: {
-                name: 'Composite',
-                className: 'PatternRule'
-              }
+            serializedName: "PatternRuleElementType",
+            type: {
+              name: "Composite",
+              className: "PatternRule"
+            }
           }
         }
       },
       utterances: {
-        required: false,
-        serializedName: 'utterances',
+        serializedName: "utterances",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'JSONUtteranceElementType',
-              type: {
-                name: 'Composite',
-                className: 'JSONUtterance'
-              }
+            serializedName: "JSONUtteranceElementType",
+            type: {
+              name: "Composite",
+              className: "JSONUtterance"
+            }
           }
         }
       }
@@ -1515,31 +1322,30 @@ export const LuisApp = {
 };
 
 export const EntityLabel = {
-  required: false,
-  serializedName: 'EntityLabel',
+  serializedName: "EntityLabel",
   type: {
-    name: 'Composite',
-    className: 'EntityLabel',
+    name: "Composite",
+    className: "EntityLabel",
     modelProperties: {
       entityName: {
         required: true,
-        serializedName: 'entityName',
+        serializedName: "entityName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       startTokenIndex: {
         required: true,
-        serializedName: 'startTokenIndex',
+        serializedName: "startTokenIndex",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       endTokenIndex: {
         required: true,
-        serializedName: 'endTokenIndex',
+        serializedName: "endTokenIndex",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -1547,24 +1353,21 @@ export const EntityLabel = {
 };
 
 export const IntentPrediction = {
-  required: false,
-  serializedName: 'IntentPrediction',
+  serializedName: "IntentPrediction",
   type: {
-    name: 'Composite',
-    className: 'IntentPrediction',
+    name: "Composite",
+    className: "IntentPrediction",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       score: {
-        required: false,
-        serializedName: 'score',
+        serializedName: "score",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -1572,38 +1375,37 @@ export const IntentPrediction = {
 };
 
 export const EntityPrediction = {
-  required: false,
-  serializedName: 'EntityPrediction',
+  serializedName: "EntityPrediction",
   type: {
-    name: 'Composite',
-    className: 'EntityPrediction',
+    name: "Composite",
+    className: "EntityPrediction",
     modelProperties: {
       entityName: {
         required: true,
-        serializedName: 'entityName',
+        serializedName: "entityName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       startTokenIndex: {
         required: true,
-        serializedName: 'startTokenIndex',
+        serializedName: "startTokenIndex",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       endTokenIndex: {
         required: true,
-        serializedName: 'endTokenIndex',
+        serializedName: "endTokenIndex",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       phrase: {
         required: true,
-        serializedName: 'phrase',
+        serializedName: "phrase",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -1611,89 +1413,77 @@ export const EntityPrediction = {
 };
 
 export const LabeledUtterance = {
-  required: false,
-  serializedName: 'LabeledUtterance',
+  serializedName: "LabeledUtterance",
   type: {
-    name: 'Composite',
-    className: 'LabeledUtterance',
+    name: "Composite",
+    className: "LabeledUtterance",
     modelProperties: {
       id: {
-        required: false,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       text: {
-        required: false,
-        serializedName: 'text',
+        serializedName: "text",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       tokenizedText: {
-        required: false,
-        serializedName: 'tokenizedText',
+        serializedName: "tokenizedText",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       },
       intentLabel: {
-        required: false,
-        serializedName: 'intentLabel',
+        serializedName: "intentLabel",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       entityLabels: {
-        required: false,
-        serializedName: 'entityLabels',
+        serializedName: "entityLabels",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityLabelElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityLabel'
-              }
+            serializedName: "EntityLabelElementType",
+            type: {
+              name: "Composite",
+              className: "EntityLabel"
+            }
           }
         }
       },
       intentPredictions: {
-        required: false,
-        serializedName: 'intentPredictions',
+        serializedName: "intentPredictions",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'IntentPredictionElementType',
-              type: {
-                name: 'Composite',
-                className: 'IntentPrediction'
-              }
+            serializedName: "IntentPredictionElementType",
+            type: {
+              name: "Composite",
+              className: "IntentPrediction"
+            }
           }
         }
       },
       entityPredictions: {
-        required: false,
-        serializedName: 'entityPredictions',
+        serializedName: "entityPredictions",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityPredictionElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityPrediction'
-              }
+            serializedName: "EntityPredictionElementType",
+            type: {
+              name: "Composite",
+              className: "EntityPrediction"
+            }
           }
         }
       }
@@ -1702,60 +1492,52 @@ export const LabeledUtterance = {
 };
 
 export const IntentsSuggestionExample = {
-  required: false,
-  serializedName: 'IntentsSuggestionExample',
+  serializedName: "IntentsSuggestionExample",
   type: {
-    name: 'Composite',
-    className: 'IntentsSuggestionExample',
+    name: "Composite",
+    className: "IntentsSuggestionExample",
     modelProperties: {
       text: {
-        required: false,
-        serializedName: 'text',
+        serializedName: "text",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       tokenizedText: {
-        required: false,
-        serializedName: 'tokenizedText',
+        serializedName: "tokenizedText",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       },
       intentPredictions: {
-        required: false,
-        serializedName: 'intentPredictions',
+        serializedName: "intentPredictions",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'IntentPredictionElementType',
-              type: {
-                name: 'Composite',
-                className: 'IntentPrediction'
-              }
+            serializedName: "IntentPredictionElementType",
+            type: {
+              name: "Composite",
+              className: "IntentPrediction"
+            }
           }
         }
       },
       entityPredictions: {
-        required: false,
-        serializedName: 'entityPredictions',
+        serializedName: "entityPredictions",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityPredictionElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityPrediction'
-              }
+            serializedName: "EntityPredictionElementType",
+            type: {
+              name: "Composite",
+              className: "EntityPrediction"
+            }
           }
         }
       }
@@ -1764,60 +1546,52 @@ export const IntentsSuggestionExample = {
 };
 
 export const EntitiesSuggestionExample = {
-  required: false,
-  serializedName: 'EntitiesSuggestionExample',
+  serializedName: "EntitiesSuggestionExample",
   type: {
-    name: 'Composite',
-    className: 'EntitiesSuggestionExample',
+    name: "Composite",
+    className: "EntitiesSuggestionExample",
     modelProperties: {
       text: {
-        required: false,
-        serializedName: 'text',
+        serializedName: "text",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       tokenizedText: {
-        required: false,
-        serializedName: 'tokenizedText',
+        serializedName: "tokenizedText",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       },
       intentPredictions: {
-        required: false,
-        serializedName: 'intentPredictions',
+        serializedName: "intentPredictions",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'IntentPredictionElementType',
-              type: {
-                name: 'Composite',
-                className: 'IntentPrediction'
-              }
+            serializedName: "IntentPredictionElementType",
+            type: {
+              name: "Composite",
+              className: "IntentPrediction"
+            }
           }
         }
       },
       entityPredictions: {
-        required: false,
-        serializedName: 'entityPredictions',
+        serializedName: "entityPredictions",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityPredictionElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityPrediction'
-              }
+            serializedName: "EntityPredictionElementType",
+            type: {
+              name: "Composite",
+              className: "EntityPrediction"
+            }
           }
         }
       }
@@ -1826,37 +1600,32 @@ export const EntitiesSuggestionExample = {
 };
 
 export const PersonalAssistantsResponse = {
-  required: false,
-  serializedName: 'PersonalAssistantsResponse',
+  serializedName: "PersonalAssistantsResponse",
   type: {
-    name: 'Composite',
-    className: 'PersonalAssistantsResponse',
+    name: "Composite",
+    className: "PersonalAssistantsResponse",
     modelProperties: {
       endpointKeys: {
-        required: false,
-        serializedName: 'endpointKeys',
+        serializedName: "endpointKeys",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "Uuid"
+            }
           }
         }
       },
       endpointUrls: {
-        required: false,
-        serializedName: 'endpointUrls',
+        serializedName: "endpointUrls",
         type: {
-          name: 'Dictionary',
+          name: "Dictionary",
           value: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -1865,38 +1634,35 @@ export const PersonalAssistantsResponse = {
 };
 
 export const ModelInfo = {
-  required: false,
-  serializedName: 'ModelInfo',
+  serializedName: "ModelInfo",
   type: {
-    name: 'Composite',
-    className: 'ModelInfo',
+    name: "Composite",
+    className: "ModelInfo",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
         required: true,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -1904,24 +1670,21 @@ export const ModelInfo = {
 };
 
 export const EntityRole = {
-  required: false,
-  serializedName: 'EntityRole',
+  serializedName: "EntityRole",
   type: {
-    name: 'Composite',
-    className: 'EntityRole',
+    name: "Composite",
+    className: "EntityRole",
     modelProperties: {
       id: {
-        required: false,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -1929,24 +1692,22 @@ export const EntityRole = {
 };
 
 export const ChildEntity = {
-  required: false,
-  serializedName: 'ChildEntity',
+  serializedName: "ChildEntity",
   type: {
-    name: 'Composite',
-    className: 'ChildEntity',
+    name: "Composite",
+    className: "ChildEntity",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -1954,24 +1715,21 @@ export const ChildEntity = {
 };
 
 export const ExplicitListItem = {
-  required: false,
-  serializedName: 'ExplicitListItem',
+  serializedName: "ExplicitListItem",
   type: {
-    name: 'Composite',
-    className: 'ExplicitListItem',
+    name: "Composite",
+    className: "ExplicitListItem",
     modelProperties: {
       id: {
-        required: false,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       explicitListItem: {
-        required: false,
-        serializedName: 'explicitListItem',
+        serializedName: "explicitListItem",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -1979,118 +1737,104 @@ export const ExplicitListItem = {
 };
 
 export const ModelInfoResponse = {
-  required: false,
-  serializedName: 'ModelInfoResponse',
+  serializedName: "ModelInfoResponse",
   type: {
-    name: 'Composite',
-    className: 'ModelInfoResponse',
+    name: "Composite",
+    className: "ModelInfoResponse",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
         required: true,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityRoleElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityRole'
-              }
+            serializedName: "EntityRoleElementType",
+            type: {
+              name: "Composite",
+              className: "EntityRole"
+            }
           }
         }
       },
       children: {
-        required: false,
-        serializedName: 'children',
+        serializedName: "children",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'ChildEntityElementType',
-              type: {
-                name: 'Composite',
-                className: 'ChildEntity'
-              }
+            serializedName: "ChildEntityElementType",
+            type: {
+              name: "Composite",
+              className: "ChildEntity"
+            }
           }
         }
       },
       subLists: {
-        required: false,
-        serializedName: 'subLists',
+        serializedName: "subLists",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'SubClosedListResponseElementType',
-              type: {
-                name: 'Composite',
-                className: 'SubClosedListResponse'
-              }
+            serializedName: "SubClosedListResponseElementType",
+            type: {
+              name: "Composite",
+              className: "SubClosedListResponse"
+            }
           }
         }
       },
       customPrebuiltDomainName: {
-        required: false,
-        serializedName: 'customPrebuiltDomainName',
+        serializedName: "customPrebuiltDomainName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       customPrebuiltModelName: {
-        required: false,
-        serializedName: 'customPrebuiltModelName',
+        serializedName: "customPrebuiltModelName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       regexPattern: {
-        required: false,
-        serializedName: 'regexPattern',
+        serializedName: "regexPattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       explicitList: {
-        required: false,
-        serializedName: 'explicitList',
+        serializedName: "explicitList",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'ExplicitListItemElementType',
-              type: {
-                name: 'Composite',
-                className: 'ExplicitListItem'
-              }
+            serializedName: "ExplicitListItemElementType",
+            type: {
+              name: "Composite",
+              className: "ExplicitListItem"
+            }
           }
         }
       }
@@ -2099,52 +1843,22 @@ export const ModelInfoResponse = {
 };
 
 export const EntityModelInfo = {
-  required: false,
-  serializedName: 'EntityModelInfo',
+  serializedName: "EntityModelInfo",
   type: {
-    name: 'Composite',
-    className: 'EntityModelInfo',
+    name: "Composite",
+    className: "EntityModelInfo",
     modelProperties: {
-      id: {
-        required: true,
-        serializedName: 'id',
-        type: {
-          name: 'String'
-        }
-      },
-      name: {
-        required: false,
-        serializedName: 'name',
-        type: {
-          name: 'String'
-        }
-      },
-      typeId: {
-        required: false,
-        serializedName: 'typeId',
-        type: {
-          name: 'Number'
-        }
-      },
-      readableType: {
-        required: true,
-        serializedName: 'readableType',
-        type: {
-          name: 'String'
-        }
-      },
+      ...ModelInfo.type.modelProperties,
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityRoleElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityRole'
-              }
+            serializedName: "EntityRoleElementType",
+            type: {
+              name: "Composite",
+              className: "EntityRole"
+            }
           }
         }
       }
@@ -2153,67 +1867,60 @@ export const EntityModelInfo = {
 };
 
 export const HierarchicalEntityExtractor = {
-  required: false,
-  serializedName: 'Hierarchical Entity Extractor',
+  serializedName: "Hierarchical Entity Extractor",
   type: {
-    name: 'Composite',
-    className: 'HierarchicalEntityExtractor',
+    name: "Composite",
+    className: "HierarchicalEntityExtractor",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
         required: true,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityRoleElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityRole'
-              }
+            serializedName: "EntityRoleElementType",
+            type: {
+              name: "Composite",
+              className: "EntityRole"
+            }
           }
         }
       },
       children: {
-        required: false,
-        serializedName: 'children',
+        serializedName: "children",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'ChildEntityElementType',
-              type: {
-                name: 'Composite',
-                className: 'ChildEntity'
-              }
+            serializedName: "ChildEntityElementType",
+            type: {
+              name: "Composite",
+              className: "ChildEntity"
+            }
           }
         }
       }
@@ -2222,67 +1929,60 @@ export const HierarchicalEntityExtractor = {
 };
 
 export const CompositeEntityExtractor = {
-  required: false,
-  serializedName: 'Composite Entity Extractor',
+  serializedName: "Composite Entity Extractor",
   type: {
-    name: 'Composite',
-    className: 'CompositeEntityExtractor',
+    name: "Composite",
+    className: "CompositeEntityExtractor",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
         required: true,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityRoleElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityRole'
-              }
+            serializedName: "EntityRoleElementType",
+            type: {
+              name: "Composite",
+              className: "EntityRole"
+            }
           }
         }
       },
       children: {
-        required: false,
-        serializedName: 'children',
+        serializedName: "children",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'ChildEntityElementType',
-              type: {
-                name: 'Composite',
-                className: 'ChildEntity'
-              }
+            serializedName: "ChildEntityElementType",
+            type: {
+              name: "Composite",
+              className: "ChildEntity"
+            }
           }
         }
       }
@@ -2291,67 +1991,60 @@ export const CompositeEntityExtractor = {
 };
 
 export const ClosedListEntityExtractor = {
-  required: false,
-  serializedName: 'Closed List Entity Extractor',
+  serializedName: "Closed List Entity Extractor",
   type: {
-    name: 'Composite',
-    className: 'ClosedListEntityExtractor',
+    name: "Composite",
+    className: "ClosedListEntityExtractor",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
         required: true,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityRoleElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityRole'
-              }
+            serializedName: "EntityRoleElementType",
+            type: {
+              name: "Composite",
+              className: "EntityRole"
+            }
           }
         }
       },
       subLists: {
-        required: false,
-        serializedName: 'subLists',
+        serializedName: "subLists",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'SubClosedListResponseElementType',
-              type: {
-                name: 'Composite',
-                className: 'SubClosedListResponse'
-              }
+            serializedName: "SubClosedListResponseElementType",
+            type: {
+              name: "Composite",
+              className: "SubClosedListResponse"
+            }
           }
         }
       }
@@ -2360,52 +2053,47 @@ export const ClosedListEntityExtractor = {
 };
 
 export const PrebuiltEntityExtractor = {
-  required: false,
-  serializedName: 'Prebuilt Entity Extractor',
+  serializedName: "Prebuilt Entity Extractor",
   type: {
-    name: 'Composite',
-    className: 'PrebuiltEntityExtractor',
+    name: "Composite",
+    className: "PrebuiltEntityExtractor",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
         required: true,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityRoleElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityRole'
-              }
+            serializedName: "EntityRoleElementType",
+            type: {
+              name: "Composite",
+              className: "EntityRole"
+            }
           }
         }
       }
@@ -2414,38 +2102,22 @@ export const PrebuiltEntityExtractor = {
 };
 
 export const HierarchicalChildEntity = {
-  required: false,
-  serializedName: 'HierarchicalChildEntity',
+  serializedName: "HierarchicalChildEntity",
   type: {
-    name: 'Composite',
-    className: 'HierarchicalChildEntity',
+    name: "Composite",
+    className: "HierarchicalChildEntity",
     modelProperties: {
-      id: {
-        required: true,
-        serializedName: 'id',
-        type: {
-          name: 'String'
-        }
-      },
-      name: {
-        required: false,
-        serializedName: 'name',
-        type: {
-          name: 'String'
-        }
-      },
+      ...ChildEntity.type.modelProperties,
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
-        required: false,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -2453,66 +2125,59 @@ export const HierarchicalChildEntity = {
 };
 
 export const CustomPrebuiltModel = {
-  required: false,
-  serializedName: 'CustomPrebuiltModel',
+  serializedName: "CustomPrebuiltModel",
   type: {
-    name: 'Composite',
-    className: 'CustomPrebuiltModel',
+    name: "Composite",
+    className: "CustomPrebuiltModel",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
         required: true,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       customPrebuiltDomainName: {
-        required: false,
-        serializedName: 'customPrebuiltDomainName',
+        serializedName: "customPrebuiltDomainName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       customPrebuiltModelName: {
-        required: false,
-        serializedName: 'customPrebuiltModelName',
+        serializedName: "customPrebuiltModelName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityRoleElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityRole'
-              }
+            serializedName: "EntityRoleElementType",
+            type: {
+              name: "Composite",
+              className: "EntityRole"
+            }
           }
         }
       }
@@ -2521,52 +2186,22 @@ export const CustomPrebuiltModel = {
 };
 
 export const IntentClassifier = {
-  required: false,
-  serializedName: 'Intent Classifier',
+  serializedName: "Intent Classifier",
   type: {
-    name: 'Composite',
-    className: 'IntentClassifier',
+    name: "Composite",
+    className: "IntentClassifier",
     modelProperties: {
-      id: {
-        required: true,
-        serializedName: 'id',
-        type: {
-          name: 'String'
-        }
-      },
-      name: {
-        required: false,
-        serializedName: 'name',
-        type: {
-          name: 'String'
-        }
-      },
-      typeId: {
-        required: false,
-        serializedName: 'typeId',
-        type: {
-          name: 'Number'
-        }
-      },
-      readableType: {
-        required: true,
-        serializedName: 'readableType',
-        type: {
-          name: 'String'
-        }
-      },
+      ...ModelInfo.type.modelProperties,
       customPrebuiltDomainName: {
-        required: false,
-        serializedName: 'customPrebuiltDomainName',
+        serializedName: "customPrebuiltDomainName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       customPrebuiltModelName: {
-        required: false,
-        serializedName: 'customPrebuiltModelName',
+        serializedName: "customPrebuiltModelName",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -2574,67 +2209,60 @@ export const IntentClassifier = {
 };
 
 export const EntityExtractor = {
-  required: false,
-  serializedName: 'Entity Extractor',
+  serializedName: "Entity Extractor",
   type: {
-    name: 'Composite',
-    className: 'EntityExtractor',
+    name: "Composite",
+    className: "EntityExtractor",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
         required: true,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityRoleElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityRole'
-              }
+            serializedName: "EntityRoleElementType",
+            type: {
+              name: "Composite",
+              className: "EntityRole"
+            }
           }
         }
       },
       customPrebuiltDomainName: {
-        required: false,
-        serializedName: 'customPrebuiltDomainName',
+        serializedName: "customPrebuiltDomainName",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       customPrebuiltModelName: {
-        required: false,
-        serializedName: 'customPrebuiltModelName',
+        serializedName: "customPrebuiltModelName",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -2642,31 +2270,27 @@ export const EntityExtractor = {
 };
 
 export const FeatureInfoObject = {
-  required: false,
-  serializedName: 'FeatureInfoObject',
+  serializedName: "FeatureInfoObject",
   type: {
-    name: 'Composite',
-    className: 'FeatureInfoObject',
+    name: "Composite",
+    className: "FeatureInfoObject",
     modelProperties: {
       id: {
-        required: false,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       isActive: {
-        required: false,
-        serializedName: 'isActive',
+        serializedName: "isActive",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -2674,45 +2298,22 @@ export const FeatureInfoObject = {
 };
 
 export const PhraseListFeatureInfo = {
-  required: false,
-  serializedName: 'PhraseListFeatureInfo',
+  serializedName: "PhraseListFeatureInfo",
   type: {
-    name: 'Composite',
-    className: 'PhraseListFeatureInfo',
+    name: "Composite",
+    className: "PhraseListFeatureInfo",
     modelProperties: {
-      id: {
-        required: false,
-        serializedName: 'id',
-        type: {
-          name: 'Number'
-        }
-      },
-      name: {
-        required: false,
-        serializedName: 'name',
-        type: {
-          name: 'String'
-        }
-      },
-      isActive: {
-        required: false,
-        serializedName: 'isActive',
-        type: {
-          name: 'Boolean'
-        }
-      },
+      ...FeatureInfoObject.type.modelProperties,
       phrases: {
-        required: false,
-        serializedName: 'phrases',
+        serializedName: "phrases",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       isExchangeable: {
-        required: false,
-        serializedName: 'isExchangeable',
+        serializedName: "isExchangeable",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -2720,38 +2321,16 @@ export const PhraseListFeatureInfo = {
 };
 
 export const PatternFeatureInfo = {
-  required: false,
-  serializedName: 'PatternFeatureInfo',
+  serializedName: "PatternFeatureInfo",
   type: {
-    name: 'Composite',
-    className: 'PatternFeatureInfo',
+    name: "Composite",
+    className: "PatternFeatureInfo",
     modelProperties: {
-      id: {
-        required: false,
-        serializedName: 'id',
-        type: {
-          name: 'Number'
-        }
-      },
-      name: {
-        required: false,
-        serializedName: 'name',
-        type: {
-          name: 'String'
-        }
-      },
-      isActive: {
-        required: false,
-        serializedName: 'isActive',
-        type: {
-          name: 'Boolean'
-        }
-      },
+      ...FeatureInfoObject.type.modelProperties,
       pattern: {
-        required: false,
-        serializedName: 'pattern',
+        serializedName: "pattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -2759,39 +2338,34 @@ export const PatternFeatureInfo = {
 };
 
 export const FeaturesResponseObject = {
-  required: false,
-  serializedName: 'FeaturesResponseObject',
+  serializedName: "FeaturesResponseObject",
   type: {
-    name: 'Composite',
-    className: 'FeaturesResponseObject',
+    name: "Composite",
+    className: "FeaturesResponseObject",
     modelProperties: {
       phraselistFeatures: {
-        required: false,
-        serializedName: 'phraselistFeatures',
+        serializedName: "phraselistFeatures",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'PhraseListFeatureInfoElementType',
-              type: {
-                name: 'Composite',
-                className: 'PhraseListFeatureInfo'
-              }
+            serializedName: "PhraseListFeatureInfoElementType",
+            type: {
+              name: "Composite",
+              className: "PhraseListFeatureInfo"
+            }
           }
         }
       },
       patternFeatures: {
-        required: false,
-        serializedName: 'patternFeatures',
+        serializedName: "patternFeatures",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'PatternFeatureInfoElementType',
-              type: {
-                name: 'Composite',
-                className: 'PatternFeatureInfo'
-              }
+            serializedName: "PatternFeatureInfoElementType",
+            type: {
+              name: "Composite",
+              className: "PatternFeatureInfo"
+            }
           }
         }
       }
@@ -2800,24 +2374,21 @@ export const FeaturesResponseObject = {
 };
 
 export const LabelExampleResponse = {
-  required: false,
-  serializedName: 'LabelExampleResponse',
+  serializedName: "LabelExampleResponse",
   type: {
-    name: 'Composite',
-    className: 'LabelExampleResponse',
+    name: "Composite",
+    className: "LabelExampleResponse",
     modelProperties: {
       utteranceText: {
-        required: false,
-        serializedName: 'UtteranceText',
+        serializedName: "UtteranceText",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       exampleId: {
-        required: false,
-        serializedName: 'ExampleId',
+        serializedName: "ExampleId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -2825,24 +2396,21 @@ export const LabelExampleResponse = {
 };
 
 export const OperationStatus = {
-  required: false,
-  serializedName: 'OperationStatus',
+  serializedName: "OperationStatus",
   type: {
-    name: 'Composite',
-    className: 'OperationStatus',
+    name: "Composite",
+    className: "OperationStatus",
     modelProperties: {
       code: {
-        required: false,
-        serializedName: 'code',
+        serializedName: "code",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       message: {
-        required: false,
-        serializedName: 'message',
+        serializedName: "message",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -2850,33 +2418,29 @@ export const OperationStatus = {
 };
 
 export const BatchLabelExample = {
-  required: false,
-  serializedName: 'BatchLabelExample',
+  serializedName: "BatchLabelExample",
   type: {
-    name: 'Composite',
-    className: 'BatchLabelExample',
+    name: "Composite",
+    className: "BatchLabelExample",
     modelProperties: {
       value: {
-        required: false,
-        serializedName: 'value',
+        serializedName: "value",
         type: {
-          name: 'Composite',
-          className: 'LabelExampleResponse'
+          name: "Composite",
+          className: "LabelExampleResponse"
         }
       },
       hasError: {
-        required: false,
-        serializedName: 'hasError',
+        serializedName: "hasError",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       },
       error: {
-        required: false,
-        serializedName: 'error',
+        serializedName: "error",
         type: {
-          name: 'Composite',
-          className: 'OperationStatus'
+          name: "Composite",
+          className: "OperationStatus"
         }
       }
     }
@@ -2884,87 +2448,75 @@ export const BatchLabelExample = {
 };
 
 export const ApplicationInfoResponse = {
-  required: false,
-  serializedName: 'ApplicationInfoResponse',
+  serializedName: "ApplicationInfoResponse",
   type: {
-    name: 'Composite',
-    className: 'ApplicationInfoResponse',
+    name: "Composite",
+    className: "ApplicationInfoResponse",
     modelProperties: {
       id: {
-        required: false,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       description: {
-        required: false,
-        serializedName: 'description',
+        serializedName: "description",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       culture: {
-        required: false,
-        serializedName: 'culture',
+        serializedName: "culture",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       usageScenario: {
-        required: false,
-        serializedName: 'usageScenario',
+        serializedName: "usageScenario",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       domain: {
-        required: false,
-        serializedName: 'domain',
+        serializedName: "domain",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       versionsCount: {
-        required: false,
-        serializedName: 'versionsCount',
+        serializedName: "versionsCount",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       createdDateTime: {
-        required: false,
-        serializedName: 'createdDateTime',
+        serializedName: "createdDateTime",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       endpoints: {
-        required: false,
-        serializedName: 'endpoints',
+        serializedName: "endpoints",
         type: {
-          name: 'Object'
+          name: "Object"
         }
       },
       endpointHitsCount: {
-        required: false,
-        serializedName: 'endpointHitsCount',
+        serializedName: "endpointHitsCount",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       activeVersion: {
-        required: false,
-        serializedName: 'activeVersion',
+        serializedName: "activeVersion",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -2972,59 +2524,51 @@ export const ApplicationInfoResponse = {
 };
 
 export const EndpointInfo = {
-  required: false,
-  serializedName: 'EndpointInfo',
+  serializedName: "EndpointInfo",
   type: {
-    name: 'Composite',
-    className: 'EndpointInfo',
+    name: "Composite",
+    className: "EndpointInfo",
     modelProperties: {
       versionId: {
-        required: false,
-        serializedName: 'versionId',
+        serializedName: "versionId",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       isStaging: {
-        required: false,
-        serializedName: 'isStaging',
+        serializedName: "isStaging",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       },
       endpointUrl: {
-        required: false,
-        serializedName: 'endpointUrl',
+        serializedName: "endpointUrl",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       region: {
-        required: false,
-        serializedName: 'region',
+        serializedName: "region",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       assignedEndpointKey: {
-        required: false,
-        serializedName: 'assignedEndpointKey',
+        serializedName: "assignedEndpointKey",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       endpointRegion: {
-        required: false,
-        serializedName: 'endpointRegion',
+        serializedName: "endpointRegion",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       publishedDateTime: {
-        required: false,
-        serializedName: 'publishedDateTime',
+        serializedName: "publishedDateTime",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3032,84 +2576,32 @@ export const EndpointInfo = {
 };
 
 export const ProductionOrStagingEndpointInfo = {
-  required: false,
-  serializedName: 'ProductionOrStagingEndpointInfo',
+  serializedName: "ProductionOrStagingEndpointInfo",
   type: {
-    name: 'Composite',
-    className: 'ProductionOrStagingEndpointInfo',
+    name: "Composite",
+    className: "ProductionOrStagingEndpointInfo",
     modelProperties: {
-      versionId: {
-        required: false,
-        serializedName: 'versionId',
-        type: {
-          name: 'String'
-        }
-      },
-      isStaging: {
-        required: false,
-        serializedName: 'isStaging',
-        type: {
-          name: 'Boolean'
-        }
-      },
-      endpointUrl: {
-        required: false,
-        serializedName: 'endpointUrl',
-        type: {
-          name: 'String'
-        }
-      },
-      region: {
-        required: false,
-        serializedName: 'region',
-        type: {
-          name: 'String'
-        }
-      },
-      assignedEndpointKey: {
-        required: false,
-        serializedName: 'assignedEndpointKey',
-        type: {
-          name: 'String'
-        }
-      },
-      endpointRegion: {
-        required: false,
-        serializedName: 'endpointRegion',
-        type: {
-          name: 'String'
-        }
-      },
-      publishedDateTime: {
-        required: false,
-        serializedName: 'publishedDateTime',
-        type: {
-          name: 'String'
-        }
-      }
+      ...EndpointInfo.type.modelProperties
     }
   }
 };
 
 export const AvailableCulture = {
-  required: false,
-  serializedName: 'AvailableCulture',
+  serializedName: "AvailableCulture",
   type: {
-    name: 'Composite',
-    className: 'AvailableCulture',
+    name: "Composite",
+    className: "AvailableCulture",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       code: {
-        required: false,
-        serializedName: 'code',
+        serializedName: "code",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3117,24 +2609,23 @@ export const AvailableCulture = {
 };
 
 export const ApplicationSettings = {
-  required: false,
-  serializedName: 'ApplicationSettings',
+  serializedName: "ApplicationSettings",
   type: {
-    name: 'Composite',
-    className: 'ApplicationSettings',
+    name: "Composite",
+    className: "ApplicationSettings",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       isPublic: {
         required: true,
-        serializedName: 'public',
+        serializedName: "public",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -3142,38 +2633,37 @@ export const ApplicationSettings = {
 };
 
 export const PublishSettings = {
-  required: false,
-  serializedName: 'PublishSettings',
+  serializedName: "PublishSettings",
   type: {
-    name: 'Composite',
-    className: 'PublishSettings',
+    name: "Composite",
+    className: "PublishSettings",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       isSentimentAnalysisEnabled: {
         required: true,
-        serializedName: 'sentimentAnalysis',
+        serializedName: "sentimentAnalysis",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       },
       isSpeechEnabled: {
         required: true,
-        serializedName: 'speech',
+        serializedName: "speech",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       },
       isSpellCheckerEnabled: {
         required: true,
-        serializedName: 'spellChecker',
+        serializedName: "spellChecker",
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -3181,31 +2671,27 @@ export const PublishSettings = {
 };
 
 export const AvailablePrebuiltEntityModel = {
-  required: false,
-  serializedName: 'AvailablePrebuiltEntityModel',
+  serializedName: "AvailablePrebuiltEntityModel",
   type: {
-    name: 'Composite',
-    className: 'AvailablePrebuiltEntityModel',
+    name: "Composite",
+    className: "AvailablePrebuiltEntityModel",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       description: {
-        required: false,
-        serializedName: 'description',
+        serializedName: "description",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       examples: {
-        required: false,
-        serializedName: 'examples',
+        serializedName: "examples",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3213,24 +2699,21 @@ export const AvailablePrebuiltEntityModel = {
 };
 
 export const EnqueueTrainingResponse = {
-  required: false,
-  serializedName: 'EnqueueTrainingResponse',
+  serializedName: "EnqueueTrainingResponse",
   type: {
-    name: 'Composite',
-    className: 'EnqueueTrainingResponse',
+    name: "Composite",
+    className: "EnqueueTrainingResponse",
     modelProperties: {
       statusId: {
-        required: false,
-        serializedName: 'statusId',
+        serializedName: "statusId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       status: {
-        required: false,
-        serializedName: 'status',
+        serializedName: "status",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3238,45 +2721,39 @@ export const EnqueueTrainingResponse = {
 };
 
 export const ModelTrainingDetails = {
-  required: false,
-  serializedName: 'ModelTrainingDetails',
+  serializedName: "ModelTrainingDetails",
   type: {
-    name: 'Composite',
-    className: 'ModelTrainingDetails',
+    name: "Composite",
+    className: "ModelTrainingDetails",
     modelProperties: {
       statusId: {
-        required: false,
-        serializedName: 'statusId',
+        serializedName: "statusId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       status: {
-        required: false,
-        serializedName: 'status',
+        serializedName: "status",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       exampleCount: {
-        required: false,
-        serializedName: 'exampleCount',
+        serializedName: "exampleCount",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       trainingDateTime: {
-        required: false,
-        serializedName: 'trainingDateTime',
+        serializedName: "trainingDateTime",
         type: {
-          name: 'DateTime'
+          name: "DateTime"
         }
       },
       failureReason: {
-        required: false,
-        serializedName: 'failureReason',
+        serializedName: "failureReason",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3284,25 +2761,22 @@ export const ModelTrainingDetails = {
 };
 
 export const ModelTrainingInfo = {
-  required: false,
-  serializedName: 'ModelTrainingInfo',
+  serializedName: "ModelTrainingInfo",
   type: {
-    name: 'Composite',
-    className: 'ModelTrainingInfo',
+    name: "Composite",
+    className: "ModelTrainingInfo",
     modelProperties: {
       modelId: {
-        required: false,
-        serializedName: 'modelId',
+        serializedName: "modelId",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       details: {
-        required: false,
-        serializedName: 'details',
+        serializedName: "details",
         type: {
-          name: 'Composite',
-          className: 'ModelTrainingDetails'
+          name: "Composite",
+          className: "ModelTrainingDetails"
         }
       }
     }
@@ -3310,30 +2784,26 @@ export const ModelTrainingInfo = {
 };
 
 export const UserAccessList = {
-  required: false,
-  serializedName: 'UserAccessList',
+  serializedName: "UserAccessList",
   type: {
-    name: 'Composite',
-    className: 'UserAccessList',
+    name: "Composite",
+    className: "UserAccessList",
     modelProperties: {
       owner: {
-        required: false,
-        serializedName: 'owner',
+        serializedName: "owner",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       emails: {
-        required: false,
-        serializedName: 'emails',
+        serializedName: "emails",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -3342,17 +2812,15 @@ export const UserAccessList = {
 };
 
 export const UserCollaborator = {
-  required: false,
-  serializedName: 'UserCollaborator',
+  serializedName: "UserCollaborator",
   type: {
-    name: 'Composite',
-    className: 'UserCollaborator',
+    name: "Composite",
+    className: "UserCollaborator",
     modelProperties: {
       email: {
-        required: false,
-        serializedName: 'email',
+        serializedName: "email",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3360,23 +2828,20 @@ export const UserCollaborator = {
 };
 
 export const CollaboratorsArray = {
-  required: false,
-  serializedName: 'CollaboratorsArray',
+  serializedName: "CollaboratorsArray",
   type: {
-    name: 'Composite',
-    className: 'CollaboratorsArray',
+    name: "Composite",
+    className: "CollaboratorsArray",
     modelProperties: {
       emails: {
-        required: false,
-        serializedName: 'emails',
+        serializedName: "emails",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -3385,30 +2850,26 @@ export const CollaboratorsArray = {
 };
 
 export const ErrorResponse = {
-  required: false,
-  serializedName: 'ErrorResponse',
+  serializedName: "ErrorResponse",
   type: {
-    name: 'Composite',
-    className: 'ErrorResponse',
+    name: "Composite",
+    className: "ErrorResponse",
     modelProperties: {
       additionalProperties: {
-        required: false,
         type: {
-          name: 'Dictionary',
+          name: "Dictionary",
           value: {
-              required: false,
-              serializedName: 'ObjectElementType',
-              type: {
-                name: 'Object'
-              }
+            serializedName: "ObjectElementType",
+            type: {
+              name: "Object"
+            }
           }
         }
       },
       errorType: {
-        required: false,
-        serializedName: 'errorType',
+        serializedName: "errorType",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3416,24 +2877,21 @@ export const ErrorResponse = {
 };
 
 export const OperationError = {
-  required: false,
-  serializedName: 'OperationError',
+  serializedName: "OperationError",
   type: {
-    name: 'Composite',
-    className: 'OperationError',
+    name: "Composite",
+    className: "OperationError",
     modelProperties: {
       code: {
-        required: false,
-        serializedName: 'code',
+        serializedName: "code",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       message: {
-        required: false,
-        serializedName: 'message',
+        serializedName: "message",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3441,31 +2899,27 @@ export const OperationError = {
 };
 
 export const PrebuiltDomainItem = {
-  required: false,
-  serializedName: 'PrebuiltDomainItem',
+  serializedName: "PrebuiltDomainItem",
   type: {
-    name: 'Composite',
-    className: 'PrebuiltDomainItem',
+    name: "Composite",
+    className: "PrebuiltDomainItem",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       description: {
-        required: false,
-        serializedName: 'description',
+        serializedName: "description",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       examples: {
-        required: false,
-        serializedName: 'examples',
+        serializedName: "examples",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3473,67 +2927,58 @@ export const PrebuiltDomainItem = {
 };
 
 export const PrebuiltDomain = {
-  required: false,
-  serializedName: 'PrebuiltDomain',
+  serializedName: "PrebuiltDomain",
   type: {
-    name: 'Composite',
-    className: 'PrebuiltDomain',
+    name: "Composite",
+    className: "PrebuiltDomain",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       culture: {
-        required: false,
-        serializedName: 'culture',
+        serializedName: "culture",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       description: {
-        required: false,
-        serializedName: 'description',
+        serializedName: "description",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       examples: {
-        required: false,
-        serializedName: 'examples',
+        serializedName: "examples",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       intents: {
-        required: false,
-        serializedName: 'intents',
+        serializedName: "intents",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'PrebuiltDomainItemElementType',
-              type: {
-                name: 'Composite',
-                className: 'PrebuiltDomainItem'
-              }
+            serializedName: "PrebuiltDomainItemElementType",
+            type: {
+              name: "Composite",
+              className: "PrebuiltDomainItem"
+            }
           }
         }
       },
       entities: {
-        required: false,
-        serializedName: 'entities',
+        serializedName: "entities",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'PrebuiltDomainItemElementType',
-              type: {
-                name: 'Composite',
-                className: 'PrebuiltDomainItem'
-              }
+            serializedName: "PrebuiltDomainItemElementType",
+            type: {
+              name: "Composite",
+              className: "PrebuiltDomainItem"
+            }
           }
         }
       }
@@ -3542,17 +2987,15 @@ export const PrebuiltDomain = {
 };
 
 export const EntityRoleCreateObject = {
-  required: false,
-  serializedName: 'EntityRoleCreateObject',
+  serializedName: "EntityRoleCreateObject",
   type: {
-    name: 'Composite',
-    className: 'EntityRoleCreateObject',
+    name: "Composite",
+    className: "EntityRoleCreateObject",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3560,24 +3003,21 @@ export const EntityRoleCreateObject = {
 };
 
 export const RegexModelCreateObject = {
-  required: false,
-  serializedName: 'RegexModelCreateObject',
+  serializedName: "RegexModelCreateObject",
   type: {
-    name: 'Composite',
-    className: 'RegexModelCreateObject',
+    name: "Composite",
+    className: "RegexModelCreateObject",
     modelProperties: {
       regexPattern: {
-        required: false,
-        serializedName: 'regexPattern',
+        serializedName: "regexPattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3585,30 +3025,26 @@ export const RegexModelCreateObject = {
 };
 
 export const PatternAnyModelCreateObject = {
-  required: false,
-  serializedName: 'PatternAnyModelCreateObject',
+  serializedName: "PatternAnyModelCreateObject",
   type: {
-    name: 'Composite',
-    className: 'PatternAnyModelCreateObject',
+    name: "Composite",
+    className: "PatternAnyModelCreateObject",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       explicitList: {
-        required: false,
-        serializedName: 'explicitList',
+        serializedName: "explicitList",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -3617,17 +3053,15 @@ export const PatternAnyModelCreateObject = {
 };
 
 export const ExplicitListItemCreateObject = {
-  required: false,
-  serializedName: 'ExplicitListItemCreateObject',
+  serializedName: "ExplicitListItemCreateObject",
   type: {
-    name: 'Composite',
-    className: 'ExplicitListItemCreateObject',
+    name: "Composite",
+    className: "ExplicitListItemCreateObject",
     modelProperties: {
       explicitListItem: {
-        required: false,
-        serializedName: 'explicitListItem',
+        serializedName: "explicitListItem",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3635,24 +3069,21 @@ export const ExplicitListItemCreateObject = {
 };
 
 export const RegexModelUpdateObject = {
-  required: false,
-  serializedName: 'RegexModelUpdateObject',
+  serializedName: "RegexModelUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'RegexModelUpdateObject',
+    name: "Composite",
+    className: "RegexModelUpdateObject",
     modelProperties: {
       regexPattern: {
-        required: false,
-        serializedName: 'regexPattern',
+        serializedName: "regexPattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3660,30 +3091,26 @@ export const RegexModelUpdateObject = {
 };
 
 export const PatternAnyModelUpdateObject = {
-  required: false,
-  serializedName: 'PatternAnyModelUpdateObject',
+  serializedName: "PatternAnyModelUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'PatternAnyModelUpdateObject',
+    name: "Composite",
+    className: "PatternAnyModelUpdateObject",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       explicitList: {
-        required: false,
-        serializedName: 'explicitList',
+        serializedName: "explicitList",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'stringElementType',
-              type: {
-                name: 'String'
-              }
+            serializedName: "stringElementType",
+            type: {
+              name: "String"
+            }
           }
         }
       }
@@ -3692,17 +3119,15 @@ export const PatternAnyModelUpdateObject = {
 };
 
 export const EntityRoleUpdateObject = {
-  required: false,
-  serializedName: 'EntityRoleUpdateObject',
+  serializedName: "EntityRoleUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'EntityRoleUpdateObject',
+    name: "Composite",
+    className: "EntityRoleUpdateObject",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3710,17 +3135,15 @@ export const EntityRoleUpdateObject = {
 };
 
 export const ExplicitListItemUpdateObject = {
-  required: false,
-  serializedName: 'ExplicitListItemUpdateObject',
+  serializedName: "ExplicitListItemUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'ExplicitListItemUpdateObject',
+    name: "Composite",
+    className: "ExplicitListItemUpdateObject",
     modelProperties: {
       explicitListItem: {
-        required: false,
-        serializedName: 'explicitListItem',
+        serializedName: "explicitListItem",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3728,24 +3151,21 @@ export const ExplicitListItemUpdateObject = {
 };
 
 export const PatternRuleCreateObject = {
-  required: false,
-  serializedName: 'PatternRuleCreateObject',
+  serializedName: "PatternRuleCreateObject",
   type: {
-    name: 'Composite',
-    className: 'PatternRuleCreateObject',
+    name: "Composite",
+    className: "PatternRuleCreateObject",
     modelProperties: {
       pattern: {
-        required: false,
-        serializedName: 'pattern',
+        serializedName: "pattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       intent: {
-        required: false,
-        serializedName: 'intent',
+        serializedName: "intent",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3753,31 +3173,27 @@ export const PatternRuleCreateObject = {
 };
 
 export const PatternRuleUpdateObject = {
-  required: false,
-  serializedName: 'PatternRuleUpdateObject',
+  serializedName: "PatternRuleUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'PatternRuleUpdateObject',
+    name: "Composite",
+    className: "PatternRuleUpdateObject",
     modelProperties: {
       id: {
-        required: false,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       pattern: {
-        required: false,
-        serializedName: 'pattern',
+        serializedName: "pattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       intent: {
-        required: false,
-        serializedName: 'intent',
+        serializedName: "intent",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3785,60 +3201,54 @@ export const PatternRuleUpdateObject = {
 };
 
 export const RegexEntityExtractor = {
-  required: false,
-  serializedName: 'Regex Entity Extractor',
+  serializedName: "Regex Entity Extractor",
   type: {
-    name: 'Composite',
-    className: 'RegexEntityExtractor',
+    name: "Composite",
+    className: "RegexEntityExtractor",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
         required: true,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityRoleElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityRole'
-              }
+            serializedName: "EntityRoleElementType",
+            type: {
+              name: "Composite",
+              className: "EntityRole"
+            }
           }
         }
       },
       regexPattern: {
-        required: false,
-        serializedName: 'regexPattern',
+        serializedName: "regexPattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3846,67 +3256,60 @@ export const RegexEntityExtractor = {
 };
 
 export const PatternAnyEntityExtractor = {
-  required: false,
-  serializedName: 'Pattern.Any Entity Extractor',
+  serializedName: "Pattern.Any Entity Extractor",
   type: {
-    name: 'Composite',
-    className: 'PatternAnyEntityExtractor',
+    name: "Composite",
+    className: "PatternAnyEntityExtractor",
     modelProperties: {
       id: {
         required: true,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       typeId: {
-        required: false,
-        serializedName: 'typeId',
+        serializedName: "typeId",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       readableType: {
         required: true,
-        serializedName: 'readableType',
+        serializedName: "readableType",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       roles: {
-        required: false,
-        serializedName: 'roles',
+        serializedName: "roles",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'EntityRoleElementType',
-              type: {
-                name: 'Composite',
-                className: 'EntityRole'
-              }
+            serializedName: "EntityRoleElementType",
+            type: {
+              name: "Composite",
+              className: "EntityRole"
+            }
           }
         }
       },
       explicitList: {
-        required: false,
-        serializedName: 'explicitList',
+        serializedName: "explicitList",
         type: {
-          name: 'Sequence',
+          name: "Sequence",
           element: {
-              required: false,
-              serializedName: 'ExplicitListItemElementType',
-              type: {
-                name: 'Composite',
-                className: 'ExplicitListItem'
-              }
+            serializedName: "ExplicitListItemElementType",
+            type: {
+              name: "Composite",
+              className: "ExplicitListItem"
+            }
           }
         }
       }
@@ -3915,31 +3318,27 @@ export const PatternAnyEntityExtractor = {
 };
 
 export const PatternRuleInfo = {
-  required: false,
-  serializedName: 'PatternRuleInfo',
+  serializedName: "PatternRuleInfo",
   type: {
-    name: 'Composite',
-    className: 'PatternRuleInfo',
+    name: "Composite",
+    className: "PatternRuleInfo",
     modelProperties: {
       id: {
-        required: false,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'String'
+          name: "Uuid"
         }
       },
       pattern: {
-        required: false,
-        serializedName: 'pattern',
+        serializedName: "pattern",
         type: {
-          name: 'String'
+          name: "String"
         }
       },
       intent: {
-        required: false,
-        serializedName: 'intent',
+        serializedName: "intent",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3947,24 +3346,21 @@ export const PatternRuleInfo = {
 };
 
 export const LabelTextObject = {
-  required: false,
-  serializedName: 'LabelTextObject',
+  serializedName: "LabelTextObject",
   type: {
-    name: 'Composite',
-    className: 'LabelTextObject',
+    name: "Composite",
+    className: "LabelTextObject",
     modelProperties: {
       id: {
-        required: false,
-        serializedName: 'id',
+        serializedName: "id",
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       text: {
-        required: false,
-        serializedName: 'text',
+        serializedName: "text",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3972,17 +3368,15 @@ export const LabelTextObject = {
 };
 
 export const HierarchicalChildModelUpdateObject = {
-  required: false,
-  serializedName: 'hierarchicalChildModelUpdateObject',
+  serializedName: "hierarchicalChildModelUpdateObject",
   type: {
-    name: 'Composite',
-    className: 'HierarchicalChildModelUpdateObject',
+    name: "Composite",
+    className: "HierarchicalChildModelUpdateObject",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -3990,17 +3384,15 @@ export const HierarchicalChildModelUpdateObject = {
 };
 
 export const HierarchicalChildModelCreateObject = {
-  required: false,
-  serializedName: 'hierarchicalChildModelCreateObject',
+  serializedName: "hierarchicalChildModelCreateObject",
   type: {
-    name: 'Composite',
-    className: 'HierarchicalChildModelCreateObject',
+    name: "Composite",
+    className: "HierarchicalChildModelCreateObject",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -4008,17 +3400,15 @@ export const HierarchicalChildModelCreateObject = {
 };
 
 export const CompositeChildModelCreateObject = {
-  required: false,
-  serializedName: 'compositeChildModelCreateObject',
+  serializedName: "compositeChildModelCreateObject",
   type: {
-    name: 'Composite',
-    className: 'CompositeChildModelCreateObject',
+    name: "Composite",
+    className: "CompositeChildModelCreateObject",
     modelProperties: {
       name: {
-        required: false,
-        serializedName: 'name',
+        serializedName: "name",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -4026,33 +3416,30 @@ export const CompositeChildModelCreateObject = {
 };
 
 export const FeaturesGetApplicationVersionPatternFeaturesOptionalParams = {
-  required: false,
-  serializedName: 'GetApplicationVersionPatternFeaturesOptions',
+  serializedName: "GetApplicationVersionPatternFeaturesOptions",
   type: {
-    name: 'Composite',
-    className: 'FeaturesGetApplicationVersionPatternFeaturesOptionalParams',
+    name: "Composite",
+    className: "FeaturesGetApplicationVersionPatternFeaturesOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4060,33 +3447,30 @@ export const FeaturesGetApplicationVersionPatternFeaturesOptionalParams = {
 };
 
 export const FeaturesListPhraseListsOptionalParams = {
-  required: false,
-  serializedName: 'ListPhraseListsOptions',
+  serializedName: "ListPhraseListsOptions",
   type: {
-    name: 'Composite',
-    className: 'FeaturesListPhraseListsOptionalParams',
+    name: "Composite",
+    className: "FeaturesListPhraseListsOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4094,33 +3478,30 @@ export const FeaturesListPhraseListsOptionalParams = {
 };
 
 export const FeaturesListOptionalParams = {
-  required: false,
-  serializedName: 'ListOptions',
+  serializedName: "ListOptions",
   type: {
-    name: 'Composite',
-    className: 'FeaturesListOptionalParams',
+    name: "Composite",
+    className: "FeaturesListOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4128,18 +3509,16 @@ export const FeaturesListOptionalParams = {
 };
 
 export const FeaturesUpdatePhraseListOptionalParams = {
-  required: false,
-  serializedName: 'UpdatePhraseListOptions',
+  serializedName: "UpdatePhraseListOptions",
   type: {
-    name: 'Composite',
-    className: 'FeaturesUpdatePhraseListOptionalParams',
+    name: "Composite",
+    className: "FeaturesUpdatePhraseListOptionalParams",
     modelProperties: {
       phraselistUpdateObject: {
-        required: false,
-        serializedName: 'phraselistUpdateObject',
+        serializedName: "phraselistUpdateObject",
         type: {
-          name: 'Composite',
-          className: 'PhraselistUpdateObject'
+          name: "Composite",
+          className: "PhraselistUpdateObject"
         }
       }
     }
@@ -4147,33 +3526,30 @@ export const FeaturesUpdatePhraseListOptionalParams = {
 };
 
 export const ExamplesListOptionalParams = {
-  required: false,
-  serializedName: 'ListOptions',
+  serializedName: "ListOptions",
   type: {
-    name: 'Composite',
-    className: 'ExamplesListOptionalParams',
+    name: "Composite",
+    className: "ExamplesListOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4181,33 +3557,30 @@ export const ExamplesListOptionalParams = {
 };
 
 export const ModelListIntentsOptionalParams = {
-  required: false,
-  serializedName: 'ListIntentsOptions',
+  serializedName: "ListIntentsOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelListIntentsOptionalParams',
+    name: "Composite",
+    className: "ModelListIntentsOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4215,33 +3588,30 @@ export const ModelListIntentsOptionalParams = {
 };
 
 export const ModelListEntitiesOptionalParams = {
-  required: false,
-  serializedName: 'ListEntitiesOptions',
+  serializedName: "ListEntitiesOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelListEntitiesOptionalParams',
+    name: "Composite",
+    className: "ModelListEntitiesOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4249,33 +3619,30 @@ export const ModelListEntitiesOptionalParams = {
 };
 
 export const ModelListHierarchicalEntitiesOptionalParams = {
-  required: false,
-  serializedName: 'ListHierarchicalEntitiesOptions',
+  serializedName: "ListHierarchicalEntitiesOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelListHierarchicalEntitiesOptionalParams',
+    name: "Composite",
+    className: "ModelListHierarchicalEntitiesOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4283,33 +3650,30 @@ export const ModelListHierarchicalEntitiesOptionalParams = {
 };
 
 export const ModelListCompositeEntitiesOptionalParams = {
-  required: false,
-  serializedName: 'ListCompositeEntitiesOptions',
+  serializedName: "ListCompositeEntitiesOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelListCompositeEntitiesOptionalParams',
+    name: "Composite",
+    className: "ModelListCompositeEntitiesOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4317,33 +3681,30 @@ export const ModelListCompositeEntitiesOptionalParams = {
 };
 
 export const ModelListClosedListsOptionalParams = {
-  required: false,
-  serializedName: 'ListClosedListsOptions',
+  serializedName: "ListClosedListsOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelListClosedListsOptionalParams',
+    name: "Composite",
+    className: "ModelListClosedListsOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4351,33 +3712,30 @@ export const ModelListClosedListsOptionalParams = {
 };
 
 export const ModelListPrebuiltsOptionalParams = {
-  required: false,
-  serializedName: 'ListPrebuiltsOptions',
+  serializedName: "ListPrebuiltsOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelListPrebuiltsOptionalParams',
+    name: "Composite",
+    className: "ModelListPrebuiltsOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4385,33 +3743,30 @@ export const ModelListPrebuiltsOptionalParams = {
 };
 
 export const ModelListModelsOptionalParams = {
-  required: false,
-  serializedName: 'ListModelsOptions',
+  serializedName: "ListModelsOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelListModelsOptionalParams',
+    name: "Composite",
+    className: "ModelListModelsOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4419,33 +3774,30 @@ export const ModelListModelsOptionalParams = {
 };
 
 export const ModelExamplesMethodOptionalParams = {
-  required: false,
-  serializedName: 'ExamplesMethodOptions',
+  serializedName: "ExamplesMethodOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelExamplesMethodOptionalParams',
+    name: "Composite",
+    className: "ModelExamplesMethodOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4453,18 +3805,16 @@ export const ModelExamplesMethodOptionalParams = {
 };
 
 export const ModelDeleteIntentOptionalParams = {
-  required: false,
-  serializedName: 'DeleteIntentOptions',
+  serializedName: "DeleteIntentOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelDeleteIntentOptionalParams',
+    name: "Composite",
+    className: "ModelDeleteIntentOptionalParams",
     modelProperties: {
       deleteUtterances: {
-        required: false,
-        serializedName: 'deleteUtterances',
+        serializedName: "deleteUtterances",
         defaultValue: false,
         type: {
-          name: 'Boolean'
+          name: "Boolean"
         }
       }
     }
@@ -4472,22 +3822,20 @@ export const ModelDeleteIntentOptionalParams = {
 };
 
 export const ModelGetIntentSuggestionsOptionalParams = {
-  required: false,
-  serializedName: 'GetIntentSuggestionsOptions',
+  serializedName: "GetIntentSuggestionsOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelGetIntentSuggestionsOptionalParams',
+    name: "Composite",
+    className: "ModelGetIntentSuggestionsOptionalParams",
     modelProperties: {
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4495,22 +3843,20 @@ export const ModelGetIntentSuggestionsOptionalParams = {
 };
 
 export const ModelGetEntitySuggestionsOptionalParams = {
-  required: false,
-  serializedName: 'GetEntitySuggestionsOptions',
+  serializedName: "GetEntitySuggestionsOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelGetEntitySuggestionsOptionalParams',
+    name: "Composite",
+    className: "ModelGetEntitySuggestionsOptionalParams",
     modelProperties: {
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4518,33 +3864,30 @@ export const ModelGetEntitySuggestionsOptionalParams = {
 };
 
 export const ModelGetRegexEntityInfosOptionalParams = {
-  required: false,
-  serializedName: 'GetRegexEntityInfosOptions',
+  serializedName: "GetRegexEntityInfosOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelGetRegexEntityInfosOptionalParams',
+    name: "Composite",
+    className: "ModelGetRegexEntityInfosOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4552,33 +3895,30 @@ export const ModelGetRegexEntityInfosOptionalParams = {
 };
 
 export const ModelGetPatternAnyEntityInfosOptionalParams = {
-  required: false,
-  serializedName: 'GetPatternAnyEntityInfosOptions',
+  serializedName: "GetPatternAnyEntityInfosOptions",
   type: {
-    name: 'Composite',
-    className: 'ModelGetPatternAnyEntityInfosOptionalParams',
+    name: "Composite",
+    className: "ModelGetPatternAnyEntityInfosOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4586,33 +3926,30 @@ export const ModelGetPatternAnyEntityInfosOptionalParams = {
 };
 
 export const AppsListOptionalParams = {
-  required: false,
-  serializedName: 'ListOptions',
+  serializedName: "ListOptions",
   type: {
-    name: 'Composite',
-    className: 'AppsListOptionalParams',
+    name: "Composite",
+    className: "AppsListOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4620,17 +3957,15 @@ export const AppsListOptionalParams = {
 };
 
 export const AppsImportMethodOptionalParams = {
-  required: false,
-  serializedName: 'ImportMethodOptions',
+  serializedName: "ImportMethodOptions",
   type: {
-    name: 'Composite',
-    className: 'AppsImportMethodOptionalParams',
+    name: "Composite",
+    className: "AppsImportMethodOptionalParams",
     modelProperties: {
       appName: {
-        required: false,
-        serializedName: 'appName',
+        serializedName: "appName",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -4638,18 +3973,16 @@ export const AppsImportMethodOptionalParams = {
 };
 
 export const VersionsCloneOptionalParams = {
-  required: false,
-  serializedName: 'CloneOptions',
+  serializedName: "CloneOptions",
   type: {
-    name: 'Composite',
-    className: 'VersionsCloneOptionalParams',
+    name: "Composite",
+    className: "VersionsCloneOptionalParams",
     modelProperties: {
       versionCloneObject: {
-        required: false,
-        serializedName: 'versionCloneObject',
+        serializedName: "versionCloneObject",
         type: {
-          name: 'Composite',
-          className: 'TaskUpdateObject'
+          name: "Composite",
+          className: "TaskUpdateObject"
         }
       }
     }
@@ -4657,33 +3990,30 @@ export const VersionsCloneOptionalParams = {
 };
 
 export const VersionsListOptionalParams = {
-  required: false,
-  serializedName: 'ListOptions',
+  serializedName: "ListOptions",
   type: {
-    name: 'Composite',
-    className: 'VersionsListOptionalParams',
+    name: "Composite",
+    className: "VersionsListOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4691,17 +4021,15 @@ export const VersionsListOptionalParams = {
 };
 
 export const VersionsImportMethodOptionalParams = {
-  required: false,
-  serializedName: 'ImportMethodOptions',
+  serializedName: "ImportMethodOptions",
   type: {
-    name: 'Composite',
-    className: 'VersionsImportMethodOptionalParams',
+    name: "Composite",
+    className: "VersionsImportMethodOptionalParams",
     modelProperties: {
       versionId: {
-        required: false,
-        serializedName: 'versionId',
+        serializedName: "versionId",
         type: {
-          name: 'String'
+          name: "String"
         }
       }
     }
@@ -4709,33 +4037,30 @@ export const VersionsImportMethodOptionalParams = {
 };
 
 export const PatternGetPatternsOptionalParams = {
-  required: false,
-  serializedName: 'GetPatternsOptions',
+  serializedName: "GetPatternsOptions",
   type: {
-    name: 'Composite',
-    className: 'PatternGetPatternsOptionalParams',
+    name: "Composite",
+    className: "PatternGetPatternsOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }
@@ -4743,33 +4068,30 @@ export const PatternGetPatternsOptionalParams = {
 };
 
 export const PatternGetIntentPatternsOptionalParams = {
-  required: false,
-  serializedName: 'GetIntentPatternsOptions',
+  serializedName: "GetIntentPatternsOptions",
   type: {
-    name: 'Composite',
-    className: 'PatternGetIntentPatternsOptionalParams',
+    name: "Composite",
+    className: "PatternGetIntentPatternsOptionalParams",
     modelProperties: {
       skip: {
-        required: false,
-        serializedName: 'skip',
+        serializedName: "skip",
         defaultValue: 0,
         constraints: {
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       },
       take: {
-        required: false,
-        serializedName: 'take',
+        serializedName: "take",
         defaultValue: 100,
         constraints: {
           InclusiveMaximum: 500,
           InclusiveMinimum: 0
         },
         type: {
-          name: 'Number'
+          name: "Number"
         }
       }
     }

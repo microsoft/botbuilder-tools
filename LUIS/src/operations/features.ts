@@ -6,648 +6,196 @@
 
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/mappers";
-import { LuisAuthoring } from "../luisAuthoring";
-
-const WebResource = msRest.WebResource;
+import * as Mappers from "../models/featuresMappers";
+import { LuisAuthoringContext } from "../luisAuthoringContext";
 
 /** Class representing a Features. */
 export class Features {
-  private readonly client: LuisAuthoring;
+  private readonly client: LuisAuthoringContext;
+
   /**
    * Create a Features.
-   * @param {LuisAuthoring} client Reference to the service client.
+   * @param {LuisAuthoringContext} client Reference to the service client.
    */
-  constructor(client: LuisAuthoring) {
+  constructor(client: LuisAuthoringContext) {
     this.client = client;
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Creates a new
-   * pattern feature.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Creates a new pattern feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
    * @param {string} versionId The version ID.
    *
-   * @param {PatternCreateObject} patternCreateObject The Name and Pattern of the
-   * feature.
+   * @param {PatternCreateObject} patternCreateObject The Name and Pattern of the feature.
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async createPatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (patternCreateObject === null || patternCreateObject === undefined) {
-        throw new Error('patternCreateObject cannot be null or undefined.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async createPatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/patterns';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'POST';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Serialize Request
-    let requestContent = null;
-    let requestModel = null;
-    try {
-      if (patternCreateObject !== null && patternCreateObject !== undefined) {
-        let requestModelMapper = Mappers.PatternCreateObject;
-        requestModel = client.serializer.serialize(requestModelMapper, patternCreateObject, 'patternCreateObject');
-        requestContent = JSON.stringify(requestModel);
-      }
-    } catch (error) {
-      let serializationError = new Error(`Error "${error.message}" occurred in serializing the ` +
-          `payload - ${JSON.stringify(patternCreateObject, null, 2)}.`);
-      return Promise.reject(serializationError);
-    }
-    httpRequest.body = requestContent;
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 201) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 201) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = {
-              required: false,
-              serializedName: 'parsedResponse',
-              type: {
-                name: 'Number'
-              }
-            };
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            patternCreateObject
+          },
+          options),
+        createPatternFeatureOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Gets all the
-   * pattern features.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Gets all the pattern features.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
    * @param {string} versionId The version ID.
    *
-   * @param {FeaturesGetApplicationVersionPatternFeaturesOptionalParams}
-   * [options] Optional Parameters.
+   * @param {FeaturesGetApplicationVersionPatternFeaturesOptionalParams} [options] Optional
+   * Parameters.
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async getApplicationVersionPatternFeaturesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
+  async getApplicationVersionPatternFeaturesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternFeatureInfo[]>> {
     let skip = (options && options.skip !== undefined) ? options.skip : 0;
     let take = (options && options.take !== undefined) ? options.take : 100;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (skip !== null && skip !== undefined && typeof skip !== 'number') {
-        throw new Error('skip must be of type number.');
-      }
-      if (skip !== null && skip !== undefined) {
-        if (skip < 0)
-        {
-          throw new Error('"skip" should satisfy the constraint - "InclusiveMinimum": 0');
-        }
-      }
-      if (take !== null && take !== undefined && typeof take !== 'number') {
-        throw new Error('take must be of type number.');
-      }
-      if (take !== null && take !== undefined) {
-        if (take > 500)
-        {
-          throw new Error('"take" should satisfy the constraint - "InclusiveMaximum": 500');
-        }
-        if (take < 0)
-        {
-          throw new Error('"take" should satisfy the constraint - "InclusiveMinimum": 0');
-        }
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/patterns';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    let queryParamsArray: Array<any> = [];
-    if (skip !== null && skip !== undefined) {
-      queryParamsArray.push('skip=' + encodeURIComponent(skip.toString()));
-    }
-    if (take !== null && take !== undefined) {
-      queryParamsArray.push('take=' + encodeURIComponent(take.toString()));
-    }
-    if (queryParamsArray.length > 0) {
-      requestUrl += '?' + queryParamsArray.join('&');
-    }
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'GET';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = {
-              required: false,
-              serializedName: 'parsedResponse',
-              type: {
-                name: 'Sequence',
-                element: {
-                    required: false,
-                    serializedName: 'PatternFeatureInfoElementType',
-                    type: {
-                      name: 'Composite',
-                      className: 'PatternFeatureInfo'
-                    }
-                }
-              }
-            };
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            skip,
+            take
+          },
+          options),
+        getApplicationVersionPatternFeaturesOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
    * Creates a new phraselist feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
    * @param {string} versionId The version ID.
    *
-   * @param {PhraselistCreateObject} phraselistCreateObject A Phraselist object
-   * containing Name, comma-separated Phrases and the isExchangeable boolean.
-   * Default value for isExchangeable is true.
+   * @param {PhraselistCreateObject} phraselistCreateObject A Phraselist object containing Name,
+   * comma-separated Phrases and the isExchangeable boolean. Default value for isExchangeable is
+   * true.
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async addPhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (phraselistCreateObject === null || phraselistCreateObject === undefined) {
-        throw new Error('phraselistCreateObject cannot be null or undefined.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async addPhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/phraselists';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'POST';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Serialize Request
-    let requestContent = null;
-    let requestModel = null;
-    try {
-      if (phraselistCreateObject !== null && phraselistCreateObject !== undefined) {
-        let requestModelMapper = Mappers.PhraselistCreateObject;
-        requestModel = client.serializer.serialize(requestModelMapper, phraselistCreateObject, 'phraselistCreateObject');
-        requestContent = JSON.stringify(requestModel);
-      }
-    } catch (error) {
-      let serializationError = new Error(`Error "${error.message}" occurred in serializing the ` +
-          `payload - ${JSON.stringify(phraselistCreateObject, null, 2)}.`);
-      return Promise.reject(serializationError);
-    }
-    httpRequest.body = requestContent;
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 201) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 201) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = {
-              required: false,
-              serializedName: 'parsedResponse',
-              type: {
-                name: 'Number'
-              }
-            };
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            phraselistCreateObject
+          },
+          options),
+        addPhraseListOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
    * Gets all the phraselist features.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
    * @param {string} versionId The version ID.
    *
-   * @param {FeaturesListPhraseListsOptionalParams} [options] Optional
-   * Parameters.
+   * @param {FeaturesListPhraseListsOptionalParams} [options] Optional Parameters.
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async listPhraseListsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
+  async listPhraseListsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PhraseListFeatureInfo[]>> {
     let skip = (options && options.skip !== undefined) ? options.skip : 0;
     let take = (options && options.take !== undefined) ? options.take : 100;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (skip !== null && skip !== undefined && typeof skip !== 'number') {
-        throw new Error('skip must be of type number.');
-      }
-      if (skip !== null && skip !== undefined) {
-        if (skip < 0)
-        {
-          throw new Error('"skip" should satisfy the constraint - "InclusiveMinimum": 0');
-        }
-      }
-      if (take !== null && take !== undefined && typeof take !== 'number') {
-        throw new Error('take must be of type number.');
-      }
-      if (take !== null && take !== undefined) {
-        if (take > 500)
-        {
-          throw new Error('"take" should satisfy the constraint - "InclusiveMaximum": 500');
-        }
-        if (take < 0)
-        {
-          throw new Error('"take" should satisfy the constraint - "InclusiveMinimum": 0');
-        }
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/phraselists';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    let queryParamsArray: Array<any> = [];
-    if (skip !== null && skip !== undefined) {
-      queryParamsArray.push('skip=' + encodeURIComponent(skip.toString()));
-    }
-    if (take !== null && take !== undefined) {
-      queryParamsArray.push('take=' + encodeURIComponent(take.toString()));
-    }
-    if (queryParamsArray.length > 0) {
-      requestUrl += '?' + queryParamsArray.join('&');
-    }
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'GET';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = {
-              required: false,
-              serializedName: 'parsedResponse',
-              type: {
-                name: 'Sequence',
-                element: {
-                    required: false,
-                    serializedName: 'PhraseListFeatureInfoElementType',
-                    type: {
-                      name: 'Composite',
-                      className: 'PhraseListFeatureInfo'
-                    }
-                }
-              }
-            };
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            skip,
+            take
+          },
+          options),
+        listPhraseListsOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
    * Gets all the extraction features for the specified application version.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -657,148 +205,40 @@ export class Features {
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
+  async listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams): Promise<msRest.HttpOperationResponse<Models.FeaturesResponseObject>> {
     let skip = (options && options.skip !== undefined) ? options.skip : 0;
     let take = (options && options.take !== undefined) ? options.take : 100;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (skip !== null && skip !== undefined && typeof skip !== 'number') {
-        throw new Error('skip must be of type number.');
-      }
-      if (skip !== null && skip !== undefined) {
-        if (skip < 0)
-        {
-          throw new Error('"skip" should satisfy the constraint - "InclusiveMinimum": 0');
-        }
-      }
-      if (take !== null && take !== undefined && typeof take !== 'number') {
-        throw new Error('take must be of type number.');
-      }
-      if (take !== null && take !== undefined) {
-        if (take > 500)
-        {
-          throw new Error('"take" should satisfy the constraint - "InclusiveMaximum": 500');
-        }
-        if (take < 0)
-        {
-          throw new Error('"take" should satisfy the constraint - "InclusiveMinimum": 0');
-        }
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/features';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    let queryParamsArray: Array<any> = [];
-    if (skip !== null && skip !== undefined) {
-      queryParamsArray.push('skip=' + encodeURIComponent(skip.toString()));
-    }
-    if (take !== null && take !== undefined) {
-      queryParamsArray.push('take=' + encodeURIComponent(take.toString()));
-    }
-    if (queryParamsArray.length > 0) {
-      requestUrl += '?' + queryParamsArray.join('&');
-    }
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'GET';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = Mappers.FeaturesResponseObject;
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            skip,
+            take
+          },
+          options),
+        listOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Gets the specified
-   * pattern feature's info.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Gets the specified pattern feature's
+   * info.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -810,118 +250,37 @@ export class Features {
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async getPatternFeatureInfoWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (patternId === null || patternId === undefined || typeof patternId !== 'number') {
-        throw new Error('patternId cannot be null or undefined and it must be of type number.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async getPatternFeatureInfoWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternFeatureInfo>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/patterns/{patternId}';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    requestUrl = requestUrl.replace('{patternId}', encodeURIComponent(patternId.toString()));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'GET';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = Mappers.PatternFeatureInfo;
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            patternId
+          },
+          options),
+        getPatternFeatureInfoOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Updates the
-   * pattern, the name and the state of the pattern feature.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Updates the pattern, the name and the
+   * state of the pattern feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -929,145 +288,45 @@ export class Features {
    *
    * @param {number} patternId The pattern feature ID.
    *
-   * @param {PatternUpdateObject} patternUpdateObject The new values for: - Just
-   * a boolean called IsActive, in which case the status of the feature will be
-   * changed. - Name, Pattern and a boolean called IsActive to update the
-   * feature.
+   * @param {PatternUpdateObject} patternUpdateObject The new values for: - Just a boolean called
+   * IsActive, in which case the status of the feature will be changed. - Name, Pattern and a boolean
+   * called IsActive to update the feature.
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async updatePatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (patternId === null || patternId === undefined || typeof patternId !== 'number') {
-        throw new Error('patternId cannot be null or undefined and it must be of type number.');
-      }
-      if (patternUpdateObject === null || patternUpdateObject === undefined) {
-        throw new Error('patternUpdateObject cannot be null or undefined.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async updatePatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/patterns/{patternId}';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    requestUrl = requestUrl.replace('{patternId}', encodeURIComponent(patternId.toString()));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'PUT';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Serialize Request
-    let requestContent = null;
-    let requestModel = null;
-    try {
-      if (patternUpdateObject !== null && patternUpdateObject !== undefined) {
-        let requestModelMapper = Mappers.PatternUpdateObject;
-        requestModel = client.serializer.serialize(requestModelMapper, patternUpdateObject, 'patternUpdateObject');
-        requestContent = JSON.stringify(requestModel);
-      }
-    } catch (error) {
-      let serializationError = new Error(`Error "${error.message}" occurred in serializing the ` +
-          `payload - ${JSON.stringify(patternUpdateObject, null, 2)}.`);
-      return Promise.reject(serializationError);
-    }
-    httpRequest.body = requestContent;
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = Mappers.OperationStatus;
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            patternId,
+            patternUpdateObject
+          },
+          options),
+        updatePatternFeatureOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Deletes a pattern
-   * feature.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Deletes a pattern feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -1079,117 +338,36 @@ export class Features {
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async deletePatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (patternId === null || patternId === undefined || typeof patternId !== 'number') {
-        throw new Error('patternId cannot be null or undefined and it must be of type number.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async deletePatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/patterns/{patternId}';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    requestUrl = requestUrl.replace('{patternId}', encodeURIComponent(patternId.toString()));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'DELETE';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = Mappers.OperationStatus;
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            patternId
+          },
+          options),
+        deletePatternFeatureOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
    * Gets phraselist feature info.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -1201,117 +379,36 @@ export class Features {
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async getPhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (phraselistId === null || phraselistId === undefined || typeof phraselistId !== 'number') {
-        throw new Error('phraselistId cannot be null or undefined and it must be of type number.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async getPhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PhraseListFeatureInfo>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/phraselists/{phraselistId}';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    requestUrl = requestUrl.replace('{phraselistId}', encodeURIComponent(phraselistId.toString()));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'GET';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = Mappers.PhraseListFeatureInfo;
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            phraselistId
+          },
+          options),
+        getPhraseListOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
    * Updates the phrases, the state and the name of the phraselist feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -1319,138 +416,42 @@ export class Features {
    *
    * @param {number} phraselistId The ID of the feature to be updated.
    *
-   * @param {FeaturesUpdatePhraseListOptionalParams} [options] Optional
-   * Parameters.
+   * @param {FeaturesUpdatePhraseListOptionalParams} [options] Optional Parameters.
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async updatePhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
+  async updatePhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
     let phraselistUpdateObject = (options && options.phraselistUpdateObject !== undefined) ? options.phraselistUpdateObject : undefined;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (phraselistId === null || phraselistId === undefined || typeof phraselistId !== 'number') {
-        throw new Error('phraselistId cannot be null or undefined and it must be of type number.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/phraselists/{phraselistId}';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    requestUrl = requestUrl.replace('{phraselistId}', encodeURIComponent(phraselistId.toString()));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'PUT';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Serialize Request
-    let requestContent = null;
-    let requestModel = null;
-    try {
-      if (phraselistUpdateObject !== null && phraselistUpdateObject !== undefined) {
-        let requestModelMapper = Mappers.PhraselistUpdateObject;
-        requestModel = client.serializer.serialize(requestModelMapper, phraselistUpdateObject, 'phraselistUpdateObject');
-        requestContent = JSON.stringify(requestModel);
-      }
-    } catch (error) {
-      let serializationError = new Error(`Error "${error.message}" occurred in serializing the ` +
-          `payload - ${JSON.stringify(phraselistUpdateObject, null, 2)}.`);
-      return Promise.reject(serializationError);
-    }
-    httpRequest.body = requestContent;
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = Mappers.OperationStatus;
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            phraselistId,
+            phraselistUpdateObject
+          },
+          options),
+        updatePhraseListOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
    * Deletes a phraselist feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -1462,139 +463,53 @@ export class Features {
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async deletePhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (phraselistId === null || phraselistId === undefined || typeof phraselistId !== 'number') {
-        throw new Error('phraselistId cannot be null or undefined and it must be of type number.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async deletePhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/phraselists/{phraselistId}';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    requestUrl = requestUrl.replace('{phraselistId}', encodeURIComponent(phraselistId.toString()));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'DELETE';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = Mappers.OperationStatus;
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            phraselistId
+          },
+          options),
+        deletePhraseListOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Creates a new
-   * pattern feature.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Creates a new pattern feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
    * @param {string} versionId The version ID.
    *
-   * @param {PatternCreateObject} patternCreateObject The Name and Pattern of the
-   * feature.
+   * @param {PatternCreateObject} patternCreateObject The Name and Pattern of the feature.
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {number} [result]   - The deserialized result object if an error did not occur.
    *
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   createPatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject): Promise<number>;
   createPatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options: msRest.RequestOptionsBase): Promise<number>;
@@ -1608,7 +523,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<number>;
     if (!callback) {
       return this.createPatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as number);
+        return Promise.resolve(operationRes.parsedBody as number);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -1617,39 +532,34 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as number;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as number;
+        return cb(err, result, data.request, data);
       });
     }
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Gets all the
-   * pattern features.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Gets all the pattern features.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
    * @param {string} versionId The version ID.
    *
-   * @param {FeaturesGetApplicationVersionPatternFeaturesOptionalParams}
-   * [options] Optional Parameters.
+   * @param {FeaturesGetApplicationVersionPatternFeaturesOptionalParams} [options] Optional
+   * Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.PatternFeatureInfo[]} [result]   - The deserialized result object if an error did not occur.
    *
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<Models.PatternFeatureInfo[]>;
   getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams): Promise<Models.PatternFeatureInfo[]>;
@@ -1663,7 +573,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<Models.PatternFeatureInfo[]>;
     if (!callback) {
       return this.getApplicationVersionPatternFeaturesWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.PatternFeatureInfo[]);
+        return Promise.resolve(operationRes.parsedBody as Models.PatternFeatureInfo[]);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -1672,8 +582,8 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.PatternFeatureInfo[];
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.PatternFeatureInfo[];
+        return cb(err, result, data.request, data);
       });
     }
   }
@@ -1681,32 +591,28 @@ export class Features {
   /**
    * Creates a new phraselist feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
    * @param {string} versionId The version ID.
    *
-   * @param {PhraselistCreateObject} phraselistCreateObject A Phraselist object
-   * containing Name, comma-separated Phrases and the isExchangeable boolean.
-   * Default value for isExchangeable is true.
+   * @param {PhraselistCreateObject} phraselistCreateObject A Phraselist object containing Name,
+   * comma-separated Phrases and the isExchangeable boolean. Default value for isExchangeable is
+   * true.
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {number} [result]   - The deserialized result object if an error did not occur.
    *
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   addPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject): Promise<number>;
   addPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options: msRest.RequestOptionsBase): Promise<number>;
@@ -1720,7 +626,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<number>;
     if (!callback) {
       return this.addPhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as number);
+        return Promise.resolve(operationRes.parsedBody as number);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -1729,8 +635,8 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as number;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as number;
+        return cb(err, result, data.request, data);
       });
     }
   }
@@ -1738,29 +644,24 @@ export class Features {
   /**
    * Gets all the phraselist features.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
    * @param {string} versionId The version ID.
    *
-   * @param {FeaturesListPhraseListsOptionalParams} [options] Optional
-   * Parameters.
+   * @param {FeaturesListPhraseListsOptionalParams} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.PhraseListFeatureInfo[]} [result]   - The deserialized result object if an error did not occur.
    *
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   listPhraseLists(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<Models.PhraseListFeatureInfo[]>;
   listPhraseLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesListPhraseListsOptionalParams): Promise<Models.PhraseListFeatureInfo[]>;
@@ -1774,7 +675,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>;
     if (!callback) {
       return this.listPhraseListsWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.PhraseListFeatureInfo[]);
+        return Promise.resolve(operationRes.parsedBody as Models.PhraseListFeatureInfo[]);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -1783,8 +684,8 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.PhraseListFeatureInfo[];
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.PhraseListFeatureInfo[];
+        return cb(err, result, data.request, data);
       });
     }
   }
@@ -1792,10 +693,9 @@ export class Features {
   /**
    * Gets all the extraction features for the specified application version.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -1803,19 +703,14 @@ export class Features {
    *
    * @param {FeaturesListOptionalParams} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.FeaturesResponseObject} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.FeaturesResponseObject} for more
-   *                      information.
-   *
+   *                      See {@link Models.FeaturesResponseObject} for more information.
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   list(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<Models.FeaturesResponseObject>;
   list(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesListOptionalParams): Promise<Models.FeaturesResponseObject>;
@@ -1829,7 +724,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<Models.FeaturesResponseObject>;
     if (!callback) {
       return this.listWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.FeaturesResponseObject);
+        return Promise.resolve(operationRes.parsedBody as Models.FeaturesResponseObject);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -1838,20 +733,19 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.FeaturesResponseObject;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.FeaturesResponseObject;
+        return cb(err, result, data.request, data);
       });
     }
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Gets the specified
-   * pattern feature's info.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Gets the specified pattern feature's
+   * info.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -1861,19 +755,14 @@ export class Features {
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.PatternFeatureInfo} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.PatternFeatureInfo} for more
-   *                      information.
-   *
+   *                      See {@link Models.PatternFeatureInfo} for more information.
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   getPatternFeatureInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number): Promise<Models.PatternFeatureInfo>;
   getPatternFeatureInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase): Promise<Models.PatternFeatureInfo>;
@@ -1887,7 +776,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<Models.PatternFeatureInfo>;
     if (!callback) {
       return this.getPatternFeatureInfoWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.PatternFeatureInfo);
+        return Promise.resolve(operationRes.parsedBody as Models.PatternFeatureInfo);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -1896,20 +785,19 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.PatternFeatureInfo;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.PatternFeatureInfo;
+        return cb(err, result, data.request, data);
       });
     }
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Updates the
-   * pattern, the name and the state of the pattern feature.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Updates the pattern, the name and the
+   * state of the pattern feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -1917,26 +805,20 @@ export class Features {
    *
    * @param {number} patternId The pattern feature ID.
    *
-   * @param {PatternUpdateObject} patternUpdateObject The new values for: - Just
-   * a boolean called IsActive, in which case the status of the feature will be
-   * changed. - Name, Pattern and a boolean called IsActive to update the
-   * feature.
+   * @param {PatternUpdateObject} patternUpdateObject The new values for: - Just a boolean called
+   * IsActive, in which case the status of the feature will be changed. - Name, Pattern and a boolean
+   * called IsActive to update the feature.
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more
-   *                      information.
-   *
+   *                      See {@link Models.OperationStatus} for more information.
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   updatePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject): Promise<Models.OperationStatus>;
   updatePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
@@ -1950,7 +832,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
     if (!callback) {
       return this.updatePatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternId, patternUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.OperationStatus);
+        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -1959,20 +841,18 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.OperationStatus;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.OperationStatus;
+        return cb(err, result, data.request, data);
       });
     }
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Deletes a pattern
-   * feature.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Deletes a pattern feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -1982,19 +862,14 @@ export class Features {
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more
-   *                      information.
-   *
+   *                      See {@link Models.OperationStatus} for more information.
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   deletePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number): Promise<Models.OperationStatus>;
   deletePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
@@ -2008,7 +883,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
     if (!callback) {
       return this.deletePatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.OperationStatus);
+        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -2017,8 +892,8 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.OperationStatus;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.OperationStatus;
+        return cb(err, result, data.request, data);
       });
     }
   }
@@ -2026,10 +901,9 @@ export class Features {
   /**
    * Gets phraselist feature info.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -2039,19 +913,14 @@ export class Features {
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.PhraseListFeatureInfo} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.PhraseListFeatureInfo} for more
-   *                      information.
-   *
+   *                      See {@link Models.PhraseListFeatureInfo} for more information.
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   getPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number): Promise<Models.PhraseListFeatureInfo>;
   getPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase): Promise<Models.PhraseListFeatureInfo>;
@@ -2065,7 +934,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<Models.PhraseListFeatureInfo>;
     if (!callback) {
       return this.getPhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.PhraseListFeatureInfo);
+        return Promise.resolve(operationRes.parsedBody as Models.PhraseListFeatureInfo);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -2074,8 +943,8 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.PhraseListFeatureInfo;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.PhraseListFeatureInfo;
+        return cb(err, result, data.request, data);
       });
     }
   }
@@ -2083,10 +952,9 @@ export class Features {
   /**
    * Updates the phrases, the state and the name of the phraselist feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -2094,22 +962,16 @@ export class Features {
    *
    * @param {number} phraselistId The ID of the feature to be updated.
    *
-   * @param {FeaturesUpdatePhraseListOptionalParams} [options] Optional
-   * Parameters.
+   * @param {FeaturesUpdatePhraseListOptionalParams} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more
-   *                      information.
-   *
+   *                      See {@link Models.OperationStatus} for more information.
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   updatePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number): Promise<Models.OperationStatus>;
   updatePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: Models.FeaturesUpdatePhraseListOptionalParams): Promise<Models.OperationStatus>;
@@ -2123,7 +985,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
     if (!callback) {
       return this.updatePhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.OperationStatus);
+        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -2132,8 +994,8 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.OperationStatus;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.OperationStatus;
+        return cb(err, result, data.request, data);
       });
     }
   }
@@ -2141,10 +1003,9 @@ export class Features {
   /**
    * Deletes a phraselist feature.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -2154,19 +1015,14 @@ export class Features {
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more
-   *                      information.
-   *
+   *                      See {@link Models.OperationStatus} for more information.
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   deletePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number): Promise<Models.OperationStatus>;
   deletePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
@@ -2180,7 +1036,7 @@ export class Features {
     let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
     if (!callback) {
       return this.deletePhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.OperationStatus);
+        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -2189,10 +1045,892 @@ export class Features {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.OperationStatus;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.OperationStatus;
+        return cb(err, result, data.request, data);
       });
     }
   }
 
 }
+
+// Operation Specifications
+const createPatternFeatureOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  ],
+  requestBody: {
+    parameterPath: "patternCreateObject",
+    mapper: {
+      ...Mappers.PatternCreateObject,
+      required: true
+    }
+  },
+  contentType: "application/json; charset=utf-8",
+  responses: {
+    201: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const getApplicationVersionPatternFeaturesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  ],
+  queryParameters: [
+    {
+      parameterPath: "skip",
+      mapper: {
+        serializedName: "skip",
+        defaultValue: 0,
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    {
+      parameterPath: "take",
+      mapper: {
+        serializedName: "take",
+        defaultValue: 100,
+        constraints: {
+          InclusiveMaximum: 500,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            serializedName: "PatternFeatureInfoElementType",
+            type: {
+              name: "Composite",
+              className: "PatternFeatureInfo"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const addPhraseListOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  ],
+  requestBody: {
+    parameterPath: "phraselistCreateObject",
+    mapper: {
+      ...Mappers.PhraselistCreateObject,
+      required: true
+    }
+  },
+  contentType: "application/json; charset=utf-8",
+  responses: {
+    201: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const listPhraseListsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  ],
+  queryParameters: [
+    {
+      parameterPath: "skip",
+      mapper: {
+        serializedName: "skip",
+        defaultValue: 0,
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    {
+      parameterPath: "take",
+      mapper: {
+        serializedName: "take",
+        defaultValue: 100,
+        constraints: {
+          InclusiveMaximum: 500,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            serializedName: "PhraseListFeatureInfoElementType",
+            type: {
+              name: "Composite",
+              className: "PhraseListFeatureInfo"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/features",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  ],
+  queryParameters: [
+    {
+      parameterPath: "skip",
+      mapper: {
+        serializedName: "skip",
+        defaultValue: 0,
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    {
+      parameterPath: "take",
+      mapper: {
+        serializedName: "take",
+        defaultValue: 100,
+        constraints: {
+          InclusiveMaximum: 500,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.FeaturesResponseObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const getPatternFeatureInfoOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    {
+      parameterPath: "patternId",
+      mapper: {
+        required: true,
+        serializedName: "patternId",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PatternFeatureInfo
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const updatePatternFeatureOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    {
+      parameterPath: "patternId",
+      mapper: {
+        required: true,
+        serializedName: "patternId",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  requestBody: {
+    parameterPath: "patternUpdateObject",
+    mapper: {
+      ...Mappers.PatternUpdateObject,
+      required: true
+    }
+  },
+  contentType: "application/json; charset=utf-8",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const deletePatternFeatureOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    {
+      parameterPath: "patternId",
+      mapper: {
+        required: true,
+        serializedName: "patternId",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const getPhraseListOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    {
+      parameterPath: "phraselistId",
+      mapper: {
+        required: true,
+        serializedName: "phraselistId",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhraseListFeatureInfo
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const updatePhraseListOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    {
+      parameterPath: "phraselistId",
+      mapper: {
+        required: true,
+        serializedName: "phraselistId",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  requestBody: {
+    parameterPath: "phraselistUpdateObject",
+    mapper: Mappers.PhraselistUpdateObject
+  },
+  contentType: "application/json; charset=utf-8",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const deletePhraseListOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    {
+      parameterPath: "phraselistId",
+      mapper: {
+        required: true,
+        serializedName: "phraselistId",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};

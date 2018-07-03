@@ -6,166 +6,69 @@
 
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/mappers";
-import { LuisAuthoring } from "../luisAuthoring";
-
-const WebResource = msRest.WebResource;
+import * as Mappers from "../models/examplesMappers";
+import { LuisAuthoringContext } from "../luisAuthoringContext";
 
 /** Class representing a Examples. */
 export class Examples {
-  private readonly client: LuisAuthoring;
+  private readonly client: LuisAuthoringContext;
+
   /**
    * Create a Examples.
-   * @param {LuisAuthoring} client Reference to the service client.
+   * @param {LuisAuthoringContext} client Reference to the service client.
    */
-  constructor(client: LuisAuthoring) {
+  constructor(client: LuisAuthoringContext) {
     this.client = client;
   }
 
   /**
    * Adds a labeled example to the application.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
    * @param {string} versionId The version ID.
    *
-   * @param {ExampleLabelObject} exampleLabelObject An example label with the
-   * expected intent and entities.
+   * @param {ExampleLabelObject} exampleLabelObject An example label with the expected intent and
+   * entities.
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async addWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (exampleLabelObject === null || exampleLabelObject === undefined) {
-        throw new Error('exampleLabelObject cannot be null or undefined.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async addWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.LabelExampleResponse>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/example';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'POST';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Serialize Request
-    let requestContent = null;
-    let requestModel = null;
-    try {
-      if (exampleLabelObject !== null && exampleLabelObject !== undefined) {
-        let requestModelMapper = Mappers.ExampleLabelObject;
-        requestModel = client.serializer.serialize(requestModelMapper, exampleLabelObject, 'exampleLabelObject');
-        requestContent = JSON.stringify(requestModel);
-      }
-    } catch (error) {
-      let serializationError = new Error(`Error "${error.message}" occurred in serializing the ` +
-          `payload - ${JSON.stringify(exampleLabelObject, null, 2)}.`);
-      return Promise.reject(serializationError);
-    }
-    httpRequest.body = requestContent;
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 201) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 201) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = Mappers.LabelExampleResponse;
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            exampleLabelObject
+          },
+          options),
+        addOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
    * Adds a batch of labeled examples to the application.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -177,185 +80,36 @@ export class Examples {
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async batchWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async batchWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.BatchLabelExample[]>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/examples';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'POST';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Serialize Request
-    let requestContent = null;
-    let requestModel = null;
-    try {
-      if (exampleLabelObjectArray !== null && exampleLabelObjectArray !== undefined) {
-        let requestModelMapper = {
-          required: true,
-          serializedName: 'exampleLabelObjectArray',
-          type: {
-            name: 'Sequence',
-            element: {
-                required: false,
-                serializedName: 'ExampleLabelObjectElementType',
-                type: {
-                  name: 'Composite',
-                  className: 'ExampleLabelObject'
-                }
-            }
-          }
-        };
-        requestModel = client.serializer.serialize(requestModelMapper, exampleLabelObjectArray, 'exampleLabelObjectArray');
-        requestContent = JSON.stringify(requestModel);
-      }
-    } catch (error) {
-      let serializationError = new Error(`Error "${error.message}" occurred in serializing the ` +
-          `payload - ${JSON.stringify(exampleLabelObjectArray, null, 2)}.`);
-      return Promise.reject(serializationError);
-    }
-    httpRequest.body = requestContent;
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 201 && statusCode !== 207) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 201) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = {
-              required: false,
-              serializedName: 'parsedResponse',
-              type: {
-                name: 'Sequence',
-                element: {
-                    required: false,
-                    serializedName: 'BatchLabelExampleElementType',
-                    type: {
-                      name: 'Composite',
-                      className: 'BatchLabelExample'
-                    }
-                }
-              }
-            };
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-      // Deserialize Response
-      if (statusCode === 207) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = {
-              required: false,
-              serializedName: 'parsedResponse',
-              type: {
-                name: 'Sequence',
-                element: {
-                    required: false,
-                    serializedName: 'BatchLabelExampleElementType',
-                    type: {
-                      name: 'Composite',
-                      className: 'BatchLabelExample'
-                    }
-                }
-              }
-            };
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError1 = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError1.request = msRest.stripRequest(httpRequest);
-          deserializationError1.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError1);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            exampleLabelObjectArray
+          },
+          options),
+        batchOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
    * Returns examples to be reviewed.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -365,161 +119,39 @@ export class Examples {
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ExamplesListOptionalParams): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
+  async listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ExamplesListOptionalParams): Promise<msRest.HttpOperationResponse<Models.LabeledUtterance[]>> {
     let skip = (options && options.skip !== undefined) ? options.skip : 0;
     let take = (options && options.take !== undefined) ? options.take : 100;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (skip !== null && skip !== undefined && typeof skip !== 'number') {
-        throw new Error('skip must be of type number.');
-      }
-      if (skip !== null && skip !== undefined) {
-        if (skip < 0)
-        {
-          throw new Error('"skip" should satisfy the constraint - "InclusiveMinimum": 0');
-        }
-      }
-      if (take !== null && take !== undefined && typeof take !== 'number') {
-        throw new Error('take must be of type number.');
-      }
-      if (take !== null && take !== undefined) {
-        if (take > 500)
-        {
-          throw new Error('"take" should satisfy the constraint - "InclusiveMaximum": 500');
-        }
-        if (take < 0)
-        {
-          throw new Error('"take" should satisfy the constraint - "InclusiveMinimum": 0');
-        }
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/examples';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    let queryParamsArray: Array<any> = [];
-    if (skip !== null && skip !== undefined) {
-      queryParamsArray.push('skip=' + encodeURIComponent(skip.toString()));
-    }
-    if (take !== null && take !== undefined) {
-      queryParamsArray.push('take=' + encodeURIComponent(take.toString()));
-    }
-    if (queryParamsArray.length > 0) {
-      requestUrl += '?' + queryParamsArray.join('&');
-    }
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'GET';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = {
-              required: false,
-              serializedName: 'parsedResponse',
-              type: {
-                name: 'Sequence',
-                element: {
-                    required: false,
-                    serializedName: 'LabeledUtteranceElementType',
-                    type: {
-                      name: 'Composite',
-                      className: 'LabeledUtterance'
-                    }
-                }
-              }
-            };
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            skip,
+            take
+          },
+          options),
+        listOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
    * Deletes the labeled example with the specified ID.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -531,140 +163,54 @@ export class Examples {
    *
    * @returns {Promise} A promise is returned
    *
-   * @resolve {HttpOperationResponse} - The deserialized result object.
+   * @resolve {HttpOperationResponse} The deserialized result object.
    *
-   * @reject {Error|ServiceError} - The error object.
+   * @reject {Error|ServiceError} The error object.
    */
-  async deleteMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    let client = this.client;
-    // Validate
-    try {
-      if (azureRegion) {
-        let allowedValues = [ 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth' ];
-        if (!allowedValues.some( function(item) { return item === azureRegion; })) {
-          throw new Error(azureRegion + ' is not a valid value. The valid values are: ' + allowedValues);
-        }
-      } else {
-        throw new Error('azureRegion cannot be null or undefined.');
-      }
-      if (appId === null || appId === undefined || typeof appId.valueOf() !== 'string' || !msRest.isValidUuid(appId)) {
-        throw new Error('appId cannot be null or undefined and it must be of type string and must be a valid string.');
-      }
-      if (versionId === null || versionId === undefined || typeof versionId.valueOf() !== 'string') {
-        throw new Error('versionId cannot be null or undefined and it must be of type string.');
-      }
-      if (exampleId === null || exampleId === undefined || typeof exampleId !== 'number') {
-        throw new Error('exampleId cannot be null or undefined and it must be of type number.');
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  async deleteMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
 
-    // Construct URL
-    let baseUrl = this.client.baseUri;
-    let requestUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') + 'apps/{appId}/versions/{versionId}/examples/{exampleId}';
-    requestUrl = requestUrl.replace('{AzureRegion}', azureRegion);
-    requestUrl = requestUrl.replace('{appId}', encodeURIComponent(appId.toString()));
-    requestUrl = requestUrl.replace('{versionId}', encodeURIComponent(versionId));
-    requestUrl = requestUrl.replace('{exampleId}', encodeURIComponent(exampleId.toString()));
-
-    // Create HTTP transport objects
-    let httpRequest = new WebResource();
-    httpRequest.method = 'DELETE';
-    httpRequest.url = requestUrl;
-    httpRequest.headers = {};
-    // Set Headers
-    httpRequest.headers['Content-Type'] = 'application/json; charset=utf-8';
-    if(options && options.customHeaders) {
-      for(let headerName in options.customHeaders) {
-        if (options.customHeaders.hasOwnProperty(headerName)) {
-          httpRequest.headers[headerName] = options.customHeaders[headerName];
-        }
-      }
-    }
-    // Send Request
     let operationRes: msRest.HttpOperationResponse;
     try {
-      operationRes = await client.sendRequest(httpRequest);
-      let response = operationRes.response;
-      let statusCode = response.status;
-      if (statusCode !== 200) {
-        let error = new msRest.RestError(operationRes.bodyAsText as string);
-        error.statusCode = response.status;
-        error.request = msRest.stripRequest(httpRequest);
-        error.response = msRest.stripResponse(response);
-        let parsedErrorResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedErrorResponse) {
-            let internalError = null;
-            if (parsedErrorResponse.error) internalError = parsedErrorResponse.error;
-            error.code = internalError ? internalError.code : parsedErrorResponse.code;
-            error.message = internalError ? internalError.message : parsedErrorResponse.message;
-          }
-          if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-            let resultMapper = Mappers.ErrorResponse;
-            error.body = client.serializer.deserialize(resultMapper, parsedErrorResponse, 'error.body');
-          }
-        } catch (defaultError) {
-          error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
-                           `- "${operationRes.bodyAsText}" for the default response.`;
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-      // Deserialize Response
-      if (statusCode === 200) {
-        let parsedResponse = operationRes.bodyAsJson as { [key: string]: any };
-        try {
-          if (parsedResponse !== null && parsedResponse !== undefined) {
-            let resultMapper = Mappers.OperationStatus;
-            operationRes.bodyAsJson = client.serializer.deserialize(resultMapper, parsedResponse, 'operationRes.bodyAsJson');
-          }
-        } catch (error) {
-          let deserializationError = new msRest.RestError(`Error ${error} occurred in deserializing the responseBody - ${operationRes.bodyAsText}`);
-          deserializationError.request = msRest.stripRequest(httpRequest);
-          deserializationError.response = msRest.stripResponse(response);
-          return Promise.reject(deserializationError);
-        }
-      }
-
-    } catch(err) {
+      operationRes = await this.client.sendOperationRequest(
+        msRest.createOperationArguments(
+          {
+            azureRegion,
+            appId,
+            versionId,
+            exampleId
+          },
+          options),
+        deleteMethodOperationSpec);
+    } catch (err) {
       return Promise.reject(err);
     }
-
     return Promise.resolve(operationRes);
   }
 
   /**
    * Adds a labeled example to the application.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
    * @param {string} versionId The version ID.
    *
-   * @param {ExampleLabelObject} exampleLabelObject An example label with the
-   * expected intent and entities.
+   * @param {ExampleLabelObject} exampleLabelObject An example label with the expected intent and
+   * entities.
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.LabelExampleResponse} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.LabelExampleResponse} for more
-   *                      information.
-   *
+   *                      See {@link Models.LabelExampleResponse} for more information.
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   add(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject): Promise<Models.LabelExampleResponse>;
   add(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options: msRest.RequestOptionsBase): Promise<Models.LabelExampleResponse>;
@@ -678,7 +224,7 @@ export class Examples {
     let cb = callback as msRest.ServiceCallback<Models.LabelExampleResponse>;
     if (!callback) {
       return this.addWithHttpOperationResponse(azureRegion, appId, versionId, exampleLabelObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.LabelExampleResponse);
+        return Promise.resolve(operationRes.parsedBody as Models.LabelExampleResponse);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -687,8 +233,8 @@ export class Examples {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.LabelExampleResponse;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.LabelExampleResponse;
+        return cb(err, result, data.request, data);
       });
     }
   }
@@ -696,10 +242,9 @@ export class Examples {
   /**
    * Adds a batch of labeled examples to the application.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -709,17 +254,14 @@ export class Examples {
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.BatchLabelExample[]} [result]   - The deserialized result object if an error did not occur.
    *
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   batch(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[]): Promise<Models.BatchLabelExample[]>;
   batch(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options: msRest.RequestOptionsBase): Promise<Models.BatchLabelExample[]>;
@@ -733,7 +275,7 @@ export class Examples {
     let cb = callback as msRest.ServiceCallback<Models.BatchLabelExample[]>;
     if (!callback) {
       return this.batchWithHttpOperationResponse(azureRegion, appId, versionId, exampleLabelObjectArray, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.BatchLabelExample[]);
+        return Promise.resolve(operationRes.parsedBody as Models.BatchLabelExample[]);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -742,8 +284,8 @@ export class Examples {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.BatchLabelExample[];
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.BatchLabelExample[];
+        return cb(err, result, data.request, data);
       });
     }
   }
@@ -751,10 +293,9 @@ export class Examples {
   /**
    * Returns examples to be reviewed.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -762,17 +303,14 @@ export class Examples {
    *
    * @param {ExamplesListOptionalParams} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.LabeledUtterance[]} [result]   - The deserialized result object if an error did not occur.
    *
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   list(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<Models.LabeledUtterance[]>;
   list(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ExamplesListOptionalParams): Promise<Models.LabeledUtterance[]>;
@@ -786,7 +324,7 @@ export class Examples {
     let cb = callback as msRest.ServiceCallback<Models.LabeledUtterance[]>;
     if (!callback) {
       return this.listWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.LabeledUtterance[]);
+        return Promise.resolve(operationRes.parsedBody as Models.LabeledUtterance[]);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -795,8 +333,8 @@ export class Examples {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.LabeledUtterance[];
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.LabeledUtterance[];
+        return cb(err, result, data.request, data);
       });
     }
   }
@@ -804,10 +342,9 @@ export class Examples {
   /**
    * Deletes the labeled example with the specified ID.
    *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive
-   * Services endpoints. Possible values include: 'westus', 'westeurope',
-   * 'southeastasia', 'eastus2', 'westcentralus', 'westus2', 'eastus',
-   * 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
+   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
+   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
    *
    * @param {string} appId The application ID.
    *
@@ -817,19 +354,14 @@ export class Examples {
    *
    * @param {RequestOptionsBase} [options] Optional Parameters.
    *
-   * @param {ServiceCallback} callback - The callback.
+   * @param {ServiceCallback} callback The callback.
    *
-   * @returns {ServiceCallback} callback(err, result, request, response)
-   *
+   * @returns {ServiceCallback} callback(err, result, request, operationRes)
    *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
    *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more
-   *                      information.
-   *
+   *                      See {@link Models.OperationStatus} for more information.
    *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {Response} [response] - The HTTP Response stream if an error did not occur.
+   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
    */
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleId: number): Promise<Models.OperationStatus>;
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleId: number, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
@@ -843,7 +375,7 @@ export class Examples {
     let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
     if (!callback) {
       return this.deleteMethodWithHttpOperationResponse(azureRegion, appId, versionId, exampleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.bodyAsJson as Models.OperationStatus);
+        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
       }).catch((err: Error) => {
         return Promise.reject(err);
       });
@@ -852,10 +384,359 @@ export class Examples {
         if (err) {
           return cb(err);
         }
-        let result = data.bodyAsJson as Models.OperationStatus;
-        return cb(err, result, data.request, data.response);
+        let result = data.parsedBody as Models.OperationStatus;
+        return cb(err, result, data.request, data);
       });
     }
   }
 
 }
+
+// Operation Specifications
+const addOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/example",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  ],
+  requestBody: {
+    parameterPath: "exampleLabelObject",
+    mapper: {
+      ...Mappers.ExampleLabelObject,
+      required: true
+    }
+  },
+  contentType: "application/json; charset=utf-8",
+  responses: {
+    201: {
+      bodyMapper: Mappers.LabelExampleResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const batchOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  ],
+  requestBody: {
+    parameterPath: "exampleLabelObjectArray",
+    mapper: {
+      required: true,
+      serializedName: "exampleLabelObjectArray",
+      type: {
+        name: "Sequence",
+        element: {
+          serializedName: "ExampleLabelObjectElementType",
+          type: {
+            name: "Composite",
+            className: "ExampleLabelObject"
+          }
+        }
+      }
+    }
+  },
+  contentType: "application/json; charset=utf-8",
+  responses: {
+    201: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            serializedName: "BatchLabelExampleElementType",
+            type: {
+              name: "Composite",
+              className: "BatchLabelExample"
+            }
+          }
+        }
+      }
+    },
+    207: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            serializedName: "BatchLabelExampleElementType",
+            type: {
+              name: "Composite",
+              className: "BatchLabelExample"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  ],
+  queryParameters: [
+    {
+      parameterPath: "skip",
+      mapper: {
+        serializedName: "skip",
+        defaultValue: 0,
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    {
+      parameterPath: "take",
+      mapper: {
+        serializedName: "take",
+        defaultValue: 100,
+        constraints: {
+          InclusiveMaximum: 500,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            serializedName: "LabeledUtteranceElementType",
+            type: {
+              name: "Composite",
+              className: "LabeledUtterance"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
+
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples/{exampleId}",
+  urlParameters: [
+    {
+      parameterPath: "azureRegion",
+      skipEncoding: true,
+      mapper: {
+        required: true,
+        serializedName: "AzureRegion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "westus",
+            "westeurope",
+            "southeastasia",
+            "eastus2",
+            "westcentralus",
+            "westus2",
+            "eastus",
+            "southcentralus",
+            "northeurope",
+            "eastasia",
+            "australiaeast",
+            "brazilsouth"
+          ]
+        }
+      }
+    },
+    {
+      parameterPath: "appId",
+      mapper: {
+        required: true,
+        serializedName: "appId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    {
+      parameterPath: "versionId",
+      mapper: {
+        required: true,
+        serializedName: "versionId",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    {
+      parameterPath: "exampleId",
+      mapper: {
+        required: true,
+        serializedName: "exampleId",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer: new msRest.Serializer(Mappers)
+};
