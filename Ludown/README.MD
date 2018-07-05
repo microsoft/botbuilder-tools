@@ -29,12 +29,16 @@ npm i -g ludown
 
 Checkout the [examples](examples) folder for example .lu files.
 
+Also see the [here](ChitChat) to add Small talk/ chit-chat capabilities to your bot.
+
 ## Docs
 - [Ludown commands](docs/commands.md)
 - [.lu File Format](docs/lu-file-format.md)
 - [Creating LUIS JSON model file](docs/create-luis-json.md)
 - [Creating QnA Maker KB model file](docs/create-qna-json.md)
 - [Recreating .lu files with Refresh command](docs/refresh-command.md)
+- [Machine translating .lu files](docs/translate-command.md)
+- [Adding small talk/ chit-chat capabilities to your bot](ChitChat/README.MD)
 
 ## CLI return codes
 This CLI writes to stderr on error and stdout otherwise. CLI also returns the following codes based on the outcome of parsing.
@@ -61,5 +65,6 @@ This CLI writes to stderr on error and stdout otherwise. CLI also returns the fo
 |MISSING_LABELLED_VALUE     | 17            |
 |SYNONYMS_NOT_A_LIST        | 18            |
 |PHRASELIST_NOT_A_LIST      | 19            |
+|TRANSLATE_SERVICE_FAIL     | 20            |
 |UNKNOWN_ERROR              | 99            |
 
