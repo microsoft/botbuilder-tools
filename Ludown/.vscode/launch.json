@@ -16,7 +16,10 @@
                 "-k",
                 "5ef1cecd7e954de9b1de6e7fc310f7192",
                 "-t",
-                "de"
+                "de",
+                "-o",
+                "c:\\test",
+                "--verbose"
             ]
 
         }
