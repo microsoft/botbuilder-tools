@@ -23,7 +23,7 @@ module.exports = {
                 }
                 if(!fs.existsSync(outFolder)) {
                     process.stderr.write(chalk.default.redBright('\nOutput folder ' + outFolder + ' does not exist\n'));
-                    process.exit(retCode.OUTPUT_FOLDER_INVALID);
+                    process.exit(retCode.errorCode.OUTPUT_FOLDER_INVALID);
                 }
             }
             
@@ -42,7 +42,7 @@ module.exports = {
             var outFileContent = constructMdFile(LUISJSON, QnAJSON, program.LUIS_File, program.QNA_FILE, program.skip_header);
             if(!outFileContent) {
                 process.stderr.write(chalk.default.redBright('\nSorry, Unable to generate .lu file content!\n'));
-                process.exit(retCode.UNKNOWN_ERROR);
+                process.exit(retCode.errorCode.UNKNOWN_ERROR);
             }
 
             // write out the file
@@ -63,20 +63,20 @@ module.exports = {
 
             if(fs.existsSync(path.join(outFolder, program.lu_File))) {
                 process.stderr.write(chalk.default.redBright('Output file: ' + path.join(outFolder, program.lu_File) + ' exists! You can use -n <lu file name> or -o <output_folder>\n'));
-                process.exit(retCode.OUTPUT_FILE_EXISTS);
+                process.exit(retCode.errorCode.OUTPUT_FILE_EXISTS);
             }
             var outFileName = path.join(outFolder, program.lu_File);
             try {
                 fs.writeFileSync(outFileName, outFileContent, 'utf-8');
             } catch (err) {
                 process.stderr.write(chalk.default.redBright('Unable to write LU file - ' + outFileName + '\n'));
-                process.exit(retCode.UNABLE_TO_WRITE_FILE);
+                process.exit(retCode.errorCode.UNABLE_TO_WRITE_FILE);
             }
             if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote to ' + path.join(outFolder, program.lu_File)));
         } catch (err) {
             process.stderr.write(chalk.default.redBright('Oops! Something went wrong.\n'));
             process.stderr.write(chalk.yellow(err));
-            process.exit(retCode.UNKNOWN_ERROR);
+            process.exit(retCode.errorCode.UNKNOWN_ERROR);
         }
     }
 };
@@ -89,25 +89,25 @@ module.exports = {
 var parseLUISFile = function(file) {
     if(!fs.existsSync(path.resolve(file))) {
         process.stderr.write(chalk.default.redBright('Sorry unable to open [' + file + ']\n'));        
-        process.exit(retCode.FILE_OPEN_ERROR);
+        process.exit(retCode.errorCode.FILE_OPEN_ERROR);
     }
     var LUISFileContent = txtfile.readSync(file);
     if (!LUISFileContent) {
         process.stderr.write(chalk.default.redBright('Sorry, error reading file: ' + file + '\n'));    
-        process.exit(retCode.FILE_OPEN_ERROR);
+        process.exit(retCode.errorCode.FILE_OPEN_ERROR);
     }
     LUISJSON = JSON.parse(LUISFileContent);
     if(LUISJSON.composites && LUISJSON.composites.length !== 0) {
         process.stderr.write(chalk.default.redBright('Sorry, input LUIS JSON file has references to composite entities. Cannot convert to .lu file.\n'));    
-        process.exit(retCode.INVALID_INPUT_FILE);
+        process.exit(retCode.errorCode.INVALID_INPUT_FILE);
     }
     if(LUISJSON.regex_entities && LUISJSON.regex_entities.length !== 0) {
         process.stderr.write(chalk.default.redBright('Sorry, input LUIS JSON file has references to regular expression entities. Cannot convert to .lu file.\n'));    
-        process.exit(retCode.INVALID_INPUT_FILE);
+        process.exit(retCode.errorCode.INVALID_INPUT_FILE);
     }
     if(LUISJSON.regex_features && LUISJSON.regex_features.length !== 0) {
         process.stderr.write(chalk.default.redBright('Sorry, input LUIS JSON file has references to regex_features. Cannot convert to .lu file.\n'));    
-        process.exit(retCode.INVALID_INPUT_FILE);
+        process.exit(retCode.errorCode.INVALID_INPUT_FILE);
     }
     return LUISJSON;
 };
@@ -120,17 +120,17 @@ var parseLUISFile = function(file) {
 var parseQnAJSONFile = function(file){
     if(!fs.existsSync(path.resolve(file))) {
         process.stderr.write(chalk.default.redBright('Sorry unable to open [' + file + ']\n'));        
-        process.exit(retCode.FILE_OPEN_ERROR);
+        process.exit(retCode.errorCode.FILE_OPEN_ERROR);
     }
     var QNAFileContent = txtfile.readSync(file);
     if (!QNAFileContent) {
         process.stderr.write(chalk.default.redBright('Sorry, error reading file: ' + file + '\n'));    
-        process.exit(retCode.FILE_OPEN_ERROR);
+        process.exit(retCode.errorCode.FILE_OPEN_ERROR);
     }
     QnAJSON = JSON.parse(QNAFileContent);
     if (!QnAJSON) {
         process.stderr.write(chalk.default.redBright('Sorry, error parsing file as QnA JSON: ' + file + '\n'));    
-        process.exit(retCode.INVALID_INPUT_FILE);
+        process.exit(retCode.errorCode.INVALID_INPUT_FILE);
     }
     return QnAJSON;
 }

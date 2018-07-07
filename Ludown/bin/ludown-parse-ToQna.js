@@ -10,7 +10,7 @@ var retCode = require('../lib/enums/CLI-errors');
 program.Command.prototype.unknownOption = function (flag) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
-    process.exit(retCode.UNKNOWN_OPTIONS);
+    process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
 };
 program
     .name("ludown parse ToQna")
@@ -26,12 +26,12 @@ program
     
     if (process.argv.length < 4) {
         program.help();
-        process.exit(retCode.UNKNOWN_OPTIONS);
+        process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
     } else {
         if (!program.in && !program.lu_folder) {
             process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
             program.help();
-            process.exit(retCode.UNKNOWN_OPTIONS);
+            process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
         } 
         fParser.handleFile(program, 'qna');
     }

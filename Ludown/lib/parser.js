@@ -13,6 +13,7 @@ const parseFileContents = require('./parseFileContents');
 const prebuiltTypes = require('./enums/luisbuiltintypes');
 const deepEqual = require('deep-equal');
 const retCode = require('./enums/CLI-errors');
+const helpers = require('./helpers');
 
 module.exports = {
     /**
@@ -21,219 +22,195 @@ module.exports = {
      * @param {object} program content flushed out by commander
      */
     handleFile(program, cmd) {
-        try
-        {
-            var filesToParse = [];
-            var rootFile = '';
+        var filesToParse = [];
+        var rootFile = '';
 
-            if(program.in) {
-                rootFile = program.in;
-                filesToParse.push(program.in);
+        if(program.in) {
+            rootFile = program.in;
+            filesToParse.push(program.in);
+        }
+        
+        if(program.lu_folder) {
+            // is this a folder? 
+            try
+            {
+                var folderStat = fs.statSync(program.lu_folder);
+            } catch (err) {
+                process.stderr.write(chalk.default.redBright('Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
+                process.exit(retCode.errorCode.OUTPUT_FOLDER_INVALID);
+            }
+            if(!folderStat.isDirectory()) {
+                process.stderr.write(chalk.default.redBright('Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
+                process.exit(retCode.errorCode.OUTPUT_FOLDER_INVALID);
+            }
+            if(program.subfolder) {
+                filesToParse = helpers.findLUFiles(program.lu_folder, true); 
+            } else {
+                filesToParse = helpers.findLUFiles(program.lu_folder, false); 
+            }
+
+            if(filesToParse.length === 0) {
+                process.stderr.write(chalk.default.redBright('Sorry, no .lu files found in the specified folder.'));
+                process.exit(retCode.errorCode.errorCode.NO_LU_FILES_FOUND);
+            }
+            if(!rootFile) rootFile = filesToParse[0]
+        }
+
+        // handle root file and subseqntly own calling parse on other files found in rootFile
+        var allParsedLUISContent = new Array();
+        var allParsedQnAContent = new Array();
+        
+        // is there an output folder?
+        var outFolder = process.cwd();
+        if(program.out_folder) {
+            if(path.isAbsolute(program.out_folder)) {
+                outFolder = program.out_folder;
+            } else {
+                outFolder = path.resolve('', program.out_folder);
+            }
+            if(!fs.existsSync(outFolder)) {
+                process.stderr.write(chalk.default.redBright('\nOutput folder ' + outFolder + ' does not exist\n'));
+                process.exit(retCode.errorCode.OUTPUT_FOLDER_INVALID);
+            }
+        }
+        
+        if(!program.luis_versionId) program.luis_versionId = "0.1";
+        if(!program.luis_schema_version) program.luis_schema_version = "3.0.0";
+        if(!program.luis_name) program.luis_name = path.basename(rootFile, path.extname(rootFile));
+        if(!program.luis_desc) program.luis_desc = "";
+        if(!program.luis_culture) program.luis_culture = "en-us";   
+        if(!program.qna_name) program.qna_name = path.basename(rootFile, path.extname(rootFile));
+        if(program.luis_culture) program.luis_culture = program.luis_culture.toLowerCase();
+
+        while(filesToParse.length > 0) {
+            var file = filesToParse[0];
+            if(!fs.existsSync(path.resolve(file))) {
+                process.stderr.write(chalk.default.redBright('Sorry unable to open [' + file + ']\n'));        
+                process.exit(retCode.errorCode.FILE_OPEN_ERROR);
+            }
+            var fileContent = txtfile.readSync(file);
+            if (!fileContent) {
+                process.stderr.write(chalk.default.redBright('Sorry, error reading file:' + file + '\n'));    
+                process.exit(retCode.errorCode.FILE_OPEN_ERROR);
+            }
+            if(program.verbose) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
+            var parseContent = '';
+            try {
+                parsedContent = parseFileContents.parseFile(fileContent, program.verbose, program.luis_culture);
+            } catch (err) {
+                throw(err);
             }
             
-            if(program.lu_folder) {
-                // is this a folder? 
-                try
-                {
-                    var folderStat = fs.statSync(program.lu_folder);
-                } catch (err) {
-                    process.stderr.write(chalk.default.redBright('Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
-                    process.exit(retCode.OUTPUT_FOLDER_INVALID);
-                }
-                if(!folderStat.isDirectory()) {
-                    process.stderr.write(chalk.default.redBright('Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
-                    process.exit(retCode.OUTPUT_FOLDER_INVALID);
-                }
-                if(program.subfolder) {
-                    filesToParse = findLUFiles(program.lu_folder, true); 
-                } else {
-                    filesToParse = findLUFiles(program.lu_folder, false); 
-                }
+            if (!parsedContent) {
+                process.stderr.write(chalk.default.redBright('Sorry, file ' + file + 'had invalid content\n'));
+                process.exit(retCode.errorCode.INVALID_INPUT_FILE);
+            } else {
+                if(haveLUISContent(parsedContent.LUISBlob) && validateLUISBlob(parsedContent.LUISBlob)) allParsedLUISContent.push(parsedContent.LUISBlob);
+                allParsedQnAContent.push(parsedContent.QnABlob);
+            }
+            // remove this file from the list
+            var parentFile = filesToParse.splice(0,1);
+            var parentFilePath = path.parse(path.resolve(parentFile[0])).dir;
+            // add additional files to parse to the list
+            if(parsedContent.fParse.length > 0) {
+                parsedContent.fParse.forEach(function(file) {
+                    if(path.isAbsolute(file)) {
+                        filesToParse.push(file);
+                    } else {
+                        filesToParse.push(path.resolve(parentFilePath, file));
+                    }
+                });
+            }
+        }
+        var finalLUISJSON = collateLUISFiles(allParsedLUISContent);
+        if(haveLUISContent(parsedContent.LUISBlob)) validateLUISBlob(finalLUISJSON);
+        var finalQnAJSON = collateQnAFiles(allParsedQnAContent);
+        
+        if(finalLUISJSON) {
+            finalLUISJSON.luis_schema_version = program.luis_schema_version;
+            finalLUISJSON.versionId = program.luis_versionId;
+            finalLUISJSON.name = program.luis_name,
+            finalLUISJSON.desc = program.luis_desc;
+            finalLUISJSON.culture = program.luis_culture;
+            finalQnAJSON.name = program.qna_name;
+        }
+        
+        var writeQnAFile = (finalQnAJSON.qnaList.length > 0) || 
+                            (finalQnAJSON.urls.length > 0);
 
-                if(filesToParse.length === 0) {
-                    process.stderr.write(chalk.default.redBright('Sorry, no .lu files found in the specified folder.'));
-                    process.exit(retCode.NO_LU_FILES_FOUND);
-                }
-                if(!rootFile) rootFile = filesToParse[0]
-            }
+        var  writeLUISFile = finalLUISJSON?true:false;
 
-            // handle root file and subseqntly own calling parse on other files found in rootFile
-            var allParsedLUISContent = new Array();
-            var allParsedQnAContent = new Array();
-            
-            // is there an output folder?
-            var outFolder = process.cwd();
-            if(program.out_folder) {
-                if(path.isAbsolute(program.out_folder)) {
-                    outFolder = program.out_folder;
-                } else {
-                    outFolder = path.resolve('', program.out_folder);
-                }
-                if(!fs.existsSync(outFolder)) {
-                    process.stderr.write(chalk.default.redBright('\nOutput folder ' + outFolder + ' does not exist\n'));
-                    process.exit(retCode.OUTPUT_FOLDER_INVALID);
-                }
-            }
-            
-            if(!program.luis_versionId) program.luis_versionId = "0.1";
-            if(!program.luis_schema_version) program.luis_schema_version = "3.0.0";
-            if(!program.luis_name) program.luis_name = path.basename(rootFile, path.extname(rootFile));
-            if(!program.luis_desc) program.luis_desc = "";
-            if(!program.luis_culture) program.luis_culture = "en-us";   
-            if(!program.qna_name) program.qna_name = path.basename(rootFile, path.extname(rootFile));
-            if(program.luis_culture) program.luis_culture = program.luis_culture.toLowerCase();
+        if(!writeLUISFile && program.verbose) {
+            process.stdout.write(chalk.default.yellowBright('No LUIS content found in .lu file(s)! \n'));
+        }
 
-            while(filesToParse.length > 0) {
-                var file = filesToParse[0];
-                if(!fs.existsSync(path.resolve(file))) {
-                    process.stderr.write(chalk.default.redBright('Sorry unable to open [' + file + ']\n'));        
-                    process.exit(retCode.FILE_OPEN_ERROR);
-                }
-                var fileContent = txtfile.readSync(file);
-                if (!fileContent) {
-                    process.stderr.write(chalk.default.redBright('Sorry, error reading file:' + file + '\n'));    
-                    process.exit(retCode.FILE_OPEN_ERROR);
-                }
-                if(program.verbose) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
-                var parsedContent = parseFileContents.parseFile(fileContent, program.verbose, program.luis_culture);
-                if (!parsedContent) {
-                    process.stderr.write(chalk.default.redBright('Sorry, file ' + file + 'had invalid content\n'));
-                    process.exit(retCode.INVALID_INPUT_FILE);
-                } else {
-                    if(haveLUISContent(parsedContent.LUISBlob) && validateLUISBlob(parsedContent.LUISBlob)) allParsedLUISContent.push(parsedContent.LUISBlob);
-                    allParsedQnAContent.push(parsedContent.QnABlob);
-                }
-                // remove this file from the list
-                var parentFile = filesToParse.splice(0,1);
-                var parentFilePath = path.parse(path.resolve(parentFile[0])).dir;
-                // add additional files to parse to the list
-                if(parsedContent.fParse.length > 0) {
-                    parsedContent.fParse.forEach(function(file) {
-                        if(path.isAbsolute(file)) {
-                            filesToParse.push(file);
-                        } else {
-                            filesToParse.push(path.resolve(parentFilePath, file));
-                        }
-                    });
-                }
-            }
-            var finalLUISJSON = collateLUISFiles(allParsedLUISContent);
-            if(haveLUISContent(parsedContent.LUISBlob)) validateLUISBlob(finalLUISJSON);
-            var finalQnAJSON = collateQnAFiles(allParsedQnAContent);
-            
-            if(finalLUISJSON) {
-                finalLUISJSON.luis_schema_version = program.luis_schema_version;
-                finalLUISJSON.versionId = program.luis_versionId;
-                finalLUISJSON.name = program.luis_name,
-                finalLUISJSON.desc = program.luis_desc;
-                finalLUISJSON.culture = program.luis_culture;
-                finalQnAJSON.name = program.qna_name;
-            }
-            
-            var writeQnAFile = (finalQnAJSON.qnaList.length > 0) || 
-                               (finalQnAJSON.urls.length > 0);
+        if(!writeQnAFile && program.verbose) {
+            process.stdout.write(chalk.default.yellowBright('No QnA Maker content found in .lu file(s)! \n'));
+        }
 
-            var  writeLUISFile = finalLUISJSON?true:false;
-
-            if(!writeLUISFile && program.verbose) {
-                process.stdout.write(chalk.default.yellowBright('No LUIS content found in .lu file(s)! \n'));
-            }
-
-            if(!writeQnAFile && program.verbose) {
-                process.stdout.write(chalk.default.yellowBright('No QnA Maker content found in .lu file(s)! \n'));
-            }
-
-            if(program.verbose) {
-                if((cmd == 'luis') && writeLUISFile) {
-                    process.stdout.write(JSON.stringify(finalLUISJSON, null, 2) + '\n');
-                }
-                if((cmd == 'qna') && writeQnAFile) {
-                    process.stdout.write(JSON.stringify(finalQnAJSON, null, 2) + '\n');
-                }
-            }
-            
-            if(!program.lOutFile) {
-                if(!program.luis_name) {
-                    program.lOutFile = path.basename(rootFile, path.extname(rootFile)) + "_LUISApp.json";  
-                } else {
-                    program.lOutFile = program.luis_name + ".json";
-                }
-            }
-            if(!program.qOutFile) {
-                if(!program.qna_name) {
-                    program.qOutFile = path.basename(rootFile, path.extname(rootFile)) + "_qnaKB.json";
-                } else {
-                    program.qOutFile = program.qna_name + ".json";
-                }
-            }
+        if(program.verbose) {
             if((cmd == 'luis') && writeLUISFile) {
-                var fLuisJson = JSON.stringify(finalLUISJSON, null, 2);
-                var luisFilePath = path.join(outFolder, program.lOutFile);
-                // write out the final LUIS Json
-                try {
-                    fs.writeFileSync(luisFilePath, fLuisJson, 'utf-8');
-                } catch (err) {
-                    process.stderr.write(chalk.default.redBright('Unable to write LUIS JSON file - ' + path.join(outFolder, program.lOutFile) + '\n'));
-                    process.exit(retCode.UNABLE_TO_WRITE_FILE);
-                }
-                if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote LUIS model to ' + path.join(outFolder, program.lOutFile) + '\n'));
+                process.stdout.write(JSON.stringify(finalLUISJSON, null, 2) + '\n');
             }
             if((cmd == 'qna') && writeQnAFile) {
-                var qnaJson = JSON.stringify(finalQnAJSON, null, 2);
-                var qnaFilePath = path.join(outFolder, program.qOutFile);
-                // write out the final LUIS Json
-                try {
-                    fs.writeFileSync(qnaFilePath, qnaJson, 'utf-8');
-                } catch (err) {
-                    process.stderr.write(chalk.default.redBright('Unable to write QnA JSON file - ' + path.join(outFolder, program.qOutFile) + '\n'));
-                    process.exit(retCode.UNABLE_TO_WRITE_FILE);
-                }
-                if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote QnA KB to ' + path.join(outFolder, program.qOutFile) + '\n'));
+                process.stdout.write(JSON.stringify(finalQnAJSON, null, 2) + '\n');
             }
-            // write luis batch test file if requested
-            if((cmd == 'luis') && program.write_luis_batch_tests) {
-                var lBatchFile = JSON.stringify(finalLUISJSON.utterances, null, 2);
-                var LUISBatchFileName = program.lOutFile.replace(".json","_LUISBatchTest.json");
-                var lBFileName = path.join(outFolder, LUISBatchFileName);
-                // write out the final LUIS Json
-                try {
-                    fs.writeFileSync(lBFileName, lBatchFile, 'utf-8');
-                } catch (err) {
-                    process.stderr.write(chalk.default.redBright('Unable to write LUIS batch test JSON file - ' + path.join(outFolder, LUISBatchFileName) + '\n'));
-                    process.exit(retCode.UNABLE_TO_WRITE_FILE);
-                }
-                if(program.verbose) console.log(chalk.default.italic('Successfully wrote LUIS batch test JSON file to ' + path.join(outFolder, LUISBatchFileName) + '\n'));
-            }
-            process.exit(retCode.SUCCESS);
-        } catch (err) {
-            process.stderr.write(chalk.default.redBright('Oops! Something went wrong.\n'));
-            process.stderr.write(chalk.yellow(err));
-            process.exit(retCode.UNKNOWN_ERROR);
         }
+        
+        if(!program.lOutFile) {
+            if(!program.luis_name) {
+                program.lOutFile = path.basename(rootFile, path.extname(rootFile)) + "_LUISApp.json";  
+            } else {
+                program.lOutFile = program.luis_name + ".json";
+            }
+        }
+        if(!program.qOutFile) {
+            if(!program.qna_name) {
+                program.qOutFile = path.basename(rootFile, path.extname(rootFile)) + "_qnaKB.json";
+            } else {
+                program.qOutFile = program.qna_name + ".json";
+            }
+        }
+        if((cmd == 'luis') && writeLUISFile) {
+            var fLuisJson = JSON.stringify(finalLUISJSON, null, 2);
+            var luisFilePath = path.join(outFolder, program.lOutFile);
+            // write out the final LUIS Json
+            try {
+                fs.writeFileSync(luisFilePath, fLuisJson, 'utf-8');
+            } catch (err) {
+                process.stderr.write(chalk.default.redBright('Unable to write LUIS JSON file - ' + path.join(outFolder, program.lOutFile) + '\n'));
+                process.exit(retCode.errorCode.UNABLE_TO_WRITE_FILE);
+            }
+            if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote LUIS model to ' + path.join(outFolder, program.lOutFile) + '\n'));
+        }
+        if((cmd == 'qna') && writeQnAFile) {
+            var qnaJson = JSON.stringify(finalQnAJSON, null, 2);
+            var qnaFilePath = path.join(outFolder, program.qOutFile);
+            // write out the final LUIS Json
+            try {
+                fs.writeFileSync(qnaFilePath, qnaJson, 'utf-8');
+            } catch (err) {
+                process.stderr.write(chalk.default.redBright('Unable to write QnA JSON file - ' + path.join(outFolder, program.qOutFile) + '\n'));
+                process.exit(retCode.errorCode.UNABLE_TO_WRITE_FILE);
+            }
+            if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote QnA KB to ' + path.join(outFolder, program.qOutFile) + '\n'));
+        }
+        // write luis batch test file if requested
+        if((cmd == 'luis') && program.write_luis_batch_tests) {
+            var lBatchFile = JSON.stringify(finalLUISJSON.utterances, null, 2);
+            var LUISBatchFileName = program.lOutFile.replace(".json","_LUISBatchTest.json");
+            var lBFileName = path.join(outFolder, LUISBatchFileName);
+            // write out the final LUIS Json
+            try {
+                fs.writeFileSync(lBFileName, lBatchFile, 'utf-8');
+            } catch (err) {
+                process.stderr.write(chalk.default.redBright('Unable to write LUIS batch test JSON file - ' + path.join(outFolder, LUISBatchFileName) + '\n'));
+                process.exit(retCode.errorCode.UNABLE_TO_WRITE_FILE);
+            }
+            if(program.verbose) console.log(chalk.default.italic('Successfully wrote LUIS batch test JSON file to ' + path.join(outFolder, LUISBatchFileName) + '\n'));
+        }
+        process.exit(retCode.errorCode.SUCCESS);
     }
-};
-
-/**
- * Helper function to recursively get all .lu files
- * @param {string} inputfolder input folder name
- * @param {boolean} getSubFolder indicates if we should recursively look in sub-folders as well
- * @returns {Array} Array of .lu files found
- */
-var findLUFiles = function(inputFolder, getSubFolders) {
-    var results = [];
-    const luExt = '.lu';
-    fs.readdirSync(inputFolder).forEach(function(dirContent) {
-        dirContent = path.resolve(inputFolder,dirContent);
-        if(getSubFolders && fs.statSync(dirContent).isDirectory()) {
-            results = results.concat(findLUFiles(dirContent, getSubFolders));
-        }
-        if(fs.statSync(dirContent).isFile()) {
-            if(dirContent.endsWith(luExt)) {
-                results.push(dirContent);
-            }
-        }
-    });
-    return results;
 };
 
 /**
@@ -345,7 +322,7 @@ var validateLUISBlob = function(LUISJSONBlob) {
             process.stderr.write(chalk.default.redBright('  Entity "' + entity.name + '" has duplicate definitions. \n\n'));
             process.stderr.write(chalk.default.redBright('  ' + JSON.stringify(entity.type, 2, null) + '  \n'));
             process.stderr.write(chalk.default.redBright('\n  Stopping further processing \n'));
-            process.exit(retCode.DUPLICATE_ENTITIES);
+            process.exit(retCode.errorCode.DUPLICATE_ENTITIES);
         }
     });
 
@@ -363,13 +340,13 @@ var validateLUISBlob = function(LUISJSONBlob) {
                             process.stderr.write(chalk.default.redBright('\n  Utterance "' + utterance.text + '", has reference to List entity type. \n\n'));
                             process.stderr.write(chalk.default.redBright('  You cannot have utterances with phraselist references in them\n'));
                             process.stderr.write(chalk.default.redBright('\n  Stopping further processing \n'));
-                            process.exit(retCode.INVALID_INPUT);
+                            process.exit(retCode.errorCode.INVALID_INPUT);
                         }
                         if(entityInList[0].type.includes("phraseList")) {
                             process.stderr.write(chalk.default.redBright('\n  Utterance "' + utterance.text + '", has reference to PhraseList. \n\n'));
                             process.stderr.write(chalk.default.redBright('  You cannot have utterances with phraselist references in them\n'));
                             process.stderr.write(chalk.default.redBright('\n  Stopping further processing \n'));
-                            process.exit(retCode.INVALID_INPUT);
+                            process.exit(retCode.errorCode.INVALID_INPUT);
                         }
                     }
                 });
@@ -483,7 +460,7 @@ var collateLUISFiles = function(parsedBlobs) {
                         // error.
                         process.stderr.write(chalk.default.redBright('[ERROR]: Phrase list : "' + modelFeature.name + '" has conflicting definitions. One marked interchangeable and another not interchangeable \n'));
                         process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                        process.exit(retCode.INVALID_INPUT);
+                        process.exit(retCode.errorCode.INVALID_INPUT);
                     } else {
                         modelFeature.words.split(',').forEach(function(word) {
                             if(!modelFeatureInMaster[0].words.includes(word)) modelFeatureInMaster[0].words += "," + word;

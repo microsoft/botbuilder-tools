@@ -2,7 +2,7 @@
   "name": "ludown",
   "version": "1.0.30",
   "description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
-  "main": "index.js",
+  "main": "lib\\exports.js",
   "scripts": {
     "test": "nyc --reporter=html mocha"
   },

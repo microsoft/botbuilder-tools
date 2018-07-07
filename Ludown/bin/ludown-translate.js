@@ -10,7 +10,7 @@ var retCode = require('../lib/enums/CLI-errors');
 program.Command.prototype.unknownOption = function (flag) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
-    process.exit(retCode.UNKNOWN_OPTIONS);
+    process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
 };
 program
     .name("ludown translate")
@@ -35,18 +35,25 @@ program
         if (!program.in && !program.lu_folder) {
             process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
             program.help();
-            process.exit(retCode.UNKNOWN_OPTIONS);
+            process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
         } 
         if(!program.translate_key) {
             process.stderr.write(chalk.default.redBright(`\n  No translate key provided.\n`));
             program.help();
-            process.exit(retCode.UNKNOWN_OPTIONS);
+            process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
         }
         if(!program.to_lang) {
             process.stderr.write(chalk.default.redBright(`\n  No target language provided.\n`));
             program.help();
-            process.exit(retCode.UNKNOWN_OPTIONS);
+            process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
         }
-        translate.translateContent(program);
+        try {
+            translate.translateContent(program);
+        } catch (err) {
+            process.stderr.write(chalk.default.redBright(err.text + '\n'));
+            process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
+            process.exit(err.errCode);
+        }
+        
     }
    

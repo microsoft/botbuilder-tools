@@ -10,7 +10,7 @@ var retCode = require('../lib/enums/CLI-errors');
 program.Command.prototype.unknownOption = function (flag) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
-    process.exit(retCode.UNKNOWN_OPTIONS);
+    process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
 };
 program
     .name("ludown refresh")
@@ -30,7 +30,7 @@ program
         if (!program.LUIS_File && !program.QNA_FILE) {
             process.stderr.write(chalk.default.redBright(`\n  No LUIS input file or QnA Maker JSON or TSV specified.`));
             program.help();
-            process.exit(retCode.UNKNOWN_OPTIONS);
+            process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
         } 
         toLU.generateMarkdown(program);
     }

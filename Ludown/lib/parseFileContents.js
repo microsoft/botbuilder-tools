@@ -19,7 +19,7 @@ const retCode = require('./enums/CLI-errors');
  * @param {string} fileContent current file content
  * @param {boolean} log indicates if we need verbose logging.
  *  
- * @returns {additionalFilesToParse,LUISJsonStruct,qnaJsonStruct} Object that contains list of additional files to parse, parsed LUIS object and parsed QnA object
+ * @returns {object} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
  */
 module.exports.parseFile = function(fileContent, log, locale) 
 {
@@ -42,8 +42,13 @@ module.exports.parseFile = function(fileContent, log, locale)
         "qnaList": new Array(),
         "urls": new Array()
     };
-    
-    var splitOnBlankLines = helpers.splitFileBySections(fileContent.toString());
+    var splitOnBlankLines = '';
+
+    try {
+        splitOnBlankLines = helpers.splitFileBySections(fileContent.toString());
+    } catch (err) {
+        throw(err);
+    }
 
     // loop through every chunk of information
     splitOnBlankLines.forEach(function(chunk) {
@@ -53,7 +58,7 @@ module.exports.parseFile = function(fileContent, log, locale)
             var urlRef_regex = chunkSplitByLine[0].trim().replace(PARSERCONSTS.URLREF, '').split(/\(['"](.*?)['"]\)/g);
             if(urlRef_regex.length !== 3 || urlRef_regex[1].trim() === '') {
                 process.stderr.write(chalk.default.redBright('[ERROR]: ' + 'Invalid URL Ref: ' + chunkSplitByLine[0]));
-                process.exit(retCode.INVALID_URL_REF);
+                process.exit(retCode.errorCode.INVALID_URL_REF);
             } else {
                 qnaJsonStruct.urls.push(urlRef_regex[1]);
             }
@@ -62,7 +67,7 @@ module.exports.parseFile = function(fileContent, log, locale)
             var urlRef_regex = chunkSplitByLine[0].trim().replace(PARSERCONSTS.FILEREF, '').split(/\(['"](.*?)['"]\)/g);
             if(urlRef_regex.length !== 3 || urlRef_regex[1].trim() === '') {
                 process.stderr.write(chalk.default.redBright('[ERROR]: ' + 'Invalid LU File Ref: ' + chunkSplitByLine[0]));
-                process.exit(retCode.INVALID_LU_FILE_REF);
+                process.exit(retCode.errorCode.INVALID_LU_FILE_REF);
             } else {
                 additionalFilesToParse.push(urlRef_regex[1]);
             }
@@ -119,14 +124,14 @@ module.exports.parseFile = function(fileContent, log, locale)
                                 (utterance.indexOf('+') !== 0)) {
                                     process.stderr.write(chalk.default.redBright('Filter: "' + utterance + '" does not have list decoration. Prefix line with "-" or "+" or "*"\n'));
                                     process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                                    process.exit(retCode.INVALID_QNA_FILTER_DEF);
+                                    process.exit(retCode.errorCode.INVALID_QNA_FILTER_DEF);
                                 }
                                 utterance = utterance.slice(1).trim();
                                 var kp = utterance.split('=');
                                 if(kp.length !== 2) {
                                     process.stderr.write(chalk.default.redBright('Filter: "' + utterance + '" does not have a name = value pair. \n'));
                                     process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                                    process.exit(retCode.INVALID_QNA_FILTER_DEF);
+                                    process.exit(retCode.errorCode.INVALID_QNA_FILTER_DEF);
                                 }
                                 metadata.push({
                                     "name": kp[0].trim(),
@@ -139,7 +144,7 @@ module.exports.parseFile = function(fileContent, log, locale)
                                 (utterance.indexOf('+') !== 0)) {
                                     process.stderr.write(chalk.default.redBright('Question: "' + utterance + '" does not have list decoration. Prefix line with "-" or "+" or "*"\n'));
                                     process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                                    process.exit(retCode.INVALID_QNA_QUESTION_DEF);
+                                    process.exit(retCode.errorCode.INVALID_QNA_QUESTION_DEF);
                                 }
                                 utterance = utterance.slice(1).trim();
                                 questions.push(utterance.trim());
@@ -169,7 +174,7 @@ module.exports.parseFile = function(fileContent, log, locale)
                         (utterance.indexOf('+') !== 0)) {
                         process.stderr.write(chalk.default.redBright('Utterance: "' + utterance + '" does not have list decoration. Prefix line with "-" or "+" or "*"\n'));
                         process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                        process.exit(retCode.INVALID_UTTERANCE_DEF);
+                        process.exit(retCode.errorCode.INVALID_UTTERANCE_DEF);
                         }
                     utterance = utterance.slice(1).trim();
                     
@@ -191,7 +196,7 @@ module.exports.parseFile = function(fileContent, log, locale)
                                 if(entitySplit.length > 2) {
                                     process.stderr.write(chalk.default.redBright('[ERROR]: Nested entity references are not supported in utterance: ' + utterance + '\n'));
                                     process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                                    process.exit(retCode.INVALID_INPUT);
+                                    process.exit(retCode.errorCode.INVALID_INPUT);
                                 }
                                 entity = entitySplit[0].trim();
                                 labelledValue = entitySplit[1].trim();
@@ -216,7 +221,7 @@ module.exports.parseFile = function(fileContent, log, locale)
                                     });
                                 } else {
                                     process.stderr.write(chalk.default.redBright('[WARN]: No labelled value found for entity: ' + entity + ' in utterance: ' + utterance + '\n'));
-                                    process.exit(retCode.MISSING_LABELLED_VALUE);
+                                    process.exit(retCode.errorCode.MISSING_LABELLED_VALUE);
                                 }
                             } else {
                                 // push this utterance to patterns
@@ -294,7 +299,7 @@ module.exports.parseFile = function(fileContent, log, locale)
                     if(entityType.toLowerCase().trim().indexOf('phraselist') === 0) {
                         process.stderr.write(chalk.default.redBright('[ERROR]: Phrase lists cannot be used as an entity in a pattern "' + entityName + '"\n'));
                         process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                        process.exit(retCode.INVALID_INPUT);
+                        process.exit(retCode.errorCode.INVALID_INPUT);
                     }
                     LUISJsonStruct.patternAnyEntities.splice(i, 1);
                     break;
@@ -361,7 +366,7 @@ module.exports.parseFile = function(fileContent, log, locale)
                     (listLine.indexOf('+') !== 0)) {
                         process.stderr.write(chalk.default.redBright('[ERROR]: Synonyms list value: "' + listLine + '" does not have list decoration. Prefix line with "-" or "+" or "*"\n'));
                         process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                        process.exit(retCode.SYNONYMS_NOT_A_LIST);
+                        process.exit(retCode.errorCode.SYNONYMS_NOT_A_LIST);
                     }
                     listLine = listLine.slice(1).trim();       
                     synonymsList.push(listLine.trim());
@@ -418,7 +423,7 @@ module.exports.parseFile = function(fileContent, log, locale)
                     (phraseListValues.indexOf('+') !== 0)) {
                         process.stderr.write(chalk.default.redBright('[ERROR]: Phrase list value: "' + phraseListValues + '" does not have list decoration. Prefix line with "-" or "+" or "*"\n'));
                         process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                        process.exit(retCode.PHRASELIST_NOT_A_LIST);
+                        process.exit(retCode.errorCode.PHRASELIST_NOT_A_LIST);
                     }
                     phraseListValues = phraseListValues.slice(1).trim();
                     pLValues.push(phraseListValues.split(','));
@@ -444,7 +449,7 @@ module.exports.parseFile = function(fileContent, log, locale)
                         } else {
                             process.stderr.write(chalk.default.redBright('[ERROR]: Phrase list : "' + entityName + '" has conflicting definitions. One marked interchangeable and another not interchangeable \n'));
                             process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                            process.exit(retCode.INVALID_INPUT);
+                            process.exit(retCode.errorCode.INVALID_INPUT);
                         }
                         
                     } else {
