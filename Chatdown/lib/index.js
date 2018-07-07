@@ -52,8 +52,9 @@ module.exports = async function readContents(fileContents, args = {}) {
 
     for (let line of lines) {
         // signature for a new message
+        line = line.trim();
         if (configurationRegExp.test(line)) {
-            const [optionName, value, ...rest] = line.trim().split('=');
+            const [optionName, value, ...rest] = line.split('=');
             if (rest.length) {
                 throw new Error('Malformed configurations options detected. Options must be in the format optionName=optionValue');
             }
@@ -93,7 +94,7 @@ module.exports = async function readContents(fileContents, args = {}) {
                 activities.push(currentActivity);
                 aggregate = '';
             }
-            // create new activity 
+            // create new activity
             const fromId = args[newMessageRegEx.exec(line)[1].toLowerCase()];
             const fromChannelAccountId = fromId.toLowerCase() === args.bot.toLowerCase() ? args.botId : args.userId;
             const recipientChannelAccountId = fromId.toLowerCase() === args.bot.toLowerCase() ? args.userId : args.botId;
@@ -120,7 +121,7 @@ module.exports = async function readContents(fileContents, args = {}) {
     // an activity waiting.
     if (currentActivity) {
         // signature for an activity that contains a type other than
-        // message with or without arguments. e.g. [delay:3000]
+        // message with or without arguments. e.g. [delay=3000]
         if (commandRegExp.test(aggregate)) {
             const newActivities = await readCommandsFromAggregate(aggregate, currentActivity, recipient, from, conversationId);
             if (newActivities) {
@@ -179,6 +180,7 @@ async function readCommandsFromAggregate(aggregate, currentActivity, recipient, 
             switch (type) {
                 case activitytypes.typing:
                     let newActivity = createActivity({ type, recipient, from, conversationId });
+                    newActivity.timestamp = getIncrementedDate();
                     newActivities.push(newActivity);
                     break;
             }
@@ -259,8 +261,8 @@ function addAttachmentLayout(currentActivity, rest) {
 /**
  * Add suggested actions support
  * Example: [suggestions=Option 1|Option 2|Option 3]
- * @param {*} currentActivity 
- * @param {*} rest 
+ * @param {*} currentActivity
+ * @param {*} rest
  */
 function addSuggestions(currentActivity, rest) {
     currentActivity.suggestedActions = { actions: [] };
@@ -278,8 +280,8 @@ function addSuggestions(currentActivity, rest) {
  *     Text: xxxx
  *     image: url
  *     Buttons: Option 1|Option 2|Option 3]
- * @param {*} currentActivity 
- * @param {*} rest 
+ * @param {*} currentActivity
+ * @param {*} rest
  */
 function addCard(contentType, currentActivity, rest) {
     let card = { buttons: [] };
@@ -371,7 +373,7 @@ async function addAttachment(activity, arg) {
         // if it is not a card
         if (!isCard(contentType) && charset !== 'UTF-8') {
             // send as base64
-            contentUrl = `data:${contentType};base64,${new Buffer(content).toString('base64')}`;
+            contentUrl = `data:${contentType};base64,${new Buffer.alloc(content.length).toString('base64')}`;
             content = undefined;
         } else {
             contentUrl = undefined;

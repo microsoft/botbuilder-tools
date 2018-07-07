@@ -1,7 +1,7 @@
 const assert = require('assert');
 const chatdown = require('../lib');
 
-describe('The chatdown lib', () => {
+describe('The Chatdown lib', () => {
     describe('should correctly output data', () => {
         it('when the input chat contains an attachment', async () => {
             const conversation = `
@@ -10,20 +10,20 @@ describe('The chatdown lib', () => {
             user: Hello!
             bot: Hello, can I help you?
             user: I need an image
-            bot: here you go! [Attachments:bot-framework.png]
+            bot: here you go! [Attachment=bot-framework.png]
             `;
             const activities = await chatdown(conversation, {});
             assert(activities.length === 4);
 
         });
 
-        it('when the input chat contains [Delay:xxxx] instructions', async () => {
+        it('when the input chat contains [Delay=xxxx] instructions', async () => {
             const conversation = `
             user=Joe
             bot=LulaBot
             user: Hello!
             bot: [Typing]
-            [Delay:5000] How are you?
+            [Delay=5000] How are you?
             `;
 
             const activities = await chatdown(conversation, {});
@@ -36,9 +36,9 @@ describe('The chatdown lib', () => {
             bot=LulaBot
             user: Hello!
             bot: [Typing]
-            [Delay:5000] How are you?,
-            user: Good, hit me with a help fiassert(activities[3].attachments.length);le!
-            bot: [Attachments:help.json] here you go!
+            [Delay=5000] How are you?,
+            user: Good, hit me with a help file!
+            bot: [Attachment=help.json] here you go!
             `;
 
             const activities = await chatdown(conversation, {});
@@ -51,9 +51,9 @@ describe('The chatdown lib', () => {
             bot=LulaBot
             user: Hello!
             bot: [Typing]
-            [Delay:5000] How are you?,
+            [Delay=5000] How are you?,
             user: Good, hit me with a help file!
-            bot: [Attachments:bot-framework.png] here you go!
+            bot: [Attachment=base64-image.txt] here you go!
             `;
 
             const activities = await chatdown(conversation, {});
@@ -66,9 +66,9 @@ describe('The chatdown lib', () => {
             bot=LulaBot
             user: Hello!
             bot: [Typing]
-            [Delay:5000] How are you?,
+            [Delay=5000] How are you?,
             user: Good, hit me with a help file!
-            bot: [Attachments:help.json] here you go!
+            bot: [Attachment=help.json] here you go!
             `;
 
             const activities = await chatdown(conversation, {});
@@ -101,9 +101,9 @@ describe('The chatdown lib', () => {
             bot=LulaBot
             user: Hello!
             bot: [Typing]
-            [Delay:5000] How are you?,
+            [Delay=5000] How are you?,
             user: Good, hit me with a help file!
-            bot: [Attachments:notThere.json] here you go!
+            bot: [Attachment=notThere.json] here you go!
             `;
 
             try {
