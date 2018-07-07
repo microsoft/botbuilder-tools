@@ -35,10 +35,11 @@ const helpers = {
      * Helper function to split current file content by sections. Each section needs a parser delimiter
      *
      * @param {string} fileContent string content of current file being parsed
-     * 
+     * @param {boolean} log indicates if this function should write verbose messages to process.stdout
      * @returns {string[]} List of parsed LUIS/ QnA sections in current file
+     * @throws {object} Throws on errors. Object includes errCode and text. 
      */
-    splitFileBySections : function(fileContent) {
+    splitFileBySections : function(fileContent, log) {
         let linesInFile = fileContent.split(/\n|\r\n/);
         let currentSection = null;
         let middleOfSection = false;
@@ -70,7 +71,7 @@ const helpers = {
                 if(currentSection !== null) {
                     var previousSection = currentSection.substring(0, currentSection.lastIndexOf("\r\n"));
                     try {
-                        sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex);
+                        sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
                     } catch (err) {
                         throw(err);
                     }
@@ -89,7 +90,7 @@ const helpers = {
                 if(currentSection !== null) {
                     let previousSection = currentSection.substring(0, currentSection.lastIndexOf("\r\n"));
                     try {
-                        sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex);
+                        sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
                     } catch (err) {
                         throw(err);
                     }
@@ -102,7 +103,7 @@ const helpers = {
                 if(currentSection !== null) {
                     let previousSection = currentSection.substring(0, currentSection.lastIndexOf("\r\n"));
                     try {
-                        sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex);
+                        sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
                     } catch (err) {
                         throw(err);
                     }
@@ -133,7 +134,7 @@ const helpers = {
         if(currentSection !== null) {
             let previousSection = currentSection.substring(0, currentSection.lastIndexOf("\r\n"));
             try {
-                sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex);
+                sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
             } catch (err) {
                 throw (err);
             }
@@ -149,10 +150,11 @@ const helpers = {
  * @param {string[]} sectionsInFile array of strings of prior sections parsed in current file
  * @param {PARSERCONSTS} currentSectionType type of current section parsed
  * @param {int} lineIndex current line index being parsed
- * 
+ * @param {boolean} log indicates if this function should write verbose messages to process.stdout
  * @returns {string[]} updated sections in current file being parsed.
+ * @throws {object} Throws on errors. Object includes errCode and text. 
  */
-var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, currentSectionType, lineIndex) {
+var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, currentSectionType, lineIndex, log) {
     switch(currentSectionType) {
         case PARSERCONSTS.INTENT:
             // warn if there isnt at least one utterance in an intent
@@ -163,7 +165,7 @@ var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, cur
                         errCode: retCode.errorCode.INVALID_LINE, 
                         text: 'Line #' + lineIndex + ': [ERR] No answer found for question: ' + previousSection.split(/\r\n/)[0]});
                 } else {
-                    process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No utterances found for intent: ' + previousSection.split(/\r\n/)[0] + '\n'));
+                    if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No utterances found for intent: ' + previousSection.split(/\r\n/)[0] + '\n'));
                 }
                 --lineIndex;
             }
@@ -183,7 +185,7 @@ var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, cur
             // warn if there isnt at least one utterance in an intent
             if(previousSection.split(/\r\n/).length === 1)  {
                 ++lineIndex;
-                process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No list entity definition found for entity:' + previousSection.split(/\r\n/)[0] + '\n'));
+                if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No list entity definition found for entity:' + previousSection.split(/\r\n/)[0] + '\n'));
                 --lineIndex;
             }
             sectionsInFile.push(previousSection);

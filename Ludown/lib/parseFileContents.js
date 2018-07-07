@@ -45,7 +45,7 @@ module.exports.parseFile = function(fileContent, log, locale)
     var splitOnBlankLines = '';
 
     try {
-        splitOnBlankLines = helpers.splitFileBySections(fileContent.toString());
+        splitOnBlankLines = helpers.splitFileBySections(fileContent.toString(),log);
     } catch (err) {
         throw(err);
     }

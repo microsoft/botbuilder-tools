@@ -24,7 +24,7 @@ program
     .option('-f, --src_lang <srcLang>', '[Optional] Source language. When omitted, source language is automatically detected. See https://aka.ms/translate-langs for list of supported languages and codes')
     .option('-s, --subfolder', '[Optional] Include sub-folders as well when looking for .lu files')
     .option('-n, --lu_File <LU_File>', '[Optional] Output .lu file name')
-    .option('-c, --transate_comments', '[Optional] Translate comments in .lu files')
+    .option('-c, --translate_comments', '[Optional] Translate comments in .lu files')
     .option('-u, --translate_link_text', '[Optional] Translate URL or .lu file reference link text')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
@@ -47,13 +47,12 @@ program
             program.help();
             process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
         }
-        try {
-            translate.translateContent(program);
-        } catch (err) {
-            process.stderr.write(chalk.default.redBright(err.text + '\n'));
-            process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
-            process.exit(err.errCode);
-        }
-        
+        translate.translateContent(program)
+            .then(res => res)
+            .catch(function(err) {
+                process.stderr.write(chalk.default.redBright(err.text + '\n'));
+                process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
+                process.exit(err.errCode);
+            });        
     }
    

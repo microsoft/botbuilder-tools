@@ -18,7 +18,7 @@ const translateModule = {
      * @returns {void} nothing
      * @throws {object} Throws on errors. Object includes errCode and text. 
      */
-    translateContent: function(program) {
+    translateContent: async function(program) {
         let filesToParse = [];
         let folderStat = '';
         if(program.in) {
@@ -71,7 +71,7 @@ const translateModule = {
         while(filesToParse.length > 0) {
             var file = filesToParse[0];
             try {
-                parseFile(file, program, outFolder);
+                await parseFile(file, outFolder, program.translate_key, program.to_lang, program.src_lang, program.translate_comments, program.translate_link_text, program.verbose);
             } catch (err) {
                 throw(err);
             }
@@ -81,10 +81,15 @@ const translateModule = {
     /**
      * Helper function to parseAndTranslate lu file content
      * @param {string} fileContent file content
-     * @param {object} program program object from commander
+     * @param {string} translate_key translate text API key
+     * @param {string} to_lang language code to translate content to
+     * @param {string} src_lang language code for source content
+     * @param {boolean} translate_comments translate comments in .lu files if this is set to true
+     * @param {boolean} translate_link_text translate URL or LU reference link text in .lu files if this is set to true
+     * @param {boolean} log indicates if this function should write verbose messages to process.stdout
      * @returns {string} Localized file content
      */
-    parseAndTranslate : async function(fileContent, program) {
+    parseAndTranslate : async function(fileContent, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log) {
         let linesInFile = fileContent.split(/\n|\r\n/);
         let localizedContent = '';
         let currentSectionType = '';
@@ -95,17 +100,17 @@ const translateModule = {
             let currentLine = linesInFile[lineIndex];
             // is current line a comment? 
             if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) {
-                if(program.transate_comments) {
+                if(translate_comments) {
                     try {
-                        data = await translateModule.translate(currentLine, program.translate_key, program.to_lang, program.src_lang);
+                        data = await translateModule.translate(currentLine, translate_key, to_lang, src_lang);
                     } catch (err) {
                         throw(err);
                     }
                     localizedContent += data[0].translations[0].text + NEWLINE;
-                    if(program.verbose) process.stdout.write(chalk.default.gray(data[0].translations[0].text + NL));
+                    if(log) process.stdout.write(chalk.default.gray(data[0].translations[0].text + NL));
                 } else {
                     localizedContent += currentLine + NEWLINE;
-                    if(program.verbose) process.stdout.write(chalk.default.gray(currentLine + NL));
+                    if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
                 }
             } else if (currentLine.indexOf(PARSERCONSTS.INTENT) === 0) {
                 var intentName = currentLine.substring(currentLine.indexOf(' ') + 1).trim();
@@ -114,19 +119,19 @@ const translateModule = {
                     var beforeQuestion = currentLine.substring(0, currentLine.indexOf(' ') + 1);
                     var question = intentName.slice(1).trim();
                     try {
-                        data = await translateModule.translate(question, program.translate_key, program.to_lang, program.src_lang);
+                        data = await translateModule.translate(question, translate_key, to_lang, src_lang);
                     } catch (err) {
                         throw(err);
                     }
                     var lText = data[0].translations[0].text;
                     localizedContent += beforeQuestion + '? ' + lText + NEWLINE;
-                    if(program.verbose) process.stdout.write(chalk.default.gray(beforeQuestion + '? ' + lText + NL));
+                    if(log) process.stdout.write(chalk.default.gray(beforeQuestion + '? ' + lText + NL));
                     currentSectionType = PARSERCONSTS.QNA;
                 } else {
                     // we would not localize intent name but remember we are under intent section
                     currentSectionType = PARSERCONSTS.INTENT;
                     localizedContent += currentLine + NEWLINE;
-                    if(program.verbose) process.stdout.write(chalk.default.gray(currentLine + NL));
+                    if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
                 }
                 
             } else if(currentLine.indexOf('-') === 0 || 
@@ -187,13 +192,13 @@ const translateModule = {
                             });
                         }
                         try {
-                            data = await translateModule.translate(content, program.translate_key, program.to_lang, program.src_lang);
+                            data = await translateModule.translate(content, translate_key, to_lang, src_lang);
                         } catch (err) {
                             throw(err);
                         }
                         if(entitiesList.length === 0) {
                             localizedContent += listSeparator + ' ' + data[0].translations[0].text + NEWLINE;
-                            if(program.verbose) process.stdout.write(chalk.default.gray(listSeparator + ' ' + data[0].translations[0].text + NL));
+                            if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + data[0].translations[0].text + NL));
                         } else {
                             // handle alignment
                             lText = data[0].translations[0].text;
@@ -220,7 +225,7 @@ const translateModule = {
                                 });
                             } else {
                                 try {
-                                    data = await translateModule.translate(content, program.translate_key, program.to_lang, program.src_lang);
+                                    data = await translateModule.translate(content, translate_key, to_lang, src_lang);
                                 } catch (err) {
                                     throw(err);
                                 }
@@ -228,54 +233,52 @@ const translateModule = {
                             }
                             
                             localizedContent += listSeparator + ' ' + lText + NEWLINE;
-                            if(program.verbose) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NL));
+                            if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NL));
                             
                         }
-                        
-                        
                         break;
                     case PARSERCONSTS.ENTITY: 
                         // strip line of the list separator
                         var listSeparator = currentLine.charAt(0);
                         var content = currentLine.slice(1).trim();
                         try {
-                            data = await translateModule.translate(content, program.translate_key, program.to_lang, program.src_lang);
+                            data = await translateModule.translate(content, translate_key, to_lang, src_lang);
                         } catch (err) {
                             throw(err);
                         }
                         var lText = data[0].translations[0].text;
                         localizedContent += listSeparator + ' ' + lText + NEWLINE;
-                        if(program.verbose) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NL));
+                        if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NL));
                         break;
                     case PARSERCONSTS.QNA:
                         // strip line of the list separator
                         var listSeparator = currentLine.charAt(0);
                         var content = currentLine.slice(1).trim();
                         try {
-                            data = await translateModule.translate(content, program.translate_key, program.to_lang, program.src_lang);
+                            data = await translateModule.translate(content, translate_key, to_lang, src_lang);
                         } catch (err) {
                             throw(err);
                         }
                         var lText = data[0].translations[0].text;
                         localizedContent += listSeparator + ' ' + lText + NEWLINE;
-                        if(program.verbose) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NL));
+                        if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NL));
                         break;
                 }
             } else if(currentLine.indexOf(PARSERCONSTS.ENTITY) === 0) {
                 // we would not localize entity line but remember we are under entity section for list entities
                 currentSectionType = PARSERCONSTS.ENTITY;
                 localizedContent += currentLine + NEWLINE;
-                if(program.verbose) process.stdout.write(chalk.default.gray(currentLine + NL));
+                if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
             } else if (currentLine.indexOf(PARSERCONSTS.QNA) === 0) {
                 // we should localize the question
                 currentSectionType = PARSERCONSTS.QNA;
             } else if(currentLine.indexOf(PARSERCONSTS.ANSWER) === 0) {
                 localizedContent += currentLine + NEWLINE;
-                if(program.verbose) process.stdout.write(chalk.default.gray(currentLine + NL));
+                if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
                 currentSectionType = PARSERCONSTS.ANSWER;
             } else if (currentLine.indexOf(PARSERCONSTS.URLORFILEREF) ===0) {
                 currentSectionType = PARSERCONSTS.URLORFILEREF;
-                if(program.translate_link_text) {
+                if(translate_link_text) {
                     var linkValueRegEx = new RegExp(/\(.*?\)/g);
                     var linkValueList = currentLine.trim().match(linkValueRegEx);
                     var linkValue = linkValueList[0].replace('(','').replace(')','');
@@ -283,30 +286,30 @@ const translateModule = {
                     var linkTextList = currentLine.trim().match(linkTextRegEx);
                     var linkTextValue = linkTextList[0].replace('[','').replace(']','');
                     try {
-                        data = await translateModule.translate(linkTextValue, program.translate_key, program.to_lang, program.src_lang);
+                        data = await translateModule.translate(linkTextValue, translate_key, to_lang, src_lang);
                     } catch (err) {
                         throw(err);
                     }
                     var lText = data[0].translations[0].text;
                     localizedContent += '[' + lText + ']' + '(' + linkValue + ')' + NEWLINE;
-                    if(program.verbose) process.stdout.write(chalk.default.gray('[' + lText + ']' + '(' + linkValue + ')' + NL));
+                    if(log) process.stdout.write(chalk.default.gray('[' + lText + ']' + '(' + linkValue + ')' + NL));
                 } else {
                     localizedContent += currentLine + NEWLINE;
-                    if(program.verbose) process.stdout.write(chalk.default.gray(currentLine + NL));
+                    if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
                 }
             } else if(currentLine === '') {
                 localizedContent += NEWLINE;
-                if(program.verbose) process.stdout.write(chalk.default.gray(NL));
+                if(log) process.stdout.write(chalk.default.gray(NL));
             } else {
                 if(currentSectionType === PARSERCONSTS.ANSWER) {
                     try {
-                        data = await translateModule.translate(currentLine, program.translate_key, program.to_lang, program.src_lang);
+                        data = await translateModule.translate(currentLine, translate_key, to_lang, src_lang);
                     } catch (err) {
                         throw(err);
                     }
                     var lText = data[0].translations[0].text;
                     localizedContent += lText + NEWLINE;
-                    if(program.verbose) process.stdout.write(chalk.default.gray(lText + NL));
+                    if(log) process.stdout.write(chalk.default.gray(lText + NL));
                 } else {
                     throw({
                         errCode: retCode.errorCode.INVALID_INPUT_FILE, 
@@ -341,7 +344,7 @@ const translateModule = {
         const res = await fetch(tUri, options);
         if (!res.ok) {
             throw({
-                text: res.statusText,
+                text: 'Text translator service call failed with [' + res.status + '] : ' + res.statusText + '.\nPlease check key & language code validity',
                 errCode: retCode.errorCode.TRANSLATE_SERVICE_FAIL
             })
         }
@@ -353,11 +356,16 @@ const translateModule = {
 /**
  * Helper function to parse, translate and write out localized lu files
  * @param {string} file file name
- * @param {object} program program object from commander
  * @param {string} outFolder output folder path
+ * @param {string} translate_key translate text API key
+ * @param {string} to_lang language code to translate content to
+ * @param {string} src_lang language code for source content
+ * @param {boolean} translate_comments translate comments in .lu files if this is set to true
+ * @param {boolean} translate_link_text translate URL or LU reference link text in .lu files if this is set to true
+ * @param {boolean} log indicates if this function should write verbose messages to process.stdout
  * @returns {void} nothing
  */
-async function parseFile(file, program, outFolder) {
+async function parseFile(file, outFolder, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log) {
     let fileName = path.basename(file);
     if(!fs.existsSync(path.resolve(file))) {
         throw({
@@ -372,10 +380,10 @@ async function parseFile(file, program, outFolder) {
             text: 'Sorry, error reading file:' + file
         });
     }
-    if(program.verbose) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
+    if(log) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
     let parsedLocContent = '';
     try {
-        parsedLocContent = await translateModule.parseAndTranslate(fileContent, program);
+        parsedLocContent = await translateModule.parseAndTranslate(fileContent, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log)
     } catch (err) {
         throw(err);
     }
@@ -387,7 +395,7 @@ async function parseFile(file, program, outFolder) {
         });
     } else {
         // write out file
-        outFolder = path.join(outFolder, program.to_lang);
+        outFolder = path.join(outFolder, to_lang);
         try
         {
             fs.mkdirSync(outFolder);
@@ -408,7 +416,7 @@ async function parseFile(file, program, outFolder) {
                 text: 'Unable to write LU file - ' + outFileName
             });
         }
-        if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote to ' + outFileName + '\n\n'));
+        if(log) process.stdout.write(chalk.default.italic('Successfully wrote to ' + outFileName + '\n\n'));
     }
 }
 

@@ -9,11 +9,14 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\bin\\ludown-parse-toluis.js",
+            "program": "${workspaceFolder}\\bin\\ludown-translate.js",
             "args":[
-                "-l",
-                "c:\\repos\\botbuilder-tools\\ludown\\examples\\en-us",
-                "-s"
+                "--in",
+                "c:\\repos\\botbuilder-tools\\ludown\\examples\\1.lu",
+                "-k",
+                "5ef1cecd7e954de9b1de6e7fc310f7192",
+                "-t",
+                "de"
             ]
 
         }
