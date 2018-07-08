@@ -1,7 +1,7 @@
 const assert = require('assert');
 const chatdown = require('../lib');
 
-describe('The chatdown lib', () => {
+describe('The Chatdown lib', () => {
     describe('should correctly output data', () => {
         it('when the input chat contains an attachment', async () => {
 const conversation = `
@@ -42,7 +42,7 @@ bot=LulaBot
 user: Hello!
 bot: [Typing]
 [Delay=5000] How are you?,
-user: Good, hit me with a help fiassert(activities[3].Attachment.length);le!
+user: Good, hit me with a help file!
 bot: [Attachment=help.json] here you go!
 `;
 
