@@ -480,7 +480,7 @@ async function addAttachment(activity, arg) {
         // if it is not a card
         if (!isCard(contentType) && charset !== 'UTF-8') {
             // send as base64
-            contentUrl = `data:${contentType};base64,${new Buffer(content).toString('base64')}`;
+            contentUrl = `data:${contentType};base64,${new Buffer.alloc(content.length).toString('base64')}`;
             content = undefined;
         } else {
             contentUrl = undefined;
