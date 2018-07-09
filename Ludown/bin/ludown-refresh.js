@@ -6,7 +6,7 @@
 const program = require('commander');
 const chalk = require('chalk');
 const toLU = require('../lib/toLU');
-var retCode = require('../lib/enums/CLI-errors');
+const retCode = require('../lib/enums/CLI-errors');
 program.Command.prototype.unknownOption = function (flag) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
@@ -32,6 +32,12 @@ program
             program.help();
             process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
         } 
-        toLU.generateMarkdown(program);
+        toLU.generateMarkdown(program)
+            .then(res => res)
+            .catch(function(err) {
+                process.stderr.write(chalk.default.redBright(err.text + '\n'));
+                process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
+                process.exit(err.errCode);
+            });  
     }
    
