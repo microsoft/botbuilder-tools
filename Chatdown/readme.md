@@ -115,9 +115,12 @@ bot->Susan: Hi Susan!
 ```
 
 ### Message commands
-When sending a message there are number
-|`[Suggestions=<Option 1>|<Option 2>|<Option 3>]` | Add suggested action buttons, delimited by `|` |
-|`[AttachmentLayout=LayoutType]`| Specify how multiple attachments would be dislpayed. Layout types are `carousel` or `list`|
+When sending a message there are a number of commands for controlling layout.
+
+|Command           | Description                                               |
+|------------------|-----------------------------------------------------------|
+|<code>[Suggestions=<Option 1>&#124;<Option 2>&#124;<Option 3>]</code> | Add suggested action buttons, delimited by <code>&#124;</code> |
+|`[AttachmentLayout=LayoutType]`| Specify how multiple attachments would be displayed. Layout types are `carousel` or `list`|
 
 
 #### Message Cards 
