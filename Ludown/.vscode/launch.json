@@ -9,15 +9,14 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\bin\\ludown-refresh.js",
+            "program": "${workspaceFolder}\\bin\\ludown-parse-toqna.js",
             "args":[
-                "-i",
-                "c:\\test\\1.json",
+                "--in",
+                "c:\\repos\\botbuilder-tools\\ludown\\examples\\all.lu",
                 "-o",
                 "c:\\test",
                 "-n",
-                "1md",
-                "--verbose"
+                "allQnA"
             ]
 
         }

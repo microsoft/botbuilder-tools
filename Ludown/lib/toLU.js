@@ -9,6 +9,7 @@ const path = require('path');
 const retCode = require('./enums/CLI-errors');
 const txtfile = require('read-text-file');
 const toLUHelpers = require('./toLU-helpers');
+const helperClasses = require('./enums/classes');
 const toLUModules = {
     /**
      * Function to take commander program object and construct markdown file for specified input
@@ -18,9 +19,8 @@ const toLUModules = {
      */
     generateMarkdown: async function(program) {
         let outFolder = process.cwd();
-        let LUISJSON = {"sourceFile": "", "model": {}};
-        let QnAJSONFromTSV = {"sourceFile": "", "model": []};
-        let QnAJSON = {"sourceFile": "", "model": {}};
+        let LUISJSON = new helperClasses.readerObject();
+        let QnAJSON = new helperClasses.readerObject();
         let outFileContent;
         let outFileName = '';
         if(program.out_folder) {
@@ -72,12 +72,12 @@ const toLUModules = {
             if(LUISJSON.sourceFile) {
                 outFileName += path.basename(LUISJSON.sourceFile, path.extname(LUISJSON.sourceFile));
             }
-            if(QnAJSONFromTSV.sourceFile) {
-                outFileName += path.basename(QnAJSONFromTSV.sourceFile, path.extname(QnAJSONFromTSV.sourceFile));
+            if(QnAJSON.sourceFile) {
+                outFileName += path.basename(QnAJSON.sourceFile, path.extname(QnAJSON.sourceFile));
             }   
             program.lu_File = outFileName + '.lu'; 
         } else {
-            if(program.lu_File.lastIndexOf(".lu") === -1) {
+            if(program.lu_File.lastIndexOf('.lu') === -1) {
                 program.lu_File += '.lu';
             }
         }

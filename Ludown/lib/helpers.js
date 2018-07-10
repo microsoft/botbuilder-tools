@@ -47,6 +47,7 @@ const helpers = {
         let sectionsInFile = [];
         let currentSectionType = null; //PARSERCONSTS
         let inQnAAnswer = false;
+        const NEWLINE = '\r\n';
         for(lineIndex in linesInFile) {
             let currentLine = linesInFile[lineIndex].trim();
             // QnA answer can be multi-line markdown. So (re)set the in answer flag
@@ -55,14 +56,14 @@ const helpers = {
             }
             // if in QnA answer, just add the new line.
             if(inQnAAnswer) {
-                currentSection += currentLine + '\r\n';
+                currentSection += currentLine + NEWLINE;
                 continue;
             }
             // skip line if it is just a comment
             if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) continue;
 
             // skip line if it is blank
-            if(currentLine === "") continue;
+            if(currentLine === '') continue;
 
             // is this a FILEREF or URLREF section? 
             if((currentLine.indexOf(PARSERCONSTS.FILEREF) === 0) ||
@@ -70,7 +71,7 @@ const helpers = {
             (currentLine.indexOf(PARSERCONSTS.URLORFILEREF) === 0)) {
                 // handle anything in currentSection buffer
                 if(currentSection !== null) {
-                    var previousSection = currentSection.substring(0, currentSection.lastIndexOf("\r\n"));
+                    var previousSection = currentSection.substring(0, currentSection.lastIndexOf(NEWLINE));
                     try {
                         sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
                     } catch (err) {
@@ -89,7 +90,7 @@ const helpers = {
                 }
                 // handle anything in currentSection buffer
                 if(currentSection !== null) {
-                    let previousSection = currentSection.substring(0, currentSection.lastIndexOf("\r\n"));
+                    let previousSection = currentSection.substring(0, currentSection.lastIndexOf(NEWLINE));
                     try {
                         sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
                     } catch (err) {
@@ -98,11 +99,11 @@ const helpers = {
                 }
                 middleOfSection = true;
                 currentSectionType = PARSERCONSTS.INTENT;
-                currentSection = currentLine + "\r\n";
+                currentSection = currentLine + NEWLINE;
             } else if((currentLine.indexOf(PARSERCONSTS.ENTITY) === 0)) {
                 // handle anything in currentSection buffer
                 if(currentSection !== null) {
-                    let previousSection = currentSection.substring(0, currentSection.lastIndexOf("\r\n"));
+                    let previousSection = currentSection.substring(0, currentSection.lastIndexOf(NEWLINE));
                     try {
                         sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
                     } catch (err) {
@@ -114,7 +115,7 @@ const helpers = {
                 if(isListEntity || currentLine.toLowerCase().includes(':phraselist')){
                     middleOfSection = true;
                     currentSectionType = PARSERCONSTS.ENTITY;
-                    currentSection = currentLine + "\r\n";
+                    currentSection = currentLine + NEWLINE;
                 } else {
                     sectionsInFile.push(currentLine);
                     middleOfSection = false;
@@ -122,7 +123,7 @@ const helpers = {
                 }
             } else {
                 if(middleOfSection) {
-                    currentSection += currentLine + "\r\n";
+                    currentSection += currentLine + NEWLINE;
                 } else {
                     ++lineIndex;
                     throw({
@@ -133,7 +134,7 @@ const helpers = {
         }
         // handle anything in currentSection buffer
         if(currentSection !== null) {
-            let previousSection = currentSection.substring(0, currentSection.lastIndexOf("\r\n"));
+            let previousSection = currentSection.substring(0, currentSection.lastIndexOf('\r\n'));
             try {
                 sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
             } catch (err) {
@@ -141,6 +142,18 @@ const helpers = {
             }
         }
         return sectionsInFile;
+    },
+    /**
+     * Helper function to do a filter operation based search over an Array
+     * @param {Array} srcList Object to filter on
+     * @param {string} property Property to evaluate
+     * @param {string} searchValue Target value to compare
+     * @returns {Array} Array of matching values
+     */
+    filterMatch : function (srcList, property, searchValue) {
+        return srcList.filter(function(item) {
+            return item[property] == searchValue;
+        });
     }
 };
 

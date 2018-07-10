@@ -7,6 +7,7 @@ const fetch = require('node-fetch');
 const PARSERCONSTS = require('./enums/parserconsts');
 const retCode = require('./enums/CLI-errors');
 const chalk = require('chalk');
+const helperClasses = require('./enums/classes');
 const translateHelpers = {
     /**
      * Helper function to parseAndTranslate lu file content
@@ -78,17 +79,17 @@ const translateHelpers = {
                         let entitiesList = [];
                         
                         // strip line off labelled entity values,mark pattern any entities as not to localize
-                        if(content.includes("{")) {
+                        if(content.includes('{')) {
                             const entityRegex = new RegExp(/\{(.*?)\}/g);
                             let entitiesFound = content.match(entityRegex);
                             let eStartIndex = -1;
                             let eEndIndex = -1;
                             entitiesFound.forEach(function(entity) {
-                                let lEntity = entity.replace("{", "").replace("}", "");
+                                let lEntity = entity.replace('{', '').replace('}', '');
                                 let labelledValue = '';
                                 // is this a labelled value? 
                                 if(lEntity.includes('=')) {
-                                    let entitySplit = lEntity.split("=");
+                                    let entitySplit = lEntity.split('=');
                                     if(entitySplit.length > 2) {
                                         throw({
                                             errCode: retCode.errorCode.INVALID_INPUT, 
@@ -103,24 +104,13 @@ const translateHelpers = {
                                         content = updatedUtteranceLeft + labelledValue + updatedUtteranceRight;
                                         eStartIndex = content.indexOf(labelledValue);
                                         eEndIndex = eStartIndex + labelledValue.length - 1;
-                                        entitiesList.push({
-                                            'entity': lEntity,
-                                            'value': labelledValue,
-                                            'start': eStartIndex,
-                                            'end': eEndIndex
-                                        });
+                                        entitiesList.push(new helperClasses.entity(lEntity, labelledValue, eStartIndex, eEndIndex));
                                     }                                 
                                 } else {
                                     eStartIndex = content.indexOf(lEntity);
                                     eEndIndex = eStartIndex + lEntity.length - 1;
-                                    entitiesList.push({
-                                        'entity': lEntity,
-                                        'value': labelledValue,
-                                        'start': eStartIndex,
-                                        'end': eEndIndex
-                                    });
+                                    entitiesList.push(new helperClasses.entity(lEntity, labelledValue, eStartIndex, eEndIndex)); 
                                 }
-                                
                             });
                         }
                         try {
