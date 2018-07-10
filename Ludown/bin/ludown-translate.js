@@ -48,7 +48,9 @@ program
             process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
         }
         translate.translateContent(program)
-            .then(res => res)
+            .then(function(){
+                process.exit(retCode.errorCode.SUCCESS);
+            })
             .catch(function(err) {
                 process.stderr.write(chalk.default.redBright(err.text + '\n'));
                 process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));

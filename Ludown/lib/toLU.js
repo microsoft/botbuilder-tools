@@ -10,12 +10,13 @@ const retCode = require('./enums/CLI-errors');
 const txtfile = require('read-text-file');
 const toLUHelpers = require('./toLU-helpers');
 const helperClasses = require('./enums/classes');
+const exception = require('./classes/error');
 const toLUModules = {
     /**
      * Function to take commander program object and construct markdown file for specified input
      * @param {object} program parsed commander program object
      * @returns {void} nothing
-     * @throws {object} Throws on errors. Object includes errCode and text. 
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     generateMarkdown: async function(program) {
         let outFolder = process.cwd();
@@ -30,10 +31,7 @@ const toLUModules = {
                 outFolder = path.resolve('', program.out_folder);
             }
             if(!fs.existsSync(outFolder)) {
-                throw({
-                    errCode: retCode.errorCode.OUTPUT_FOLDER_INVALID, 
-                    text: 'Output folder ' + outFolder + ' does not exist'
-                })
+                throw(new exception(retCode.errorCode.OUTPUT_FOLDER_INVALID, 'Output folder ' + outFolder + ' does not exist'));
             }
         }
         // Do we have a LUIS file? If so, get that and load into memory
@@ -62,10 +60,7 @@ const toLUModules = {
             throw(err);
         }
         if(!outFileContent) {
-            throw({
-                errCode: retCode.errorCode.UNKNOWN_ERROR, 
-                text: 'Sorry, Unable to generate .lu file content!'
-            })
+            throw(new exception(retCode.errorCode.UNKNOWN_ERROR,'Sorry, Unable to generate .lu file content!'));
         }
         // write out the file
         if(!program.lu_File) {
@@ -85,10 +80,7 @@ const toLUModules = {
         try {
             fs.writeFileSync(outFileName, outFileContent, 'utf-8');
         } catch (err) {
-            throw({
-                errCode: retCode.errorCode.UNABLE_TO_WRITE_FILE, 
-                text: 'Unable to write LU file - ' + outFileName
-            })
+            throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to write LU file - ' + outFileName));
         }
         if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote to ' + path.join(outFolder, program.lu_File)));
     }
@@ -97,21 +89,15 @@ const toLUModules = {
  * Helper function to read a file and return file content
  * @param {string} file Input file name
  * @returns {string} File content
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const openFileAndReadContent = async function(file) {
     if(!fs.existsSync(path.resolve(file))) {
-        throw({
-            errCode: retCode.errorCode.FILE_OPEN_ERROR, 
-            text: 'Sorry unable to open [' + file + ']'
-        });
+        throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));
     }
     let fileContent = txtfile.readSync(file);
     if (!fileContent) {
-        throw({
-            errCode: retCode.errorCode.FILE_OPEN_ERROR, 
-            text: 'Sorry, error reading file: ' + file
-        });
+        throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry, error reading file: ' + file));
     }
     return fileContent;
 };
@@ -119,7 +105,7 @@ const openFileAndReadContent = async function(file) {
  * Helper function to parse QnAMaker TSV file into a JSON object
  * @param {String} file input LUIS JSON file name
  * @returns {object} LUIS JSON object
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const parseLUISFile = async function(file) {
     let LUISFileContent, LUISJSON;
@@ -130,22 +116,13 @@ const parseLUISFile = async function(file) {
     }
     LUISJSON = JSON.parse(LUISFileContent);
     if(LUISJSON.composites && LUISJSON.composites.length !== 0) {
-        throw({
-            errCode: retCode.errorCode.INVALID_INPUT_FILE, 
-            text: 'Sorry, input LUIS JSON file has references to composite entities. Cannot convert to .lu file.'
-        });
+        throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to composite entities. Cannot convert to .lu file.'));
     }
     if(LUISJSON.regex_entities && LUISJSON.regex_entities.length !== 0) {
-        throw({
-            errCode: retCode.errorCode.INVALID_INPUT_FILE, 
-            text: 'Sorry, input LUIS JSON file has references to regular expression entities. Cannot convert to .lu file.'
-        });
+        throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to regular expression entities. Cannot convert to .lu file.'));
     }
     if(LUISJSON.regex_features && LUISJSON.regex_features.length !== 0) {
-        throw({
-            errCode: retCode.errorCode.INVALID_INPUT_FILE, 
-            text: 'Sorry, input LUIS JSON file has references to regex_features. Cannot convert to .lu file.'
-        });
+        throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to regex_features. Cannot convert to .lu file.'));
     }
     return LUISJSON;
 };
@@ -153,7 +130,7 @@ const parseLUISFile = async function(file) {
  * Helper function to parse LUIS JSON file into a JSON object
  * @param {String} file Input QnA TSV file name
  * @returns {object} LUIS JSON object
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const parseQnAJSONFile = async function(file){
     let QnAFileContent, QnAJSON;

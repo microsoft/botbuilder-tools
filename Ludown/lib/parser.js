@@ -12,6 +12,7 @@ const parseFileContents = require('./parseFileContents');
 const retCode = require('./enums/CLI-errors');
 const helpers = require('./helpers');
 const cmdEnum = require('./enums/parsecommands');
+const exception = require('./classes/error');
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -19,7 +20,7 @@ const parser = {
      * @param {object} program Content flushed out by commander
      * @param {cmdEnum} cmd Parse to either LUIS or QnA 
      * @returns {void} Nothing
-     * @throws {object} Throws on errors. Object includes errCode and text. 
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     handleFile: async function(program, cmd) {
         let filesToParse;
@@ -60,7 +61,7 @@ const parser = {
  * @param {string} rootFile Root file name and path
  * @param {cmdEnum} cmd Command to instruct if LUIS or QnA content should be written out to disk
  * @returns {void} Nothing
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, rootFile, cmd) {
     let outFolder;
@@ -129,10 +130,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, rootFile, cmd
         try {
             fs.writeFileSync(luisFilePath, fLuisJson, 'utf-8');
         } catch (err) {
-            throw({
-                errCode: retCode.errorCode.UNABLE_TO_WRITE_FILE, 
-                text: 'Unable to write LUIS JSON file - ' + path.join(outFolder, program.lOutFile)
-            })
+            throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE,'Unable to write LUIS JSON file - ' + path.join(outFolder, program.lOutFile)));
         }
         if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote LUIS model to ' + path.join(outFolder, program.lOutFile) + '\n'));
     }
@@ -143,10 +141,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, rootFile, cmd
         try {
             fs.writeFileSync(qnaFilePath, qnaJson, 'utf-8');
         } catch (err) {
-            throw({
-                errCode: retCode.errorCode.UNABLE_TO_WRITE_FILE, 
-                text: 'Unable to write QnA JSON file - ' + path.join(outFolder, program.qOutFile)
-            })
+            throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE,'Unable to write QnA JSON file - ' + path.join(outFolder, program.qOutFile)));
         }
         if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote QnA KB to ' + path.join(outFolder, program.qOutFile) + '\n'));
     }
@@ -159,10 +154,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, rootFile, cmd
         try {
             fs.writeFileSync(lBFileName, lBatchFile, 'utf-8');
         } catch (err) {
-            throw({
-                errCode: retCode.errorCode.UNABLE_TO_WRITE_FILE, 
-                text: 'Unable to write LUIS batch test JSON file - ' + path.join(outFolder, LUISBatchFileName)
-            })
+            throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to write LUIS batch test JSON file - ' + path.join(outFolder, LUISBatchFileName)));
         }
         if(program.verbose) console.log(chalk.default.italic('Successfully wrote LUIS batch test JSON file to ' + path.join(outFolder, LUISBatchFileName) + '\n'));
     }
@@ -171,7 +163,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, rootFile, cmd
  * Helper function to get output folder
  * @param {object} program Parsed program object from commander
  * @returns {string} Output folder
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const getOutputFolder = function(program) {
     let outFolder = process.cwd();
@@ -182,10 +174,7 @@ const getOutputFolder = function(program) {
             outFolder = path.resolve('', program.out_folder);
         }
         if(!fs.existsSync(outFolder)) {
-            throw({
-                errCode: retCode.errorCode.NO_LU_FILES_FOUND, 
-                text: 'Output folder ' + outFolder + ' does not exist'
-            })     
+            throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Output folder ' + outFolder + ' does not exist'));     
         }
     }
     return outFolder;
@@ -194,7 +183,7 @@ const getOutputFolder = function(program) {
  * Helper function to get list of lu files to parse
  * @param {object} program Parsed program object from commander
  * @returns {Array} Array of .lu files found to parse
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const getFilesToParse = async function(program) {
     let filesToParse = [];
@@ -207,16 +196,10 @@ const getFilesToParse = async function(program) {
         {
             var folderStat = fs.statSync(program.lu_folder);
         } catch (err) {
-            throw({
-                errCode: retCode.errorCode.OUTPUT_FOLDER_INVALID, 
-                text: 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'
-            })
+            throw(new exception(retCode.errorCode.OUTPUT_FOLDER_INVALID, 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
         }
         if(!folderStat.isDirectory()) {
-            throw({
-                errCode: retCode.errorCode.OUTPUT_FOLDER_INVALID, 
-                text: 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'
-            })
+            throw(new exception(retCode.errorCode.OUTPUT_FOLDER_INVALID, 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
         }
         if(program.subfolder) {
             filesToParse = helpers.findLUFiles(program.lu_folder, true); 
@@ -224,10 +207,7 @@ const getFilesToParse = async function(program) {
             filesToParse = helpers.findLUFiles(program.lu_folder, false); 
         }
         if(filesToParse.length === 0) {
-            throw({
-                errCode: retCode.errorCode.NO_LU_FILES_FOUND, 
-                text: 'Sorry, no .lu files found in the specified folder.'
-            })                
+            throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Sorry, no .lu files found in the specified folder.'));                
         }
         if(!rootFile) rootFile = filesToParse[0]
     }
@@ -239,7 +219,7 @@ const getFilesToParse = async function(program) {
  * @param {boolean} log If true, write verbose log messages to stdout
  * @param {string} luis_culture LUIS language code
  * @returns {object} Object cotaining arrays of all parsed LUIS and QnA content found in the files
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const parseAllFiles = async function(filesToParse, log, luis_culture) {
     let parsedContent = '';
@@ -248,17 +228,11 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
     while(filesToParse.length > 0) {
         let file = filesToParse[0];
         if(!fs.existsSync(path.resolve(file))) {
-            throw({
-                errCode: retCode.errorCode.FILE_OPEN_ERROR, 
-                text: 'Sorry unable to open [' + file + ']'
-            })     
+            throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));     
         }
         let fileContent = txtfile.readSync(file);
         if (!fileContent) {
-            throw({
-                errCode: retCode.errorCode.FILE_OPEN_ERROR, 
-                text: 'Sorry, error reading file:' + file
-            })
+            throw(new exception(retCode.errorCode.FILE_OPEN_ERROR,'Sorry, error reading file:' + file));
         }
         if(log) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
         try {
@@ -267,10 +241,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
             throw(err);
         }
         if (!parsedContent) {
-            throw({
-                errCode: retCode.errorCode.INVALID_INPUT_FILE, 
-                text: 'Sorry, file ' + file + 'had invalid content'
-            })
+            throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, file ' + file + 'had invalid content'));
         } 
         try {
             if(haveLUISContent(parsedContent.LUISJsonStructure) && parseFileContents.validateLUISBlob(parsedContent.LUISJsonStructure)) allParsedLUISContent.push(parsedContent.LUISJsonStructure);
@@ -299,10 +270,8 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
 }
 /**
  * Helper function to see if we have any luis content in the blob
- *
  * @param {object} blob Contents of parsed luis blob
  * @returns {boolean} true if there is any luis content in the blob
- * 
  */
 const haveLUISContent = function(blob) {
     return ((blob[LUISObjNameEnum.INTENT].length > 0) ||

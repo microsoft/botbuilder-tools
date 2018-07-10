@@ -10,12 +10,13 @@ const retCode = require('./enums/CLI-errors');
 const txtfile = require('read-text-file');
 const helpers = require('./helpers');
 const translateHelpers = require('./translate-helpers');
+const exception = require('./classes/error');
 const translateModule = {
     /**
      * Helper function to parse, translate and write out localized lu files
      * @param {object} program parsed program object from commander
      * @returns {void} nothing
-     * @throws {object} Throws on errors. Object includes errCode and text. 
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     translateContent: async function(program) {
         let filesToParse = [];
@@ -29,16 +30,10 @@ const translateModule = {
             {
                 folderStat = fs.statSync(program.lu_folder);
             } catch (err) {
-                throw({
-                    errCode: retCode.errorCode.OUTPUT_FOLDER_INVALID, 
-                    text: 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'
-                });
+                throw(new exception(retCode.errorCode.OUTPUT_FOLDER_INVALID, 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
             }
             if(!folderStat.isDirectory()) {
-                throw({
-                    errCode: retCode.errorCode.OUTPUT_FOLDER_INVALID, 
-                    text: 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'
-                });
+                throw(new exception(retCode.errorCode.OUTPUT_FOLDER_INVALID, 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
             }
             if(program.subfolder) {
                 filesToParse = helpers.findLUFiles(program.lu_folder, true); 
@@ -46,10 +41,7 @@ const translateModule = {
                 filesToParse = helpers.findLUFiles(program.lu_folder, false); 
             }
             if(filesToParse.length === 0) {
-                throw({
-                    errCode: retCode.errorCode.NO_LU_FILES_FOUND, 
-                    text: 'Sorry, no .lu files found in the specified folder.'
-                });
+                throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Sorry, no .lu files found in the specified folder.'));
             }
         }
         // is there an output folder?
@@ -61,10 +53,7 @@ const translateModule = {
                 outFolder = path.resolve('', program.out_folder);
             }
             if(!fs.existsSync(outFolder)) {
-                throw({
-                    errCode: retCode.errorCode.OUTPUT_FOLDER_INVALID, 
-                    text: 'Output folder ' + outFolder + ' does not exist'
-                });
+                throw(new exception(retCode.errorCode.OUTPUT_FOLDER_INVALID, 'Output folder ' + outFolder + ' does not exist'));
             }
         }
         while(filesToParse.length > 0) {
@@ -90,21 +79,16 @@ const translateModule = {
  * @param {boolean} translate_link_text translate URL or LU reference link text in .lu files if this is set to true
  * @param {boolean} log indicates if this function should write verbose messages to process.stdout
  * @returns {void} nothing
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 async function parseFile(file, outFolder, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log) {
     let fileName = path.basename(file);
     if(!fs.existsSync(path.resolve(file))) {
-        throw({
-            errCode: retCode.errorCode.FILE_OPEN_ERROR, 
-            text: 'Sorry unable to open [' + file + ']'
-        });
+        throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));
     }
     let fileContent = txtfile.readSync(file);
     if (!fileContent) {
-        throw({
-            errCode: retCode.errorCode.FILE_OPEN_ERROR, 
-            text: 'Sorry, error reading file:' + file
-        });
+        throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry, error reading file:' + file));
     }
     if(log) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
     let parsedLocContent = '';
@@ -115,10 +99,7 @@ async function parseFile(file, outFolder, translate_key, to_lang, src_lang, tran
     }
     
     if (!parsedLocContent) {
-        throw({
-            errCode: retCode.errorCode.INVALID_INPUT_FILE, 
-            text: 'Sorry, file : ' + file + 'had invalid content'
-        });
+        throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, file : ' + file + 'had invalid content'));
     } else {
         // write out file
         outFolder = path.join(outFolder, to_lang);
@@ -127,20 +108,14 @@ async function parseFile(file, outFolder, translate_key, to_lang, src_lang, tran
             fs.mkdirSync(outFolder);
         } catch(exception) {
             if(exception.code != 'EEXIST') {
-                throw({
-                    errCode: retCode.errorCode.UNABLE_TO_WRITE_FILE, 
-                    text: 'Unable to create folder - ' + exception
-                });
+                throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to create folder - ' + exception));
             }
         }
         let outFileName = path.join(outFolder, fileName);
         try {
             fs.writeFileSync(outFileName, parsedLocContent, 'utf-8');
         } catch (err) {
-            throw({
-                errCode: retCode.errorCode.UNABLE_TO_WRITE_FILE, 
-                text: 'Unable to write LU file - ' + outFileName
-            });
+            throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to write LU file - ' + outFileName));
         }
         if(log) process.stdout.write(chalk.default.italic('Successfully wrote to ' + outFileName + '\n\n'));
     }

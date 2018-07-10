@@ -35,7 +35,9 @@ program
             process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
         } 
         fParser.handleFile(program, cmdEnum.qna)
-            .then(res => res)
+            .then(function(){
+                process.exit(retCode.errorCode.SUCCESS);
+            })
             .catch(function(err) {
                 process.stderr.write(chalk.default.redBright(err.text + '\n'));
                 process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));

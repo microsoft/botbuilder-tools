@@ -38,7 +38,7 @@ const helpers = {
      * @param {string} fileContent string content of current file being parsed
      * @param {boolean} log indicates if this function should write verbose messages to process.stdout
      * @returns {string[]} List of parsed LUIS/ QnA sections in current file
-     * @throws {object} Throws on errors. Object includes errCode and text. 
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     splitFileBySections : function(fileContent, log) {
         let linesInFile = fileContent.split(/\n|\r\n/);
@@ -84,9 +84,7 @@ const helpers = {
             } else if((currentLine.indexOf(PARSERCONSTS.INTENT) === 0)) {
                 if(currentLine.indexOf(' ') === -1) {
                     ++lineIndex;
-                    throw({
-                        errCode: retCode.errorCode.INVALID_INTENT, 
-                        text: 'Error: Line #' + lineIndex + '. "' + currentLine + '" does not have valid intent definition'});
+                    throw(new exception(retCode.errorCode.INVALID_INTENT, 'Error: Line #' + lineIndex + '. "' + currentLine + '" does not have valid intent definition'));
                 }
                 // handle anything in currentSection buffer
                 if(currentSection !== null) {
@@ -126,9 +124,7 @@ const helpers = {
                     currentSection += currentLine + NEWLINE;
                 } else {
                     ++lineIndex;
-                    throw({
-                        errCode: retCode.errorCode.INVALID_LINE, 
-                        text: 'Error: Line #' + lineIndex + ' is not part of a Intent/ Entity/ QnA'});
+                    throw(new exception(retCode.errorCode.INVALID_LINE,'Error: Line #' + lineIndex + ' is not part of a Intent/ Entity/ QnA'));
                 }
             }
         }
@@ -166,7 +162,7 @@ const helpers = {
  * @param {int} lineIndex current line index being parsed
  * @param {boolean} log indicates if this function should write verbose messages to process.stdout
  * @returns {string[]} updated sections in current file being parsed.
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, currentSectionType, lineIndex, log) {
     switch(currentSectionType) {
@@ -175,9 +171,7 @@ var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, cur
             if(previousSection.split(/\r\n/).length === 1)  {
                 ++lineIndex;
                 if(previousSection.split(/\r\n/)[0].includes('?')) {
-                    throw({
-                        errCode: retCode.errorCode.INVALID_LINE, 
-                        text: 'Line #' + lineIndex + ': [ERR] No answer found for question: ' + previousSection.split(/\r\n/)[0]});
+                    throw(new exception(retCode.errorCode.INVALID_LINE, 'Line #' + lineIndex + ': [ERR] No answer found for question: ' + previousSection.split(/\r\n/)[0]));
                 } else {
                     if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No utterances found for intent: ' + previousSection.split(/\r\n/)[0] + '\n'));
                 }
@@ -189,9 +183,7 @@ var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, cur
             // warn if there isnt at least one utterance in an intent
             if(previousSection.split(/\r\n/).length === 1)  {
                 ++lineIndex;
-                throw({
-                    errCode: retCode.errorCode.INVALID_LINE, 
-                    text: 'Line #' + lineIndex + ': [ERR] No answer found for question' + previousSection.split(/\r\n/)[0]});
+                throw(new exception(retCode.errorCode.INVALID_LINE, 'Line #' + lineIndex + ': [ERR] No answer found for question' + previousSection.split(/\r\n/)[0]));
             }
             sectionsInFile.push(previousSection);
             break;

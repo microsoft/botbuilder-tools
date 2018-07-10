@@ -14,7 +14,7 @@ const toLUHelpers = {
      * @param {String} QnAFile input QnA TSV file name
      * @param {boolean} skip_header If true, header information in the generated output text will be skipped. 
      * @returns {String} Generated Markdown file content to flush to disk
-     * @throws {obejct} Throws on errors. Object includes errCode and text. 
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     constructMdFile : async function(LUISJSON, QnAJSONFromTSV, luisFile, QnAFile, skip_header) {
         let fileContent = '';

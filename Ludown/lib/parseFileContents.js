@@ -16,13 +16,14 @@ const qnaMetaDataObj = require('./classes/qnaMetaData');
 const helperClass = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
 const qna = require('./classes/qna');
+const exception = require('./classes/error');
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
      * @param {Object} LUISJSONBlob input LUIS Json blob
      * @param {Object} entitiesList list of entities in collated models
      * @returns {Boolean} True if validation succeeds.
-     * @throws {object} Throws on errors. Object includes errCode and text. 
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     validateLUISBlob : function(LUISJSONBlob) {
         // patterns can have references to any other entity types. 
@@ -100,10 +101,7 @@ const parseFileContentsModule = {
         // for each entityFound, see if there are duplicate definitions
         entitiesList.forEach(function(entity) {
             if(entity.type.length > 1) {
-                throw({
-                    errCode: retCode.errorCode.DUPLICATE_ENTITIES, 
-                    text: 'Entity "' + entity.name + '" has duplicate definitions.\r\n\t' + JSON.stringify(entity.type, 2, null)
-                })
+                throw(new exception(retCode.errorCode.DUPLICATE_ENTITIES, 'Entity "' + entity.name + '" has duplicate definitions.\r\n\t' + JSON.stringify(entity.type, 2, null)));
             }
         });
 
@@ -115,16 +113,10 @@ const parseFileContentsModule = {
                         let entityInList = helpers.filterMatch(entitiesList, 'name', entity.entity);
                         if(entityInList.length > 0) {
                             if(entityInList[0].type.includes('list')) {
-                                throw({
-                                    errCode: retCode.errorCode.INVALID_INPUT, 
-                                    text: 'Utterance "' + utterance.text + '", has reference to List entity type. \r\n\t' + 'You cannot have utterances with List entity type references in them'
-                                })
+                                throw(new exception(retCode.errorCode.INVALID_INPUT, 'Utterance "' + utterance.text + '", has reference to List entity type. \r\n\t' + 'You cannot have utterances with List entity type references in them'));
                             }
                             if(entityInList[0].type.includes('phraseList')) {
-                                throw({
-                                    errCode: retCode.errorCode.INVALID_INPUT, 
-                                    text: 'Utterance "' + utterance.text + '", has reference to PhraseList. \r\n\t' + 'You cannot have utterances with phraselist references in them'
-                                })
+                                throw(new exception(retCode.errorCode.INVALID_INPUT, 'Utterance "' + utterance.text + '", has reference to PhraseList. \r\n\t' + 'You cannot have utterances with phraselist references in them'));
                             }
                         }
                     });
@@ -139,7 +131,7 @@ const parseFileContentsModule = {
      * @param {boolean} log indicates if we need verbose logging.
      * @param {string} locale LUIS locale code
      * @returns {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
-     * @throws {object} Throws on errors. Object includes errCode and text. 
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     parseFile : function(fileContent, log, locale) 
     {
@@ -195,7 +187,7 @@ const parseFileContentsModule = {
      *
      * @param {qna []} parsedBlobs Array of parsed QnA blobs
      * @returns {qna} Collated qna object
-     * @throws {object} Throws on errors. Object includes errCode and text. 
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     collateQnAFiles : function(parsedBlobs) {
         let FinalQnAJSON = new qna();
@@ -236,7 +228,7 @@ const parseFileContentsModule = {
      *
      * @param {object} parsedBlobs Contents of all parsed file blobs
      * @returns {LUIS} Collated LUIS json contents
-     * @throws {object} Throws on errors. Object includes errCode and text. 
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     collateLUISFiles : function(parsedBlobs) {
         let FinalLUISJSON = parsedBlobs[0];
@@ -278,10 +270,7 @@ const parseFileContentsModule = {
                     } else {
                         if(modelFeatureInMaster[0].mode !== modelFeature.mode) {
                             // error.
-                            throw({
-                                errCode: retCode.errorCode.INVALID_INPUT, 
-                                text: '[ERROR]: Phrase list : "' + modelFeature.name + '" has conflicting definitions. One marked interchangeable and another not interchangeable'
-                            });
+                            throw(new exception(retCode.errorCode.INVALID_INPUT, '[ERROR]: Phrase list : "' + modelFeature.name + '" has conflicting definitions. One marked interchangeable and another not interchangeable'));
                         } else {
                             modelFeature.words.split(',').forEach(function(word) {
                                 if(!modelFeatureInMaster[0].words.includes(word)) modelFeatureInMaster[0].words += "," + word;
@@ -361,7 +350,7 @@ const mergeResults_closedlists = function(blob, finalCollection, type) {
  * @param {string} locale LUIS locale information
  * @param {boolean} log indicates if this function should write verbose messages to process.stdout
  * @returns {void} Nothing
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, log) {
     // we have an entity definition
@@ -373,10 +362,7 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
     for(let i in parsedContent.LUISJsonStructure.patternAnyEntities) {
         if(parsedContent.LUISJsonStructure.patternAnyEntities[i].name === entityName) {
             if(entityType.toLowerCase().trim().indexOf('phraselist') === 0) {
-                throw({
-                    errCode: retCode.errorCode.INVALID_INPUT, 
-                    text: '[ERROR]: Phrase lists cannot be used as an entity in a pattern "' + entityName
-                })
+                throw(new exception(retCode.errorCode.INVALID_INPUT,'[ERROR]: Phrase lists cannot be used as an entity in a pattern "' + entityName));
             }
             parsedContent.LUISJsonStructure.patternAnyEntities.splice(i, 1);
             break;
@@ -435,10 +421,7 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
             if((listLine.indexOf('-') !== 0) &&
             (listLine.indexOf('*') !== 0) && 
             (listLine.indexOf('+') !== 0)) {
-                throw({
-                    errCode: retCode.errorCode.SYNONYMS_NOT_A_LIST, 
-                    text: '[ERROR]: Synonyms list value: "' + listLine + '" does not have list decoration. Prefix line with "-" or "+" or "*"'
-                })
+                throw(new exception(retCode.errorCode.SYNONYMS_NOT_A_LIST, '[ERROR]: Synonyms list value: "' + listLine + '" does not have list decoration. Prefix line with "-" or "+" or "*"'));
             }
             listLine = listLine.slice(1).trim();       
             synonymsList.push(listLine.trim());
@@ -473,10 +456,7 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
             if((phraseListValues.indexOf('-') !== 0) &&
             (phraseListValues.indexOf('*') !== 0) && 
             (phraseListValues.indexOf('+') !== 0)) {
-                throw({
-                    errCode: retCode.errorCode.PHRASELIST_NOT_A_LIST, 
-                    text: '[ERROR]: Phrase list value: "' + phraseListValues + '" does not have list decoration. Prefix line with "-" or "+" or "*"'
-                })
+                throw(new exception(retCode.errorCode.PHRASELIST_NOT_A_LIST, '[ERROR]: Phrase list value: "' + phraseListValues + '" does not have list decoration. Prefix line with "-" or "+" or "*"'));
             }
             phraseListValues = phraseListValues.slice(1).trim();
             pLValues.push(phraseListValues.split(','));
@@ -500,10 +480,7 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
                         if(!parsedContent.LUISJsonStructure.model_features[modelIdx].words[0].includes(plValueItem)) parsedContent.LUISJsonStructure.model_features[modelIdx].words += ',' + pLValues;
                     })
                 } else {
-                    throw({
-                        errCode: retCode.errorCode.INVALID_INPUT, 
-                        text: '[ERROR]: Phrase list : "' + entityName + '" has conflicting definitions. One marked interchangeable and another not interchangeable'
-                    })
+                    throw(new exception(retCode.errorCode.INVALID_INPUT, '[ERROR]: Phrase list : "' + entityName + '" has conflicting definitions. One marked interchangeable and another not interchangeable'));
                 }
                 
             } else {
@@ -519,7 +496,7 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
  * @param {parserObj} parsedContent parserObj containing current parsed content
  * @param {Array} chunkSplitByLine Array of text lines in the current parsed section
  * @returns {void} Nothing
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
     let intentName = chunkSplitByLine[0].substring(chunkSplitByLine[0].indexOf(' ') + 1);
@@ -558,18 +535,12 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
                         if((utterance.indexOf('-') !== 0) &&
                         (utterance.indexOf('*') !== 0) && 
                         (utterance.indexOf('+') !== 0)) {
-                            throw({
-                                errCode: retCode.errorCode.INVALID_QNA_FILTER_DEF, 
-                                text: 'Filter: "' + utterance + '" does not have list decoration. Prefix line with "-" or "+" or "*"'
-                            })
+                            throw(new exception(retCode.errorCode.INVALID_QNA_FILTER_DEF, 'Filter: "' + utterance + '" does not have list decoration. Prefix line with "-" or "+" or "*"'));
                         }
                         utterance = utterance.slice(1).trim();
                         let kp = utterance.split('=');
                         if(kp.length !== 2) {
-                            throw({
-                                errCode: retCode.errorCode.INVALID_QNA_FILTER_DEF, 
-                                text: 'Filter: "' + utterance + '" does not have a name = value pair.'
-                            })
+                            throw(new exception(retCode.errorCode.INVALID_QNA_FILTER_DEF, 'Filter: "' + utterance + '" does not have a name = value pair.'));
                         }
                         metadata.push(new qnaMetaDataObj(kp[0].trim(),kp[1].trim()));
                     } else {
@@ -577,10 +548,7 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
                         if((utterance.indexOf('-') !== 0) &&
                         (utterance.indexOf('*') !== 0) && 
                         (utterance.indexOf('+') !== 0)) {
-                            throw({
-                                errCode: retCode.errorCode.INVALID_QNA_QUESTION_DEF, 
-                                text: 'Question: "' + utterance + '" does not have list decoration. Prefix line with "-" or "+" or "*"'
-                            })
+                            throw(new exception(retCode.errorCode.INVALID_QNA_QUESTION_DEF, 'Question: "' + utterance + '" does not have list decoration. Prefix line with "-" or "+" or "*"'));
                         }
                         utterance = utterance.slice(1).trim();
                         questions.push(utterance.trim());
@@ -700,26 +668,20 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
  * @param {PARSERCONSTS} type type can either be URLREF or FILEREF
  * @param {Array} chunkSplitByLine Array of text lines in the current parsed section
  * @returns {void} Nothing
- * @throws {object} Throws on errors. Object includes errCode and text. 
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const parseURLOrFileRef = function(parsedContent, type, chunkSplitByLine) {
     let urlRef_regex = chunkSplitByLine[0].trim().replace(type, '').split(/\(['"](.*?)['"]\)/g);
     switch(type) {
         case PARSERCONSTS.URLREF: 
             if(urlRef_regex.length !== 3 || urlRef_regex[1].trim() === '') {
-                throw({
-                    errCode: retCode.errorCode.INVALID_URL_REF, 
-                    text: '[ERROR]: ' + 'Invalid URL Ref: ' + chunkSplitByLine[0]
-                })
+                throw(new exception(retCode.errorCode.INVALID_URL_REF, '[ERROR]: ' + 'Invalid URL Ref: ' + chunkSplitByLine[0]));
             }
             parsedContent.qnaJsonStructure.urls.push(urlRef_regex[1]);
         break;
         case PARSERCONSTS.FILEREF:
             if(urlRef_regex.length !== 3 || urlRef_regex[1].trim() === '') {
-                throw({
-                    errCode: retCode.errorCode.INVALID_LU_FILE_REF, 
-                    text: '[ERROR]: ' + 'Invalid LU File Ref: ' + chunkSplitByLine[0]
-                })
+                throw(new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: ' + 'Invalid LU File Ref: ' + chunkSplitByLine[0]));
             }
             parsedContent.additionalFilesToParse.push(urlRef_regex[1]);
         break;

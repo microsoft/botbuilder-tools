@@ -8,6 +8,7 @@ const PARSERCONSTS = require('./enums/parserconsts');
 const retCode = require('./enums/CLI-errors');
 const chalk = require('chalk');
 const helperClasses = require('./enums/classes');
+const exception = require('./classes/error');
 const translateHelpers = {
     /**
      * Helper function to parseAndTranslate lu file content
@@ -19,6 +20,7 @@ const translateHelpers = {
      * @param {boolean} translate_link_text translate URL or LU reference link text in .lu files if this is set to true
      * @param {boolean} log indicates if this function should write verbose messages to process.stdout
      * @returns {string} Localized file content
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     parseAndTranslate : async function(fileContent, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log) {
         let linesInFile = fileContent.split(/\n|\r\n/);
@@ -91,10 +93,7 @@ const translateHelpers = {
                                 if(lEntity.includes('=')) {
                                     let entitySplit = lEntity.split('=');
                                     if(entitySplit.length > 2) {
-                                        throw({
-                                            errCode: retCode.errorCode.INVALID_INPUT, 
-                                            text: '[ERROR]: Nested entity references are not supported in utterance: ' + utterance
-                                        })
+                                        throw(new exception(retCode.errorCode.INVALID_INPUT, '[ERROR]: Nested entity references are not supported in utterance: ' + utterance));
                                     }
                                     lEntity = entitySplit[0].trim();
                                     labelledValue = entitySplit[1].trim();
@@ -233,10 +232,7 @@ const translateHelpers = {
                     localizedContent += lText + NEWLINE;
                     if(log) process.stdout.write(chalk.default.gray(lText + NL));
                 } else {
-                    throw({
-                        errCode: retCode.errorCode.INVALID_INPUT_FILE, 
-                        text: 'Error: Unexpected line encountered when parsing \n' + '[' + lineIndex + ']:' + currentLine
-                    })
+                    throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Error: Unexpected line encountered when parsing \n' + '[' + lineIndex + ']:' + currentLine));
                 }
             }
         }
@@ -249,7 +245,7 @@ const translateHelpers = {
      * @param {string} to_lang target language to localize to
      * @param {string} from_lang source language of text
      * @returns {object} response from MT call.
-     * @throws {object} throws if request fails. Includes response text and errCode set to TRANSLATE_SERVICE_FAIL
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     translateText: async function(text, subscriptionKey, to_lang, from_lang) {
         let tUri = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=' + to_lang + '&includeAlignment=true';
@@ -265,10 +261,7 @@ const translateHelpers = {
         };
         const res = await fetch(tUri, options);
         if (!res.ok) {
-            throw({
-                text: 'Text translator service call failed with [' + res.status + '] : ' + res.statusText + '.\nPlease check key & language code validity',
-                errCode: retCode.errorCode.TRANSLATE_SERVICE_FAIL
-            })
+            throw(new exception(retCode.errorCode.TRANSLATE_SERVICE_FAIL,'Text translator service call failed with [' + res.status + '] : ' + res.statusText + '.\nPlease check key & language code validity'));
         }
         let data = await res.json();
         return data;
