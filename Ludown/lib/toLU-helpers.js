@@ -3,7 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-const helperClasses = require('./enums/classes');
+const helperClasses = require('./classes/hclasses');
 const toLUHelpers = {
     /**
      * Helper function to construct the file content based on parsed luis and qna objects

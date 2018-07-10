@@ -7,7 +7,7 @@ const fetch = require('node-fetch');
 const PARSERCONSTS = require('./enums/parserconsts');
 const retCode = require('./enums/CLI-errors');
 const chalk = require('chalk');
-const helperClasses = require('./enums/classes');
+const helperClasses = require('./classes/hclasses');
 const exception = require('./classes/error');
 const translateHelpers = {
     /**

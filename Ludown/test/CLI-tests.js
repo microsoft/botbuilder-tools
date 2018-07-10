@@ -31,5 +31,10 @@ describe('The ludown cli tool', function() {
         });
     });
 
-    
+    it('should show WARN message when an answer is missing for qna pair', function() {
+        exec(`node ${ludown} ./test/testcases/bad.lu`, (error, stdout, stderr) => {
+            assert(stdout.includes('[WARN] No answer found for question'));
+            done();
+        });
+    });
 });

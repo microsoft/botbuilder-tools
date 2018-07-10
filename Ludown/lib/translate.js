@@ -97,7 +97,6 @@ async function parseFile(file, outFolder, translate_key, to_lang, src_lang, tran
     } catch (err) {
         throw(err);
     }
-    
     if (!parsedLocContent) {
         throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, file : ' + file + 'had invalid content'));
     } else {

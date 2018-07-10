@@ -9,7 +9,7 @@ const path = require('path');
 const retCode = require('./enums/CLI-errors');
 const txtfile = require('read-text-file');
 const toLUHelpers = require('./toLU-helpers');
-const helperClasses = require('./enums/classes');
+const helperClasses = require('./classes/hclasses');
 const exception = require('./classes/error');
 const toLUModules = {
     /**
