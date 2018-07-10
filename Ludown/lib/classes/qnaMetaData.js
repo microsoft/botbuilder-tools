@@ -9,8 +9,9 @@ class qnaMetaData {
     /**
      * @property {string} value
      */
-    constructor({name /* string */, value /* string */}= {}) {
-        Object.assign(this, {name /* string */, value /* string */});
+    constructor(name, value) {
+        this.name = name?name:'';
+        this.value = value?value:'';
     }
 };
 

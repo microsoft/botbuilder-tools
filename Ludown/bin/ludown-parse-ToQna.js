@@ -7,6 +7,7 @@ const program = require('commander');
 const fParser = require('../lib/parser');
 const chalk = require('chalk');
 const retCode = require('../lib/enums/CLI-errors');
+const cmdEnum = require('../lib/enums/parsecommands');
 program.Command.prototype.unknownOption = function (flag) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
@@ -33,7 +34,7 @@ program
             program.help();
             process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
         } 
-        fParser.handleFile(program, 'qna')
+        fParser.handleFile(program, cmdEnum.qna)
             .then(res => res)
             .catch(function(err) {
                 process.stderr.write(chalk.default.redBright(err.text + '\n'));

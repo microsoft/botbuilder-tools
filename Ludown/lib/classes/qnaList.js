@@ -20,8 +20,12 @@ class qnaList {
     /**
      * @property {qnaMetaData []} metadata
      */
-    constructor({id /* string */, answer /* string */, source /* string */, questions /* string [] */, metadata /* qnaMetaData [] */} = {}) {
-        Object.assign(this, {id /* string */, answer /* string */, source /* string */, questions /* string [] */, metadata /* qnaMetaData [] */});
+    constructor(id, answer, source, questions, metadata) {
+        this.id = id?id:0;
+        this.answer = answer?answer:'';
+        this.source = source?source:'custom editorial';
+        this.questions = questions?questions:[];
+        this.metadata = metadata?metadata:[];
     }
 };
 

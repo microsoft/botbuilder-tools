@@ -47,6 +47,33 @@ const readerObj = {
             this.pattern = pattern?pattern:'';
             this.intent = intent?intent:'';
         }
+    },
+    prebuiltentity: class {
+        constructor(type, roles) {
+            this.type = type?type:'';
+            this.roles = roles?roles:[];
+        }
+    }, 
+    modelObj: class {
+        constructor(name, mode, words, activated) {
+            this.name = name?name:'';
+            this.words = words?words:'';
+            this.mode = mode?mode:false;
+            this.activated = activated?activated:false;
+        }
+    }, 
+    subList: class {
+        constructor(canonicalForm, list) {
+            this.canonicalForm = canonicalForm?canonicalForm:'';
+            this.list = list?list:[];
+        }
+    },
+    closedLists: class {
+        constructor(name, subLists, roles) {
+            this.name = name?name:'';
+            this.subLists = subLists?subLists:[];
+            this.roles = roles?roles:[];
+        }
     }
 };
 

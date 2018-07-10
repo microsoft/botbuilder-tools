@@ -14,95 +14,352 @@ const parserObj = require('./classes/parserObject');
 const qnaListObj = require('./classes/qnaList');
 const qnaMetaDataObj = require('./classes/qnaMetaData');
 const helperClass = require('./classes/hclasses');
-/**
- * Main parser code to parse current file contents into LUIS and QNA sections.
- *
- * @param {string} fileContent current file content
- * @param {boolean} log indicates if we need verbose logging.
- * @param {string} locale LUIS locale code
- * @returns {object} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
- * @throws {object} Throws on errors. Object includes errCode and text. 
- */
-module.exports.parseFile = function(fileContent, log, locale) 
-{
-    let parsedContent = new parserObj();
-    /*var additionalFilesToParse = new Array();
-    var LUISJsonStruct = {
-        "intents": new Array(),
-        "entities": new Array(),
-        "composites": new Array(),
-        "closedLists": new Array(),
-        "regex_entities": new Array(),
-        "model_features": new Array(),
-        "regex_features": new Array(),
-        "utterances": new Array(),
-        "patterns": new Array(),
-        "patternAnyEntities": new Array(),
-        "prebuiltEntities": new Array()
-    };
-    var qnaJsonStruct = {
-        "qnaList": new Array(),
-        "urls": new Array()
-    };*/
-    let splitOnBlankLines = '';
-    try {
-        splitOnBlankLines = helpers.splitFileBySections(fileContent.toString(),log);
-    } catch (err) {
-        throw(err);
+const deepEqual = require('deep-equal');
+const qna = require('./classes/qna');
+const parseFileContentsModule = {
+    /**
+     * Helper function to validate parsed LUISJsonblob
+     * @param {Object} LUISJSONBlob input LUIS Json blob
+     * @param {Object} entitiesList list of entities in collated models
+     * @returns {Boolean} True if validation succeeds.
+     * @throws {object} Throws on errors. Object includes errCode and text. 
+     */
+    validateLUISBlob : function(LUISJSONBlob) {
+        // patterns can have references to any other entity types. 
+        // So if there is a pattern.any entity that is also defined as another type, remove the pattern.any entity
+        let spliceList = [];
+        if(LUISJSONBlob.patternAnyEntities.length > 0) {
+            for(let i in LUISJSONBlob.patternAnyEntities) {
+                let patternAnyEntity = LUISJSONBlob.patternAnyEntities[i];
+                if(helpers.filterMatch(LUISJSONBlob.entities, 'name', patternAnyEntity.name).length > 0) {
+                    spliceList.push(patternAnyEntity.name);
+                }
+                if(helpers.filterMatch(LUISJSONBlob.closedLists, 'name', patternAnyEntity.name).length > 0) {
+                    spliceList.push(patternAnyEntity.name);
+                }
+                if(helpers.filterMatch(LUISJSONBlob.model_features, 'name', patternAnyEntity.name).length > 0) {
+                    spliceList.push(patternAnyEntity.name);
+                }
+                if(helpers.filterMatch(LUISJSONBlob.prebuiltEntities, 'name', patternAnyEntity.name).length > 0) {
+                    spliceList.push(patternAnyEntity.name);
+                }
+            }
+        }
+        if(spliceList.length > 0) {
+            spliceList.forEach(function(item) {
+                for(let i in LUISJSONBlob.patternAnyEntities) {
+                    if(LUISJSONBlob.patternAnyEntities[i].name === item) {
+                        LUISJSONBlob.patternAnyEntities.splice(i, 1);
+                        break;
+                    }
+                }
+            })
+        }
+        
+        // look for entity name collisions - list, simple, patternAny, phraselist
+        // look for list entities labelled
+        // look for prebuilt entity labels in utterances
+        
+        let entitiesList = [];
+        let entityFound = '';
+        if(LUISJSONBlob.entities.length > 0) {
+            LUISJSONBlob.entities.forEach(function(entity) {
+                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name,['simple']));
+            });
+        }
+        if(LUISJSONBlob.closedLists.length > 0){
+            LUISJSONBlob.closedLists.forEach(function(entity) {
+                entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
+                if(entityFound.length === 0) {
+                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name,['list']));
+                } else {
+                    entityFound[0].type.push('list');
+                }
+            });
+        }
+        if(LUISJSONBlob.patternAnyEntities.length > 0) {
+            LUISJSONBlob.patternAnyEntities.forEach(function(entity) {
+                entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
+                if(entityFound.length === 0) {
+                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name,['patternAny']));
+                } else {
+                    entityFound[0].type.push('patternAny');
+                }
+            });
+        }
+        if(LUISJSONBlob.model_features.length > 0) {
+            LUISJSONBlob.model_features.forEach(function(entity) {
+                entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
+                if(entityFound.length === 0) {
+                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name,['phraseList']));
+                } else {
+                    entityFound[0].type.push('phraseList');
+                }
+            });
+        }
+        // for each entityFound, see if there are duplicate definitions
+        entitiesList.forEach(function(entity) {
+            if(entity.type.length > 1) {
+                throw({
+                    errCode: retCode.errorCode.DUPLICATE_ENTITIES, 
+                    text: 'Entity "' + entity.name + '" has duplicate definitions.\r\n\t' + JSON.stringify(entity.type, 2, null)
+                })
+            }
+        });
+
+        // do we have utterances with labelled list entities or phraselist entities? 
+        if(LUISJSONBlob.utterances.length > 0) {
+            LUISJSONBlob.utterances.forEach(function(utterance) {
+                if(utterance.entities.length > 0) {
+                    utterance.entities.forEach(function(entity) {
+                        let entityInList = helpers.filterMatch(entitiesList, 'name', entity.entity);
+                        if(entityInList.length > 0) {
+                            if(entityInList[0].type.includes('list')) {
+                                throw({
+                                    errCode: retCode.errorCode.INVALID_INPUT, 
+                                    text: 'Utterance "' + utterance.text + '", has reference to List entity type. \r\n\t' + 'You cannot have utterances with List entity type references in them'
+                                })
+                            }
+                            if(entityInList[0].type.includes('phraseList')) {
+                                throw({
+                                    errCode: retCode.errorCode.INVALID_INPUT, 
+                                    text: 'Utterance "' + utterance.text + '", has reference to PhraseList. \r\n\t' + 'You cannot have utterances with phraselist references in them'
+                                })
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        return true;
+    },
+    /**
+     * Main parser code to parse current file contents into LUIS and QNA sections.
+     * @param {string} fileContent current file content
+     * @param {boolean} log indicates if we need verbose logging.
+     * @param {string} locale LUIS locale code
+     * @returns {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
+     * @throws {object} Throws on errors. Object includes errCode and text. 
+     */
+    parseFile : function(fileContent, log, locale) 
+    {
+        let parsedContent = new parserObj();
+        let splitOnBlankLines = '';
+        try {
+            splitOnBlankLines = helpers.splitFileBySections(fileContent.toString(),log);
+        } catch (err) {
+            throw(err);
+        }
+        // loop through every chunk of information
+        splitOnBlankLines.forEach(function(chunk) {
+            chunk = chunk.trim();
+            let chunkSplitByLine = chunk.split(/\r\n|\r|\n/g);
+            if(chunk.indexOf(PARSERCONSTS.URLREF) === 0) {
+                try {
+                    parseURLOrFileRef(parsedContent, PARSERCONSTS.URLREF,chunkSplitByLine)
+                } catch (err) {
+                    throw (err);
+                }
+            } else if(chunk.indexOf(PARSERCONSTS.FILEREF) === 0) {
+                try {
+                    parseURLOrFileRef(parsedContent, PARSERCONSTS.FILEREF,chunkSplitByLine)
+                } catch (err) {
+                    throw (err);
+                }
+            } else if(chunk.indexOf(PARSERCONSTS.URLORFILEREF) === 0) {
+                try {
+                    parseURLOrFileRef(parsedContent, PARSERCONSTS.URLORFILEREF, chunkSplitByLine)
+                } catch (err) {
+                    throw (err);
+                }
+            } else if(chunk.indexOf(PARSERCONSTS.INTENT) === 0) {
+                try {
+                    parseAndHandleIntent(parsedContent, chunkSplitByLine);
+                } catch (err) {
+                    throw (err);
+                }
+            } else if(chunk.indexOf(PARSERCONSTS.ENTITY) === 0) {
+                try {
+                    parseAndHandleEntity(parsedContent, chunkSplitByLine, locale, log);
+                } catch (err) {
+                    throw (err);
+                }
+            } else if(chunk.indexOf(PARSERCONSTS.QNA) === 0) {
+                parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, chunkSplitByLine[1], 'custom editorial', [chunkSplitByLine[0].replace(PARSERCONSTS.QNA, '').trim()], []));
+            } 
+        });
+        return parsedContent;
+    },
+    /**
+     * Handle collating all QnA sections across all parsed files into one QnA collection
+     *
+     * @param {qna []} parsedBlobs Array of parsed QnA blobs
+     * @returns {qna} Collated qna object
+     * @throws {object} Throws on errors. Object includes errCode and text. 
+     */
+    collateQnAFiles : function(parsedBlobs) {
+        let FinalQnAJSON = new qna();
+        parsedBlobs.forEach(function(blob) {
+            // does this blob have URLs?
+            if(blob.urls.length > 0) {
+                // add this url if this does not already exist in finaljson
+                blob.urls.forEach(function(qnaUrl) {
+                    if(!FinalQnAJSON.urls.includes(qnaUrl)) {
+                        FinalQnAJSON.urls.push(qnaUrl);
+                    }
+                });
+            }
+            // does this blob have qnapairs?
+            if(blob.qnaList.length > 0) {
+                // walk through each qnaPair and add it if it does not exist
+                blob.qnaList.forEach(function(newQnAItem) {
+                    if(FinalQnAJSON.qnaList.length == 0) {
+                        FinalQnAJSON.qnaList.push(newQnAItem);
+                    } else {
+                        let qnaExists = false;
+                        let fIndex = 0;
+                        for(fIndex in FinalQnAJSON.qnaList) {
+                            if(deepEqual(FinalQnAJSON.qnaList[fIndex], newQnAItem)) {
+                                qnaExists = true;
+                                break;
+                            }
+                        }
+                        if(!qnaExists) FinalQnAJSON.qnaList.push(newQnAItem);
+                    }
+                });
+            }
+        });
+        return FinalQnAJSON;
+    },
+    /**
+     * Handle collating all LUIS sections across all parsed files into one LUIS collection
+     *
+     * @param {object} parsedBlobs Contents of all parsed file blobs
+     * @returns {LUIS} Collated LUIS json contents
+     * @throws {object} Throws on errors. Object includes errCode and text. 
+     */
+    collateLUISFiles : function(parsedBlobs) {
+        let FinalLUISJSON = parsedBlobs[0];
+        parsedBlobs.splice(0,1);
+        parsedBlobs.forEach(function(blob) {
+            mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.INTENT);
+            mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.ENTITIES);
+            mergeResults_closedlists(blob, FinalLUISJSON, LUISObjNameEnum.CLOSEDLISTS);
+            mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.UTTERANCE);
+            mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.PATTERNS);
+            mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.PATTERNANYENTITY);
+            // do we have prebuiltEntities here?
+            if(blob.prebuiltEntities.length > 0) {
+                blob.prebuiltEntities.forEach(function(prebuiltEntity){
+                    let prebuiltTypeExists = false;
+                    for(fIndex in FinalLUISJSON.prebuiltEntities) {
+                        if(prebuiltEntity.type === FinalLUISJSON.prebuiltEntities[fIndex].type) {
+                            // do we have all the roles? if not, merge the roles
+                            prebuiltEntity.roles.forEach(function(role) {
+                                if(!FinalLUISJSON.prebuiltEntities[fIndex].roles.includes(role)) {
+                                    FinalLUISJSON.prebuiltEntities[fIndex].roles.push(role);
+                                }
+                            });
+                            prebuiltTypeExists = true;
+                            break;
+                        }
+                    }
+                    if(!prebuiltTypeExists) {
+                        FinalLUISJSON.prebuiltEntities.push(prebuiltEntity);
+                    }
+                });
+            }
+            // do we have model_features?
+            if(blob.model_features.length > 0) {
+                blob.model_features.forEach(function(modelFeature) {
+                    let modelFeatureInMaster = helpers.filterMatch(FinalLUISJSON.model_features, 'name', modelFeature.name);
+                    if(modelFeatureInMaster.length === 0){
+                        FinalLUISJSON.model_features.push(modelFeature);
+                    } else {
+                        if(modelFeatureInMaster[0].mode !== modelFeature.mode) {
+                            // error.
+                            throw({
+                                errCode: retCode.errorCode.INVALID_INPUT, 
+                                text: '[ERROR]: Phrase list : "' + modelFeature.name + '" has conflicting definitions. One marked interchangeable and another not interchangeable'
+                            });
+                        } else {
+                            modelFeature.words.split(',').forEach(function(word) {
+                                if(!modelFeatureInMaster[0].words.includes(word)) modelFeatureInMaster[0].words += "," + word;
+                            })
+                        }
+                    }
+                });
+            }
+        }); 
+        return FinalLUISJSON;
     }
-
-    // loop through every chunk of information
-    splitOnBlankLines.forEach(function(chunk) {
-        chunk = chunk.trim();
-        let chunkSplitByLine = chunk.split(/\r\n|\r|\n/g);
-        if(chunk.indexOf(PARSERCONSTS.URLREF) === 0) {
-            try {
-                parseURLOrFileRef(parsedContent, PARSERCONSTS.URLREF,chunkSplitByLine)
-            } catch (err) {
-                throw (err);
-            }
-        } else if(chunk.indexOf(PARSERCONSTS.FILEREF) === 0) {
-            try {
-                parseURLOrFileRef(parsedContent, PARSERCONSTS.FILEREF,chunkSplitByLine)
-            } catch (err) {
-                throw (err);
-            }
-        } else if(chunk.indexOf(PARSERCONSTS.URLORFILEREF) === 0) {
-            try {
-                parseURLOrFileRef(parsedContent, PARSERCONSTS.URLORFILEREF, chunkSplitByLine)
-            } catch (err) {
-                throw (err);
-            }
-        } else if(chunk.indexOf(PARSERCONSTS.INTENT) === 0) {
-            try {
-                parseAndHandleIntent(parsedContent, chunkSplitByLine);
-            } catch (err) {
-                throw (err);
-            }
-        } else if(chunk.indexOf(PARSERCONSTS.ENTITY) === 0) {
-            try {
-                parseAndHandleEntity(parsedContent, chunkSplitByLine, locale, log);
-            } catch (err) {
-                throw (err);
-            }
-            
-        } else if(chunk.indexOf(PARSERCONSTS.QNA) === 0) {
-            parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, chunkSplitByLine[1], 'custom editorial', [chunkSplitByLine[0].replace(PARSERCONSTS.QNA, '').trim()], []));
-        } 
-    });
-    return parsedContent;
-
-    /*return {
-        "fParse": additionalFilesToParse,
-        "LUISBlob": LUISJsonStruct,
-        "QnABlob": qnaJsonStruct
-    };*/
-    
 };
 /**
- * 
+ * Helper function to merge item if it does not already exist
+ *
+ * @param {object} blob Contents of all parsed file blobs
+ * @param {object} finalCollection Reference to the final collection of items
+ * @param {LUISObjNameEnum} type Enum type of possible LUIS object types
+ * @returns {void} Nothing
+ */
+const mergeResults = function(blob, finalCollection, type) {
+    if(blob[type].length > 0) {
+        blob[type].forEach(function(blobItem) {
+            if(finalCollection[type].length === 0) {
+                finalCollection[type].push(blobItem);
+                return;
+            }
+            // add if this item if it does not already exist in final collection
+            let itemExists = false;
+            for(fIndex in finalCollection[type]) {
+                if(deepEqual(finalCollection[type][fIndex],blobItem)){
+                    itemExists = true;
+                    break;
+                }
+            }
+            if(!itemExists) {
+                finalCollection[type].push(blobItem);
+            }
+        });
+    }
+};
+/**
+ * Helper function to merge closed list item if it does not already exist
+ *
+ * @param {object} blob Contents of all parsed file blobs
+ * @param {object} finalCollection Reference to the final collection of items
+ * @param {LUISObjNameEnum} type Enum type of possible LUIS object types
+ * @returns {void} nothing
+ */
+const mergeResults_closedlists = function(blob, finalCollection, type) {
+    if(blob[type].length > 0) {
+        blob[type].forEach(function(blobItem) {
+            let listInFinal = helpers.filterMatch(finalCollection[type], 'name', blobItem.name);
+            if(listInFinal.length === 0) {
+                finalCollection[type].push(blobItem);
+            } else {
+                blobItem.subLists.forEach(function(blobSLItem) {
+                    // see if there is a sublist match in listInFinal
+                    let slInFinal = helpers.filterMatch(listInFinal[0].subLists, 'canonicalForm', blobSLItem.canonicalForm);
+                    if(slInFinal.length === 0) {
+                        listInFinal[0].subLists.push(blobSLItem);
+                    } else {
+                        // there is a canonical form match. See if the values all exist
+                        blobSLItem.list.forEach(function(listItem) {
+                            if(!slInFinal[0].list.includes(listItem)) slInFinal[0].list.push(listItem);
+                        })
+                    }
+                });
+            }
+        });
+    }
+};
+/**
+ * Helper function to parse and handle LUIS entities
  * @param {parserObj} parsedContent parserObj containing current parsed content
  * @param {Array} chunkSplitByLine Array of text lines in the current parsed section
+ * @param {string} locale LUIS locale information
+ * @param {boolean} log indicates if this function should write verbose messages to process.stdout
  * @returns {void} Nothing
  * @throws {object} Throws on errors. Object includes errCode and text. 
  */
@@ -111,10 +368,9 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
     let entityDef = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '').split(':');
     let entityName = entityDef[0];
     let entityType = entityDef[1];
-    
     // see if we already have this as Pattern.Any entity
     // see if we already have this in patternAny entity collection; if so, remove it
-    for(let i in LUISJsonStruct.patternAnyEntities) {
+    for(let i in parsedContent.LUISJsonStructure.patternAnyEntities) {
         if(parsedContent.LUISJsonStructure.patternAnyEntities[i].name === entityName) {
             if(entityType.toLowerCase().trim().indexOf('phraselist') === 0) {
                 throw({
@@ -162,92 +418,65 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
                 }
             }
             if(lMatch) {
-                let prebuiltEntitesObj = {
-                    "type": entityType,
-                    "roles": [entityName]
-                };
-                parsedContent.LUISJsonStructure.prebuiltEntities.push(prebuiltEntitesObj);
+                parsedContent.LUISJsonStructure.prebuiltEntities.push(new helperClass.prebuiltentity(entityType, [entityName]));
             } 
         }
     } else if(entityType.indexOf('=', entityType.length - 1) >= 0) 
     {
         // is this a list type?  
-      
         // get normalized value
-        var normalizedValue = entityType.substring(0, entityType.length - 1);
-
+        let normalizedValue = entityType.substring(0, entityType.length - 1);
         // remove the first entity declaration line
         chunkSplitByLine.splice(0,1);
-        
-        
-
-        var synonymsList = new Array();
+        let synonymsList = [];
         
         // go through the list chunk and parse. Add these as synonyms
         chunkSplitByLine.forEach(function(listLine) {
             if((listLine.indexOf('-') !== 0) &&
             (listLine.indexOf('*') !== 0) && 
             (listLine.indexOf('+') !== 0)) {
-                process.stderr.write(chalk.default.redBright('[ERROR]: Synonyms list value: "' + listLine + '" does not have list decoration. Prefix line with "-" or "+" or "*"\n'));
-                process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                process.exit(retCode.errorCode.SYNONYMS_NOT_A_LIST);
+                throw({
+                    errCode: retCode.errorCode.SYNONYMS_NOT_A_LIST, 
+                    text: '[ERROR]: Synonyms list value: "' + listLine + '" does not have list decoration. Prefix line with "-" or "+" or "*"'
+                })
             }
             listLine = listLine.slice(1).trim();       
             synonymsList.push(listLine.trim());
         });
 
-        
-
-        var closedListExists = LUISJsonStruct.closedLists.filter(function(item) {
-            return item.name == entityName;
-        });
+        let closedListExists = helpers.filterMatch(parsedContent.LUISJsonStructure.closedLists, 'name', entityName);
         if(closedListExists.length === 0) {
-            LUISJsonStruct.closedLists.push({
-                "name": entityName,
-                "subLists": [
-                    {
-                        "canonicalForm": normalizedValue,
-                        "list": synonymsList
-                    }
-                ],
-                "roles": []
-            });
+            parsedContent.LUISJsonStructure.closedLists.push(new helperClass.closedLists(entityName, [new helperClass.subList(normalizedValue,synonymsList)], []));
         } else {
             // closed list with this name already exists
-            var subListExists = closedListExists[0].subLists.filter(function(item){
-                return item.canonicalForm == normalizedValue;
-            });
-
+            let subListExists = helpers.filterMatch(closedListExists[0].subLists, 'canonicalForm', normalizedValue);
             if(subListExists.length === 0) {
-                closedListExists[0].subLists.push({
-                    "canonicalForm": normalizedValue,
-                    "list": synonymsList
-                });
+                closedListExists[0].subLists.push(new helperClass.subList(normalizedValue, synonymsList));
             } else {
                 synonymsList.forEach(function(listItem) {
                     if(!subListExists[0].list.includes(listItem)) subListExists[0].list.push(listItem);
                 })
             }
         }
-
     } else if(entityType.toLowerCase() === 'simple') {
         // add this to entities if it doesnt exist
-        addItemIfNotPresent(LUISJsonStruct, LUISObjNameEnum.ENTITIES, entityName);
+        addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entityName);
     } else if(entityType.toLowerCase().trim().indexOf('phraselist') === 0) {
         // is this interchangeable? 
-        var intc = false;
+        let intc = false;
         if(entityType.toLowerCase().includes('interchangeable')) intc = true;
         // add this to phraseList if it doesnt exist
         chunkSplitByLine.splice(0,1);
-        var pLValues = new Array();
-        var plValuesList = "";
+        let pLValues = new Array();
+        let plValuesList = "";
         chunkSplitByLine.forEach(function(phraseListValues) {
             if((phraseListValues.indexOf('-') !== 0) &&
             (phraseListValues.indexOf('*') !== 0) && 
             (phraseListValues.indexOf('+') !== 0)) {
-                process.stderr.write(chalk.default.redBright('[ERROR]: Phrase list value: "' + phraseListValues + '" does not have list decoration. Prefix line with "-" or "+" or "*"\n'));
-                process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                process.exit(retCode.errorCode.PHRASELIST_NOT_A_LIST);
+                throw({
+                    errCode: retCode.errorCode.PHRASELIST_NOT_A_LIST, 
+                    text: '[ERROR]: Phrase list value: "' + phraseListValues + '" does not have list decoration. Prefix line with "-" or "+" or "*"'
+                })
             }
             phraseListValues = phraseListValues.slice(1).trim();
             pLValues.push(phraseListValues.split(','));
@@ -255,49 +484,38 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
         });
         // remove the last ','
         plValuesList = plValuesList.substring(0, plValuesList.lastIndexOf(','));
-        var modelExists = false;
-        if(LUISJsonStruct.model_features.length > 0) {
-            var modelIdx = 0;
-            for(modelIdx in LUISJsonStruct.model_features) {
-                if(LUISJsonStruct.model_features[modelIdx].name === entityName) {
+        let modelExists = false;
+        if(parsedContent.LUISJsonStructure.model_features.length > 0) {
+            let modelIdx = 0;
+            for(modelIdx in parsedContent.LUISJsonStructure.model_features) {
+                if(parsedContent.LUISJsonStructure.model_features[modelIdx].name === entityName) {
                     modelExists = true;
                     break;
                 }
             }
             if(modelExists) {
-                if(LUISJsonStruct.model_features[modelIdx].mode === intc) {
+                if(parsedContent.LUISJsonStructure.model_features[modelIdx].mode === intc) {
                     // for each item in plValues, see if it already exists
                     pLValues.forEach(function(plValueItem) {
-                        if(!LUISJsonStruct.model_features[modelIdx].words[0].includes(plValueItem)) LUISJsonStruct.model_features[modelIdx].words += ',' + pLValues;
+                        if(!parsedContent.LUISJsonStructure.model_features[modelIdx].words[0].includes(plValueItem)) parsedContent.LUISJsonStructure.model_features[modelIdx].words += ',' + pLValues;
                     })
                 } else {
-                    process.stderr.write(chalk.default.redBright('[ERROR]: Phrase list : "' + entityName + '" has conflicting definitions. One marked interchangeable and another not interchangeable \n'));
-                    process.stderr.write(chalk.default.redBright('Stopping further processing.\n'));
-                    process.exit(retCode.errorCode.INVALID_INPUT);
+                    throw({
+                        errCode: retCode.errorCode.INVALID_INPUT, 
+                        text: '[ERROR]: Phrase list : "' + entityName + '" has conflicting definitions. One marked interchangeable and another not interchangeable'
+                    })
                 }
                 
             } else {
-                var modelObj = {
-                    "name": entityName,
-                    "mode": intc,
-                    "words": plValuesList,
-                    "activated": true
-                };
-                LUISJsonStruct.model_features.push(modelObj);
+                parsedContent.LUISJsonStructure.model_features.push(new helperClass.modelObj(entityName, intc, plValuesList, true));
             }
         } else {
-            var modelObj = {
-                "name": entityName,
-                "mode": intc,
-                "words": plValuesList,
-                "activated": true
-            };
-            LUISJsonStruct.model_features.push(modelObj);
+            parsedContent.LUISJsonStructure.model_features.push(new helperClass.modelObj(entityName, intc, plValuesList, true));
         }
     }
 }
 /**
- * 
+ * Helper function to parse and handle LUIS intents
  * @param {parserObj} parsedContent parserObj containing current parsed content
  * @param {Array} chunkSplitByLine Array of text lines in the current parsed section
  * @returns {void} Nothing
@@ -477,7 +695,7 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
     }
 }
 /**
- * 
+ * Helper function to parse and handle URL or file references in lu files
  * @param {parserObj} parsedContent parserObj containing current parsed content
  * @param {PARSERCONSTS} type type can either be URLREF or FILEREF
  * @param {Array} chunkSplitByLine Array of text lines in the current parsed section
@@ -518,10 +736,8 @@ const parseURLOrFileRef = function(parsedContent, type, chunkSplitByLine) {
         break;
     }
 }
-
 /**
  * Helper function to add an item to collection if it does not exist
- *
  * @param {object} collection contents of the current collection
  * @param {LUISObjNameEnum} type item type
  * @param {object} value value of the current item to examine and add
@@ -548,3 +764,4 @@ const addItemIfNotPresent = function(collection, type, value) {
     }  
 };
 
+module.exports = parseFileContentsModule;
