@@ -13,7 +13,7 @@ const toLUHelpers = {
      * @returns {String} Generated lu content 
      */
     constructMdFromLUISJSON : async function(LUISJSON) {
-        let fileContent;
+        let fileContent = '';
         let luisObj = new helperClasses.rLuisObj();
         let intentInObj;
         if(LUISJSON.intents.length >= 0) {

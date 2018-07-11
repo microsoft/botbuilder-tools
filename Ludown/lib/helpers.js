@@ -8,7 +8,7 @@ const path = require('path');
 const PARSERCONSTS = require('./enums/parserconsts');
 const chalk = require('chalk');
 const retCode = require('./enums/CLI-errors');
-
+const exception = require('./classes/exception');
 const helpers = {
     /**
      * Helper function to recursively get all .lu files
@@ -124,6 +124,7 @@ const helpers = {
                     currentSection += currentLine + NEWLINE;
                 } else {
                     ++lineIndex;
+                    let p = new exception({text:'test', errCode: 1});
                     throw(new exception(retCode.errorCode.INVALID_LINE,'Error: Line #' + lineIndex + ' is not part of a Intent/ Entity/ QnA'));
                 }
             }

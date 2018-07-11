@@ -5,8 +5,6 @@
 const modules = {
     parser: {
         parseFile: require('./parseFileContents').parseFile,
-        collateLUISFiles: require('./parseFileContents').collateLUISFiles,
-        collateQnAFiles: require('./parseFileContents').collateQnAFiles,
         validateLUISBlob: require('./parseFileContents').validateLUISBlob
     },
     refresh: {

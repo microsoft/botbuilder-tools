@@ -40,15 +40,11 @@ npm install ludown --save
 In your node project:
 ```js
 const ludown = require('ludown');
-const luContent = `# Greeting
-- Hi
-- Hello
-- Good morning
-- Good evening
-`;
+const luContent1 = `# Greeting
+- hi`;
 const log = false;
 const locale = 'en-us';
-ludown.parser.parseFile(luContent, log, locale)
+ludown.parser.parseFile(luContent1, log, locale)
     .then(function(parsedContent) {
         // Parsed LUIS object
         console.log(JSON.stringify(parsedContent.LUISJsonStructure, 2, null));
@@ -58,11 +54,17 @@ ludown.parser.parseFile(luContent, log, locale)
         console.log(JSON.stringify(parsedContent.additionalFilesToParse, 2, null));
     })
     .catch(function(err) {
-        // handle errrors
+        let errObj = new ludown.helperClasses.exception(err);
+        // err is of type ludown.helperClasses.exception. 
+        // Possible error codes are available under ludown.helperEnums.errorCodes
+        if(errObj.errCode === ludown.helperEnums.errorCodes.INVALID_INPUT) {
+            // do something specific to this error code
+        } else {
+            console.log(errObj.text);
+        }
     })
 
 ```
-
 Check out the full reference [here](docs/ludown-library.md)
 
 ## Docs
