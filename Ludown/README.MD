@@ -26,10 +26,44 @@ To install:
 ```bash
 npm i -g ludown
 ```
-
 Checkout the [examples](examples) folder for example .lu files.
 
 Also see the [here](ChitChat) to add Small talk/ chit-chat capabilities to your bot.
+
+## Use ludown as a library
+Ludown can be used within a Node.js application as an imported library. Install locally:
+
+```bash
+npm install ludown --save
+```
+
+In your node project:
+```js
+const ludown = require('ludown');
+const luContent = `# Greeting
+- Hi
+- Hello
+- Good morning
+- Good evening
+`;
+const log = false;
+const locale = 'en-us';
+ludown.parser.parseFile(luContent, log, locale)
+    .then(function(parsedContent) {
+        // Parsed LUIS object
+        console.log(JSON.stringify(parsedContent.LUISJsonStructure, 2, null));
+        // Parsed QnA content
+        console.log(JSON.stringify(parsedContent.additionalFilesToParse, 2, null));
+        // Additional files to parse
+        console.log(JSON.stringify(parsedContent.additionalFilesToParse, 2, null));
+    })
+    .catch(function(err) {
+        // handle errrors
+    })
+
+```
+
+Check out the full reference [here](docs/ludown-library.md)
 
 ## Docs
 - [Ludown commands](docs/commands.md)
@@ -39,6 +73,7 @@ Also see the [here](ChitChat) to add Small talk/ chit-chat capabilities to your 
 - [Recreating .lu files with Refresh command](docs/refresh-command.md)
 - [Machine translating .lu files](docs/translate-command.md)
 - [Adding small talk/ chit-chat capabilities to your bot](ChitChat/README.MD)
+- [Ludown as a library](docs/ludown-library.md)
 
 ## CLI return codes
 This CLI writes to stderr on error and stdout otherwise. CLI also returns the following codes based on the outcome of parsing.

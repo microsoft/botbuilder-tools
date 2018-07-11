@@ -17,6 +17,7 @@ const helperClass = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
 const qna = require('./classes/qna');
 const exception = require('./classes/error');
+const LUIS = require('./classes/LUIS');
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
@@ -25,7 +26,7 @@ const parseFileContentsModule = {
      * @returns {Boolean} True if validation succeeds.
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    validateLUISBlob : function(LUISJSONBlob) {
+    validateLUISBlob : async function(LUISJSONBlob) {
         // patterns can have references to any other entity types. 
         // So if there is a pattern.any entity that is also defined as another type, remove the pattern.any entity
         let spliceList = [];
@@ -133,7 +134,7 @@ const parseFileContentsModule = {
      * @returns {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    parseFile : function(fileContent, log, locale) 
+    parseFile : async function(fileContent, log, locale) 
     {
         let parsedContent = new parserObj();
         let splitOnBlankLines = '';
@@ -189,7 +190,7 @@ const parseFileContentsModule = {
      * @returns {qna} Collated qna object
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    collateQnAFiles : function(parsedBlobs) {
+    collateQnAFiles : async function(parsedBlobs) {
         let FinalQnAJSON = new qna();
         parsedBlobs.forEach(function(blob) {
             // does this blob have URLs?
@@ -224,13 +225,12 @@ const parseFileContentsModule = {
         return FinalQnAJSON;
     },
     /**
-     * Handle collating all LUIS sections across all parsed files into one LUIS collection
-     *
-     * @param {object} parsedBlobs Contents of all parsed file blobs
+     * Collate LUIS sections across parsed files into one LUIS collection
+     * @param {LUIS} parsedBlobs Contents of all parsed file blobs
      * @returns {LUIS} Collated LUIS json contents
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    collateLUISFiles : function(parsedBlobs) {
+    collateLUISFiles : async function(parsedBlobs) {
         let FinalLUISJSON = parsedBlobs[0];
         parsedBlobs.splice(0,1);
         parsedBlobs.forEach(function(blob) {

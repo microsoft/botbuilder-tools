@@ -40,9 +40,9 @@ const parser = {
         let allParsedQnAContent = allParsedContent.QnAContent;
         let finalLUISJSON, finalQnAJSON; 
         try {
-            finalLUISJSON = parseFileContents.collateLUISFiles(allParsedLUISContent);
-            if(haveLUISContent(finalLUISJSON)) parseFileContents.validateLUISBlob(finalLUISJSON);
-            finalQnAJSON = parseFileContents.collateQnAFiles(allParsedQnAContent);
+            finalLUISJSON = await parseFileContents.collateLUISFiles(allParsedLUISContent);
+            if(haveLUISContent(finalLUISJSON)) await parseFileContents.validateLUISBlob(finalLUISJSON);
+            finalQnAJSON = await parseFileContents.collateQnAFiles(allParsedQnAContent);
         } catch (err) {
             throw (err);
         }
@@ -236,7 +236,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
         }
         if(log) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
         try {
-            parsedContent = parseFileContents.parseFile(fileContent, log, luis_culture);
+            parsedContent = await parseFileContents.parseFile(fileContent, log, luis_culture);
         } catch (err) {
             throw(err);
         }
@@ -244,7 +244,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
             throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, file ' + file + 'had invalid content'));
         } 
         try {
-            if(haveLUISContent(parsedContent.LUISJsonStructure) && parseFileContents.validateLUISBlob(parsedContent.LUISJsonStructure)) allParsedLUISContent.push(parsedContent.LUISJsonStructure);
+            if(haveLUISContent(parsedContent.LUISJsonStructure) && await parseFileContents.validateLUISBlob(parsedContent.LUISJsonStructure)) allParsedLUISContent.push(parsedContent.LUISJsonStructure);
         } catch (err) {
             throw (err);
         }

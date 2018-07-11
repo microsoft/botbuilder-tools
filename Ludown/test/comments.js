@@ -54,6 +54,10 @@ var outputBlob =
 
 describe('Comment blocks in .lu files', function() {
     it('should be parsed correctly with 1 intent and comments specified', function() {
-        assert.deepEqual(parseFileContents.parseFile(inputFileContent, false, 'en-us').LUISJsonStructure, outputBlob);
+      return parseFileContents.parseFile(inputFileContent, false, 'en-us')
+        .then(function(parsedContent){
+          assert.deepEqual(parsedContent.LUISJsonStructure, outputBlob);
+        })
+        .catch(err => err)
     });
 });
