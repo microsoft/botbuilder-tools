@@ -31,7 +31,7 @@ const translateHelpers = {
         const NEWLINE = '\r\n';
         const NL = '\n';
         for(lineIndex in linesInFile) {
-            let currentLine = linesInFile[lineIndex];
+            let currentLine = linesInFile[lineIndex].trim();
             // is current line a comment? 
             if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) {
                 if(translate_comments) {
@@ -190,9 +190,6 @@ const translateHelpers = {
                 currentSectionType = PARSERCONSTS.ENTITY;
                 localizedContent += currentLine + NEWLINE;
                 if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
-            } else if (currentLine.indexOf(PARSERCONSTS.QNA) === 0) {
-                // we should localize the question
-                currentSectionType = PARSERCONSTS.QNA;
             } else if(currentLine.indexOf(PARSERCONSTS.ANSWER) === 0) {
                 localizedContent += currentLine + NEWLINE;
                 if(log) process.stdout.write(chalk.default.gray(currentLine + NL));

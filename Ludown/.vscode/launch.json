@@ -9,10 +9,15 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\bin\\ludown-parse-ToQna.js",
+            "program": "${workspaceFolder}\\bin\\ludown-translate.js",
             "args":[
                 "--in",
-                "c:\\repos\\botbuilder-tools\\ludown\\examples\\all.lu",
+                "c:\\test\\test.lu",
+                "-k",
+                "5ef1cecd7e954de9b1de6e7fc310f719",
+                "-t",
+                "de",
+                "-u"
             ]
 
         }
