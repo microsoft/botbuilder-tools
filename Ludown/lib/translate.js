@@ -10,7 +10,7 @@ const retCode = require('./enums/CLI-errors');
 const txtfile = require('read-text-file');
 const helpers = require('./helpers');
 const translateHelpers = require('./translate-helpers');
-const exception = require('./classes/error');
+const exception = require('./classes/exception');
 const translateModule = {
     /**
      * Helper function to parse, translate and write out localized lu files

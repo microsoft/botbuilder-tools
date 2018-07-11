@@ -8,12 +8,12 @@ const PARSERCONSTS = require('./enums/parserconsts');
 const retCode = require('./enums/CLI-errors');
 const chalk = require('chalk');
 const helperClasses = require('./classes/hclasses');
-const exception = require('./classes/error');
+const exception = require('./classes/exception');
 const translateHelpers = {
     /**
      * Helper function to parseAndTranslate lu file content
      * @param {string} fileContent file content
-     * @param {string} translate_key translate text API key
+     * @param {string} subscriptionKey translate text API key
      * @param {string} to_lang language code to translate content to
      * @param {string} src_lang language code for source content
      * @param {boolean} translate_comments translate comments in .lu files if this is set to true
@@ -22,7 +22,7 @@ const translateHelpers = {
      * @returns {string} Localized file content
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    parseAndTranslate : async function(fileContent, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log) {
+    parseAndTranslate : async function(fileContent, subscriptionKey, to_lang, src_lang, translate_comments, translate_link_text, log) {
         let linesInFile = fileContent.split(/\n|\r\n/);
         let localizedContent = '';
         let currentSectionType = '';
@@ -36,7 +36,7 @@ const translateHelpers = {
             if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) {
                 if(translate_comments) {
                     try {
-                        data = await translateHelpers.translateText(currentLine, translate_key, to_lang, src_lang);
+                        data = await translateHelpers.translateText(currentLine, subscriptionKey, to_lang, src_lang);
                     } catch (err) {
                         throw(err);
                     }
@@ -53,7 +53,7 @@ const translateHelpers = {
                     let beforeQuestion = currentLine.substring(0, currentLine.indexOf(' ') + 1);
                     let question = intentName.slice(1).trim();
                     try {
-                        data = await translateHelpers.translateText(question, translate_key, to_lang, src_lang);
+                        data = await translateHelpers.translateText(question, subscriptionKey, to_lang, src_lang);
                     } catch (err) {
                         throw(err);
                     }
@@ -113,7 +113,7 @@ const translateHelpers = {
                             });
                         }
                         try {
-                            data = await translateHelpers.translateText(content, translate_key, to_lang, src_lang);
+                            data = await translateHelpers.translateText(content, subscriptionKey, to_lang, src_lang);
                         } catch (err) {
                             throw(err);
                         }
@@ -146,7 +146,7 @@ const translateHelpers = {
                                 });
                             } else {
                                 try {
-                                    data = await translateHelpers.translateText(content, translate_key, to_lang, src_lang);
+                                    data = await translateHelpers.translateText(content, subscriptionKey, to_lang, src_lang);
                                 } catch (err) {
                                     throw(err);
                                 }
@@ -163,7 +163,7 @@ const translateHelpers = {
                         listSeparator = currentLine.charAt(0);
                         content = currentLine.slice(1).trim();
                         try {
-                            data = await translateHelpers.translateText(content, translate_key, to_lang, src_lang);
+                            data = await translateHelpers.translateText(content, subscriptionKey, to_lang, src_lang);
                         } catch (err) {
                             throw(err);
                         }
@@ -176,7 +176,7 @@ const translateHelpers = {
                         listSeparator = currentLine.charAt(0);
                         content = currentLine.slice(1).trim();
                         try {
-                            data = await translateHelpers.translateText(content, translate_key, to_lang, src_lang);
+                            data = await translateHelpers.translateText(content, subscriptionKey, to_lang, src_lang);
                         } catch (err) {
                             throw(err);
                         }
@@ -204,7 +204,7 @@ const translateHelpers = {
                     let linkTextList = currentLine.trim().match(linkTextRegEx);
                     let linkTextValue = linkTextList[0].replace('[','').replace(']','');
                     try {
-                        data = await translateHelpers.translateText(linkTextValue, translate_key, to_lang, src_lang);
+                        data = await translateHelpers.translateText(linkTextValue, subscriptionKey, to_lang, src_lang);
                     } catch (err) {
                         throw(err);
                     }
@@ -221,7 +221,7 @@ const translateHelpers = {
             } else {
                 if(currentSectionType === PARSERCONSTS.ANSWER) {
                     try {
-                        data = await translateHelpers.translateText(currentLine, translate_key, to_lang, src_lang);
+                        data = await translateHelpers.translateText(currentLine, subscriptionKey, to_lang, src_lang);
                     } catch (err) {
                         throw(err);
                     }

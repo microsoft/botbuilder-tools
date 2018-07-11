@@ -16,13 +16,12 @@ const qnaMetaDataObj = require('./classes/qnaMetaData');
 const helperClass = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
 const qna = require('./classes/qna');
-const exception = require('./classes/error');
+const exception = require('./classes/exception');
 const LUIS = require('./classes/LUIS');
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
      * @param {Object} LUISJSONBlob input LUIS Json blob
-     * @param {Object} entitiesList list of entities in collated models
      * @returns {Boolean} True if validation succeeds.
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
@@ -186,13 +185,13 @@ const parseFileContentsModule = {
     /**
      * Handle collating all QnA sections across all parsed files into one QnA collection
      *
-     * @param {qna []} parsedBlobs Array of parsed QnA blobs
+     * @param {qna []} parsedQnAList Array of parsed QnA blobs
      * @returns {qna} Collated qna object
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    collateQnAFiles : async function(parsedBlobs) {
+    collateQnAFiles : async function(parsedQnAList) {
         let FinalQnAJSON = new qna();
-        parsedBlobs.forEach(function(blob) {
+        parsedQnAList.forEach(function(blob) {
             // does this blob have URLs?
             if(blob.urls.length > 0) {
                 // add this url if this does not already exist in finaljson
@@ -226,14 +225,14 @@ const parseFileContentsModule = {
     },
     /**
      * Collate LUIS sections across parsed files into one LUIS collection
-     * @param {LUIS} parsedBlobs Contents of all parsed file blobs
+     * @param {LUIS []} parsedLUISList Contents of all parsed file blobs
      * @returns {LUIS} Collated LUIS json contents
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    collateLUISFiles : async function(parsedBlobs) {
-        let FinalLUISJSON = parsedBlobs[0];
-        parsedBlobs.splice(0,1);
-        parsedBlobs.forEach(function(blob) {
+    collateLUISFiles : async function(parsedLUISList) {
+        let FinalLUISJSON = parsedLUISList[0];
+        parsedLUISList.splice(0,1);
+        parsedLUISList.forEach(function(blob) {
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.INTENT);
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.ENTITIES);
             mergeResults_closedlists(blob, FinalLUISJSON, LUISObjNameEnum.CLOSEDLISTS);

@@ -12,7 +12,7 @@ const parseFileContents = require('./parseFileContents');
 const retCode = require('./enums/CLI-errors');
 const helpers = require('./helpers');
 const cmdEnum = require('./enums/parsecommands');
-const exception = require('./classes/error');
+const exception = require('./classes/exception');
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args

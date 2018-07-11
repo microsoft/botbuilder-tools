@@ -10,7 +10,8 @@ const modules = {
         validateLUISBlob: require('./parseFileContents').validateLUISBlob
     },
     refresh: {
-        constructMdFile: require('./toLU-helpers').constructMdFile
+        constructMdFromLUIS: require('./toLU-helpers').constructMdFromLUISJSON,
+        constructMdFromQnA: require('./toLU-helpers').constructMdFromQnAJSON
     },
     translate: {
         parseAndTranslate: require('./translate-helpers').parseAndTranslate,
@@ -21,7 +22,7 @@ const modules = {
         parseCommands: require('./enums/parsecommands'),
     },
     helperClasses: {
-        exception: require('./classes/error'),
+        exception: require('./classes/exception'),
         LUIS: require('./classes/LUIS'),
         QnA: require('./classes/qna'),
         parser: require('./classes/parserObject')

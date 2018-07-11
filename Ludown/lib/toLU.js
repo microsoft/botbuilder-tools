@@ -10,7 +10,7 @@ const retCode = require('./enums/CLI-errors');
 const txtfile = require('read-text-file');
 const toLUHelpers = require('./toLU-helpers');
 const helperClasses = require('./classes/hclasses');
-const exception = require('./classes/error');
+const exception = require('./classes/exception');
 const toLUModules = {
     /**
      * Function to take commander program object and construct markdown file for specified input
@@ -55,7 +55,7 @@ const toLUModules = {
         }
         // construct the markdown file content
         try {
-            outFileContent = await toLUHelpers.constructMdFile(LUISJSON, QnAJSON, program.LUIS_File, program.QNA_FILE, program.skip_header)
+            outFileContent = await toLUHelpers.constructMdFileHelper(LUISJSON, QnAJSON, program.LUIS_File, program.QNA_FILE, program.skip_header)
         } catch (err) {
             throw(err);
         }
