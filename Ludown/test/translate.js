@@ -42,6 +42,14 @@ describe('Translate command', function() {
             done();
         });
     })
+    
+    it('QnA content is translated correctly', function() {
+        return translate.parseAndTranslate(testData.tests.qna.luFile, translateKey, testData.tests.qna.langCode, '', false, false, false)
+            .then(function(res) {
+                assert.equal(res, testData.tests.qna.translatedContent.replace(/\n/g, '\r\n'));
+            })
+            .catch(err => err)
+    });
 
     it('Phrase list entity references are translated correctly', function() {
         return translate.parseAndTranslate(testData.tests.phraseList.luFile, translateKey, testData.tests.phraseList.langCode, '', false, false, false)
@@ -71,14 +79,6 @@ describe('Translate command', function() {
         return translate.parseAndTranslate(testData.tests.intentsAndUtterancesNC.luFile, translateKey, testData.tests.intentsAndUtterancesNC.langCode, '', false, false, false)
             .then(function(res) {
                 assert.equal(res, testData.tests.intentsAndUtterancesNC.translatedContent.replace(/\n/g, '\r\n'));
-            })
-            .catch(err => err)
-    });
-
-    it('QnA content is translated correctly', function() {
-        return translate.parseAndTranslate(testData.tests.qna.luFile, translateKey, testData.tests.qna.langCode, '', false, false, false)
-            .then(function(res) {
-                assert.equal(res, testData.tests.qna.translatedContent.replace(/\n/g, '\r\n'));
             })
             .catch(err => err)
     });
