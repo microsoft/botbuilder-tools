@@ -4,20 +4,21 @@
       "name": "Buy chocolate"
     }
   ],
-  "entities": [
-    {
-      "name": "ChocolateType",
-      "roles": []
-    }
-  ],
+  "entities": [],
   "composites": [],
   "closedLists": [],
-  "bing_entities": [],
+  "regex_entities": [],
   "model_features": [
     {
       "name": "ChocolateType",
-      "mode": false,
       "words": "m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix",
+      "mode": false,
+      "activated": true
+    },
+    {
+      "name": "question",
+      "words": "are you,you are",
+      "mode": true,
       "activated": true
     }
   ],
@@ -26,43 +27,25 @@
     {
       "text": "can I get some m&m",
       "intent": "Buy chocolate",
-      "entities": [
-        {
-          "entity": "ChocolateType",
-          "startPos": 15,
-          "endPos": 17
-        }
-      ]
+      "entities": []
     },
     {
       "text": "I want some twix",
       "intent": "Buy chocolate",
-      "entities": [
-        {
-          "entity": "ChocolateType",
-          "startPos": 12,
-          "endPos": 15
-        }
-      ]
+      "entities": []
     },
     {
       "text": "I would like to buy some kit kat",
       "intent": "Buy chocolate",
-      "entities": [
-        {
-          "entity": "ChocolateType",
-          "startPos": 25,
-          "endPos": 31
-        }
-      ]
+      "entities": []
     }
   ],
   "patterns": [],
   "patternAnyEntities": [],
   "prebuiltEntities": [],
-  "luis_schema_version": "2.1.0",
+  "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "buychocolate",
+  "name": "buyChocolate",
   "desc": "",
   "culture": "en-us"
 }

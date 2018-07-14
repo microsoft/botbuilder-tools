@@ -10,7 +10,6 @@ const retCode = require('../lib/enums/CLI-errors');
 program.Command.prototype.unknownOption = function (flag) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
-    process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
 };
 program
     .version(pjson.version, '-v, --Version')
@@ -26,5 +25,4 @@ program
     if (!commands.includes(process.argv[2].toLowerCase())) {
         process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
         program.help();
-        process.exit(retCode.errorCode.UNKNOWN_OPTIONS);
     }

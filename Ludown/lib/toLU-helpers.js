@@ -114,7 +114,7 @@ const toLUHelpers = {
      * @returns {String} Generated lu content 
      */
     constructMdFromQnAJSON: function(QnAJSON) {
-        fileContent += '> # QnA pairs' + NEWLINE + NEWLINE;
+        let fileContent = '> # QnA pairs' + NEWLINE + NEWLINE;
         let root = null;
         if(QnAJSON.qnaDocuments) {
             root = QnAJSON.qnaDocuments;
@@ -143,6 +143,7 @@ const toLUHelpers = {
             });
 
         }
+        return fileContent;
     },
     /**
      * Helper function to construct the file content based on parsed luis and qna objects
@@ -158,10 +159,10 @@ const toLUHelpers = {
     constructMdFileHelper : async function(LUISJSON, QnAJSONFromTSV, luisFile, QnAFile, skip_header) {
         let fileContent = '';
         if(LUISJSON.sourceFile) {
-            fileContent += toLUHelpers.constructMdFromLUISJSON(LUISJSON.model);
+            fileContent += await toLUHelpers.constructMdFromLUISJSON(LUISJSON.model);
         }
         if(QnAJSONFromTSV.sourceFile) {
-            fileContent += toLUHelpers.constructMdFromQnAJSON(QnAJSONFromTSV.model)
+            fileContent += await toLUHelpers.constructMdFromQnAJSON(QnAJSONFromTSV.model)
         }
         if(fileContent) {
             let now = new Date();

@@ -88,11 +88,12 @@ $commPreference:call=
         `,
         'langCode': 'de',
         'translatedContent': `### ? Wie ändere ich die Standard-Nachricht
+
 `
     },
     'fileRef': {
         'luFile': `[Sweet](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
-        `,
+`,
         'langCode': 'de',
         'translatedContent': `[Süß](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
 `
@@ -100,5 +101,15 @@ $commPreference:call=
     'badLu': {
         'luFile': `? foo bar`,
         'langCode': 'de'
+    },
+    'labelledEntityValue': {
+        'luFile': `# Greeting
+        - hi {time = morning}
+        `,
+        'langCode': 'de',
+        'translatedContent': `# Greeting
+- Hallo {time=Morgen}
+
+`
     }
 };

@@ -48,12 +48,6 @@ const readerObj = {
             this.intent = intent?intent:'';
         }
     },
-    prebuiltentity: class {
-        constructor(type, roles) {
-            this.type = type?type:'';
-            this.roles = roles?roles:[];
-        }
-    }, 
     modelObj: class {
         constructor(name, mode, words, activated) {
             this.name = name?name:'';

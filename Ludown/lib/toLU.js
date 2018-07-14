@@ -54,11 +54,7 @@ const toLUModules = {
             QnAJSON.sourceFile = program.QNA_FILE;
         }
         // construct the markdown file content
-        try {
-            outFileContent = await toLUHelpers.constructMdFileHelper(LUISJSON, QnAJSON, program.LUIS_File, program.QNA_FILE, program.skip_header)
-        } catch (err) {
-            throw(err);
-        }
+        outFileContent = await toLUHelpers.constructMdFileHelper(LUISJSON, QnAJSON, program.LUIS_File, program.QNA_FILE, program.skip_header)
         if(!outFileContent) {
             throw(new exception(retCode.errorCode.UNKNOWN_ERROR,'Sorry, Unable to generate .lu file content!'));
         }
@@ -114,7 +110,12 @@ const parseLUISFile = async function(file) {
     } catch (err) {
         throw(err);
     }
-    LUISJSON = JSON.parse(LUISFileContent);
+    try {
+        LUISJSON = JSON.parse(LUISFileContent);
+    } catch (err) {
+        throw (new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, error parsing file as LUIS JSON: ' + file));
+    }
+
     if(LUISJSON.composites && LUISJSON.composites.length !== 0) {
         throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to composite entities. Cannot convert to .lu file.'));
     }
@@ -139,10 +140,10 @@ const parseQnAJSONFile = async function(file){
     } catch (err) {
         throw(err);
     }
-    QnAJSON = JSON.parse(QnAFileContent);
-    if (!QnAJSON) {
-        process.stderr.write(chalk.default.redBright('Sorry, error parsing file as QnA JSON: ' + file + '\n'));    
-        process.exit(retCode.errorCode.INVALID_INPUT_FILE);
+    try {
+        QnAJSON = JSON.parse(QnAFileContent);
+    } catch (err) {
+        throw (new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, error parsing file as QnA JSON: ' + file));
     }
     return QnAJSON;
 }

@@ -1,0 +1,94 @@
+{
+  "intents": [
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "AskForUserName"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Good morning",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Good evening",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "please help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "vishwac",
+      "intent": "AskForUserName",
+      "entities": []
+    },
+    {
+      "text": "I'm vishwac",
+      "intent": "AskForUserName",
+      "entities": []
+    },
+    {
+      "text": "call me vishwac",
+      "intent": "AskForUserName",
+      "entities": []
+    },
+    {
+      "text": "my name is vishwac",
+      "intent": "AskForUserName",
+      "entities": []
+    },
+    {
+      "text": "vishwac is my name",
+      "intent": "AskForUserName",
+      "entities": []
+    },
+    {
+      "text": "you can call me vishwac",
+      "intent": "AskForUserName",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "3",
+  "desc": "",
+  "culture": "en-us"
+}

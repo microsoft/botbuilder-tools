@@ -274,6 +274,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
  * @returns {boolean} true if there is any luis content in the blob
  */
 const haveLUISContent = function(blob) {
+    if(!blob) return false;
     return ((blob[LUISObjNameEnum.INTENT].length > 0) ||
     (blob[LUISObjNameEnum.ENTITIES].length > 0) || 
     (blob[LUISObjNameEnum.CLOSEDLISTS].length > 0) ||

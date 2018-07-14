@@ -15,15 +15,4 @@ class qnaMetaData {
     }
 };
 
-qnaMetaData.fromJSON = function(source) {
-    if (!source) {
-        return null;
-    }
-    if (Array.isArray(source)) {
-        return source.map(qnaMetaData.fromJSON);
-    }
-    
-    const {name /* string */,value /* string */} = source;
-    return new qnaMetaData({name /* string */,value /* string */});
-}
 module.exports = qnaMetaData;

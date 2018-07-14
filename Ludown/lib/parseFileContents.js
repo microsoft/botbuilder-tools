@@ -688,6 +688,9 @@ const parseURLOrFileRef = function(parsedContent, type, chunkSplitByLine) {
             let linkValueRegEx = new RegExp(/\(.*?\)/g);
             let linkValueList = chunkSplitByLine[0].trim().match(linkValueRegEx);
             let linkValue = linkValueList[0].replace('(','').replace(')','');
+            if(linkValue === '') {
+                throw(new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: Invalid LU File Ref: ' + chunkSplitByLine[0]));
+            }
             let parseUrl = url.parse(linkValue);
             if (parseUrl.host || parseUrl.hostname) {
                 parsedContent.qnaJsonStructure.urls.push(linkValue);

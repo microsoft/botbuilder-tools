@@ -93,7 +93,7 @@ const translateHelpers = {
                                 if(lEntity.includes('=')) {
                                     let entitySplit = lEntity.split('=');
                                     if(entitySplit.length > 2) {
-                                        throw(new exception(retCode.errorCode.INVALID_INPUT, '[ERROR]: Nested entity references are not supported in utterance: ' + utterance));
+                                        throw(new exception(retCode.errorCode.INVALID_INPUT, '[ERROR]: Nested entity references are not supported in utterance: ' + content));
                                     }
                                     lEntity = entitySplit[0].trim();
                                     labelledValue = entitySplit[1].trim();

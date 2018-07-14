@@ -3,6 +3,11 @@
  * Licensed under the MIT License.
  */
 const exception = class {
+    /**
+     * 
+     * @param {string} errCode 
+     * @param {string} text 
+     */
     constructor(errCode, text) {
         if(errCode === Object(errCode)) {
             this.text = errCode.text?errCode.text:'';

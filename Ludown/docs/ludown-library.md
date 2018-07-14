@@ -24,8 +24,8 @@ ludown.parser.parseFile(luContent1, log, locale)
         console.log(JSON.stringify(parsedContent.additionalFilesToParse, 2, null));
     })
     .catch(function(err) {
-        let errObj = new ludown.helperClasses.exception(err);
-        // err is of type ludown.helperClasses.exception. 
+        let errObj = new ludown.helperClasses.Exception(err);
+        // err is of type ludown.helperClasses.Exception. 
         // Possible error codes are available under ludown.helperEnums.errorCodes
         if(errObj.errCode === ludown.helperEnums.errorCodes.INVALID_INPUT) {
             // do something specific to this error code
@@ -52,8 +52,8 @@ async function parseContent() {
     try {
         parsedContent = await ludown.parser.parseFile(luContent, log, locale);
     } catch (err) {
-        let errObj = new ludown.helperClasses.exception(err);
-        // err is of type ludown.helperClasses.exception. 
+        let errObj = new ludown.helperClasses.Exception(err);
+        // err is of type ludown.helperClasses.Exception. 
         // Possible error codes are available under ludown.helperEnums.errorCodes
         if(errObj.errCode === ludown.helperEnums.errorCodes.INVALID_INPUT) {
             // do something specific to this error code
@@ -65,7 +65,7 @@ async function parseContent() {
     ludown.parser.validateLUISBlob(parsedContent.LUISJsonStructure)
         .then(res => res)
         .catch(function(err) {
-            let exception = new ludown.helperClasses.exception(err);
+            let exception = new ludown.helperClasses.Exception(err);
             console.error('Oops, invalid LUIS content!\n');
             console.error(exception.errCode + ' : ' + exception.text);
         })
@@ -92,8 +92,8 @@ async function parseContent() {
     try {
         parsedContent = await ludown.parser.parseFile(luContent, log, locale);
     } catch (err) {
-        let errObj = new ludown.helperClasses.exception(err);
-        // err is of type ludown.helperClasses.exception. 
+        let errObj = new ludown.helperClasses.Exception(err);
+        // err is of type ludown.helperClasses.Exception. 
         // Possible error codes are available under ludown.helperEnums.errorCodes
         if(errObj.errCode === ludown.helperEnums.errorCodes.INVALID_INPUT) {
             // do something specific to this error code
@@ -109,7 +109,7 @@ async function parseContent() {
             console.log(result);
         })
         .catch(function(err) {
-            let exception = new ludown.helperClasses.exception(err);
+            let exception = new ludown.helperClasses.Exception(err);
             console.error('Oops, invalid LUIS content!\n');
             console.error(exception.errCode + ' : ' + exception.text);
         })
@@ -143,7 +143,7 @@ ludown.translate.parseAndTranslate(luContent, subscriptionKey, targetLanguage, '
         console.log(result);
     })
     .catch(function(err){
-        let exception = new ludown.helperClasses.exception(err);
+        let exception = new ludown.helperClasses.Exception(err);
         console.error(exception.errCode + ' : ' + exception.text);
     })
 

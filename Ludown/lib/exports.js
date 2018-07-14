@@ -20,10 +20,10 @@ const modules = {
         parseCommands: require('./enums/parsecommands'),
     },
     helperClasses: {
-        exception: require('./classes/exception'),
+        Exception: require('./classes/exception'),
         LUIS: require('./classes/LUIS'),
         QnA: require('./classes/qna'),
-        parser: require('./classes/parserObject')
+        Parser: require('./classes/parserObject')
     }
     
 };
