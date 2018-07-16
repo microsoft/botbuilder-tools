@@ -66,6 +66,10 @@ export interface ILuisService extends IConnectedService {
 
     // version of the application
     version: string;
+
+    //endpoint base path for using a model api for predictions
+    endpointBasePath: string;
+
 }
 
 export interface IDispatchService extends IConnectedService {
