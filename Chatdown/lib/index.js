@@ -235,6 +235,7 @@ async function readCommandsFromAggregate(args, aggregate) {
                 // reset
                 delay = messageTimeGap;
                 currentActivity = createActivity({ type: activitytypes.Message, from: args.from, recipient: args.recipient, conversationId: args.conversation.id });
+                currentActivity.text = '';
             }
             aggregate = aggregate.substr(result.index);
 
