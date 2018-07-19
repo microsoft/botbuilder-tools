@@ -172,6 +172,7 @@ const translateHelpers = {
                         if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NL));
                         break;
                     case PARSERCONSTS.QNA:
+                    default:
                         // strip line of the list separator
                         listSeparator = currentLine.charAt(0);
                         content = currentLine.slice(1).trim();

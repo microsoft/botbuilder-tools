@@ -4,7 +4,7 @@
   "description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
   "main": "lib\\exports.js",
   "scripts": {
-    "test": "nyc --reporter=html mocha --timeout 10000"
+    "test": "nyc --reporter=html mocha --timeout 100000"
   },
   "bin": {
     "ludown": "./bin/ludown.js"

@@ -9,6 +9,7 @@ const PARSERCONSTS = require('./enums/parserconsts');
 const chalk = require('chalk');
 const retCode = require('./enums/CLI-errors');
 const exception = require('./classes/exception');
+const LUISBuiltInTypes = require('./enums/luisbuiltintypes').consolidatedList;
 const helpers = {
     /**
      * Helper function to recursively get all .lu files
@@ -108,23 +109,46 @@ const helpers = {
                         throw(err);
                     }
                 } 
-                // only list entity types can have multi-line definition
-                let isListEntity = (currentLine.indexOf('=', currentLine.length - 1) >= 0)?true:false;
-                if(isListEntity || currentLine.toLowerCase().includes(':phraselist')){
-                    middleOfSection = true;
-                    currentSectionType = PARSERCONSTS.ENTITY;
-                    currentSection = currentLine + NEWLINE;
+                // is this a valid entity definition? 
+                // Entities must have $<entityName>:<entityType> format
+                // List entities have $<entityName>:<normalizedvalue>= format
+                // Phrase list entities have $<entityName>:phraseList format
+                // only list entity and phrase list entity types can have multi-line definition
+                if(currentLine.toLowerCase().includes(':')) {
+                    // get entity name and type
+                    let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
+                    let entityName = entityDef[0];
+                    let entityType = entityDef[1];
+                    // is entityType a phraseList? 
+                    if(entityType.trim().toLowerCase().includes('phraselist')) {
+                        middleOfSection = true;
+                        currentSectionType = PARSERCONSTS.ENTITY;
+                        currentSection = currentLine + NEWLINE;
+                    } else if(LUISBuiltInTypes.includes(entityType.trim()) || entityType.trim().toLowerCase().includes('simple')) {
+                        // this is a built in type definition. Just add it.
+                        sectionsInFile.push(currentLine);
+                        middleOfSection = false;
+                        currentSection = null;
+                    } else if((currentLine.indexOf('=') >= 0)) {
+                        // this is a list entity type
+                        if(currentLine.indexOf('=') === (currentLine.length - 1)){
+                            middleOfSection = true;
+                            currentSectionType = PARSERCONSTS.ENTITY;
+                            currentSection = currentLine + NEWLINE;
+                        } else {
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR] Invalid list entity definition for ' + currentLine + '\n List entities follow $<entityName>:<normalizedValue>= notation'));
+                        }
+                    } else {
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR] Invalid entity definition for ' + currentLine));
+                    }
                 } else {
-                    sectionsInFile.push(currentLine);
-                    middleOfSection = false;
-                    currentSection = null;
+                    throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR] Invalid entity definition for ' + currentLine));
                 }
             } else {
                 if(middleOfSection) {
                     currentSection += currentLine + NEWLINE;
                 } else {
                     ++lineIndex;
-                    let p = new exception({text:'test', errCode: 1});
                     throw(new exception(retCode.errorCode.INVALID_LINE,'Error: Line #' + lineIndex + ' is not part of a Intent/ Entity/ QnA'));
                 }
             }
@@ -180,19 +204,11 @@ var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, cur
             }
             sectionsInFile.push(previousSection);
             break;
-        case PARSERCONSTS.QNA:
-            // warn if there isnt at least one utterance in an intent
-            if(previousSection.split(/\r\n/).length === 1)  {
-                ++lineIndex;
-                throw(new exception(retCode.errorCode.INVALID_LINE, 'Line #' + lineIndex + ': [ERR] No answer found for question' + previousSection.split(/\r\n/)[0]));
-            }
-            sectionsInFile.push(previousSection);
-            break;
         case PARSERCONSTS.ENTITY:
-            // warn if there isnt at least one utterance in an intent
+            // warn if there isnt at least one synonym for a list entity
             if(previousSection.split(/\r\n/).length === 1)  {
                 ++lineIndex;
-                if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No list entity definition found for entity:' + previousSection.split(/\r\n/)[0] + '\n'));
+                if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No synonyms list found for list entity:' + previousSection.split(/\r\n/)[0] + '\n'));
                 --lineIndex;
             }
             sectionsInFile.push(previousSection);
