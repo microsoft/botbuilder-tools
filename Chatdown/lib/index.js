@@ -35,6 +35,9 @@ let workingDirectory;
  * @returns {Promise<Array>} Resolves with an array of Activity objects.
  */
 module.exports = async function readContents(fileContents, args = {}) {
+    if (args.static || args.s) {
+        now = Number(new Date(2016, 9, 15, 12, 0, 0, 0));
+    }
     // Resolve file paths based on the input file with a fallback to the cwd
     workingDirectory = args.in ? path.dirname(path.resolve(args.in)) : __dirname;
     const activities = [];
@@ -178,7 +181,7 @@ function createConversationUpdate(args, membersAdded, membersRemoved) {
     });
     conversationUpdateActivity.membersAdded = membersAdded || [];
     conversationUpdateActivity.membersRemoved = membersRemoved || [];
-    conversationUpdateActivity.timestamp = getIncrementedDate();
+    conversationUpdateActivity.timestamp = getIncrementedDate(100);
     return conversationUpdateActivity;
 }
 
@@ -531,7 +534,7 @@ function createActivity({ type = ActivityTypes.Message, recipient, from, convers
 }
 
 function getIncrementedDate(byThisAmount = messageTimeGap) {
-    return new Date(now += +byThisAmount).toISOString();
+    return new Date(now += byThisAmount).toISOString();
 }
 
 /**

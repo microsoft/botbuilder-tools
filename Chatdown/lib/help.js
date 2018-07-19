@@ -10,7 +10,7 @@ module.exports = function (output) {
     if (!output)
         output = process.stderr;
     output.write('\nChatdown cli tool used to parse chat dialogs (.chat file) into a mock transcript file\n\n© 2018 Microsoft Corporation\n\n');
-    output.write(chalk.cyan.bold(`chatdown [chat] [--help] [--version]\n\n`));
+    output.write(chalk.cyan.bold(`chatdown [chat] [--help] [--version] [--static]\n\n`));
     let left = 20;
     let right = windowSize.width - left - 3; // 3 is for 3 vertical bar characters
     const table = new Table({
@@ -29,5 +29,6 @@ module.exports = function (output) {
     table.push([chalk.cyan.bold('[chat]'), '[chat] is the location of the chat file to parse. If omitted, piping is assumed and stdin will be used for input.']);
     table.push([chalk.cyan.bold('-v, --version'), 'show version']);
     table.push([chalk.cyan.bold('--help'), 'Prints this help info to the console.']);
+    table.push([chalk.cyan.bold('--static'), 'use static timestamps when generating timestamps on activities.']);
     output.write(table.toString()+'\n');
 };
