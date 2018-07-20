@@ -6,11 +6,10 @@
 const program = require('commander');
 const chalk = require('chalk');
 const translate = require('../lib/translate');
-var retCode = require('../lib/enums/CLI-errors');
+const retCode = require('../lib/enums/CLI-errors');
 program.Command.prototype.unknownOption = function (flag) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
-    process.exit(retCode.UNKNOWN_OPTIONS);
 };
 program
     .name("ludown translate")
@@ -24,29 +23,30 @@ program
     .option('-f, --src_lang <srcLang>', '[Optional] Source language. When omitted, source language is automatically detected. See https://aka.ms/translate-langs for list of supported languages and codes')
     .option('-s, --subfolder', '[Optional] Include sub-folders as well when looking for .lu files')
     .option('-n, --lu_File <LU_File>', '[Optional] Output .lu file name')
-    .option('-c, --transate_comments', '[Optional] Translate comments in .lu files')
+    .option('-c, --translate_comments', '[Optional] Translate comments in .lu files')
     .option('-u, --translate_link_text', '[Optional] Translate URL or .lu file reference link text')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
 
-    if (process.argv.length < 4) {
+    if (!program.in && !program.lu_folder) {
+        process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
         program.help();
-    } else {
-        if (!program.in && !program.lu_folder) {
-            process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
-            program.help();
-            process.exit(retCode.UNKNOWN_OPTIONS);
-        } 
-        if(!program.translate_key) {
-            process.stderr.write(chalk.default.redBright(`\n  No translate key provided.\n`));
-            program.help();
-            process.exit(retCode.UNKNOWN_OPTIONS);
-        }
-        if(!program.to_lang) {
-            process.stderr.write(chalk.default.redBright(`\n  No target language provided.\n`));
-            program.help();
-            process.exit(retCode.UNKNOWN_OPTIONS);
-        }
-        translate.translateContent(program);
+    } 
+    if(!program.translate_key) {
+        process.stderr.write(chalk.default.redBright(`\n  No translate key provided.\n`));
+        program.help();
     }
+    if(!program.to_lang) {
+        process.stderr.write(chalk.default.redBright(`\n  No target language provided.\n`));
+        program.help();
+    }
+    translate.translateContent(program)
+        .then(function(){
+            process.exit(retCode.errorCode.SUCCESS);
+        })
+        .catch(function(err) {
+            process.stderr.write(chalk.default.redBright(err.text + '\n'));
+            process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
+            process.exit(err.errCode);
+        });        
    

@@ -1,0 +1,43 @@
+{
+  "intents": [
+    {
+      "name": "Greeting"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Good morning",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Good evening",
+      "intent": "Greeting",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "1",
+  "desc": "",
+  "culture": "en-us"
+}
