@@ -187,10 +187,27 @@ const translateHelpers = {
                         break;
                 }
             } else if(currentLine.indexOf(PARSERCONSTS.ENTITY) === 0) {
-                // we would not localize entity line but remember we are under entity section for list entities
-                currentSectionType = PARSERCONSTS.ENTITY;
-                localizedContent += currentLine + NEWLINE;
-                if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
+                // we need to localize qna alterations if specified.
+                let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
+                let entityName = entityDef[0];
+                let entityType = entityDef[1];
+                if(entityType.includes(PARSERCONSTS.QNAALTERATIONS)) {
+                    // localize entityName
+                    try {
+                        data = await translateHelpers.translateText(entityName.trim(), subscriptionKey, to_lang, src_lang);
+                    } catch (err) {
+                        throw(err);
+                    }
+                    lText = data[0].translations[0].text;
+                    localizedContent += '$' + lText + ' : ' + PARSERCONSTS.QNAALTERATIONS + ' = ' + NEWLINE;
+                    currentSectionType = PARSERCONSTS.ENTITY;
+                    if(log) process.stdout.write(chalk.default.gray('$' + lText + ' : ' + PARSERCONSTS.QNAALTERATIONS + ' = ' + NEWLINE));
+                } else {
+                    // we would not localize entity line but remember we are under entity section for list entities
+                    currentSectionType = PARSERCONSTS.ENTITY;
+                    localizedContent += currentLine + NEWLINE;
+                    if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
+                }
             } else if(currentLine.indexOf(PARSERCONSTS.ANSWER) === 0) {
                 localizedContent += currentLine + NEWLINE;
                 if(log) process.stdout.write(chalk.default.gray(currentLine + NL));

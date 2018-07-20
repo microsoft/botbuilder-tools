@@ -38,16 +38,18 @@ const parser = {
         }
         let allParsedLUISContent = allParsedContent.LUISContent;
         let allParsedQnAContent = allParsedContent.QnAContent;
-        let finalLUISJSON, finalQnAJSON; 
+        let allParsedQnAAlterations = allParsedContent.QnAAlterations;
+        let finalLUISJSON, finalQnAJSON, finalQnAAlterations; 
         try {
             finalLUISJSON = await parseFileContents.collateLUISFiles(allParsedLUISContent);
             if(haveLUISContent(finalLUISJSON)) await parseFileContents.validateLUISBlob(finalLUISJSON);
             finalQnAJSON = await parseFileContents.collateQnAFiles(allParsedQnAContent);
+            finalQnAAlterations = await parseFileContents.collateQnAAlterations(allParsedQnAAlterations);
         } catch (err) {
             throw (err);
         }
         try {
-            writeOutFiles(program,finalLUISJSON,finalQnAJSON, rootFile, cmd); 
+            writeOutFiles(program,finalLUISJSON,finalQnAJSON, finalQnAAlterations, rootFile, cmd); 
         } catch (err) {
             throw(err);
         }
@@ -58,12 +60,13 @@ const parser = {
  * @param {object} program Parsed program object from commander
  * @param {LUIS} finalLUISJSON Collated final LUIS JSON structure to write out to disk
  * @param {QnA} finalQnAJSON Collated final QnA JSON structure to write out to disk\
+ * @param {qnaAlterations} finalQnAAlterations Collated final QnA Alterations JSON structure to write out to disk\
  * @param {string} rootFile Root file name and path
  * @param {cmdEnum} cmd Command to instruct if LUIS or QnA content should be written out to disk
  * @returns {void} Nothing
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
-const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, rootFile, cmd) {
+const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlterations, rootFile, cmd) {
     let outFolder;
     try {
         outFolder = getOutputFolder(program)
@@ -158,6 +161,20 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, rootFile, cmd
         }
         if(program.verbose) console.log(chalk.default.italic('Successfully wrote LUIS batch test JSON file to ' + path.join(outFolder, LUISBatchFileName) + '\n'));
     }
+
+    // write out QnA Alterations if requested
+    if((cmd == cmdEnum.qna) && program.write_qna_alterations) {
+        let qAlterationsFileContent = JSON.stringify(finalQnAAlterations, null, 2);
+        let qAlterationsFileName = program.qOutFile.replace(".json", "_Alterations.json");
+        let qAFileName = path.join(outFolder, qAlterationsFileName);
+        // write out the final QnA alterations file
+        try {
+            fs.writeFileSync(qAFileName, qAlterationsFileContent, 'utf-8');
+        } catch (err) {
+            throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to write QnA Alterations JSON file - ' + qAFileName));
+        }
+        if(program.verbose) console.log(chalk.default.italic('Successfully wrote QnA Alterations JSON file to ' + qAFileName + '\n'));
+    }
 }
 /**
  * Helper function to get output folder
@@ -209,7 +226,6 @@ const getFilesToParse = async function(program) {
         if(filesToParse.length === 0) {
             throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Sorry, no .lu files found in the specified folder.'));                
         }
-        if(!rootFile) rootFile = filesToParse[0]
     }
     return filesToParse;
 }
@@ -225,6 +241,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
     let parsedContent = '';
     let allParsedLUISContent = [];
     let allParsedQnAContent = [];
+    let allParsedAlterationsContent = [];
     while(filesToParse.length > 0) {
         let file = filesToParse[0];
         if(!fs.existsSync(path.resolve(file))) {
@@ -249,6 +266,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
             throw (err);
         }
         allParsedQnAContent.push(parsedContent.qnaJsonStructure);
+        allParsedAlterationsContent.push(parsedContent.qnaAlterations);
         // remove this file from the list
         let parentFile = filesToParse.splice(0,1);
         let parentFilePath = path.parse(path.resolve(parentFile[0])).dir;
@@ -265,7 +283,8 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
     }
     return {
         LUISContent: allParsedLUISContent,
-        QnAContent: allParsedQnAContent
+        QnAContent: allParsedQnAContent,
+        QnAAlterations: allParsedAlterationsContent
     };
 }
 /**

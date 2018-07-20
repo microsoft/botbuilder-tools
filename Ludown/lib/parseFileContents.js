@@ -18,6 +18,7 @@ const deepEqual = require('deep-equal');
 const qna = require('./classes/qna');
 const exception = require('./classes/exception');
 const LUIS = require('./classes/LUIS');
+const qnaAlterations = require('./classes/qnaAlterations');
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
@@ -280,6 +281,23 @@ const parseFileContentsModule = {
             }
         }); 
         return FinalLUISJSON;
+    },
+    /**
+     * Collate QnA maker alterations sections across parsed files into one collection
+     * @param {qnaAlterations []} allParsedQnAAlterations Contents of all parsed file blobs
+     * @returns {qnaAlterations} Collated QnA maker alterations json contents
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    collateQnAAlterations : async function(allParsedQnAAlterations) {
+        let finalQnAAlterationsList = new qnaAlterations.qnaAlterations();
+        allParsedQnAAlterations.forEach(function(alterationList) {
+            if(alterationList.wordAlterations) {
+                alterationList.wordAlterations.forEach(function(alteration) {
+                    finalQnAAlterationsList.wordAlterations.push(alteration);
+                })
+            } 
+        });
+        return finalQnAAlterationsList; 
     }
 };
 /**
@@ -408,38 +426,21 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
         }
     } else if(entityType.indexOf('=', entityType.length - 1) >= 0) 
     {
-        // is this a list type?  
-        // get normalized value
-        let normalizedValue = entityType.substring(0, entityType.length - 1);
-        // remove the first entity declaration line
-        chunkSplitByLine.splice(0,1);
-        let synonymsList = [];
-        
-        // go through the list chunk and parse. Add these as synonyms
-        chunkSplitByLine.forEach(function(listLine) {
-            if((listLine.indexOf('-') !== 0) &&
-            (listLine.indexOf('*') !== 0) && 
-            (listLine.indexOf('+') !== 0)) {
-                throw(new exception(retCode.errorCode.SYNONYMS_NOT_A_LIST, '[ERROR]: Synonyms list value: "' + listLine + '" does not have list decoration. Prefix line with "-" or "+" or "*"'));
+        // is this qna maker alterations list? 
+        if(entityType.includes(PARSERCONSTS.QNAALTERATIONS)) {
+            try {
+                parseAndHandleQnAAlterations(parsedContent, chunkSplitByLine)
+            } catch (err) {
+                throw(err);
             }
-            listLine = listLine.slice(1).trim();       
-            synonymsList.push(listLine.trim());
-        });
-
-        let closedListExists = helpers.filterMatch(parsedContent.LUISJsonStructure.closedLists, 'name', entityName);
-        if(closedListExists.length === 0) {
-            parsedContent.LUISJsonStructure.closedLists.push(new helperClass.closedLists(entityName, [new helperClass.subList(normalizedValue,synonymsList)], []));
         } else {
-            // closed list with this name already exists
-            let subListExists = helpers.filterMatch(closedListExists[0].subLists, 'canonicalForm', normalizedValue);
-            if(subListExists.length === 0) {
-                closedListExists[0].subLists.push(new helperClass.subList(normalizedValue, synonymsList));
-            } else {
-                synonymsList.forEach(function(listItem) {
-                    if(!subListExists[0].list.includes(listItem)) subListExists[0].list.push(listItem);
-                })
+            // treat this as a LUIS list entity type
+            try {
+                parseAndHandleListEntity(parsedContent, chunkSplitByLine);
+            } catch (err) {
+                throw (err);
             }
-        }
+        }        
     } else if(entityType.toLowerCase() === 'simple') {
         // add this to entities if it doesnt exist
         addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entityName);
@@ -487,6 +488,71 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
             }
         } else {
             parsedContent.LUISJsonStructure.model_features.push(new helperClass.modelObj(entityName, intc, plValuesList, true));
+        }
+    }
+};
+/**
+ * Helper function to parse and handle QnA Maker alterations
+ * @param {parserObj} parsedContent parserObj containing current parsed content
+ * @param {Array} chunkSplitByLine Array of text lines in the current parsed section
+ * @returns {void} Nothing
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
+ */
+const parseAndHandleQnAAlterations = function(parsedContent, chunkSplitByLine) {
+    let alterationlist = [chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '').split(':')[0].trim()];
+    // remove the first entity declaration line
+    chunkSplitByLine.splice(0,1);
+    chunkSplitByLine.forEach(function(alterationLine) {
+        if((alterationLine.indexOf('-') !== 0) &&
+        (alterationLine.indexOf('*') !== 0) && 
+        (alterationLine.indexOf('+') !== 0)) {
+            throw(new exception(retCode.errorCode.SYNONYMS_NOT_A_LIST, '[ERROR]: QnA alteration list value: "' + alterationLine + '" does not have list decoration. Prefix line with "-" or "+" or "*"'));
+        }
+        alterationLine = alterationLine.slice(1).trim();       
+        alterationlist.push(alterationLine.trim());
+    });
+    parsedContent.qnaAlterations.wordAlterations.push(new qnaAlterations.alterations(alterationlist));
+}
+/**
+ * Helper function to parse and handle list entities
+ * @param {parserObj} parsedContent parserObj containing current parsed content
+ * @param {Array} chunkSplitByLine Array of text lines in the current parsed section
+ * @returns {void} Nothing
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
+ */
+const parseAndHandleListEntity = function(parsedContent, chunkSplitByLine) {
+    let entityDef = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '').split(':');
+    let entityName = entityDef[0];
+    let entityType = entityDef[1];
+    // get normalized value
+    let normalizedValue = entityType.substring(0, entityType.length - 1);
+    // remove the first entity declaration line
+    chunkSplitByLine.splice(0,1);
+    let synonymsList = [];
+    
+    // go through the list chunk and parse. Add these as synonyms
+    chunkSplitByLine.forEach(function(listLine) {
+        if((listLine.indexOf('-') !== 0) &&
+        (listLine.indexOf('*') !== 0) && 
+        (listLine.indexOf('+') !== 0)) {
+            throw(new exception(retCode.errorCode.SYNONYMS_NOT_A_LIST, '[ERROR]: Synonyms list value: "' + listLine + '" does not have list decoration. Prefix line with "-" or "+" or "*"'));
+        }
+        listLine = listLine.slice(1).trim();       
+        synonymsList.push(listLine.trim());
+    });
+
+    let closedListExists = helpers.filterMatch(parsedContent.LUISJsonStructure.closedLists, 'name', entityName);
+    if(closedListExists.length === 0) {
+        parsedContent.LUISJsonStructure.closedLists.push(new helperClass.closedLists(entityName, [new helperClass.subList(normalizedValue,synonymsList)], []));
+    } else {
+        // closed list with this name already exists
+        let subListExists = helpers.filterMatch(closedListExists[0].subLists, 'canonicalForm', normalizedValue);
+        if(subListExists.length === 0) {
+            closedListExists[0].subLists.push(new helperClass.subList(normalizedValue, synonymsList));
+        } else {
+            synonymsList.forEach(function(listItem) {
+                if(!subListExists[0].list.includes(listItem)) subListExists[0].list.push(listItem);
+            })
         }
     }
 }

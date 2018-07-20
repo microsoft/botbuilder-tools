@@ -126,4 +126,17 @@ describe('With translate module', function() {
             .catch (err => done());
     }); 
 
+    it('Alterations are translated correctly', function(done) {
+        let fileContent = `$ hello : qna-alterations = 
+- hello`;
+        let translatedContent = `$Hallo : qna-alterations = 
+- Hallo`;
+        trHelpers.parseAndTranslate(fileContent, '5ef1cecd7e954de9b1de6e7fc310f719', 'de', '', false, true, true)
+            .then(function(res) {
+                assert.equal(res, translatedContent.replace(/\n/g, '\r\n') + '\r\n');
+                done();
+            })
+            .catch (err => done(err));
+    }); 
+
 });

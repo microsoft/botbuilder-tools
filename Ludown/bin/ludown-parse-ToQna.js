@@ -21,6 +21,7 @@ program
     .option('-o, --out_folder <outputFolder>', '[Optional] Output folder for all files the tool will generate')
     .option('-s, --subfolder', '[Optional] Include sub-folders as well when looking for .lu files')
     .option('-n, --qna_name <QnA_KB_Name>', '[Optional] QnA KB name')
+    .option('-a, --write_qna_alterations', '[Optional] QnA Maker alterations')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
     

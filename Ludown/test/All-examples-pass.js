@@ -307,6 +307,83 @@ describe('The example lu files', function() {
             }
         });
     });
+
     
+    it('Successfully spits out qnamaker alterations list when specified in .lu files', function(done){
+        exec(`node ${ludown} parse toqna -a --in examples/qna-alterations.lu -o test/output --verbose`, (error, stdout, stderr) => {
+            try {
+                assert.ok(stdout.includes('Successfully wrote QnA Alterations JSON file'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('Throws when an invalid QnA Maker alteration is specified in the input .lu file', function(done){
+        exec(`node ${ludown} parse toqna -a --in test/testcases/invalid-alterations.lu -o test/output --verbose`, (error, stdout, stderr) => {
+            try {
+                assert.ok(stderr.includes('[ERROR]: QnA alteration list value'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('Collate can correctly merge LUIS content split across LU files', function(done){
+        exec(`node ${ludown} parse toluis -l test/testcases/collate -n collated-luis -o test/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(JSON.parse(txtfile.readSync('test/output/collated-luis.json')), JSON.parse(txtfile.readSync('test/verified/collated-luis.json')));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
     
+    it('Collate can correctly merge LUIS content split across LU files to generate batch test input', function(done){
+        exec(`node ${ludown} parse toluis -l test/testcases/collate -n collated-luis -o test/output -t`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(JSON.parse(txtfile.readSync('test/output/collated-luis_LUISBatchTest.json')), JSON.parse(txtfile.readSync('test/verified/collated-luis_LUISBatchTest.json')));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+    
+    it('Collate can correctly merge QnA content split across LU files', function(done){
+        exec(`node ${ludown} parse toqna -l test/testcases/collate -n collate-qna -o test/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(JSON.parse(txtfile.readSync('test/output/collate-qna.json')), JSON.parse(txtfile.readSync('test/verified/collate-qna.json')));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('Collate can correctly merge QnA word alteration content split across LU files', function(done){
+        exec(`node ${ludown} parse toqna -l test/testcases/collate -n alterations -o test/output -a`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(JSON.parse(txtfile.readSync('test/output/alterations_Alterations.json')), JSON.parse(txtfile.readSync('test/verified/collate_Alterations.json')));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+    
+
+   it('Refresh command can successfully generate content from LUIS, QnA and QnA Alterations', function(done){
+    exec(`node ${ludown} refresh -i test/verified/collated-luis.json -q test/verified/collate-qna.json -a test/verified/collate_Alterations.json -n collate_refresh -o test/output --skip_header`, (error, stdout, stderr) => {
+        try {
+            assert.equal(txtfile.readSync('test/output/collate_refresh.lu'), txtfile.readSync('test/verified/collate_refresh.lu'));
+            done();
+        } catch (err) {
+            done(err);
+        }
+    });
+});
 });

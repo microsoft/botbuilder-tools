@@ -4,7 +4,7 @@
  */
 const QnA = require('./qna');
 const LUIS = require('./LUIS');
-
+const qnaAlterations = require('./qnaAlterations');
 class parserObject {
     /**
      * @property {string []} additionalFilesToParse
@@ -15,10 +15,14 @@ class parserObject {
     /**
      * @property {QnA} qnaJsonStructure
      */
+    /**
+     * @property {qnaAlterations} qnaAlterations
+     */
     constructor() {
         this.additionalFilesToParse = [];
         this.LUISJsonStructure = new LUIS();
         this.qnaJsonStructure = new QnA();
+        this.qnaAlterations = new qnaAlterations.qnaAlterations();
     }
 };
 

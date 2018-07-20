@@ -9,7 +9,8 @@ const modules = {
     },
     refresh: {
         constructMdFromLUIS: require('./toLU-helpers').constructMdFromLUISJSON,
-        constructMdFromQnA: require('./toLU-helpers').constructMdFromQnAJSON
+        constructMdFromQnA: require('./toLU-helpers').constructMdFromQnAJSON,
+        constructMdFromQnAAlteration: require('./toLU-helpers').constructMdFromQnAAlterationJSON
     },
     translate: {
         parseAndTranslate: require('./translate-helpers').parseAndTranslate,
@@ -25,6 +26,5 @@ const modules = {
         QnA: require('./classes/qna'),
         Parser: require('./classes/parserObject')
     }
-    
 };
 module.exports = modules;

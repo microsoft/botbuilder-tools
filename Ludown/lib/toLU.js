@@ -22,6 +22,7 @@ const toLUModules = {
         let outFolder = process.cwd();
         let LUISJSON = new helperClasses.readerObject();
         let QnAJSON = new helperClasses.readerObject();
+        let QnAAltJSON = new helperClasses.readerObject();
         let outFileContent;
         let outFileName = '';
         if(program.out_folder) {
@@ -53,8 +54,18 @@ const toLUModules = {
             }
             QnAJSON.sourceFile = program.QNA_FILE;
         }
+
+        //do we have a QnA alterations file? If so, get that and load into memory
+        if(program.QNA_ALTERATION_FILE) {
+            try {
+                QnAAltJSON.model = await parseQnAJSONFile(program.QNA_ALTERATION_FILE);
+            } catch (err) {
+                throw (err);
+            }
+            QnAAltJSON.sourceFile = program.QNA_ALTERATION_FILE;
+        }
         // construct the markdown file content
-        outFileContent = await toLUHelpers.constructMdFileHelper(LUISJSON, QnAJSON, program.LUIS_File, program.QNA_FILE, program.skip_header)
+        outFileContent = await toLUHelpers.constructMdFileHelper(LUISJSON, QnAJSON, QnAAltJSON, program.LUIS_File, program.QNA_FILE, program.skip_header)
         if(!outFileContent) {
             throw(new exception(retCode.errorCode.UNKNOWN_ERROR,'Sorry, Unable to generate .lu file content!'));
         }

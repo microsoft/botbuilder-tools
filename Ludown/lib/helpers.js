@@ -120,7 +120,7 @@ const helpers = {
                     let entityName = entityDef[0];
                     let entityType = entityDef[1];
                     // is entityType a phraseList? 
-                    if(entityType.trim().toLowerCase().includes('phraselist')) {
+                    if(entityType.trim().toLowerCase().includes('phraselist') || entityType.trim().toLowerCase().includes('qna-alterations')) {
                         middleOfSection = true;
                         currentSectionType = PARSERCONSTS.ENTITY;
                         currentSection = currentLine + NEWLINE;

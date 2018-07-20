@@ -17,6 +17,7 @@ program
     .usage('-i <LUISJsonFile> | -q <QnAJSONFile>')
     .option('-i, --LUIS_File <LUIS_JSON_File>', '[Optional] LUIS JSON input file name')
     .option('-q, --QNA_FILE <QNA_FILE>', '[Optional] QnA Maker JSON input file name')
+    .option('-a, --QNA_ALTERATION_FILE <QNA_ALT_FILE>', '[Optional] QnA Maker Alteration input file name')
     .option('-o, --out_folder <outputFolder> [optional]', '[Optional] Output folder for all files the tool will generate')
     .option('-n, --lu_File <LU_File>', '[Optional] Output .lu file name')
     .option('--verbose', '[Optional] Get verbose messages from parser')
@@ -26,8 +27,8 @@ program
     if (process.argv.length < 4) {
         program.help();
     } else {
-        if (!program.LUIS_File && !program.QNA_FILE) {
-            process.stderr.write(chalk.default.redBright(`\n  No LUIS input file or QnA Maker JSON or TSV specified.`));
+        if (!program.LUIS_File && !program.QNA_FILE && !program.QNA_ALTERATION_FILE) {
+            process.stderr.write(chalk.default.redBright(`\n  No LUIS input file or QnA Maker JSON or QnA Alteration file specified.`));
             program.help();
         } 
         toLU.generateMarkdown(program)
