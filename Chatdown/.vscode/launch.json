@@ -25,7 +25,7 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}\\bin\\chatdown",
-            "args": ["c:\\scratch\\test.chat"]
+            "args": ["${workspaceFolder}\\examples\\conversationUpdate.chat"]
         }
     ]
 }
