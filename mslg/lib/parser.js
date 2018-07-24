@@ -5,7 +5,6 @@
 const exception = require('ludown').helperClasses.Exception;
 const ludownParser = require('ludown').parserHelpers.splitFileBySections;
 const ludownLUISParser = require('ludown').parser.parseFile;
-const parserObj = require('./classes/parserObj');
 const findFiles = require('ludown').parserHelpers.findFiles;
 const errorCodes = require('./enums/errorCodes');
 const path = require('path');
@@ -94,7 +93,7 @@ const parser = {
     /**
      * @param {string} fileContent file content to parse
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
-     * @returns {parserObj} Object containing parsed LG file content and any additional files to parse
+     * @returns {LGParsedObj} Object containing parsed LG file content and any additional files to parse
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     parse: async function(fileContent, verboseLog) {
@@ -111,8 +110,8 @@ const parser = {
         return retObj;
     }, 
     /**
-     * @param {parserObj []} parsedContent List of parsed content as parserObj 
-     * @returns {parserObj} Collated object containing parsed file contents
+     * @param {LGParsedObj []} parsedContent List of parsed content as LGParsedObj 
+     * @returns {LGParsedObj} Collated object containing parsed file contents
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     collate: async function(parsedContent) {
@@ -162,7 +161,7 @@ const parser = {
     }, 
      
     /**
-     * @param {parserObj} parsedContent Parsed and collated parser object
+     * @param {LGParsedObj} parsedContent Parsed and collated parser object
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
      * @returns {string} text content of collated LG parser object in markdown format
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
