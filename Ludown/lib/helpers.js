@@ -12,18 +12,19 @@ const exception = require('./classes/exception');
 const LUISBuiltInTypes = require('./enums/luisbuiltintypes').consolidatedList;
 const helpers = {
     /**
-     * Helper function to recursively get all .lu files
+     * Helper function to recursively get all files of a specific file extension
      * @param {string} inputfolder input folder name
      * @param {boolean} getSubFolder indicates if we should recursively look in sub-folders as well
-     * @returns {Array} Array of .lu files found
+     * @param {string} fileExt file type extension to look for
+     * @returns {Array} list of files found by fileExtension files found
     */
-    findLUFiles: function(inputFolder, getSubFolders) {
+   findFiles: function(inputFolder, getSubFolders, fileExt) {
         let results = [];
-        const luExt = '.lu';
+        const luExt = fileExt?fileExt:'.lu';
         fs.readdirSync(inputFolder).forEach(function(dirContent) {
             dirContent = path.resolve(inputFolder,dirContent);
             if(getSubFolders && fs.statSync(dirContent).isDirectory()) {
-                results = results.concat(helpers.findLUFiles(dirContent, getSubFolders));
+                results = results.concat(helpers.findFiles(dirContent, getSubFolders, fileExt));
             }
             if(fs.statSync(dirContent).isFile()) {
                 if(dirContent.endsWith(luExt)) {

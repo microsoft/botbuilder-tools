@@ -7,10 +7,10 @@ const assert = chai.assert;
 const helpers = require('../lib/helpers');
 const path = require('path');
 describe('With helper functions', function() {
-    it('findLUFiles should recursively find subfolders', function(done) {
+    it('findFiles should recursively find subfolders', function(done) {
         let rootPath = path.resolve('./examples');
-        let findFilesIncludingSubfolders = helpers.findLUFiles(rootPath, true);
-        let findFilesInRootFolder = helpers.findLUFiles(rootPath, false);
+        let findFilesIncludingSubfolders = helpers.findFiles(rootPath, true);
+        let findFilesInRootFolder = helpers.findFiles(rootPath, false);
         try {
             assert.notEqual(findFilesIncludingSubfolders.length, findFilesInRootFolder.length);
             done();

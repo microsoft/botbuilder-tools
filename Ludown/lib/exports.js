@@ -5,7 +5,12 @@
 const modules = {
     parser: {
         parseFile: require('./parseFileContents').parseFile,
-        validateLUISBlob: require('./parseFileContents').validateLUISBlob
+        validateLUISBlob: require('./parseFileContents').validateLUISBlob,
+        collateLUISFiles: require('./parseFileContents').collateLUISFiles
+    },
+    parserHelpers: {
+        findFiles: require('./helpers').findFiles,
+        splitFileBySections: require('./helpers').splitFileBySections
     },
     refresh: {
         constructMdFromLUIS: require('./toLU-helpers').constructMdFromLUISJSON,
