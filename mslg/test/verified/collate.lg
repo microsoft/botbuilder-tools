@@ -1,0 +1,28 @@
+# wPhrase
+    - Hi
+    - Hello
+    - Hiya
+
+
+# welcome-user
+    - [wPhrase]
+    - [wPhrase] :)
+    - [wPhrase] {userName}
+    - [wPhrase] {userName} :)
+
+
+# time-of-day-readout
+    - isEqual
+        - Good morning
+        - Morning!
+        - [wPhrase] Good morning
+        - [wPhrase] Good evening
+        - Evening!
+        - [wPhrase] Good morning {userName}
+    - DEFAULT: 
+        - Good evening
+        - Evening!
+        - [wPhrase] Good night
+        - [wPhrase] Good evening
+
+

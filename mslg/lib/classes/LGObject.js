@@ -8,6 +8,7 @@ const LGConditionalResponseTemplate = require('./LGConditionalResponse');
 const exception = require('ludown').helperClasses.Exception;
 const errCode = require('../enums/errorCodes');
 const parserConsts = require('../enums/parserconsts');
+const validators = require('../validation');
 class LGObject {
     /**
      * @property {LGTemplate []} LGTemplates
@@ -41,14 +42,28 @@ LGObject.toLG = function (parsedFileContent) {
                     pushAtEnd = false;
                     cLGTemplate = existingLGTemplate[0];
                 } else {
-                    cLGTemplate = new LGTemplate(templateName, null, null);
+                    try {
+                        // validate template name when creating a new template item
+                        cLGTemplate = new LGTemplate(templateName, null, null);
+                    } catch (err) {
+                        throw (err);
+                    }
                     pushAtEnd = true;
                 }
             } 
-            if(!cLGTemplate || !cLGTemplate.name || cLGTemplate.name === '') cLGTemplate = new LGTemplate(templateName, null, null);
+            if(!cLGTemplate || !cLGTemplate.name || cLGTemplate.name === '') { 
+                try {
+                    // validate template name when creating a new template item
+                    cLGTemplate = new LGTemplate(templateName, null, null);
+                } catch (err) {
+                    throw (err);
+                }
+            }
             // for the remaining sections, add the content to the cLGTemplate
             let inConditionalResponses = false;
             chunkSplitByLine.forEach(function(item) {
+                // cleanup template link references
+                item = removeTemplateLinkReferences(item);
                 // remove the list decoration from line.
                 if((item.indexOf('-') !== 0) &&
                 (item.indexOf('*') !== 0) && 
@@ -72,11 +87,21 @@ LGObject.toLG = function (parsedFileContent) {
                             conditionalResponseItem = haveThisCondition[0];
                             pushAtEnd = false;
                         } else {
-                            conditionalResponseItem = new LGConditionalResponseTemplate(condition);
+                            try {
+                                // validate condition as part of instantiation
+                                conditionalResponseItem = new LGConditionalResponseTemplate(condition);
+                            } catch (err) {
+                                throw (err);
+                            }
                             pushAtEnd = true;
                         }
                     } else {
-                        conditionalResponseItem = new LGConditionalResponseTemplate(condition);
+                        try {
+                            // validate condition as part of instantiation
+                            conditionalResponseItem = new LGConditionalResponseTemplate(condition);
+                        } catch (err) {
+                            throw (err);
+                        }
                         pushAtEnd = true;
                     }
                     inConditionalResponses = true;
@@ -92,23 +117,46 @@ LGObject.toLG = function (parsedFileContent) {
                             conditionalResponseItem = haveThisCondition[0];
                             pushAtEnd = false;
                         } else {
-                            conditionalResponseItem = new LGConditionalResponseTemplate(condition);
+                            try {
+                                // validate condition as part of instantiation
+                                conditionalResponseItem = new LGConditionalResponseTemplate(condition);
+                            } catch (err) {
+                                throw (err);
+                            }
                             pushAtEnd = true;
                         }
                     } else {
-                        conditionalResponseItem = new LGConditionalResponseTemplate(condition);
+                        try {
+                            // validate condition as part of instantiation
+                            conditionalResponseItem = new LGConditionalResponseTemplate(condition);
+                        } catch (err) {
+                            throw (err);
+                        }
                         pushAtEnd = true;
                     }
                     inConditionalResponses = true;
                 } else {
                     if(inConditionalResponses) {
-                        if(!conditionalResponseItem.variations.includes(item)) conditionalResponseItem.variations.push(item);
+                        // validate variation
+                        try {
+                            if(validators.validateVariationItem(item) && !conditionalResponseItem.variations.includes(item)) conditionalResponseItem.variations.push(item);
+                        } catch (err) {
+                            throw (err);
+                        }
                     } else {
-                        if(!cLGTemplate.variations.includes(item)) cLGTemplate.variations.push(item);
+                        // validate variation
+                        try {
+                            if(validators.validateVariationItem(item) && !cLGTemplate.variations.includes(item)) cLGTemplate.variations.push(item);
+                        } catch (err) {
+                            throw (err);
+                        }
                     }
                 }
             });
             if(inConditionalResponses && pushAtEnd) cLGTemplate.conditionalResponses.push(conditionalResponseItem);
+        } else if(chunk.indexOf(parserConsts.FILEREF) === 0) { 
+            // do nothing. these are parsed separately.
+            return;
         } else {
             throw(new exception(errCode.INVALID_INPUT, 'Unidentified template definition. Template definition must start with # <Template Name> :: \n' + chunk));
         }
@@ -121,3 +169,13 @@ LGObject.toLG = function (parsedFileContent) {
     return new LGObject(LGTemplatesCollection);
 }
 module.exports = LGObject;
+
+const removeTemplateLinkReferences = function(item) {
+    let itemsSplitByTemplateRef = item.split(/\((.*?)\)/g);
+    let retItem = '';
+    if(itemsSplitByTemplateRef.length === 1) return item;
+    for(i = 0; i < itemsSplitByTemplateRef.length - 1; i+=2) {
+        retItem += itemsSplitByTemplateRef[i];
+    }
+    return retItem;
+}

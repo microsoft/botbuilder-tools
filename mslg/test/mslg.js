@@ -9,7 +9,7 @@ var path = require('path');
 const {exec} = require('child_process');
 const mslg = path.resolve('./bin/mslg.js');
 
-describe('The ludown cli tool', function() {
+describe('The mslg cli tool', function() {
     describe('with no command', function() {
         it('should print the help contents when --help is passed as an argument', function(done) {
             exec(`node ${mslg} --help`, (error, stdout, stderr) => {

@@ -91,6 +91,8 @@ const parser = {
         }
     },
     /**
+     * Async function to parse content into LG and LUIS objects, also extracts additional LG files to parse
+     * 
      * @param {string} fileContent file content to parse
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
      * @returns {LGParsedObj} Object containing parsed LG file content and any additional files to parse

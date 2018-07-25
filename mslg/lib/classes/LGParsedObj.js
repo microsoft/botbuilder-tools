@@ -20,7 +20,4 @@ const LGParsedObj = class {
     }
 };
 
-LGParsedObj.mapToLUIS = function () {
-
-};
 module.exports = LGParsedObj;
