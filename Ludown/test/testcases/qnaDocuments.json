@@ -1,0 +1,14 @@
+{
+  "urls": [],
+  "qnaDocuments": [
+    {
+      "id": 0,
+      "answer": "You can change the default message if you use the QnAMakerDialog.\r\nSee [this link](https://docs.botframework.com/en-us/azure-bot-service/templates/qnamaker/#navtitle) for details.\r\n",
+      "questions": [
+        "How do I change the default message"
+      ],
+      "metadata": [],
+      "source": "custom editorial"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+
+> # Intent definitions
+
+## None
+
+
+## TestIntent
+- this is a {EntityOne=one} and a {EntityTwo=two} and a {EntityOne=one} again
+
+
+> # Entity definitions
+
+$EntityOne:simple
+
+$EntityTwo:simple
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+
+> # List entities
+

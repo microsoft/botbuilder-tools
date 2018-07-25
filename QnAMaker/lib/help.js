@@ -2,7 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-const Table = require('cli-table2');
+const Table = require('cli-table3');
 const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
@@ -149,7 +149,9 @@ function getGeneralHelpContents(output) {
             [chalk.cyan.bold("query"), "query model for prediction"],
             [chalk.cyan.bold("refresh"), "refresh resources"],
             [chalk.cyan.bold("set"), "change the .qnamakerrc settings"],
-            [chalk.cyan.bold("update"), "update resources"]
+            [chalk.cyan.bold("update"), "update resources"],
+            [chalk.cyan.bold("replace"), "replace a resource"]
+            
         ]
     };
 

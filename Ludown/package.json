@@ -1,10 +1,10 @@
 {
   "name": "ludown",
-  "version": "1.0.26",
+  "version": "1.0.31",
   "description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
-  "main": "index.js",
+  "main": "lib\\exports.js",
   "scripts": {
-    "test": "nyc --reporter=html mocha"
+    "test": "nyc --reporter=html mocha --timeout 100000"
   },
   "bin": {
     "ludown": "./bin/ludown.js"
@@ -28,6 +28,7 @@
     "chalk": "^2.3.2",
     "commander": "^2.15.1",
     "deep-equal": "^1.0.1",
+    "node-fetch": "^2.1.2",
     "read-text-file": "^1.1.0",
     "semver": "^5.5.0"
   }

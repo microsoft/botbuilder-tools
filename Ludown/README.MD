@@ -26,8 +26,46 @@ To install:
 ```bash
 npm i -g ludown
 ```
-
 Checkout the [examples](examples) folder for example .lu files.
+
+Also see the [here](ChitChat) to add Small talk/ chit-chat capabilities to your bot.
+
+## Use ludown as a library
+Ludown can be used within a Node.js application as an imported library. Install locally:
+
+```bash
+npm install ludown --save
+```
+
+In your node project:
+```js
+const ludown = require('ludown');
+const luContent1 = `# Greeting
+- hi`;
+const log = false;
+const locale = 'en-us';
+ludown.parser.parseFile(luContent1, log, locale)
+    .then(function(parsedContent) {
+        // Parsed LUIS object
+        console.log(JSON.stringify(parsedContent.LUISJsonStructure, 2, null));
+        // Parsed QnA content
+        console.log(JSON.stringify(parsedContent.additionalFilesToParse, 2, null));
+        // Additional files to parse
+        console.log(JSON.stringify(parsedContent.additionalFilesToParse, 2, null));
+    })
+    .catch(function(err) {
+        let errObj = new ludown.helperClasses.exception(err);
+        // err is of type ludown.helperClasses.exception. 
+        // Possible error codes are available under ludown.helperEnums.errorCodes
+        if(errObj.errCode === ludown.helperEnums.errorCodes.INVALID_INPUT) {
+            // do something specific to this error code
+        } else {
+            console.log(errObj.text);
+        }
+    })
+
+```
+Check out the full reference [here](docs/ludown-library.md)
 
 ## Docs
 - [Ludown commands](docs/commands.md)
@@ -35,6 +73,9 @@ Checkout the [examples](examples) folder for example .lu files.
 - [Creating LUIS JSON model file](docs/create-luis-json.md)
 - [Creating QnA Maker KB model file](docs/create-qna-json.md)
 - [Recreating .lu files with Refresh command](docs/refresh-command.md)
+- [Machine translating .lu files](docs/translate-command.md)
+- [Adding small talk/ chit-chat capabilities to your bot](ChitChat/README.MD)
+- [Ludown as a library](docs/ludown-library.md)
 
 ## CLI return codes
 This CLI writes to stderr on error and stdout otherwise. CLI also returns the following codes based on the outcome of parsing.
@@ -61,5 +102,6 @@ This CLI writes to stderr on error and stdout otherwise. CLI also returns the fo
 |MISSING_LABELLED_VALUE     | 17            |
 |SYNONYMS_NOT_A_LIST        | 18            |
 |PHRASELIST_NOT_A_LIST      | 19            |
+|TRANSLATE_SERVICE_FAIL     | 20            |
 |UNKNOWN_ERROR              | 99            |
 
