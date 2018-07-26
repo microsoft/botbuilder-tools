@@ -173,7 +173,7 @@ function initConversation(args, conversationId, activities) {
 function createConversationUpdate(args, membersAdded, membersRemoved) {
     let conversationUpdateActivity = createActivity({
         type: activitytypes.conversationupdate,
-        recipient: args[args.botId],
+        recipient: args[args.bot],
         conversationId: args.conversation.id
     });
     conversationUpdateActivity.membersAdded = membersAdded || [];
