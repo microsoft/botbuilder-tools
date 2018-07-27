@@ -8,7 +8,7 @@ const parseFileContents = require('../lib/parseFileContents');
 const testcases = require('./testcases/testcases-data');
 const {exec} = require('child_process');
 var path = require('path');
-const ludown = path.resolve('./bin/ludown.js');
+const ludown = path.resolve('./bin/ludown');
 
 describe('Negative tests', function() {
 

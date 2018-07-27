@@ -7,7 +7,7 @@ var chai = require('chai');
 var assert = chai.assert;
 var path = require('path');
 const {exec} = require('child_process');
-const ludown = path.resolve('./bin/ludown.js');
+const ludown = path.resolve('./bin/ludown');
 
 describe('The ludown cli tool', function() {
 
