@@ -27,10 +27,12 @@ const validators = {
      * 
      */
     variationValidatorsList: [
-        validationHelpers.isNotNullOrEmpty,                 /* variation cannot be null or empty */
-        validationHelpers.noReferencesToReservedKeywords,   /* variation cannot have references to reserved keywords/ prebuilt macro functions */
-        validationHelpers.noNestedTemplateRefernce,         /* variations cannot have nested template references */
-        validationHelpers.noNestedEntityReferences          /* variations cannot have nested entity references */
+        validationHelpers.isNotNullOrEmpty,                         /* variation cannot be null or empty */
+        validationHelpers.noReferencesToReservedKeywords,           /* variation cannot have references to reserved keywords/ prebuilt macro functions */
+        validationHelpers.noNestedTemplateRefernce,                 /* variations cannot have nested template references */
+        validationHelpers.noNestedEntityReferences,                 /* variations cannot have nested entity references */
+        validationHelpers.callBackFunctionInRecognizedList,         /* variations cannot have call back function reference that is not a recognized call back function */
+        validationHelpers.callBackFunctionsEnclosedInBraces         /* call back functions must be enclosed in {} */
     ],
     /**
      * validation helper function to ensure a template name passes all validation rules
@@ -41,13 +43,20 @@ const validators = {
      */
     validateTemplateName: function (item) {
         // For each function in the TemplateNameValidatorsList, ensure the validation succeeds without throwing and returns true
+        try {
+            validators.TemplateNameValidatorsList.forEach(validator => validator(item));
+        } catch (err) {
+            throw (err);
+        }
+        return VALIDATION_PASS;
     },
     /**
      * List of validators for template name. Each item is a call back validation function name defined in the validators object.
      * 
      */
     TemplateNameValidatorsList: [
-        ''
+        validationHelpers.isNotNullOrEmpty,                         /* template name cannot be null or empty */
+        validationHelpers.noSpacesInTemplateNames                   /* template name cannot have space in them */
     ],
     /**
      * validation helper function to ensure a condition passes all validation rules
@@ -58,13 +67,20 @@ const validators = {
      */
     validateCondition: function (item) {
         // For each function in the conditionValidatorsList, ensure the validation succeeds without throwing and returns true
+        try {
+            validators.conditionValidatorsList.forEach(validator => validator(item));
+        } catch (err) {
+            throw (err);
+        }
+        return VALIDATION_PASS;
     },
     /**
      * List of validators for conditions. Each item is a call back validation function name defined in the validators object.
      * 
      */
     conditionValidatorsList: [
-        ''
+        validationHelpers.isNotNullOrEmpty,                                 /* conditions cannot be null or empty */
+        validationHelpers.callBackFunctionInConditionIsInRecognizedList,    /* variations cannot have call back function reference that is not a recognized call back function */
     ],
     
 };

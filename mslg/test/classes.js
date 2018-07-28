@@ -2,10 +2,11 @@ const LGTemplate = require('../lib/classes/LGTemplate');
 const LGParsedObj = require('../lib/classes/LGParsedObj');
 const LGObject = require('../lib/classes/LGObject');
 const LGConditionalResponse = require('../lib/classes/LGConditionalResponse');
+const LGEntity = require('../lib/classes/LGEntity');
 var chai = require('chai');
 var assert = chai.assert;
-const LUIS = require('ludown').helperClasses.LUIS;
 describe('Testing classes in MSLG module', function() {
+    
     describe('LGTemplate class', function() {
         it('can be instantiated correctly with no parameters passed to constructor', function(done){
             let LGT = new LGTemplate();
@@ -78,7 +79,6 @@ describe('Testing classes in MSLG module', function() {
         it('can be instantiated correctly with no arguments passed', function(done) {
             try {
                 let pObj = new LGParsedObj();
-                assert.deepEqual(pObj.LUISObj, new LUIS());
                 assert.equal(pObj.LGObject, undefined);
                 assert.ok(pObj.additionalFilesToParse.length === 0);
                 done();
@@ -92,7 +92,7 @@ describe('Testing classes in MSLG module', function() {
         it('can be instantiated correctly with no arguments passed', function(done) {
             try {
                 let pObj = new LGObject();
-                assert.equal(pObj.LGTemplates[0].name, undefined);
+                assert.equal(pObj.LGTemplates.length, 0);
                 done();
             } catch (err) {
                 done(err);
@@ -106,6 +106,53 @@ describe('Testing classes in MSLG module', function() {
                 let pObj = new LGConditionalResponse();
                 assert.equal(pObj.condition, '');
                 assert.ok(pObj.variations.length === 0)
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    describe('LGEntity class', function() {
+        
+        it('can be instantiated correctly with no arguments passed', function(done) {
+            try {
+                let pObj = new LGEntity();
+                assert.equal(pObj.name, undefined);
+                assert.ok(pObj.entityType === 'String')
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+
+        it('can be instantiated correctly with a name and defaults to string type', function(done) {
+            try {
+                let pObj = new LGEntity('entity1');
+                assert.equal(pObj.name, 'entity1');
+                assert.ok(pObj.entityType === 'String')
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+
+        it('can be instantiated correctly with a name and type correctly', function(done) {
+            try {
+                let pObj = new LGEntity('entity1', 'string');
+                assert.equal(pObj.name, 'entity1');
+                assert.ok(pObj.entityType === 'String')
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+
+        it('can be instantiated correctly with a name an invalid type passed', function(done) {
+            try {
+                let pObj = new LGEntity('entity1', 'date time');
+                assert.equal(pObj.name, 'entity1');
+                assert.ok(pObj.entityType === 'String')
                 done();
             } catch (err) {
                 done(err);

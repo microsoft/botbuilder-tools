@@ -13,7 +13,6 @@ module.exports = [
     "Ceil",
     "Abs",
     "Round",
-    "Round",
     "RoundTo1Decimal",
     "RoundTo2Decimal",
     "RoundTo1DecimalInPercentage",

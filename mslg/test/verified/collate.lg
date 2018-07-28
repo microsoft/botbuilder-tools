@@ -12,17 +12,22 @@
 
 
 # time-of-day-readout
-    - isEqual
+    - isEqual(timeOfDay, 'morning')
         - Good morning
         - Morning!
         - [wPhrase] Good morning
-        - [wPhrase] Good evening
-        - Evening!
         - [wPhrase] Good morning {userName}
     - DEFAULT: 
         - Good evening
         - Evening!
         - [wPhrase] Good night
         - [wPhrase] Good evening
+    - isEqual(timeOfDay, 'evening')
+        - [wPhrase] Good evening
+        - Evening!
 
 
+
+$ userName : String
+$ timeOfDay : DateTime
+$ address : String say-as = Address

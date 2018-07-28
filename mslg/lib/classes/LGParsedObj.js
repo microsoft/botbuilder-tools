@@ -8,14 +8,10 @@ const LGParsedObj = class {
      * @property {LGObject} LGObject
      */
     /**
-     * @property {LUIS} LUISObj
-     */
-    /**
      * @property {string []} additionalFilesToParse
      */
-    constructor(LGObject, LUISObj, additionalFilesToParse) {
+    constructor(LGObject, additionalFilesToParse) {
         this.LGObject = LGObject?LGObject:undefined;
-        this.LUISObj = LUISObj?LUISObj:new LUIS();
         this.additionalFilesToParse = additionalFilesToParse?additionalFilesToParse:[];
     }
 };

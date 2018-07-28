@@ -8,6 +8,8 @@ var assert = chai.assert;
 const parser = require('../lib/parser');
 const path = require('path');
 const readFile = require('read-text-file');
+const retCode = require('../lib/enums/errorCodes');
+const EntityTypes = require('../lib/enums/LGEntityType');
 describe('The parser', function() {
             
     describe('For true negatives on variation text', function() {
@@ -17,7 +19,7 @@ describe('The parser', function() {
             - `;
             parser.parse(fileContent, false)
                 .then(res => done ('test fail! did not throw when expected'))
-                .catch(err => {console.log(JSON.stringify(err, null, 2)); done();})
+                .catch(err => {assert.equal(err.errCode, retCode.INVALID_VARIATION);done();})
         });
     
         it('Throws when a variation has reference to an reserved word as entity name', function(done) {
@@ -25,7 +27,15 @@ describe('The parser', function() {
             - test {Floor} `;
             parser.parse(fileContent, false)
                 .then(res => done ('test fail! did not throw when expected'))
-                .catch(err => {console.log(JSON.stringify(err, null, 2)); done();})
+                .catch(err => {assert.equal(err.errCode, retCode.ENTITY_WITH_RESERVED_KEYWORD); done();})
+        });
+
+        it('Throws when a variation has at least one reference to an reserved word as entity name', function(done) {
+            let fileContent = `# Greeting
+            - test {userName} {Floor} `;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {assert.equal(err.errCode, retCode.ENTITY_WITH_RESERVED_KEYWORD); done();})
         });
     
         it('Throws when a variation has reference to nested templates', function(done) {
@@ -33,7 +43,7 @@ describe('The parser', function() {
             - test [foo[bar]]`;
             parser.parse(fileContent, false)
                 .then(res => done ('test fail! did not throw when expected'))
-                .catch(err => {console.log(JSON.stringify(err, null, 2)); done();})
+                .catch(err => {assert.equal(err.errCode, retCode.NESTED_TEMPLATE_REFERENCE); done();})
         });
     
         it('Throws when a variation has reference to nested entity', function(done) {
@@ -41,16 +51,81 @@ describe('The parser', function() {
             - test {foo{bar}}`;
             parser.parse(fileContent, false)
                 .then(res => done ('test fail! did not throw when expected'))
-                .catch(err => {console.log(JSON.stringify(err, null, 2)); done();})
+                .catch(err => {assert.equal(err.errCode, retCode.NESTED_ENTITY_REFERENCE); done();})
         });
-    }) 
+
+        it('Throws when call back function is not enclosed in {}', function(done) {
+            let fileContent = `# Greeting
+            - fooBar(userName)`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {assert.equal(err.errCode, retCode.INVALID_CALLBACK_FUNTION_DEF); done();})
+        });
+
+        it('Throws when call back function is not enclosed in {} with text in variation', function(done) {
+            let fileContent = `# Greeting
+            - hi fooBar(userName)`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {assert.equal(err.errCode, retCode.INVALID_CALLBACK_FUNTION_DEF); done();})
+        });
+
+        it('Throws when a variation has an unrecognized call back function name', function(done) {
+            let fileContent = `# Greeting
+            - {fooBar(userName)}`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {assert.equal(err.errCode, retCode.INVALID_CALLBACK_FUNTION_NAME); done();})
+        });
+        
+        it('Throws when a variation has at least one invalid reference to a call back function and other valid text in it', function(done) {
+            let fileContent = `# Greeting
+            - hi you were born on {Month(birthDate)}, {fooBar(userName)}`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {assert.equal(err.errCode, retCode.INVALID_CALLBACK_FUNTION_NAME); done();})
+        });
+
+        it('Throws on invalid entity definition', function(done){
+            let fileContent = `$userName string
+            $datetime : dateTime`;
+            parser.parse(fileContent, false)
+                .then(res => done('Test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_ENTITY_DEFINITION);
+                    done(); 
+                })
+        });
+
+
+    }); 
     
     describe('For true negatives on condition names for conditional responses ', function(){
 
     });
 
     describe('For true negatives on template names', function() {
+        it('Throws when no template name is specified', function(done) {
+            let fileContent = `# 
+            - hi`;
+            parser.parse(fileContent, false)
+                .then(res => done('Test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_TEMPLATE);
+                    done();
+                })
+        });
 
+        it('Throws when template name has spaces in it', function(done) {
+            let fileContent = `# Greeting template
+            - hi`;
+            parser.parse(fileContent, false)
+                .then(res => done('Test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_SPACE_IN_TEMPLATE_NAME);
+                    done();
+                })
+        });
     });
 
     describe('Basic parsing', function() {
@@ -230,6 +305,88 @@ describe('The parser', function() {
                 .catch(err => done(err))
         });
 
+        it('Correctly parses entity definitions in LG files', function(done){
+            let fileContent = `$userName: string`;
+            parser.parse(fileContent, false)
+                .then(res => {
+                    assert.equal(res.LGObject.entities[0].name, 'userName');
+                    assert.equal(res.LGObject.entities[0].entityType, EntityTypes.String.name);
+                    done();
+                })
+                .catch(err => done(err))
+        });
+
+        it('Correctly parses multiple entity definitions in LG files', function(done){
+            let fileContent = `$userName: string
+            $datetime : dateTime`;
+            parser.parse(fileContent, false)
+                .then(res => {
+                    assert.equal(res.LGObject.entities.length, 2);
+                    assert.equal(res.LGObject.entities[1].entityType, EntityTypes.DateTime.name);
+                    done();
+                })
+                .catch(err => done(err))
+        });
+
+        it('Correctly falls back to String type on invalid entity type declaration', function(done){
+            let fileContent = `$userName : foobar
+            $datetime : dateTime`;
+            parser.parse(fileContent, false)
+                .then(res => {
+                    assert.equal(res.LGObject.entities[0].entityType, EntityTypes.String.name)
+                    assert.equal(res.LGObject.entities[1].entityType, EntityTypes.DateTime.name)
+                    done();
+                })
+                .catch(err => done(err))
+        });
+
+        it('Correctly collates entities across multiple files', async function(){
+            let f1 = `# Greeting
+            - hi {userName}`;
+            let f2 = `$dateOfBirth : datetime`;
+            let f1p, f2p, c;
+            try {
+                f1p = await parser.parse(f1, false);
+                f2p = await parser.parse(f2, false);
+                c = await parser.collate([f1p.LGObject, f2p.LGObject]);
+                assert.equal(c.entities.length, 2);
+                assert.equal(c.entities[1].name, 'dateOfBirth');
+            } catch (err) {
+                throw(err);
+            }
+            
+        });
+
+        it('Throws when conflicting entity definitions are found when collating', async function(){
+            let f1 = `# Greeting
+            - hi {userName}`;
+            let f2 = `$userName : datetime`;
+            let f1p, f2p, c;
+            try {
+                f1p = await parser.parse(f1, false);
+                f2p = await parser.parse(f2, false);
+                c = await parser.collate([f1p.LGObject, f2p.LGObject]);
+                throw ('Test fail! did not throw when expected');
+            } catch (err) {
+                if(!err.errCode) throw (err);
+                assert.equal(err.errCode, retCode.DUPLICATE_INCOMPATIBE_ENTITY_DEF);
+            }
+            
+        });
+
+        it('Correctly parses entity definitions with attribution in LG files', function(done){
+            let fileContent = `$address: string say-as = Address`;
+            parser.parse(fileContent, false)
+                .then(res => {
+                    assert.equal(res.LGObject.entities[0].name, 'address');
+                    assert.equal(res.LGObject.entities[0].entityType, EntityTypes.String.name);
+                    assert.equal(res.LGObject.entities[0].attributions.length, 1);
+                    assert.deepEqual(res.LGObject.entities[0].attributions[0], {'key': 'say-as', 'value': 'Address'});
+                    done();
+                })
+                .catch(err => done(err))
+        });
+
         it('Correctly collates file content when multiple LG files are parsed', function(done) {
             let inputFolder = path.resolve('./examples');
             let outputFolder = path.resolve('./test/output');
@@ -240,5 +397,7 @@ describe('The parser', function() {
                 })
                 .catch(err => done(err))
         });
+
+    
     });
 });

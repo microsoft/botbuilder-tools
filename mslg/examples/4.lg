@@ -11,7 +11,7 @@
 - [wPhrase]
 - [wPhrase] :)
  
-> Using entity references
+> Using entity references. Unless explicitly specified, entities default to string. Valid types are String, Int, Long, Float, Double, Bool, DateTime
 # welcome-user
 - [wPhrase]
 - [wPhrase] {userName}

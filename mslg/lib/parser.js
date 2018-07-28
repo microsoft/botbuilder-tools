@@ -3,8 +3,6 @@
  * Licensed under the MIT License.
  */
 const exception = require('ludown').helperClasses.Exception;
-const ludownParser = require('ludown').parserHelpers.splitFileBySections;
-const ludownLUISParser = require('ludown').parser.parseFile;
 const findFiles = require('ludown').parserHelpers.findFiles;
 const errorCodes = require('./enums/errorCodes');
 const path = require('path');
@@ -14,6 +12,8 @@ const fs = require('fs');
 const txtfile = require('read-text-file');
 const parserConsts = require('./enums/parserconsts');
 const chalk = require('chalk');
+const splitFileBySections = require('./parserHelper').splitFileBySections;
+const deepEqual = require('deep-equal');
 const parser = {
     /**
      * Function to parse input .lg files, collate them and write the output to disk
@@ -101,15 +101,11 @@ const parser = {
     parse: async function(fileContent, verboseLog) {
         let parsedFileContent, retObj, parsedFileLUISContent;
         try {
-            parsedFileContent = await ludownParser(fileContent, verboseLog);
-            parsedFileLUISContent = await ludownLUISParser(fileContent, verboseLog);
-            retObj = new LGParsedObj(LGObject.toLG(parsedFileContent),
-                                     parsedFileLUISContent.LUISJsonStructure,
-                                     parsedFileLUISContent.additionalFilesToParse);
+            parsedFileContent = splitFileBySections(fileContent, verboseLog);
         } catch (err) {
             throw (err);
         }
-        return retObj;
+        return LGObject.toLG(parsedFileContent);
     }, 
     /**
      * @param {LGParsedObj []} parsedContent List of parsed content as LGParsedObj 
@@ -119,10 +115,10 @@ const parser = {
     collate: async function(parsedContent) {
         let collatedContent = parsedContent[0], retObj;
         parsedContent.splice(0,1);
-        parsedContent.forEach(function(LGObject) {
+        parsedContent.forEach(function(LGObj) {
             // for each template by name, see if there is a matching template in collatedContent
-            if(LGObject.LGTemplates.length > 0) {
-                LGObject.LGTemplates.forEach(function(template) {
+            if(LGObj.LGTemplates.length > 0) {
+                LGObj.LGTemplates.forEach(function(template) {
                     let matchingCollatedTemplateItem = collatedContent.LGTemplates.filter(item => {return item.name == template.name;});
                     if(matchingCollatedTemplateItem.length > 0) {
                         matchingCollatedTemplateItem = matchingCollatedTemplateItem[0]
@@ -157,6 +153,18 @@ const parser = {
                     }
                 });
             }
+            if(LGObj.entities.length > 0) {
+                LGObj.entities.forEach(entity => {
+                    let matchingCollatedEntity = collatedContent.entities.filter(item => {return item.name == entity.name});
+                    if(matchingCollatedEntity.length === 0) {
+                        collatedContent.entities.push(entity);
+                    } else {
+                        if(!deepEqual(matchingCollatedEntity[0], entity)) {
+                            throw (new exception(errorCodes.DUPLICATE_INCOMPATIBE_ENTITY_DEF, 'Duplicate and incompatible entity definitions found for entity: "' + entity.name + '"'));
+                        }
+                    }
+                });
+            }
             
         });
         return collatedContent;
@@ -185,6 +193,14 @@ const parser = {
             }
             fileContent += NEWLINE + NEWLINE;
         });
+        fileContent += NEWLINE;
+        parsedContent.entities.forEach(entity => {
+            fileContent += '$' + ' ' + entity.name + ' : ' + entity.entityType;
+            if(entity.attributions.length !== 0) {
+                entity.attributions.forEach(atr => {fileContent += ' ' + atr.key + ' = ' + atr.value});
+            }
+            fileContent += NEWLINE;
+        })
         return fileContent;
     }
 };

@@ -7,5 +7,7 @@ module.exports = {
     INTENT: "#",
     DEFAULT: "DEFAULT:",
     ELSE: "Else",
-    FILEREF: "["
+    FILEREF: "[",
+    ENTITY: '$',
+    COMMENT: '>'
 };
