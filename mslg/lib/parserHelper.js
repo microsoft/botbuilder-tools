@@ -5,6 +5,10 @@
 const retCode = require('./enums/errorCodes');
 const parserConsts = require('./enums/parserconsts');
 const exception = require('ludown').helperClasses.Exception;
+const txtfile = require('read-text-file');
+const path = require('path');
+const fs = require('fs');
+const chalk = require('chalk');
 const parserHelper = {
     /**
      * Helper function to split current file content by sections. Each section needs a parser delimiter
@@ -97,6 +101,71 @@ const parserHelper = {
             }
         }
         return sectionsInFile;
+    },
+    /**
+     * Helper function to write content out to disk
+     * 
+     * @param {string} fileContent File content to write out to disk 
+     * @param {string} fileName Output file name
+     * @param {string} filePath Output file path
+     * @param {boolean} verboseLog If true, write verbose log messages to console.log
+     * @returns {void} Nothing
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    writeToDisk : function(fileContent, fileName, filePath, verboseLog) {
+        try
+        {
+            fs.mkdirSync(filePath);
+        } catch(exception) {
+            if(exception.code != 'EEXIST') {
+                throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to create folder - ' + exception));
+            }
+        }
+        let outFile = path.join(filePath, fileName);
+
+        // write out the final LUIS Json
+        try {
+            fs.writeFileSync(outFile, fileContent, 'utf-8');
+        } catch (err) {
+            throw(new exception(retCode.UNABLE_TO_WRITE_FILE, 'Unable to write LG file - ' + outFile));
+        }
+        if(verboseLog) console.log(chalk.default.italic('Successfully wrote LG file to ' + outFile + '\n'));
+    },
+    /**
+     * Helper function to get output folder
+     * @param {object} program Parsed program object from commander
+     * @returns {string} Output folder
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    getOutputFolder : function(outFolderPath) {
+        let outFolder = process.cwd();
+        if(outFolderPath) {
+            if(path.isAbsolute(outFolderPath)) {
+                outFolder = outFolderPath;
+            } else {
+                outFolder = path.resolve('', outFolderPath);
+            }
+            if(!fs.existsSync(outFolder)) {
+                throw(new exception(retCode.NO_LG_FILES_FOUND, 'Output folder ' + outFolder + ' does not exist'));     
+            }
+        }
+        return outFolder;
+    },
+    /**
+     * Helper function to get file content
+     * @param {string} file File path
+     * @returns {string} file content
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    getFileContent : function(file) {
+        if(!fs.existsSync(path.resolve(file))) {
+            throw(new exception(retCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));     
+        }
+        let fileContent = txtfile.readSync(file);
+        if (!fileContent) {
+            throw(new exception(retCode.FILE_OPEN_ERROR,'Sorry, error reading file:' + file));
+        }
+        return fileContent;
     }
 };
 

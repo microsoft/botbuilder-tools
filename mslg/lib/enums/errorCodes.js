@@ -19,5 +19,9 @@ module.exports = {
     INVALID_ENTITY_DEFINITION:          13,
     DUPLICATE_INCOMPATIBE_ENTITY_DEF:   14,
     INVALID_LG_FILE_REF:                15,
-    INVALID_SPACE_IN_TEMPLATE_NAME:     16
+    INVALID_SPACE_IN_TEMPLATE_NAME:     16,
+    UNABLE_TO_WRITE_FILE:               17,
+    NO_LG_FILES_FOUND:                  18,
+    FILE_OPEN_ERROR:                    19,
+    TRANSLATE_SERVICE_FAIL:             20
 };

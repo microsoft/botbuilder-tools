@@ -9,14 +9,14 @@ const path = require('path');
 const LGParsedObj = require('./classes/LGParsedObj');
 const LGObject = require('./classes/LGObject');
 const fs = require('fs');
-const txtfile = require('read-text-file');
 const parserConsts = require('./enums/parserconsts');
 const chalk = require('chalk');
 const splitFileBySections = require('./parserHelper').splitFileBySections;
 const deepEqual = require('deep-equal');
+const parserHelpers = require('./parserHelper');
 const parser = {
     /**
-     * Function to parse input .lg files, collate them and write the output to disk
+     * Async function to parse input .lg files, collate them and write the output to disk
      * 
      * @param {string} folderWithLGFiles Input folder containing .lg files
      * @param {boolean} includeSubFolder If true, look under subfolders for .lg files
@@ -32,7 +32,7 @@ const parser = {
         let allParsedContent = [];
         // verify input & output folder (if specified) exists
         try {
-            lOutputFolder = getOutputFolder(outputFolder);
+            lOutputFolder = parserHelpers.getOutputFolder(outputFolder);
         } catch (err) {
             throw (err);
         }
@@ -55,7 +55,7 @@ const parser = {
             let file = lgFiles[0];
             let fileContent, parsedContent; 
             try {
-                fileContent = getFileContent(file);
+                fileContent = parserHelpers.getFileContent(file);
                 if(verboseLog) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
                 parsedContent = await parser.parse(fileContent, verboseLog);
             } catch (err) {
@@ -76,7 +76,6 @@ const parser = {
                 });
             }
         }
-        
         try {
             // collate files
             collatedLGContent = await parser.collate(allParsedContent);
@@ -85,7 +84,7 @@ const parser = {
             // write out to disk
             if(!LGAppName) LGAppName = path.basename(folderWithLGFiles) + '.lg';
             if(!LGAppName.includes('.lg')) LGAppName += '.lg';
-            writeToDisk(finalMdContent, LGAppName, lOutputFolder, verboseLog);
+            parserHelpers.writeToDisk(finalMdContent, LGAppName, lOutputFolder, verboseLog);
         } catch (err) {
             throw (err);
         }
@@ -108,6 +107,8 @@ const parser = {
         return LGObject.toLG(parsedFileContent);
     }, 
     /**
+     * Async function to collate parsed LG content
+     * 
      * @param {LGParsedObj []} parsedContent List of parsed content as LGParsedObj 
      * @returns {LGParsedObj} Collated object containing parsed file contents
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
@@ -171,6 +172,8 @@ const parser = {
     }, 
      
     /**
+     * Async function to generate markdown content from parsed LG object
+     * 
      * @param {LGParsedObj} parsedContent Parsed and collated parser object
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
      * @returns {string} text content of collated LG parser object in markdown format
@@ -206,59 +209,3 @@ const parser = {
 };
 
 module.exports = parser;
-/**
- * Helper function to write content out to disk
- * 
- * @param {string} fileContent File content to write out to disk 
- * @param {string} fileName Output file name
- * @param {string} filePath Output file path
- * @param {boolean} verboseLog If true, write verbose log messages to console.log
- * @returns {void} Nothing
- * @throws {exception} Throws on errors. exception object includes errCode and text. 
- */
-const writeToDisk = function(fileContent, fileName, filePath, verboseLog) {
-    let outFile = path.join(filePath, fileName)
-    // write out the final LUIS Json
-    try {
-        fs.writeFileSync(outFile, fileContent, 'utf-8');
-    } catch (err) {
-        throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to write LG file - ' + outFile));
-    }
-    if(verboseLog) console.log(chalk.default.italic('Successfully wrote LG file to ' + outFile + '\n'));
-}
-/**
- * Helper function to get output folder
- * @param {object} program Parsed program object from commander
- * @returns {string} Output folder
- * @throws {exception} Throws on errors. exception object includes errCode and text. 
- */
-const getOutputFolder = function(outFolderPath) {
-    let outFolder = process.cwd();
-    if(outFolderPath) {
-        if(path.isAbsolute(outFolderPath)) {
-            outFolder = outFolderPath;
-        } else {
-            outFolder = path.resolve('', outFolderPath);
-        }
-        if(!fs.existsSync(outFolder)) {
-            throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Output folder ' + outFolder + ' does not exist'));     
-        }
-    }
-    return outFolder;
-};
-/**
- * Helper function to get file content
- * @param {string} file File path
- * @returns {string} file content
- * @throws {exception} Throws on errors. exception object includes errCode and text. 
- */
-const getFileContent = function(file) {
-    if(!fs.existsSync(path.resolve(file))) {
-        throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));     
-    }
-    let fileContent = txtfile.readSync(file);
-    if (!fileContent) {
-        throw(new exception(retCode.errorCode.FILE_OPEN_ERROR,'Sorry, error reading file:' + file));
-    }
-    return fileContent;
-}

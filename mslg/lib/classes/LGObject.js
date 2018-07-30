@@ -174,7 +174,6 @@ LGObject.toLG = function (parsedFileContent) {
                 throw (new exception(errCode.INVALID_TEMPLATE, 'Template "' + cLGTemplate.name + '" does not have any variations or conditional response definition'));
             }
         } else if(chunk.indexOf(parserConsts.FILEREF) === 0) { 
-            // do nothing. these are parsed separately.
             let linkValueRegEx = new RegExp(/\(.*?\)/g);
             let linkValueList = chunkSplitByLine[0].trim().match(linkValueRegEx);
             let linkValue = linkValueList[0].replace('(','').replace(')','');
@@ -182,7 +181,6 @@ LGObject.toLG = function (parsedFileContent) {
                 throw(new exception(errCode.INVALID_LG_FILE_REF, '[ERROR]: ' + 'Invalid LU File Ref: ' + chunkSplitByLine[0]));
             }
             retParserObj.additionalFilesToParse.push(linkValue);
-            return;
         } else if(chunk.indexOf(parserConsts.ENTITY) === 0) {
             let entityDef = chunkSplitByLine[0].replace(parserConsts.ENTITY, '').split(':');
             if(entityDef.length !== 2) throw(new exception(errCode.INVALID_ENTITY_DEFINITION, 'Invalid entity definition for "' + chunkSplitByLine[0] + '"'));

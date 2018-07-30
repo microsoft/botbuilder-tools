@@ -294,4 +294,25 @@ const get_guid = function () {
     });
 }
 
+/**
+ * Helper function to get output folder
+ * @param {object} program Parsed program object from commander
+ * @returns {string} Output folder
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
+ */
+const getOutputFolder = function(outFolderPath) {
+    let outFolder = process.cwd();
+    if(outFolderPath) {
+        if(path.isAbsolute(outFolderPath)) {
+            outFolder = outFolderPath;
+        } else {
+            outFolder = path.resolve('', outFolderPath);
+        }
+        if(!fs.existsSync(outFolder)) {
+            throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Output folder ' + outFolder + ' does not exist'));     
+        }
+    }
+    return outFolder;
+};
+
 module.exports = translateHelpers;
