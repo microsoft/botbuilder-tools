@@ -45,7 +45,7 @@ else
         install Dispatch
         # Disable failing tests
         install Ludown #with_test
-        install LUIS #with_test
+        install LUIS with_test
         install LUISGen
         install MSBot
         # Disable failing tests
