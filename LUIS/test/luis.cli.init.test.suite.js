@@ -3,9 +3,9 @@ const fs = require('fs-extra');
 const path = require('path');
 const txtfile = require('read-text-file');
 const { spawn } = require('child_process');
-const luis = path.resolve('../bin/luis');
+const luis = require.resolve('../bin/luis');
 
-describe('The LUIS cli --init argument', () => {
+describe('The LUIS cli init argument', () => {
     const rcPath = path.resolve('.luisrc');
     beforeEach(async () => {
         try {
@@ -19,39 +19,40 @@ describe('The LUIS cli --init argument', () => {
     });
 
     it('should prompt the user though the creation of the .luisrc and write the file', async () => {
-        const luisProcess = spawn('node', [luis, '--init'], { stdio: ['pipe', 'pipe', process.stderr] });
+        const luisProcess = spawn('node', [luis, 'init'], { stdio: ['pipe', 'pipe', process.stderr] });
         let msgCt = 0;
         const appId = Math.floor(Math.random() * 9999999);
         const versionId = Math.floor(Math.random() * 111111);
+        const luisKey = 'dummy-key';
         const location = 'westus';
 
         await new Promise(resolve => {
             luisProcess.stdout.on('data', data => {
                 const message = (msgCt++ , data.toString().toLowerCase());
-
                 switch (msgCt) {
                     case 1:
-                        assert(message === '\nthis util will walk you through creating a .luisrc file\n\npress ^c at any time to quit.\n\n');
+                        assert(message.includes('this util will walk you through creating a .luisrc file'));
+                        assert(message.includes('press ^c at any time to quit.'));
                         break;
 
                     case 2:
-                        assert(message.includes('app'));
-                        luisProcess.stdin.write(`${appId}\r`);
+                        assert.equal('what is your luis authoring key (from luis.ai portal user settings page)? ', message);
+                        luisProcess.stdin.write(`${luisKey}\r`);
                         break;
 
                     case 3:
-                        assert(message.includes('key'));
-                        luisProcess.stdin.write('abc123\r');
+                        assert.equal('what is your region? [westus, westeurope, australiaeast] ', message);
+                        luisProcess.stdin.write(`${location}\r`);
                         break;
 
                     case 4:
-                        assert(message.includes('version'));
-                        luisProcess.stdin.write(`${versionId}\r`);
+                        assert.equal('what is your luis app id? [default: skip] ', message);
+                        luisProcess.stdin.write(`${appId}\r`);
                         break;
 
                     case 5:
-                        assert(message.includes('region'));
-                        luisProcess.stdin.write(`${location}\r`);
+                        assert.equal('what is your luis version id? [default: 0.1] ', message);
+                        luisProcess.stdin.write(`${versionId}\r`);
                         break;
 
                     case 6:
@@ -68,8 +69,8 @@ describe('The LUIS cli --init argument', () => {
         });
 
         const rc = JSON.parse(await txtfile.read(rcPath));
-        assert(rc.appId === '' + appId);
-        assert(rc.versionId === '' + versionId);
-        assert(rc.endpointBasePath === `https://${location}.api.cognitive.microsoft.com/luis/api/v2.0`);
+        assert.equal(rc.appId, appId);
+        assert.equal(rc.versionId, versionId);
+        assert.equal(rc.endpointBasePath, `https://${location}.api.cognitive.microsoft.com/luis/api/v2.0`);
     });
 });
