@@ -9,10 +9,7 @@ describe('The LUIS cli init argument', () => {
     const rcPath = path.resolve('.luisrc');
     beforeEach(async () => {
         try {
-            const rc = await fs.stat(rcPath);
-            if (rc) {
-                await fs.unlink(path.resolve('.luisrc'));
-            }
+            await fs.open(rcPath, 'w');
         } catch (e) {
             // do noting
         }

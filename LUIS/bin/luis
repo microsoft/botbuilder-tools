@@ -25,9 +25,9 @@ const txtfile = require('read-text-file');
 const help = require('../lib/help');
 const luis = require('../lib');
 const { getServiceManifest } = require('../lib/utils/argsUtil');
-const Apps = require('../lib/api/Apps/apps');
+const Apps = require('../lib/api/apps/apps');
 const Delay = require('await-delay');
-const Train = require('../lib/api/Train/train');
+const Train = require('../lib/api/train/train');
 const { ServiceBase } = require('../lib/api/serviceBase');
 
 let args;
