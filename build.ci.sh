@@ -48,8 +48,7 @@ else
         install LUIS with_test
         install LUISGen
         install MSBot
-        # Disable failing tests
-        install QnAMaker #with_test
+        install QnAMaker with_test
     )
 fi
 errorcode=$?
