@@ -3,8 +3,8 @@ const LGParsedObj = require('../lib/classes/LGParsedObj');
 const LGObject = require('../lib/classes/LGObject');
 const LGConditionalResponse = require('../lib/classes/LGConditionalResponse');
 const LGEntity = require('../lib/classes/LGEntity');
-var chai = require('chai');
-var assert = chai.assert;
+const chai = require('chai');
+const assert = chai.assert;
 describe('Testing classes in MSLG module', function() {
     
     describe('LGTemplate class', function() {

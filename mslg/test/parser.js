@@ -3,8 +3,8 @@
  * Licensed under the MIT License.
  */
 
-var chai = require('chai');
-var assert = chai.assert;
+const chai = require('chai');
+const assert = chai.assert;
 const parser = require('../lib/parser');
 const path = require('path');
 const readFile = require('read-text-file');

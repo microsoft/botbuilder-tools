@@ -7,7 +7,7 @@
     "test": "nyc --reporter=html mocha --timeout 100000"
   },
   "bin": {
-    "mslg": "./bin/mslg.js"
+    "mslg": "./lib/mslg.js"
   },
   "repository": {
     "type": "git",

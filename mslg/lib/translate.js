@@ -10,6 +10,7 @@ const path = require('path');
 const parserConsts = require('./enums/parserconsts');
 const chalk = require('chalk');
 const fetch = require('node-fetch');
+const fs = require('fs');
 const translate = {
     /**
      * Async function to localize .lg files and write output files.
@@ -43,10 +44,10 @@ const translate = {
             try {
                 let folderStat = fs.statSync(lgFolder);
                 if(!folderStat.isDirectory()) {
-                    throw (new exception(retCode.errorCode.INVALID_INPUT, 'Sorry, ' + folderWithLGFiles + ' is not a folder or does not exist'));
+                    throw (new exception(retCode.INVALID_INPUT, 'Sorry, ' + lgFolder + ' is not a folder or does not exist'));
                 }
             } catch (err) {
-                throw (new exception(retCode.errorCode.INVALID_INPUT, 'Sorry, ' + folderWithLGFiles + ' is not a folder or does not exist'));
+                throw (new exception(retCode.INVALID_INPUT, 'Sorry, ' + lgFolder + ' is not a folder or does not exist'));
             }
             
             // get files from folder
@@ -54,7 +55,7 @@ const translate = {
         }
         
         if(lgFiles && lgFiles.length === 0) {
-            throw (new exception('No .lg files in specified folder', errorCodes.INVALID_INPUT));
+            throw (new exception(retCode.INVALID_INPUT, 'No .lg files specified or none found in specified folder'));
         }
         // loop through lgFiles, parse each one
         while(lgFiles.length > 0) {
@@ -82,7 +83,7 @@ const translate = {
      * @param {string} srcLang Source content language
      * @param {boolean} translate_comments If true, comments in .lg files will be localized
      * @param {boolean} translate_link_text If true, link description text for .lg files will be localized
-     * @param {boolean} verbose If true, write verbose log messages to console.log
+     * @param {boolean} log If true, write verbose log messages to console.log
      * @returns {string} Translated content
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */

@@ -3,11 +3,11 @@
  * Licensed under the MIT License.
  */
 
-var chai = require('chai');
-var assert = chai.assert;
-var path = require('path');
+const chai = require('chai');
+const assert = chai.assert;
+const path = require('path');
 const {exec} = require('child_process');
-const mslg = path.resolve('./bin/mslg.js');
+const mslg = path.resolve('./lib/mslg');
 
 describe('The mslg cli tool', function() {
     describe('with no command', function() {

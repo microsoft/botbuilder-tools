@@ -5,9 +5,7 @@
 module.exports = {
     'String': {name: 'String', acceptedTypeNames: ['String', 'string']},
     'Int': {name: 'Int', acceptedTypeNames: ['Int', 'int', 'Integer', 'integer']},
-    'Long': {name: 'Long', acceptedTypeNames: ['Long', 'long']},
-    'Long': {name: 'Float', acceptedTypeNames: ['Float', 'float']},
-    'Double': {name: 'Double', acceptedTypeNames: ['Double', 'double']},
+    'Float': {name: 'Float', acceptedTypeNames: ['Float', 'float']},
     'Bool': {name: 'Bool', acceptedTypeNames: ['Bool', 'bool', 'Boolean', 'boolean']},
     'DateTime': {name: 'DateTime', acceptedTypeNames: ['DateTime', 'Datetime', 'dateTime', 'datetime']}
 };

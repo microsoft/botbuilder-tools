@@ -1,0 +1,19 @@
+> Begrüßungs Satz-Vorlage
+> LG Runtime wählt einen Textwert aus der einsammlungs Liste nach dem Zufallsprinzip aus.
+# wPhrase
+- Hallo
+- Hallo
+- Hiya
+
+> Verwendung einer Vorlage in einer anderen Vorlage
+> Manchmal wird der bot "Hallo" sagen und andere Male wird es sagen "Hi:)"
+# welcome-user
+- [wphrase]
+- [wphrase]:)
+
+> Mit Entity-Referenzen. Sofern nicht explizit angegeben, werden die Entitäten in String eingestellt. Gültige Typen sind String, int, Long, float, Doppel, bool, DateTime
+# welcome-user
+- [wphrase]
+- [wphrase] Benutzernamen
+- [wphrase] {Username}:)
+
