@@ -6,8 +6,10 @@
 var chai = require('chai');
 var assert = chai.assert;
 var path = require('path');
-const {exec} = require('child_process');
-const ludown = path.resolve('./bin/ludown');
+const { exec } = require('child_process');
+const ludown = require.resolve('../bin/ludown');
+
+const TRANSLATE_KEY = '5ef1cecd7e954de9b1de6e7fc310f719';
 
 describe('The ludown cli tool', function() {
 
@@ -94,7 +96,7 @@ describe('The ludown cli tool', function() {
 
         it('should throw an error when an incorrect folder is specified', function(done) {
             let incorrectPath = path.resolve('./bin/test')
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 -t de -l ` + incorrectPath, (error, stdout, stderr) => {
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -l ` + incorrectPath, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('not a folder'), true);
                     done();
@@ -107,7 +109,7 @@ describe('The ludown cli tool', function() {
         });
         it('should throw an error when a file is specified as input folder', function(done) {
             let incorrectPath = path.resolve('./examples/1.lu');
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 -t de -l ` + incorrectPath, (error, stdout, stderr) => {
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -l ` + incorrectPath, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('not a folder'), true);
                     done();
@@ -121,7 +123,7 @@ describe('The ludown cli tool', function() {
     
         it('should throw an error when no lu files are found in the specified folder', function(done) {
             let exampleLu = path.resolve('./bin');
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 -t de -l ` + exampleLu, (error, stdout, stderr) => {
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -l ` + exampleLu, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('no .lu files found in the specified folder.'), true);    
                     done();
@@ -134,7 +136,7 @@ describe('The ludown cli tool', function() {
         it('should throw an error when output folder does not exist', function(done) {
             let exampleLu = path.resolve('./test/test123');
             let luFile = path.resolve('./examples/1.lu');
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 -t de -o ` + exampleLu + '\\testFolder --in ' + luFile, (error, stdout, stderr) => {
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ` + exampleLu + '\\testFolder --in ' + luFile, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('does not exist'), true);
                     done();
@@ -147,7 +149,7 @@ describe('The ludown cli tool', function() {
         it('should throw an error when no input file or folder is specified', function(done) {
             let exampleLu = path.resolve('./test/test123');
             let luFile = path.resolve('./examples/1.lu');
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 -t de -o ` + exampleLu + '\\testFolder', (error, stdout, stderr) => {
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ` + exampleLu + '\\testFolder', (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('No .lu file or folder specified'), true);
                     done();
@@ -172,7 +174,7 @@ describe('The ludown cli tool', function() {
         it('should throws an error when no target language is specified', function(done) {
             let exampleLu = path.resolve('./test/test123');
             let luFile = path.resolve('./examples/1.lu');
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 --in ` + luFile, (error, stdout, stderr) => {
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} --in ` + luFile, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('No target language provided'), true);
                     done();

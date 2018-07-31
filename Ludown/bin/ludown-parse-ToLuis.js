@@ -4,10 +4,10 @@
  * Licensed under the MIT License.
  */
 const program = require('commander');
-const fParser = require('./parser');
+const fParser = require('../lib/parser');
 const chalk = require('chalk');
-const retCode = require('./enums/CLI-errors');
-const cmdEnum = require('./enums/parsecommands');
+const retCode = require('../lib/enums/CLI-errors');
+const cmdEnum = require('../lib/enums/parsecommands');
 program.Command.prototype.unknownOption = function (flag) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
