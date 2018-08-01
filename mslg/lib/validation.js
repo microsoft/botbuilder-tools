@@ -82,6 +82,29 @@ const validators = {
         validationHelpers.isNotNullOrEmpty,                                 /* conditions cannot be null or empty */
         validationHelpers.callBackFunctionInConditionIsInRecognizedList,    /* variations cannot have call back function reference that is not a recognized call back function */
     ],
+    /**
+     * validation helper function to ensure a condition passes all validation rules
+     * 
+     * @param {LGObject} item LGObject
+     * @returns {boolean} true if validation succeeds
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    validateTemplate: function (item) {
+        // For each function in the conditionValidatorsList, ensure the validation succeeds without throwing and returns true
+        try {
+            validators.templateValidatorsList.forEach(validator => validator(item));
+        } catch (err) {
+            throw (err);
+        }
+        return VALIDATION_PASS;
+    },
+    /**
+     * List of validators for conditions. Each item is a call back validation function name defined in the validators object.
+     * 
+     */
+    templateValidatorsList: [
+        validationHelpers.referencesToTemplatesExist       /* All template references should be valid */
+    ]
     
 };
 

@@ -23,5 +23,7 @@ module.exports = {
     UNABLE_TO_WRITE_FILE:               17,
     NO_LG_FILES_FOUND:                  18,
     FILE_OPEN_ERROR:                    19,
-    TRANSLATE_SERVICE_FAIL:             20
+    TRANSLATE_SERVICE_FAIL:             20,
+    MISSING_TEMPLATE_REFERENCE:         21,
+    INVALID_SELF_TEMPLATE_REFERENCE:    22
 };

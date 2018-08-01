@@ -25,7 +25,18 @@ class LGObject {
         this.entities = entities?entities:[];
     }
 };
-
+LGObject.fromJSON = function(source) {
+    if (!source) {
+        return null;
+    }
+    if (Array.isArray(source)) {
+        return source.map(LGObject.fromJSON);
+    }
+    source.LGTemplates = source.LGTemplates || undefined;
+    source.entities = source.entities || undefined;
+    const {LGTemplates, entities} = source;
+    return new LGObject({LGTemplates, entities})
+};
 LGObject.toLG = function (parsedFileContent) {
     let retParserObj = new LGParsedObj();
     if(!parsedFileContent) return retParserObj;

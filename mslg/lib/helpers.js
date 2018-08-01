@@ -35,6 +35,9 @@ const helpers = {
         const callBackFunctionRegExp = new RegExp(/.*\((.*?)\)/g);
         let callBackFunctions = entity.match(callBackFunctionRegExp);
         if(callBackFunctions.length === 0) {}
+    },
+    getTemplatesInVariation: function(item) {
+        return item.match(new RegExp(/\[(.*?)\]/g));
     }
 };
 

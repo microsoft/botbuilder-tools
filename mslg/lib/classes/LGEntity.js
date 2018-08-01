@@ -9,7 +9,7 @@ class LGEntity {
      * @property {String} name
      */
     /**
-     * @property {EntityType} entityType
+     * @property {EntityTypeEnum} entityType
      */
     /**
      * @property {kvpair[]} attributions

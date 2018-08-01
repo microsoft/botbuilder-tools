@@ -3,6 +3,7 @@ const errCodes = require('../lib/enums/errorCodes');
 const VALIDATION_PASS = true;
 const reservedNames = require('../lib/enums/reservedNames');
 const helpers = require('./helpers');
+const LGObject = require('./classes/LGObject');
 module.exports = {
     /**
      * All Validators
@@ -128,6 +129,40 @@ module.exports = {
     /**
      * Validator template
      * 
+     * @param {LGObject} lgObject input LGObject to validate
+     * @returns {boolean} true if validation succeeds
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    referencesToTemplatesExist: function (lgObj) {
+        //let lgObj = LGObject.fromJSON(lgObject);
+        if(lgObj.LGTemplates && lgObj.LGTemplates.length !== 0) {
+            // for each template, enumerate through variations and ensure any template references exist in the collection
+            lgObj.LGTemplates.forEach(template => {
+                if(template.variations && template.variations.length !== 0) {
+                    try {
+                        validateVariation(template.variations, lgObj, template.name);
+                    } catch (err) {
+                        throw (err);
+                    }
+                }
+                if(template.conditionalResponses && template.conditionalResponses.length !== 0) {
+                    template.conditionalResponses.forEach(condition => {
+                        if(condition.variations && condition.variations.length !== 0) {
+                            try {
+                                validateVariation(condition.variations, lgObj, template.name);
+                            } catch (err) {
+                                throw (err);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        return VALIDATION_PASS;
+    },
+    /**
+     * Validator template
+     * 
      * @param {string} item input string
      * @returns {boolean} true if validation succeeds
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
@@ -137,4 +172,19 @@ module.exports = {
     }
 
 };
+
+const validateVariation = function(variations, lgObject, templateName) {
+    if (!variations || !lgObject || !Array.isArray(variations)) return;
+    variations.forEach(variation => {
+        let templatesInVariation = helpers.getTemplatesInVariation(variation);
+        if(templatesInVariation && templatesInVariation.length !== 0) {
+            templatesInVariation.forEach(template => {
+                template = template.replace('[', '').replace(']', '');
+                if(template === templateName) throw (new exception(errCodes.INVALID_SELF_TEMPLATE_REFERENCE, 'Invalid self template reference in varaiation "' + variation + '" for template name "' + templateName + '"'));
+                if(lgObject.LGTemplates.filter(item => item.name == template).length === 0) throw (new exception(errCodes.MISSING_TEMPLATE_REFERENCE, 'Template "' + template + '" in variation "' + variation + '" is not defined.'));
+            })
+        }
+    });
+    return;
+}
 

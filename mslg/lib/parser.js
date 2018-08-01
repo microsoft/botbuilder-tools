@@ -14,6 +14,7 @@ const chalk = require('chalk');
 const splitFileBySections = require('./parserHelper').splitFileBySections;
 const deepEqual = require('deep-equal');
 const parserHelpers = require('./parserHelper');
+const validate = require('./validation');
 const parser = {
     /**
      * Async function to parse input .lg files, collate them and write the output to disk
@@ -168,6 +169,13 @@ const parser = {
             }
             
         });
+
+        // validate collated content
+        try {
+            validate.validateTemplate(collatedContent);
+        } catch (err) {
+            throw (err);
+        }
         return collatedContent;
     }, 
      

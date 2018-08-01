@@ -387,15 +387,26 @@ describe('The parser', function() {
                 .catch(err => done(err))
         });
 
-        it('Correctly collates file content when multiple LG files are parsed', function(done) {
-            let inputFolder = path.resolve('./examples');
-            let outputFolder = path.resolve('./test/output');
-            parser.parseCollateAndWriteOut(inputFolder, false, outputFolder, 'collate', false)
-                .then(res => {
-                    assert.equal(readFile.readSync('./test/verified/collate.lg'), readFile.readSync('./test/output/collate.lg'));
-                    done();
+        it('Correctly throws when invalid template references are found in LG files', async function() {
+            let fileContent = `# wPhrase
+            - hi [welcome-user]`;
+            let parsedContent = await parser.parse(fileContent, false);
+            parser.collate([parsedContent.LGObject])
+                .then(res => {throw(res);})
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.MISSING_TEMPLATE_REFERENCE);
                 })
-                .catch(err => done(err))
+        });
+
+        it('Correctly throws when a variation references to the containing template by name', async function() {
+            let fileContent = `# wPhrase
+            - hi [wPhrase]`;
+            let parsedContent = await parser.parse(fileContent, false);
+            parser.collate([parsedContent.LGObject])
+                .then(res => {throw(res);})
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_SELF_TEMPLATE_REFERENCE);
+                })
         });
 
     
