@@ -2,8 +2,14 @@ function install() {
     echo Install $1
     pushd $1
     npm install
-    if [ $2 ]; then npm run test:travis; fi
+    if [ $2 ]; then npm run test; fi
     popd
+}
+
+function coveralls() {
+    echo Run Coveralls Aggregated tests
+    npm install
+    npm run test:travis
 }
 
 function create_npmrc() {
@@ -49,6 +55,8 @@ else
         install LUISGen
         install MSBot
         install QnAMaker with_test
+
+        coveralls
     )
 fi
 errorcode=$?
