@@ -61,7 +61,7 @@ describe('With translate module', function() {
 
     it('correctly localize the file content with all concepts', function(done) {
         let fileContent = txtfile.readSync(path.resolve('examples\\all.lu'))
-        trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', true, true, true)
+        trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', true, true, false)
             .then(function(res) {
                 try {
                     assert.equal(txtfile.readSync('./test/verified/de/all.lu'), res);
