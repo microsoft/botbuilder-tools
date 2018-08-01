@@ -7,6 +7,7 @@
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/versionsMappers";
+import * as Parameters from "../models/parameters";
 import { LuisAuthoringContext } from "../luisAuthoringContext";
 
 /** Class representing a Versions. */
@@ -40,25 +41,15 @@ export class Versions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async cloneWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.VersionsCloneOptionalParams): Promise<msRest.HttpOperationResponse<string>> {
-    let versionCloneObject = (options && options.versionCloneObject !== undefined) ? options.versionCloneObject : undefined;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            versionCloneObject
-          },
-          options),
-        cloneOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  cloneWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.VersionsCloneOptionalParams): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      cloneOperationSpec);
   }
 
   /**
@@ -78,26 +69,14 @@ export class Versions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, options?: Models.VersionsListOptionalParams): Promise<msRest.HttpOperationResponse<Models.VersionInfo[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            skip,
-            take
-          },
-          options),
-        listOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, options?: Models.VersionsListOptionalParams): Promise<msRest.HttpOperationResponse<Models.VersionInfo[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        options
+      },
+      listOperationSpec);
   }
 
   /**
@@ -119,23 +98,15 @@ export class Versions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.VersionInfo>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId
-          },
-          options),
-        getOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.VersionInfo>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      getOperationSpec);
   }
 
   /**
@@ -160,24 +131,16 @@ export class Versions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            versionUpdateObject
-          },
-          options),
-        updateOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        versionUpdateObject,
+        options
+      },
+      updateOperationSpec);
   }
 
   /**
@@ -199,23 +162,15 @@ export class Versions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId
-          },
-          options),
-        deleteMethodOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      deleteMethodOperationSpec);
   }
 
   /**
@@ -237,23 +192,15 @@ export class Versions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async exportMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.LuisApp>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId
-          },
-          options),
-        exportMethodOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  exportMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.LuisApp>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      exportMethodOperationSpec);
   }
 
   /**
@@ -275,25 +222,15 @@ export class Versions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async importMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, luisApp: Models.LuisApp, options?: Models.VersionsImportMethodOptionalParams): Promise<msRest.HttpOperationResponse<string>> {
-    let versionId = (options && options.versionId !== undefined) ? options.versionId : undefined;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            luisApp
-          },
-          options),
-        importMethodOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  importMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, luisApp: Models.LuisApp, options?: Models.VersionsImportMethodOptionalParams): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        luisApp,
+        options
+      },
+      importMethodOperationSpec);
   }
 
   /**
@@ -317,24 +254,16 @@ export class Versions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteUnlabelledUtteranceWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, utterance: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            utterance
-          },
-          options),
-        deleteUnlabelledUtteranceOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteUnlabelledUtteranceWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, utterance: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        utterance,
+        options
+      },
+      deleteUnlabelledUtteranceOperationSpec);
   }
 
   /**
@@ -364,26 +293,7 @@ export class Versions {
   clone(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<string>): void;
   clone(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.VersionsCloneOptionalParams, callback: msRest.ServiceCallback<string>): void;
   clone(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.VersionsCloneOptionalParams, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.cloneWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.cloneWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.cloneWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -411,26 +321,7 @@ export class Versions {
   list(azureRegion: Models.AzureRegions, appId: string, callback: msRest.ServiceCallback<Models.VersionInfo[]>): void;
   list(azureRegion: Models.AzureRegions, appId: string, options: Models.VersionsListOptionalParams, callback: msRest.ServiceCallback<Models.VersionInfo[]>): void;
   list(azureRegion: Models.AzureRegions, appId: string, options?: Models.VersionsListOptionalParams, callback?: msRest.ServiceCallback<Models.VersionInfo[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.VersionInfo[]>;
-    if (!callback) {
-      return this.listWithHttpOperationResponse(azureRegion, appId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.VersionInfo[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listWithHttpOperationResponse(azureRegion, appId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.VersionInfo[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, appId, options, callback);
   }
 
   /**
@@ -460,26 +351,7 @@ export class Versions {
   get(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.VersionInfo>): void;
   get(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VersionInfo>): void;
   get(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VersionInfo>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.VersionInfo>;
-    if (!callback) {
-      return this.getWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.VersionInfo);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.VersionInfo;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -512,26 +384,7 @@ export class Versions {
   update(azureRegion: Models.AzureRegions, appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   update(azureRegion: Models.AzureRegions, appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   update(azureRegion: Models.AzureRegions, appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateWithHttpOperationResponse(azureRegion, appId, versionId, versionUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateWithHttpOperationResponse(azureRegion, appId, versionId, versionUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, versionUpdateObject, options, callback);
   }
 
   /**
@@ -561,26 +414,7 @@ export class Versions {
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteMethodWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteMethodWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -610,26 +444,7 @@ export class Versions {
   exportMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.LuisApp>): void;
   exportMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LuisApp>): void;
   exportMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LuisApp>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.LuisApp>;
-    if (!callback) {
-      return this.exportMethodWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.LuisApp);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.exportMethodWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.LuisApp;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.exportMethodWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -659,26 +474,7 @@ export class Versions {
   importMethod(azureRegion: Models.AzureRegions, appId: string, luisApp: Models.LuisApp, callback: msRest.ServiceCallback<string>): void;
   importMethod(azureRegion: Models.AzureRegions, appId: string, luisApp: Models.LuisApp, options: Models.VersionsImportMethodOptionalParams, callback: msRest.ServiceCallback<string>): void;
   importMethod(azureRegion: Models.AzureRegions, appId: string, luisApp: Models.LuisApp, options?: Models.VersionsImportMethodOptionalParams, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.importMethodWithHttpOperationResponse(azureRegion, appId, luisApp, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.importMethodWithHttpOperationResponse(azureRegion, appId, luisApp, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.importMethodWithHttpOperationResponse.bind(this), azureRegion, appId, luisApp, options, callback);
   }
 
   /**
@@ -710,86 +506,28 @@ export class Versions {
   deleteUnlabelledUtterance(azureRegion: Models.AzureRegions, appId: string, versionId: string, utterance: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteUnlabelledUtterance(azureRegion: Models.AzureRegions, appId: string, versionId: string, utterance: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteUnlabelledUtterance(azureRegion: Models.AzureRegions, appId: string, versionId: string, utterance: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteUnlabelledUtteranceWithHttpOperationResponse(azureRegion, appId, versionId, utterance, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteUnlabelledUtteranceWithHttpOperationResponse(azureRegion, appId, versionId, utterance, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteUnlabelledUtteranceWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, utterance, options, callback);
   }
 
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
 const cloneOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/clone",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
-    parameterPath: "versionCloneObject",
+    parameterPath: [
+      "options",
+      "versionCloneObject"
+    ],
     mapper: Mappers.TaskUpdateObject
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -803,77 +541,19 @@ const cloneOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -882,7 +562,6 @@ const listOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "VersionInfoElementType",
             type: {
               name: "Composite",
               className: "VersionInfo"
@@ -895,58 +574,16 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   responses: {
     200: {
@@ -956,58 +593,16 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "versionUpdateObject",
@@ -1016,7 +611,6 @@ const updateOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -1025,58 +619,16 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   responses: {
     200: {
@@ -1086,58 +638,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const exportMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/export",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   responses: {
     200: {
@@ -1147,59 +657,18 @@ const exportMethodOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const importMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/import",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId
   ],
   queryParameters: [
-    {
-      parameterPath: "versionId",
-      mapper: {
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.versionId1
   ],
   requestBody: {
     parameterPath: "luisApp",
@@ -1208,7 +677,6 @@ const importMethodOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -1222,58 +690,16 @@ const importMethodOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteUnlabelledUtteranceOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/suggest",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "utterance",
@@ -1285,7 +711,6 @@ const deleteUnlabelledUtteranceOperationSpec: msRest.OperationSpec = {
       }
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -1294,5 +719,5 @@ const deleteUnlabelledUtteranceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };

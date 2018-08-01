@@ -7,6 +7,7 @@
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/featuresMappers";
+import * as Parameters from "../models/parameters";
 import { LuisAuthoringContext } from "../luisAuthoringContext";
 
 /** Class representing a Features. */
@@ -42,24 +43,16 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createPatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            patternCreateObject
-          },
-          options),
-        createPatternFeatureOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createPatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        patternCreateObject,
+        options
+      },
+      createPatternFeatureOperationSpec);
   }
 
   /**
@@ -82,27 +75,15 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getApplicationVersionPatternFeaturesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternFeatureInfo[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        getApplicationVersionPatternFeaturesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getApplicationVersionPatternFeaturesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternFeatureInfo[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      getApplicationVersionPatternFeaturesOperationSpec);
   }
 
   /**
@@ -128,24 +109,16 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addPhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            phraselistCreateObject
-          },
-          options),
-        addPhraseListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addPhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        phraselistCreateObject,
+        options
+      },
+      addPhraseListOperationSpec);
   }
 
   /**
@@ -167,27 +140,15 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listPhraseListsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PhraseListFeatureInfo[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        listPhraseListsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listPhraseListsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PhraseListFeatureInfo[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listPhraseListsOperationSpec);
   }
 
   /**
@@ -209,27 +170,15 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams): Promise<msRest.HttpOperationResponse<Models.FeaturesResponseObject>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        listOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams): Promise<msRest.HttpOperationResponse<Models.FeaturesResponseObject>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listOperationSpec);
   }
 
   /**
@@ -254,24 +203,16 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getPatternFeatureInfoWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternFeatureInfo>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            patternId
-          },
-          options),
-        getPatternFeatureInfoOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getPatternFeatureInfoWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternFeatureInfo>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        patternId,
+        options
+      },
+      getPatternFeatureInfoOperationSpec);
   }
 
   /**
@@ -300,25 +241,17 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updatePatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            patternId,
-            patternUpdateObject
-          },
-          options),
-        updatePatternFeatureOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updatePatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        patternId,
+        patternUpdateObject,
+        options
+      },
+      updatePatternFeatureOperationSpec);
   }
 
   /**
@@ -342,24 +275,16 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deletePatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            patternId
-          },
-          options),
-        deletePatternFeatureOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deletePatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        patternId,
+        options
+      },
+      deletePatternFeatureOperationSpec);
   }
 
   /**
@@ -383,24 +308,16 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getPhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PhraseListFeatureInfo>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            phraselistId
-          },
-          options),
-        getPhraseListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getPhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PhraseListFeatureInfo>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        phraselistId,
+        options
+      },
+      getPhraseListOperationSpec);
   }
 
   /**
@@ -424,26 +341,16 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updatePhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-    let phraselistUpdateObject = (options && options.phraselistUpdateObject !== undefined) ? options.phraselistUpdateObject : undefined;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            phraselistId,
-            phraselistUpdateObject
-          },
-          options),
-        updatePhraseListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updatePhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        phraselistId,
+        options
+      },
+      updatePhraseListOperationSpec);
   }
 
   /**
@@ -467,24 +374,16 @@ export class Features {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deletePhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            phraselistId
-          },
-          options),
-        deletePhraseListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deletePhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        phraselistId,
+        options
+      },
+      deletePhraseListOperationSpec);
   }
 
   /**
@@ -516,26 +415,7 @@ export class Features {
   createPatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, callback: msRest.ServiceCallback<number>): void;
   createPatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
   createPatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<number>;
-    if (!callback) {
-      return this.createPatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as number);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createPatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as number;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createPatternFeatureWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternCreateObject, options, callback);
   }
 
   /**
@@ -566,26 +446,7 @@ export class Features {
   getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): void;
   getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams, callback: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): void;
   getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PatternFeatureInfo[]>;
-    if (!callback) {
-      return this.getApplicationVersionPatternFeaturesWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PatternFeatureInfo[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getApplicationVersionPatternFeaturesWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PatternFeatureInfo[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getApplicationVersionPatternFeaturesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -619,26 +480,7 @@ export class Features {
   addPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, callback: msRest.ServiceCallback<number>): void;
   addPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
   addPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<number>;
-    if (!callback) {
-      return this.addPhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as number);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addPhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as number;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addPhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistCreateObject, options, callback);
   }
 
   /**
@@ -668,26 +510,7 @@ export class Features {
   listPhraseLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): void;
   listPhraseLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesListPhraseListsOptionalParams, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): void;
   listPhraseLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>;
-    if (!callback) {
-      return this.listPhraseListsWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PhraseListFeatureInfo[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listPhraseListsWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PhraseListFeatureInfo[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listPhraseListsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -717,26 +540,7 @@ export class Features {
   list(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.FeaturesResponseObject>): void;
   list(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesListOptionalParams, callback: msRest.ServiceCallback<Models.FeaturesResponseObject>): void;
   list(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams, callback?: msRest.ServiceCallback<Models.FeaturesResponseObject>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.FeaturesResponseObject>;
-    if (!callback) {
-      return this.listWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.FeaturesResponseObject);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.FeaturesResponseObject;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -769,26 +573,7 @@ export class Features {
   getPatternFeatureInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, callback: msRest.ServiceCallback<Models.PatternFeatureInfo>): void;
   getPatternFeatureInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternFeatureInfo>): void;
   getPatternFeatureInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PatternFeatureInfo>;
-    if (!callback) {
-      return this.getPatternFeatureInfoWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PatternFeatureInfo);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getPatternFeatureInfoWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PatternFeatureInfo;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getPatternFeatureInfoWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, options, callback);
   }
 
   /**
@@ -825,26 +610,7 @@ export class Features {
   updatePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updatePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updatePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updatePatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternId, patternUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updatePatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternId, patternUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updatePatternFeatureWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, patternUpdateObject, options, callback);
   }
 
   /**
@@ -876,26 +642,7 @@ export class Features {
   deletePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deletePatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deletePatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deletePatternFeatureWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, options, callback);
   }
 
   /**
@@ -927,26 +674,7 @@ export class Features {
   getPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): void;
   getPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): void;
   getPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PhraseListFeatureInfo>;
-    if (!callback) {
-      return this.getPhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PhraseListFeatureInfo);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getPhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PhraseListFeatureInfo;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getPhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistId, options, callback);
   }
 
   /**
@@ -978,26 +706,7 @@ export class Features {
   updatePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updatePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: Models.FeaturesUpdatePhraseListOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updatePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updatePhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updatePhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updatePhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistId, options, callback);
   }
 
   /**
@@ -1029,80 +738,20 @@ export class Features {
   deletePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deletePhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deletePhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deletePhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistId, options, callback);
   }
 
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
 const createPatternFeatureOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "patternCreateObject",
@@ -1111,7 +760,6 @@ const createPatternFeatureOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -1125,87 +773,20 @@ const createPatternFeatureOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getApplicationVersionPatternFeaturesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -1214,7 +795,6 @@ const getApplicationVersionPatternFeaturesOperationSpec: msRest.OperationSpec = 
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PatternFeatureInfoElementType",
             type: {
               name: "Composite",
               className: "PatternFeatureInfo"
@@ -1227,58 +807,16 @@ const getApplicationVersionPatternFeaturesOperationSpec: msRest.OperationSpec = 
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addPhraseListOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "phraselistCreateObject",
@@ -1287,7 +825,6 @@ const addPhraseListOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -1301,87 +838,20 @@ const addPhraseListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listPhraseListsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -1390,7 +860,6 @@ const listPhraseListsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PhraseListFeatureInfoElementType",
             type: {
               name: "Composite",
               className: "PhraseListFeatureInfo"
@@ -1403,87 +872,20 @@ const listPhraseListsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/features",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -1493,68 +895,17 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getPatternFeatureInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "patternId",
-      mapper: {
-        required: true,
-        serializedName: "patternId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.patternId0
   ],
   responses: {
     200: {
@@ -1564,68 +915,17 @@ const getPatternFeatureInfoOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updatePatternFeatureOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "patternId",
-      mapper: {
-        required: true,
-        serializedName: "patternId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.patternId0
   ],
   requestBody: {
     parameterPath: "patternUpdateObject",
@@ -1634,7 +934,6 @@ const updatePatternFeatureOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -1643,68 +942,17 @@ const updatePatternFeatureOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deletePatternFeatureOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "patternId",
-      mapper: {
-        required: true,
-        serializedName: "patternId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.patternId0
   ],
   responses: {
     200: {
@@ -1714,68 +962,17 @@ const deletePatternFeatureOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getPhraseListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "phraselistId",
-      mapper: {
-        required: true,
-        serializedName: "phraselistId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.phraselistId
   ],
   responses: {
     200: {
@@ -1785,74 +982,25 @@ const getPhraseListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updatePhraseListOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "phraselistId",
-      mapper: {
-        required: true,
-        serializedName: "phraselistId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.phraselistId
   ],
   requestBody: {
-    parameterPath: "phraselistUpdateObject",
+    parameterPath: [
+      "options",
+      "phraselistUpdateObject"
+    ],
     mapper: Mappers.PhraselistUpdateObject
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -1861,68 +1009,17 @@ const updatePhraseListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deletePhraseListOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "phraselistId",
-      mapper: {
-        required: true,
-        serializedName: "phraselistId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.phraselistId
   ],
   responses: {
     200: {
@@ -1932,5 +1029,5 @@ const deletePhraseListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };

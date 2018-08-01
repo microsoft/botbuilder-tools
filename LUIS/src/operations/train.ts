@@ -7,6 +7,7 @@
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/trainMappers";
+import * as Parameters from "../models/parameters";
 import { LuisAuthoringContext } from "../luisAuthoringContext";
 
 /** Class representing a Train. */
@@ -44,23 +45,15 @@ export class Train {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async trainVersionWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EnqueueTrainingResponse>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId
-          },
-          options),
-        trainVersionOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  trainVersionWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EnqueueTrainingResponse>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      trainVersionOperationSpec);
   }
 
   /**
@@ -85,23 +78,15 @@ export class Train {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getStatusWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ModelTrainingInfo[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId
-          },
-          options),
-        getStatusOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getStatusWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ModelTrainingInfo[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      getStatusOperationSpec);
   }
 
   /**
@@ -135,26 +120,7 @@ export class Train {
   trainVersion(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
   trainVersion(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
   trainVersion(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EnqueueTrainingResponse>;
-    if (!callback) {
-      return this.trainVersionWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EnqueueTrainingResponse);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.trainVersionWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EnqueueTrainingResponse;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.trainVersionWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -187,80 +153,20 @@ export class Train {
   getStatus(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
   getStatus(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
   getStatus(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.ModelTrainingInfo[]>;
-    if (!callback) {
-      return this.getStatusWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.ModelTrainingInfo[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getStatusWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.ModelTrainingInfo[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getStatusWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
 const trainVersionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/train",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   responses: {
     202: {
@@ -270,58 +176,16 @@ const trainVersionOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/train",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   responses: {
     200: {
@@ -330,7 +194,6 @@ const getStatusOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "ModelTrainingInfoElementType",
             type: {
               name: "Composite",
               className: "ModelTrainingInfo"
@@ -343,5 +206,5 @@ const getStatusOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };

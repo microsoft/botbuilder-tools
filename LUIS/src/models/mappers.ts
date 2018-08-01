@@ -4,8 +4,10 @@
  * regenerated.
  */
 
+import * as msRest from "ms-rest-js";
 
-export const EntityLabelObject = {
+
+export const EntityLabelObject: msRest.CompositeMapper = {
   serializedName: "EntityLabelObject",
   type: {
     name: "Composite",
@@ -36,7 +38,7 @@ export const EntityLabelObject = {
   }
 };
 
-export const ApplicationCreateObject = {
+export const ApplicationCreateObject: msRest.CompositeMapper = {
   serializedName: "ApplicationCreateObject",
   type: {
     name: "Composite",
@@ -84,7 +86,7 @@ export const ApplicationCreateObject = {
   }
 };
 
-export const PrebuiltDomainCreateBaseObject = {
+export const PrebuiltDomainCreateBaseObject: msRest.CompositeMapper = {
   serializedName: "PrebuiltDomainCreateBaseObject",
   type: {
     name: "Composite",
@@ -100,7 +102,7 @@ export const PrebuiltDomainCreateBaseObject = {
   }
 };
 
-export const PrebuiltDomainCreateObject = {
+export const PrebuiltDomainCreateObject: msRest.CompositeMapper = {
   serializedName: "PrebuiltDomainCreateObject",
   type: {
     name: "Composite",
@@ -122,7 +124,7 @@ export const PrebuiltDomainCreateObject = {
   }
 };
 
-export const PrebuiltDomainModelCreateObject = {
+export const PrebuiltDomainModelCreateObject: msRest.CompositeMapper = {
   serializedName: "PrebuiltDomainModelCreateObject",
   type: {
     name: "Composite",
@@ -144,7 +146,7 @@ export const PrebuiltDomainModelCreateObject = {
   }
 };
 
-export const HierarchicalEntityModel = {
+export const HierarchicalEntityModel: msRest.CompositeMapper = {
   serializedName: "HierarchicalEntityModel",
   type: {
     name: "Composite",
@@ -155,7 +157,6 @@ export const HierarchicalEntityModel = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -172,7 +173,7 @@ export const HierarchicalEntityModel = {
   }
 };
 
-export const CompositeEntityModel = {
+export const CompositeEntityModel: msRest.CompositeMapper = {
   serializedName: "CompositeEntityModel",
   type: {
     name: "Composite",
@@ -183,7 +184,6 @@ export const CompositeEntityModel = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -200,7 +200,7 @@ export const CompositeEntityModel = {
   }
 };
 
-export const JSONEntity = {
+export const JSONEntity: msRest.CompositeMapper = {
   serializedName: "JSONEntity",
   type: {
     name: "Composite",
@@ -231,13 +231,14 @@ export const JSONEntity = {
   }
 };
 
-export const ApplicationSettingUpdateObject = {
+export const ApplicationSettingUpdateObject: msRest.CompositeMapper = {
   serializedName: "ApplicationSettingUpdateObject",
   type: {
     name: "Composite",
     className: "ApplicationSettingUpdateObject",
     modelProperties: {
       publicProperty: {
+        nullable: false,
         serializedName: "public",
         type: {
           name: "Boolean"
@@ -247,25 +248,28 @@ export const ApplicationSettingUpdateObject = {
   }
 };
 
-export const PublishSettingUpdateObject = {
+export const PublishSettingUpdateObject: msRest.CompositeMapper = {
   serializedName: "PublishSettingUpdateObject",
   type: {
     name: "Composite",
     className: "PublishSettingUpdateObject",
     modelProperties: {
       sentimentAnalysis: {
+        nullable: false,
         serializedName: "sentimentAnalysis",
         type: {
           name: "Boolean"
         }
       },
       speech: {
+        nullable: false,
         serializedName: "speech",
         type: {
           name: "Boolean"
         }
       },
       spellChecker: {
+        nullable: false,
         serializedName: "spellChecker",
         type: {
           name: "Boolean"
@@ -275,7 +279,7 @@ export const PublishSettingUpdateObject = {
   }
 };
 
-export const ExampleLabelObject = {
+export const ExampleLabelObject: msRest.CompositeMapper = {
   serializedName: "ExampleLabelObject",
   type: {
     name: "Composite",
@@ -292,7 +296,6 @@ export const ExampleLabelObject = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityLabelObjectElementType",
             type: {
               name: "Composite",
               className: "EntityLabelObject"
@@ -310,7 +313,7 @@ export const ExampleLabelObject = {
   }
 };
 
-export const PhraselistCreateObject = {
+export const PhraselistCreateObject: msRest.CompositeMapper = {
   serializedName: "PhraselistCreateObject",
   type: {
     name: "Composite",
@@ -339,7 +342,7 @@ export const PhraselistCreateObject = {
   }
 };
 
-export const SubClosedList = {
+export const SubClosedList: msRest.CompositeMapper = {
   serializedName: "SubClosedList",
   type: {
     name: "Composite",
@@ -356,7 +359,6 @@ export const SubClosedList = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -367,7 +369,7 @@ export const SubClosedList = {
   }
 };
 
-export const SubClosedListResponse = {
+export const SubClosedListResponse: msRest.CompositeMapper = {
   serializedName: "SubClosedListResponse",
   type: {
     name: "Composite",
@@ -375,6 +377,7 @@ export const SubClosedListResponse = {
     modelProperties: {
       ...SubClosedList.type.modelProperties,
       id: {
+        nullable: false,
         serializedName: "id",
         type: {
           name: "Number"
@@ -384,7 +387,7 @@ export const SubClosedListResponse = {
   }
 };
 
-export const ApplicationUpdateObject = {
+export const ApplicationUpdateObject: msRest.CompositeMapper = {
   serializedName: "ApplicationUpdateObject",
   type: {
     name: "Composite",
@@ -406,7 +409,7 @@ export const ApplicationUpdateObject = {
   }
 };
 
-export const JSONRegexFeature = {
+export const JSONRegexFeature: msRest.CompositeMapper = {
   serializedName: "JSONRegexFeature",
   type: {
     name: "Composite",
@@ -434,7 +437,7 @@ export const JSONRegexFeature = {
   }
 };
 
-export const PatternUpdateObject = {
+export const PatternUpdateObject: msRest.CompositeMapper = {
   serializedName: "PatternUpdateObject",
   type: {
     name: "Composite",
@@ -463,7 +466,7 @@ export const PatternUpdateObject = {
   }
 };
 
-export const ClosedList = {
+export const ClosedList: msRest.CompositeMapper = {
   serializedName: "ClosedList",
   type: {
     name: "Composite",
@@ -480,7 +483,6 @@ export const ClosedList = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "SubClosedListElementType",
             type: {
               name: "Composite",
               className: "SubClosedList"
@@ -493,7 +495,6 @@ export const ClosedList = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -504,7 +505,7 @@ export const ClosedList = {
   }
 };
 
-export const WordListObject = {
+export const WordListObject: msRest.CompositeMapper = {
   serializedName: "WordListObject",
   type: {
     name: "Composite",
@@ -521,7 +522,6 @@ export const WordListObject = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -532,7 +532,7 @@ export const WordListObject = {
   }
 };
 
-export const ClosedListModelPatchObject = {
+export const ClosedListModelPatchObject: msRest.CompositeMapper = {
   serializedName: "ClosedListModelPatchObject",
   type: {
     name: "Composite",
@@ -543,7 +543,6 @@ export const ClosedListModelPatchObject = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "WordListObjectElementType",
             type: {
               name: "Composite",
               className: "WordListObject"
@@ -555,7 +554,7 @@ export const ClosedListModelPatchObject = {
   }
 };
 
-export const JSONModelFeature = {
+export const JSONModelFeature: msRest.CompositeMapper = {
   serializedName: "JSONModelFeature",
   type: {
     name: "Composite",
@@ -589,7 +588,7 @@ export const JSONModelFeature = {
   }
 };
 
-export const ModelCreateObject = {
+export const ModelCreateObject: msRest.CompositeMapper = {
   serializedName: "ModelCreateObject",
   type: {
     name: "Composite",
@@ -605,7 +604,7 @@ export const ModelCreateObject = {
   }
 };
 
-export const PatternCreateObject = {
+export const PatternCreateObject: msRest.CompositeMapper = {
   serializedName: "PatternCreateObject",
   type: {
     name: "Composite",
@@ -627,7 +626,7 @@ export const PatternCreateObject = {
   }
 };
 
-export const WordListBaseUpdateObject = {
+export const WordListBaseUpdateObject: msRest.CompositeMapper = {
   serializedName: "WordListBaseUpdateObject",
   type: {
     name: "Composite",
@@ -644,7 +643,6 @@ export const WordListBaseUpdateObject = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -655,7 +653,7 @@ export const WordListBaseUpdateObject = {
   }
 };
 
-export const JSONUtterance = {
+export const JSONUtterance: msRest.CompositeMapper = {
   serializedName: "JSONUtterance",
   type: {
     name: "Composite",
@@ -678,7 +676,6 @@ export const JSONUtterance = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "JSONEntityElementType",
             type: {
               name: "Composite",
               className: "JSONEntity"
@@ -690,7 +687,7 @@ export const JSONUtterance = {
   }
 };
 
-export const ModelUpdateObject = {
+export const ModelUpdateObject: msRest.CompositeMapper = {
   serializedName: "ModelUpdateObject",
   type: {
     name: "Composite",
@@ -706,7 +703,7 @@ export const ModelUpdateObject = {
   }
 };
 
-export const ClosedListModelUpdateObject = {
+export const ClosedListModelUpdateObject: msRest.CompositeMapper = {
   serializedName: "ClosedListModelUpdateObject",
   type: {
     name: "Composite",
@@ -717,7 +714,6 @@ export const ClosedListModelUpdateObject = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "WordListObjectElementType",
             type: {
               name: "Composite",
               className: "WordListObject"
@@ -735,7 +731,7 @@ export const ClosedListModelUpdateObject = {
   }
 };
 
-export const ClosedListModelCreateObject = {
+export const ClosedListModelCreateObject: msRest.CompositeMapper = {
   serializedName: "ClosedListModelCreateObject",
   type: {
     name: "Composite",
@@ -746,7 +742,6 @@ export const ClosedListModelCreateObject = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "WordListObjectElementType",
             type: {
               name: "Composite",
               className: "WordListObject"
@@ -764,7 +759,7 @@ export const ClosedListModelCreateObject = {
   }
 };
 
-export const VersionInfo = {
+export const VersionInfo: msRest.CompositeMapper = {
   serializedName: "VersionInfo",
   type: {
     name: "Composite",
@@ -812,7 +807,6 @@ export const VersionInfo = {
         type: {
           name: "Dictionary",
           value: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -859,7 +853,7 @@ export const VersionInfo = {
   }
 };
 
-export const TaskUpdateObject = {
+export const TaskUpdateObject: msRest.CompositeMapper = {
   serializedName: "TaskUpdateObject",
   type: {
     name: "Composite",
@@ -875,7 +869,7 @@ export const TaskUpdateObject = {
   }
 };
 
-export const PhraselistUpdateObject = {
+export const PhraselistUpdateObject: msRest.CompositeMapper = {
   serializedName: "PhraselistUpdateObject",
   type: {
     name: "Composite",
@@ -911,7 +905,7 @@ export const PhraselistUpdateObject = {
   }
 };
 
-export const PrebuiltDomainObject = {
+export const PrebuiltDomainObject: msRest.CompositeMapper = {
   serializedName: "PrebuiltDomainObject",
   type: {
     name: "Composite",
@@ -933,7 +927,7 @@ export const PrebuiltDomainObject = {
   }
 };
 
-export const HierarchicalModel = {
+export const HierarchicalModel: msRest.CompositeMapper = {
   serializedName: "HierarchicalModel",
   type: {
     name: "Composite",
@@ -950,7 +944,6 @@ export const HierarchicalModel = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -969,7 +962,6 @@ export const HierarchicalModel = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -980,7 +972,7 @@ export const HierarchicalModel = {
   }
 };
 
-export const ApplicationPublishObject = {
+export const ApplicationPublishObject: msRest.CompositeMapper = {
   serializedName: "ApplicationPublishObject",
   type: {
     name: "Composite",
@@ -1009,7 +1001,7 @@ export const ApplicationPublishObject = {
   }
 };
 
-export const PatternAny = {
+export const PatternAny: msRest.CompositeMapper = {
   serializedName: "PatternAny",
   type: {
     name: "Composite",
@@ -1026,7 +1018,6 @@ export const PatternAny = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -1038,7 +1029,6 @@ export const PatternAny = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -1049,7 +1039,7 @@ export const PatternAny = {
   }
 };
 
-export const RegexEntity = {
+export const RegexEntity: msRest.CompositeMapper = {
   serializedName: "RegexEntity",
   type: {
     name: "Composite",
@@ -1072,7 +1062,6 @@ export const RegexEntity = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -1083,7 +1072,7 @@ export const RegexEntity = {
   }
 };
 
-export const PrebuiltEntity = {
+export const PrebuiltEntity: msRest.CompositeMapper = {
   serializedName: "PrebuiltEntity",
   type: {
     name: "Composite",
@@ -1100,7 +1089,6 @@ export const PrebuiltEntity = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -1111,7 +1099,7 @@ export const PrebuiltEntity = {
   }
 };
 
-export const PatternRule = {
+export const PatternRule: msRest.CompositeMapper = {
   serializedName: "PatternRule",
   type: {
     name: "Composite",
@@ -1133,17 +1121,17 @@ export const PatternRule = {
   }
 };
 
-export const LuisApp = {
+export const LuisApp: msRest.CompositeMapper = {
   serializedName: "LuisApp",
   type: {
     name: "Composite",
     className: "LuisApp",
     modelProperties: {
       additionalProperties: {
+        serializedName: "additionalProperties",
         type: {
           name: "Dictionary",
           value: {
-            serializedName: "ObjectElementType",
             type: {
               name: "Object"
             }
@@ -1179,7 +1167,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "HierarchicalModelElementType",
             type: {
               name: "Composite",
               className: "HierarchicalModel"
@@ -1192,7 +1179,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "HierarchicalModelElementType",
             type: {
               name: "Composite",
               className: "HierarchicalModel"
@@ -1205,7 +1191,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "ClosedListElementType",
             type: {
               name: "Composite",
               className: "ClosedList"
@@ -1218,7 +1203,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "HierarchicalModelElementType",
             type: {
               name: "Composite",
               className: "HierarchicalModel"
@@ -1231,7 +1215,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PatternAnyElementType",
             type: {
               name: "Composite",
               className: "PatternAny"
@@ -1244,7 +1227,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "RegexEntityElementType",
             type: {
               name: "Composite",
               className: "RegexEntity"
@@ -1257,7 +1239,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PrebuiltEntityElementType",
             type: {
               name: "Composite",
               className: "PrebuiltEntity"
@@ -1270,7 +1251,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "JSONRegexFeatureElementType",
             type: {
               name: "Composite",
               className: "JSONRegexFeature"
@@ -1283,7 +1263,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "JSONModelFeatureElementType",
             type: {
               name: "Composite",
               className: "JSONModelFeature"
@@ -1296,7 +1275,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PatternRuleElementType",
             type: {
               name: "Composite",
               className: "PatternRule"
@@ -1309,7 +1287,6 @@ export const LuisApp = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "JSONUtteranceElementType",
             type: {
               name: "Composite",
               className: "JSONUtterance"
@@ -1321,7 +1298,7 @@ export const LuisApp = {
   }
 };
 
-export const EntityLabel = {
+export const EntityLabel: msRest.CompositeMapper = {
   serializedName: "EntityLabel",
   type: {
     name: "Composite",
@@ -1352,7 +1329,7 @@ export const EntityLabel = {
   }
 };
 
-export const IntentPrediction = {
+export const IntentPrediction: msRest.CompositeMapper = {
   serializedName: "IntentPrediction",
   type: {
     name: "Composite",
@@ -1374,7 +1351,7 @@ export const IntentPrediction = {
   }
 };
 
-export const EntityPrediction = {
+export const EntityPrediction: msRest.CompositeMapper = {
   serializedName: "EntityPrediction",
   type: {
     name: "Composite",
@@ -1412,7 +1389,7 @@ export const EntityPrediction = {
   }
 };
 
-export const LabeledUtterance = {
+export const LabeledUtterance: msRest.CompositeMapper = {
   serializedName: "LabeledUtterance",
   type: {
     name: "Composite",
@@ -1435,7 +1412,6 @@ export const LabeledUtterance = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -1453,7 +1429,6 @@ export const LabeledUtterance = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityLabelElementType",
             type: {
               name: "Composite",
               className: "EntityLabel"
@@ -1466,7 +1441,6 @@ export const LabeledUtterance = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "IntentPredictionElementType",
             type: {
               name: "Composite",
               className: "IntentPrediction"
@@ -1479,7 +1453,6 @@ export const LabeledUtterance = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityPredictionElementType",
             type: {
               name: "Composite",
               className: "EntityPrediction"
@@ -1491,7 +1464,7 @@ export const LabeledUtterance = {
   }
 };
 
-export const IntentsSuggestionExample = {
+export const IntentsSuggestionExample: msRest.CompositeMapper = {
   serializedName: "IntentsSuggestionExample",
   type: {
     name: "Composite",
@@ -1508,7 +1481,6 @@ export const IntentsSuggestionExample = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -1520,7 +1492,6 @@ export const IntentsSuggestionExample = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "IntentPredictionElementType",
             type: {
               name: "Composite",
               className: "IntentPrediction"
@@ -1533,7 +1504,6 @@ export const IntentsSuggestionExample = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityPredictionElementType",
             type: {
               name: "Composite",
               className: "EntityPrediction"
@@ -1545,7 +1515,7 @@ export const IntentsSuggestionExample = {
   }
 };
 
-export const EntitiesSuggestionExample = {
+export const EntitiesSuggestionExample: msRest.CompositeMapper = {
   serializedName: "EntitiesSuggestionExample",
   type: {
     name: "Composite",
@@ -1562,7 +1532,6 @@ export const EntitiesSuggestionExample = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -1574,7 +1543,6 @@ export const EntitiesSuggestionExample = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "IntentPredictionElementType",
             type: {
               name: "Composite",
               className: "IntentPrediction"
@@ -1587,7 +1555,6 @@ export const EntitiesSuggestionExample = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityPredictionElementType",
             type: {
               name: "Composite",
               className: "EntityPrediction"
@@ -1599,7 +1566,7 @@ export const EntitiesSuggestionExample = {
   }
 };
 
-export const PersonalAssistantsResponse = {
+export const PersonalAssistantsResponse: msRest.CompositeMapper = {
   serializedName: "PersonalAssistantsResponse",
   type: {
     name: "Composite",
@@ -1610,7 +1577,6 @@ export const PersonalAssistantsResponse = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "Uuid"
             }
@@ -1622,7 +1588,6 @@ export const PersonalAssistantsResponse = {
         type: {
           name: "Dictionary",
           value: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -1633,7 +1598,7 @@ export const PersonalAssistantsResponse = {
   }
 };
 
-export const ModelInfo = {
+export const ModelInfo: msRest.CompositeMapper = {
   serializedName: "ModelInfo",
   type: {
     name: "Composite",
@@ -1669,7 +1634,7 @@ export const ModelInfo = {
   }
 };
 
-export const EntityRole = {
+export const EntityRole: msRest.CompositeMapper = {
   serializedName: "EntityRole",
   type: {
     name: "Composite",
@@ -1691,7 +1656,7 @@ export const EntityRole = {
   }
 };
 
-export const ChildEntity = {
+export const ChildEntity: msRest.CompositeMapper = {
   serializedName: "ChildEntity",
   type: {
     name: "Composite",
@@ -1714,7 +1679,7 @@ export const ChildEntity = {
   }
 };
 
-export const ExplicitListItem = {
+export const ExplicitListItem: msRest.CompositeMapper = {
   serializedName: "ExplicitListItem",
   type: {
     name: "Composite",
@@ -1736,7 +1701,7 @@ export const ExplicitListItem = {
   }
 };
 
-export const ModelInfoResponse = {
+export const ModelInfoResponse: msRest.CompositeMapper = {
   serializedName: "ModelInfoResponse",
   type: {
     name: "Composite",
@@ -1773,7 +1738,6 @@ export const ModelInfoResponse = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -1786,7 +1750,6 @@ export const ModelInfoResponse = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "ChildEntityElementType",
             type: {
               name: "Composite",
               className: "ChildEntity"
@@ -1799,7 +1762,6 @@ export const ModelInfoResponse = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "SubClosedListResponseElementType",
             type: {
               name: "Composite",
               className: "SubClosedListResponse"
@@ -1830,7 +1792,6 @@ export const ModelInfoResponse = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "ExplicitListItemElementType",
             type: {
               name: "Composite",
               className: "ExplicitListItem"
@@ -1842,7 +1803,7 @@ export const ModelInfoResponse = {
   }
 };
 
-export const EntityModelInfo = {
+export const EntityModelInfo: msRest.CompositeMapper = {
   serializedName: "EntityModelInfo",
   type: {
     name: "Composite",
@@ -1854,7 +1815,6 @@ export const EntityModelInfo = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -1866,7 +1826,7 @@ export const EntityModelInfo = {
   }
 };
 
-export const HierarchicalEntityExtractor = {
+export const HierarchicalEntityExtractor: msRest.CompositeMapper = {
   serializedName: "Hierarchical Entity Extractor",
   type: {
     name: "Composite",
@@ -1903,7 +1863,6 @@ export const HierarchicalEntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -1916,7 +1875,6 @@ export const HierarchicalEntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "ChildEntityElementType",
             type: {
               name: "Composite",
               className: "ChildEntity"
@@ -1928,7 +1886,7 @@ export const HierarchicalEntityExtractor = {
   }
 };
 
-export const CompositeEntityExtractor = {
+export const CompositeEntityExtractor: msRest.CompositeMapper = {
   serializedName: "Composite Entity Extractor",
   type: {
     name: "Composite",
@@ -1965,7 +1923,6 @@ export const CompositeEntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -1978,7 +1935,6 @@ export const CompositeEntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "ChildEntityElementType",
             type: {
               name: "Composite",
               className: "ChildEntity"
@@ -1990,7 +1946,7 @@ export const CompositeEntityExtractor = {
   }
 };
 
-export const ClosedListEntityExtractor = {
+export const ClosedListEntityExtractor: msRest.CompositeMapper = {
   serializedName: "Closed List Entity Extractor",
   type: {
     name: "Composite",
@@ -2027,7 +1983,6 @@ export const ClosedListEntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -2040,7 +1995,6 @@ export const ClosedListEntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "SubClosedListResponseElementType",
             type: {
               name: "Composite",
               className: "SubClosedListResponse"
@@ -2052,7 +2006,7 @@ export const ClosedListEntityExtractor = {
   }
 };
 
-export const PrebuiltEntityExtractor = {
+export const PrebuiltEntityExtractor: msRest.CompositeMapper = {
   serializedName: "Prebuilt Entity Extractor",
   type: {
     name: "Composite",
@@ -2089,7 +2043,6 @@ export const PrebuiltEntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -2101,7 +2054,7 @@ export const PrebuiltEntityExtractor = {
   }
 };
 
-export const HierarchicalChildEntity = {
+export const HierarchicalChildEntity: msRest.CompositeMapper = {
   serializedName: "HierarchicalChildEntity",
   type: {
     name: "Composite",
@@ -2124,7 +2077,7 @@ export const HierarchicalChildEntity = {
   }
 };
 
-export const CustomPrebuiltModel = {
+export const CustomPrebuiltModel: msRest.CompositeMapper = {
   serializedName: "CustomPrebuiltModel",
   type: {
     name: "Composite",
@@ -2173,7 +2126,6 @@ export const CustomPrebuiltModel = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -2185,7 +2137,7 @@ export const CustomPrebuiltModel = {
   }
 };
 
-export const IntentClassifier = {
+export const IntentClassifier: msRest.CompositeMapper = {
   serializedName: "Intent Classifier",
   type: {
     name: "Composite",
@@ -2208,7 +2160,7 @@ export const IntentClassifier = {
   }
 };
 
-export const EntityExtractor = {
+export const EntityExtractor: msRest.CompositeMapper = {
   serializedName: "Entity Extractor",
   type: {
     name: "Composite",
@@ -2245,7 +2197,6 @@ export const EntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -2269,7 +2220,7 @@ export const EntityExtractor = {
   }
 };
 
-export const FeatureInfoObject = {
+export const FeatureInfoObject: msRest.CompositeMapper = {
   serializedName: "FeatureInfoObject",
   type: {
     name: "Composite",
@@ -2297,7 +2248,7 @@ export const FeatureInfoObject = {
   }
 };
 
-export const PhraseListFeatureInfo = {
+export const PhraseListFeatureInfo: msRest.CompositeMapper = {
   serializedName: "PhraseListFeatureInfo",
   type: {
     name: "Composite",
@@ -2320,7 +2271,7 @@ export const PhraseListFeatureInfo = {
   }
 };
 
-export const PatternFeatureInfo = {
+export const PatternFeatureInfo: msRest.CompositeMapper = {
   serializedName: "PatternFeatureInfo",
   type: {
     name: "Composite",
@@ -2337,7 +2288,7 @@ export const PatternFeatureInfo = {
   }
 };
 
-export const FeaturesResponseObject = {
+export const FeaturesResponseObject: msRest.CompositeMapper = {
   serializedName: "FeaturesResponseObject",
   type: {
     name: "Composite",
@@ -2348,7 +2299,6 @@ export const FeaturesResponseObject = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PhraseListFeatureInfoElementType",
             type: {
               name: "Composite",
               className: "PhraseListFeatureInfo"
@@ -2361,7 +2311,6 @@ export const FeaturesResponseObject = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PatternFeatureInfoElementType",
             type: {
               name: "Composite",
               className: "PatternFeatureInfo"
@@ -2373,7 +2322,7 @@ export const FeaturesResponseObject = {
   }
 };
 
-export const LabelExampleResponse = {
+export const LabelExampleResponse: msRest.CompositeMapper = {
   serializedName: "LabelExampleResponse",
   type: {
     name: "Composite",
@@ -2395,7 +2344,7 @@ export const LabelExampleResponse = {
   }
 };
 
-export const OperationStatus = {
+export const OperationStatus: msRest.CompositeMapper = {
   serializedName: "OperationStatus",
   type: {
     name: "Composite",
@@ -2417,7 +2366,7 @@ export const OperationStatus = {
   }
 };
 
-export const BatchLabelExample = {
+export const BatchLabelExample: msRest.CompositeMapper = {
   serializedName: "BatchLabelExample",
   type: {
     name: "Composite",
@@ -2447,7 +2396,7 @@ export const BatchLabelExample = {
   }
 };
 
-export const ApplicationInfoResponse = {
+export const ApplicationInfoResponse: msRest.CompositeMapper = {
   serializedName: "ApplicationInfoResponse",
   type: {
     name: "Composite",
@@ -2523,7 +2472,7 @@ export const ApplicationInfoResponse = {
   }
 };
 
-export const EndpointInfo = {
+export const EndpointInfo: msRest.CompositeMapper = {
   serializedName: "EndpointInfo",
   type: {
     name: "Composite",
@@ -2575,7 +2524,7 @@ export const EndpointInfo = {
   }
 };
 
-export const ProductionOrStagingEndpointInfo = {
+export const ProductionOrStagingEndpointInfo: msRest.CompositeMapper = {
   serializedName: "ProductionOrStagingEndpointInfo",
   type: {
     name: "Composite",
@@ -2586,7 +2535,7 @@ export const ProductionOrStagingEndpointInfo = {
   }
 };
 
-export const AvailableCulture = {
+export const AvailableCulture: msRest.CompositeMapper = {
   serializedName: "AvailableCulture",
   type: {
     name: "Composite",
@@ -2608,7 +2557,7 @@ export const AvailableCulture = {
   }
 };
 
-export const ApplicationSettings = {
+export const ApplicationSettings: msRest.CompositeMapper = {
   serializedName: "ApplicationSettings",
   type: {
     name: "Composite",
@@ -2623,6 +2572,7 @@ export const ApplicationSettings = {
       },
       isPublic: {
         required: true,
+        nullable: false,
         serializedName: "public",
         type: {
           name: "Boolean"
@@ -2632,7 +2582,7 @@ export const ApplicationSettings = {
   }
 };
 
-export const PublishSettings = {
+export const PublishSettings: msRest.CompositeMapper = {
   serializedName: "PublishSettings",
   type: {
     name: "Composite",
@@ -2647,6 +2597,7 @@ export const PublishSettings = {
       },
       isSentimentAnalysisEnabled: {
         required: true,
+        nullable: false,
         serializedName: "sentimentAnalysis",
         type: {
           name: "Boolean"
@@ -2654,6 +2605,7 @@ export const PublishSettings = {
       },
       isSpeechEnabled: {
         required: true,
+        nullable: false,
         serializedName: "speech",
         type: {
           name: "Boolean"
@@ -2661,6 +2613,7 @@ export const PublishSettings = {
       },
       isSpellCheckerEnabled: {
         required: true,
+        nullable: false,
         serializedName: "spellChecker",
         type: {
           name: "Boolean"
@@ -2670,7 +2623,7 @@ export const PublishSettings = {
   }
 };
 
-export const AvailablePrebuiltEntityModel = {
+export const AvailablePrebuiltEntityModel: msRest.CompositeMapper = {
   serializedName: "AvailablePrebuiltEntityModel",
   type: {
     name: "Composite",
@@ -2698,7 +2651,7 @@ export const AvailablePrebuiltEntityModel = {
   }
 };
 
-export const EnqueueTrainingResponse = {
+export const EnqueueTrainingResponse: msRest.CompositeMapper = {
   serializedName: "EnqueueTrainingResponse",
   type: {
     name: "Composite",
@@ -2720,7 +2673,7 @@ export const EnqueueTrainingResponse = {
   }
 };
 
-export const ModelTrainingDetails = {
+export const ModelTrainingDetails: msRest.CompositeMapper = {
   serializedName: "ModelTrainingDetails",
   type: {
     name: "Composite",
@@ -2760,7 +2713,7 @@ export const ModelTrainingDetails = {
   }
 };
 
-export const ModelTrainingInfo = {
+export const ModelTrainingInfo: msRest.CompositeMapper = {
   serializedName: "ModelTrainingInfo",
   type: {
     name: "Composite",
@@ -2783,7 +2736,7 @@ export const ModelTrainingInfo = {
   }
 };
 
-export const UserAccessList = {
+export const UserAccessList: msRest.CompositeMapper = {
   serializedName: "UserAccessList",
   type: {
     name: "Composite",
@@ -2800,7 +2753,6 @@ export const UserAccessList = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -2811,7 +2763,7 @@ export const UserAccessList = {
   }
 };
 
-export const UserCollaborator = {
+export const UserCollaborator: msRest.CompositeMapper = {
   serializedName: "UserCollaborator",
   type: {
     name: "Composite",
@@ -2827,7 +2779,7 @@ export const UserCollaborator = {
   }
 };
 
-export const CollaboratorsArray = {
+export const CollaboratorsArray: msRest.CompositeMapper = {
   serializedName: "CollaboratorsArray",
   type: {
     name: "Composite",
@@ -2838,7 +2790,6 @@ export const CollaboratorsArray = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -2849,7 +2800,7 @@ export const CollaboratorsArray = {
   }
 };
 
-export const ErrorResponse = {
+export const ErrorResponse: msRest.CompositeMapper = {
   serializedName: "ErrorResponse",
   type: {
     name: "Composite",
@@ -2859,7 +2810,6 @@ export const ErrorResponse = {
         type: {
           name: "Dictionary",
           value: {
-            serializedName: "ObjectElementType",
             type: {
               name: "Object"
             }
@@ -2876,7 +2826,7 @@ export const ErrorResponse = {
   }
 };
 
-export const OperationError = {
+export const OperationError: msRest.CompositeMapper = {
   serializedName: "OperationError",
   type: {
     name: "Composite",
@@ -2898,7 +2848,7 @@ export const OperationError = {
   }
 };
 
-export const PrebuiltDomainItem = {
+export const PrebuiltDomainItem: msRest.CompositeMapper = {
   serializedName: "PrebuiltDomainItem",
   type: {
     name: "Composite",
@@ -2926,7 +2876,7 @@ export const PrebuiltDomainItem = {
   }
 };
 
-export const PrebuiltDomain = {
+export const PrebuiltDomain: msRest.CompositeMapper = {
   serializedName: "PrebuiltDomain",
   type: {
     name: "Composite",
@@ -2961,7 +2911,6 @@ export const PrebuiltDomain = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PrebuiltDomainItemElementType",
             type: {
               name: "Composite",
               className: "PrebuiltDomainItem"
@@ -2974,7 +2923,6 @@ export const PrebuiltDomain = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PrebuiltDomainItemElementType",
             type: {
               name: "Composite",
               className: "PrebuiltDomainItem"
@@ -2986,7 +2934,7 @@ export const PrebuiltDomain = {
   }
 };
 
-export const EntityRoleCreateObject = {
+export const EntityRoleCreateObject: msRest.CompositeMapper = {
   serializedName: "EntityRoleCreateObject",
   type: {
     name: "Composite",
@@ -3002,7 +2950,7 @@ export const EntityRoleCreateObject = {
   }
 };
 
-export const RegexModelCreateObject = {
+export const RegexModelCreateObject: msRest.CompositeMapper = {
   serializedName: "RegexModelCreateObject",
   type: {
     name: "Composite",
@@ -3024,7 +2972,7 @@ export const RegexModelCreateObject = {
   }
 };
 
-export const PatternAnyModelCreateObject = {
+export const PatternAnyModelCreateObject: msRest.CompositeMapper = {
   serializedName: "PatternAnyModelCreateObject",
   type: {
     name: "Composite",
@@ -3041,7 +2989,6 @@ export const PatternAnyModelCreateObject = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -3052,7 +2999,7 @@ export const PatternAnyModelCreateObject = {
   }
 };
 
-export const ExplicitListItemCreateObject = {
+export const ExplicitListItemCreateObject: msRest.CompositeMapper = {
   serializedName: "ExplicitListItemCreateObject",
   type: {
     name: "Composite",
@@ -3068,7 +3015,7 @@ export const ExplicitListItemCreateObject = {
   }
 };
 
-export const RegexModelUpdateObject = {
+export const RegexModelUpdateObject: msRest.CompositeMapper = {
   serializedName: "RegexModelUpdateObject",
   type: {
     name: "Composite",
@@ -3090,7 +3037,7 @@ export const RegexModelUpdateObject = {
   }
 };
 
-export const PatternAnyModelUpdateObject = {
+export const PatternAnyModelUpdateObject: msRest.CompositeMapper = {
   serializedName: "PatternAnyModelUpdateObject",
   type: {
     name: "Composite",
@@ -3107,7 +3054,6 @@ export const PatternAnyModelUpdateObject = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "String"
             }
@@ -3118,7 +3064,7 @@ export const PatternAnyModelUpdateObject = {
   }
 };
 
-export const EntityRoleUpdateObject = {
+export const EntityRoleUpdateObject: msRest.CompositeMapper = {
   serializedName: "EntityRoleUpdateObject",
   type: {
     name: "Composite",
@@ -3134,7 +3080,7 @@ export const EntityRoleUpdateObject = {
   }
 };
 
-export const ExplicitListItemUpdateObject = {
+export const ExplicitListItemUpdateObject: msRest.CompositeMapper = {
   serializedName: "ExplicitListItemUpdateObject",
   type: {
     name: "Composite",
@@ -3150,7 +3096,7 @@ export const ExplicitListItemUpdateObject = {
   }
 };
 
-export const PatternRuleCreateObject = {
+export const PatternRuleCreateObject: msRest.CompositeMapper = {
   serializedName: "PatternRuleCreateObject",
   type: {
     name: "Composite",
@@ -3172,7 +3118,7 @@ export const PatternRuleCreateObject = {
   }
 };
 
-export const PatternRuleUpdateObject = {
+export const PatternRuleUpdateObject: msRest.CompositeMapper = {
   serializedName: "PatternRuleUpdateObject",
   type: {
     name: "Composite",
@@ -3200,7 +3146,7 @@ export const PatternRuleUpdateObject = {
   }
 };
 
-export const RegexEntityExtractor = {
+export const RegexEntityExtractor: msRest.CompositeMapper = {
   serializedName: "Regex Entity Extractor",
   type: {
     name: "Composite",
@@ -3237,7 +3183,6 @@ export const RegexEntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -3255,7 +3200,7 @@ export const RegexEntityExtractor = {
   }
 };
 
-export const PatternAnyEntityExtractor = {
+export const PatternAnyEntityExtractor: msRest.CompositeMapper = {
   serializedName: "Pattern.Any Entity Extractor",
   type: {
     name: "Composite",
@@ -3292,7 +3237,6 @@ export const PatternAnyEntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -3305,7 +3249,6 @@ export const PatternAnyEntityExtractor = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "ExplicitListItemElementType",
             type: {
               name: "Composite",
               className: "ExplicitListItem"
@@ -3317,7 +3260,7 @@ export const PatternAnyEntityExtractor = {
   }
 };
 
-export const PatternRuleInfo = {
+export const PatternRuleInfo: msRest.CompositeMapper = {
   serializedName: "PatternRuleInfo",
   type: {
     name: "Composite",
@@ -3345,7 +3288,7 @@ export const PatternRuleInfo = {
   }
 };
 
-export const LabelTextObject = {
+export const LabelTextObject: msRest.CompositeMapper = {
   serializedName: "LabelTextObject",
   type: {
     name: "Composite",
@@ -3367,7 +3310,7 @@ export const LabelTextObject = {
   }
 };
 
-export const HierarchicalChildModelUpdateObject = {
+export const HierarchicalChildModelUpdateObject: msRest.CompositeMapper = {
   serializedName: "hierarchicalChildModelUpdateObject",
   type: {
     name: "Composite",
@@ -3383,7 +3326,7 @@ export const HierarchicalChildModelUpdateObject = {
   }
 };
 
-export const HierarchicalChildModelCreateObject = {
+export const HierarchicalChildModelCreateObject: msRest.CompositeMapper = {
   serializedName: "hierarchicalChildModelCreateObject",
   type: {
     name: "Composite",
@@ -3399,7 +3342,7 @@ export const HierarchicalChildModelCreateObject = {
   }
 };
 
-export const CompositeChildModelCreateObject = {
+export const CompositeChildModelCreateObject: msRest.CompositeMapper = {
   serializedName: "compositeChildModelCreateObject",
   type: {
     name: "Composite",
@@ -3415,7 +3358,7 @@ export const CompositeChildModelCreateObject = {
   }
 };
 
-export const FeaturesGetApplicationVersionPatternFeaturesOptionalParams = {
+export const FeaturesGetApplicationVersionPatternFeaturesOptionalParams: msRest.CompositeMapper = {
   serializedName: "GetApplicationVersionPatternFeaturesOptions",
   type: {
     name: "Composite",
@@ -3446,7 +3389,7 @@ export const FeaturesGetApplicationVersionPatternFeaturesOptionalParams = {
   }
 };
 
-export const FeaturesListPhraseListsOptionalParams = {
+export const FeaturesListPhraseListsOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListPhraseListsOptions",
   type: {
     name: "Composite",
@@ -3477,7 +3420,7 @@ export const FeaturesListPhraseListsOptionalParams = {
   }
 };
 
-export const FeaturesListOptionalParams = {
+export const FeaturesListOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListOptions",
   type: {
     name: "Composite",
@@ -3508,7 +3451,7 @@ export const FeaturesListOptionalParams = {
   }
 };
 
-export const FeaturesUpdatePhraseListOptionalParams = {
+export const FeaturesUpdatePhraseListOptionalParams: msRest.CompositeMapper = {
   serializedName: "UpdatePhraseListOptions",
   type: {
     name: "Composite",
@@ -3525,7 +3468,7 @@ export const FeaturesUpdatePhraseListOptionalParams = {
   }
 };
 
-export const ExamplesListOptionalParams = {
+export const ExamplesListOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListOptions",
   type: {
     name: "Composite",
@@ -3556,7 +3499,7 @@ export const ExamplesListOptionalParams = {
   }
 };
 
-export const ModelListIntentsOptionalParams = {
+export const ModelListIntentsOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListIntentsOptions",
   type: {
     name: "Composite",
@@ -3587,7 +3530,7 @@ export const ModelListIntentsOptionalParams = {
   }
 };
 
-export const ModelListEntitiesOptionalParams = {
+export const ModelListEntitiesOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListEntitiesOptions",
   type: {
     name: "Composite",
@@ -3618,7 +3561,7 @@ export const ModelListEntitiesOptionalParams = {
   }
 };
 
-export const ModelListHierarchicalEntitiesOptionalParams = {
+export const ModelListHierarchicalEntitiesOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListHierarchicalEntitiesOptions",
   type: {
     name: "Composite",
@@ -3649,7 +3592,7 @@ export const ModelListHierarchicalEntitiesOptionalParams = {
   }
 };
 
-export const ModelListCompositeEntitiesOptionalParams = {
+export const ModelListCompositeEntitiesOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListCompositeEntitiesOptions",
   type: {
     name: "Composite",
@@ -3680,7 +3623,7 @@ export const ModelListCompositeEntitiesOptionalParams = {
   }
 };
 
-export const ModelListClosedListsOptionalParams = {
+export const ModelListClosedListsOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListClosedListsOptions",
   type: {
     name: "Composite",
@@ -3711,7 +3654,7 @@ export const ModelListClosedListsOptionalParams = {
   }
 };
 
-export const ModelListPrebuiltsOptionalParams = {
+export const ModelListPrebuiltsOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListPrebuiltsOptions",
   type: {
     name: "Composite",
@@ -3742,7 +3685,7 @@ export const ModelListPrebuiltsOptionalParams = {
   }
 };
 
-export const ModelListModelsOptionalParams = {
+export const ModelListModelsOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListModelsOptions",
   type: {
     name: "Composite",
@@ -3773,7 +3716,7 @@ export const ModelListModelsOptionalParams = {
   }
 };
 
-export const ModelExamplesMethodOptionalParams = {
+export const ModelExamplesMethodOptionalParams: msRest.CompositeMapper = {
   serializedName: "ExamplesMethodOptions",
   type: {
     name: "Composite",
@@ -3804,7 +3747,7 @@ export const ModelExamplesMethodOptionalParams = {
   }
 };
 
-export const ModelDeleteIntentOptionalParams = {
+export const ModelDeleteIntentOptionalParams: msRest.CompositeMapper = {
   serializedName: "DeleteIntentOptions",
   type: {
     name: "Composite",
@@ -3821,7 +3764,7 @@ export const ModelDeleteIntentOptionalParams = {
   }
 };
 
-export const ModelGetIntentSuggestionsOptionalParams = {
+export const ModelGetIntentSuggestionsOptionalParams: msRest.CompositeMapper = {
   serializedName: "GetIntentSuggestionsOptions",
   type: {
     name: "Composite",
@@ -3842,7 +3785,7 @@ export const ModelGetIntentSuggestionsOptionalParams = {
   }
 };
 
-export const ModelGetEntitySuggestionsOptionalParams = {
+export const ModelGetEntitySuggestionsOptionalParams: msRest.CompositeMapper = {
   serializedName: "GetEntitySuggestionsOptions",
   type: {
     name: "Composite",
@@ -3863,7 +3806,7 @@ export const ModelGetEntitySuggestionsOptionalParams = {
   }
 };
 
-export const ModelGetRegexEntityInfosOptionalParams = {
+export const ModelGetRegexEntityInfosOptionalParams: msRest.CompositeMapper = {
   serializedName: "GetRegexEntityInfosOptions",
   type: {
     name: "Composite",
@@ -3894,7 +3837,7 @@ export const ModelGetRegexEntityInfosOptionalParams = {
   }
 };
 
-export const ModelGetPatternAnyEntityInfosOptionalParams = {
+export const ModelGetPatternAnyEntityInfosOptionalParams: msRest.CompositeMapper = {
   serializedName: "GetPatternAnyEntityInfosOptions",
   type: {
     name: "Composite",
@@ -3925,7 +3868,7 @@ export const ModelGetPatternAnyEntityInfosOptionalParams = {
   }
 };
 
-export const AppsListOptionalParams = {
+export const AppsListOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListOptions",
   type: {
     name: "Composite",
@@ -3956,7 +3899,7 @@ export const AppsListOptionalParams = {
   }
 };
 
-export const AppsImportMethodOptionalParams = {
+export const AppsImportMethodOptionalParams: msRest.CompositeMapper = {
   serializedName: "ImportMethodOptions",
   type: {
     name: "Composite",
@@ -3972,7 +3915,7 @@ export const AppsImportMethodOptionalParams = {
   }
 };
 
-export const VersionsCloneOptionalParams = {
+export const VersionsCloneOptionalParams: msRest.CompositeMapper = {
   serializedName: "CloneOptions",
   type: {
     name: "Composite",
@@ -3989,7 +3932,7 @@ export const VersionsCloneOptionalParams = {
   }
 };
 
-export const VersionsListOptionalParams = {
+export const VersionsListOptionalParams: msRest.CompositeMapper = {
   serializedName: "ListOptions",
   type: {
     name: "Composite",
@@ -4020,7 +3963,7 @@ export const VersionsListOptionalParams = {
   }
 };
 
-export const VersionsImportMethodOptionalParams = {
+export const VersionsImportMethodOptionalParams: msRest.CompositeMapper = {
   serializedName: "ImportMethodOptions",
   type: {
     name: "Composite",
@@ -4036,7 +3979,7 @@ export const VersionsImportMethodOptionalParams = {
   }
 };
 
-export const PatternGetPatternsOptionalParams = {
+export const PatternGetPatternsOptionalParams: msRest.CompositeMapper = {
   serializedName: "GetPatternsOptions",
   type: {
     name: "Composite",
@@ -4067,7 +4010,7 @@ export const PatternGetPatternsOptionalParams = {
   }
 };
 
-export const PatternGetIntentPatternsOptionalParams = {
+export const PatternGetIntentPatternsOptionalParams: msRest.CompositeMapper = {
   serializedName: "GetIntentPatternsOptions",
   type: {
     name: "Composite",

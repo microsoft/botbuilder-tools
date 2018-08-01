@@ -7,6 +7,7 @@
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/patternMappers";
+import * as Parameters from "../models/parameters";
 import { LuisAuthoringContext } from "../luisAuthoringContext";
 
 /** Class representing a Pattern. */
@@ -42,24 +43,16 @@ export class Pattern {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addPatternWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            pattern
-          },
-          options),
-        addPatternOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addPatternWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        pattern,
+        options
+      },
+      addPatternOperationSpec);
   }
 
   /**
@@ -81,27 +74,15 @@ export class Pattern {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getPatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        getPatternsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getPatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      getPatternsOperationSpec);
   }
 
   /**
@@ -125,24 +106,16 @@ export class Pattern {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updatePatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            patterns
-          },
-          options),
-        updatePatternsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updatePatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        patterns,
+        options
+      },
+      updatePatternsOperationSpec);
   }
 
   /**
@@ -166,24 +139,16 @@ export class Pattern {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async batchAddPatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            patterns
-          },
-          options),
-        batchAddPatternsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  batchAddPatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        patterns,
+        options
+      },
+      batchAddPatternsOperationSpec);
   }
 
   /**
@@ -207,24 +172,16 @@ export class Pattern {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deletePatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            patternIds
-          },
-          options),
-        deletePatternsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deletePatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        patternIds,
+        options
+      },
+      deletePatternsOperationSpec);
   }
 
   /**
@@ -250,25 +207,17 @@ export class Pattern {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updatePatternWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            patternId,
-            pattern
-          },
-          options),
-        updatePatternOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updatePatternWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        patternId,
+        pattern,
+        options
+      },
+      updatePatternOperationSpec);
   }
 
   /**
@@ -292,24 +241,16 @@ export class Pattern {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deletePatternWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            patternId
-          },
-          options),
-        deletePatternOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deletePatternWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        patternId,
+        options
+      },
+      deletePatternOperationSpec);
   }
 
   /**
@@ -333,28 +274,16 @@ export class Pattern {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getIntentPatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            intentId,
-            skip,
-            take
-          },
-          options),
-        getIntentPatternsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getIntentPatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        intentId,
+        options
+      },
+      getIntentPatternsOperationSpec);
   }
 
   /**
@@ -386,26 +315,7 @@ export class Pattern {
   addPattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
   addPattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
   addPattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PatternRuleInfo>;
-    if (!callback) {
-      return this.addPatternWithHttpOperationResponse(azureRegion, appId, versionId, pattern, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PatternRuleInfo);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addPatternWithHttpOperationResponse(azureRegion, appId, versionId, pattern, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PatternRuleInfo;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addPatternWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, pattern, options, callback);
   }
 
   /**
@@ -435,26 +345,7 @@ export class Pattern {
   getPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
   getPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.PatternGetPatternsOptionalParams, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
   getPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PatternRuleInfo[]>;
-    if (!callback) {
-      return this.getPatternsWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PatternRuleInfo[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getPatternsWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PatternRuleInfo[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getPatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -486,26 +377,7 @@ export class Pattern {
   updatePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
   updatePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
   updatePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PatternRuleInfo[]>;
-    if (!callback) {
-      return this.updatePatternsWithHttpOperationResponse(azureRegion, appId, versionId, patterns, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PatternRuleInfo[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updatePatternsWithHttpOperationResponse(azureRegion, appId, versionId, patterns, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PatternRuleInfo[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updatePatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patterns, options, callback);
   }
 
   /**
@@ -537,26 +409,7 @@ export class Pattern {
   batchAddPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
   batchAddPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
   batchAddPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PatternRuleInfo[]>;
-    if (!callback) {
-      return this.batchAddPatternsWithHttpOperationResponse(azureRegion, appId, versionId, patterns, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PatternRuleInfo[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.batchAddPatternsWithHttpOperationResponse(azureRegion, appId, versionId, patterns, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PatternRuleInfo[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.batchAddPatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patterns, options, callback);
   }
 
   /**
@@ -588,26 +441,7 @@ export class Pattern {
   deletePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[], callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deletePatternsWithHttpOperationResponse(azureRegion, appId, versionId, patternIds, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deletePatternsWithHttpOperationResponse(azureRegion, appId, versionId, patternIds, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deletePatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternIds, options, callback);
   }
 
   /**
@@ -641,26 +475,7 @@ export class Pattern {
   updatePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
   updatePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
   updatePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PatternRuleInfo>;
-    if (!callback) {
-      return this.updatePatternWithHttpOperationResponse(azureRegion, appId, versionId, patternId, pattern, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PatternRuleInfo);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updatePatternWithHttpOperationResponse(azureRegion, appId, versionId, patternId, pattern, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PatternRuleInfo;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updatePatternWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, pattern, options, callback);
   }
 
   /**
@@ -692,26 +507,7 @@ export class Pattern {
   deletePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deletePatternWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deletePatternWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deletePatternWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, options, callback);
   }
 
   /**
@@ -743,80 +539,20 @@ export class Pattern {
   getIntentPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
   getIntentPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options: Models.PatternGetIntentPatternsOptionalParams, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
   getIntentPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PatternRuleInfo[]>;
-    if (!callback) {
-      return this.getIntentPatternsWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PatternRuleInfo[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getIntentPatternsWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PatternRuleInfo[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getIntentPatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, options, callback);
   }
 
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
 const addPatternOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrule",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "pattern",
@@ -825,7 +561,6 @@ const addPatternOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: Mappers.PatternRuleInfo
@@ -834,87 +569,20 @@ const addPatternOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getPatternsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -923,7 +591,6 @@ const getPatternsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PatternRuleInfoElementType",
             type: {
               name: "Composite",
               className: "PatternRuleInfo"
@@ -936,58 +603,16 @@ const getPatternsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updatePatternsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "patterns",
@@ -997,7 +622,6 @@ const updatePatternsOperationSpec: msRest.OperationSpec = {
       type: {
         name: "Sequence",
         element: {
-          serializedName: "PatternRuleUpdateObjectElementType",
           type: {
             name: "Composite",
             className: "PatternRuleUpdateObject"
@@ -1006,7 +630,6 @@ const updatePatternsOperationSpec: msRest.OperationSpec = {
       }
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: {
@@ -1014,7 +637,6 @@ const updatePatternsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PatternRuleInfoElementType",
             type: {
               name: "Composite",
               className: "PatternRuleInfo"
@@ -1027,58 +649,16 @@ const updatePatternsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const batchAddPatternsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "patterns",
@@ -1088,7 +668,6 @@ const batchAddPatternsOperationSpec: msRest.OperationSpec = {
       type: {
         name: "Sequence",
         element: {
-          serializedName: "PatternRuleCreateObjectElementType",
           type: {
             name: "Composite",
             className: "PatternRuleCreateObject"
@@ -1097,7 +676,6 @@ const batchAddPatternsOperationSpec: msRest.OperationSpec = {
       }
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -1105,7 +683,6 @@ const batchAddPatternsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PatternRuleInfoElementType",
             type: {
               name: "Composite",
               className: "PatternRuleInfo"
@@ -1118,58 +695,16 @@ const batchAddPatternsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deletePatternsOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "patternIds",
@@ -1179,7 +714,6 @@ const deletePatternsOperationSpec: msRest.OperationSpec = {
       type: {
         name: "Sequence",
         element: {
-          serializedName: "stringElementType",
           type: {
             name: "Uuid"
           }
@@ -1187,7 +721,6 @@ const deletePatternsOperationSpec: msRest.OperationSpec = {
       }
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -1196,68 +729,17 @@ const deletePatternsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updatePatternOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules/{patternId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "patternId",
-      mapper: {
-        required: true,
-        serializedName: "patternId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.patternId1
   ],
   requestBody: {
     parameterPath: "pattern",
@@ -1266,7 +748,6 @@ const updatePatternOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.PatternRuleInfo
@@ -1275,68 +756,17 @@ const updatePatternOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deletePatternOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules/{patternId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "patternId",
-      mapper: {
-        required: true,
-        serializedName: "patternId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.patternId1
   ],
   responses: {
     200: {
@@ -1346,97 +776,21 @@ const deletePatternOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getIntentPatternsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/patternrules",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "intentId",
-      mapper: {
-        required: true,
-        serializedName: "intentId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.intentId
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -1445,7 +799,6 @@ const getIntentPatternsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PatternRuleInfoElementType",
             type: {
               name: "Composite",
               className: "PatternRuleInfo"
@@ -1458,5 +811,5 @@ const getIntentPatternsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };

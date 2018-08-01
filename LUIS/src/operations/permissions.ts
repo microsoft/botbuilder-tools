@@ -7,6 +7,7 @@
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/permissionsMappers";
+import * as Parameters from "../models/parameters";
 import { LuisAuthoringContext } from "../luisAuthoringContext";
 
 /** Class representing a Permissions. */
@@ -38,22 +39,14 @@ export class Permissions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.UserAccessList>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId
-          },
-          options),
-        listOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.UserAccessList>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        options
+      },
+      listOperationSpec);
   }
 
   /**
@@ -76,23 +69,15 @@ export class Permissions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, userToAdd: Models.UserCollaborator, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            userToAdd
-          },
-          options),
-        addOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, userToAdd: Models.UserCollaborator, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        userToAdd,
+        options
+      },
+      addOperationSpec);
   }
 
   /**
@@ -115,23 +100,15 @@ export class Permissions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, userToDelete: Models.UserCollaborator, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            userToDelete
-          },
-          options),
-        deleteMethodOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, userToDelete: Models.UserCollaborator, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        userToDelete,
+        options
+      },
+      deleteMethodOperationSpec);
   }
 
   /**
@@ -154,23 +131,15 @@ export class Permissions {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, collaborators: Models.CollaboratorsArray, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            collaborators
-          },
-          options),
-        updateOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, collaborators: Models.CollaboratorsArray, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        collaborators,
+        options
+      },
+      updateOperationSpec);
   }
 
   /**
@@ -198,26 +167,7 @@ export class Permissions {
   list(azureRegion: Models.AzureRegions, appId: string, callback: msRest.ServiceCallback<Models.UserAccessList>): void;
   list(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserAccessList>): void;
   list(azureRegion: Models.AzureRegions, appId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserAccessList>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.UserAccessList>;
-    if (!callback) {
-      return this.listWithHttpOperationResponse(azureRegion, appId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.UserAccessList);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listWithHttpOperationResponse(azureRegion, appId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.UserAccessList;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, appId, options, callback);
   }
 
   /**
@@ -248,26 +198,7 @@ export class Permissions {
   add(azureRegion: Models.AzureRegions, appId: string, userToAdd: Models.UserCollaborator, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   add(azureRegion: Models.AzureRegions, appId: string, userToAdd: Models.UserCollaborator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   add(azureRegion: Models.AzureRegions, appId: string, userToAdd: Models.UserCollaborator, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.addWithHttpOperationResponse(azureRegion, appId, userToAdd, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addWithHttpOperationResponse(azureRegion, appId, userToAdd, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addWithHttpOperationResponse.bind(this), azureRegion, appId, userToAdd, options, callback);
   }
 
   /**
@@ -298,26 +229,7 @@ export class Permissions {
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, userToDelete: Models.UserCollaborator, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, userToDelete: Models.UserCollaborator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, userToDelete: Models.UserCollaborator, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteMethodWithHttpOperationResponse(azureRegion, appId, userToDelete, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteMethodWithHttpOperationResponse(azureRegion, appId, userToDelete, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), azureRegion, appId, userToDelete, options, callback);
   }
 
   /**
@@ -348,70 +260,19 @@ export class Permissions {
   update(azureRegion: Models.AzureRegions, appId: string, collaborators: Models.CollaboratorsArray, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   update(azureRegion: Models.AzureRegions, appId: string, collaborators: Models.CollaboratorsArray, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   update(azureRegion: Models.AzureRegions, appId: string, collaborators: Models.CollaboratorsArray, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateWithHttpOperationResponse(azureRegion, appId, collaborators, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateWithHttpOperationResponse(azureRegion, appId, collaborators, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateWithHttpOperationResponse.bind(this), azureRegion, appId, collaborators, options, callback);
   }
 
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/permissions",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId
   ],
   responses: {
     200: {
@@ -421,48 +282,15 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/permissions",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId
   ],
   requestBody: {
     parameterPath: "userToAdd",
@@ -471,7 +299,6 @@ const addOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -480,48 +307,15 @@ const addOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/permissions",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId
   ],
   requestBody: {
     parameterPath: "userToDelete",
@@ -530,7 +324,6 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -539,48 +332,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/permissions",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId
   ],
   requestBody: {
     parameterPath: "collaborators",
@@ -589,7 +349,6 @@ const updateOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -598,5 +357,5 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };

@@ -6,8 +6,8 @@
 
 import * as msRest from "ms-rest-js";
 
-const packageName = "luis-apis";
-const packageVersion = "4.0.0";
+const packageName = "";
+const packageVersion = "";
 
 export class LuisAuthoringContext extends msRest.ServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -41,6 +41,7 @@ export class LuisAuthoringContext extends msRest.ServiceClient {
     super(credentials, options);
 
     this.baseUri = "https://{AzureRegion}.api.cognitive.microsoft.com";
+    this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
     this.addUserAgentInfo(`${packageName}/${packageVersion}`);

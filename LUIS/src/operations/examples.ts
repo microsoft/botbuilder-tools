@@ -7,6 +7,7 @@
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/examplesMappers";
+import * as Parameters from "../models/parameters";
 import { LuisAuthoringContext } from "../luisAuthoringContext";
 
 /** Class representing a Examples. */
@@ -43,24 +44,16 @@ export class Examples {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.LabelExampleResponse>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            exampleLabelObject
-          },
-          options),
-        addOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.LabelExampleResponse>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        exampleLabelObject,
+        options
+      },
+      addOperationSpec);
   }
 
   /**
@@ -84,24 +77,16 @@ export class Examples {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async batchWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.BatchLabelExample[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            exampleLabelObjectArray
-          },
-          options),
-        batchOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  batchWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.BatchLabelExample[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        exampleLabelObjectArray,
+        options
+      },
+      batchOperationSpec);
   }
 
   /**
@@ -123,27 +108,15 @@ export class Examples {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ExamplesListOptionalParams): Promise<msRest.HttpOperationResponse<Models.LabeledUtterance[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        listOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ExamplesListOptionalParams): Promise<msRest.HttpOperationResponse<Models.LabeledUtterance[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listOperationSpec);
   }
 
   /**
@@ -167,24 +140,16 @@ export class Examples {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            exampleId
-          },
-          options),
-        deleteMethodOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        exampleId,
+        options
+      },
+      deleteMethodOperationSpec);
   }
 
   /**
@@ -217,26 +182,7 @@ export class Examples {
   add(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
   add(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
   add(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabelExampleResponse>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.LabelExampleResponse>;
-    if (!callback) {
-      return this.addWithHttpOperationResponse(azureRegion, appId, versionId, exampleLabelObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.LabelExampleResponse);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addWithHttpOperationResponse(azureRegion, appId, versionId, exampleLabelObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.LabelExampleResponse;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, exampleLabelObject, options, callback);
   }
 
   /**
@@ -268,26 +214,7 @@ export class Examples {
   batch(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
   batch(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
   batch(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchLabelExample[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.BatchLabelExample[]>;
-    if (!callback) {
-      return this.batchWithHttpOperationResponse(azureRegion, appId, versionId, exampleLabelObjectArray, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.BatchLabelExample[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.batchWithHttpOperationResponse(azureRegion, appId, versionId, exampleLabelObjectArray, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.BatchLabelExample[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.batchWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, exampleLabelObjectArray, options, callback);
   }
 
   /**
@@ -317,26 +244,7 @@ export class Examples {
   list(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.LabeledUtterance[]>): void;
   list(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ExamplesListOptionalParams, callback: msRest.ServiceCallback<Models.LabeledUtterance[]>): void;
   list(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ExamplesListOptionalParams, callback?: msRest.ServiceCallback<Models.LabeledUtterance[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.LabeledUtterance[]>;
-    if (!callback) {
-      return this.listWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.LabeledUtterance[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.LabeledUtterance[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -368,80 +276,20 @@ export class Examples {
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteMethodWithHttpOperationResponse(azureRegion, appId, versionId, exampleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteMethodWithHttpOperationResponse(azureRegion, appId, versionId, exampleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, exampleId, options, callback);
   }
 
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
 const addOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/example",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "exampleLabelObject",
@@ -450,7 +298,6 @@ const addOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: Mappers.LabelExampleResponse
@@ -459,58 +306,16 @@ const addOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const batchOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "exampleLabelObjectArray",
@@ -520,7 +325,6 @@ const batchOperationSpec: msRest.OperationSpec = {
       type: {
         name: "Sequence",
         element: {
-          serializedName: "ExampleLabelObjectElementType",
           type: {
             name: "Composite",
             className: "ExampleLabelObject"
@@ -529,7 +333,6 @@ const batchOperationSpec: msRest.OperationSpec = {
       }
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -537,7 +340,6 @@ const batchOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "BatchLabelExampleElementType",
             type: {
               name: "Composite",
               className: "BatchLabelExample"
@@ -552,7 +354,6 @@ const batchOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "BatchLabelExampleElementType",
             type: {
               name: "Composite",
               className: "BatchLabelExample"
@@ -565,87 +366,20 @@ const batchOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -654,7 +388,6 @@ const listOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "LabeledUtteranceElementType",
             type: {
               name: "Composite",
               className: "LabeledUtterance"
@@ -667,68 +400,17 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples/{exampleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "exampleId",
-      mapper: {
-        required: true,
-        serializedName: "exampleId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.exampleId
   ],
   responses: {
     200: {
@@ -738,5 +420,5 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };

@@ -7,6 +7,7 @@
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/modelMappers";
+import * as Parameters from "../models/parameters";
 import { LuisAuthoringContext } from "../luisAuthoringContext";
 
 /** Class representing a Model. */
@@ -43,24 +44,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addIntentWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            intentCreateObject
-          },
-          options),
-        addIntentOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addIntentWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        intentCreateObject,
+        options
+      },
+      addIntentOperationSpec);
   }
 
   /**
@@ -82,27 +75,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listIntentsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams): Promise<msRest.HttpOperationResponse<Models.IntentClassifier[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        listIntentsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listIntentsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams): Promise<msRest.HttpOperationResponse<Models.IntentClassifier[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listIntentsOperationSpec);
   }
 
   /**
@@ -127,24 +108,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            modelCreateObject
-          },
-          options),
-        addEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        modelCreateObject,
+        options
+      },
+      addEntityOperationSpec);
   }
 
   /**
@@ -166,27 +139,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listEntitiesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams): Promise<msRest.HttpOperationResponse<Models.EntityExtractor[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        listEntitiesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listEntitiesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams): Promise<msRest.HttpOperationResponse<Models.EntityExtractor[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listEntitiesOperationSpec);
   }
 
   /**
@@ -211,24 +172,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addHierarchicalEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hierarchicalModelCreateObject
-          },
-          options),
-        addHierarchicalEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addHierarchicalEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hierarchicalModelCreateObject,
+        options
+      },
+      addHierarchicalEntityOperationSpec);
   }
 
   /**
@@ -250,27 +203,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listHierarchicalEntitiesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams): Promise<msRest.HttpOperationResponse<Models.HierarchicalEntityExtractor[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        listHierarchicalEntitiesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listHierarchicalEntitiesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams): Promise<msRest.HttpOperationResponse<Models.HierarchicalEntityExtractor[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listHierarchicalEntitiesOperationSpec);
   }
 
   /**
@@ -295,24 +236,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addCompositeEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            compositeModelCreateObject
-          },
-          options),
-        addCompositeEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addCompositeEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        compositeModelCreateObject,
+        options
+      },
+      addCompositeEntityOperationSpec);
   }
 
   /**
@@ -334,27 +267,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listCompositeEntitiesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams): Promise<msRest.HttpOperationResponse<Models.CompositeEntityExtractor[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        listCompositeEntitiesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listCompositeEntitiesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams): Promise<msRest.HttpOperationResponse<Models.CompositeEntityExtractor[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listCompositeEntitiesOperationSpec);
   }
 
   /**
@@ -376,27 +297,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listClosedListsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams): Promise<msRest.HttpOperationResponse<Models.ClosedListEntityExtractor[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        listClosedListsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listClosedListsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams): Promise<msRest.HttpOperationResponse<Models.ClosedListEntityExtractor[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listClosedListsOperationSpec);
   }
 
   /**
@@ -421,24 +330,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addClosedListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            closedListModelCreateObject
-          },
-          options),
-        addClosedListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addClosedListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        closedListModelCreateObject,
+        options
+      },
+      addClosedListOperationSpec);
   }
 
   /**
@@ -462,24 +363,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addPrebuiltWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PrebuiltEntityExtractor[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            prebuiltExtractorNames
-          },
-          options),
-        addPrebuiltOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addPrebuiltWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PrebuiltEntityExtractor[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        prebuiltExtractorNames,
+        options
+      },
+      addPrebuiltOperationSpec);
   }
 
   /**
@@ -501,27 +394,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listPrebuiltsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PrebuiltEntityExtractor[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        listPrebuiltsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listPrebuiltsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PrebuiltEntityExtractor[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listPrebuiltsOperationSpec);
   }
 
   /**
@@ -543,23 +424,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listPrebuiltEntitiesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.AvailablePrebuiltEntityModel[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId
-          },
-          options),
-        listPrebuiltEntitiesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listPrebuiltEntitiesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.AvailablePrebuiltEntityModel[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listPrebuiltEntitiesOperationSpec);
   }
 
   /**
@@ -581,27 +454,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listModelsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams): Promise<msRest.HttpOperationResponse<Models.ModelInfoResponse[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        listModelsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listModelsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams): Promise<msRest.HttpOperationResponse<Models.ModelInfoResponse[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listModelsOperationSpec);
   }
 
   /**
@@ -625,28 +486,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async examplesMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams): Promise<msRest.HttpOperationResponse<Models.LabelTextObject[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            modelId,
-            skip,
-            take
-          },
-          options),
-        examplesMethodOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  examplesMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams): Promise<msRest.HttpOperationResponse<Models.LabelTextObject[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        modelId,
+        options
+      },
+      examplesMethodOperationSpec);
   }
 
   /**
@@ -670,24 +519,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getIntentWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.IntentClassifier>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            intentId
-          },
-          options),
-        getIntentOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getIntentWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.IntentClassifier>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        intentId,
+        options
+      },
+      getIntentOperationSpec);
   }
 
   /**
@@ -714,25 +555,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateIntentWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            intentId,
-            modelUpdateObject
-          },
-          options),
-        updateIntentOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateIntentWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        intentId,
+        modelUpdateObject,
+        options
+      },
+      updateIntentOperationSpec);
   }
 
   /**
@@ -756,26 +589,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteIntentWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-    let deleteUtterances = (options && options.deleteUtterances !== undefined) ? options.deleteUtterances : false;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            intentId,
-            deleteUtterances
-          },
-          options),
-        deleteIntentOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteIntentWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        intentId,
+        options
+      },
+      deleteIntentOperationSpec);
   }
 
   /**
@@ -799,24 +622,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityExtractor>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        getEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityExtractor>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getEntityOperationSpec);
   }
 
   /**
@@ -843,25 +658,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            modelUpdateObject
-          },
-          options),
-        updateEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        modelUpdateObject,
+        options
+      },
+      updateEntityOperationSpec);
   }
 
   /**
@@ -885,24 +692,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        deleteEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      deleteEntityOperationSpec);
   }
 
   /**
@@ -926,24 +725,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getHierarchicalEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.HierarchicalEntityExtractor>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId
-          },
-          options),
-        getHierarchicalEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getHierarchicalEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.HierarchicalEntityExtractor>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        options
+      },
+      getHierarchicalEntityOperationSpec);
   }
 
   /**
@@ -970,25 +761,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateHierarchicalEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId,
-            hierarchicalModelUpdateObject
-          },
-          options),
-        updateHierarchicalEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateHierarchicalEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        hierarchicalModelUpdateObject,
+        options
+      },
+      updateHierarchicalEntityOperationSpec);
   }
 
   /**
@@ -1012,24 +795,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteHierarchicalEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId
-          },
-          options),
-        deleteHierarchicalEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteHierarchicalEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        options
+      },
+      deleteHierarchicalEntityOperationSpec);
   }
 
   /**
@@ -1053,24 +828,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getCompositeEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.CompositeEntityExtractor>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            cEntityId
-          },
-          options),
-        getCompositeEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getCompositeEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.CompositeEntityExtractor>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        cEntityId,
+        options
+      },
+      getCompositeEntityOperationSpec);
   }
 
   /**
@@ -1097,25 +864,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateCompositeEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            cEntityId,
-            compositeModelUpdateObject
-          },
-          options),
-        updateCompositeEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateCompositeEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        cEntityId,
+        compositeModelUpdateObject,
+        options
+      },
+      updateCompositeEntityOperationSpec);
   }
 
   /**
@@ -1139,24 +898,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteCompositeEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            cEntityId
-          },
-          options),
-        deleteCompositeEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteCompositeEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        cEntityId,
+        options
+      },
+      deleteCompositeEntityOperationSpec);
   }
 
   /**
@@ -1180,24 +931,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getClosedListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ClosedListEntityExtractor>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            clEntityId
-          },
-          options),
-        getClosedListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getClosedListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ClosedListEntityExtractor>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        clEntityId,
+        options
+      },
+      getClosedListOperationSpec);
   }
 
   /**
@@ -1224,25 +967,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateClosedListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            clEntityId,
-            closedListModelUpdateObject
-          },
-          options),
-        updateClosedListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateClosedListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        clEntityId,
+        closedListModelUpdateObject,
+        options
+      },
+      updateClosedListOperationSpec);
   }
 
   /**
@@ -1268,25 +1003,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async patchClosedListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            clEntityId,
-            closedListModelPatchObject
-          },
-          options),
-        patchClosedListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  patchClosedListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        clEntityId,
+        closedListModelPatchObject,
+        options
+      },
+      patchClosedListOperationSpec);
   }
 
   /**
@@ -1310,24 +1037,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteClosedListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            clEntityId
-          },
-          options),
-        deleteClosedListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteClosedListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        clEntityId,
+        options
+      },
+      deleteClosedListOperationSpec);
   }
 
   /**
@@ -1351,24 +1070,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getPrebuiltWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PrebuiltEntityExtractor>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            prebuiltId
-          },
-          options),
-        getPrebuiltOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getPrebuiltWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PrebuiltEntityExtractor>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        prebuiltId,
+        options
+      },
+      getPrebuiltOperationSpec);
   }
 
   /**
@@ -1392,24 +1103,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deletePrebuiltWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            prebuiltId
-          },
-          options),
-        deletePrebuiltOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deletePrebuiltWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        prebuiltId,
+        options
+      },
+      deletePrebuiltOperationSpec);
   }
 
   /**
@@ -1435,25 +1138,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteSubListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            clEntityId,
-            subListId
-          },
-          options),
-        deleteSubListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteSubListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        clEntityId,
+        subListId,
+        options
+      },
+      deleteSubListOperationSpec);
   }
 
   /**
@@ -1482,26 +1177,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateSubListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            clEntityId,
-            subListId,
-            wordListBaseUpdateObject
-          },
-          options),
-        updateSubListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateSubListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        clEntityId,
+        subListId,
+        wordListBaseUpdateObject,
+        options
+      },
+      updateSubListOperationSpec);
   }
 
   /**
@@ -1525,26 +1212,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getIntentSuggestionsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams): Promise<msRest.HttpOperationResponse<Models.IntentsSuggestionExample[]>> {
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            intentId,
-            take
-          },
-          options),
-        getIntentSuggestionsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getIntentSuggestionsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams): Promise<msRest.HttpOperationResponse<Models.IntentsSuggestionExample[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        intentId,
+        options
+      },
+      getIntentSuggestionsOperationSpec);
   }
 
   /**
@@ -1568,26 +1245,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getEntitySuggestionsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams): Promise<msRest.HttpOperationResponse<Models.EntitiesSuggestionExample[]>> {
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            take
-          },
-          options),
-        getEntitySuggestionsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getEntitySuggestionsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams): Promise<msRest.HttpOperationResponse<Models.EntitiesSuggestionExample[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getEntitySuggestionsOperationSpec);
   }
 
   /**
@@ -1613,25 +1280,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addSubListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            clEntityId,
-            wordListCreateObject
-          },
-          options),
-        addSubListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addSubListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        clEntityId,
+        wordListCreateObject,
+        options
+      },
+      addSubListOperationSpec);
   }
 
   /**
@@ -1656,24 +1315,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addCustomPrebuiltDomainWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            prebuiltDomainObject
-          },
-          options),
-        addCustomPrebuiltDomainOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addCustomPrebuiltDomainWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        prebuiltDomainObject,
+        options
+      },
+      addCustomPrebuiltDomainOperationSpec);
   }
 
   /**
@@ -1699,24 +1350,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addCustomPrebuiltIntentWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            prebuiltDomainModelCreateObject
-          },
-          options),
-        addCustomPrebuiltIntentOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addCustomPrebuiltIntentWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        prebuiltDomainModelCreateObject,
+        options
+      },
+      addCustomPrebuiltIntentOperationSpec);
   }
 
   /**
@@ -1738,23 +1381,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listCustomPrebuiltIntentsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.IntentClassifier[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId
-          },
-          options),
-        listCustomPrebuiltIntentsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listCustomPrebuiltIntentsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.IntentClassifier[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listCustomPrebuiltIntentsOperationSpec);
   }
 
   /**
@@ -1780,24 +1415,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addCustomPrebuiltEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            prebuiltDomainModelCreateObject
-          },
-          options),
-        addCustomPrebuiltEntityOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addCustomPrebuiltEntityWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        prebuiltDomainModelCreateObject,
+        options
+      },
+      addCustomPrebuiltEntityOperationSpec);
   }
 
   /**
@@ -1819,23 +1446,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listCustomPrebuiltEntitiesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityExtractor[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId
-          },
-          options),
-        listCustomPrebuiltEntitiesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listCustomPrebuiltEntitiesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityExtractor[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listCustomPrebuiltEntitiesOperationSpec);
   }
 
   /**
@@ -1857,23 +1476,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async listCustomPrebuiltModelsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.CustomPrebuiltModel[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId
-          },
-          options),
-        listCustomPrebuiltModelsOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  listCustomPrebuiltModelsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.CustomPrebuiltModel[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      listCustomPrebuiltModelsOperationSpec);
   }
 
   /**
@@ -1897,24 +1508,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteCustomPrebuiltDomainWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            domainName
-          },
-          options),
-        deleteCustomPrebuiltDomainOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteCustomPrebuiltDomainWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        domainName,
+        options
+      },
+      deleteCustomPrebuiltDomainOperationSpec);
   }
 
   /**
@@ -1940,25 +1543,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getHierarchicalEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.HierarchicalChildEntity>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId,
-            hChildId
-          },
-          options),
-        getHierarchicalEntityChildOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getHierarchicalEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.HierarchicalChildEntity>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        hChildId,
+        options
+      },
+      getHierarchicalEntityChildOperationSpec);
   }
 
   /**
@@ -1987,26 +1582,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateHierarchicalEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId,
-            hChildId,
-            hierarchicalChildModelUpdateObject
-          },
-          options),
-        updateHierarchicalEntityChildOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateHierarchicalEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        hChildId,
+        hierarchicalChildModelUpdateObject,
+        options
+      },
+      updateHierarchicalEntityChildOperationSpec);
   }
 
   /**
@@ -2032,25 +1619,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteHierarchicalEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId,
-            hChildId
-          },
-          options),
-        deleteHierarchicalEntityChildOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteHierarchicalEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        hChildId,
+        options
+      },
+      deleteHierarchicalEntityChildOperationSpec);
   }
 
   /**
@@ -2077,25 +1656,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addHierarchicalEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId,
-            hierarchicalChildModelCreateObject
-          },
-          options),
-        addHierarchicalEntityChildOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addHierarchicalEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        hierarchicalChildModelCreateObject,
+        options
+      },
+      addHierarchicalEntityChildOperationSpec);
   }
 
   /**
@@ -2122,25 +1693,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addCompositeEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            cEntityId,
-            compositeChildModelCreateObject
-          },
-          options),
-        addCompositeEntityChildOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addCompositeEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        cEntityId,
+        compositeChildModelCreateObject,
+        options
+      },
+      addCompositeEntityChildOperationSpec);
   }
 
   /**
@@ -2166,25 +1729,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteCompositeEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            cEntityId,
-            cChildId
-          },
-          options),
-        deleteCompositeEntityChildOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteCompositeEntityChildWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        cEntityId,
+        cChildId,
+        options
+      },
+      deleteCompositeEntityChildOperationSpec);
   }
 
   /**
@@ -2206,27 +1761,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getRegexEntityInfosWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams): Promise<msRest.HttpOperationResponse<Models.RegexEntityExtractor[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        getRegexEntityInfosOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getRegexEntityInfosWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams): Promise<msRest.HttpOperationResponse<Models.RegexEntityExtractor[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      getRegexEntityInfosOperationSpec);
   }
 
   /**
@@ -2251,24 +1794,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createRegexEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            regexEntityExtractorCreateObj
-          },
-          options),
-        createRegexEntityModelOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createRegexEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        regexEntityExtractorCreateObj,
+        options
+      },
+      createRegexEntityModelOperationSpec);
   }
 
   /**
@@ -2290,27 +1825,15 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getPatternAnyEntityInfosWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternAnyEntityExtractor[]>> {
-    let skip = (options && options.skip !== undefined) ? options.skip : 0;
-    let take = (options && options.take !== undefined) ? options.take : 100;
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            skip,
-            take
-          },
-          options),
-        getPatternAnyEntityInfosOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getPatternAnyEntityInfosWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternAnyEntityExtractor[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        options
+      },
+      getPatternAnyEntityInfosOperationSpec);
   }
 
   /**
@@ -2335,24 +1858,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createPatternAnyEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            extractorCreateObject
-          },
-          options),
-        createPatternAnyEntityModelOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createPatternAnyEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        extractorCreateObject,
+        options
+      },
+      createPatternAnyEntityModelOperationSpec);
   }
 
   /**
@@ -2376,24 +1891,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        getEntityRolesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getEntityRolesOperationSpec);
   }
 
   /**
@@ -2420,25 +1927,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            entityRoleCreateObject
-          },
-          options),
-        createEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        entityRoleCreateObject,
+        options
+      },
+      createEntityRoleOperationSpec);
   }
 
   /**
@@ -2462,24 +1961,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getPrebuiltEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        getPrebuiltEntityRolesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getPrebuiltEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getPrebuiltEntityRolesOperationSpec);
   }
 
   /**
@@ -2506,25 +1997,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createPrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            entityRoleCreateObject
-          },
-          options),
-        createPrebuiltEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createPrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        entityRoleCreateObject,
+        options
+      },
+      createPrebuiltEntityRoleOperationSpec);
   }
 
   /**
@@ -2548,24 +2031,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getClosedListEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        getClosedListEntityRolesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getClosedListEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getClosedListEntityRolesOperationSpec);
   }
 
   /**
@@ -2592,25 +2067,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createClosedListEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            entityRoleCreateObject
-          },
-          options),
-        createClosedListEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createClosedListEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        entityRoleCreateObject,
+        options
+      },
+      createClosedListEntityRoleOperationSpec);
   }
 
   /**
@@ -2634,24 +2101,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getRegexEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        getRegexEntityRolesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getRegexEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getRegexEntityRolesOperationSpec);
   }
 
   /**
@@ -2678,25 +2137,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createRegexEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            entityRoleCreateObject
-          },
-          options),
-        createRegexEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createRegexEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        entityRoleCreateObject,
+        options
+      },
+      createRegexEntityRoleOperationSpec);
   }
 
   /**
@@ -2720,24 +2171,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getCompositeEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            cEntityId
-          },
-          options),
-        getCompositeEntityRolesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getCompositeEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        cEntityId,
+        options
+      },
+      getCompositeEntityRolesOperationSpec);
   }
 
   /**
@@ -2764,25 +2207,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createCompositeEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            cEntityId,
-            entityRoleCreateObject
-          },
-          options),
-        createCompositeEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createCompositeEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        cEntityId,
+        entityRoleCreateObject,
+        options
+      },
+      createCompositeEntityRoleOperationSpec);
   }
 
   /**
@@ -2806,24 +2241,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getPatternAnyEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        getPatternAnyEntityRolesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getPatternAnyEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getPatternAnyEntityRolesOperationSpec);
   }
 
   /**
@@ -2850,25 +2277,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createPatternAnyEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            entityRoleCreateObject
-          },
-          options),
-        createPatternAnyEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createPatternAnyEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        entityRoleCreateObject,
+        options
+      },
+      createPatternAnyEntityRoleOperationSpec);
   }
 
   /**
@@ -2892,24 +2311,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getHierarchicalEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId
-          },
-          options),
-        getHierarchicalEntityRolesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getHierarchicalEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        options
+      },
+      getHierarchicalEntityRolesOperationSpec);
   }
 
   /**
@@ -2936,25 +2347,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createHierarchicalEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId,
-            entityRoleCreateObject
-          },
-          options),
-        createHierarchicalEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createHierarchicalEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        entityRoleCreateObject,
+        options
+      },
+      createHierarchicalEntityRoleOperationSpec);
   }
 
   /**
@@ -2978,24 +2381,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getCustomPrebuiltEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        getCustomPrebuiltEntityRolesOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getCustomPrebuiltEntityRolesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getCustomPrebuiltEntityRolesOperationSpec);
   }
 
   /**
@@ -3022,25 +2417,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async createCustomPrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            entityRoleCreateObject
-          },
-          options),
-        createCustomPrebuiltEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  createCustomPrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        entityRoleCreateObject,
+        options
+      },
+      createCustomPrebuiltEntityRoleOperationSpec);
   }
 
   /**
@@ -3064,24 +2451,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getExplicitListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ExplicitListItem[]>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        getExplicitListOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getExplicitListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ExplicitListItem[]>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getExplicitListOperationSpec);
   }
 
   /**
@@ -3107,25 +2486,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async addExplicitListItemWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            item
-          },
-          options),
-        addExplicitListItemOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  addExplicitListItemWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        item,
+        options
+      },
+      addExplicitListItemOperationSpec);
   }
 
   /**
@@ -3149,24 +2520,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getRegexEntityEntityInfoWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.RegexEntityExtractor>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            regexEntityId
-          },
-          options),
-        getRegexEntityEntityInfoOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getRegexEntityEntityInfoWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.RegexEntityExtractor>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        regexEntityId,
+        options
+      },
+      getRegexEntityEntityInfoOperationSpec);
   }
 
   /**
@@ -3193,25 +2556,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateRegexEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            regexEntityId,
-            regexEntityUpdateObject
-          },
-          options),
-        updateRegexEntityModelOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateRegexEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        regexEntityId,
+        regexEntityUpdateObject,
+        options
+      },
+      updateRegexEntityModelOperationSpec);
   }
 
   /**
@@ -3235,24 +2590,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteRegexEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            regexEntityId
-          },
-          options),
-        deleteRegexEntityModelOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteRegexEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        regexEntityId,
+        options
+      },
+      deleteRegexEntityModelOperationSpec);
   }
 
   /**
@@ -3276,24 +2623,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getPatternAnyEntityInfoWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternAnyEntityExtractor>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        getPatternAnyEntityInfoOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getPatternAnyEntityInfoWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternAnyEntityExtractor>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getPatternAnyEntityInfoOperationSpec);
   }
 
   /**
@@ -3320,25 +2659,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updatePatternAnyEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            patternAnyUpdateObject
-          },
-          options),
-        updatePatternAnyEntityModelOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updatePatternAnyEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        patternAnyUpdateObject,
+        options
+      },
+      updatePatternAnyEntityModelOperationSpec);
   }
 
   /**
@@ -3362,24 +2693,16 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deletePatternAnyEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId
-          },
-          options),
-        deletePatternAnyEntityModelOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deletePatternAnyEntityModelWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      deletePatternAnyEntityModelOperationSpec);
   }
 
   /**
@@ -3405,25 +2728,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        getEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      getEntityRoleOperationSpec);
   }
 
   /**
@@ -3451,26 +2766,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId,
-            entityRoleUpdateObject
-          },
-          options),
-        updateEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        entityRoleUpdateObject,
+        options
+      },
+      updateEntityRoleOperationSpec);
   }
 
   /**
@@ -3496,25 +2803,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        deleteEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      deleteEntityRoleOperationSpec);
   }
 
   /**
@@ -3540,25 +2839,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getPrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        getPrebuiltEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getPrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      getPrebuiltEntityRoleOperationSpec);
   }
 
   /**
@@ -3586,26 +2877,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updatePrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId,
-            entityRoleUpdateObject
-          },
-          options),
-        updatePrebuiltEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updatePrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        entityRoleUpdateObject,
+        options
+      },
+      updatePrebuiltEntityRoleOperationSpec);
   }
 
   /**
@@ -3631,25 +2914,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deletePrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        deletePrebuiltEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deletePrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      deletePrebuiltEntityRoleOperationSpec);
   }
 
   /**
@@ -3675,25 +2950,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getClosedListEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        getClosedListEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getClosedListEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      getClosedListEntityRoleOperationSpec);
   }
 
   /**
@@ -3721,26 +2988,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateClosedListEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId,
-            entityRoleUpdateObject
-          },
-          options),
-        updateClosedListEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateClosedListEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        entityRoleUpdateObject,
+        options
+      },
+      updateClosedListEntityRoleOperationSpec);
   }
 
   /**
@@ -3766,25 +3025,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteClosedListEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        deleteClosedListEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteClosedListEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      deleteClosedListEntityRoleOperationSpec);
   }
 
   /**
@@ -3810,25 +3061,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getRegexEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        getRegexEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getRegexEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      getRegexEntityRoleOperationSpec);
   }
 
   /**
@@ -3856,26 +3099,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateRegexEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId,
-            entityRoleUpdateObject
-          },
-          options),
-        updateRegexEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateRegexEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        entityRoleUpdateObject,
+        options
+      },
+      updateRegexEntityRoleOperationSpec);
   }
 
   /**
@@ -3901,25 +3136,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteRegexEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        deleteRegexEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteRegexEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      deleteRegexEntityRoleOperationSpec);
   }
 
   /**
@@ -3945,25 +3172,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getCompositeEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            cEntityId,
-            roleId
-          },
-          options),
-        getCompositeEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getCompositeEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        cEntityId,
+        roleId,
+        options
+      },
+      getCompositeEntityRoleOperationSpec);
   }
 
   /**
@@ -3991,26 +3210,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateCompositeEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            cEntityId,
-            roleId,
-            entityRoleUpdateObject
-          },
-          options),
-        updateCompositeEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateCompositeEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        cEntityId,
+        roleId,
+        entityRoleUpdateObject,
+        options
+      },
+      updateCompositeEntityRoleOperationSpec);
   }
 
   /**
@@ -4036,25 +3247,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteCompositeEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            cEntityId,
-            roleId
-          },
-          options),
-        deleteCompositeEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteCompositeEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        cEntityId,
+        roleId,
+        options
+      },
+      deleteCompositeEntityRoleOperationSpec);
   }
 
   /**
@@ -4080,25 +3283,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getPatternAnyEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        getPatternAnyEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getPatternAnyEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      getPatternAnyEntityRoleOperationSpec);
   }
 
   /**
@@ -4126,26 +3321,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updatePatternAnyEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId,
-            entityRoleUpdateObject
-          },
-          options),
-        updatePatternAnyEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updatePatternAnyEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        entityRoleUpdateObject,
+        options
+      },
+      updatePatternAnyEntityRoleOperationSpec);
   }
 
   /**
@@ -4171,25 +3358,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deletePatternAnyEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        deletePatternAnyEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deletePatternAnyEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      deletePatternAnyEntityRoleOperationSpec);
   }
 
   /**
@@ -4215,25 +3394,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getHierarchicalEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId,
-            roleId
-          },
-          options),
-        getHierarchicalEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getHierarchicalEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        roleId,
+        options
+      },
+      getHierarchicalEntityRoleOperationSpec);
   }
 
   /**
@@ -4261,26 +3432,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateHierarchicalEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId,
-            roleId,
-            entityRoleUpdateObject
-          },
-          options),
-        updateHierarchicalEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateHierarchicalEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        roleId,
+        entityRoleUpdateObject,
+        options
+      },
+      updateHierarchicalEntityRoleOperationSpec);
   }
 
   /**
@@ -4306,25 +3469,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteHierarchicalEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            hEntityId,
-            roleId
-          },
-          options),
-        deleteHierarchicalEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteHierarchicalEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        hEntityId,
+        roleId,
+        options
+      },
+      deleteHierarchicalEntityRoleOperationSpec);
   }
 
   /**
@@ -4350,25 +3505,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getCustomEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        getCustomEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getCustomEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.EntityRole>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      getCustomEntityRoleOperationSpec);
   }
 
   /**
@@ -4396,26 +3543,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateCustomPrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId,
-            entityRoleUpdateObject
-          },
-          options),
-        updateCustomPrebuiltEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateCustomPrebuiltEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        entityRoleUpdateObject,
+        options
+      },
+      updateCustomPrebuiltEntityRoleOperationSpec);
   }
 
   /**
@@ -4441,25 +3580,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteCustomEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            roleId
-          },
-          options),
-        deleteCustomEntityRoleOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteCustomEntityRoleWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        roleId,
+        options
+      },
+      deleteCustomEntityRoleOperationSpec);
   }
 
   /**
@@ -4485,25 +3616,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async getExplicitListItemWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ExplicitListItem>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            itemId
-          },
-          options),
-        getExplicitListItemOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  getExplicitListItemWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ExplicitListItem>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        itemId,
+        options
+      },
+      getExplicitListItemOperationSpec);
   }
 
   /**
@@ -4531,26 +3654,18 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async updateExplicitListItemWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            itemId,
-            item
-          },
-          options),
-        updateExplicitListItemOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  updateExplicitListItemWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        itemId,
+        item,
+        options
+      },
+      updateExplicitListItemOperationSpec);
   }
 
   /**
@@ -4576,25 +3691,17 @@ export class Model {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  async deleteExplicitListItemWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
-
-    let operationRes: msRest.HttpOperationResponse;
-    try {
-      operationRes = await this.client.sendOperationRequest(
-        msRest.createOperationArguments(
-          {
-            azureRegion,
-            appId,
-            versionId,
-            entityId,
-            itemId
-          },
-          options),
-        deleteExplicitListItemOperationSpec);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(operationRes);
+  deleteExplicitListItemWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        appId,
+        versionId,
+        entityId,
+        itemId,
+        options
+      },
+      deleteExplicitListItemOperationSpec);
   }
 
   /**
@@ -4627,26 +3734,7 @@ export class Model {
   addIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   addIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   addIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.addIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addIntentWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentCreateObject, options, callback);
   }
 
   /**
@@ -4676,26 +3764,7 @@ export class Model {
   listIntents(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
   listIntents(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ModelListIntentsOptionalParams, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
   listIntents(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.IntentClassifier[]>;
-    if (!callback) {
-      return this.listIntentsWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.IntentClassifier[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listIntentsWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.IntentClassifier[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listIntentsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -4728,26 +3797,7 @@ export class Model {
   addEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   addEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   addEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.addEntityWithHttpOperationResponse(azureRegion, appId, versionId, modelCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addEntityWithHttpOperationResponse(azureRegion, appId, versionId, modelCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, modelCreateObject, options, callback);
   }
 
   /**
@@ -4777,26 +3827,7 @@ export class Model {
   listEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
   listEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ModelListEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
   listEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityExtractor[]>;
-    if (!callback) {
-      return this.listEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityExtractor[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityExtractor[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listEntitiesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -4829,26 +3860,7 @@ export class Model {
   addHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<string>): void;
   addHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   addHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.addHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hierarchicalModelCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hierarchicalModelCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addHierarchicalEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hierarchicalModelCreateObject, options, callback);
   }
 
   /**
@@ -4878,26 +3890,7 @@ export class Model {
   listHierarchicalEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): void;
   listHierarchicalEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ModelListHierarchicalEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): void;
   listHierarchicalEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>;
-    if (!callback) {
-      return this.listHierarchicalEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.HierarchicalEntityExtractor[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listHierarchicalEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.HierarchicalEntityExtractor[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listHierarchicalEntitiesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -4930,26 +3923,7 @@ export class Model {
   addCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<string>): void;
   addCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   addCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.addCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, compositeModelCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, compositeModelCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addCompositeEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, compositeModelCreateObject, options, callback);
   }
 
   /**
@@ -4979,26 +3953,7 @@ export class Model {
   listCompositeEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): void;
   listCompositeEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ModelListCompositeEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): void;
   listCompositeEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.CompositeEntityExtractor[]>;
-    if (!callback) {
-      return this.listCompositeEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.CompositeEntityExtractor[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listCompositeEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.CompositeEntityExtractor[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listCompositeEntitiesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -5028,26 +3983,7 @@ export class Model {
   listClosedLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): void;
   listClosedLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ModelListClosedListsOptionalParams, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): void;
   listClosedLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>;
-    if (!callback) {
-      return this.listClosedListsWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.ClosedListEntityExtractor[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listClosedListsWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.ClosedListEntityExtractor[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listClosedListsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -5080,26 +4016,7 @@ export class Model {
   addClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   addClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   addClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.addClosedListWithHttpOperationResponse(azureRegion, appId, versionId, closedListModelCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addClosedListWithHttpOperationResponse(azureRegion, appId, versionId, closedListModelCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addClosedListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, closedListModelCreateObject, options, callback);
   }
 
   /**
@@ -5131,26 +4048,7 @@ export class Model {
   addPrebuilt(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltExtractorNames: string[], callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
   addPrebuilt(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltExtractorNames: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
   addPrebuilt(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>;
-    if (!callback) {
-      return this.addPrebuiltWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltExtractorNames, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PrebuiltEntityExtractor[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addPrebuiltWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltExtractorNames, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PrebuiltEntityExtractor[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addPrebuiltWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltExtractorNames, options, callback);
   }
 
   /**
@@ -5180,26 +4078,7 @@ export class Model {
   listPrebuilts(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
   listPrebuilts(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ModelListPrebuiltsOptionalParams, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
   listPrebuilts(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>;
-    if (!callback) {
-      return this.listPrebuiltsWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PrebuiltEntityExtractor[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listPrebuiltsWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PrebuiltEntityExtractor[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listPrebuiltsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -5229,26 +4108,7 @@ export class Model {
   listPrebuiltEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): void;
   listPrebuiltEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): void;
   listPrebuiltEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>;
-    if (!callback) {
-      return this.listPrebuiltEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.AvailablePrebuiltEntityModel[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listPrebuiltEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.AvailablePrebuiltEntityModel[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listPrebuiltEntitiesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -5278,26 +4138,7 @@ export class Model {
   listModels(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ModelInfoResponse[]>): void;
   listModels(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ModelListModelsOptionalParams, callback: msRest.ServiceCallback<Models.ModelInfoResponse[]>): void;
   listModels(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams, callback?: msRest.ServiceCallback<Models.ModelInfoResponse[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.ModelInfoResponse[]>;
-    if (!callback) {
-      return this.listModelsWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.ModelInfoResponse[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listModelsWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.ModelInfoResponse[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listModelsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -5329,26 +4170,7 @@ export class Model {
   examplesMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, modelId: string, callback: msRest.ServiceCallback<Models.LabelTextObject[]>): void;
   examplesMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, modelId: string, options: Models.ModelExamplesMethodOptionalParams, callback: msRest.ServiceCallback<Models.LabelTextObject[]>): void;
   examplesMethod(azureRegion: Models.AzureRegions, appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams, callback?: msRest.ServiceCallback<Models.LabelTextObject[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.LabelTextObject[]>;
-    if (!callback) {
-      return this.examplesMethodWithHttpOperationResponse(azureRegion, appId, versionId, modelId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.LabelTextObject[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.examplesMethodWithHttpOperationResponse(azureRegion, appId, versionId, modelId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.LabelTextObject[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.examplesMethodWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, modelId, options, callback);
   }
 
   /**
@@ -5380,26 +4202,7 @@ export class Model {
   getIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.IntentClassifier>): void;
   getIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntentClassifier>): void;
   getIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntentClassifier>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.IntentClassifier>;
-    if (!callback) {
-      return this.getIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.IntentClassifier);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.IntentClassifier;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getIntentWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, options, callback);
   }
 
   /**
@@ -5434,26 +4237,7 @@ export class Model {
   updateIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentId, modelUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentId, modelUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateIntentWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, modelUpdateObject, options, callback);
   }
 
   /**
@@ -5485,26 +4269,7 @@ export class Model {
   deleteIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options: Models.ModelDeleteIntentOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteIntentWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, options, callback);
   }
 
   /**
@@ -5536,26 +4301,7 @@ export class Model {
   getEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
   getEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
   getEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityExtractor>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityExtractor>;
-    if (!callback) {
-      return this.getEntityWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityExtractor);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getEntityWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityExtractor;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -5590,26 +4336,7 @@ export class Model {
   updateEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateEntityWithHttpOperationResponse(azureRegion, appId, versionId, entityId, modelUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateEntityWithHttpOperationResponse(azureRegion, appId, versionId, entityId, modelUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, modelUpdateObject, options, callback);
   }
 
   /**
@@ -5641,26 +4368,7 @@ export class Model {
   deleteEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteEntityWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteEntityWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -5692,26 +4400,7 @@ export class Model {
   getHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): void;
   getHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): void;
   getHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.HierarchicalEntityExtractor>;
-    if (!callback) {
-      return this.getHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.HierarchicalEntityExtractor);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.HierarchicalEntityExtractor;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getHierarchicalEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, options, callback);
   }
 
   /**
@@ -5746,26 +4435,7 @@ export class Model {
   updateHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hierarchicalModelUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hierarchicalModelUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateHierarchicalEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, hierarchicalModelUpdateObject, options, callback);
   }
 
   /**
@@ -5797,26 +4467,7 @@ export class Model {
   deleteHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteHierarchicalEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteHierarchicalEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, options, callback);
   }
 
   /**
@@ -5848,26 +4499,7 @@ export class Model {
   getCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor>): void;
   getCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor>): void;
   getCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.CompositeEntityExtractor>;
-    if (!callback) {
-      return this.getCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.CompositeEntityExtractor);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.CompositeEntityExtractor;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getCompositeEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, options, callback);
   }
 
   /**
@@ -5902,26 +4534,7 @@ export class Model {
   updateCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, compositeModelUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, compositeModelUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateCompositeEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, compositeModelUpdateObject, options, callback);
   }
 
   /**
@@ -5953,26 +4566,7 @@ export class Model {
   deleteCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteCompositeEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteCompositeEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, options, callback);
   }
 
   /**
@@ -6004,26 +4598,7 @@ export class Model {
   getClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): void;
   getClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): void;
   getClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.ClosedListEntityExtractor>;
-    if (!callback) {
-      return this.getClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.ClosedListEntityExtractor);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.ClosedListEntityExtractor;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getClosedListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, options, callback);
   }
 
   /**
@@ -6058,26 +4633,7 @@ export class Model {
   updateClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, closedListModelUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, closedListModelUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateClosedListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, closedListModelUpdateObject, options, callback);
   }
 
   /**
@@ -6111,26 +4667,7 @@ export class Model {
   patchClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   patchClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   patchClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.patchClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, closedListModelPatchObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.patchClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, closedListModelPatchObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.patchClosedListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, closedListModelPatchObject, options, callback);
   }
 
   /**
@@ -6162,26 +4699,7 @@ export class Model {
   deleteClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteClosedList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteClosedListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, options, callback);
   }
 
   /**
@@ -6213,26 +4731,7 @@ export class Model {
   getPrebuilt(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltId: string, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): void;
   getPrebuilt(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): void;
   getPrebuilt(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PrebuiltEntityExtractor>;
-    if (!callback) {
-      return this.getPrebuiltWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PrebuiltEntityExtractor);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getPrebuiltWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PrebuiltEntityExtractor;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getPrebuiltWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltId, options, callback);
   }
 
   /**
@@ -6264,26 +4763,7 @@ export class Model {
   deletePrebuilt(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePrebuilt(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePrebuilt(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deletePrebuiltWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deletePrebuiltWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deletePrebuiltWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltId, options, callback);
   }
 
   /**
@@ -6317,26 +4797,7 @@ export class Model {
   deleteSubList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, subListId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteSubList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, subListId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteSubList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteSubListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, subListId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteSubListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, subListId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteSubListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, subListId, options, callback);
   }
 
   /**
@@ -6373,26 +4834,7 @@ export class Model {
   updateSubList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateSubList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateSubList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateSubListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, subListId, wordListBaseUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateSubListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, subListId, wordListBaseUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateSubListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, subListId, wordListBaseUpdateObject, options, callback);
   }
 
   /**
@@ -6424,26 +4866,7 @@ export class Model {
   getIntentSuggestions(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
   getIntentSuggestions(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options: Models.ModelGetIntentSuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
   getIntentSuggestions(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams, callback?: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.IntentsSuggestionExample[]>;
-    if (!callback) {
-      return this.getIntentSuggestionsWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.IntentsSuggestionExample[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getIntentSuggestionsWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.IntentsSuggestionExample[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getIntentSuggestionsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, options, callback);
   }
 
   /**
@@ -6475,26 +4898,7 @@ export class Model {
   getEntitySuggestions(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
   getEntitySuggestions(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: Models.ModelGetEntitySuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
   getEntitySuggestions(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams, callback?: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>;
-    if (!callback) {
-      return this.getEntitySuggestionsWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntitiesSuggestionExample[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getEntitySuggestionsWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntitiesSuggestionExample[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getEntitySuggestionsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -6528,26 +4932,7 @@ export class Model {
   addSubList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, callback: msRest.ServiceCallback<number>): void;
   addSubList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
   addSubList(azureRegion: Models.AzureRegions, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<number>;
-    if (!callback) {
-      return this.addSubListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, wordListCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as number);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addSubListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, wordListCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as number;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addSubListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, wordListCreateObject, options, callback);
   }
 
   /**
@@ -6580,26 +4965,7 @@ export class Model {
   addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, callback: msRest.ServiceCallback<string[]>): void;
   addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
   addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string[]>;
-    if (!callback) {
-      return this.addCustomPrebuiltDomainWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltDomainObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addCustomPrebuiltDomainWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltDomainObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addCustomPrebuiltDomainWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltDomainObject, options, callback);
   }
 
   /**
@@ -6633,26 +4999,7 @@ export class Model {
   addCustomPrebuiltIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   addCustomPrebuiltIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   addCustomPrebuiltIntent(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.addCustomPrebuiltIntentWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addCustomPrebuiltIntentWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addCustomPrebuiltIntentWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options, callback);
   }
 
   /**
@@ -6682,26 +5029,7 @@ export class Model {
   listCustomPrebuiltIntents(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
   listCustomPrebuiltIntents(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
   listCustomPrebuiltIntents(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.IntentClassifier[]>;
-    if (!callback) {
-      return this.listCustomPrebuiltIntentsWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.IntentClassifier[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listCustomPrebuiltIntentsWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.IntentClassifier[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listCustomPrebuiltIntentsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -6735,26 +5063,7 @@ export class Model {
   addCustomPrebuiltEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   addCustomPrebuiltEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   addCustomPrebuiltEntity(azureRegion: Models.AzureRegions, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.addCustomPrebuiltEntityWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addCustomPrebuiltEntityWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addCustomPrebuiltEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options, callback);
   }
 
   /**
@@ -6784,26 +5093,7 @@ export class Model {
   listCustomPrebuiltEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
   listCustomPrebuiltEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
   listCustomPrebuiltEntities(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityExtractor[]>;
-    if (!callback) {
-      return this.listCustomPrebuiltEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityExtractor[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listCustomPrebuiltEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityExtractor[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listCustomPrebuiltEntitiesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -6833,26 +5123,7 @@ export class Model {
   listCustomPrebuiltModels(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): void;
   listCustomPrebuiltModels(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): void;
   listCustomPrebuiltModels(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.CustomPrebuiltModel[]>;
-    if (!callback) {
-      return this.listCustomPrebuiltModelsWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.CustomPrebuiltModel[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.listCustomPrebuiltModelsWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.CustomPrebuiltModel[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.listCustomPrebuiltModelsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -6884,26 +5155,7 @@ export class Model {
   deleteCustomPrebuiltDomain(azureRegion: Models.AzureRegions, appId: string, versionId: string, domainName: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteCustomPrebuiltDomain(azureRegion: Models.AzureRegions, appId: string, versionId: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteCustomPrebuiltDomain(azureRegion: Models.AzureRegions, appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteCustomPrebuiltDomainWithHttpOperationResponse(azureRegion, appId, versionId, domainName, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteCustomPrebuiltDomainWithHttpOperationResponse(azureRegion, appId, versionId, domainName, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteCustomPrebuiltDomainWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, domainName, options, callback);
   }
 
   /**
@@ -6937,26 +5189,7 @@ export class Model {
   getHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, callback: msRest.ServiceCallback<Models.HierarchicalChildEntity>): void;
   getHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HierarchicalChildEntity>): void;
   getHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HierarchicalChildEntity>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.HierarchicalChildEntity>;
-    if (!callback) {
-      return this.getHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hChildId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.HierarchicalChildEntity);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hChildId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.HierarchicalChildEntity;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getHierarchicalEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, hChildId, options, callback);
   }
 
   /**
@@ -6993,26 +5226,7 @@ export class Model {
   updateHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hChildId, hierarchicalChildModelUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hChildId, hierarchicalChildModelUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateHierarchicalEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, hChildId, hierarchicalChildModelUpdateObject, options, callback);
   }
 
   /**
@@ -7046,26 +5260,7 @@ export class Model {
   deleteHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hChildId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hChildId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteHierarchicalEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, hChildId, options, callback);
   }
 
   /**
@@ -7100,26 +5295,7 @@ export class Model {
   addHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   addHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   addHierarchicalEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.addHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hierarchicalChildModelCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hierarchicalChildModelCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addHierarchicalEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, hierarchicalChildModelCreateObject, options, callback);
   }
 
   /**
@@ -7154,26 +5330,7 @@ export class Model {
   addCompositeEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   addCompositeEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   addCompositeEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.addCompositeEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, compositeChildModelCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addCompositeEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, compositeChildModelCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addCompositeEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, compositeChildModelCreateObject, options, callback);
   }
 
   /**
@@ -7207,26 +5364,7 @@ export class Model {
   deleteCompositeEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, cChildId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteCompositeEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, cChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteCompositeEntityChild(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteCompositeEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, cChildId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteCompositeEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, cChildId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteCompositeEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, cChildId, options, callback);
   }
 
   /**
@@ -7256,26 +5394,7 @@ export class Model {
   getRegexEntityInfos(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
   getRegexEntityInfos(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ModelGetRegexEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
   getRegexEntityInfos(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.RegexEntityExtractor[]>;
-    if (!callback) {
-      return this.getRegexEntityInfosWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.RegexEntityExtractor[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getRegexEntityInfosWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.RegexEntityExtractor[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getRegexEntityInfosWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -7308,26 +5427,7 @@ export class Model {
   createRegexEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   createRegexEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   createRegexEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.createRegexEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityExtractorCreateObj, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createRegexEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityExtractorCreateObj, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createRegexEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, regexEntityExtractorCreateObj, options, callback);
   }
 
   /**
@@ -7357,26 +5457,7 @@ export class Model {
   getPatternAnyEntityInfos(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
   getPatternAnyEntityInfos(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.ModelGetPatternAnyEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
   getPatternAnyEntityInfos(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>;
-    if (!callback) {
-      return this.getPatternAnyEntityInfosWithHttpOperationResponse(azureRegion, appId, versionId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PatternAnyEntityExtractor[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getPatternAnyEntityInfosWithHttpOperationResponse(azureRegion, appId, versionId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PatternAnyEntityExtractor[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getPatternAnyEntityInfosWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
   }
 
   /**
@@ -7409,26 +5490,7 @@ export class Model {
   createPatternAnyEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   createPatternAnyEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   createPatternAnyEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.createPatternAnyEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, extractorCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createPatternAnyEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, extractorCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createPatternAnyEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, extractorCreateObject, options, callback);
   }
 
   /**
@@ -7460,26 +5522,7 @@ export class Model {
   getEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole[]>;
-    if (!callback) {
-      return this.getEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -7514,26 +5557,7 @@ export class Model {
   createEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   createEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   createEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.createEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
   }
 
   /**
@@ -7565,26 +5589,7 @@ export class Model {
   getPrebuiltEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getPrebuiltEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getPrebuiltEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole[]>;
-    if (!callback) {
-      return this.getPrebuiltEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getPrebuiltEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getPrebuiltEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -7619,26 +5624,7 @@ export class Model {
   createPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   createPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   createPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.createPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createPrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
   }
 
   /**
@@ -7670,26 +5656,7 @@ export class Model {
   getClosedListEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getClosedListEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getClosedListEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole[]>;
-    if (!callback) {
-      return this.getClosedListEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getClosedListEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getClosedListEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -7724,26 +5691,7 @@ export class Model {
   createClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   createClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   createClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.createClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createClosedListEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
   }
 
   /**
@@ -7775,26 +5723,7 @@ export class Model {
   getRegexEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getRegexEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getRegexEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole[]>;
-    if (!callback) {
-      return this.getRegexEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getRegexEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getRegexEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -7829,26 +5758,7 @@ export class Model {
   createRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   createRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   createRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.createRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createRegexEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
   }
 
   /**
@@ -7880,26 +5790,7 @@ export class Model {
   getCompositeEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getCompositeEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getCompositeEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole[]>;
-    if (!callback) {
-      return this.getCompositeEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getCompositeEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getCompositeEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, options, callback);
   }
 
   /**
@@ -7934,26 +5825,7 @@ export class Model {
   createCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   createCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   createCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.createCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, entityRoleCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, entityRoleCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createCompositeEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, entityRoleCreateObject, options, callback);
   }
 
   /**
@@ -7985,26 +5857,7 @@ export class Model {
   getPatternAnyEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getPatternAnyEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getPatternAnyEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole[]>;
-    if (!callback) {
-      return this.getPatternAnyEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getPatternAnyEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getPatternAnyEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -8039,26 +5892,7 @@ export class Model {
   createPatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   createPatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   createPatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.createPatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createPatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createPatternAnyEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
   }
 
   /**
@@ -8090,26 +5924,7 @@ export class Model {
   getHierarchicalEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getHierarchicalEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getHierarchicalEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole[]>;
-    if (!callback) {
-      return this.getHierarchicalEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getHierarchicalEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getHierarchicalEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, options, callback);
   }
 
   /**
@@ -8144,26 +5959,7 @@ export class Model {
   createHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   createHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   createHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.createHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, entityRoleCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, entityRoleCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createHierarchicalEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, entityRoleCreateObject, options, callback);
   }
 
   /**
@@ -8195,26 +5991,7 @@ export class Model {
   getCustomPrebuiltEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getCustomPrebuiltEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   getCustomPrebuiltEntityRoles(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole[]>;
-    if (!callback) {
-      return this.getCustomPrebuiltEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getCustomPrebuiltEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getCustomPrebuiltEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -8249,26 +6026,7 @@ export class Model {
   createCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   createCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
   createCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<string>;
-    if (!callback) {
-      return this.createCustomPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as string);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.createCustomPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as string;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.createCustomPrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
   }
 
   /**
@@ -8300,26 +6058,7 @@ export class Model {
   getExplicitList(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.ExplicitListItem[]>): void;
   getExplicitList(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExplicitListItem[]>): void;
   getExplicitList(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExplicitListItem[]>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.ExplicitListItem[]>;
-    if (!callback) {
-      return this.getExplicitListWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.ExplicitListItem[]);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getExplicitListWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.ExplicitListItem[];
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getExplicitListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -8353,26 +6092,7 @@ export class Model {
   addExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, callback: msRest.ServiceCallback<number>): void;
   addExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
   addExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<number>;
-    if (!callback) {
-      return this.addExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, item, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as number);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.addExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, item, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as number;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.addExplicitListItemWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, item, options, callback);
   }
 
   /**
@@ -8404,26 +6124,7 @@ export class Model {
   getRegexEntityEntityInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor>): void;
   getRegexEntityEntityInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegexEntityExtractor>): void;
   getRegexEntityEntityInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.RegexEntityExtractor>;
-    if (!callback) {
-      return this.getRegexEntityEntityInfoWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.RegexEntityExtractor);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getRegexEntityEntityInfoWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.RegexEntityExtractor;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getRegexEntityEntityInfoWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, regexEntityId, options, callback);
   }
 
   /**
@@ -8458,26 +6159,7 @@ export class Model {
   updateRegexEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateRegexEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateRegexEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateRegexEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityId, regexEntityUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateRegexEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityId, regexEntityUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateRegexEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, regexEntityId, regexEntityUpdateObject, options, callback);
   }
 
   /**
@@ -8509,26 +6191,7 @@ export class Model {
   deleteRegexEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteRegexEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteRegexEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteRegexEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteRegexEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteRegexEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, regexEntityId, options, callback);
   }
 
   /**
@@ -8560,26 +6223,7 @@ export class Model {
   getPatternAnyEntityInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): void;
   getPatternAnyEntityInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): void;
   getPatternAnyEntityInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.PatternAnyEntityExtractor>;
-    if (!callback) {
-      return this.getPatternAnyEntityInfoWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.PatternAnyEntityExtractor);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getPatternAnyEntityInfoWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.PatternAnyEntityExtractor;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getPatternAnyEntityInfoWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -8614,26 +6258,7 @@ export class Model {
   updatePatternAnyEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updatePatternAnyEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updatePatternAnyEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updatePatternAnyEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, entityId, patternAnyUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updatePatternAnyEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, entityId, patternAnyUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updatePatternAnyEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, patternAnyUpdateObject, options, callback);
   }
 
   /**
@@ -8665,26 +6290,7 @@ export class Model {
   deletePatternAnyEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePatternAnyEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePatternAnyEntityModel(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deletePatternAnyEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deletePatternAnyEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deletePatternAnyEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
   }
 
   /**
@@ -8718,26 +6324,7 @@ export class Model {
   getEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole>;
-    if (!callback) {
-      return this.getEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -8773,26 +6360,7 @@ export class Model {
   updateEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
   }
 
   /**
@@ -8826,26 +6394,7 @@ export class Model {
   deleteEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -8879,26 +6428,7 @@ export class Model {
   getPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole>;
-    if (!callback) {
-      return this.getPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getPrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -8934,26 +6464,7 @@ export class Model {
   updatePrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updatePrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updatePrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updatePrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updatePrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updatePrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
   }
 
   /**
@@ -8987,26 +6498,7 @@ export class Model {
   deletePrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deletePrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deletePrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deletePrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -9040,26 +6532,7 @@ export class Model {
   getClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole>;
-    if (!callback) {
-      return this.getClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getClosedListEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -9095,26 +6568,7 @@ export class Model {
   updateClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateClosedListEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
   }
 
   /**
@@ -9148,26 +6602,7 @@ export class Model {
   deleteClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteClosedListEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteClosedListEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -9201,26 +6636,7 @@ export class Model {
   getRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole>;
-    if (!callback) {
-      return this.getRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getRegexEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -9256,26 +6672,7 @@ export class Model {
   updateRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateRegexEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
   }
 
   /**
@@ -9309,26 +6706,7 @@ export class Model {
   deleteRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteRegexEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteRegexEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -9362,26 +6740,7 @@ export class Model {
   getCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole>;
-    if (!callback) {
-      return this.getCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getCompositeEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, roleId, options, callback);
   }
 
   /**
@@ -9417,26 +6776,7 @@ export class Model {
   updateCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, roleId, entityRoleUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, roleId, entityRoleUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateCompositeEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, roleId, entityRoleUpdateObject, options, callback);
   }
 
   /**
@@ -9470,26 +6810,7 @@ export class Model {
   deleteCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteCompositeEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteCompositeEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, roleId, options, callback);
   }
 
   /**
@@ -9523,26 +6844,7 @@ export class Model {
   getPatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getPatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getPatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole>;
-    if (!callback) {
-      return this.getPatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getPatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getPatternAnyEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -9578,26 +6880,7 @@ export class Model {
   updatePatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updatePatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updatePatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updatePatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updatePatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updatePatternAnyEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
   }
 
   /**
@@ -9631,26 +6914,7 @@ export class Model {
   deletePatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deletePatternAnyEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deletePatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deletePatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deletePatternAnyEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -9684,26 +6948,7 @@ export class Model {
   getHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole>;
-    if (!callback) {
-      return this.getHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getHierarchicalEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, roleId, options, callback);
   }
 
   /**
@@ -9739,26 +6984,7 @@ export class Model {
   updateHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, roleId, entityRoleUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, roleId, entityRoleUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateHierarchicalEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, roleId, entityRoleUpdateObject, options, callback);
   }
 
   /**
@@ -9792,26 +7018,7 @@ export class Model {
   deleteHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteHierarchicalEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteHierarchicalEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, roleId, options, callback);
   }
 
   /**
@@ -9845,26 +7052,7 @@ export class Model {
   getCustomEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getCustomEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   getCustomEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.EntityRole>;
-    if (!callback) {
-      return this.getCustomEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.EntityRole);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getCustomEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.EntityRole;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getCustomEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -9900,26 +7088,7 @@ export class Model {
   updateCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateCustomPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateCustomPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateCustomPrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
   }
 
   /**
@@ -9953,26 +7122,7 @@ export class Model {
   deleteCustomEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteCustomEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteCustomEntityRole(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteCustomEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteCustomEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteCustomEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
   }
 
   /**
@@ -10006,26 +7156,7 @@ export class Model {
   getExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, callback: msRest.ServiceCallback<Models.ExplicitListItem>): void;
   getExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExplicitListItem>): void;
   getExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExplicitListItem>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.ExplicitListItem>;
-    if (!callback) {
-      return this.getExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, itemId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.ExplicitListItem);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.getExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, itemId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.ExplicitListItem;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.getExplicitListItemWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, itemId, options, callback);
   }
 
   /**
@@ -10061,26 +7192,7 @@ export class Model {
   updateExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   updateExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.updateExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, itemId, item, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.updateExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, itemId, item, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.updateExplicitListItemWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, itemId, item, options, callback);
   }
 
   /**
@@ -10114,80 +7226,20 @@ export class Model {
   deleteExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   deleteExplicitListItem(azureRegion: Models.AzureRegions, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    if (!callback && typeof options === 'function') {
-      callback = options;
-      options = undefined;
-    }
-    let cb = callback as msRest.ServiceCallback<Models.OperationStatus>;
-    if (!callback) {
-      return this.deleteExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, itemId, options).then((operationRes: msRest.HttpOperationResponse) => {
-        return Promise.resolve(operationRes.parsedBody as Models.OperationStatus);
-      }).catch((err: Error) => {
-        return Promise.reject(err);
-      });
-    } else {
-      msRest.promiseToCallback(this.deleteExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, itemId, options))((err: Error, data: msRest.HttpOperationResponse) => {
-        if (err) {
-          return cb(err);
-        }
-        let result = data.parsedBody as Models.OperationStatus;
-        return cb(err, result, data.request, data);
-      });
-    }
+    return msRest.responseToBody(this.deleteExplicitListItemWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, itemId, options, callback);
   }
 
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
 const addIntentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "intentCreateObject",
@@ -10196,7 +7248,6 @@ const addIntentOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -10208,87 +7259,20 @@ const addIntentOperationSpec: msRest.OperationSpec = {
     },
     default: {}
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listIntentsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -10297,7 +7281,6 @@ const listIntentsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "IntentClassifierElementType",
             type: {
               name: "Composite",
               className: "IntentClassifier"
@@ -10310,58 +7293,16 @@ const listIntentsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "modelCreateObject",
@@ -10370,7 +7311,6 @@ const addEntityOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -10384,87 +7324,20 @@ const addEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listEntitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -10473,7 +7346,6 @@ const listEntitiesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityExtractorElementType",
             type: {
               name: "Composite",
               className: "EntityExtractor"
@@ -10486,58 +7358,16 @@ const listEntitiesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addHierarchicalEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "hierarchicalModelCreateObject",
@@ -10546,7 +7376,6 @@ const addHierarchicalEntityOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -10560,87 +7389,20 @@ const addHierarchicalEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listHierarchicalEntitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -10649,7 +7411,6 @@ const listHierarchicalEntitiesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "HierarchicalEntityExtractorElementType",
             type: {
               name: "Composite",
               className: "HierarchicalEntityExtractor"
@@ -10662,58 +7423,16 @@ const listHierarchicalEntitiesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addCompositeEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "compositeModelCreateObject",
@@ -10722,7 +7441,6 @@ const addCompositeEntityOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -10736,87 +7454,20 @@ const addCompositeEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listCompositeEntitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -10825,7 +7476,6 @@ const listCompositeEntitiesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "CompositeEntityExtractorElementType",
             type: {
               name: "Composite",
               className: "CompositeEntityExtractor"
@@ -10838,87 +7488,20 @@ const listCompositeEntitiesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listClosedListsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -10927,7 +7510,6 @@ const listClosedListsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "ClosedListEntityExtractorElementType",
             type: {
               name: "Composite",
               className: "ClosedListEntityExtractor"
@@ -10940,58 +7522,16 @@ const listClosedListsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addClosedListOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "closedListModelCreateObject",
@@ -11000,7 +7540,6 @@ const addClosedListOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -11014,58 +7553,16 @@ const addClosedListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addPrebuiltOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "prebuiltExtractorNames",
@@ -11075,7 +7572,6 @@ const addPrebuiltOperationSpec: msRest.OperationSpec = {
       type: {
         name: "Sequence",
         element: {
-          serializedName: "stringElementType",
           type: {
             name: "String"
           }
@@ -11083,7 +7579,6 @@ const addPrebuiltOperationSpec: msRest.OperationSpec = {
       }
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -11091,7 +7586,6 @@ const addPrebuiltOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PrebuiltEntityExtractorElementType",
             type: {
               name: "Composite",
               className: "PrebuiltEntityExtractor"
@@ -11104,87 +7598,20 @@ const addPrebuiltOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listPrebuiltsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -11193,7 +7620,6 @@ const listPrebuiltsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PrebuiltEntityExtractorElementType",
             type: {
               name: "Composite",
               className: "PrebuiltEntityExtractor"
@@ -11206,58 +7632,16 @@ const listPrebuiltsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/listprebuilts",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   responses: {
     200: {
@@ -11266,7 +7650,6 @@ const listPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "AvailablePrebuiltEntityModelElementType",
             type: {
               name: "Composite",
               className: "AvailablePrebuiltEntityModel"
@@ -11279,87 +7662,20 @@ const listPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listModelsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/models",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -11368,7 +7684,6 @@ const listModelsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "ModelInfoResponseElementType",
             type: {
               name: "Composite",
               className: "ModelInfoResponse"
@@ -11381,97 +7696,21 @@ const listModelsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const examplesMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/models/{modelId}/examples",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "modelId",
-      mapper: {
-        required: true,
-        serializedName: "modelId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.modelId
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -11480,7 +7719,6 @@ const examplesMethodOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "LabelTextObjectElementType",
             type: {
               name: "Composite",
               className: "LabelTextObject"
@@ -11493,68 +7731,17 @@ const examplesMethodOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getIntentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "intentId",
-      mapper: {
-        required: true,
-        serializedName: "intentId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.intentId
   ],
   responses: {
     200: {
@@ -11564,68 +7751,17 @@ const getIntentOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateIntentOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "intentId",
-      mapper: {
-        required: true,
-        serializedName: "intentId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.intentId
   ],
   requestBody: {
     parameterPath: "modelUpdateObject",
@@ -11634,7 +7770,6 @@ const updateIntentOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -11643,80 +7778,20 @@ const updateIntentOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteIntentOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "intentId",
-      mapper: {
-        required: true,
-        serializedName: "intentId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.intentId
   ],
   queryParameters: [
-    {
-      parameterPath: "deleteUtterances",
-      mapper: {
-        serializedName: "deleteUtterances",
-        defaultValue: false,
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
+    Parameters.deleteUtterances
   ],
   responses: {
     200: {
@@ -11726,68 +7801,17 @@ const deleteIntentOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -11797,68 +7821,17 @@ const getEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   requestBody: {
     parameterPath: "modelUpdateObject",
@@ -11867,7 +7840,6 @@ const updateEntityOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -11876,68 +7848,17 @@ const updateEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -11947,68 +7868,17 @@ const deleteEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getHierarchicalEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId
   ],
   responses: {
     200: {
@@ -12018,68 +7888,17 @@ const getHierarchicalEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateHierarchicalEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId
   ],
   requestBody: {
     parameterPath: "hierarchicalModelUpdateObject",
@@ -12088,7 +7907,6 @@ const updateHierarchicalEntityOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -12097,68 +7915,17 @@ const updateHierarchicalEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteHierarchicalEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId
   ],
   responses: {
     200: {
@@ -12168,68 +7935,17 @@ const deleteHierarchicalEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getCompositeEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "cEntityId",
-      mapper: {
-        required: true,
-        serializedName: "cEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.cEntityId
   ],
   responses: {
     200: {
@@ -12239,68 +7955,17 @@ const getCompositeEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateCompositeEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "cEntityId",
-      mapper: {
-        required: true,
-        serializedName: "cEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.cEntityId
   ],
   requestBody: {
     parameterPath: "compositeModelUpdateObject",
@@ -12309,7 +7974,6 @@ const updateCompositeEntityOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -12318,68 +7982,17 @@ const updateCompositeEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteCompositeEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "cEntityId",
-      mapper: {
-        required: true,
-        serializedName: "cEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.cEntityId
   ],
   responses: {
     200: {
@@ -12389,68 +8002,17 @@ const deleteCompositeEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getClosedListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "clEntityId",
-      mapper: {
-        required: true,
-        serializedName: "clEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.clEntityId
   ],
   responses: {
     200: {
@@ -12460,68 +8022,17 @@ const getClosedListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateClosedListOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "clEntityId",
-      mapper: {
-        required: true,
-        serializedName: "clEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.clEntityId
   ],
   requestBody: {
     parameterPath: "closedListModelUpdateObject",
@@ -12530,7 +8041,6 @@ const updateClosedListOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -12539,68 +8049,17 @@ const updateClosedListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const patchClosedListOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "clEntityId",
-      mapper: {
-        required: true,
-        serializedName: "clEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.clEntityId
   ],
   requestBody: {
     parameterPath: "closedListModelPatchObject",
@@ -12609,7 +8068,6 @@ const patchClosedListOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -12618,68 +8076,17 @@ const patchClosedListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteClosedListOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "clEntityId",
-      mapper: {
-        required: true,
-        serializedName: "clEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.clEntityId
   ],
   responses: {
     200: {
@@ -12689,68 +8096,17 @@ const deleteClosedListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getPrebuiltOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{prebuiltId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "prebuiltId",
-      mapper: {
-        required: true,
-        serializedName: "prebuiltId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.prebuiltId
   ],
   responses: {
     200: {
@@ -12760,68 +8116,17 @@ const getPrebuiltOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deletePrebuiltOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{prebuiltId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "prebuiltId",
-      mapper: {
-        required: true,
-        serializedName: "prebuiltId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.prebuiltId
   ],
   responses: {
     200: {
@@ -12831,78 +8136,18 @@ const deletePrebuiltOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteSubListOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists/{subListId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "clEntityId",
-      mapper: {
-        required: true,
-        serializedName: "clEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "subListId",
-      mapper: {
-        required: true,
-        serializedName: "subListId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.clEntityId,
+    Parameters.subListId
   ],
   responses: {
     200: {
@@ -12912,78 +8157,18 @@ const deleteSubListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateSubListOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists/{subListId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "clEntityId",
-      mapper: {
-        required: true,
-        serializedName: "clEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "subListId",
-      mapper: {
-        required: true,
-        serializedName: "subListId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.clEntityId,
+    Parameters.subListId
   ],
   requestBody: {
     parameterPath: "wordListBaseUpdateObject",
@@ -12992,7 +8177,6 @@ const updateSubListOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -13001,84 +8185,20 @@ const updateSubListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getIntentSuggestionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/suggest",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "intentId",
-      mapper: {
-        required: true,
-        serializedName: "intentId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.intentId
   ],
   queryParameters: [
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.take
   ],
   responses: {
     200: {
@@ -13087,7 +8207,6 @@ const getIntentSuggestionsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "IntentsSuggestionExampleElementType",
             type: {
               name: "Composite",
               className: "IntentsSuggestionExample"
@@ -13100,84 +8219,20 @@ const getIntentSuggestionsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getEntitySuggestionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/suggest",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   queryParameters: [
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.take
   ],
   responses: {
     200: {
@@ -13186,7 +8241,6 @@ const getEntitySuggestionsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntitiesSuggestionExampleElementType",
             type: {
               name: "Composite",
               className: "EntitiesSuggestionExample"
@@ -13199,68 +8253,17 @@ const getEntitySuggestionsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addSubListOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "clEntityId",
-      mapper: {
-        required: true,
-        serializedName: "clEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.clEntityId
   ],
   requestBody: {
     parameterPath: "wordListCreateObject",
@@ -13269,7 +8272,6 @@ const addSubListOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -13283,58 +8285,16 @@ const addSubListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltdomains",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "prebuiltDomainObject",
@@ -13343,7 +8303,6 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -13351,7 +8310,6 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "stringElementType",
             type: {
               name: "Uuid"
             }
@@ -13363,58 +8321,16 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addCustomPrebuiltIntentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltintents",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "prebuiltDomainModelCreateObject",
@@ -13423,7 +8339,6 @@ const addCustomPrebuiltIntentOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -13437,58 +8352,16 @@ const addCustomPrebuiltIntentOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listCustomPrebuiltIntentsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltintents",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   responses: {
     200: {
@@ -13497,7 +8370,6 @@ const listCustomPrebuiltIntentsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "IntentClassifierElementType",
             type: {
               name: "Composite",
               className: "IntentClassifier"
@@ -13510,58 +8382,16 @@ const listCustomPrebuiltIntentsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addCustomPrebuiltEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "prebuiltDomainModelCreateObject",
@@ -13570,7 +8400,6 @@ const addCustomPrebuiltEntityOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -13584,58 +8413,16 @@ const addCustomPrebuiltEntityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listCustomPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   responses: {
     200: {
@@ -13644,7 +8431,6 @@ const listCustomPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityExtractorElementType",
             type: {
               name: "Composite",
               className: "EntityExtractor"
@@ -13657,58 +8443,16 @@ const listCustomPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const listCustomPrebuiltModelsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltmodels",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   responses: {
     200: {
@@ -13717,7 +8461,6 @@ const listCustomPrebuiltModelsOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "CustomPrebuiltModelElementType",
             type: {
               name: "Composite",
               className: "CustomPrebuiltModel"
@@ -13730,68 +8473,17 @@ const listCustomPrebuiltModelsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltdomains/{domainName}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "domainName",
-      mapper: {
-        required: true,
-        serializedName: "domainName",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.domainName
   ],
   responses: {
     200: {
@@ -13801,78 +8493,18 @@ const deleteCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "hChildId",
-      mapper: {
-        required: true,
-        serializedName: "hChildId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId,
+    Parameters.hChildId
   ],
   responses: {
     200: {
@@ -13882,78 +8514,18 @@ const getHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "hChildId",
-      mapper: {
-        required: true,
-        serializedName: "hChildId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId,
+    Parameters.hChildId
   ],
   requestBody: {
     parameterPath: "hierarchicalChildModelUpdateObject",
@@ -13962,7 +8534,6 @@ const updateHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -13971,78 +8542,18 @@ const updateHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "hChildId",
-      mapper: {
-        required: true,
-        serializedName: "hChildId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId,
+    Parameters.hChildId
   ],
   responses: {
     200: {
@@ -14052,68 +8563,17 @@ const deleteHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId
   ],
   requestBody: {
     parameterPath: "hierarchicalChildModelCreateObject",
@@ -14122,7 +8582,6 @@ const addHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -14136,68 +8595,17 @@ const addHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addCompositeEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/children",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "cEntityId",
-      mapper: {
-        required: true,
-        serializedName: "cEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.cEntityId
   ],
   requestBody: {
     parameterPath: "compositeChildModelCreateObject",
@@ -14206,7 +8614,6 @@ const addCompositeEntityChildOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -14220,78 +8627,18 @@ const addCompositeEntityChildOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteCompositeEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/children/{cChildId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "cEntityId",
-      mapper: {
-        required: true,
-        serializedName: "cEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "cChildId",
-      mapper: {
-        required: true,
-        serializedName: "cChildId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.cEntityId,
+    Parameters.cChildId
   ],
   responses: {
     200: {
@@ -14301,87 +8648,20 @@ const deleteCompositeEntityChildOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getRegexEntityInfosOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -14390,7 +8670,6 @@ const getRegexEntityInfosOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "RegexEntityExtractorElementType",
             type: {
               name: "Composite",
               className: "RegexEntityExtractor"
@@ -14403,58 +8682,16 @@ const getRegexEntityInfosOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const createRegexEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "regexEntityExtractorCreateObj",
@@ -14463,7 +8700,6 @@ const createRegexEntityModelOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -14477,87 +8713,20 @@ const createRegexEntityModelOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getPatternAnyEntityInfosOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   queryParameters: [
-    {
-      parameterPath: "skip",
-      mapper: {
-        serializedName: "skip",
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    {
-      parameterPath: "take",
-      mapper: {
-        serializedName: "take",
-        defaultValue: 100,
-        constraints: {
-          InclusiveMaximum: 500,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.skip,
+    Parameters.take
   ],
   responses: {
     200: {
@@ -14566,7 +8735,6 @@ const getPatternAnyEntityInfosOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "PatternAnyEntityExtractorElementType",
             type: {
               name: "Composite",
               className: "PatternAnyEntityExtractor"
@@ -14579,58 +8747,16 @@ const getPatternAnyEntityInfosOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const createPatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0
   ],
   requestBody: {
     parameterPath: "extractorCreateObject",
@@ -14639,7 +8765,6 @@ const createPatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -14653,68 +8778,17 @@ const createPatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -14723,7 +8797,6 @@ const getEntityRolesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -14736,68 +8809,17 @@ const getEntityRolesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const createEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -14806,7 +8828,6 @@ const createEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -14820,68 +8841,17 @@ const createEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -14890,7 +8860,6 @@ const getPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -14903,68 +8872,17 @@ const getPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const createPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -14973,7 +8891,6 @@ const createPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -14987,68 +8904,17 @@ const createPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getClosedListEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -15057,7 +8923,6 @@ const getClosedListEntityRolesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -15070,68 +8935,17 @@ const getClosedListEntityRolesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const createClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -15140,7 +8954,6 @@ const createClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -15154,68 +8967,17 @@ const createClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getRegexEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -15224,7 +8986,6 @@ const getRegexEntityRolesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -15237,68 +8998,17 @@ const getRegexEntityRolesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const createRegexEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -15307,7 +9017,6 @@ const createRegexEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -15321,68 +9030,17 @@ const createRegexEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getCompositeEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "cEntityId",
-      mapper: {
-        required: true,
-        serializedName: "cEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.cEntityId
   ],
   responses: {
     200: {
@@ -15391,7 +9049,6 @@ const getCompositeEntityRolesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -15404,68 +9061,17 @@ const getCompositeEntityRolesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const createCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "cEntityId",
-      mapper: {
-        required: true,
-        serializedName: "cEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.cEntityId
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -15474,7 +9080,6 @@ const createCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -15488,68 +9093,17 @@ const createCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getPatternAnyEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -15558,7 +9112,6 @@ const getPatternAnyEntityRolesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -15571,68 +9124,17 @@ const getPatternAnyEntityRolesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const createPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -15641,7 +9143,6 @@ const createPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -15655,68 +9156,17 @@ const createPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getHierarchicalEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId
   ],
   responses: {
     200: {
@@ -15725,7 +9175,6 @@ const getHierarchicalEntityRolesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -15738,68 +9187,17 @@ const getHierarchicalEntityRolesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const createHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -15808,7 +9206,6 @@ const createHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -15822,68 +9219,17 @@ const createHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getCustomPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -15892,7 +9238,6 @@ const getCustomPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "EntityRoleElementType",
             type: {
               name: "Composite",
               className: "EntityRole"
@@ -15905,68 +9250,17 @@ const getCustomPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const createCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   requestBody: {
     parameterPath: "entityRoleCreateObject",
@@ -15975,7 +9269,6 @@ const createCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -15989,68 +9282,17 @@ const createCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getExplicitListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -16059,7 +9301,6 @@ const getExplicitListOperationSpec: msRest.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            serializedName: "ExplicitListItemElementType",
             type: {
               name: "Composite",
               className: "ExplicitListItem"
@@ -16072,68 +9313,17 @@ const getExplicitListOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const addExplicitListItemOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   requestBody: {
     parameterPath: "item",
@@ -16142,7 +9332,6 @@ const addExplicitListItemOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     201: {
       bodyMapper: {
@@ -16156,68 +9345,17 @@ const addExplicitListItemOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getRegexEntityEntityInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "regexEntityId",
-      mapper: {
-        required: true,
-        serializedName: "regexEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.regexEntityId
   ],
   responses: {
     200: {
@@ -16227,68 +9365,17 @@ const getRegexEntityEntityInfoOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateRegexEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "regexEntityId",
-      mapper: {
-        required: true,
-        serializedName: "regexEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.regexEntityId
   ],
   requestBody: {
     parameterPath: "regexEntityUpdateObject",
@@ -16297,7 +9384,6 @@ const updateRegexEntityModelOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -16306,68 +9392,17 @@ const updateRegexEntityModelOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteRegexEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "regexEntityId",
-      mapper: {
-        required: true,
-        serializedName: "regexEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.regexEntityId
   ],
   responses: {
     200: {
@@ -16377,68 +9412,17 @@ const deleteRegexEntityModelOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getPatternAnyEntityInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -16448,68 +9432,17 @@ const getPatternAnyEntityInfoOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updatePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   requestBody: {
     parameterPath: "patternAnyUpdateObject",
@@ -16518,7 +9451,6 @@ const updatePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -16527,68 +9459,17 @@ const updatePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deletePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
   ],
   responses: {
     200: {
@@ -16598,78 +9479,18 @@ const deletePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -16679,78 +9500,18 @@ const getEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -16759,7 +9520,6 @@ const updateEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -16768,78 +9528,18 @@ const updateEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -16849,78 +9549,18 @@ const deleteEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -16930,78 +9570,18 @@ const getPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updatePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -17010,7 +9590,6 @@ const updatePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -17019,78 +9598,18 @@ const updatePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deletePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -17100,78 +9619,18 @@ const deletePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -17181,78 +9640,18 @@ const getClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -17261,7 +9660,6 @@ const updateClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -17270,78 +9668,18 @@ const updateClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -17351,78 +9689,18 @@ const deleteClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getRegexEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -17432,78 +9710,18 @@ const getRegexEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateRegexEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -17512,7 +9730,6 @@ const updateRegexEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -17521,78 +9738,18 @@ const updateRegexEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteRegexEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -17602,78 +9759,18 @@ const deleteRegexEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "cEntityId",
-      mapper: {
-        required: true,
-        serializedName: "cEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.cEntityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -17683,78 +9780,18 @@ const getCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "cEntityId",
-      mapper: {
-        required: true,
-        serializedName: "cEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.cEntityId,
+    Parameters.roleId
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -17763,7 +9800,6 @@ const updateCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -17772,78 +9808,18 @@ const updateCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "cEntityId",
-      mapper: {
-        required: true,
-        serializedName: "cEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.cEntityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -17853,78 +9829,18 @@ const deleteCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -17934,78 +9850,18 @@ const getPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updatePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -18014,7 +9870,6 @@ const updatePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -18023,78 +9878,18 @@ const updatePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deletePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -18104,78 +9899,18 @@ const deletePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -18185,78 +9920,18 @@ const getHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId,
+    Parameters.roleId
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -18265,7 +9940,6 @@ const updateHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -18274,78 +9948,18 @@ const updateHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "hEntityId",
-      mapper: {
-        required: true,
-        serializedName: "hEntityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.hEntityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -18355,78 +9969,18 @@ const deleteHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getCustomEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -18436,78 +9990,18 @@ const getCustomEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   requestBody: {
     parameterPath: "entityRoleUpdateObject",
@@ -18516,7 +10010,6 @@ const updateCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -18525,78 +10018,18 @@ const updateCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteCustomEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "roleId",
-      mapper: {
-        required: true,
-        serializedName: "roleId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.roleId
   ],
   responses: {
     200: {
@@ -18606,78 +10039,18 @@ const deleteCustomEntityRoleOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const getExplicitListItemOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "itemId",
-      mapper: {
-        required: true,
-        serializedName: "itemId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.itemId
   ],
   responses: {
     200: {
@@ -18687,78 +10060,18 @@ const getExplicitListItemOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const updateExplicitListItemOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "itemId",
-      mapper: {
-        required: true,
-        serializedName: "itemId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.itemId
   ],
   requestBody: {
     parameterPath: "item",
@@ -18767,7 +10080,6 @@ const updateExplicitListItemOperationSpec: msRest.OperationSpec = {
       required: true
     }
   },
-  contentType: "application/json; charset=utf-8",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -18776,78 +10088,18 @@ const updateExplicitListItemOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
 
 const deleteExplicitListItemOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}",
   urlParameters: [
-    {
-      parameterPath: "azureRegion",
-      skipEncoding: true,
-      mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "westus",
-            "westeurope",
-            "southeastasia",
-            "eastus2",
-            "westcentralus",
-            "westus2",
-            "eastus",
-            "southcentralus",
-            "northeurope",
-            "eastasia",
-            "australiaeast",
-            "brazilsouth"
-          ]
-        }
-      }
-    },
-    {
-      parameterPath: "appId",
-      mapper: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "versionId",
-      mapper: {
-        required: true,
-        serializedName: "versionId",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    {
-      parameterPath: "entityId",
-      mapper: {
-        required: true,
-        serializedName: "entityId",
-        type: {
-          name: "Uuid"
-        }
-      }
-    },
-    {
-      parameterPath: "itemId",
-      mapper: {
-        required: true,
-        serializedName: "itemId",
-        type: {
-          name: "Number"
-        }
-      }
-    }
+    Parameters.azureRegion,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId,
+    Parameters.itemId
   ],
   responses: {
     200: {
@@ -18857,5 +10109,5 @@ const deleteExplicitListItemOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  serializer: new msRest.Serializer(Mappers)
+  serializer
 };
