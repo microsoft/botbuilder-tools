@@ -2,7 +2,7 @@ function install() {
     echo Install $1
     pushd $1
     npm install
-    if [ $2 ]; then npm run test; fi
+    if [ $2 ]; then npm run test:travis; fi
     popd
 }
 
