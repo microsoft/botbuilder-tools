@@ -5,6 +5,7 @@
 const chai = require('chai');
 const assert = chai.assert;
 const parseFile = require('../lib/parseFileContents');
+
 describe('With helper functions', function() {
     it('validateLUISBlob throw when duplicate entity definitions are found', function(done) {
         let luFile = `# Greeting

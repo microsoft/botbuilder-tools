@@ -9,6 +9,7 @@ const QnA = require('../lib/classes/qna');
 const QnAList = require('../lib/classes/qnaList');
 const QnAMetadata = require('../lib/classes/qnaMetaData');
 const hClasses = require('../lib/classes/hclasses');
+
 describe('Testing all classes', function() {
     describe('Exception class', function() {
         it('can create a new instance from a valid object', function() {

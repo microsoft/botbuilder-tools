@@ -4,10 +4,11 @@
  */
 var chai = require('chai');
 var assert = chai.assert;
-const TRANSLATE_KEY = '5ef1cecd7e954de9b1de6e7fc310f719';
 const testData = require('./testcases/translate-testcase-data');
 const translate = require('../lib/translate-helpers');
 const retCode = require('../lib/enums/CLI-errors');
+
+const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
 
 describe('With the parseAndTranslate method', function() {
     it('Translating comments can be skipped', function(done) {
