@@ -23,6 +23,9 @@ done();
 
     
     it('QnA content is translated correctly', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(testData.tests.qna.luFile, TRANSLATE_KEY, testData.tests.qna.langCode, '', false, false, false)
             .then(function(res) {
                     assert.equal(res, testData.tests.qna.translatedContent.replace(/\n/g, '\r\n'));
@@ -33,6 +36,9 @@ done();
 
     
     it('Phrase list entity references are translated correctly', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(testData.tests.phraseList.luFile, TRANSLATE_KEY, testData.tests.phraseList.langCode, '', false, false, false)
             .then(function(res) {
                 assert.equal(res, testData.tests.phraseList.translatedContent.replace(/\n/g, '\r\n'));
@@ -42,6 +48,9 @@ done();
     });
 
     it('Bad lu file input throws', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(testData.tests.badLu.luFile, TRANSLATE_KEY, testData.tests.badLu.langCode, '', false, false, false)
             .then(res => done(res)) 
             .catch(function(err) {
@@ -51,6 +60,9 @@ done();
     });
 
     it('References can be skipped from being translated', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(testData.tests.fileRef.luFile, TRANSLATE_KEY, testData.tests.fileRef.langCode, '', false, false, false)
             .then(function(res) {
                 assert.equal(res, testData.tests.fileRef.luFile.replace(/\n/g, '\r\n\r\n'));
@@ -60,6 +72,9 @@ done();
     });
 
     it('Invalid key throws', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(`# Greeting
 -hi
 `, TRANSLATE_KEY + '2', testData.tests.badLu.langCode, '', false, false, false)
@@ -73,6 +88,9 @@ done();
     }); 
 
         it('Invalid key with comments throws', function(done) {
+            if (!TRANSLATE_KEY) {
+                this.skip();
+            }
         translate.parseAndTranslate(`> test comment
 `, TRANSLATE_KEY + '2', testData.tests.badLu.langCode, '', true, false, false)
             .then(function(res) {
@@ -85,6 +103,9 @@ done();
     });
 
     it('Nested entity references throws', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(`# Greeting
         - hi {userName = foo {firstName = bar}}
 `, TRANSLATE_KEY, testData.tests.badLu.langCode, '', false, false, true)
@@ -98,6 +119,9 @@ done();
     });
     
    it('Labelled entity values are translated correctly', function(done) {
+    if (!TRANSLATE_KEY) {
+        this.skip();
+    }
     translate.parseAndTranslate(testData.tests.labelledEntityValue.luFile, TRANSLATE_KEY, testData.tests.labelledEntityValue.langCode, '', false, true, false)
         .then(function(res) {
             assert.equal(res, testData.tests.labelledEntityValue.translatedContent.replace(/\n/g, '\r\n'));    
@@ -107,6 +131,9 @@ done();
     });
     
     it('Invalid key with QnA throws', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(`# ? Greeting
         - hi
 `, TRANSLATE_KEY + '2', testData.tests.badLu.langCode, '', false, false, false)
@@ -120,6 +147,9 @@ done();
     });
 
     it('Intent only is handled correctly', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(`# Greeting
 `, TRANSLATE_KEY, testData.tests.badLu.langCode, '', false, false, true)
             .then(function(res) {
@@ -133,6 +163,9 @@ done();
     
 
     it('References are translated correctly', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(testData.tests.fileRef.luFile, TRANSLATE_KEY, testData.tests.fileRef.langCode, '', false, true, false)
             .then(function(res) {
                 assert.equal(res, testData.tests.fileRef.translatedContent.replace(/\n/g, '\r\n\r\n'));    
@@ -144,6 +177,9 @@ done();
     
 
     it('All entity types are translated correctly', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(testData.tests.allEntities.luFile, TRANSLATE_KEY, testData.tests.allEntities.langCode, '', false, false, false)
             .then(function(res) {
                 assert.equal(res, testData.tests.allEntities.translatedContent.replace(/\n/g, '\r\n'));
@@ -153,6 +189,9 @@ done();
     });
 
     it('Intents and utterances are translated correctly', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(testData.tests.intentsAndUtterances.luFile, TRANSLATE_KEY, testData.tests.intentsAndUtterances.langCode, 'en-us', true, false, true)
             .then(function(res) {
                     assert.equal(res, testData.tests.intentsAndUtterances.translatedContent.replace(/\n/g, '\r\n'));
@@ -162,6 +201,9 @@ done();
     }); 
 
     it('QnA is translated correctly', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(`# ? hello
 \`\`\`markdown`, TRANSLATE_KEY, 'de', 'en-us', true, false, true)
             .then(function(res) {
