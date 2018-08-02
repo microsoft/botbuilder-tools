@@ -6,9 +6,15 @@ const chai = require('chai');
 const assert = chai.assert;
 const helpers = require('../lib/helpers');
 const path = require('path');
+
+const LUDOWN_ROOT = path.join(__dirname, '../');
+function resolvePath(relativePath) {
+    return path.join(LUDOWN_ROOT, relativePath);
+}
+
 describe('With helper functions', function() {
     it('findLUFiles should recursively find subfolders', function(done) {
-        let rootPath = path.resolve('./examples');
+        let rootPath = resolvePath('examples');
         let findFilesIncludingSubfolders = helpers.findLUFiles(rootPath, true);
         let findFilesInRootFolder = helpers.findLUFiles(rootPath, false);
         try {

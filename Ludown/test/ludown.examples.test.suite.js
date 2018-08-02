@@ -2,7 +2,6 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-
 var chai = require('chai');
 var assert = chai.assert;
 var path = require('path');
@@ -98,7 +97,7 @@ describe('The example lu files', function() {
     })
 
     it('Simple intent and utterances are parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/1.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/1.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/1.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/1.json')));
                 done();
@@ -112,7 +111,7 @@ describe('The example lu files', function() {
     
 
     it('Multiple intent and utterance definition sections are parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/3.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/3.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/3.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/3.json')));
                 done();
@@ -124,7 +123,7 @@ describe('The example lu files', function() {
     });
 
     it('Uttearnces with labelled values are parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/4.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/4.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/4.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/4.json')));
                 done();
@@ -136,7 +135,7 @@ describe('The example lu files', function() {
     });
 
     it('Simple entity declaration is parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/5.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/5.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/5.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/5.json')));
                 done();
@@ -148,7 +147,7 @@ describe('The example lu files', function() {
     });
 
     it('Prebuilt entity types are parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/6.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/6.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/6.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/6.json')));
                 done();
@@ -160,7 +159,7 @@ describe('The example lu files', function() {
     });
 
     it('Pattern.any entity types are parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/7.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/7.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/7.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/7.json')));
                 done();    
@@ -172,7 +171,7 @@ describe('The example lu files', function() {
     });
 
     it('List entity types are parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/9.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/9.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/9.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/9.json')));
                 done(); 
@@ -184,7 +183,7 @@ describe('The example lu files', function() {
     });
 
     it('List entity definitions and intent definitions can be split up and will be parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/9a.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/9a.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/9a.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/9a.json')));
                 done();
@@ -196,7 +195,7 @@ describe('The example lu files', function() {
     });
 
     it('with single file references are parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/buyChocolate.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/buyChocolate.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/buyChocolate.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/buyChocolate.json')));
                 done();
@@ -208,7 +207,7 @@ describe('The example lu files', function() {
     });
 
     it('with multiple file references are parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/11.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/11.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/11.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/11.json')));
                 done(); 
@@ -220,7 +219,7 @@ describe('The example lu files', function() {
     });
 
     it('with mix of LUIS and QnA content is parsed correctly [LUIS]', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/12.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/12.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/12.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/12.json')));
                 done();
@@ -232,7 +231,7 @@ describe('The example lu files', function() {
     });
 
     it('with mix of LUIS and QnA content is parsed correctly [QnA]', function(done) {
-        exec(`node ${ludown} parse toqna --in examples/12.lu -o ${TEST_ROOT}/output -n 12qna`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toqna --in ${TEST_ROOT}/../examples/12.lu -o ${TEST_ROOT}/output -n 12qna`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/12qna.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/12qna.json')));    
                 done();
@@ -244,7 +243,7 @@ describe('The example lu files', function() {
     });
 
     it('all concepts of lu file definition is parsed correctly [LUIS]', function(done) {
-        exec(`node ${ludown} parse toluis --in examples/all.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/all.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/all.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/all.json')));
                 done();
@@ -256,7 +255,7 @@ describe('The example lu files', function() {
     });
 
     it('all concepts of lu file definition is parsed correctly  [QnA]', function(done) {
-        exec(`node ${ludown} parse toqna --in examples/all.lu -o ${TEST_ROOT}/output -n all-qna`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toqna --in ${TEST_ROOT}/../examples/all.lu -o ${TEST_ROOT}/output -n all-qna`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/all-qna.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/all-qna.json')));
                 done();
@@ -314,7 +313,7 @@ describe('The example lu files', function() {
 
     
     it('Successfully spits out qnamaker alterations list when specified in .lu files', function(done){
-        exec(`node ${ludown} parse toqna -a --in examples/qna-alterations.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toqna -a --in ${TEST_ROOT}/../examples/qna-alterations.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
                 assert.ok(stdout.includes('Successfully wrote QnA Alterations JSON file'));
                 done();
@@ -338,7 +337,7 @@ describe('The example lu files', function() {
     it('Collate can correctly merge LUIS content split across LU files', function(done){
         exec(`node ${ludown} parse toluis -l ${TEST_ROOT}/testcases/collate -n collated-luis -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(JSON.parse(txtfile.readSync('test/output/collated-luis.json')), JSON.parse(txtfile.readSync('test/verified/collated-luis.json')));
+                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/collated-luis.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/collated-luis.json')));
                 done();
             } catch (err) {
                 done(err);
@@ -349,7 +348,7 @@ describe('The example lu files', function() {
     it('Collate can correctly merge LUIS content split across LU files to generate batch test input', function(done){
         exec(`node ${ludown} parse toluis -l ${TEST_ROOT}/testcases/collate -n collated-luis -o ${TEST_ROOT}/output -t`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(JSON.parse(txtfile.readSync('test/output/collated-luis_LUISBatchTest.json')), JSON.parse(txtfile.readSync('test/verified/collated-luis_LUISBatchTest.json')));
+                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/collated-luis_LUISBatchTest.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/collated-luis_LUISBatchTest.json')));
                 done();
             } catch (err) {
                 done(err);
@@ -360,7 +359,7 @@ describe('The example lu files', function() {
     it('Collate can correctly merge QnA content split across LU files', function(done){
         exec(`node ${ludown} parse toqna -l ${TEST_ROOT}/testcases/collate -n collate-qna -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(JSON.parse(txtfile.readSync('test/output/collate-qna.json')), JSON.parse(txtfile.readSync('test/verified/collate-qna.json')));
+                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/collate-qna.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/collate-qna.json')));
                 done();
             } catch (err) {
                 done(err);
@@ -371,7 +370,7 @@ describe('The example lu files', function() {
     it('Collate can correctly merge QnA word alteration content split across LU files', function(done){
         exec(`node ${ludown} parse toqna -l ${TEST_ROOT}/testcases/collate -n alterations -o ${TEST_ROOT}/output -a`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(JSON.parse(txtfile.readSync('test/output/alterations_Alterations.json')), JSON.parse(txtfile.readSync('test/verified/collate_Alterations.json')));
+                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/alterations_Alterations.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/collate_Alterations.json')));
                 done();
             } catch (err) {
                 done(err);
@@ -383,7 +382,7 @@ describe('The example lu files', function() {
    it('Refresh command can successfully generate content from LUIS, QnA and QnA Alterations', function(done){
        exec(`node ${ludown} refresh -i ${TEST_ROOT}/verified/collated-luis.json -q ${TEST_ROOT}/verified/collate-qna.json -a ${TEST_ROOT}/verified/collate_Alterations.json -n collate_refresh -o ${TEST_ROOT}/output --skip_header`, (error, stdout, stderr) => {
            try {
-               assert.equal(txtfile.readSync('test/output/collate_refresh.lu'), txtfile.readSync('test/verified/collate_refresh.lu'));
+               assert.equal(txtfile.readSync(TEST_ROOT + '/output/collate_refresh.lu'), txtfile.readSync(TEST_ROOT + '/verified/collate_refresh.lu'));
                done();
             } catch (err) {
                 done(err);
