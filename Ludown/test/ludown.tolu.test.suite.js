@@ -9,7 +9,6 @@ const path = require('path');
 const exception = require('../lib/classes/exception');
 const retCode = require('../lib/enums/CLI-errors');
 
-
 const LUDOWN_ROOT = path.join(__dirname, '../');
 function resolvePath(relativePath) {
     return path.join(LUDOWN_ROOT, relativePath);

@@ -40,6 +40,9 @@ describe('With translate module', function() {
     });
 
     it('correctly localize the file content', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         let luFilePath = resolvePath('examples/1.lu');
         exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ${LUDOWN_ROOT}/test/output -n 1_de --verbose --in ` + luFilePath, (error, stdout, stderr) => {
             try {
@@ -65,6 +68,9 @@ describe('With translate module', function() {
     });
 
     it('correctly localize the file content with all concepts', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         let fileContent = txtfile.readSync(resolvePath('examples/all.lu'))
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', true, true, SHOW_LOGS)
             .then(function(res) {
@@ -79,6 +85,9 @@ describe('With translate module', function() {
     });
   
     it('Comments in lu files can be skipped from translation', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         let fileContent = `> test`;
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', false, true, SHOW_LOGS)
             .then(function(res) {
@@ -93,6 +102,9 @@ describe('With translate module', function() {
     });
   
     it('Translate throw with invalid tgt lang code', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         let fileContent = `- 123`;
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'dex', '', false, true, SHOW_LOGS)
             .then(function(res) {
@@ -102,6 +114,9 @@ describe('With translate module', function() {
     });
 
     it('Translate throw with invalid src lang code', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         let fileContent = `[123]('./1.lu')`;
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', 'esx', false, true, SHOW_LOGS)
             .then(function(res) {
@@ -111,6 +126,9 @@ describe('With translate module', function() {
     });
 
     it('Link text can be left untranslated', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         let fileContent = `[123]('./1.lu')`;
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', true, false, SHOW_LOGS)
             .then(function(res) {
@@ -125,6 +143,9 @@ describe('With translate module', function() {
     });
 
     it('Link text can be left untranslated', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         let fileContent = `\`\`\`markdown
         test 123`;
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', 'esx', false, true, SHOW_LOGS)
@@ -135,6 +156,9 @@ describe('With translate module', function() {
     }); 
 
     it('Alterations are translated correctly', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         let fileContent = `$ hello : qna-alterations = 
 - hello`;
         let translatedContent = `$Hallo : qna-alterations = 
