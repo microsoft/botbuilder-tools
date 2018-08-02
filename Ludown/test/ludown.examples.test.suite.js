@@ -13,6 +13,12 @@ const fs = require('fs');
 const TEST_ROOT = path.join(__dirname);
 const PATH_TO_OUTPUT_FOLDER = path.resolve(TEST_ROOT + '/output');
 
+function compareFiles(actualPath, expectedPath) {
+    let expected = txtfile.readSync(actualPath).split(/\r?\n/);
+    let actual = txtfile.readSync(expectedPath).split(/\r?\n/);;
+    assert.deepEqual(actual, expected);
+}
+
 describe('The example lu files', function() {
     before(function(){
         try {
@@ -47,7 +53,7 @@ describe('The example lu files', function() {
     it('refresh command successfully reconstructs a markdown file from a LUIS input file with out of order entity references', function(done) {
         exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/test269-d.json -o ${TEST_ROOT}/output --skip_header -n test269-d`, (error, stdout, stderr) => {
             try {
-                assert.equal(txtfile.readSync(TEST_ROOT + '/verified/test269-d.lu'), txtfile.readSync(TEST_ROOT + '/output/test269-d.lu'));    
+                compareFiles(TEST_ROOT + '/output/test269-d.lu', TEST_ROOT + '/verified/test269-d.lu');
                 done();
             } catch(err) {
                 done(err);
@@ -61,7 +67,7 @@ describe('The example lu files', function() {
     it('refresh command successfully reconstructs a markdown file from a LUIS input file', function(done) {
         exec(`node ${ludown} refresh -i ${TEST_ROOT}/verified/all.json -o ${TEST_ROOT}/output --skip_header -n allGen`, (error, stdout, stderr) => {
             try {
-                assert.equal(txtfile.readSync(TEST_ROOT + '/verified/allRefresh.lu'), txtfile.readSync(TEST_ROOT + '/output/allGen.lu'));    
+                compareFiles(TEST_ROOT + '/output/allGen.lu', TEST_ROOT + '/verified/allRefresh.lu');
                 done();
             } catch(err) {
                 done(err);
@@ -74,7 +80,7 @@ describe('The example lu files', function() {
     it('refresh command successfully reconstructs a markdown file from QnA input file', function(done) {
         exec(`node ${ludown} refresh -q ${TEST_ROOT}/verified/all-qna.json -o ${TEST_ROOT}/output --skip_header -n allGenQnA`, (error, stdout, stderr) => {
             try {
-                assert.equal(txtfile.readSync(TEST_ROOT + '/verified/allGenQnA.lu'), txtfile.readSync(TEST_ROOT + '/output/allGenQnA.lu'));
+                compareFiles(TEST_ROOT + '/output/allGenQnA.lu', TEST_ROOT + '/verified/allGenQnA.lu');
                 done();
             } catch (err) {
                 done(err);
@@ -86,7 +92,7 @@ describe('The example lu files', function() {
     it('refresh command successfully writes out a markdown file from QnA and luis input files', function(done) {
         exec(`node ${ludown} refresh -q ${TEST_ROOT}/verified/all-qna.json -i ${TEST_ROOT}/verified/all.json -o ${TEST_ROOT}/output --skip_header --verbose`, (error, stdout, stderr) => {
             try {
-                assert.equal(txtfile.readSync(TEST_ROOT + '/verified/allall-qna.lu'), txtfile.readSync(TEST_ROOT + '/output/allall-qna.lu'));
+                compareFiles(TEST_ROOT + '/output/allall-qna.lu', TEST_ROOT + '/verified/allall-qna.lu');
                 assert.ok(stdout.includes('Successfully wrote to '));
                 done();
             } catch (err) {
@@ -382,7 +388,7 @@ describe('The example lu files', function() {
    it('Refresh command can successfully generate content from LUIS, QnA and QnA Alterations', function(done){
        exec(`node ${ludown} refresh -i ${TEST_ROOT}/verified/collated-luis.json -q ${TEST_ROOT}/verified/collate-qna.json -a ${TEST_ROOT}/verified/collate_Alterations.json -n collate_refresh -o ${TEST_ROOT}/output --skip_header`, (error, stdout, stderr) => {
            try {
-               assert.equal(txtfile.readSync(TEST_ROOT + '/output/collate_refresh.lu'), txtfile.readSync(TEST_ROOT + '/verified/collate_refresh.lu'));
+               compareFiles(TEST_ROOT + '/verified/collate_refresh.lu', TEST_ROOT + '/output/collate_refresh.lu');
                done();
             } catch (err) {
                 done(err);
