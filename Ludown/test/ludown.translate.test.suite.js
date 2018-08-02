@@ -21,6 +21,12 @@ function resolvePath(relativePath) {
     return path.join(LUDOWN_ROOT, relativePath);
 }
 
+function compareFiles(actualPath, expectedPath) {
+    let expected = fs.existsSync(actualPath) ? txtfile.readSync(actualPath) : actualPath;
+    let actual = fs.existsSync(expectedPath) ? txtfile.readSync(expectedPath) : expectedPath;
+    assert.deepEqual(actual.split(/\r?\n/), expected.split(/\r?\n/));
+}
+
 describe('With translate module', function() {
     before(function(){
         try {
@@ -46,7 +52,7 @@ describe('With translate module', function() {
         let luFilePath = resolvePath('examples/1.lu');
         exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ${LUDOWN_ROOT}/test/output -n 1_de --verbose --in ` + luFilePath, (error, stdout, stderr) => {
             try {
-                assert.equal(txtfile.readSync(LUDOWN_ROOT + '/test/verified/1.lu'), txtfile.readSync(LUDOWN_ROOT + '/test/output/de/1.lu'));
+                compareFiles(LUDOWN_ROOT + '/test/output/de/1.lu', LUDOWN_ROOT + '/test/verified/1.lu');
                 console.log(stdout);
                 done();
             } catch(err){
@@ -75,7 +81,7 @@ describe('With translate module', function() {
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', true, true, SHOW_LOGS)
             .then(function(res) {
                 try {
-                    assert.equal(txtfile.readSync(LUDOWN_ROOT + '/test/verified/de/all.lu'), res);
+                    compareFiles(res, LUDOWN_ROOT + '/test/verified/de/all.lu');
                     done();
                 } catch (err) {
                     done(err);
@@ -92,7 +98,7 @@ describe('With translate module', function() {
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', false, true, SHOW_LOGS)
             .then(function(res) {
                 try {
-                    assert.equal(`> test\r\n`, res);
+                    assert.equal(res, `> test\r\n`);
                     done();
                 } catch (err) {
                     done(err);
@@ -133,7 +139,7 @@ describe('With translate module', function() {
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', true, false, SHOW_LOGS)
             .then(function(res) {
                 try {
-                    assert.equal(`[123]('./1.lu')\r\n`, res);
+                    assert.equal(res, `[123]('./1.lu')\r\n`);
                     done();
                 } catch (err) {
                     done(err);
@@ -161,11 +167,10 @@ describe('With translate module', function() {
         }
         let fileContent = `$ hello : qna-alterations = 
 - hello`;
-        let translatedContent = `$Hallo : qna-alterations = 
-- Hallo`;
+        let translatedContent = '$Hallo : qna-alterations = \r\n- Hallo\r\n';
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', false, true, SHOW_LOGS)
             .then(function(res) {
-                assert.equal(res, translatedContent.replace(/\n/g, '\r\n') + '\r\n');
+                assert.equal(translatedContent, res);
                 done();
             })
             .catch (err => done(err));

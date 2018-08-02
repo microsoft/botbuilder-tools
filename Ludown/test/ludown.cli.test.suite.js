@@ -55,7 +55,7 @@ describe('The ludown cli tool', function() {
         it('should print an error when an invalid command is passed to ludown parse', function(done) {
             exec(`node ${ludown} parse k`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stderr.includes('Unknown command'), true);
+                    assert.equal(stderr.includes('Unknown command'), true, stderr);
                     done();
                 } catch (err) {
                     done(err);
