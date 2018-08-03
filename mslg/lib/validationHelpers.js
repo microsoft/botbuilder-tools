@@ -16,7 +16,18 @@ module.exports = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     isNotNullOrEmpty: function (item) {
-        if(item === null || item === undefined || item.trim() == '') throw(new exception(errCodes.INVALID_VARIATION, 'Variation "' + item + '" cannot be null or empty'));
+        if(item === null || item === undefined || item.trim() === '') throw(new exception(errCodes.INVALID_VARIATION, 'Variation "' + item + '" cannot be null or empty'));
+        return VALIDATION_PASS;
+    },
+    /**
+     * Validator
+     * 
+     * @param {string} item input string
+     * @returns {boolean} true if validation succeeds
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    isNotNullOrEmptyCondition: function (item) {
+        if(item === null || item === undefined || item.trim() === '') throw(new exception(errCodes.INVALID_CONDITION, 'Condition "' + item + '" cannot be null or empty'));
         return VALIDATION_PASS;
     },
     /**
@@ -157,6 +168,45 @@ module.exports = {
                     });
                 }
             });
+        }
+        return VALIDATION_PASS;
+    },
+    /**
+     * Validator template
+     * 
+     * @param {string} item input string
+     * @returns {boolean} true if validation succeeds
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    conditionTokenizesCorrectly: function (item) {
+        let tokenizedItem = helpers.tokenizeCondition(item);
+        if(tokenizedItem.length === 0) {
+            throw (new exception(errCodes.INVALID_CONDITION_DEFINITION, 'Invalid condition definition for "' + item + '"'));
+        } 
+        let braces = 0;
+        let curleyBraces = 0;
+        tokenizedItem.forEach(function(token, idx) {
+            // call back function must be in known list.
+            if(token.type === 'callBackFunction') {
+                if(!reservedNames.includes(token.content)) {
+                    throw(new exception(errCodes.INVALID_CALLBACK_FUNTION_NAME, 'Unknown callback function "' + token.content + '" in condition "' + item + '"'));
+                }
+            }
+            if(token.type === 'entity') {
+                if(reservedNames.includes(token.content)) {
+                    throw(new exception(errCodes.INVALID_ENTITY_DEFINITION, 'Entity "' + token.content + '" in condition "' + item + '" is also a call back function name. Entities cannot have same names as call back function.'));
+                }
+            }
+            if(token.type.name && token.type.name === 'OPENPARAN') braces++;
+            if(token.type.name && token.type.name === 'CLOSEPARAN') braces--;
+            if(token.type.name && token.type.name === 'OPENPARANCURLEY') curleyBraces++;
+            if(token.type.name && token.type.name === 'CLOSEPARANCURLEY') curleyBraces--;
+        });
+        if(braces !== 0) {
+            throw (new exception(errCodes.INVALID_CONDITION_DEFINITION, 'Invalid condition. Check if you have correct open and close braces - () in condition "' + item + '"'));
+        }
+        if(curleyBraces !== 0) {
+            throw (new exception(errCodes.INVALID_CONDITION_DEFINITION, 'Invalid condition. Check if you have correct open and close curley braces - {} in condition "' + item + '"'));
         }
         return VALIDATION_PASS;
     },

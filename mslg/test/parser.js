@@ -101,7 +101,85 @@ describe('The parser', function() {
     }); 
     
     describe('For true negatives on condition names for conditional responses ', function(){
-
+        it('Throws when a condition is empty', function(done) {
+            let fileContent = `# Greeting
+            - CASE:
+                - hi`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_CONDITION);
+                    done();
+                })
+        });
+        it('Throws when a condition has reference to invalid call back function', function(done) {
+            let fileContent = `# Greeting
+            - CASE: foo(a, b, c)
+                - hi`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_CALLBACK_FUNTION_NAME);
+                    done();
+                })
+        });
+        it('Throws when a condition has an entity reference that is also a call back function', function(done) {
+            let fileContent = `# Greeting
+            - CASE: {Floor} = true
+                - hi`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_ENTITY_DEFINITION);
+                    done();
+                })
+        });
+        it('Throws when a defalt condition has an expression', function(done) {
+            let fileContent = `# Greeting
+            - DEFAULT: foo
+                - hi`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.DEFAULT_CONDITION_MUST_BE_EMPTY);
+                    done();
+                })
+        });
+        it('Throws when a defalt condition has an expression', function(done) {
+            let fileContent = `# Greeting
+            - CASE: {a} = true
+                - yo
+            - DEFAULT: foo
+                - hi`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.DEFAULT_CONDITION_MUST_BE_EMPTY);
+                    done();
+                })
+        });
+        it('Throws when a condition has invalid number of braces', function(done) {
+            let fileContent = `# Greeting
+            - CASE: (({d} = true)
+                - hi`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_CONDITION_DEFINITION);
+                    done();
+                })
+        });
+        it('Throws when a condition has invalid number of curley braces', function(done) {
+            let fileContent = `# Greeting
+            - CASE: ({d = true)
+                - hi`;
+            parser.parse(fileContent, false)
+                .then(res => done ('test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_CONDITION_DEFINITION);
+                    done();
+                })
+        });
     });
 
     describe('For true negatives on template names', function() {

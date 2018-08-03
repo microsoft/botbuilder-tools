@@ -10,7 +10,6 @@ const errCode = require('../enums/errorCodes');
 const parserConsts = require('../enums/parserconsts');
 const validators = require('../validation');
 const LGEntity = require('../classes/LGEntity');
-const deepEqual = require('deep-equal');
 const LGParsedObj = require('../classes/LGParsedObj');
 const helpers = require('../helpers');
 class LGObject {
@@ -114,7 +113,8 @@ LGObject.toLG = function (parsedFileContent) {
                             pushAtEnd = false;
                         } else {
                             try {
-                                // validate condition as part of instantiation
+                                // validate condition 
+                                validators.validateCondition(condition, true);
                                 conditionalResponseItem = new LGConditionalResponseTemplate(condition);
                             } catch (err) {
                                 throw (err);
@@ -123,7 +123,8 @@ LGObject.toLG = function (parsedFileContent) {
                         }
                     } else {
                         try {
-                            // validate condition as part of instantiation
+                            // validate condition 
+                            validators.validateCondition(condition, true);
                             conditionalResponseItem = new LGConditionalResponseTemplate(condition);
                         } catch (err) {
                             throw (err);
@@ -144,8 +145,9 @@ LGObject.toLG = function (parsedFileContent) {
                             pushAtEnd = false;
                         } else {
                             try {
-                                // validate condition as part of instantiation
-                                conditionalResponseItem = new LGConditionalResponseTemplate(condition);
+                                // validate condition 
+                                validators.validateCondition(condition, false);
+                                conditionalResponseItem = new LGConditionalResponseTemplate(condition, []);
                             } catch (err) {
                                 throw (err);
                             }
@@ -153,7 +155,8 @@ LGObject.toLG = function (parsedFileContent) {
                         }
                     } else {
                         try {
-                            // validate condition as part of instantiation
+                            // validate condition 
+                            validators.validateCondition(condition, false);
                             conditionalResponseItem = new LGConditionalResponseTemplate(condition);
                         } catch (err) {
                             throw (err);

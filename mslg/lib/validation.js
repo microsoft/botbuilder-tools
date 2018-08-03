@@ -5,6 +5,8 @@
 
 const validationHelpers = require('./validationHelpers');
 const VALIDATION_PASS = true;
+const exception = require('ludown').helperClasses.Exception;
+const errCode = require('./enums/errorCodes');
 const validators = {
     /**
      * validation helper function to ensure a variation item passed all validation rules
@@ -65,13 +67,15 @@ const validators = {
      * @returns {boolean} true if validation succeeds
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    validateCondition: function (item) {
+    validateCondition: function (item, includeNullCheck) {
         // For each function in the conditionValidatorsList, ensure the validation succeeds without throwing and returns true
         try {
-            validators.conditionValidatorsList.forEach(validator => validator(item));
+            if(includeNullCheck) validators.conditionValidatorsList.forEach(validator => validator(item));
         } catch (err) {
             throw (err);
         }
+        // cannot have any condition
+        if(!includeNullCheck && item !== 'Else') throw(new exception(errCode.DEFAULT_CONDITION_MUST_BE_EMPTY, 'Default condition in "- DEFAULT:' + item + '" cannot have any expression'))
         return VALIDATION_PASS;
     },
     /**
@@ -79,8 +83,8 @@ const validators = {
      * 
      */
     conditionValidatorsList: [
-        validationHelpers.isNotNullOrEmpty,                                 /* conditions cannot be null or empty */
-        validationHelpers.callBackFunctionInConditionIsInRecognizedList,    /* variations cannot have call back function reference that is not a recognized call back function */
+        validationHelpers.isNotNullOrEmptyCondition,        /* conditions cannot be null or empty */
+        validationHelpers.conditionTokenizesCorrectly       /* use a tokenizer to verify that the condition tokenizes correctly */
     ],
     /**
      * validation helper function to ensure a condition passes all validation rules
