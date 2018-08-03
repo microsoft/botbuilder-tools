@@ -145,7 +145,6 @@ module.exports = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     referencesToTemplatesExist: function (lgObj) {
-        //let lgObj = LGObject.fromJSON(lgObject);
         if(lgObj.LGTemplates && lgObj.LGTemplates.length !== 0) {
             // for each template, enumerate through variations and ensure any template references exist in the collection
             lgObj.LGTemplates.forEach(template => {
@@ -208,6 +207,46 @@ module.exports = {
         if(curleyBraces !== 0) {
             throw (new exception(errCodes.INVALID_CONDITION_DEFINITION, 'Invalid condition. Check if you have correct open and close curley braces - {} in condition "' + item + '"'));
         }
+        return VALIDATION_PASS;
+    },
+    /**
+     * Validator template
+     * 
+     * @param {string} item input string
+     * @returns {boolean} true if validation succeeds
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    allowedCharatersInName: function (item) {
+        const EAorNumberRegExp = new RegExp(/[(a-z|A-Z|0-9|\-|_|:)]/g);
+        let test = item.match(EAorNumberRegExp);
+        if(test.length !== item.length) throw (new exception(errCodes.INVALID_TEMPLATE_NAME, 'Disallowed characters found in template name. Template names can only have characters from English alphabet, numbers, dash, underscore, colon'));
+        return VALIDATION_PASS;
+    },
+    /**
+     * Validator template
+     * 
+     * @param {string} item input string
+     * @returns {boolean} true if validation succeeds
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    templateHasEitherVariationOrCondition: function (lgObj) {
+        if(lgObj.LGTemplates && lgObj.LGTemplates.length !== 0) {
+            lgObj.LGTemplates.forEach(template => {
+                if(template.variations.length === 0 && template.conditionalResponses.length === 0) {
+                    throw (new exception(errCodes.INVALID_TEMPLATE, 'Template "' + template.name + '" does not have variations or conditions!'));
+                }
+            });
+        }
+        return VALIDATION_PASS;
+    },
+    /**
+     * Validator template
+     * 
+     * @param {string} item input string
+     * @returns {boolean} true if validation succeeds
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    conditionsHaveVariations: function (lgObj) {
         return VALIDATION_PASS;
     },
     /**

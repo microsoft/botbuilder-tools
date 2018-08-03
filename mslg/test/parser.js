@@ -6,10 +6,13 @@
 const chai = require('chai');
 const assert = chai.assert;
 const parser = require('../lib/parser');
-const path = require('path');
-const readFile = require('read-text-file');
 const retCode = require('../lib/enums/errorCodes');
 const EntityTypes = require('../lib/enums/LGEntityType');
+const LGTemplate = require('../lib/classes/LGTemplate');
+const LGParsedObj = require('../lib/classes/LGParsedObj');
+const LGObject = require('../lib/classes/LGObject');
+const LGConditionalResponse = require('../lib/classes/LGConditionalResponse');
+const LGEntity = require('../lib/classes/LGEntity');
 describe('The parser', function() {
             
     describe('For true negatives on variation text', function() {
@@ -19,7 +22,9 @@ describe('The parser', function() {
             - `;
             parser.parse(fileContent, false)
                 .then(res => done ('test fail! did not throw when expected'))
-                .catch(err => {assert.equal(err.errCode, retCode.INVALID_VARIATION);done();})
+                .catch(err => {
+                    console.log(JSON.stringify(err, null, 2));
+                    assert.equal(err.errCode, retCode.INVALID_VARIATION);done();})
         });
     
         it('Throws when a variation has reference to an reserved word as entity name', function(done) {
@@ -201,6 +206,29 @@ describe('The parser', function() {
                 .then(res => done('Test fail! did not throw when expected'))
                 .catch(err => {
                     assert.equal(err.errCode, retCode.INVALID_SPACE_IN_TEMPLATE_NAME);
+                    done();
+                })
+        });
+        it('Throws when template name has disallowed characters in it', function(done) {
+            let fileContent = `# Greetingtemplate!
+            - hi`;
+            parser.parse(fileContent, false)
+                .then(res => done('Test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_TEMPLATE_NAME);
+                    done();
+                })
+        });
+
+        it('Throws when template has neither variation or conditional response defined', function(done) {
+            let fileContent = `# Greetingtemplate
+            - CASE: a = b
+
+            # fooBar`;
+            parser.parse(fileContent, false)
+                .then(res => done('Test fail! did not throw when expected'))
+                .catch(err => {
+                    assert.equal(err.errCode, retCode.INVALID_INPUT);
                     done();
                 })
         });
@@ -437,7 +465,8 @@ describe('The parser', function() {
 
         it('Throws when conflicting entity definitions are found when collating', async function(){
             let f1 = `# Greeting
-            - hi {userName}`;
+            - hi {userName}
+            $userName : Int`;
             let f2 = `$userName : datetime`;
             let f1p, f2p, c;
             try {
@@ -488,5 +517,158 @@ describe('The parser', function() {
         });
 
     
+    });
+    
+    describe('[x] LGTemplate class', function() {
+        it('[x] can be instantiated correctly with no parameters passed to constructor', function(done){
+            let LGT = new LGTemplate();
+            try {
+                assert.deepEqual(LGT, {
+                    'name': undefined,
+                    'variations': [],
+                    'conditionalResponses':[] 
+                });
+                done();
+            } catch (err) {
+                done (err);
+            }
+        });
+
+        it('[x] Throws when both variations and conditional responses specified', function(done){
+            try {
+                let LGT = new LGTemplate('test', ['fooo'], [{condition: 'bar', variations: ['fooo']}]);
+                done('Test fail! Did not throw when expected');
+            } catch (err) {
+                done ();
+            }
+        });
+
+        it('[x] can be instantiated correctly with just the name specified', function(done){
+            try {
+                let LGT = new LGTemplate('test');
+                assert.equal(LGT.name, 'test');
+                done();
+            } catch (err) {
+                done (err);
+            }
+        });
+
+        it('[x] Throw when a variation or conditional response is specified without a name', function(done){
+            try {
+                let LGT = new LGTemplate(null, ['test']);
+                done('test fail! did not throw when expected');
+            } catch (err) {
+                done ();
+            }
+        });
+
+        it('[x] can be instantiated correctly with the name and variations specified', function(done){
+            try {
+                let LGT = new LGTemplate('test', ['test']);
+                assert.equal(LGT.name, 'test');
+                assert.equal(LGT.variations[0], 'test');
+                done();
+            } catch (err) {
+                done (err);
+            }
+        });
+
+        
+        it('[x] can be instantiated correctly with the name and conditional responses specified', function(done){
+            try {
+                let LGT = new LGTemplate('test', null, [{condition: 'test', variations: ['test']}]);
+                assert.equal(LGT.name, 'test');
+                assert.equal(LGT.conditionalResponses[0].condition, 'test');
+                assert.equal(LGT.conditionalResponses[0].variations[0], 'test');
+                done();
+            } catch (err) {
+                done (err);
+            }
+        });
+    });
+
+    describe('[x] LGParserObj class', function() {
+        it('[x] can be instantiated correctly with no arguments passed', function(done) {
+            try {
+                let pObj = new LGParsedObj();
+                assert.equal(pObj.LGObject, undefined);
+                assert.ok(pObj.additionalFilesToParse.length === 0);
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    describe('[x]LGObject class', function() {
+        it('[x] can be instantiated correctly with no arguments passed', function(done) {
+            try {
+                let pObj = new LGObject();
+                assert.equal(pObj.LGTemplates.length, 0);
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    describe('[x] LGConditionalResponse class', function() {
+        it('[x] can be instantiated correctly with no arguments passed', function(done) {
+            try {
+                let pObj = new LGConditionalResponse();
+                assert.equal(pObj.condition, '');
+                assert.ok(pObj.variations.length === 0)
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    describe('[x] LGEntity class', function() {
+        
+        it('[x] can be instantiated correctly with no arguments passed', function(done) {
+            try {
+                let pObj = new LGEntity();
+                assert.equal(pObj.name, undefined);
+                assert.ok(pObj.entityType === 'String')
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+
+        it('[x] can be instantiated correctly with a name and defaults to string type', function(done) {
+            try {
+                let pObj = new LGEntity('entity1');
+                assert.equal(pObj.name, 'entity1');
+                assert.ok(pObj.entityType === 'String')
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+
+        it('[x] can be instantiated correctly with a name and type correctly', function(done) {
+            try {
+                let pObj = new LGEntity('entity1', 'string');
+                assert.equal(pObj.name, 'entity1');
+                assert.ok(pObj.entityType === 'String')
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+
+        it('[x] can be instantiated correctly with a name an invalid type passed', function(done) {
+            try {
+                let pObj = new LGEntity('entity1', 'date time');
+                assert.equal(pObj.name, 'entity1');
+                assert.ok(pObj.entityType === 'String')
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
     });
 });

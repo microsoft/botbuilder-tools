@@ -1,3 +1,4 @@
+
 /**
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -11,7 +12,7 @@ const textFile = require('read-text-file');
 const retCode = require('../lib/enums/errorCodes');
 const pathToOutputFolder1 = path.resolve('./test/output');
 const fs = require('fs');
-describe('The parser', function() {
+describe('The translate command', function() {
     before(function(){
         try {
             if(!fs.existsSync(pathToOutputFolder1)) {

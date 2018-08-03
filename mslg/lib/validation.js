@@ -58,7 +58,8 @@ const validators = {
      */
     TemplateNameValidatorsList: [
         validationHelpers.isNotNullOrEmpty,                         /* template name cannot be null or empty */
-        validationHelpers.noSpacesInTemplateNames                   /* template name cannot have space in them */
+        validationHelpers.noSpacesInTemplateNames,                  /* template name cannot have space in them */
+        validationHelpers.allowedCharatersInName                    /* template names must be in english alphabet or numbers. can only have -, _, : */
     ],
     /**
      * validation helper function to ensure a condition passes all validation rules
@@ -107,7 +108,9 @@ const validators = {
      * 
      */
     templateValidatorsList: [
-        validationHelpers.referencesToTemplatesExist       /* All template references should be valid */
+        validationHelpers.referencesToTemplatesExist,               /* All template references should be valid */
+        validationHelpers.templateHasEitherVariationOrCondition,    /* Template needs to have at least a variation or condition */
+        validationHelpers.conditionsHaveVariations                  /* Conditional response templates have at least one variation */
     ]
     
 };

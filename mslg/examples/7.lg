@@ -20,7 +20,7 @@
 > Conditional response template
 > Outer list is condition expression; L2 list is one-of collection
 # time-of-day-readout
-- CASE: isEqual(timeOfDay, 'morning')
+- CASE: {timeOfDay} = morning
     - Good morning
     - Morning! 
 - DEFAULT:
@@ -29,10 +29,10 @@
     
 > Using template references within text values
 # time-of-day-readout
-- CASE: isEqual(timeOfDay, 'morning')
+- CASE: {timeOfDay} = morning
     - [wPhrase] Good morning
     - Morning! 
-- CASE: isEqual(timeOfDay, 'evening')
+- CASE: {timeOfDay} = evening
     - [wPhrase] Good evening
     - Evening!
 - DEFAULT:
@@ -40,7 +40,7 @@
 
 > Using entity references within text values
 # time-of-day-readout
-- CASE: isEqual(timeOfDay, 'morning')
+- CASE: {timeOfDay} = morning
     - [wPhrase] Good morning {userName}
     - Morning! 
 - DEFAULT: 

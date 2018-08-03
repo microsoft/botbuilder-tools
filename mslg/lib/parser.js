@@ -15,6 +15,7 @@ const splitFileBySections = require('./parserHelper').splitFileBySections;
 const deepEqual = require('deep-equal');
 const parserHelpers = require('./parserHelper');
 const validate = require('./validation');
+const entityTypes = require('./enums/LGEntityType');
 const parser = {
     /**
      * Async function to parse input .lg files, collate them and write the output to disk
@@ -161,7 +162,9 @@ const parser = {
                     if(matchingCollatedEntity.length === 0) {
                         collatedContent.entities.push(entity);
                     } else {
-                        if(!deepEqual(matchingCollatedEntity[0], entity)) {
+                        if((matchingCollatedEntity[0].entityType === entityTypes.String.name) && (entity.entityType !== entityTypes.String.name)) {
+                            matchingCollatedEntity[0].entityType = entity.entityType;
+                        } else if(!deepEqual(matchingCollatedEntity[0], entity)) {
                             throw (new exception(errorCodes.DUPLICATE_INCOMPATIBE_ENTITY_DEF, 'Duplicate and incompatible entity definitions found for entity: "' + entity.name + '"'));
                         }
                     }
