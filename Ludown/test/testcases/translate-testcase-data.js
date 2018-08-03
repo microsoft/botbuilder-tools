@@ -47,7 +47,7 @@ $PREBUILT:phoneNumber
 $PREBUILT:temperature
 $PREBUILT:url
 $commPreference:call=
-- Telefonanruf
+- Telefonat
 - Gib mir einen Ring
 - Ring
 - Aufrufen
@@ -87,7 +87,7 @@ $commPreference:call=
         'luFile': `### ? How do I change the default message
         `,
         'langCode': 'de',
-        'translatedContent': `### ? Wie ändere ich die Standard-Nachricht
+        'translatedContent': `### ? Wie ändere ich die Standardmeldung
 
 `
     },
@@ -108,7 +108,7 @@ $commPreference:call=
         `,
         'langCode': 'de',
         'translatedContent': `# Greeting
-- Hallo {time=Morgen}
+- HI {time=Morning}
 
 `
     }

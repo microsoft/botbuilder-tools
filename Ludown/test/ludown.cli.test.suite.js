@@ -2,12 +2,18 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-
 var chai = require('chai');
 var assert = chai.assert;
 var path = require('path');
-const {exec} = require('child_process');
-const ludown = path.resolve('./bin/ludown');
+const { exec } = require('child_process');
+const ludown = require.resolve('../bin/ludown');
+
+const LUDOWN_ROOT = path.join(__dirname, '../');
+const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
+
+function resolvePath(relativePath) {
+    return path.join(LUDOWN_ROOT, relativePath);
+}
 
 describe('The ludown cli tool', function() {
 
@@ -49,7 +55,7 @@ describe('The ludown cli tool', function() {
         it('should print an error when an invalid command is passed to ludown parse', function(done) {
             exec(`node ${ludown} parse k`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stderr.includes('Unknown command'), true);
+                    assert.equal(stderr.includes('Unknown command'), true, stderr);
                     done();
                 } catch (err) {
                     done(err);
@@ -93,8 +99,8 @@ describe('The ludown cli tool', function() {
         });
 
         it('should throw an error when an incorrect folder is specified', function(done) {
-            let incorrectPath = path.resolve('./bin/test')
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 -t de -l ` + incorrectPath, (error, stdout, stderr) => {
+            let incorrectPath = resolvePath('foo');
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -l ` + incorrectPath, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('not a folder'), true);
                     done();
@@ -106,8 +112,8 @@ describe('The ludown cli tool', function() {
             
         });
         it('should throw an error when a file is specified as input folder', function(done) {
-            let incorrectPath = path.resolve('./examples/1.lu');
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 -t de -l ` + incorrectPath, (error, stdout, stderr) => {
+            let incorrectPath = resolvePath('example/1.lu');
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -l ` + incorrectPath, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('not a folder'), true);
                     done();
@@ -120,8 +126,8 @@ describe('The ludown cli tool', function() {
         });
     
         it('should throw an error when no lu files are found in the specified folder', function(done) {
-            let exampleLu = path.resolve('./bin');
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 -t de -l ` + exampleLu, (error, stdout, stderr) => {
+            let exampleLu = resolvePath('bin');
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -l ` + exampleLu, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('no .lu files found in the specified folder.'), true);    
                     done();
@@ -132,9 +138,9 @@ describe('The ludown cli tool', function() {
         });
     
         it('should throw an error when output folder does not exist', function(done) {
-            let exampleLu = path.resolve('./test/test123');
-            let luFile = path.resolve('./examples/1.lu');
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 -t de -o ` + exampleLu + '\\testFolder --in ' + luFile, (error, stdout, stderr) => {
+            let exampleLu = resolvePath('test/test123');
+            let luFile = resolvePath('examples/1.lu');
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ` + exampleLu + '\\testFolder --in ' + luFile, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('does not exist'), true);
                     done();
@@ -145,9 +151,8 @@ describe('The ludown cli tool', function() {
         });
 
         it('should throw an error when no input file or folder is specified', function(done) {
-            let exampleLu = path.resolve('./test/test123');
-            let luFile = path.resolve('./examples/1.lu');
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 -t de -o ` + exampleLu + '\\testFolder', (error, stdout, stderr) => {
+            let exampleLu = resolvePath('test/test123');
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ` + exampleLu + '\\testFolder', (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('No .lu file or folder specified'), true);
                     done();
@@ -158,8 +163,7 @@ describe('The ludown cli tool', function() {
         });
 
         it('should throws an error when no translate key is specified', function(done) {
-            let exampleLu = path.resolve('./test/test123');
-            let luFile = path.resolve('./examples/1.lu');
+            let luFile = resolvePath('examples/1.lu');
             exec(`node ${ludown} translate -t de --in ` + luFile, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('No translate key provided'), true);
@@ -170,9 +174,8 @@ describe('The ludown cli tool', function() {
             });
         });
         it('should throws an error when no target language is specified', function(done) {
-            let exampleLu = path.resolve('./test/test123');
-            let luFile = path.resolve('./examples/1.lu');
-            exec(`node ${ludown} translate -k 5ef1cecd7e954de9b1de6e7fc310f719 --in ` + luFile, (error, stdout, stderr) => {
+            let luFile = resolvePath('examples/1.lu');
+            exec(`node ${ludown} translate -k ${TRANSLATE_KEY} --in ` + luFile, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('No target language provided'), true);
                     done();
@@ -218,7 +221,7 @@ describe('The ludown cli tool', function() {
         });
 
         it('should throw an error when an incorrect folder is specified', function(done) {
-            let incorrectPath = path.resolve('./bin/test')
+            let incorrectPath = resolvePath('bin/test')
             exec(`node ${ludown} parse toluis -l ` + incorrectPath, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('not a folder'), true);
@@ -230,7 +233,7 @@ describe('The ludown cli tool', function() {
             
         });
         it('should throw an error when a file is specified as input folder', function(done) {
-            let incorrectPath = path.resolve('./examples/1.lu');
+            let incorrectPath = resolvePath('examples/1.lu');
             exec(`node ${ludown} parse toluis -l ` + incorrectPath, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('not a folder'), true);
@@ -244,7 +247,7 @@ describe('The ludown cli tool', function() {
         });
     
         it('should throw an error when no lu files are found in the specified folder', function(done) {
-            let exampleLu = path.resolve('./bin');
+            let exampleLu = resolvePath('bin');
             exec(`node ${ludown} parse toluis -l ` + exampleLu, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('no .lu files found in the specified folder.'), true);    
@@ -257,8 +260,8 @@ describe('The ludown cli tool', function() {
         });
     
         it('should throw an error when output folder does not exist', function(done) {
-            let exampleLu = path.resolve('./test/test123');
-            let luFile = path.resolve('./examples/1.lu');
+            let exampleLu = resolvePath('test/test123');
+            let luFile = resolvePath('examples/1.lu');
             exec(`node ${ludown} parse toluis -o ` + exampleLu + '\\testFolder --in ' + luFile, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('does not exist'), true);
@@ -307,7 +310,7 @@ describe('The ludown cli tool', function() {
         });
 
         it('should throw an error when an incorrect folder is specified', function(done) {
-            let incorrectPath = path.resolve('./bin/test')
+            let incorrectPath = resolvePath('bin/test')
             exec(`node ${ludown} parse toqna -l ` + incorrectPath, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('not a folder'), true);
@@ -320,7 +323,7 @@ describe('The ludown cli tool', function() {
             
         });
         it('should throw an error when a file is specified as input folder', function(done) {
-            let incorrectPath = path.resolve('./examples/1.lu');
+            let incorrectPath = resolvePath('examples/1.lu');
             exec(`node ${ludown} parse toqna -l ` + incorrectPath, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('not a folder'), true);
@@ -334,7 +337,7 @@ describe('The ludown cli tool', function() {
         });
     
         it('should throw an error when no lu files are found in the specified folder', function(done) {
-            let exampleLu = path.resolve('./bin');
+            let exampleLu = resolvePath('bin');
             exec(`node ${ludown} parse toqna -l ` + exampleLu, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('no .lu files found in the specified folder.'), true);
@@ -347,8 +350,8 @@ describe('The ludown cli tool', function() {
         });
     
         it('should throw an error when output folder does not exist', function(done) {
-            let exampleLu = path.resolve('./test/test123');
-            let luFile = path.resolve('./examples/1.lu');
+            let exampleLu = resolvePath('test/test123');
+            let luFile = resolvePath('examples/1.lu');
             exec(`node ${ludown} parse toqna -o ` + exampleLu + '\\testFolder --in ' + luFile, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('does not exist'), true);
@@ -385,8 +388,7 @@ describe('The ludown cli tool', function() {
         });
     
         it('should show help if lu or qna maker file is not specified', function(done) {
-            let exampleLu = path.resolve('./test/test123');
-            let luFile = path.resolve('./examples/1.lu');
+            let exampleLu = resolvePath('test/test123');
             exec(`node ${ludown} refresh -o ` + exampleLu + '\\testFolder', (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('No LUIS input file or QnA Maker JSON'), true);
@@ -400,8 +402,7 @@ describe('The ludown cli tool', function() {
         });
 
         it('should throw an error when output folder does not exist', function(done) {
-            let exampleLu = path.resolve('./test/test123');
-            let luFile = path.resolve('./examples/1.lu');
+            let exampleLu = resolvePath('test/test123');
             exec(`node ${ludown} refresh -i test/verified/1.json -o ` + exampleLu + '\\testFolder', (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('does not exist'), true);
@@ -414,8 +415,7 @@ describe('The ludown cli tool', function() {
         });
 
         it('should throw an error when output folder does not exist', function(done) {
-            let exampleLu = path.resolve('./test/test123');
-            let luFile = path.resolve('./examples/1.lu');
+            let exampleLu = resolvePath('test/test123');
             exec(`node ${ludown} refresh -q test/verified/all-qna.json -o ` + exampleLu + '\\testFolder', (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('does not exist'), true);
