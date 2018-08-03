@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "cd test/ && mocha --opts mocha.opts",
-    "test:travis": "cd test/ && nyc mocha --opts mocha.opts && nyc report --reporter=text-lcov | coveralls"
+    "test:travis": "cd test/ && nyc mocha --opts mocha.opts && nyc report --reporter=text-lcov | coveralls",
     "tsc": "tsc -p tsconfig.json",
     "build": "npm -s run-script tsc && webpack && node node_modules/uglify-es/bin/uglifyjs --source-map -c -m -o luisAuthoringBundle.min.js luisAuthoringBundle.js"
   },
@@ -58,7 +58,7 @@
     "mocha": "^5.0.4",
     "mocha-lcov-reporter": "^1.3.0",
     "coveralls": "^3.0.2",
-    "nyc": "^12.0.2"
+    "nyc": "^12.0.2",
     "ts-loader": "^2.3.7",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2",
