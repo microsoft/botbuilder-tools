@@ -1,4 +1,4 @@
-# Bot Builder tools (PREVIEW)
+# Bot Builder tools (PREVIEW) [![Build Status](https://travis-ci.org/Microsoft/botbuilder-tools.svg?branch=master)](https://travis-ci.org/Microsoft/botbuilder-tools) [![Coverage Status](https://coveralls.io/repos/github/Microsoft/botbuilder-tools/badge.svg?branch=master)](https://coveralls.io/github/Microsoft/botbuilder-tools?branch=master)
 Bot Builder tools are designed to cover end-to-end bot development workflow and include the following tools - 
 
 |   | Tool | Description |

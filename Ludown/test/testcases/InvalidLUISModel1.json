@@ -1,0 +1,1599 @@
+{
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.6.1668",
+  "name": "Contoso Cafe App",
+  "desc": "Default Intents for Azure Bot Service V2",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "askForUserName"
+    },
+    {
+      "name": "bookTableTrigger"
+    },
+    {
+      "name": "communicationPreference"
+    },
+    {
+      "name": "findCafeLocation"
+    },
+    {
+      "name": "Get prompt style intent"
+    },
+    {
+      "name": "GetLocationDateTimePartySize"
+    },
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "orderSandwich"
+    },
+    {
+      "name": "SandwichOrderIntent"
+    },
+    {
+      "name": "whoAreYouIntent"
+    }
+  ],
+  "entities": [
+    {
+      "name": "newLocationHint",
+      "roles": []
+    },
+    {
+      "name": "userName",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "BreadType",
+      "subLists": [
+        {
+          "canonicalForm": "white",
+          "list": [
+            "white",
+            "enriched",
+            "regular bread"
+          ]
+        },
+        {
+          "canonicalForm": "wheat",
+          "list": [
+            "wheat",
+            "whole grain",
+            "brown"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "cafeLocation",
+      "subLists": [
+        {
+          "canonicalForm": "redmond",
+          "list": [
+            "microsoft",
+            "eastside",
+            "east side"
+          ]
+        },
+        {
+          "canonicalForm": "renton",
+          "list": [
+            "boeing"
+          ]
+        },
+        {
+          "canonicalForm": "seattle",
+          "list": [
+            "seatac",
+            "tacoma",
+            "space needle",
+            "downtown seattle",
+            "washington"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "communicationOption",
+      "subLists": [
+        {
+          "canonicalForm": "call",
+          "list": [
+            "phone call",
+            "give me a ring",
+            "ring",
+            "call",
+            "cell phone",
+            "calls",
+            "called"
+          ]
+        },
+        {
+          "canonicalForm": "text",
+          "list": [
+            "message",
+            "text",
+            "sms",
+            "text message"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "confirmationList",
+      "subLists": [
+        {
+          "canonicalForm": "no",
+          "list": [
+            "no",
+            "no way",
+            "i'm not sure",
+            "do not do that",
+            "nagative",
+            "nothing",
+            "skip",
+            "nope",
+            "book it"
+          ]
+        },
+        {
+          "canonicalForm": "yes",
+          "list": [
+            "yes",
+            "yeah",
+            "yup",
+            "sure",
+            "ok",
+            "yep",
+            "affirmative"
+          ]
+        },
+        {
+          "canonicalForm": "cancel",
+          "list": [
+            "cancel",
+            "i dont want to do that",
+            "i do not want it"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "orderType",
+      "subLists": [
+        {
+          "canonicalForm": "1",
+          "list": [
+            "one at a time",
+            "first one",
+            "first option",
+            "one missing piece of information at a time",
+            "default",
+            "your choice",
+            "you pick",
+            "one prompt at a time",
+            "1",
+            "one"
+          ]
+        },
+        {
+          "canonicalForm": "2",
+          "list": [
+            "running summary",
+            "second option",
+            "second one",
+            "2nd one",
+            "2",
+            "two",
+            "give me a summary",
+            "summary at each step",
+            "summary of missing items"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "ProteinOption",
+      "subLists": [
+        {
+          "canonicalForm": "chicken",
+          "list": [
+            "chicken",
+            "barbecue chicken"
+          ]
+        },
+        {
+          "canonicalForm": "bacon",
+          "list": [
+            "bacon"
+          ]
+        },
+        {
+          "canonicalForm": "veggie",
+          "list": [
+            "veggie patty",
+            "veggie"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "SandwichSize",
+      "subLists": [
+        {
+          "canonicalForm": "small",
+          "list": [
+            "small",
+            "s",
+            "tiny",
+            "extra small",
+            "kid's size",
+            "kid size",
+            "small size"
+          ]
+        },
+        {
+          "canonicalForm": "medium",
+          "list": [
+            "medium",
+            "m",
+            "medium size",
+            "half",
+            "half size",
+            "regular size"
+          ]
+        },
+        {
+          "canonicalForm": "large",
+          "list": [
+            "large",
+            "l",
+            "extra large",
+            "xl",
+            "big",
+            "huge",
+            "full size"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "SandwichToppings",
+      "subLists": [
+        {
+          "canonicalForm": "tomato",
+          "list": [
+            "tomatoes",
+            "tomato"
+          ]
+        },
+        {
+          "canonicalForm": "lettuce",
+          "list": [
+            "lettuce",
+            "greens",
+            "iceberg"
+          ]
+        },
+        {
+          "canonicalForm": "onion",
+          "list": [
+            "onion"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "patternAnyEntities": [],
+  "regex_entities": [
+      {"one": "one"},
+      {"two": "two"}
+  ],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "geography",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "#1",
+      "intent": "Get prompt style intent",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 1,
+          "endPos": 1
+        }
+      ]
+    },
+    {
+      "text": "1",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 0,
+          "endPos": 0
+        }
+      ]
+    },
+    {
+      "text": "2",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 0,
+          "endPos": 0
+        }
+      ]
+    },
+    {
+      "text": "3",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 0,
+          "endPos": 0
+        }
+      ]
+    },
+    {
+      "text": "3 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 0,
+          "endPos": 0
+        }
+      ]
+    },
+    {
+      "text": "add example utterances that describe what your bot cannot do",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add sentences that are irrelevant to your bot",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add sentences that describe things your bot does not perform",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "and bellevue?",
+      "intent": "findCafeLocation",
+      "entities": []
+    },
+    {
+      "text": "and seattle?",
+      "intent": "findCafeLocation",
+      "entities": []
+    },
+    {
+      "text": "and the one in renton?",
+      "intent": "findCafeLocation",
+      "entities": []
+    },
+    {
+      "text": "andrew",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "ask for one missing information at a time",
+      "intent": "Get prompt style intent",
+      "entities": []
+    },
+    {
+      "text": "at 7pm?",
+      "intent": "findCafeLocation",
+      "entities": []
+    },
+    {
+      "text": "book a table",
+      "intent": "bookTableTrigger",
+      "entities": []
+    },
+    {
+      "text": "book a table at seatac",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 16,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "book a table for 2 in seattle",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 17,
+          "endPos": 17
+        },
+        {
+          "entity": "requestedLocation",
+          "startPos": 22,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "book a table for 3",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 17,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "book a table for 3 at seattle store for next thrusday 8pm",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 17,
+          "endPos": 17
+        },
+        {
+          "entity": "requestedLocation",
+          "startPos": 22,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "book a table for 3 guests in redmond",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 17,
+          "endPos": 17
+        },
+        {
+          "entity": "requestedLocation",
+          "startPos": 29,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "book a table for 3 guests near microsoft for next wednesday at 2pm",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 17,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "book a table for next thursday at 8pm please",
+      "intent": "bookTableTrigger",
+      "entities": []
+    },
+    {
+      "text": "book a table in san francisco",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 16,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "call me bob",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "call me colleen",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "call me to get hold of me",
+      "intent": "communicationPreference",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 8,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "call me vishwac",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "can i get a table for this sunday at renton",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 37,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "can i get a table in seattle, wa",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 21,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "can i get a wheat bread sandwich with chicken please",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "can i get some lettuce and tomato please",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "can i get white bread instead",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "can i please come in to seattle instead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 24,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "can you book a table for 3 guests",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 25,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "can you get me a sandwich on white bread please",
+      "intent": "orderSandwich",
+      "entities": [
+        {
+          "entity": "SandwichOrder",
+          "startPos": 29,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "can you get me a small sandwich",
+      "intent": "orderSandwich",
+      "entities": [
+        {
+          "entity": "SandwichOrder",
+          "startPos": 17,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "can you get me a table",
+      "intent": "bookTableTrigger",
+      "entities": []
+    },
+    {
+      "text": "can you get me the seattle store hours?",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 19,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "can you get me the store hours for the redmond store?",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 39,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "can you make it 5pm instead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "can you please book a table for 2 guests for this weekend?",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 32,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "ceo",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "do you have a veggie option?",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "does 3pm work for the seattle store?",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 22,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "find contoso cafe locations near me",
+      "intent": "findCafeLocation",
+      "entities": []
+    },
+    {
+      "text": "find contoso cafe locations near seatac airport",
+      "intent": "findCafeLocation",
+      "entities": []
+    },
+    {
+      "text": "find locations near paris",
+      "intent": "findCafeLocation",
+      "entities": []
+    },
+    {
+      "text": "first one",
+      "intent": "Get prompt style intent",
+      "entities": []
+    },
+    {
+      "text": "first option please",
+      "intent": "Get prompt style intent",
+      "entities": []
+    },
+    {
+      "text": "get a table for next wednesday",
+      "intent": "bookTableTrigger",
+      "entities": []
+    },
+    {
+      "text": "get a table for this sunday",
+      "intent": "bookTableTrigger",
+      "entities": []
+    },
+    {
+      "text": "get me a large sandwich please",
+      "intent": "orderSandwich",
+      "entities": [
+        {
+          "entity": "SandwichOrder",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "get me a regular sandwich with chicken",
+      "intent": "orderSandwich",
+      "entities": []
+    },
+    {
+      "text": "get me a sandwich",
+      "intent": "orderSandwich",
+      "entities": []
+    },
+    {
+      "text": "get me a white bread sandwich with bacon tomatoes and lettuce",
+      "intent": "orderSandwich",
+      "entities": [
+        {
+          "entity": "SandwichOrder",
+          "startPos": 9,
+          "endPos": 13
+        },
+        {
+          "entity": "SandwichOrder",
+          "startPos": 35,
+          "endPos": 39
+        },
+        {
+          "entity": "SandwichOrder",
+          "startPos": 41,
+          "endPos": 48
+        },
+        {
+          "entity": "SandwichOrder",
+          "startPos": 54,
+          "endPos": 60
+        }
+      ]
+    },
+    {
+      "text": "give me a running summary",
+      "intent": "Get prompt style intent",
+      "entities": []
+    },
+    {
+      "text": "good afternoon",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "good evening",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "good morning",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "good night",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hello bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "henrik",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hi bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hiya",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how about #2",
+      "intent": "Get prompt style intent",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 11,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "how about 2 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 10,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "how about a large sandwich",
+      "intent": "SandwichOrderIntent",
+      "entities": [
+        {
+          "entity": "SandwichOrder",
+          "startPos": 12,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "how about ham?",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "how about next thursday at 3pm",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about paris?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about san francisco",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about seattle",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 10,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "how about seattle?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about some lettuce",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "how about some lettuce and i would like to have wheat bread instead",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "how about the one in seattle",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 21,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "how about tomorrow",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about tomorrow?",
+      "intent": "findCafeLocation",
+      "entities": []
+    },
+    {
+      "text": "how should i call you?",
+      "intent": "whoAreYouIntent",
+      "entities": []
+    },
+    {
+      "text": "i cannot give you my name",
+      "intent": "askForUserName",
+      "entities": []
+    },
+    {
+      "text": "i cannot give you my nanme",
+      "intent": "askForUserName",
+      "entities": []
+    },
+    {
+      "text": "i do not want to give you my name",
+      "intent": "askForUserName",
+      "entities": []
+    },
+    {
+      "text": "i like to receive phone calls",
+      "intent": "communicationPreference",
+      "entities": []
+    },
+    {
+      "text": "i prefer the first option",
+      "intent": "Get prompt style intent",
+      "entities": []
+    },
+    {
+      "text": "i prefer to get text updates",
+      "intent": "communicationPreference",
+      "entities": []
+    },
+    {
+      "text": "i prefer to receive phone calls",
+      "intent": "communicationPreference",
+      "entities": []
+    },
+    {
+      "text": "i want coffee",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "newLocationHint",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "i will skip the toppings",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "i would like to book a table",
+      "intent": "bookTableTrigger",
+      "entities": []
+    },
+    {
+      "text": "i would like to come in to redmond instead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 27,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "i would like to order a sandwich",
+      "intent": "orderSandwich",
+      "entities": []
+    },
+    {
+      "text": "i'd like to bring in 2 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 21,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "i'd like to have veggie patty please",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "i'd prefer if you called me with any updates",
+      "intent": "communicationPreference",
+      "entities": []
+    },
+    {
+      "text": "i'm angshuman and i'm a human",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "i'm angshuman and i'm human",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "i'm jeremy",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "i'm john",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "i'm melanie",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "i'm tom",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "irina",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "is the renton store open next thursday at 2pm?",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 7,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "is the seattle store open today?",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 7,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "large",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "make it 5pm",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "make it veggie patty instead of chicken",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "my name is vishwac",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "my water bottle is green.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "next thursday at 3pm",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "no",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "no how about portland",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "no how about renton?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "no i would like to come in to seattle instead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 30,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "no toppings",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "nothing",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "one",
+      "intent": "Get prompt style intent",
+      "entities": []
+    },
+    {
+      "text": "order a large white bread sandwich",
+      "intent": "orderSandwich",
+      "entities": [
+        {
+          "entity": "SandwichOrder",
+          "startPos": 8,
+          "endPos": 12
+        },
+        {
+          "entity": "SandwichOrder",
+          "startPos": 14,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "paris",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "please help reserve a table for this sunday",
+      "intent": "bookTableTrigger",
+      "entities": []
+    },
+    {
+      "text": "redmond",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "regular white bread sandwich please",
+      "intent": "SandwichOrderIntent",
+      "entities": [
+        {
+          "entity": "SandwichOrder",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "remember i prefer to receive text messages",
+      "intent": "communicationPreference",
+      "entities": []
+    },
+    {
+      "text": "reserve a table for 2 at renton",
+      "intent": "bookTableTrigger",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 25,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "seattle please",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "send me a text message to get in touch with me",
+      "intent": "communicationPreference",
+      "entities": []
+    },
+    {
+      "text": "set my communication preference to text",
+      "intent": "communicationPreference",
+      "entities": []
+    },
+    {
+      "text": "small",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "there is a large deep dish pizza in your future.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "tomorrow",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "tomorrow at 2pm and i'd like to bring 2 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 38,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "tomorrow at 3pm",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "tomorrow at 3pm and i would like to bring 10 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "partySize",
+          "startPos": 42,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "tony",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "vishwac",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "wenbo",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "what about paris?",
+      "intent": "findCafeLocation",
+      "entities": []
+    },
+    {
+      "text": "what about seattle?",
+      "intent": "findCafeLocation",
+      "entities": []
+    },
+    {
+      "text": "what about the seattle store",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 15,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "what are some things i can say?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can i get done here?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can i say",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can you do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can you do for me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what is your name?",
+      "intent": "whoAreYouIntent",
+      "entities": []
+    },
+    {
+      "text": "what stores are open this weekend?",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "newLocationHint",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "when is the seattle store open?",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "where can i get coffee near redmond",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 28,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "where can i get coffee?",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "newLocationHint",
+          "startPos": 6,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "which ones are open today?",
+      "intent": "findCafeLocation",
+      "entities": [
+        {
+          "entity": "newLocationHint",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "white bread",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "who are you?",
+      "intent": "whoAreYouIntent",
+      "entities": []
+    },
+    {
+      "text": "who is your ceo?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "whole grain bread",
+      "intent": "SandwichOrderIntent",
+      "entities": []
+    },
+    {
+      "text": "why do you ask?",
+      "intent": "askForUserName",
+      "entities": []
+    },
+    {
+      "text": "why do you need my name?",
+      "intent": "askForUserName",
+      "entities": []
+    },
+    {
+      "text": "yes",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "yes go ahead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "yes please go ahead with seattle",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": [
+        {
+          "entity": "requestedLocation",
+          "startPos": 25,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "you can call me human",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "you can call me lucio",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "you can call me vishwac",
+      "intent": "askForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    }
+  ]
+}

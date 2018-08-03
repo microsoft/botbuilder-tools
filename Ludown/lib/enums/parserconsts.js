@@ -12,5 +12,6 @@ module.exports = {
     URLORFILEREF: "[",
     QNATABLE: "|",
     ANSWER: "```",
-    FILTER: "**"
+    FILTER: "**",
+    QNAALTERATIONS: "qna-alterations"
 };

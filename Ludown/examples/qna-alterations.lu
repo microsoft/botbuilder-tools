@@ -1,0 +1,19 @@
+> You can describe alternations list for QnA Maker using .lu files
+
+> https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/best-practices
+
+> https://westus.dev.cognitive.microsoft.com/docs/services/5a93fcf85b4ccd136866eb37/operations/5ac266295b4ccd1554da75fd
+
+> You can use qnamaker replace alterations
+
+$botframework : qna-alterations=
+- bot framework
+- Azure bot service
+
+$qnamaker : qna-alterations=
+- qna maker
+- QnA Maker
+- question and answer pairs
+
+$webchat : qna-alterations=
+- web chat

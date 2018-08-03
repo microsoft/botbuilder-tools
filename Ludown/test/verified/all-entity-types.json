@@ -1,0 +1,99 @@
+{
+  "intents": [],
+  "entities": [
+    {
+      "name": "userName",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "commPreference",
+      "subLists": [
+        {
+          "canonicalForm": "call",
+          "list": [
+            "phone call",
+            "give me a ring",
+            "ring",
+            "call",
+            "cell phone",
+            "phone"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "regex_entities": [],
+  "model_features": [
+    {
+      "name": "ChocolateType",
+      "words": "m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix",
+      "mode": false,
+      "activated": true
+    },
+    {
+      "name": "question",
+      "words": "are you,you are",
+      "mode": true,
+      "activated": true
+    }
+  ],
+  "regex_features": [],
+  "utterances": [],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "age",
+      "roles": []
+    },
+    {
+      "name": "dimension",
+      "roles": []
+    },
+    {
+      "name": "email",
+      "roles": []
+    },
+    {
+      "name": "money",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    },
+    {
+      "name": "ordinal",
+      "roles": []
+    },
+    {
+      "name": "percentage",
+      "roles": []
+    },
+    {
+      "name": "phoneNumber",
+      "roles": []
+    },
+    {
+      "name": "temperature",
+      "roles": []
+    },
+    {
+      "name": "url",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "all-entity-types",
+  "desc": "",
+  "culture": "en-us"
+}

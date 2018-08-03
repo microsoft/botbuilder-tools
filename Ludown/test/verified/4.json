@@ -1,0 +1,135 @@
+{
+  "intents": [
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "AskForUserName"
+    }
+  ],
+  "entities": [
+    {
+      "name": "userName",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Good morning",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Good evening",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "please help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "I'm vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "call me vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "my name is vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "vishwac is my name",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "you can call me vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "4",
+  "desc": "",
+  "culture": "en-us"
+}
