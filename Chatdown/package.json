@@ -7,7 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "cd test/ && mocha --opts mocha.opts"
+    "test": "cd test/ && mocha --opts mocha.opts",
+    "test:travis": "cd test/ && nyc mocha --opts mocha.opts && nyc report --reporter=text-lcov | coveralls"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -40,6 +41,8 @@
     "chatdown": "./bin/chatdown"
   },
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "coveralls": "^3.0.2",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2"
   }
 }

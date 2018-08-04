@@ -238,6 +238,23 @@ Here's an example usage:
     You can get coffee in our Portland store at 52 marine drive, Portland, OR
     ```
 ```
+
+## QnA Maker alterations
+QnA Maker supports [word alterations](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/best-practices#use-synonyms) as a way to improve the likelihood that a given user query is answered with an appropriate response. You can use this feature to add synonyms to keywords that take differen form. 
+
+You can describe word alterations/ synonyms list in .lu files using the following notation - 
+```markdown
+$<synonym word>:qna-alteration=
+- <list of synonyms>
+```
+
+Here's an example: 
+```markdown
+$botframework : qna-alterations=
+- bot framework
+- Microsoft bot framework
+```
+
 ## Adding comments
 You can add comments to your .lu document by prefixing the comment with >. Here's an example: 
 

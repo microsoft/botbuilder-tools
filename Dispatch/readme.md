@@ -78,7 +78,7 @@ Arguments
 | -t, --type   | luis, qna, file|
 | -i, --id     | (required only if type is luis/qna) LUIS app id or QnA kb id from application settings page|
 | -n, --name   | LUIS app name or QnA name (from application settings page) or module/file name for file type |
-| -k, --key    | (required only if type is luis/qna) LUIS authoring key (from https://www.luis.ai/user/settings) or QnA maker key (from QnA Maker Cognitive Service resource page on https://ms.portal.azure.com) |
+| -k, --key    | (required only if type is luis/qna) LUIS authoring key (from https://www.luis.ai/user/settings, see https://aka.ms/luiskeys for more information on LUIS keys) or QnA maker subscription key (from https://ms.portal.azure.com, see https://aka.ms/qnamakerkeys for more information about QnA Maker keys) |
 | -v, --version| (Required only if type is luis) LUIS app version |
 | -f, --filePath| (Required only if type is file) Path to tsv file containing tab delimited intent and utterance fields or .txt file with an utterance on each line |
 | --intentName  | (optional) Dispatch intent name for this source, name param value will be used otherwise |

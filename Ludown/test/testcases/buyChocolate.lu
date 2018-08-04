@@ -1,4 +1,4 @@
-// reference to phrase lists for this bot
+> reference to phrase lists for this bot
 #ref('./phraseLists.lu')
 
 $ChocolateType:phraseList

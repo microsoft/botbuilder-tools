@@ -1,6 +1,6 @@
 {
   "name": "qnamaker",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "description": "Tooling for connectivity with the QnA Maker APIs",
   "main": "lib/api/index.js",
   "bin": {
@@ -13,7 +13,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "cd test/ && mocha --opts mocha.opts"
+    "test": "cd test/ && mocha --opts mocha.opts",
+    "test:travis": "cd test/ && nyc mocha --opts mocha.opts && nyc report --reporter=text-lcov | coveralls"
   },
   "engines": {
     "node": ">=8.0"
@@ -54,6 +55,9 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^5.0.4"
+    "mocha": "^5.0.4",
+    "mocha-lcov-reporter": "^1.3.0",
+    "coveralls": "^3.0.2",
+    "nyc": "^12.0.2"
   }
 }
