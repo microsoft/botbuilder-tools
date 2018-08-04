@@ -554,7 +554,7 @@
         "target": [
             "version"
         ],
-        "command": "luis rename version --in versionUpdateObject.json --appId <string> --versionId <string>",
+        "command": "luis rename version --appId <string> --versionId <string> --newVersionId <string>",
         "pathFragment": "/{versionId}/",
         "params": [
             {
@@ -573,12 +573,18 @@
                 "required": true,
                 "type": "string",
                 "x-ms-parameter-location": "method"
+            },
+            {
+                "name": "newVersionId",
+                "in": "path",
+                "description": "The renamed version ID.",
+                "required": true,
+                "type": "string",
+                "x-ms-parameter-location": "method"
             }
         ],
         "description": "Updates the name or description of the application version.",
-        "name": "Update",
-        "entityName": "versionUpdateObject",
-        "entityType": "TaskUpdateObject"
+        "name": "Update"
     },
     {
         "method": "get",
@@ -616,7 +622,7 @@
         "target": [
             "version"
         ],
-        "command": "luis clone version --in versionCloneObject.json --appId <string> --versionId <string>",
+        "command": "luis clone version --appId <string> --versionId <string> --newVersionId <string>",
         "pathFragment": "",
         "params": [
             {
@@ -635,12 +641,18 @@
                 "required": true,
                 "type": "string",
                 "x-ms-parameter-location": "method"
+            },
+            {
+                "name": "newVersionId",
+                "in": "path",
+                "description": "The new cloned version ID.",
+                "required": true,
+                "type": "string",
+                "x-ms-parameter-location": "method"
             }
         ],
         "description": "Creates a new version using the current snapshot of the selected application version.",
-        "name": "Clone",
-        "entityName": "versionCloneObject",
-        "entityType": "TaskUpdateObject"
+        "name": "Clone"
     },
     {
         "method": "get",

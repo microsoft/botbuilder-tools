@@ -28,7 +28,9 @@ class Versions {
      *
      * @param {string} versionId The version ID.
      *
-     * @param {VersionsCloneOptionalParams} [options] Optional Parameters.
+     * @param {TaskUpdateObject} versionCloneObject A model containing the new version ID.
+     *
+     * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
      *
@@ -36,11 +38,12 @@ class Versions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    cloneWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    cloneWithHttpOperationResponse(azureRegion, appId, versionId, versionCloneObject, options) {
         return this.client.sendOperationRequest({
             azureRegion,
             appId,
             versionId,
+            versionCloneObject,
             options
         }, cloneOperationSpec);
     }
@@ -237,8 +240,8 @@ class Versions {
             options
         }, deleteUnlabelledUtteranceOperationSpec);
     }
-    clone(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.cloneWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    clone(azureRegion, appId, versionId, versionCloneObject, options, callback) {
+        return msRest.responseToBody(this.cloneWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, versionCloneObject, options, callback);
     }
     list(azureRegion, appId, options, callback) {
         return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, appId, options, callback);
@@ -274,11 +277,8 @@ const cloneOperationSpec = {
         Parameters.versionId0
     ],
     requestBody: {
-        parameterPath: [
-            "options",
-            "versionCloneObject"
-        ],
-        mapper: Mappers.TaskUpdateObject
+        parameterPath: "versionCloneObject",
+        mapper: Object.assign({}, Mappers.TaskUpdateObject, { required: true })
     },
     responses: {
         201: {

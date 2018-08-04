@@ -194,7 +194,10 @@ async function runProgram() {
         case "clone":
             switch (target) {
                 case "version":
-                    result = await client.versions.clone(args.region, args.appId, args.versionId, args);
+                    if (!args.newVersionId) {
+                        throw new Error(`missing --newVersionId`);
+                    }
+                    result = await client.versions.clone(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
                     break;
 
                 default:
@@ -344,7 +347,7 @@ async function runProgram() {
                 case "app":
                 case "application":
                     result = await client.apps.importMethod(args.region, requestBody, args);
-                    let result = await client.apps.get(args.region, result, args);
+                    result = await client.apps.get(args.region, result, args);
                     writeAppToConsole(config, args, requestBody, result);
                     break;
 
@@ -473,7 +476,11 @@ async function runProgram() {
             switch (target) {
 
                 case "version":
-                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
+                    if (!args.newVersionId) {
+                        throw new Error(`missing --newVersionId`);
+                    }
+
+                    result = await client.versions.update(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -553,6 +560,14 @@ async function runProgram() {
                 case "sublist":
                     result = await client.model.updateSubList(args.region, args.appId, args.versionId, args.clEntityId, args.subListId, requestBody, args);
                     break;
+                case "version":
+                    if (!args.newVersionId) {
+                        throw new Error(`missing --newVersionId`);
+                    }
+
+                    result = await client.versions.update(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
+                    break;
+
                 default:
                     throw new Error(`Unknown resource: ${target}`);
             }
@@ -563,11 +578,11 @@ async function runProgram() {
             throw new Error(`Unknown verb: ${verb}`);
     }
 
-    if (result.error) {
+    if (result && result.error) {
         throw new Error(result.error.message);
     }
 
-    process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+    process.stdout.write((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
 }
 
 function writeAppToConsole(config, args, requestBody, result) {
