@@ -2,7 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/luis-apis.svg)](https://badge.fury.io/js/luis-apis)
 
-The LUIS APIs tool allows communication with the LUIS endpoints via command line. 
+The LUIS APIs tool allows communication with the LUIS endpoints via command line. You can also
+use this as a node module via an import.
 
 Any endpoint listed in the [documentation for the LUIS Programmatic APIs v2.0](https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c2f)
 is available using the CLI. 
@@ -278,3 +279,29 @@ Basic usage: `luis <action> <resource> <args...>`
 | `luis update version --in versionUpdateObject.json --appId <string> --versionId <string>`                                                   | Update the name or description of the application version.                                                                                  |
 | **Versions**                                                                                                                                |                                                                                                                                             |
 | `luis list versions --appId <string> --skip <integer> --take <integer>`                                                                     | Get the application versions info.                                                                                                          |
+
+
+## How to Install into a node project
+
+To save as a dependency into your node project:
+```
+npm install --save luis-apis
+```
+
+## How to use
+
+```javascript
+import * as msRest from "ms-rest-js";
+import { LuisAuthoring, LuisAuthoringModels, LuisAuthoringMappers } from "luis-apis";
+const options = { customHeaders: { "accept-language": "en-US" } };
+const creds = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": authoringKey } });
+const client = new LuisAuthoring(creds);
+const azureRegion = "westus";
+client.apps.list(azureRegion, options).then((result) => {
+  console.log("The result is:");
+  console.log(result);
+}).catch((err) => {
+  console.log('An error ocurred:');
+  console.dir(err, {depth: null, colors: true});
+});
+```
