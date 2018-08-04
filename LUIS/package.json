@@ -16,7 +16,8 @@
   },
   "scripts": {
     "test": "cd test/ && mocha --opts mocha.opts",
-    "test:travis": "cd test/ && nyc mocha --opts mocha.opts && nyc report --reporter=text-lcov | coveralls"
+    "test:travis": "npm run build && cd test/ && nyc mocha --opts mocha.opts && nyc report --reporter=text-lcov | coveralls",
+    "build": "tsc"
   },
   "engines": {
     "node": ">=8.0"
