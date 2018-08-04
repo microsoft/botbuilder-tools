@@ -36,7 +36,7 @@ let workingDirectory;
  */
 module.exports = async function readContents(fileContents, args = {}) {
     if (args.static || args.s) {
-        now = Number(new Date(2015, 9, 15, 12, 0, 0, 0));
+        now = new Date(2015, 9, 15, 12, 0, 0, 0).getTime();
     }
     // Resolve file paths based on the input file with a fallback to the cwd
     workingDirectory = args.in ? path.dirname(path.resolve(args.in)) : __dirname;
