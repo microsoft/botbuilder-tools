@@ -30,7 +30,8 @@ chatdown <chat> --help
 |-------------| ------------------------- |
 | `<chatfile>` | The path of the chat file to be parsed. If omitted, stdin will be used. |
 | `-v, --version` | show version |
-| `--help`    | Output the help to the console|
+| `--help`    | Output the help to the console |
+| `--static`  | use static timestamps when generating timestamps on activities. |
 
 ## .chat File Format
 
