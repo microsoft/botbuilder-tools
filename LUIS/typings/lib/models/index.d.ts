@@ -2575,20 +2575,6 @@ export interface AppsImportMethodOptionalParams extends msRest.RequestOptionsBas
 }
 /**
  * @interface
- * An interface representing VersionsCloneOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface VersionsCloneOptionalParams extends msRest.RequestOptionsBase {
-    /**
-     * @member {TaskUpdateObject} [versionCloneObject] A model containing the new
-     * version ID.
-     */
-    versionCloneObject?: TaskUpdateObject;
-}
-/**
- * @interface
  * An interface representing VersionsListOptionalParams.
  * Optional Parameters.
  *

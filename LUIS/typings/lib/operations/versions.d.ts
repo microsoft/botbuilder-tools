@@ -20,7 +20,9 @@ export declare class Versions {
      *
      * @param {string} versionId The version ID.
      *
-     * @param {VersionsCloneOptionalParams} [options] Optional Parameters.
+     * @param {TaskUpdateObject} versionCloneObject A model containing the new version ID.
+     *
+     * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
      *
@@ -28,7 +30,7 @@ export declare class Versions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    cloneWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.VersionsCloneOptionalParams): Promise<msRest.HttpOperationResponse<string>>;
+    cloneWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>>;
     /**
      * Gets the application versions info.
      *
@@ -183,7 +185,9 @@ export declare class Versions {
      *
      * @param {string} versionId The version ID.
      *
-     * @param {VersionsCloneOptionalParams} [options] Optional Parameters.
+     * @param {TaskUpdateObject} versionCloneObject A model containing the new version ID.
+     *
+     * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @param {ServiceCallback} callback The callback.
      *
@@ -194,10 +198,10 @@ export declare class Versions {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    clone(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<string>;
-    clone(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.VersionsCloneOptionalParams): Promise<string>;
-    clone(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<string>): void;
-    clone(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.VersionsCloneOptionalParams, callback: msRest.ServiceCallback<string>): void;
+    clone(azureRegion: Models.AzureRegions, appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject): Promise<string>;
+    clone(azureRegion: Models.AzureRegions, appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, options: msRest.RequestOptionsBase): Promise<string>;
+    clone(azureRegion: Models.AzureRegions, appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, callback: msRest.ServiceCallback<string>): void;
+    clone(azureRegion: Models.AzureRegions, appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
     /**
      * Gets the application versions info.
      *

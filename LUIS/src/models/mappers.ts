@@ -2807,6 +2807,7 @@ export const ErrorResponse: msRest.CompositeMapper = {
     className: "ErrorResponse",
     modelProperties: {
       additionalProperties: {
+        serializedName: "additionalProperties",
         type: {
           name: "Dictionary",
           value: {
@@ -3909,23 +3910,6 @@ export const AppsImportMethodOptionalParams: msRest.CompositeMapper = {
         serializedName: "appName",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const VersionsCloneOptionalParams: msRest.CompositeMapper = {
-  serializedName: "CloneOptions",
-  type: {
-    name: "Composite",
-    className: "VersionsCloneOptionalParams",
-    modelProperties: {
-      versionCloneObject: {
-        serializedName: "versionCloneObject",
-        type: {
-          name: "Composite",
-          className: "TaskUpdateObject"
         }
       }
     }

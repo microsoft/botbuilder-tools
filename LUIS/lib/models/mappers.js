@@ -2702,6 +2702,7 @@ exports.ErrorResponse = {
         className: "ErrorResponse",
         modelProperties: {
             additionalProperties: {
+                serializedName: "additionalProperties",
                 type: {
                     name: "Dictionary",
                     value: {
@@ -3764,22 +3765,6 @@ exports.AppsImportMethodOptionalParams = {
                 serializedName: "appName",
                 type: {
                     name: "String"
-                }
-            }
-        }
-    }
-};
-exports.VersionsCloneOptionalParams = {
-    serializedName: "CloneOptions",
-    type: {
-        name: "Composite",
-        className: "VersionsCloneOptionalParams",
-        modelProperties: {
-            versionCloneObject: {
-                serializedName: "versionCloneObject",
-                type: {
-                    name: "Composite",
-                    className: "TaskUpdateObject"
                 }
             }
         }
