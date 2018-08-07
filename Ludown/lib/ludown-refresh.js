@@ -5,8 +5,8 @@
  */
 const program = require('commander');
 const chalk = require('chalk');
-const toLU = require('./toLU');
-const retCode = require('./enums/CLI-errors');
+const toLU = require('../lib/toLU');
+const retCode = require('../lib/enums/CLI-errors');
 program.Command.prototype.unknownOption = function (flag) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
@@ -41,4 +41,3 @@ program
                 process.exit(err.errCode);
             });  
     }
-   
