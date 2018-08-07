@@ -12,7 +12,8 @@ const txtfile = require('read-text-file');
 const trHelpers = require('../lib/translate-helpers');
 const pathToOutputFolder = path.resolve('./test/output');
 const fs = require('fs');
-
+const helpers = require('../lib/helpers');
+const NEWLINE = require('os').EOL;
 const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
 const SHOW_LOGS = false;
 
@@ -98,7 +99,7 @@ describe('With translate module', function() {
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', false, true, SHOW_LOGS)
             .then(function(res) {
                 try {
-                    assert.equal(res, `> test\r\n`);
+                    assert.equal(res, `> test` + NEWLINE);
                     done();
                 } catch (err) {
                     done(err);
@@ -139,7 +140,7 @@ describe('With translate module', function() {
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', true, false, SHOW_LOGS)
             .then(function(res) {
                 try {
-                    assert.equal(res, `[123]('./1.lu')\r\n`);
+                    assert.equal(res, `[123]('./1.lu')` + NEWLINE);
                     done();
                 } catch (err) {
                     done(err);
@@ -165,9 +166,11 @@ describe('With translate module', function() {
         if (!TRANSLATE_KEY) {
             this.skip();
         }
-        let fileContent = `$ hello : qna-alterations = 
-- hello`;
-        let translatedContent = '$Hallo : qna-alterations = \r\n- Hallo\r\n';
+        let fileContent = helpers.sanitizeNewLines(`$ hello : qna-alterations = 
+- hello`);
+        let translatedContent = helpers.sanitizeNewLines(`$Hallo : qna-alterations = 
+- Hallo
+`);
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', false, true, SHOW_LOGS)
             .then(function(res) {
                 assert.equal(translatedContent, res);

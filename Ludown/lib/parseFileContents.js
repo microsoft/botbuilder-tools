@@ -19,6 +19,7 @@ const qna = require('./classes/qna');
 const exception = require('./classes/exception');
 const LUIS = require('./classes/LUIS');
 const qnaAlterations = require('./classes/qnaAlterations');
+const NEWLINE = require('os').EOL;
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
@@ -136,6 +137,7 @@ const parseFileContentsModule = {
      */
     parseFile : async function(fileContent, log, locale) 
     {
+        fileContent = helpers.sanitizeNewLines(fileContent);
         let parsedContent = new parserObj();
         let splitOnBlankLines = '';
         try {
@@ -146,7 +148,7 @@ const parseFileContentsModule = {
         // loop through every chunk of information
         splitOnBlankLines.forEach(function(chunk) {
             chunk = chunk.trim();
-            let chunkSplitByLine = chunk.split(/\r\n|\r|\n/g);
+            let chunkSplitByLine = chunk.split(NEWLINE);
             if(chunk.indexOf(PARSERCONSTS.URLREF) === 0) {
                 try {
                     parseURLOrFileRef(parsedContent, PARSERCONSTS.URLREF,chunkSplitByLine)
@@ -567,7 +569,6 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
     let intentName = chunkSplitByLine[0].substring(chunkSplitByLine[0].indexOf(' ') + 1);
     // is this a QnA section? Qna sections have intent names that begin with ?
     if(intentName.trim().indexOf(PARSERCONSTS.QNA) === 0) {
-        const NEWLINE = '\r\n';
         let questions = [];
         let answer = "";
         let InanswerSection = false;

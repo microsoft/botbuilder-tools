@@ -9,7 +9,7 @@ const { exec } = require('child_process');
 const ludown = require.resolve('../bin/ludown');
 const txtfile = require('read-text-file');
 const fs = require('fs');
-
+const NEWLINE = require('os').EOL;
 const TEST_ROOT = path.join(__dirname);
 const PATH_TO_OUTPUT_FOLDER = path.resolve(TEST_ROOT + '/output');
 
@@ -17,6 +17,12 @@ function compareFiles(actualPath, expectedPath) {
     let expected = txtfile.readSync(actualPath).split(/\r?\n/);
     let actual = txtfile.readSync(expectedPath).split(/\r?\n/);;
     assert.deepEqual(actual, expected);
+}
+
+function sanitizeExampleJson(fileContent) {
+    let escapedExampleNewLine = JSON.stringify('\r\n').replace(/\"/g, '').replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    let escapedNewLine = JSON.stringify(NEWLINE).replace(/\"/g, '');
+    return fileContent.replace(new RegExp(escapedExampleNewLine, 'g'), escapedNewLine);
 }
 
 describe('The example lu files', function() {
@@ -239,7 +245,7 @@ describe('The example lu files', function() {
     it('with mix of LUIS and QnA content is parsed correctly [QnA]', function(done) {
         exec(`node ${ludown} parse toqna --in ${TEST_ROOT}/../examples/12.lu -o ${TEST_ROOT}/output -n 12qna`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/12qna.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/12qna.json')));    
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/12qna.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/12qna.json'))));    
                 done();
             } catch (err) {
                 done(err);
@@ -263,7 +269,7 @@ describe('The example lu files', function() {
     it('all concepts of lu file definition is parsed correctly  [QnA]', function(done) {
         exec(`node ${ludown} parse toqna --in ${TEST_ROOT}/../examples/all.lu -o ${TEST_ROOT}/output -n all-qna`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/all-qna.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/output/all-qna.json')));
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/all-qna.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/all-qna.json'))));
                 done();
             } catch (err) {
                 done(err);
@@ -365,7 +371,7 @@ describe('The example lu files', function() {
     it('Collate can correctly merge QnA content split across LU files', function(done){
         exec(`node ${ludown} parse toqna -l ${TEST_ROOT}/testcases/collate -n collate-qna -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/collate-qna.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/collate-qna.json')));
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/collate-qna.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/collate-qna.json'))));
                 done();
             } catch (err) {
                 done(err);

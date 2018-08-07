@@ -7,15 +7,16 @@ var assert = chai.assert;
 const testData = require('./testcases/translate-testcase-data');
 const translate = require('../lib/translate-helpers');
 const retCode = require('../lib/enums/CLI-errors');
-
+const helpers = require('../lib/helpers');
+const NEWLINE = require('os').EOL;
 const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
 
 describe('With the parseAndTranslate method', function() {
     it('Translating comments can be skipped', function(done) {
         translate.parseAndTranslate(`> This is a comment`, TRANSLATE_KEY, testData.tests.intentsAndUtterancesNC.langCode, '', false, false, false)
             .then(function(res) {
-                assert.equal(res, `> This is a comment
-`.replace(/\n/g, '\r\n'));
+                assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(`> This is a comment
+`));
 done();
             })
             .catch(err => done(err));
@@ -28,7 +29,7 @@ done();
         }
         translate.parseAndTranslate(testData.tests.qna.luFile, TRANSLATE_KEY, testData.tests.qna.langCode, '', false, false, false)
             .then(function(res) {
-                    assert.equal(res, testData.tests.qna.translatedContent.replace(/\n/g, '\r\n'));
+                    assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.qna.translatedContent));
                     done();
             })
             .catch(err => done(err))
@@ -41,7 +42,7 @@ done();
         }
         translate.parseAndTranslate(testData.tests.phraseList.luFile, TRANSLATE_KEY, testData.tests.phraseList.langCode, '', false, false, false)
             .then(function(res) {
-                assert.equal(res, testData.tests.phraseList.translatedContent.replace(/\n/g, '\r\n'));
+                assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.phraseList.translatedContent));
                     done();
             })
             .catch(err => done(err))
@@ -65,7 +66,7 @@ done();
         }
         translate.parseAndTranslate(testData.tests.fileRef.luFile, TRANSLATE_KEY, testData.tests.fileRef.langCode, '', false, false, false)
             .then(function(res) {
-                assert.equal(res, testData.tests.fileRef.luFile.replace(/\n/g, '\r\n\r\n'));
+                assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.fileRef.luFile + NEWLINE));
                     done();
             })
             .catch(err => done(err))
@@ -124,7 +125,7 @@ done();
     }
     translate.parseAndTranslate(testData.tests.labelledEntityValue.luFile, TRANSLATE_KEY, testData.tests.labelledEntityValue.langCode, '', false, true, false)
         .then(function(res) {
-            assert.equal(res, testData.tests.labelledEntityValue.translatedContent.replace(/\n/g, '\r\n'));    
+            assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.labelledEntityValue.translatedContent));
             done();
         })
         .catch(err => done(err))
@@ -168,7 +169,7 @@ done();
         }
         translate.parseAndTranslate(testData.tests.fileRef.luFile, TRANSLATE_KEY, testData.tests.fileRef.langCode, '', false, true, false)
             .then(function(res) {
-                assert.equal(res, testData.tests.fileRef.translatedContent.replace(/\n/g, '\r\n\r\n'));    
+                assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.fileRef.translatedContent + NEWLINE));    
                 done();
             })
             .catch(err => done(err))
@@ -182,7 +183,7 @@ done();
         }
         translate.parseAndTranslate(testData.tests.allEntities.luFile, TRANSLATE_KEY, testData.tests.allEntities.langCode, '', false, false, false)
             .then(function(res) {
-                assert.equal(res, testData.tests.allEntities.translatedContent.replace(/\n/g, '\r\n'));
+                assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.allEntities.translatedContent));
                 done();
             })
             .catch(err => done(err))
@@ -194,7 +195,7 @@ done();
         }
         translate.parseAndTranslate(testData.tests.intentsAndUtterances.luFile, TRANSLATE_KEY, testData.tests.intentsAndUtterances.langCode, 'en-us', true, false, true)
             .then(function(res) {
-                    assert.equal(res, testData.tests.intentsAndUtterances.translatedContent.replace(/\n/g, '\r\n'));
+                    assert.equal(res, helpers.sanitizeNewLines(testData.tests.intentsAndUtterances.translatedContent));
                     done();
             })
             .catch(err => done(err))
@@ -207,7 +208,7 @@ done();
         translate.parseAndTranslate(`# ? hello
 \`\`\`markdown`, TRANSLATE_KEY, 'de', 'en-us', true, false, true)
             .then(function(res) {
-                    assert.equal('# ? Hallo\r\n```markdown\r\n', res);
+                    assert.equal('# ? Hallo' + NEWLINE + '```markdown' + NEWLINE, res);
                     done();
             })
             .catch(err => done(err))
