@@ -10,7 +10,6 @@ function getServiceManifest(args) {
         return null; //bail show help
     let verb = args._[0];
     let target = (args._.length >= 2) ? args._[1] : undefined;
-    let arguments = (args._.length > 2) ? args._.slice(2) : [];
 
     let payload = getOperation(verb, target);
     return payload;
@@ -18,7 +17,6 @@ function getServiceManifest(args) {
 
 
 function getOperation(verb, target) {
-    let operation;
     for (let apiGroupName in manifest) {
         let apiGroup = manifest[apiGroupName];
         for (let iOperation in apiGroup.operations) {
