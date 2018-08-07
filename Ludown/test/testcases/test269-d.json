@@ -1,0 +1,56 @@
+{
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "Repro",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "None"
+    },
+    {
+      "name": "TestIntent"
+    }
+  ],
+  "entities": [
+    {
+      "name": "EntityOne",
+      "roles": []
+    },
+    {
+      "name": "EntityTwo",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "this is a one and a two and a one again",
+      "intent": "TestIntent",
+      "entities": [
+        {
+          "entity": "EntityOne",
+          "startPos": 30,
+          "endPos": 32
+        },
+        {
+          "entity": "EntityTwo",
+          "startPos": 20,
+          "endPos": 22
+        },
+        {
+          "entity": "EntityOne",
+          "startPos": 10,
+          "endPos": 12
+        }
+      ]
+    }
+  ]
+}

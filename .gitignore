@@ -236,8 +236,7 @@ FakesAssemblies/
 .ntvs_analysis.dat
 node_modules/
 
-# Typescript v1 declaration files
-typings/
+# Typescript v1 declaration files 
 
 # Visual Studio 6 build log
 *.plg
@@ -298,3 +297,6 @@ __pycache__/
 AzureCli/azext_bot/dist/
 AzureCli/azext_bot/build/
 
+# macOS stuff
+.DS_Store
+/LUIS/.nyc_output
