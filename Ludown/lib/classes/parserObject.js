@@ -24,6 +24,6 @@ class parserObject {
         this.qnaJsonStructure = new QnA();
         this.qnaAlterations = new qnaAlterations.qnaAlterations();
     }
-};
+}
 
 module.exports = parserObject;

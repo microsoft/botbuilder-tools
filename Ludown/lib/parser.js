@@ -3,6 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+/*eslint no-console: ["error", { allow: ["log"] }] */
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');

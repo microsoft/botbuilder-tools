@@ -7,7 +7,7 @@ const program = require('commander');
 const chalk = require('chalk');
 const translate = require('../lib/translate');
 const retCode = require('../lib/enums/CLI-errors');
-program.Command.prototype.unknownOption = function (flag) {
+program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
 };
@@ -28,25 +28,24 @@ program
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
 
-    if (!program.in && !program.lu_folder) {
-        process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
-        program.help();
-    } 
-    if(!program.translate_key) {
-        process.stderr.write(chalk.default.redBright(`\n  No translate key provided.\n`));
-        program.help();
-    }
-    if(!program.to_lang) {
-        process.stderr.write(chalk.default.redBright(`\n  No target language provided.\n`));
-        program.help();
-    }
-    translate.translateContent(program)
-        .then(function(){
-            process.exit(retCode.errorCode.SUCCESS);
-        })
-        .catch(function(err) {
-            process.stderr.write(chalk.default.redBright(err.text + '\n'));
-            process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
-            process.exit(err.errCode);
-        });        
-   
+if (!program.in && !program.lu_folder) {
+    process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
+    program.help();
+}
+if (!program.translate_key) {
+    process.stderr.write(chalk.default.redBright(`\n  No translate key provided.\n`));
+    program.help();
+}
+if (!program.to_lang) {
+    process.stderr.write(chalk.default.redBright(`\n  No target language provided.\n`));
+    program.help();
+}
+translate.translateContent(program)
+    .then(function () {
+        process.exit(retCode.errorCode.SUCCESS);
+    })
+    .catch(function (err) {
+        process.stderr.write(chalk.default.redBright(err.text + '\n'));
+        process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
+        process.exit(err.errCode);
+    });

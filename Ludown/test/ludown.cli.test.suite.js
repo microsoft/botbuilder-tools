@@ -19,7 +19,7 @@ describe('The ludown cli tool', function() {
 
     describe('with no command', function() {
         it('should print the help contents when --help is passed as an argument', function(done) {
-            exec(`node ${ludown} --help`, (error, stdout, stderr) => {
+            exec(`node ${ludown} --help`, (error, stdout) => {
                 try {
                     assert.equal(stdout.includes('-v'), true);
                     done();
@@ -30,7 +30,7 @@ describe('The ludown cli tool', function() {
         });
 
         it('should print the help contents no arguments are passed', function(done) {
-            exec(`node ${ludown}`, (error, stdout, stderr) => {
+            exec(`node ${ludown}`, (error, stdout) => {
                 try {
                     assert.equal(stdout.includes('-v'), true);
                     done();
@@ -210,7 +210,7 @@ describe('The ludown cli tool', function() {
         });
 
         it('should show help when root file is missing', function(done) {
-            exec(`node ${ludown} parse toluis`, (error, stdout, stderr) => {
+            exec(`node ${ludown} parse toluis`, (error, stdout) => {
                 try {
                     assert.equal(stdout.includes('Usage: ludown parse ToLuis --in <luFile>'),true);
                     done();
@@ -298,7 +298,7 @@ describe('The ludown cli tool', function() {
         });
 
         it('should show help when root file is missing', function(done) {
-            exec(`node ${ludown} parse toqna`, (error, stdout, stderr) => {
+            exec(`node ${ludown} parse toqna`, (error, stdout) => {
                 try {
                     assert.equal(stdout.includes('ludown parse ToQna --in <luFile>'), true);    
                     done();
@@ -377,7 +377,7 @@ describe('The ludown cli tool', function() {
         });
 
         it('should show help when root file is missing', function(done) {
-            exec(`node ${ludown} refresh`, (error, stdout, stderr) => {
+            exec(`node ${ludown} refresh`, (error, stdout) => {
                 try {
                     assert.equal(stdout.includes('Usage: ludown refresh -i <LUISJsonFile>'), true);
                     done();
