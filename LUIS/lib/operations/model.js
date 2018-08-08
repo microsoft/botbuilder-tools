@@ -20,10 +20,6 @@ class Model {
     /**
      * Adds an intent classifier to the application.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -39,9 +35,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentCreateObject, options) {
+    addIntentWithHttpOperationResponse(appId, versionId, intentCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             intentCreateObject,
@@ -50,10 +45,6 @@ class Model {
     }
     /**
      * Gets information about the intent models.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -67,9 +58,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listIntentsWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listIntentsWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -77,10 +67,6 @@ class Model {
     }
     /**
      * Adds an entity extractor to the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -97,9 +83,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addEntityWithHttpOperationResponse(azureRegion, appId, versionId, modelCreateObject, options) {
+    addEntityWithHttpOperationResponse(appId, versionId, modelCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             modelCreateObject,
@@ -108,10 +93,6 @@ class Model {
     }
     /**
      * Gets information about the entity models.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -125,9 +106,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listEntitiesWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -135,10 +115,6 @@ class Model {
     }
     /**
      * Adds a hierarchical entity extractor to the application version.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -155,9 +131,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hierarchicalModelCreateObject, options) {
+    addHierarchicalEntityWithHttpOperationResponse(appId, versionId, hierarchicalModelCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hierarchicalModelCreateObject,
@@ -166,10 +141,6 @@ class Model {
     }
     /**
      * Gets information about the hierarchical entity models.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -183,9 +154,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listHierarchicalEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listHierarchicalEntitiesWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -193,10 +163,6 @@ class Model {
     }
     /**
      * Adds a composite entity extractor to the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -213,9 +179,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, compositeModelCreateObject, options) {
+    addCompositeEntityWithHttpOperationResponse(appId, versionId, compositeModelCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             compositeModelCreateObject,
@@ -224,10 +189,6 @@ class Model {
     }
     /**
      * Gets information about the composite entity models.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -241,9 +202,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listCompositeEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listCompositeEntitiesWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -251,10 +211,6 @@ class Model {
     }
     /**
      * Gets information about the closedlist models.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -268,9 +224,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listClosedListsWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listClosedListsWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -278,10 +233,6 @@ class Model {
     }
     /**
      * Adds a closed list model to the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -298,9 +249,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addClosedListWithHttpOperationResponse(azureRegion, appId, versionId, closedListModelCreateObject, options) {
+    addClosedListWithHttpOperationResponse(appId, versionId, closedListModelCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             closedListModelCreateObject,
@@ -309,10 +259,6 @@ class Model {
     }
     /**
      * Adds a list of prebuilt entity extractors to the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -328,9 +274,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addPrebuiltWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltExtractorNames, options) {
+    addPrebuiltWithHttpOperationResponse(appId, versionId, prebuiltExtractorNames, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             prebuiltExtractorNames,
@@ -339,10 +284,6 @@ class Model {
     }
     /**
      * Gets information about the prebuilt entity models.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -356,9 +297,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listPrebuiltsWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listPrebuiltsWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -366,10 +306,6 @@ class Model {
     }
     /**
      * Gets all the available prebuilt entity extractors for the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -383,9 +319,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listPrebuiltEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listPrebuiltEntitiesWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -393,10 +328,6 @@ class Model {
     }
     /**
      * Gets information about the application version models.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -410,9 +341,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listModelsWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listModelsWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -420,10 +350,6 @@ class Model {
     }
     /**
      * Gets the utterances for the given model in the given app version.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -439,9 +365,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    examplesMethodWithHttpOperationResponse(azureRegion, appId, versionId, modelId, options) {
+    examplesMethodWithHttpOperationResponse(appId, versionId, modelId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             modelId,
@@ -450,10 +375,6 @@ class Model {
     }
     /**
      * Gets information about the intent model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -469,9 +390,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options) {
+    getIntentWithHttpOperationResponse(appId, versionId, intentId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             intentId,
@@ -480,10 +400,6 @@ class Model {
     }
     /**
      * Updates the name of an intent classifier.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -502,9 +418,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentId, modelUpdateObject, options) {
+    updateIntentWithHttpOperationResponse(appId, versionId, intentId, modelUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             intentId,
@@ -514,10 +429,6 @@ class Model {
     }
     /**
      * Deletes an intent classifier from the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -533,9 +444,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteIntentWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options) {
+    deleteIntentWithHttpOperationResponse(appId, versionId, intentId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             intentId,
@@ -544,10 +454,6 @@ class Model {
     }
     /**
      * Gets information about the entity model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -563,9 +469,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getEntityWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    getEntityWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -574,10 +479,6 @@ class Model {
     }
     /**
      * Updates the name of an entity extractor.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -596,9 +497,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateEntityWithHttpOperationResponse(azureRegion, appId, versionId, entityId, modelUpdateObject, options) {
+    updateEntityWithHttpOperationResponse(appId, versionId, entityId, modelUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -608,10 +508,6 @@ class Model {
     }
     /**
      * Deletes an entity extractor from the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -627,9 +523,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteEntityWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    deleteEntityWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -638,10 +533,6 @@ class Model {
     }
     /**
      * Gets information about the hierarchical entity model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -657,9 +548,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, options) {
+    getHierarchicalEntityWithHttpOperationResponse(appId, versionId, hEntityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -668,10 +558,6 @@ class Model {
     }
     /**
      * Updates the name and children of a hierarchical entity model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -690,9 +576,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hierarchicalModelUpdateObject, options) {
+    updateHierarchicalEntityWithHttpOperationResponse(appId, versionId, hEntityId, hierarchicalModelUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -702,10 +587,6 @@ class Model {
     }
     /**
      * Deletes a hierarchical entity extractor from the application version.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -721,9 +602,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteHierarchicalEntityWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, options) {
+    deleteHierarchicalEntityWithHttpOperationResponse(appId, versionId, hEntityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -732,10 +612,6 @@ class Model {
     }
     /**
      * Gets information about the composite entity model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -751,9 +627,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, options) {
+    getCompositeEntityWithHttpOperationResponse(appId, versionId, cEntityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             cEntityId,
@@ -762,10 +637,6 @@ class Model {
     }
     /**
      * Updates the composite entity extractor.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -784,9 +655,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, compositeModelUpdateObject, options) {
+    updateCompositeEntityWithHttpOperationResponse(appId, versionId, cEntityId, compositeModelUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             cEntityId,
@@ -796,10 +666,6 @@ class Model {
     }
     /**
      * Deletes a composite entity extractor from the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -815,9 +681,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteCompositeEntityWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, options) {
+    deleteCompositeEntityWithHttpOperationResponse(appId, versionId, cEntityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             cEntityId,
@@ -826,10 +691,6 @@ class Model {
     }
     /**
      * Gets information of a closed list model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -845,9 +706,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, options) {
+    getClosedListWithHttpOperationResponse(appId, versionId, clEntityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             clEntityId,
@@ -856,10 +716,6 @@ class Model {
     }
     /**
      * Updates the closed list model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -878,9 +734,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, closedListModelUpdateObject, options) {
+    updateClosedListWithHttpOperationResponse(appId, versionId, clEntityId, closedListModelUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             clEntityId,
@@ -890,10 +745,6 @@ class Model {
     }
     /**
      * Adds a batch of sublists to an existing closedlist.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -911,9 +762,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    patchClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, closedListModelPatchObject, options) {
+    patchClosedListWithHttpOperationResponse(appId, versionId, clEntityId, closedListModelPatchObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             clEntityId,
@@ -923,10 +773,6 @@ class Model {
     }
     /**
      * Deletes a closed list model from the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -942,9 +788,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteClosedListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, options) {
+    deleteClosedListWithHttpOperationResponse(appId, versionId, clEntityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             clEntityId,
@@ -954,10 +799,6 @@ class Model {
     /**
      * Gets information about the prebuilt entity model.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -972,9 +813,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPrebuiltWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltId, options) {
+    getPrebuiltWithHttpOperationResponse(appId, versionId, prebuiltId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             prebuiltId,
@@ -984,10 +824,6 @@ class Model {
     /**
      * Deletes a prebuilt entity extractor from the application.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -1002,9 +838,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deletePrebuiltWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltId, options) {
+    deletePrebuiltWithHttpOperationResponse(appId, versionId, prebuiltId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             prebuiltId,
@@ -1013,10 +848,6 @@ class Model {
     }
     /**
      * Deletes a sublist of a specific closed list model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1034,9 +865,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteSubListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, subListId, options) {
+    deleteSubListWithHttpOperationResponse(appId, versionId, clEntityId, subListId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             clEntityId,
@@ -1046,10 +876,6 @@ class Model {
     }
     /**
      * Updates one of the closed list's sublists.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1070,9 +896,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateSubListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, subListId, wordListBaseUpdateObject, options) {
+    updateSubListWithHttpOperationResponse(appId, versionId, clEntityId, subListId, wordListBaseUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             clEntityId,
@@ -1083,10 +908,6 @@ class Model {
     }
     /**
      * Suggests examples that would improve the accuracy of the intent model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1102,9 +923,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getIntentSuggestionsWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options) {
+    getIntentSuggestionsWithHttpOperationResponse(appId, versionId, intentId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             intentId,
@@ -1113,10 +933,6 @@ class Model {
     }
     /**
      * Get suggestion examples that would improve the accuracy of the entity model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1132,9 +948,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getEntitySuggestionsWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    getEntitySuggestionsWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -1143,10 +958,6 @@ class Model {
     }
     /**
      * Adds a list to an existing closed list.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1164,9 +975,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addSubListWithHttpOperationResponse(azureRegion, appId, versionId, clEntityId, wordListCreateObject, options) {
+    addSubListWithHttpOperationResponse(appId, versionId, clEntityId, wordListCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             clEntityId,
@@ -1176,10 +986,6 @@ class Model {
     }
     /**
      * Adds a customizable prebuilt domain along with all of its models to this application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1196,9 +1002,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addCustomPrebuiltDomainWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltDomainObject, options) {
+    addCustomPrebuiltDomainWithHttpOperationResponse(appId, versionId, prebuiltDomainObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             prebuiltDomainObject,
@@ -1207,10 +1012,6 @@ class Model {
     }
     /**
      * Adds a custom prebuilt intent model to the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1228,9 +1029,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addCustomPrebuiltIntentWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options) {
+    addCustomPrebuiltIntentWithHttpOperationResponse(appId, versionId, prebuiltDomainModelCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             prebuiltDomainModelCreateObject,
@@ -1239,10 +1039,6 @@ class Model {
     }
     /**
      * Gets custom prebuilt intents information of this application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1256,9 +1052,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listCustomPrebuiltIntentsWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listCustomPrebuiltIntentsWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -1266,10 +1061,6 @@ class Model {
     }
     /**
      * Adds a custom prebuilt entity model to the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1287,9 +1078,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addCustomPrebuiltEntityWithHttpOperationResponse(azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options) {
+    addCustomPrebuiltEntityWithHttpOperationResponse(appId, versionId, prebuiltDomainModelCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             prebuiltDomainModelCreateObject,
@@ -1299,10 +1089,6 @@ class Model {
     /**
      * Gets all custom prebuilt entities information of this application.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -1315,9 +1101,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listCustomPrebuiltEntitiesWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listCustomPrebuiltEntitiesWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -1326,10 +1111,6 @@ class Model {
     /**
      * Gets all custom prebuilt models information of this application.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -1342,9 +1123,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listCustomPrebuiltModelsWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listCustomPrebuiltModelsWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -1352,10 +1132,6 @@ class Model {
     }
     /**
      * Deletes a prebuilt domain's models from the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1371,9 +1147,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteCustomPrebuiltDomainWithHttpOperationResponse(azureRegion, appId, versionId, domainName, options) {
+    deleteCustomPrebuiltDomainWithHttpOperationResponse(appId, versionId, domainName, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             domainName,
@@ -1382,10 +1157,6 @@ class Model {
     }
     /**
      * Gets information about the hierarchical entity child model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1403,9 +1174,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hChildId, options) {
+    getHierarchicalEntityChildWithHttpOperationResponse(appId, versionId, hEntityId, hChildId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -1415,10 +1185,6 @@ class Model {
     }
     /**
      * Renames a single child in an existing hierarchical entity model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1439,9 +1205,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hChildId, hierarchicalChildModelUpdateObject, options) {
+    updateHierarchicalEntityChildWithHttpOperationResponse(appId, versionId, hEntityId, hChildId, hierarchicalChildModelUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -1452,10 +1217,6 @@ class Model {
     }
     /**
      * Deletes a hierarchical entity extractor child from the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1473,9 +1234,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hChildId, options) {
+    deleteHierarchicalEntityChildWithHttpOperationResponse(appId, versionId, hEntityId, hChildId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -1485,10 +1245,6 @@ class Model {
     }
     /**
      * Creates a single child in an existing hierarchical entity model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1507,9 +1263,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addHierarchicalEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, hierarchicalChildModelCreateObject, options) {
+    addHierarchicalEntityChildWithHttpOperationResponse(appId, versionId, hEntityId, hierarchicalChildModelCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -1519,10 +1274,6 @@ class Model {
     }
     /**
      * Creates a single child in an existing composite entity model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1541,9 +1292,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addCompositeEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, compositeChildModelCreateObject, options) {
+    addCompositeEntityChildWithHttpOperationResponse(appId, versionId, cEntityId, compositeChildModelCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             cEntityId,
@@ -1553,10 +1303,6 @@ class Model {
     }
     /**
      * Deletes a composite entity extractor child from the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1574,9 +1320,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteCompositeEntityChildWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, cChildId, options) {
+    deleteCompositeEntityChildWithHttpOperationResponse(appId, versionId, cEntityId, cChildId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             cEntityId,
@@ -1586,10 +1331,6 @@ class Model {
     }
     /**
      * @summary Gets information about the regex entity models.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1603,9 +1344,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getRegexEntityInfosWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    getRegexEntityInfosWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -1613,10 +1353,6 @@ class Model {
     }
     /**
      * @summary Adds a regex entity model to the application version.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1633,9 +1369,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createRegexEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityExtractorCreateObj, options) {
+    createRegexEntityModelWithHttpOperationResponse(appId, versionId, regexEntityExtractorCreateObj, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             regexEntityExtractorCreateObj,
@@ -1644,10 +1379,6 @@ class Model {
     }
     /**
      * @summary Get information about the Pattern.Any entity models.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1661,9 +1392,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPatternAnyEntityInfosWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    getPatternAnyEntityInfosWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -1671,10 +1401,6 @@ class Model {
     }
     /**
      * @summary Adds a pattern.any entity extractor to the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1691,9 +1417,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createPatternAnyEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, extractorCreateObject, options) {
+    createPatternAnyEntityModelWithHttpOperationResponse(appId, versionId, extractorCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             extractorCreateObject,
@@ -1702,10 +1427,6 @@ class Model {
     }
     /**
      * @summary Get All Entity Roles for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1721,9 +1442,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    getEntityRolesWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -1732,10 +1452,6 @@ class Model {
     }
     /**
      * @summary Create an entity role for an entity in the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1754,9 +1470,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options) {
+    createEntityRoleWithHttpOperationResponse(appId, versionId, entityId, entityRoleCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -1767,10 +1482,6 @@ class Model {
     /**
      * @summary Get All Entity Roles for a given entity
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -1785,9 +1496,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPrebuiltEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    getPrebuiltEntityRolesWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -1796,10 +1506,6 @@ class Model {
     }
     /**
      * @summary Create an entity role for an entity in the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1818,9 +1524,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options) {
+    createPrebuiltEntityRoleWithHttpOperationResponse(appId, versionId, entityId, entityRoleCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -1831,10 +1536,6 @@ class Model {
     /**
      * @summary Get All Entity Roles for a given entity
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -1849,9 +1550,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getClosedListEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    getClosedListEntityRolesWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -1860,10 +1560,6 @@ class Model {
     }
     /**
      * @summary Create an entity role for an entity in the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1882,9 +1578,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options) {
+    createClosedListEntityRoleWithHttpOperationResponse(appId, versionId, entityId, entityRoleCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -1895,10 +1590,6 @@ class Model {
     /**
      * @summary Get All Entity Roles for a given entity
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -1913,9 +1604,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getRegexEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    getRegexEntityRolesWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -1924,10 +1614,6 @@ class Model {
     }
     /**
      * @summary Create an entity role for an entity in the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -1946,9 +1632,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options) {
+    createRegexEntityRoleWithHttpOperationResponse(appId, versionId, entityId, entityRoleCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -1959,10 +1644,6 @@ class Model {
     /**
      * @summary Get All Entity Roles for a given entity
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -1977,9 +1658,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getCompositeEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, options) {
+    getCompositeEntityRolesWithHttpOperationResponse(appId, versionId, cEntityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             cEntityId,
@@ -1988,10 +1668,6 @@ class Model {
     }
     /**
      * @summary Create an entity role for an entity in the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2010,9 +1686,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, entityRoleCreateObject, options) {
+    createCompositeEntityRoleWithHttpOperationResponse(appId, versionId, cEntityId, entityRoleCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             cEntityId,
@@ -2023,10 +1698,6 @@ class Model {
     /**
      * @summary Get All Entity Roles for a given entity
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -2041,9 +1712,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPatternAnyEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    getPatternAnyEntityRolesWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2052,10 +1722,6 @@ class Model {
     }
     /**
      * @summary Create an entity role for an entity in the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2074,9 +1740,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createPatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options) {
+    createPatternAnyEntityRoleWithHttpOperationResponse(appId, versionId, entityId, entityRoleCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2087,10 +1752,6 @@ class Model {
     /**
      * @summary Get All Entity Roles for a given entity
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -2105,9 +1766,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getHierarchicalEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, options) {
+    getHierarchicalEntityRolesWithHttpOperationResponse(appId, versionId, hEntityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -2116,10 +1776,6 @@ class Model {
     }
     /**
      * @summary Create an entity role for an entity in the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2138,9 +1794,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, entityRoleCreateObject, options) {
+    createHierarchicalEntityRoleWithHttpOperationResponse(appId, versionId, hEntityId, entityRoleCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -2150,10 +1805,6 @@ class Model {
     }
     /**
      * @summary Get All Entity Roles for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2169,9 +1820,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getCustomPrebuiltEntityRolesWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    getCustomPrebuiltEntityRolesWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2180,10 +1830,6 @@ class Model {
     }
     /**
      * @summary Create an entity role for an entity in the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2202,9 +1848,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createCustomPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options) {
+    createCustomPrebuiltEntityRoleWithHttpOperationResponse(appId, versionId, entityId, entityRoleCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2214,10 +1859,6 @@ class Model {
     }
     /**
      * @summary Get the explicit list of the pattern.any entity.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2233,9 +1874,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getExplicitListWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    getExplicitListWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2244,10 +1884,6 @@ class Model {
     }
     /**
      * @summary Add a new item to the explicit list for the Pattern.Any entity.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2265,9 +1901,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, item, options) {
+    addExplicitListItemWithHttpOperationResponse(appId, versionId, entityId, item, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2277,10 +1912,6 @@ class Model {
     }
     /**
      * @summary Gets information of a regex entity model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2296,9 +1927,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getRegexEntityEntityInfoWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityId, options) {
+    getRegexEntityEntityInfoWithHttpOperationResponse(appId, versionId, regexEntityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             regexEntityId,
@@ -2307,10 +1937,6 @@ class Model {
     }
     /**
      * @summary Updates the regex entity model .
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2329,9 +1955,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateRegexEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityId, regexEntityUpdateObject, options) {
+    updateRegexEntityModelWithHttpOperationResponse(appId, versionId, regexEntityId, regexEntityUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             regexEntityId,
@@ -2341,10 +1966,6 @@ class Model {
     }
     /**
      * @summary Deletes a regex entity model from the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2360,9 +1981,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteRegexEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, regexEntityId, options) {
+    deleteRegexEntityModelWithHttpOperationResponse(appId, versionId, regexEntityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             regexEntityId,
@@ -2371,10 +1991,6 @@ class Model {
     }
     /**
      * @summary Gets information about the application version's Pattern.Any model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2390,9 +2006,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPatternAnyEntityInfoWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    getPatternAnyEntityInfoWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2401,10 +2016,6 @@ class Model {
     }
     /**
      * @summary Updates the name and explicit list of a Pattern.Any entity model.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2423,9 +2034,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updatePatternAnyEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, entityId, patternAnyUpdateObject, options) {
+    updatePatternAnyEntityModelWithHttpOperationResponse(appId, versionId, entityId, patternAnyUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2435,10 +2045,6 @@ class Model {
     }
     /**
      * @summary Deletes a Pattern.Any entity extractor from the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2454,9 +2060,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deletePatternAnyEntityModelWithHttpOperationResponse(azureRegion, appId, versionId, entityId, options) {
+    deletePatternAnyEntityModelWithHttpOperationResponse(appId, versionId, entityId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2465,10 +2070,6 @@ class Model {
     }
     /**
      * @summary Get one entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2486,9 +2087,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    getEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2498,10 +2098,6 @@ class Model {
     }
     /**
      * @summary Update an entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2521,9 +2117,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
+    updateEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2535,10 +2130,6 @@ class Model {
     /**
      * @summary Delete an entity role.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -2555,9 +2146,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    deleteEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2567,10 +2157,6 @@ class Model {
     }
     /**
      * @summary Get one entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2588,9 +2174,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    getPrebuiltEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2600,10 +2185,6 @@ class Model {
     }
     /**
      * @summary Update an entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2623,9 +2204,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updatePrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
+    updatePrebuiltEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2637,10 +2217,6 @@ class Model {
     /**
      * @summary Delete an entity role.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -2657,9 +2233,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deletePrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    deletePrebuiltEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2669,10 +2244,6 @@ class Model {
     }
     /**
      * @summary Get one entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2690,9 +2261,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    getClosedListEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2702,10 +2272,6 @@ class Model {
     }
     /**
      * @summary Update an entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2725,9 +2291,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
+    updateClosedListEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2739,10 +2304,6 @@ class Model {
     /**
      * @summary Delete an entity role.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -2759,9 +2320,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteClosedListEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    deleteClosedListEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2771,10 +2331,6 @@ class Model {
     }
     /**
      * @summary Get one entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2792,9 +2348,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    getRegexEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2804,10 +2359,6 @@ class Model {
     }
     /**
      * @summary Update an entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2827,9 +2378,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
+    updateRegexEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2841,10 +2391,6 @@ class Model {
     /**
      * @summary Delete an entity role.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -2861,9 +2407,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteRegexEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    deleteRegexEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -2873,10 +2418,6 @@ class Model {
     }
     /**
      * @summary Get one entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2894,9 +2435,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, roleId, options) {
+    getCompositeEntityRoleWithHttpOperationResponse(appId, versionId, cEntityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             cEntityId,
@@ -2906,10 +2446,6 @@ class Model {
     }
     /**
      * @summary Update an entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2929,9 +2465,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, roleId, entityRoleUpdateObject, options) {
+    updateCompositeEntityRoleWithHttpOperationResponse(appId, versionId, cEntityId, roleId, entityRoleUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             cEntityId,
@@ -2943,10 +2478,6 @@ class Model {
     /**
      * @summary Delete an entity role.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -2963,9 +2494,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteCompositeEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, cEntityId, roleId, options) {
+    deleteCompositeEntityRoleWithHttpOperationResponse(appId, versionId, cEntityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             cEntityId,
@@ -2975,10 +2505,6 @@ class Model {
     }
     /**
      * @summary Get one entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -2996,9 +2522,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    getPatternAnyEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -3008,10 +2533,6 @@ class Model {
     }
     /**
      * @summary Update an entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -3031,9 +2552,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updatePatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
+    updatePatternAnyEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -3045,10 +2565,6 @@ class Model {
     /**
      * @summary Delete an entity role.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -3065,9 +2581,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deletePatternAnyEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    deletePatternAnyEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -3077,10 +2592,6 @@ class Model {
     }
     /**
      * @summary Get one entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -3098,9 +2609,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, roleId, options) {
+    getHierarchicalEntityRoleWithHttpOperationResponse(appId, versionId, hEntityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -3110,10 +2620,6 @@ class Model {
     }
     /**
      * @summary Update an entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -3133,9 +2639,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, roleId, entityRoleUpdateObject, options) {
+    updateHierarchicalEntityRoleWithHttpOperationResponse(appId, versionId, hEntityId, roleId, entityRoleUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -3146,10 +2651,6 @@ class Model {
     }
     /**
      * @summary Delete an entity role.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -3167,9 +2668,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteHierarchicalEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, hEntityId, roleId, options) {
+    deleteHierarchicalEntityRoleWithHttpOperationResponse(appId, versionId, hEntityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             hEntityId,
@@ -3179,10 +2679,6 @@ class Model {
     }
     /**
      * @summary Get one entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -3200,9 +2696,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getCustomEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    getCustomEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -3212,10 +2707,6 @@ class Model {
     }
     /**
      * @summary Update an entity role for a given entity
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -3235,9 +2726,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateCustomPrebuiltEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
+    updateCustomPrebuiltEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, entityRoleUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -3248,10 +2738,6 @@ class Model {
     }
     /**
      * @summary Delete an entity role.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -3269,9 +2755,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteCustomEntityRoleWithHttpOperationResponse(azureRegion, appId, versionId, entityId, roleId, options) {
+    deleteCustomEntityRoleWithHttpOperationResponse(appId, versionId, entityId, roleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -3281,10 +2766,6 @@ class Model {
     }
     /**
      * @summary Get the explicit list of the pattern.any entity.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -3302,9 +2783,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, itemId, options) {
+    getExplicitListItemWithHttpOperationResponse(appId, versionId, entityId, itemId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -3314,10 +2794,6 @@ class Model {
     }
     /**
      * @summary Updates an explicit list item for a Pattern.Any entity.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -3337,9 +2813,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, itemId, item, options) {
+    updateExplicitListItemWithHttpOperationResponse(appId, versionId, entityId, itemId, item, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -3350,10 +2825,6 @@ class Model {
     }
     /**
      * @summary Delete the explicit list item from the Pattern.any explicit list.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -3371,9 +2842,8 @@ class Model {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteExplicitListItemWithHttpOperationResponse(azureRegion, appId, versionId, entityId, itemId, options) {
+    deleteExplicitListItemWithHttpOperationResponse(appId, versionId, entityId, itemId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             entityId,
@@ -3381,323 +2851,323 @@ class Model {
             options
         }, deleteExplicitListItemOperationSpec);
     }
-    addIntent(azureRegion, appId, versionId, intentCreateObject, options, callback) {
-        return msRest.responseToBody(this.addIntentWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentCreateObject, options, callback);
+    addIntent(appId, versionId, intentCreateObject, options, callback) {
+        return msRest.responseToBody(this.addIntentWithHttpOperationResponse.bind(this), appId, versionId, intentCreateObject, options, callback);
     }
-    listIntents(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listIntentsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listIntents(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listIntentsWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    addEntity(azureRegion, appId, versionId, modelCreateObject, options, callback) {
-        return msRest.responseToBody(this.addEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, modelCreateObject, options, callback);
+    addEntity(appId, versionId, modelCreateObject, options, callback) {
+        return msRest.responseToBody(this.addEntityWithHttpOperationResponse.bind(this), appId, versionId, modelCreateObject, options, callback);
     }
-    listEntities(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listEntitiesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listEntities(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listEntitiesWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    addHierarchicalEntity(azureRegion, appId, versionId, hierarchicalModelCreateObject, options, callback) {
-        return msRest.responseToBody(this.addHierarchicalEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hierarchicalModelCreateObject, options, callback);
+    addHierarchicalEntity(appId, versionId, hierarchicalModelCreateObject, options, callback) {
+        return msRest.responseToBody(this.addHierarchicalEntityWithHttpOperationResponse.bind(this), appId, versionId, hierarchicalModelCreateObject, options, callback);
     }
-    listHierarchicalEntities(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listHierarchicalEntitiesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listHierarchicalEntities(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listHierarchicalEntitiesWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    addCompositeEntity(azureRegion, appId, versionId, compositeModelCreateObject, options, callback) {
-        return msRest.responseToBody(this.addCompositeEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, compositeModelCreateObject, options, callback);
+    addCompositeEntity(appId, versionId, compositeModelCreateObject, options, callback) {
+        return msRest.responseToBody(this.addCompositeEntityWithHttpOperationResponse.bind(this), appId, versionId, compositeModelCreateObject, options, callback);
     }
-    listCompositeEntities(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listCompositeEntitiesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listCompositeEntities(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listCompositeEntitiesWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    listClosedLists(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listClosedListsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listClosedLists(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listClosedListsWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    addClosedList(azureRegion, appId, versionId, closedListModelCreateObject, options, callback) {
-        return msRest.responseToBody(this.addClosedListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, closedListModelCreateObject, options, callback);
+    addClosedList(appId, versionId, closedListModelCreateObject, options, callback) {
+        return msRest.responseToBody(this.addClosedListWithHttpOperationResponse.bind(this), appId, versionId, closedListModelCreateObject, options, callback);
     }
-    addPrebuilt(azureRegion, appId, versionId, prebuiltExtractorNames, options, callback) {
-        return msRest.responseToBody(this.addPrebuiltWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltExtractorNames, options, callback);
+    addPrebuilt(appId, versionId, prebuiltExtractorNames, options, callback) {
+        return msRest.responseToBody(this.addPrebuiltWithHttpOperationResponse.bind(this), appId, versionId, prebuiltExtractorNames, options, callback);
     }
-    listPrebuilts(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listPrebuiltsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listPrebuilts(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listPrebuiltsWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    listPrebuiltEntities(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listPrebuiltEntitiesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listPrebuiltEntities(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listPrebuiltEntitiesWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    listModels(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listModelsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listModels(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listModelsWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    examplesMethod(azureRegion, appId, versionId, modelId, options, callback) {
-        return msRest.responseToBody(this.examplesMethodWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, modelId, options, callback);
+    examplesMethod(appId, versionId, modelId, options, callback) {
+        return msRest.responseToBody(this.examplesMethodWithHttpOperationResponse.bind(this), appId, versionId, modelId, options, callback);
     }
-    getIntent(azureRegion, appId, versionId, intentId, options, callback) {
-        return msRest.responseToBody(this.getIntentWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, options, callback);
+    getIntent(appId, versionId, intentId, options, callback) {
+        return msRest.responseToBody(this.getIntentWithHttpOperationResponse.bind(this), appId, versionId, intentId, options, callback);
     }
-    updateIntent(azureRegion, appId, versionId, intentId, modelUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateIntentWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, modelUpdateObject, options, callback);
+    updateIntent(appId, versionId, intentId, modelUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateIntentWithHttpOperationResponse.bind(this), appId, versionId, intentId, modelUpdateObject, options, callback);
     }
-    deleteIntent(azureRegion, appId, versionId, intentId, options, callback) {
-        return msRest.responseToBody(this.deleteIntentWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, options, callback);
+    deleteIntent(appId, versionId, intentId, options, callback) {
+        return msRest.responseToBody(this.deleteIntentWithHttpOperationResponse.bind(this), appId, versionId, intentId, options, callback);
     }
-    getEntity(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.getEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    getEntity(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.getEntityWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    updateEntity(azureRegion, appId, versionId, entityId, modelUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, modelUpdateObject, options, callback);
+    updateEntity(appId, versionId, entityId, modelUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateEntityWithHttpOperationResponse.bind(this), appId, versionId, entityId, modelUpdateObject, options, callback);
     }
-    deleteEntity(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.deleteEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    deleteEntity(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.deleteEntityWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    getHierarchicalEntity(azureRegion, appId, versionId, hEntityId, options, callback) {
-        return msRest.responseToBody(this.getHierarchicalEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, options, callback);
+    getHierarchicalEntity(appId, versionId, hEntityId, options, callback) {
+        return msRest.responseToBody(this.getHierarchicalEntityWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, options, callback);
     }
-    updateHierarchicalEntity(azureRegion, appId, versionId, hEntityId, hierarchicalModelUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateHierarchicalEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, hierarchicalModelUpdateObject, options, callback);
+    updateHierarchicalEntity(appId, versionId, hEntityId, hierarchicalModelUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateHierarchicalEntityWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, hierarchicalModelUpdateObject, options, callback);
     }
-    deleteHierarchicalEntity(azureRegion, appId, versionId, hEntityId, options, callback) {
-        return msRest.responseToBody(this.deleteHierarchicalEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, options, callback);
+    deleteHierarchicalEntity(appId, versionId, hEntityId, options, callback) {
+        return msRest.responseToBody(this.deleteHierarchicalEntityWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, options, callback);
     }
-    getCompositeEntity(azureRegion, appId, versionId, cEntityId, options, callback) {
-        return msRest.responseToBody(this.getCompositeEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, options, callback);
+    getCompositeEntity(appId, versionId, cEntityId, options, callback) {
+        return msRest.responseToBody(this.getCompositeEntityWithHttpOperationResponse.bind(this), appId, versionId, cEntityId, options, callback);
     }
-    updateCompositeEntity(azureRegion, appId, versionId, cEntityId, compositeModelUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateCompositeEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, compositeModelUpdateObject, options, callback);
+    updateCompositeEntity(appId, versionId, cEntityId, compositeModelUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateCompositeEntityWithHttpOperationResponse.bind(this), appId, versionId, cEntityId, compositeModelUpdateObject, options, callback);
     }
-    deleteCompositeEntity(azureRegion, appId, versionId, cEntityId, options, callback) {
-        return msRest.responseToBody(this.deleteCompositeEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, options, callback);
+    deleteCompositeEntity(appId, versionId, cEntityId, options, callback) {
+        return msRest.responseToBody(this.deleteCompositeEntityWithHttpOperationResponse.bind(this), appId, versionId, cEntityId, options, callback);
     }
-    getClosedList(azureRegion, appId, versionId, clEntityId, options, callback) {
-        return msRest.responseToBody(this.getClosedListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, options, callback);
+    getClosedList(appId, versionId, clEntityId, options, callback) {
+        return msRest.responseToBody(this.getClosedListWithHttpOperationResponse.bind(this), appId, versionId, clEntityId, options, callback);
     }
-    updateClosedList(azureRegion, appId, versionId, clEntityId, closedListModelUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateClosedListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, closedListModelUpdateObject, options, callback);
+    updateClosedList(appId, versionId, clEntityId, closedListModelUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateClosedListWithHttpOperationResponse.bind(this), appId, versionId, clEntityId, closedListModelUpdateObject, options, callback);
     }
-    patchClosedList(azureRegion, appId, versionId, clEntityId, closedListModelPatchObject, options, callback) {
-        return msRest.responseToBody(this.patchClosedListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, closedListModelPatchObject, options, callback);
+    patchClosedList(appId, versionId, clEntityId, closedListModelPatchObject, options, callback) {
+        return msRest.responseToBody(this.patchClosedListWithHttpOperationResponse.bind(this), appId, versionId, clEntityId, closedListModelPatchObject, options, callback);
     }
-    deleteClosedList(azureRegion, appId, versionId, clEntityId, options, callback) {
-        return msRest.responseToBody(this.deleteClosedListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, options, callback);
+    deleteClosedList(appId, versionId, clEntityId, options, callback) {
+        return msRest.responseToBody(this.deleteClosedListWithHttpOperationResponse.bind(this), appId, versionId, clEntityId, options, callback);
     }
-    getPrebuilt(azureRegion, appId, versionId, prebuiltId, options, callback) {
-        return msRest.responseToBody(this.getPrebuiltWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltId, options, callback);
+    getPrebuilt(appId, versionId, prebuiltId, options, callback) {
+        return msRest.responseToBody(this.getPrebuiltWithHttpOperationResponse.bind(this), appId, versionId, prebuiltId, options, callback);
     }
-    deletePrebuilt(azureRegion, appId, versionId, prebuiltId, options, callback) {
-        return msRest.responseToBody(this.deletePrebuiltWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltId, options, callback);
+    deletePrebuilt(appId, versionId, prebuiltId, options, callback) {
+        return msRest.responseToBody(this.deletePrebuiltWithHttpOperationResponse.bind(this), appId, versionId, prebuiltId, options, callback);
     }
-    deleteSubList(azureRegion, appId, versionId, clEntityId, subListId, options, callback) {
-        return msRest.responseToBody(this.deleteSubListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, subListId, options, callback);
+    deleteSubList(appId, versionId, clEntityId, subListId, options, callback) {
+        return msRest.responseToBody(this.deleteSubListWithHttpOperationResponse.bind(this), appId, versionId, clEntityId, subListId, options, callback);
     }
-    updateSubList(azureRegion, appId, versionId, clEntityId, subListId, wordListBaseUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateSubListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, subListId, wordListBaseUpdateObject, options, callback);
+    updateSubList(appId, versionId, clEntityId, subListId, wordListBaseUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateSubListWithHttpOperationResponse.bind(this), appId, versionId, clEntityId, subListId, wordListBaseUpdateObject, options, callback);
     }
-    getIntentSuggestions(azureRegion, appId, versionId, intentId, options, callback) {
-        return msRest.responseToBody(this.getIntentSuggestionsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, options, callback);
+    getIntentSuggestions(appId, versionId, intentId, options, callback) {
+        return msRest.responseToBody(this.getIntentSuggestionsWithHttpOperationResponse.bind(this), appId, versionId, intentId, options, callback);
     }
-    getEntitySuggestions(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.getEntitySuggestionsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    getEntitySuggestions(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.getEntitySuggestionsWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    addSubList(azureRegion, appId, versionId, clEntityId, wordListCreateObject, options, callback) {
-        return msRest.responseToBody(this.addSubListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, clEntityId, wordListCreateObject, options, callback);
+    addSubList(appId, versionId, clEntityId, wordListCreateObject, options, callback) {
+        return msRest.responseToBody(this.addSubListWithHttpOperationResponse.bind(this), appId, versionId, clEntityId, wordListCreateObject, options, callback);
     }
-    addCustomPrebuiltDomain(azureRegion, appId, versionId, prebuiltDomainObject, options, callback) {
-        return msRest.responseToBody(this.addCustomPrebuiltDomainWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltDomainObject, options, callback);
+    addCustomPrebuiltDomain(appId, versionId, prebuiltDomainObject, options, callback) {
+        return msRest.responseToBody(this.addCustomPrebuiltDomainWithHttpOperationResponse.bind(this), appId, versionId, prebuiltDomainObject, options, callback);
     }
-    addCustomPrebuiltIntent(azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options, callback) {
-        return msRest.responseToBody(this.addCustomPrebuiltIntentWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options, callback);
+    addCustomPrebuiltIntent(appId, versionId, prebuiltDomainModelCreateObject, options, callback) {
+        return msRest.responseToBody(this.addCustomPrebuiltIntentWithHttpOperationResponse.bind(this), appId, versionId, prebuiltDomainModelCreateObject, options, callback);
     }
-    listCustomPrebuiltIntents(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listCustomPrebuiltIntentsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listCustomPrebuiltIntents(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listCustomPrebuiltIntentsWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    addCustomPrebuiltEntity(azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options, callback) {
-        return msRest.responseToBody(this.addCustomPrebuiltEntityWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, prebuiltDomainModelCreateObject, options, callback);
+    addCustomPrebuiltEntity(appId, versionId, prebuiltDomainModelCreateObject, options, callback) {
+        return msRest.responseToBody(this.addCustomPrebuiltEntityWithHttpOperationResponse.bind(this), appId, versionId, prebuiltDomainModelCreateObject, options, callback);
     }
-    listCustomPrebuiltEntities(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listCustomPrebuiltEntitiesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listCustomPrebuiltEntities(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listCustomPrebuiltEntitiesWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    listCustomPrebuiltModels(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listCustomPrebuiltModelsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listCustomPrebuiltModels(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listCustomPrebuiltModelsWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    deleteCustomPrebuiltDomain(azureRegion, appId, versionId, domainName, options, callback) {
-        return msRest.responseToBody(this.deleteCustomPrebuiltDomainWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, domainName, options, callback);
+    deleteCustomPrebuiltDomain(appId, versionId, domainName, options, callback) {
+        return msRest.responseToBody(this.deleteCustomPrebuiltDomainWithHttpOperationResponse.bind(this), appId, versionId, domainName, options, callback);
     }
-    getHierarchicalEntityChild(azureRegion, appId, versionId, hEntityId, hChildId, options, callback) {
-        return msRest.responseToBody(this.getHierarchicalEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, hChildId, options, callback);
+    getHierarchicalEntityChild(appId, versionId, hEntityId, hChildId, options, callback) {
+        return msRest.responseToBody(this.getHierarchicalEntityChildWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, hChildId, options, callback);
     }
-    updateHierarchicalEntityChild(azureRegion, appId, versionId, hEntityId, hChildId, hierarchicalChildModelUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateHierarchicalEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, hChildId, hierarchicalChildModelUpdateObject, options, callback);
+    updateHierarchicalEntityChild(appId, versionId, hEntityId, hChildId, hierarchicalChildModelUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateHierarchicalEntityChildWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, hChildId, hierarchicalChildModelUpdateObject, options, callback);
     }
-    deleteHierarchicalEntityChild(azureRegion, appId, versionId, hEntityId, hChildId, options, callback) {
-        return msRest.responseToBody(this.deleteHierarchicalEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, hChildId, options, callback);
+    deleteHierarchicalEntityChild(appId, versionId, hEntityId, hChildId, options, callback) {
+        return msRest.responseToBody(this.deleteHierarchicalEntityChildWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, hChildId, options, callback);
     }
-    addHierarchicalEntityChild(azureRegion, appId, versionId, hEntityId, hierarchicalChildModelCreateObject, options, callback) {
-        return msRest.responseToBody(this.addHierarchicalEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, hierarchicalChildModelCreateObject, options, callback);
+    addHierarchicalEntityChild(appId, versionId, hEntityId, hierarchicalChildModelCreateObject, options, callback) {
+        return msRest.responseToBody(this.addHierarchicalEntityChildWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, hierarchicalChildModelCreateObject, options, callback);
     }
-    addCompositeEntityChild(azureRegion, appId, versionId, cEntityId, compositeChildModelCreateObject, options, callback) {
-        return msRest.responseToBody(this.addCompositeEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, compositeChildModelCreateObject, options, callback);
+    addCompositeEntityChild(appId, versionId, cEntityId, compositeChildModelCreateObject, options, callback) {
+        return msRest.responseToBody(this.addCompositeEntityChildWithHttpOperationResponse.bind(this), appId, versionId, cEntityId, compositeChildModelCreateObject, options, callback);
     }
-    deleteCompositeEntityChild(azureRegion, appId, versionId, cEntityId, cChildId, options, callback) {
-        return msRest.responseToBody(this.deleteCompositeEntityChildWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, cChildId, options, callback);
+    deleteCompositeEntityChild(appId, versionId, cEntityId, cChildId, options, callback) {
+        return msRest.responseToBody(this.deleteCompositeEntityChildWithHttpOperationResponse.bind(this), appId, versionId, cEntityId, cChildId, options, callback);
     }
-    getRegexEntityInfos(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.getRegexEntityInfosWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    getRegexEntityInfos(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.getRegexEntityInfosWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    createRegexEntityModel(azureRegion, appId, versionId, regexEntityExtractorCreateObj, options, callback) {
-        return msRest.responseToBody(this.createRegexEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, regexEntityExtractorCreateObj, options, callback);
+    createRegexEntityModel(appId, versionId, regexEntityExtractorCreateObj, options, callback) {
+        return msRest.responseToBody(this.createRegexEntityModelWithHttpOperationResponse.bind(this), appId, versionId, regexEntityExtractorCreateObj, options, callback);
     }
-    getPatternAnyEntityInfos(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.getPatternAnyEntityInfosWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    getPatternAnyEntityInfos(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.getPatternAnyEntityInfosWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    createPatternAnyEntityModel(azureRegion, appId, versionId, extractorCreateObject, options, callback) {
-        return msRest.responseToBody(this.createPatternAnyEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, extractorCreateObject, options, callback);
+    createPatternAnyEntityModel(appId, versionId, extractorCreateObject, options, callback) {
+        return msRest.responseToBody(this.createPatternAnyEntityModelWithHttpOperationResponse.bind(this), appId, versionId, extractorCreateObject, options, callback);
     }
-    getEntityRoles(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.getEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    getEntityRoles(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.getEntityRolesWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    createEntityRole(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback) {
-        return msRest.responseToBody(this.createEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
+    createEntityRole(appId, versionId, entityId, entityRoleCreateObject, options, callback) {
+        return msRest.responseToBody(this.createEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, entityRoleCreateObject, options, callback);
     }
-    getPrebuiltEntityRoles(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.getPrebuiltEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    getPrebuiltEntityRoles(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.getPrebuiltEntityRolesWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    createPrebuiltEntityRole(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback) {
-        return msRest.responseToBody(this.createPrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
+    createPrebuiltEntityRole(appId, versionId, entityId, entityRoleCreateObject, options, callback) {
+        return msRest.responseToBody(this.createPrebuiltEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, entityRoleCreateObject, options, callback);
     }
-    getClosedListEntityRoles(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.getClosedListEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    getClosedListEntityRoles(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.getClosedListEntityRolesWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    createClosedListEntityRole(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback) {
-        return msRest.responseToBody(this.createClosedListEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
+    createClosedListEntityRole(appId, versionId, entityId, entityRoleCreateObject, options, callback) {
+        return msRest.responseToBody(this.createClosedListEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, entityRoleCreateObject, options, callback);
     }
-    getRegexEntityRoles(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.getRegexEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    getRegexEntityRoles(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.getRegexEntityRolesWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    createRegexEntityRole(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback) {
-        return msRest.responseToBody(this.createRegexEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
+    createRegexEntityRole(appId, versionId, entityId, entityRoleCreateObject, options, callback) {
+        return msRest.responseToBody(this.createRegexEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, entityRoleCreateObject, options, callback);
     }
-    getCompositeEntityRoles(azureRegion, appId, versionId, cEntityId, options, callback) {
-        return msRest.responseToBody(this.getCompositeEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, options, callback);
+    getCompositeEntityRoles(appId, versionId, cEntityId, options, callback) {
+        return msRest.responseToBody(this.getCompositeEntityRolesWithHttpOperationResponse.bind(this), appId, versionId, cEntityId, options, callback);
     }
-    createCompositeEntityRole(azureRegion, appId, versionId, cEntityId, entityRoleCreateObject, options, callback) {
-        return msRest.responseToBody(this.createCompositeEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, entityRoleCreateObject, options, callback);
+    createCompositeEntityRole(appId, versionId, cEntityId, entityRoleCreateObject, options, callback) {
+        return msRest.responseToBody(this.createCompositeEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, cEntityId, entityRoleCreateObject, options, callback);
     }
-    getPatternAnyEntityRoles(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.getPatternAnyEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    getPatternAnyEntityRoles(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.getPatternAnyEntityRolesWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    createPatternAnyEntityRole(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback) {
-        return msRest.responseToBody(this.createPatternAnyEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
+    createPatternAnyEntityRole(appId, versionId, entityId, entityRoleCreateObject, options, callback) {
+        return msRest.responseToBody(this.createPatternAnyEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, entityRoleCreateObject, options, callback);
     }
-    getHierarchicalEntityRoles(azureRegion, appId, versionId, hEntityId, options, callback) {
-        return msRest.responseToBody(this.getHierarchicalEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, options, callback);
+    getHierarchicalEntityRoles(appId, versionId, hEntityId, options, callback) {
+        return msRest.responseToBody(this.getHierarchicalEntityRolesWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, options, callback);
     }
-    createHierarchicalEntityRole(azureRegion, appId, versionId, hEntityId, entityRoleCreateObject, options, callback) {
-        return msRest.responseToBody(this.createHierarchicalEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, entityRoleCreateObject, options, callback);
+    createHierarchicalEntityRole(appId, versionId, hEntityId, entityRoleCreateObject, options, callback) {
+        return msRest.responseToBody(this.createHierarchicalEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, entityRoleCreateObject, options, callback);
     }
-    getCustomPrebuiltEntityRoles(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.getCustomPrebuiltEntityRolesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    getCustomPrebuiltEntityRoles(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.getCustomPrebuiltEntityRolesWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    createCustomPrebuiltEntityRole(azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback) {
-        return msRest.responseToBody(this.createCustomPrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, entityRoleCreateObject, options, callback);
+    createCustomPrebuiltEntityRole(appId, versionId, entityId, entityRoleCreateObject, options, callback) {
+        return msRest.responseToBody(this.createCustomPrebuiltEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, entityRoleCreateObject, options, callback);
     }
-    getExplicitList(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.getExplicitListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    getExplicitList(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.getExplicitListWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    addExplicitListItem(azureRegion, appId, versionId, entityId, item, options, callback) {
-        return msRest.responseToBody(this.addExplicitListItemWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, item, options, callback);
+    addExplicitListItem(appId, versionId, entityId, item, options, callback) {
+        return msRest.responseToBody(this.addExplicitListItemWithHttpOperationResponse.bind(this), appId, versionId, entityId, item, options, callback);
     }
-    getRegexEntityEntityInfo(azureRegion, appId, versionId, regexEntityId, options, callback) {
-        return msRest.responseToBody(this.getRegexEntityEntityInfoWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, regexEntityId, options, callback);
+    getRegexEntityEntityInfo(appId, versionId, regexEntityId, options, callback) {
+        return msRest.responseToBody(this.getRegexEntityEntityInfoWithHttpOperationResponse.bind(this), appId, versionId, regexEntityId, options, callback);
     }
-    updateRegexEntityModel(azureRegion, appId, versionId, regexEntityId, regexEntityUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateRegexEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, regexEntityId, regexEntityUpdateObject, options, callback);
+    updateRegexEntityModel(appId, versionId, regexEntityId, regexEntityUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateRegexEntityModelWithHttpOperationResponse.bind(this), appId, versionId, regexEntityId, regexEntityUpdateObject, options, callback);
     }
-    deleteRegexEntityModel(azureRegion, appId, versionId, regexEntityId, options, callback) {
-        return msRest.responseToBody(this.deleteRegexEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, regexEntityId, options, callback);
+    deleteRegexEntityModel(appId, versionId, regexEntityId, options, callback) {
+        return msRest.responseToBody(this.deleteRegexEntityModelWithHttpOperationResponse.bind(this), appId, versionId, regexEntityId, options, callback);
     }
-    getPatternAnyEntityInfo(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.getPatternAnyEntityInfoWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    getPatternAnyEntityInfo(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.getPatternAnyEntityInfoWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    updatePatternAnyEntityModel(azureRegion, appId, versionId, entityId, patternAnyUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updatePatternAnyEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, patternAnyUpdateObject, options, callback);
+    updatePatternAnyEntityModel(appId, versionId, entityId, patternAnyUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updatePatternAnyEntityModelWithHttpOperationResponse.bind(this), appId, versionId, entityId, patternAnyUpdateObject, options, callback);
     }
-    deletePatternAnyEntityModel(azureRegion, appId, versionId, entityId, options, callback) {
-        return msRest.responseToBody(this.deletePatternAnyEntityModelWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, options, callback);
+    deletePatternAnyEntityModel(appId, versionId, entityId, options, callback) {
+        return msRest.responseToBody(this.deletePatternAnyEntityModelWithHttpOperationResponse.bind(this), appId, versionId, entityId, options, callback);
     }
-    getEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.getEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    getEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.getEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    updateEntityRole(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
+    updateEntityRole(appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
     }
-    deleteEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.deleteEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    deleteEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.deleteEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    getPrebuiltEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.getPrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    getPrebuiltEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.getPrebuiltEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    updatePrebuiltEntityRole(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updatePrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
+    updatePrebuiltEntityRole(appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updatePrebuiltEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
     }
-    deletePrebuiltEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.deletePrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    deletePrebuiltEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.deletePrebuiltEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    getClosedListEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.getClosedListEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    getClosedListEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.getClosedListEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    updateClosedListEntityRole(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateClosedListEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
+    updateClosedListEntityRole(appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateClosedListEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
     }
-    deleteClosedListEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.deleteClosedListEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    deleteClosedListEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.deleteClosedListEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    getRegexEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.getRegexEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    getRegexEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.getRegexEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    updateRegexEntityRole(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateRegexEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
+    updateRegexEntityRole(appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateRegexEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
     }
-    deleteRegexEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.deleteRegexEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    deleteRegexEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.deleteRegexEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    getCompositeEntityRole(azureRegion, appId, versionId, cEntityId, roleId, options, callback) {
-        return msRest.responseToBody(this.getCompositeEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, roleId, options, callback);
+    getCompositeEntityRole(appId, versionId, cEntityId, roleId, options, callback) {
+        return msRest.responseToBody(this.getCompositeEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, cEntityId, roleId, options, callback);
     }
-    updateCompositeEntityRole(azureRegion, appId, versionId, cEntityId, roleId, entityRoleUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateCompositeEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, roleId, entityRoleUpdateObject, options, callback);
+    updateCompositeEntityRole(appId, versionId, cEntityId, roleId, entityRoleUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateCompositeEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, cEntityId, roleId, entityRoleUpdateObject, options, callback);
     }
-    deleteCompositeEntityRole(azureRegion, appId, versionId, cEntityId, roleId, options, callback) {
-        return msRest.responseToBody(this.deleteCompositeEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, cEntityId, roleId, options, callback);
+    deleteCompositeEntityRole(appId, versionId, cEntityId, roleId, options, callback) {
+        return msRest.responseToBody(this.deleteCompositeEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, cEntityId, roleId, options, callback);
     }
-    getPatternAnyEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.getPatternAnyEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    getPatternAnyEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.getPatternAnyEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    updatePatternAnyEntityRole(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updatePatternAnyEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
+    updatePatternAnyEntityRole(appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updatePatternAnyEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
     }
-    deletePatternAnyEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.deletePatternAnyEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    deletePatternAnyEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.deletePatternAnyEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    getHierarchicalEntityRole(azureRegion, appId, versionId, hEntityId, roleId, options, callback) {
-        return msRest.responseToBody(this.getHierarchicalEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, roleId, options, callback);
+    getHierarchicalEntityRole(appId, versionId, hEntityId, roleId, options, callback) {
+        return msRest.responseToBody(this.getHierarchicalEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, roleId, options, callback);
     }
-    updateHierarchicalEntityRole(azureRegion, appId, versionId, hEntityId, roleId, entityRoleUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateHierarchicalEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, roleId, entityRoleUpdateObject, options, callback);
+    updateHierarchicalEntityRole(appId, versionId, hEntityId, roleId, entityRoleUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateHierarchicalEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, roleId, entityRoleUpdateObject, options, callback);
     }
-    deleteHierarchicalEntityRole(azureRegion, appId, versionId, hEntityId, roleId, options, callback) {
-        return msRest.responseToBody(this.deleteHierarchicalEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, hEntityId, roleId, options, callback);
+    deleteHierarchicalEntityRole(appId, versionId, hEntityId, roleId, options, callback) {
+        return msRest.responseToBody(this.deleteHierarchicalEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, hEntityId, roleId, options, callback);
     }
-    getCustomEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.getCustomEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    getCustomEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.getCustomEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    updateCustomPrebuiltEntityRole(azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateCustomPrebuiltEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
+    updateCustomPrebuiltEntityRole(appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateCustomPrebuiltEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, entityRoleUpdateObject, options, callback);
     }
-    deleteCustomEntityRole(azureRegion, appId, versionId, entityId, roleId, options, callback) {
-        return msRest.responseToBody(this.deleteCustomEntityRoleWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, roleId, options, callback);
+    deleteCustomEntityRole(appId, versionId, entityId, roleId, options, callback) {
+        return msRest.responseToBody(this.deleteCustomEntityRoleWithHttpOperationResponse.bind(this), appId, versionId, entityId, roleId, options, callback);
     }
-    getExplicitListItem(azureRegion, appId, versionId, entityId, itemId, options, callback) {
-        return msRest.responseToBody(this.getExplicitListItemWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, itemId, options, callback);
+    getExplicitListItem(appId, versionId, entityId, itemId, options, callback) {
+        return msRest.responseToBody(this.getExplicitListItemWithHttpOperationResponse.bind(this), appId, versionId, entityId, itemId, options, callback);
     }
-    updateExplicitListItem(azureRegion, appId, versionId, entityId, itemId, item, options, callback) {
-        return msRest.responseToBody(this.updateExplicitListItemWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, itemId, item, options, callback);
+    updateExplicitListItem(appId, versionId, entityId, itemId, item, options, callback) {
+        return msRest.responseToBody(this.updateExplicitListItemWithHttpOperationResponse.bind(this), appId, versionId, entityId, itemId, item, options, callback);
     }
-    deleteExplicitListItem(azureRegion, appId, versionId, entityId, itemId, options, callback) {
-        return msRest.responseToBody(this.deleteExplicitListItemWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, entityId, itemId, options, callback);
+    deleteExplicitListItem(appId, versionId, entityId, itemId, options, callback) {
+        return msRest.responseToBody(this.deleteExplicitListItemWithHttpOperationResponse.bind(this), appId, versionId, entityId, itemId, options, callback);
     }
 }
 exports.Model = Model;
@@ -3707,7 +3177,7 @@ const addIntentOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -3732,7 +3202,7 @@ const listIntentsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -3765,7 +3235,7 @@ const addEntityOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -3792,7 +3262,7 @@ const listEntitiesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -3825,7 +3295,7 @@ const addHierarchicalEntityOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -3852,7 +3322,7 @@ const listHierarchicalEntitiesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -3885,7 +3355,7 @@ const addCompositeEntityOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -3912,7 +3382,7 @@ const listCompositeEntitiesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -3945,7 +3415,7 @@ const listClosedListsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -3978,7 +3448,7 @@ const addClosedListOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4005,7 +3475,7 @@ const addPrebuiltOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4049,7 +3519,7 @@ const listPrebuiltsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4082,7 +3552,7 @@ const listPrebuiltEntitiesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/listprebuilts",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4111,7 +3581,7 @@ const listModelsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/models",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4144,7 +3614,7 @@ const examplesMethodOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/models/{modelId}/examples",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.modelId
@@ -4178,7 +3648,7 @@ const getIntentOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.intentId
@@ -4197,7 +3667,7 @@ const updateIntentOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.intentId
@@ -4220,7 +3690,7 @@ const deleteIntentOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.intentId
@@ -4242,7 +3712,7 @@ const getEntityOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -4261,7 +3731,7 @@ const updateEntityOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -4284,7 +3754,7 @@ const deleteEntityOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -4303,7 +3773,7 @@ const getHierarchicalEntityOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId
@@ -4322,7 +3792,7 @@ const updateHierarchicalEntityOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId
@@ -4345,7 +3815,7 @@ const deleteHierarchicalEntityOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId
@@ -4364,7 +3834,7 @@ const getCompositeEntityOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.cEntityId
@@ -4383,7 +3853,7 @@ const updateCompositeEntityOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.cEntityId
@@ -4406,7 +3876,7 @@ const deleteCompositeEntityOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.cEntityId
@@ -4425,7 +3895,7 @@ const getClosedListOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.clEntityId
@@ -4444,7 +3914,7 @@ const updateClosedListOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.clEntityId
@@ -4467,7 +3937,7 @@ const patchClosedListOperationSpec = {
     httpMethod: "PATCH",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.clEntityId
@@ -4490,7 +3960,7 @@ const deleteClosedListOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.clEntityId
@@ -4509,7 +3979,7 @@ const getPrebuiltOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{prebuiltId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.prebuiltId
@@ -4528,7 +3998,7 @@ const deletePrebuiltOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{prebuiltId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.prebuiltId
@@ -4547,7 +4017,7 @@ const deleteSubListOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists/{subListId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.clEntityId,
@@ -4567,7 +4037,7 @@ const updateSubListOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists/{subListId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.clEntityId,
@@ -4591,7 +4061,7 @@ const getIntentSuggestionsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/suggest",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.intentId
@@ -4624,7 +4094,7 @@ const getEntitySuggestionsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/suggest",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -4657,7 +4127,7 @@ const addSubListOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.clEntityId
@@ -4685,7 +4155,7 @@ const addCustomPrebuiltDomainOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltdomains",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4717,7 +4187,7 @@ const addCustomPrebuiltIntentOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltintents",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4744,7 +4214,7 @@ const listCustomPrebuiltIntentsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltintents",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4773,7 +4243,7 @@ const addCustomPrebuiltEntityOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4800,7 +4270,7 @@ const listCustomPrebuiltEntitiesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4829,7 +4299,7 @@ const listCustomPrebuiltModelsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltmodels",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -4858,7 +4328,7 @@ const deleteCustomPrebuiltDomainOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltdomains/{domainName}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.domainName
@@ -4877,7 +4347,7 @@ const getHierarchicalEntityChildOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId,
@@ -4897,7 +4367,7 @@ const updateHierarchicalEntityChildOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId,
@@ -4921,7 +4391,7 @@ const deleteHierarchicalEntityChildOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId,
@@ -4941,7 +4411,7 @@ const addHierarchicalEntityChildOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId
@@ -4969,7 +4439,7 @@ const addCompositeEntityChildOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/children",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.cEntityId
@@ -4997,7 +4467,7 @@ const deleteCompositeEntityChildOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/children/{cChildId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.cEntityId,
@@ -5017,7 +4487,7 @@ const getRegexEntityInfosOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -5050,7 +4520,7 @@ const createRegexEntityModelOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -5077,7 +4547,7 @@ const getPatternAnyEntityInfosOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -5110,7 +4580,7 @@ const createPatternAnyEntityModelOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -5137,7 +4607,7 @@ const getEntityRolesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5167,7 +4637,7 @@ const createEntityRoleOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5195,7 +4665,7 @@ const getPrebuiltEntityRolesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5225,7 +4695,7 @@ const createPrebuiltEntityRoleOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5253,7 +4723,7 @@ const getClosedListEntityRolesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5283,7 +4753,7 @@ const createClosedListEntityRoleOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5311,7 +4781,7 @@ const getRegexEntityRolesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5341,7 +4811,7 @@ const createRegexEntityRoleOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5369,7 +4839,7 @@ const getCompositeEntityRolesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.cEntityId
@@ -5399,7 +4869,7 @@ const createCompositeEntityRoleOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.cEntityId
@@ -5427,7 +4897,7 @@ const getPatternAnyEntityRolesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5457,7 +4927,7 @@ const createPatternAnyEntityRoleOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5485,7 +4955,7 @@ const getHierarchicalEntityRolesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId
@@ -5515,7 +4985,7 @@ const createHierarchicalEntityRoleOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId
@@ -5543,7 +5013,7 @@ const getCustomPrebuiltEntityRolesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5573,7 +5043,7 @@ const createCustomPrebuiltEntityRoleOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5601,7 +5071,7 @@ const getExplicitListOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5631,7 +5101,7 @@ const addExplicitListItemOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5659,7 +5129,7 @@ const getRegexEntityEntityInfoOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.regexEntityId
@@ -5678,7 +5148,7 @@ const updateRegexEntityModelOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.regexEntityId
@@ -5701,7 +5171,7 @@ const deleteRegexEntityModelOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.regexEntityId
@@ -5720,7 +5190,7 @@ const getPatternAnyEntityInfoOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5739,7 +5209,7 @@ const updatePatternAnyEntityModelOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5762,7 +5232,7 @@ const deletePatternAnyEntityModelOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId
@@ -5781,7 +5251,7 @@ const getEntityRoleOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -5801,7 +5271,7 @@ const updateEntityRoleOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -5825,7 +5295,7 @@ const deleteEntityRoleOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -5845,7 +5315,7 @@ const getPrebuiltEntityRoleOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -5865,7 +5335,7 @@ const updatePrebuiltEntityRoleOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -5889,7 +5359,7 @@ const deletePrebuiltEntityRoleOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -5909,7 +5379,7 @@ const getClosedListEntityRoleOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -5929,7 +5399,7 @@ const updateClosedListEntityRoleOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -5953,7 +5423,7 @@ const deleteClosedListEntityRoleOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -5973,7 +5443,7 @@ const getRegexEntityRoleOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -5993,7 +5463,7 @@ const updateRegexEntityRoleOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -6017,7 +5487,7 @@ const deleteRegexEntityRoleOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -6037,7 +5507,7 @@ const getCompositeEntityRoleOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.cEntityId,
@@ -6057,7 +5527,7 @@ const updateCompositeEntityRoleOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.cEntityId,
@@ -6081,7 +5551,7 @@ const deleteCompositeEntityRoleOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.cEntityId,
@@ -6101,7 +5571,7 @@ const getPatternAnyEntityRoleOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -6121,7 +5591,7 @@ const updatePatternAnyEntityRoleOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -6145,7 +5615,7 @@ const deletePatternAnyEntityRoleOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -6165,7 +5635,7 @@ const getHierarchicalEntityRoleOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId,
@@ -6185,7 +5655,7 @@ const updateHierarchicalEntityRoleOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId,
@@ -6209,7 +5679,7 @@ const deleteHierarchicalEntityRoleOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.hEntityId,
@@ -6229,7 +5699,7 @@ const getCustomEntityRoleOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -6249,7 +5719,7 @@ const updateCustomPrebuiltEntityRoleOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -6273,7 +5743,7 @@ const deleteCustomEntityRoleOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -6293,7 +5763,7 @@ const getExplicitListItemOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -6313,7 +5783,7 @@ const updateExplicitListItemOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,
@@ -6337,7 +5807,7 @@ const deleteExplicitListItemOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.entityId,

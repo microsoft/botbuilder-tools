@@ -27,6 +27,6 @@ declare class LuisAuthoring extends LuisAuthoringContext {
      * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
      *
      */
-    constructor(credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions);
+    constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions);
 }
 export { LuisAuthoring, Models as LuisAuthoringModels, Mappers as LuisAuthoringMappers };

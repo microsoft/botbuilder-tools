@@ -24,10 +24,6 @@ class Train {
      * the models (intents and entities) are trained successfully or are up to date. To verify training
      * success, get the training status at least once after training is complete.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -40,9 +36,8 @@ class Train {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    trainVersionWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    trainVersionWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -54,10 +49,6 @@ class Train {
      * "appID" specifies the LUIS app ID. "versionId" specifies the version number of the LUIS app. For
      * example, "0.1".
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -70,19 +61,18 @@ class Train {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getStatusWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    getStatusWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
         }, getStatusOperationSpec);
     }
-    trainVersion(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.trainVersionWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    trainVersion(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.trainVersionWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    getStatus(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.getStatusWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    getStatus(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.getStatusWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
 }
 exports.Train = Train;
@@ -92,7 +82,7 @@ const trainVersionOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/train",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -110,7 +100,7 @@ const getStatusOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/train",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],

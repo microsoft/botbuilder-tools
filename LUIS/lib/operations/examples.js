@@ -20,10 +20,6 @@ class Examples {
     /**
      * Adds a labeled example to the application.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -39,9 +35,8 @@ class Examples {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addWithHttpOperationResponse(azureRegion, appId, versionId, exampleLabelObject, options) {
+    addWithHttpOperationResponse(appId, versionId, exampleLabelObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             exampleLabelObject,
@@ -50,10 +45,6 @@ class Examples {
     }
     /**
      * Adds a batch of labeled examples to the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -69,9 +60,8 @@ class Examples {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    batchWithHttpOperationResponse(azureRegion, appId, versionId, exampleLabelObjectArray, options) {
+    batchWithHttpOperationResponse(appId, versionId, exampleLabelObjectArray, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             exampleLabelObjectArray,
@@ -80,10 +70,6 @@ class Examples {
     }
     /**
      * Returns examples to be reviewed.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -97,9 +83,8 @@ class Examples {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -107,10 +92,6 @@ class Examples {
     }
     /**
      * Deletes the labeled example with the specified ID.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -126,26 +107,25 @@ class Examples {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteMethodWithHttpOperationResponse(azureRegion, appId, versionId, exampleId, options) {
+    deleteMethodWithHttpOperationResponse(appId, versionId, exampleId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             exampleId,
             options
         }, deleteMethodOperationSpec);
     }
-    add(azureRegion, appId, versionId, exampleLabelObject, options, callback) {
-        return msRest.responseToBody(this.addWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, exampleLabelObject, options, callback);
+    add(appId, versionId, exampleLabelObject, options, callback) {
+        return msRest.responseToBody(this.addWithHttpOperationResponse.bind(this), appId, versionId, exampleLabelObject, options, callback);
     }
-    batch(azureRegion, appId, versionId, exampleLabelObjectArray, options, callback) {
-        return msRest.responseToBody(this.batchWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, exampleLabelObjectArray, options, callback);
+    batch(appId, versionId, exampleLabelObjectArray, options, callback) {
+        return msRest.responseToBody(this.batchWithHttpOperationResponse.bind(this), appId, versionId, exampleLabelObjectArray, options, callback);
     }
-    list(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    list(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    deleteMethod(azureRegion, appId, versionId, exampleId, options, callback) {
-        return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, exampleId, options, callback);
+    deleteMethod(appId, versionId, exampleId, options, callback) {
+        return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), appId, versionId, exampleId, options, callback);
     }
 }
 exports.Examples = Examples;
@@ -155,7 +135,7 @@ const addOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/example",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -177,7 +157,7 @@ const batchOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -236,7 +216,7 @@ const listOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -269,7 +249,7 @@ const deleteMethodOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples/{exampleId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.exampleId

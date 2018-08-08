@@ -20,10 +20,6 @@ class Pattern {
     /**
      * @summary Adds one pattern to the specified application.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -38,9 +34,8 @@ class Pattern {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addPatternWithHttpOperationResponse(azureRegion, appId, versionId, pattern, options) {
+    addPatternWithHttpOperationResponse(appId, versionId, pattern, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             pattern,
@@ -49,10 +44,6 @@ class Pattern {
     }
     /**
      * @summary Returns an application version's patterns.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -66,9 +57,8 @@ class Pattern {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPatternsWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    getPatternsWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -76,10 +66,6 @@ class Pattern {
     }
     /**
      * @summary Updates patterns
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -95,9 +81,8 @@ class Pattern {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updatePatternsWithHttpOperationResponse(azureRegion, appId, versionId, patterns, options) {
+    updatePatternsWithHttpOperationResponse(appId, versionId, patterns, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             patterns,
@@ -106,10 +91,6 @@ class Pattern {
     }
     /**
      * @summary Adds a batch of patterns to the specified application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -125,9 +106,8 @@ class Pattern {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    batchAddPatternsWithHttpOperationResponse(azureRegion, appId, versionId, patterns, options) {
+    batchAddPatternsWithHttpOperationResponse(appId, versionId, patterns, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             patterns,
@@ -136,10 +116,6 @@ class Pattern {
     }
     /**
      * @summary Deletes the patterns with the specified IDs.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -155,9 +131,8 @@ class Pattern {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deletePatternsWithHttpOperationResponse(azureRegion, appId, versionId, patternIds, options) {
+    deletePatternsWithHttpOperationResponse(appId, versionId, patternIds, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             patternIds,
@@ -166,10 +141,6 @@ class Pattern {
     }
     /**
      * @summary Updates a pattern
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -187,9 +158,8 @@ class Pattern {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updatePatternWithHttpOperationResponse(azureRegion, appId, versionId, patternId, pattern, options) {
+    updatePatternWithHttpOperationResponse(appId, versionId, patternId, pattern, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             patternId,
@@ -199,10 +169,6 @@ class Pattern {
     }
     /**
      * @summary Deletes the pattern with the specified ID.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -218,9 +184,8 @@ class Pattern {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deletePatternWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options) {
+    deletePatternWithHttpOperationResponse(appId, versionId, patternId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             patternId,
@@ -229,10 +194,6 @@ class Pattern {
     }
     /**
      * @summary Returns patterns to be retrieved for the specific intent.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -248,38 +209,37 @@ class Pattern {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getIntentPatternsWithHttpOperationResponse(azureRegion, appId, versionId, intentId, options) {
+    getIntentPatternsWithHttpOperationResponse(appId, versionId, intentId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             intentId,
             options
         }, getIntentPatternsOperationSpec);
     }
-    addPattern(azureRegion, appId, versionId, pattern, options, callback) {
-        return msRest.responseToBody(this.addPatternWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, pattern, options, callback);
+    addPattern(appId, versionId, pattern, options, callback) {
+        return msRest.responseToBody(this.addPatternWithHttpOperationResponse.bind(this), appId, versionId, pattern, options, callback);
     }
-    getPatterns(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.getPatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    getPatterns(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.getPatternsWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    updatePatterns(azureRegion, appId, versionId, patterns, options, callback) {
-        return msRest.responseToBody(this.updatePatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patterns, options, callback);
+    updatePatterns(appId, versionId, patterns, options, callback) {
+        return msRest.responseToBody(this.updatePatternsWithHttpOperationResponse.bind(this), appId, versionId, patterns, options, callback);
     }
-    batchAddPatterns(azureRegion, appId, versionId, patterns, options, callback) {
-        return msRest.responseToBody(this.batchAddPatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patterns, options, callback);
+    batchAddPatterns(appId, versionId, patterns, options, callback) {
+        return msRest.responseToBody(this.batchAddPatternsWithHttpOperationResponse.bind(this), appId, versionId, patterns, options, callback);
     }
-    deletePatterns(azureRegion, appId, versionId, patternIds, options, callback) {
-        return msRest.responseToBody(this.deletePatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternIds, options, callback);
+    deletePatterns(appId, versionId, patternIds, options, callback) {
+        return msRest.responseToBody(this.deletePatternsWithHttpOperationResponse.bind(this), appId, versionId, patternIds, options, callback);
     }
-    updatePattern(azureRegion, appId, versionId, patternId, pattern, options, callback) {
-        return msRest.responseToBody(this.updatePatternWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, pattern, options, callback);
+    updatePattern(appId, versionId, patternId, pattern, options, callback) {
+        return msRest.responseToBody(this.updatePatternWithHttpOperationResponse.bind(this), appId, versionId, patternId, pattern, options, callback);
     }
-    deletePattern(azureRegion, appId, versionId, patternId, options, callback) {
-        return msRest.responseToBody(this.deletePatternWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, options, callback);
+    deletePattern(appId, versionId, patternId, options, callback) {
+        return msRest.responseToBody(this.deletePatternWithHttpOperationResponse.bind(this), appId, versionId, patternId, options, callback);
     }
-    getIntentPatterns(azureRegion, appId, versionId, intentId, options, callback) {
-        return msRest.responseToBody(this.getIntentPatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, options, callback);
+    getIntentPatterns(appId, versionId, intentId, options, callback) {
+        return msRest.responseToBody(this.getIntentPatternsWithHttpOperationResponse.bind(this), appId, versionId, intentId, options, callback);
     }
 }
 exports.Pattern = Pattern;
@@ -289,7 +249,7 @@ const addPatternOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrule",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -311,7 +271,7 @@ const getPatternsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -344,7 +304,7 @@ const updatePatternsOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -389,7 +349,7 @@ const batchAddPatternsOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -434,7 +394,7 @@ const deletePatternsOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -467,7 +427,7 @@ const updatePatternOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules/{patternId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.patternId1
@@ -490,7 +450,7 @@ const deletePatternOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules/{patternId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.patternId1
@@ -509,7 +469,7 @@ const getIntentPatternsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/patternrules",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.intentId

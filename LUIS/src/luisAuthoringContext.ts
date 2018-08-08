@@ -10,12 +10,15 @@ const packageName = "";
 const packageVersion = "";
 
 export class LuisAuthoringContext extends msRest.ServiceClient {
+  endpoint: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
    * @class
    * Initializes a new instance of the LuisAuthoringContext class.
    * @constructor
+   *
+   * @param {string} endpoint - Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).
    *
    * @param {msRest.ServiceClientCredentials} credentials - Subscription credentials which uniquely identify client subscription.
    *
@@ -29,7 +32,10 @@ export class LuisAuthoringContext extends msRest.ServiceClient {
    * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
    *
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
+  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
+    if (endpoint === null || endpoint === undefined) {
+      throw new Error('\'endpoint\' cannot be null.');
+    }
     if (credentials === null || credentials === undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -40,8 +46,9 @@ export class LuisAuthoringContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "https://{AzureRegion}.api.cognitive.microsoft.com";
+    this.baseUri = "{Endpoint}";
     this.requestContentType = "application/json; charset=utf-8";
+    this.endpoint = endpoint;
     this.credentials = credentials;
 
     this.addUserAgentInfo(`${packageName}/${packageVersion}`);

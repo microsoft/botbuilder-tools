@@ -2696,6 +2696,21 @@ export interface AppsImportMethodOptionalParams extends msRest.RequestOptionsBas
 
 /**
  * @interface
+ * An interface representing VersionsCloneOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface VersionsCloneOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {TaskUpdateObject} [versionCloneObject] A model containing the new
+   * version ID.
+   */
+  versionCloneObject?: TaskUpdateObject;
+}
+
+/**
+ * @interface
  * An interface representing VersionsListOptionalParams.
  * Optional Parameters.
  *
@@ -2796,29 +2811,6 @@ export enum OperationStatusType {
   Failed = 'Failed',
   FAILED = 'FAILED',
   Success = 'Success',
-}
-
-/**
- * Defines values for AzureRegions.
- * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2',
- * 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope',
- * 'eastasia', 'australiaeast', 'brazilsouth'
- * @readonly
- * @enum {string}
- */
-export enum AzureRegions {
-  Westus = 'westus',
-  Westeurope = 'westeurope',
-  Southeastasia = 'southeastasia',
-  Eastus2 = 'eastus2',
-  Westcentralus = 'westcentralus',
-  Westus2 = 'westus2',
-  Eastus = 'eastus',
-  Southcentralus = 'southcentralus',
-  Northeurope = 'northeurope',
-  Eastasia = 'eastasia',
-  Australiaeast = 'australiaeast',
-  Brazilsouth = 'brazilsouth',
 }
 
 /**

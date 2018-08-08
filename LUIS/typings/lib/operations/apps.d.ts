@@ -12,10 +12,6 @@ export declare class Apps {
     /**
      * Creates a new LUIS app.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {ApplicationCreateObject} applicationCreateObject A model containing Name, Description
      * (optional), Culture, Usage Scenario (optional), Domain (optional) and initial version ID
      * (optional) of the application. Default value for the version ID is 0.1. Note: the culture cannot
@@ -29,13 +25,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addWithHttpOperationResponse(azureRegion: Models.AzureRegions, applicationCreateObject: Models.ApplicationCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>>;
+    addWithHttpOperationResponse(applicationCreateObject: Models.ApplicationCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>>;
     /**
      * Lists all of the user applications.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {AppsListOptionalParams} [options] Optional Parameters.
      *
@@ -45,14 +37,10 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listWithHttpOperationResponse(azureRegion: Models.AzureRegions, options?: Models.AppsListOptionalParams): Promise<msRest.HttpOperationResponse<Models.ApplicationInfoResponse[]>>;
+    listWithHttpOperationResponse(options?: Models.AppsListOptionalParams): Promise<msRest.HttpOperationResponse<Models.ApplicationInfoResponse[]>>;
     /**
      * Imports an application to LUIS, the application's structure should be included in in the request
      * body.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {LuisApp} luisApp A LUIS application structure.
      *
@@ -64,14 +52,10 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    importMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, luisApp: Models.LuisApp, options?: Models.AppsImportMethodOptionalParams): Promise<msRest.HttpOperationResponse<string>>;
+    importMethodWithHttpOperationResponse(luisApp: Models.LuisApp, options?: Models.AppsImportMethodOptionalParams): Promise<msRest.HttpOperationResponse<string>>;
     /**
      * Gets the endpoint URLs for the prebuilt Cortana applications.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
@@ -80,14 +64,10 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listCortanaEndpointsWithHttpOperationResponse(azureRegion: Models.AzureRegions, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PersonalAssistantsResponse>>;
+    listCortanaEndpointsWithHttpOperationResponse(options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PersonalAssistantsResponse>>;
     /**
      * Gets the available application domains.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
@@ -96,14 +76,10 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listDomainsWithHttpOperationResponse(azureRegion: Models.AzureRegions, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string[]>>;
+    listDomainsWithHttpOperationResponse(options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string[]>>;
     /**
      * Gets the application available usage scenarios.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
@@ -112,14 +88,10 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listUsageScenariosWithHttpOperationResponse(azureRegion: Models.AzureRegions, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string[]>>;
+    listUsageScenariosWithHttpOperationResponse(options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string[]>>;
     /**
      * Gets the supported application cultures.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
@@ -128,14 +100,10 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listSupportedCulturesWithHttpOperationResponse(azureRegion: Models.AzureRegions, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.AvailableCulture[]>>;
+    listSupportedCulturesWithHttpOperationResponse(options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.AvailableCulture[]>>;
     /**
      * Gets the query logs of the past month for the application.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {RequestOptionsBase} [options] Optional Parameters.
@@ -146,14 +114,10 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    downloadQueryLogsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<void>>;
+    downloadQueryLogsWithHttpOperationResponse(appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<void>>;
     /**
      * Gets the application info.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {RequestOptionsBase} [options] Optional Parameters.
@@ -164,13 +128,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ApplicationInfoResponse>>;
+    getWithHttpOperationResponse(appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ApplicationInfoResponse>>;
     /**
      * Updates the name or description of the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -185,13 +145,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>>;
+    updateWithHttpOperationResponse(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>>;
     /**
      * Deletes an application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -203,13 +159,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteMethodWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>>;
+    deleteMethodWithHttpOperationResponse(appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>>;
     /**
      * Publishes a specific version of the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -224,13 +176,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    publishWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, applicationPublishObject: Models.ApplicationPublishObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ProductionOrStagingEndpointInfo>>;
+    publishWithHttpOperationResponse(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ProductionOrStagingEndpointInfo>>;
     /**
      * Get the application settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -242,13 +190,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getSettingsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ApplicationSettings>>;
+    getSettingsWithHttpOperationResponse(appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.ApplicationSettings>>;
     /**
      * Updates the application settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -263,13 +207,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateSettingsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>>;
+    updateSettingsWithHttpOperationResponse(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>>;
     /**
      * Get the application publish settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -281,13 +221,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPublishSettingsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PublishSettings>>;
+    getPublishSettingsWithHttpOperationResponse(appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PublishSettings>>;
     /**
      * Updates the application publish settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -302,13 +238,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updatePublishSettingsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>>;
+    updatePublishSettingsWithHttpOperationResponse(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>>;
     /**
      * Returns the available endpoint deployment regions and URLs.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -320,15 +252,11 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listEndpointsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<{
+    listEndpointsWithHttpOperationResponse(appId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<{
         [propertyName: string]: string;
     }>>;
     /**
      * Gets all the available custom prebuilt domains for all cultures.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
@@ -338,13 +266,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listAvailableCustomPrebuiltDomainsWithHttpOperationResponse(azureRegion: Models.AzureRegions, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PrebuiltDomain[]>>;
+    listAvailableCustomPrebuiltDomainsWithHttpOperationResponse(options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PrebuiltDomain[]>>;
     /**
      * Adds a prebuilt domain along with its models as a new application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {PrebuiltDomainCreateObject} prebuiltDomainCreateObject A prebuilt domain create object
      * containing the name and culture of the domain.
@@ -357,13 +281,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addCustomPrebuiltDomainWithHttpOperationResponse(azureRegion: Models.AzureRegions, prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>>;
+    addCustomPrebuiltDomainWithHttpOperationResponse(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<string>>;
     /**
      * Gets all the available custom prebuilt domains for a specific culture.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} culture Culture.
      *
@@ -375,13 +295,9 @@ export declare class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listAvailableCustomPrebuiltDomainsForCultureWithHttpOperationResponse(azureRegion: Models.AzureRegions, culture: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PrebuiltDomain[]>>;
+    listAvailableCustomPrebuiltDomainsForCultureWithHttpOperationResponse(culture: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PrebuiltDomain[]>>;
     /**
      * Creates a new LUIS app.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {ApplicationCreateObject} applicationCreateObject A model containing Name, Description
      * (optional), Culture, Usage Scenario (optional), Domain (optional) and initial version ID
@@ -399,16 +315,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    add(azureRegion: Models.AzureRegions, applicationCreateObject: Models.ApplicationCreateObject): Promise<string>;
-    add(azureRegion: Models.AzureRegions, applicationCreateObject: Models.ApplicationCreateObject, options: msRest.RequestOptionsBase): Promise<string>;
-    add(azureRegion: Models.AzureRegions, applicationCreateObject: Models.ApplicationCreateObject, callback: msRest.ServiceCallback<string>): void;
-    add(azureRegion: Models.AzureRegions, applicationCreateObject: Models.ApplicationCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+    add(applicationCreateObject: Models.ApplicationCreateObject): Promise<string>;
+    add(applicationCreateObject: Models.ApplicationCreateObject, options: msRest.RequestOptionsBase): Promise<string>;
+    add(applicationCreateObject: Models.ApplicationCreateObject, callback: msRest.ServiceCallback<string>): void;
+    add(applicationCreateObject: Models.ApplicationCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
     /**
      * Lists all of the user applications.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {AppsListOptionalParams} [options] Optional Parameters.
      *
@@ -421,17 +333,13 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    list(azureRegion: Models.AzureRegions): Promise<Models.ApplicationInfoResponse[]>;
-    list(azureRegion: Models.AzureRegions, options: Models.AppsListOptionalParams): Promise<Models.ApplicationInfoResponse[]>;
-    list(azureRegion: Models.AzureRegions, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): void;
-    list(azureRegion: Models.AzureRegions, options: Models.AppsListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): void;
+    list(): Promise<Models.ApplicationInfoResponse[]>;
+    list(options: Models.AppsListOptionalParams): Promise<Models.ApplicationInfoResponse[]>;
+    list(callback: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): void;
+    list(options: Models.AppsListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): void;
     /**
      * Imports an application to LUIS, the application's structure should be included in in the request
      * body.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {LuisApp} luisApp A LUIS application structure.
      *
@@ -446,16 +354,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    importMethod(azureRegion: Models.AzureRegions, luisApp: Models.LuisApp): Promise<string>;
-    importMethod(azureRegion: Models.AzureRegions, luisApp: Models.LuisApp, options: Models.AppsImportMethodOptionalParams): Promise<string>;
-    importMethod(azureRegion: Models.AzureRegions, luisApp: Models.LuisApp, callback: msRest.ServiceCallback<string>): void;
-    importMethod(azureRegion: Models.AzureRegions, luisApp: Models.LuisApp, options: Models.AppsImportMethodOptionalParams, callback: msRest.ServiceCallback<string>): void;
+    importMethod(luisApp: Models.LuisApp): Promise<string>;
+    importMethod(luisApp: Models.LuisApp, options: Models.AppsImportMethodOptionalParams): Promise<string>;
+    importMethod(luisApp: Models.LuisApp, callback: msRest.ServiceCallback<string>): void;
+    importMethod(luisApp: Models.LuisApp, options: Models.AppsImportMethodOptionalParams, callback: msRest.ServiceCallback<string>): void;
     /**
      * Gets the endpoint URLs for the prebuilt Cortana applications.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
@@ -468,17 +372,13 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    listCortanaEndpoints(azureRegion: Models.AzureRegions): Promise<Models.PersonalAssistantsResponse>;
-    listCortanaEndpoints(azureRegion: Models.AzureRegions, options: msRest.RequestOptionsBase): Promise<Models.PersonalAssistantsResponse>;
-    listCortanaEndpoints(azureRegion: Models.AzureRegions, callback: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): void;
-    listCortanaEndpoints(azureRegion: Models.AzureRegions, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): void;
+    listCortanaEndpoints(): Promise<Models.PersonalAssistantsResponse>;
+    listCortanaEndpoints(options: msRest.RequestOptionsBase): Promise<Models.PersonalAssistantsResponse>;
+    listCortanaEndpoints(callback: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): void;
+    listCortanaEndpoints(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): void;
     /**
      * Gets the available application domains.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @param {ServiceCallback} callback The callback.
@@ -490,17 +390,13 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    listDomains(azureRegion: Models.AzureRegions): Promise<string[]>;
-    listDomains(azureRegion: Models.AzureRegions, options: msRest.RequestOptionsBase): Promise<string[]>;
-    listDomains(azureRegion: Models.AzureRegions, callback: msRest.ServiceCallback<string[]>): void;
-    listDomains(azureRegion: Models.AzureRegions, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
+    listDomains(): Promise<string[]>;
+    listDomains(options: msRest.RequestOptionsBase): Promise<string[]>;
+    listDomains(callback: msRest.ServiceCallback<string[]>): void;
+    listDomains(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
     /**
      * Gets the application available usage scenarios.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @param {ServiceCallback} callback The callback.
@@ -512,16 +408,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    listUsageScenarios(azureRegion: Models.AzureRegions): Promise<string[]>;
-    listUsageScenarios(azureRegion: Models.AzureRegions, options: msRest.RequestOptionsBase): Promise<string[]>;
-    listUsageScenarios(azureRegion: Models.AzureRegions, callback: msRest.ServiceCallback<string[]>): void;
-    listUsageScenarios(azureRegion: Models.AzureRegions, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
+    listUsageScenarios(): Promise<string[]>;
+    listUsageScenarios(options: msRest.RequestOptionsBase): Promise<string[]>;
+    listUsageScenarios(callback: msRest.ServiceCallback<string[]>): void;
+    listUsageScenarios(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
     /**
      * Gets the supported application cultures.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
@@ -534,16 +426,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    listSupportedCultures(azureRegion: Models.AzureRegions): Promise<Models.AvailableCulture[]>;
-    listSupportedCultures(azureRegion: Models.AzureRegions, options: msRest.RequestOptionsBase): Promise<Models.AvailableCulture[]>;
-    listSupportedCultures(azureRegion: Models.AzureRegions, callback: msRest.ServiceCallback<Models.AvailableCulture[]>): void;
-    listSupportedCultures(azureRegion: Models.AzureRegions, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableCulture[]>): void;
+    listSupportedCultures(): Promise<Models.AvailableCulture[]>;
+    listSupportedCultures(options: msRest.RequestOptionsBase): Promise<Models.AvailableCulture[]>;
+    listSupportedCultures(callback: msRest.ServiceCallback<Models.AvailableCulture[]>): void;
+    listSupportedCultures(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableCulture[]>): void;
     /**
      * Gets the application info.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -558,16 +446,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    get(azureRegion: Models.AzureRegions, appId: string): Promise<Models.ApplicationInfoResponse>;
-    get(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase): Promise<Models.ApplicationInfoResponse>;
-    get(azureRegion: Models.AzureRegions, appId: string, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse>): void;
-    get(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse>): void;
+    get(appId: string): Promise<Models.ApplicationInfoResponse>;
+    get(appId: string, options: msRest.RequestOptionsBase): Promise<Models.ApplicationInfoResponse>;
+    get(appId: string, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse>): void;
+    get(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse>): void;
     /**
      * Updates the name or description of the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -585,16 +469,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    update(azureRegion: Models.AzureRegions, appId: string, applicationUpdateObject: Models.ApplicationUpdateObject): Promise<Models.OperationStatus>;
-    update(azureRegion: Models.AzureRegions, appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
-    update(azureRegion: Models.AzureRegions, appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-    update(azureRegion: Models.AzureRegions, appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+    update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject): Promise<Models.OperationStatus>;
+    update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
+    update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+    update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
     /**
      * Deletes an application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -609,16 +489,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    deleteMethod(azureRegion: Models.AzureRegions, appId: string): Promise<Models.OperationStatus>;
-    deleteMethod(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
-    deleteMethod(azureRegion: Models.AzureRegions, appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-    deleteMethod(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+    deleteMethod(appId: string): Promise<Models.OperationStatus>;
+    deleteMethod(appId: string, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
+    deleteMethod(appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+    deleteMethod(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
     /**
      * Publishes a specific version of the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -636,16 +512,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    publish(azureRegion: Models.AzureRegions, appId: string, applicationPublishObject: Models.ApplicationPublishObject): Promise<Models.ProductionOrStagingEndpointInfo>;
-    publish(azureRegion: Models.AzureRegions, appId: string, applicationPublishObject: Models.ApplicationPublishObject, options: msRest.RequestOptionsBase): Promise<Models.ProductionOrStagingEndpointInfo>;
-    publish(azureRegion: Models.AzureRegions, appId: string, applicationPublishObject: Models.ApplicationPublishObject, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
-    publish(azureRegion: Models.AzureRegions, appId: string, applicationPublishObject: Models.ApplicationPublishObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
+    publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject): Promise<Models.ProductionOrStagingEndpointInfo>;
+    publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options: msRest.RequestOptionsBase): Promise<Models.ProductionOrStagingEndpointInfo>;
+    publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
+    publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
     /**
      * Get the application settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -660,16 +532,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    getSettings(azureRegion: Models.AzureRegions, appId: string): Promise<Models.ApplicationSettings>;
-    getSettings(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase): Promise<Models.ApplicationSettings>;
-    getSettings(azureRegion: Models.AzureRegions, appId: string, callback: msRest.ServiceCallback<Models.ApplicationSettings>): void;
-    getSettings(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSettings>): void;
+    getSettings(appId: string): Promise<Models.ApplicationSettings>;
+    getSettings(appId: string, options: msRest.RequestOptionsBase): Promise<Models.ApplicationSettings>;
+    getSettings(appId: string, callback: msRest.ServiceCallback<Models.ApplicationSettings>): void;
+    getSettings(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSettings>): void;
     /**
      * Updates the application settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -687,16 +555,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    updateSettings(azureRegion: Models.AzureRegions, appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject): Promise<Models.OperationStatus>;
-    updateSettings(azureRegion: Models.AzureRegions, appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
-    updateSettings(azureRegion: Models.AzureRegions, appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-    updateSettings(azureRegion: Models.AzureRegions, appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+    updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject): Promise<Models.OperationStatus>;
+    updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
+    updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+    updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
     /**
      * Get the application publish settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -711,16 +575,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    getPublishSettings(azureRegion: Models.AzureRegions, appId: string): Promise<Models.PublishSettings>;
-    getPublishSettings(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase): Promise<Models.PublishSettings>;
-    getPublishSettings(azureRegion: Models.AzureRegions, appId: string, callback: msRest.ServiceCallback<Models.PublishSettings>): void;
-    getPublishSettings(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublishSettings>): void;
+    getPublishSettings(appId: string): Promise<Models.PublishSettings>;
+    getPublishSettings(appId: string, options: msRest.RequestOptionsBase): Promise<Models.PublishSettings>;
+    getPublishSettings(appId: string, callback: msRest.ServiceCallback<Models.PublishSettings>): void;
+    getPublishSettings(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublishSettings>): void;
     /**
      * Updates the application publish settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -738,16 +598,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    updatePublishSettings(azureRegion: Models.AzureRegions, appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject): Promise<Models.OperationStatus>;
-    updatePublishSettings(azureRegion: Models.AzureRegions, appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
-    updatePublishSettings(azureRegion: Models.AzureRegions, appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-    updatePublishSettings(azureRegion: Models.AzureRegions, appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+    updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject): Promise<Models.OperationStatus>;
+    updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
+    updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+    updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
     /**
      * Returns the available endpoint deployment regions and URLs.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -762,24 +618,20 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    listEndpoints(azureRegion: Models.AzureRegions, appId: string): Promise<{
+    listEndpoints(appId: string): Promise<{
         [propertyName: string]: string;
     }>;
-    listEndpoints(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase): Promise<{
+    listEndpoints(appId: string, options: msRest.RequestOptionsBase): Promise<{
         [propertyName: string]: string;
     }>;
-    listEndpoints(azureRegion: Models.AzureRegions, appId: string, callback: msRest.ServiceCallback<{
+    listEndpoints(appId: string, callback: msRest.ServiceCallback<{
         [propertyName: string]: string;
     }>): void;
-    listEndpoints(azureRegion: Models.AzureRegions, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<{
+    listEndpoints(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<{
         [propertyName: string]: string;
     }>): void;
     /**
      * Gets all the available custom prebuilt domains for all cultures.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
@@ -792,16 +644,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    listAvailableCustomPrebuiltDomains(azureRegion: Models.AzureRegions): Promise<Models.PrebuiltDomain[]>;
-    listAvailableCustomPrebuiltDomains(azureRegion: Models.AzureRegions, options: msRest.RequestOptionsBase): Promise<Models.PrebuiltDomain[]>;
-    listAvailableCustomPrebuiltDomains(azureRegion: Models.AzureRegions, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
-    listAvailableCustomPrebuiltDomains(azureRegion: Models.AzureRegions, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
+    listAvailableCustomPrebuiltDomains(): Promise<Models.PrebuiltDomain[]>;
+    listAvailableCustomPrebuiltDomains(options: msRest.RequestOptionsBase): Promise<Models.PrebuiltDomain[]>;
+    listAvailableCustomPrebuiltDomains(callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
+    listAvailableCustomPrebuiltDomains(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
     /**
      * Adds a prebuilt domain along with its models as a new application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {PrebuiltDomainCreateObject} prebuiltDomainCreateObject A prebuilt domain create object
      * containing the name and culture of the domain.
@@ -817,16 +665,12 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject): Promise<string>;
-    addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options: msRest.RequestOptionsBase): Promise<string>;
-    addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, callback: msRest.ServiceCallback<string>): void;
-    addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+    addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject): Promise<string>;
+    addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options: msRest.RequestOptionsBase): Promise<string>;
+    addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, callback: msRest.ServiceCallback<string>): void;
+    addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
     /**
      * Gets all the available custom prebuilt domains for a specific culture.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} culture Culture.
      *
@@ -841,8 +685,8 @@ export declare class Apps {
      *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
      *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
      */
-    listAvailableCustomPrebuiltDomainsForCulture(azureRegion: Models.AzureRegions, culture: string): Promise<Models.PrebuiltDomain[]>;
-    listAvailableCustomPrebuiltDomainsForCulture(azureRegion: Models.AzureRegions, culture: string, options: msRest.RequestOptionsBase): Promise<Models.PrebuiltDomain[]>;
-    listAvailableCustomPrebuiltDomainsForCulture(azureRegion: Models.AzureRegions, culture: string, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
-    listAvailableCustomPrebuiltDomainsForCulture(azureRegion: Models.AzureRegions, culture: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
+    listAvailableCustomPrebuiltDomainsForCulture(culture: string): Promise<Models.PrebuiltDomain[]>;
+    listAvailableCustomPrebuiltDomainsForCulture(culture: string, options: msRest.RequestOptionsBase): Promise<Models.PrebuiltDomain[]>;
+    listAvailableCustomPrebuiltDomainsForCulture(culture: string, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
+    listAvailableCustomPrebuiltDomainsForCulture(culture: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
 }

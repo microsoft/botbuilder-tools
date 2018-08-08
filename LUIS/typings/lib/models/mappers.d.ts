@@ -120,6 +120,7 @@ export declare const ModelGetRegexEntityInfosOptionalParams: msRest.CompositeMap
 export declare const ModelGetPatternAnyEntityInfosOptionalParams: msRest.CompositeMapper;
 export declare const AppsListOptionalParams: msRest.CompositeMapper;
 export declare const AppsImportMethodOptionalParams: msRest.CompositeMapper;
+export declare const VersionsCloneOptionalParams: msRest.CompositeMapper;
 export declare const VersionsListOptionalParams: msRest.CompositeMapper;
 export declare const VersionsImportMethodOptionalParams: msRest.CompositeMapper;
 export declare const PatternGetPatternsOptionalParams: msRest.CompositeMapper;

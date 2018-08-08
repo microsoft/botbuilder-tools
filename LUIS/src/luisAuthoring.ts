@@ -36,8 +36,8 @@ class LuisAuthoring extends LuisAuthoringContext {
    * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
    *
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
-    super(credentials, options);
+  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
+    super(endpoint, credentials, options);
     this.features = new operations.Features(this);
     this.examples = new operations.Examples(this);
     this.model = new operations.Model(this);

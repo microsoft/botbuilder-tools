@@ -20,10 +20,6 @@ class Features {
     /**
      * [DEPRECATED NOTICE: This operation will soon be removed] Creates a new pattern feature.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -38,9 +34,8 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    createPatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternCreateObject, options) {
+    createPatternFeatureWithHttpOperationResponse(appId, versionId, patternCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             patternCreateObject,
@@ -49,10 +44,6 @@ class Features {
     }
     /**
      * [DEPRECATED NOTICE: This operation will soon be removed] Gets all the pattern features.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -67,9 +58,8 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getApplicationVersionPatternFeaturesWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    getApplicationVersionPatternFeaturesWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -77,10 +67,6 @@ class Features {
     }
     /**
      * Creates a new phraselist feature.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -98,9 +84,8 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addPhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistCreateObject, options) {
+    addPhraseListWithHttpOperationResponse(appId, versionId, phraselistCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             phraselistCreateObject,
@@ -109,10 +94,6 @@ class Features {
     }
     /**
      * Gets all the phraselist features.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -126,9 +107,8 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listPhraseListsWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listPhraseListsWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -136,10 +116,6 @@ class Features {
     }
     /**
      * Gets all the extraction features for the specified application version.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -153,9 +129,8 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    listWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -164,10 +139,6 @@ class Features {
     /**
      * [DEPRECATED NOTICE: This operation will soon be removed] Gets the specified pattern feature's
      * info.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -183,9 +154,8 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPatternFeatureInfoWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options) {
+    getPatternFeatureInfoWithHttpOperationResponse(appId, versionId, patternId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             patternId,
@@ -195,10 +165,6 @@ class Features {
     /**
      * [DEPRECATED NOTICE: This operation will soon be removed] Updates the pattern, the name and the
      * state of the pattern feature.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -218,9 +184,8 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updatePatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternId, patternUpdateObject, options) {
+    updatePatternFeatureWithHttpOperationResponse(appId, versionId, patternId, patternUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             patternId,
@@ -230,10 +195,6 @@ class Features {
     }
     /**
      * [DEPRECATED NOTICE: This operation will soon be removed] Deletes a pattern feature.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -249,9 +210,8 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deletePatternFeatureWithHttpOperationResponse(azureRegion, appId, versionId, patternId, options) {
+    deletePatternFeatureWithHttpOperationResponse(appId, versionId, patternId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             patternId,
@@ -260,10 +220,6 @@ class Features {
     }
     /**
      * Gets phraselist feature info.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -279,9 +235,8 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options) {
+    getPhraseListWithHttpOperationResponse(appId, versionId, phraselistId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             phraselistId,
@@ -290,10 +245,6 @@ class Features {
     }
     /**
      * Updates the phrases, the state and the name of the phraselist feature.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -309,9 +260,8 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updatePhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options) {
+    updatePhraseListWithHttpOperationResponse(appId, versionId, phraselistId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             phraselistId,
@@ -320,10 +270,6 @@ class Features {
     }
     /**
      * Deletes a phraselist feature.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -339,47 +285,46 @@ class Features {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deletePhraseListWithHttpOperationResponse(azureRegion, appId, versionId, phraselistId, options) {
+    deletePhraseListWithHttpOperationResponse(appId, versionId, phraselistId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             phraselistId,
             options
         }, deletePhraseListOperationSpec);
     }
-    createPatternFeature(azureRegion, appId, versionId, patternCreateObject, options, callback) {
-        return msRest.responseToBody(this.createPatternFeatureWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternCreateObject, options, callback);
+    createPatternFeature(appId, versionId, patternCreateObject, options, callback) {
+        return msRest.responseToBody(this.createPatternFeatureWithHttpOperationResponse.bind(this), appId, versionId, patternCreateObject, options, callback);
     }
-    getApplicationVersionPatternFeatures(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.getApplicationVersionPatternFeaturesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    getApplicationVersionPatternFeatures(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.getApplicationVersionPatternFeaturesWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    addPhraseList(azureRegion, appId, versionId, phraselistCreateObject, options, callback) {
-        return msRest.responseToBody(this.addPhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistCreateObject, options, callback);
+    addPhraseList(appId, versionId, phraselistCreateObject, options, callback) {
+        return msRest.responseToBody(this.addPhraseListWithHttpOperationResponse.bind(this), appId, versionId, phraselistCreateObject, options, callback);
     }
-    listPhraseLists(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listPhraseListsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    listPhraseLists(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listPhraseListsWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    list(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    list(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    getPatternFeatureInfo(azureRegion, appId, versionId, patternId, options, callback) {
-        return msRest.responseToBody(this.getPatternFeatureInfoWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, options, callback);
+    getPatternFeatureInfo(appId, versionId, patternId, options, callback) {
+        return msRest.responseToBody(this.getPatternFeatureInfoWithHttpOperationResponse.bind(this), appId, versionId, patternId, options, callback);
     }
-    updatePatternFeature(azureRegion, appId, versionId, patternId, patternUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updatePatternFeatureWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, patternUpdateObject, options, callback);
+    updatePatternFeature(appId, versionId, patternId, patternUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updatePatternFeatureWithHttpOperationResponse.bind(this), appId, versionId, patternId, patternUpdateObject, options, callback);
     }
-    deletePatternFeature(azureRegion, appId, versionId, patternId, options, callback) {
-        return msRest.responseToBody(this.deletePatternFeatureWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, options, callback);
+    deletePatternFeature(appId, versionId, patternId, options, callback) {
+        return msRest.responseToBody(this.deletePatternFeatureWithHttpOperationResponse.bind(this), appId, versionId, patternId, options, callback);
     }
-    getPhraseList(azureRegion, appId, versionId, phraselistId, options, callback) {
-        return msRest.responseToBody(this.getPhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistId, options, callback);
+    getPhraseList(appId, versionId, phraselistId, options, callback) {
+        return msRest.responseToBody(this.getPhraseListWithHttpOperationResponse.bind(this), appId, versionId, phraselistId, options, callback);
     }
-    updatePhraseList(azureRegion, appId, versionId, phraselistId, options, callback) {
-        return msRest.responseToBody(this.updatePhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistId, options, callback);
+    updatePhraseList(appId, versionId, phraselistId, options, callback) {
+        return msRest.responseToBody(this.updatePhraseListWithHttpOperationResponse.bind(this), appId, versionId, phraselistId, options, callback);
     }
-    deletePhraseList(azureRegion, appId, versionId, phraselistId, options, callback) {
-        return msRest.responseToBody(this.deletePhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistId, options, callback);
+    deletePhraseList(appId, versionId, phraselistId, options, callback) {
+        return msRest.responseToBody(this.deletePhraseListWithHttpOperationResponse.bind(this), appId, versionId, phraselistId, options, callback);
     }
 }
 exports.Features = Features;
@@ -387,9 +332,9 @@ exports.Features = Features;
 const serializer = new msRest.Serializer(Mappers);
 const createPatternFeatureOperationSpec = {
     httpMethod: "POST",
-    path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns",
+    path: "luis/api/v2.0/apps/apps/{appId}/versions/{versionId}/patterns",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -414,9 +359,9 @@ const createPatternFeatureOperationSpec = {
 };
 const getApplicationVersionPatternFeaturesOperationSpec = {
     httpMethod: "GET",
-    path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns",
+    path: "luis/api/v2.0/apps/apps/{appId}/versions/{versionId}/patterns",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -449,7 +394,7 @@ const addPhraseListOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -476,7 +421,7 @@ const listPhraseListsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -509,7 +454,7 @@ const listOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/features",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -531,7 +476,7 @@ const getPatternFeatureInfoOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.patternId0
@@ -550,7 +495,7 @@ const updatePatternFeatureOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.patternId0
@@ -573,7 +518,7 @@ const deletePatternFeatureOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.patternId0
@@ -592,7 +537,7 @@ const getPhraseListOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.phraselistId
@@ -611,7 +556,7 @@ const updatePhraseListOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.phraselistId
@@ -637,7 +582,7 @@ const deletePhraseListOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0,
         Parameters.phraselistId
