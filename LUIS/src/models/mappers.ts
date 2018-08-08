@@ -1128,7 +1128,6 @@ export const LuisApp: msRest.CompositeMapper = {
     className: "LuisApp",
     modelProperties: {
       additionalProperties: {
-        serializedName: "additionalProperties",
         type: {
           name: "Dictionary",
           value: {
@@ -2807,7 +2806,6 @@ export const ErrorResponse: msRest.CompositeMapper = {
     className: "ErrorResponse",
     modelProperties: {
       additionalProperties: {
-        serializedName: "additionalProperties",
         type: {
           name: "Dictionary",
           value: {
