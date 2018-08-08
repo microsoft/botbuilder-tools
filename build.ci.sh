@@ -8,6 +8,7 @@ function install() {
 
 function eslint() {
     echo Run ESLint for all packages
+    npm install
     npm run eslint:travis
 }
 
