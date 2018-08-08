@@ -2,7 +2,7 @@ function install() {
     echo Install $1
     pushd $1
     npm install
-    if [ $2 ]; then npm run test:travis; fi
+    if [ $2 ]; then npm run test; fi
     popd
 }
 
@@ -10,6 +10,12 @@ function eslint() {
     echo Run ESLint for all packages
     npm install
     npm run eslint:travis
+}
+
+function coveralls() {
+    echo Run Coveralls Aggregated tests
+    npm install
+    npm run test:travis
 }
 
 function create_npmrc() {
@@ -55,8 +61,11 @@ else
         install LUISGen
         install MSBot
         install QnAMaker with_test
+        
         eslint
+        coveralls
     )
+
 fi
 errorcode=$?
 
