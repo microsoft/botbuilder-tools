@@ -82,6 +82,7 @@ Arguments
 | -v, --version| (Required only if type is luis) LUIS app version |
 | -f, --filePath| (Required only if type is file) Path to tsv file containing tab delimited intent and utterance fields or .txt file with an utterance on each line |
 | --intentName  | (optional) Dispatch intent name for this source, name param value will be used otherwise |
+| --includedIntents  | (optional) Comma separated list of intents to be included in the Dispatch model, all intents are included otherwise |
 | --dispatch    | (optional) Path to .dispatch file |
 | --dataFolder  | (optional) Dispatch working directory |
 | -h, --help    | Output usage information |

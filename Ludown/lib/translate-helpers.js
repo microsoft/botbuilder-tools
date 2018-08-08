@@ -9,6 +9,8 @@ const retCode = require('./enums/CLI-errors');
 const chalk = require('chalk');
 const helperClasses = require('./classes/hclasses');
 const exception = require('./classes/exception');
+const helpers = require('./helpers');
+const NEWLINE = require('os').EOL;
 const translateHelpers = {
     /**
      * Helper function to parseAndTranslate lu file content
@@ -23,13 +25,12 @@ const translateHelpers = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     parseAndTranslate : async function(fileContent, subscriptionKey, to_lang, src_lang, translate_comments, translate_link_text, log) {
-        let linesInFile = fileContent.split(/\n|\r\n/);
+        fileContent = helpers.sanitizeNewLines(fileContent);
+        let linesInFile = fileContent.split(NEWLINE);
         let localizedContent = '';
         let currentSectionType = '';
         let data = '';
         let lText = '';
-        const NEWLINE = '\r\n';
-        const NL = '\n';
         for(lineIndex in linesInFile) {
             let currentLine = linesInFile[lineIndex].trim();
             // is current line a comment? 
@@ -41,10 +42,10 @@ const translateHelpers = {
                         throw(err);
                     }
                     localizedContent += data[0].translations[0].text + NEWLINE;
-                    if(log) process.stdout.write(chalk.default.gray(data[0].translations[0].text + NL));
+                    if(log) process.stdout.write(chalk.default.gray(data[0].translations[0].text + NEWLINE));
                 } else {
                     localizedContent += currentLine + NEWLINE;
-                    if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
+                    if(log) process.stdout.write(chalk.default.gray(currentLine + NEWLINE));
                 }
             } else if (currentLine.indexOf(PARSERCONSTS.INTENT) === 0) {
                 let intentName = currentLine.substring(currentLine.indexOf(' ') + 1).trim();
@@ -59,13 +60,13 @@ const translateHelpers = {
                     }
                     lText = data[0].translations[0].text;
                     localizedContent += beforeQuestion + '? ' + lText + NEWLINE;
-                    if(log) process.stdout.write(chalk.default.gray(beforeQuestion + '? ' + lText + NL));
+                    if(log) process.stdout.write(chalk.default.gray(beforeQuestion + '? ' + lText + NEWLINE));
                     currentSectionType = PARSERCONSTS.QNA;
                 } else {
                     // we would not localize intent name but remember we are under intent section
                     currentSectionType = PARSERCONSTS.INTENT;
                     localizedContent += currentLine + NEWLINE;
-                    if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
+                    if(log) process.stdout.write(chalk.default.gray(currentLine + NEWLINE));
                 }
                 
             } else if(currentLine.indexOf('-') === 0 || 
@@ -119,7 +120,7 @@ const translateHelpers = {
                         }
                         if(entitiesList.length === 0) {
                             localizedContent += listSeparator + ' ' + data[0].translations[0].text + NEWLINE;
-                            if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + data[0].translations[0].text + NL));
+                            if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + data[0].translations[0].text + NEWLINE));
                         } else {
                             // handle alignment
                             lText = data[0].translations[0].text;
@@ -154,7 +155,7 @@ const translateHelpers = {
                             }
                             
                             localizedContent += listSeparator + ' ' + lText + NEWLINE;
-                            if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NL));
+                            if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NEWLINE));
                             
                         }
                         break;
@@ -169,7 +170,7 @@ const translateHelpers = {
                         }
                         lText = data[0].translations[0].text;
                         localizedContent += listSeparator + ' ' + lText + NEWLINE;
-                        if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NL));
+                        if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NEWLINE));
                         break;
                     case PARSERCONSTS.QNA:
                     default:
@@ -183,7 +184,7 @@ const translateHelpers = {
                         }
                         lText = data[0].translations[0].text;
                         localizedContent += listSeparator + ' ' + lText + NEWLINE;
-                        if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NL));
+                        if(log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NEWLINE));
                         break;
                 }
             } else if(currentLine.indexOf(PARSERCONSTS.ENTITY) === 0) {
@@ -206,11 +207,11 @@ const translateHelpers = {
                     // we would not localize entity line but remember we are under entity section for list entities
                     currentSectionType = PARSERCONSTS.ENTITY;
                     localizedContent += currentLine + NEWLINE;
-                    if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
+                    if(log) process.stdout.write(chalk.default.gray(currentLine + NEWLINE));
                 }
             } else if(currentLine.indexOf(PARSERCONSTS.ANSWER) === 0) {
                 localizedContent += currentLine + NEWLINE;
-                if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
+                if(log) process.stdout.write(chalk.default.gray(currentLine + NEWLINE));
                 currentSectionType = PARSERCONSTS.ANSWER;
             } else if (currentLine.indexOf(PARSERCONSTS.URLORFILEREF) ===0) {
                 currentSectionType = PARSERCONSTS.URLORFILEREF;
@@ -228,14 +229,14 @@ const translateHelpers = {
                     }
                     lText = data[0].translations[0].text;
                     localizedContent += '[' + lText + ']' + '(' + linkValue + ')' + NEWLINE;
-                    if(log) process.stdout.write(chalk.default.gray('[' + lText + ']' + '(' + linkValue + ')' + NL));
+                    if(log) process.stdout.write(chalk.default.gray('[' + lText + ']' + '(' + linkValue + ')' + NEWLINE));
                 } else {
                     localizedContent += currentLine + NEWLINE;
-                    if(log) process.stdout.write(chalk.default.gray(currentLine + NL));
+                    if(log) process.stdout.write(chalk.default.gray(currentLine + NEWLINE));
                 }
             } else if(currentLine === '') {
                 localizedContent += NEWLINE;
-                if(log) process.stdout.write(chalk.default.gray(NL));
+                if(log) process.stdout.write(chalk.default.gray(NEWLINE));
             } else {
                 if(currentSectionType === PARSERCONSTS.ANSWER) {
                     try {
@@ -245,7 +246,7 @@ const translateHelpers = {
                     }
                     lText = data[0].translations[0].text;
                     localizedContent += lText + NEWLINE;
-                    if(log) process.stdout.write(chalk.default.gray(lText + NL));
+                    if(log) process.stdout.write(chalk.default.gray(lText + NEWLINE));
                 } else {
                     throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Error: Unexpected line encountered when parsing \n' + '[' + lineIndex + ']:' + currentLine));
                 }

@@ -5,7 +5,7 @@
  */
 const helperClasses = require('./classes/hclasses');
 const helpers = require('./helpers');
-const NEWLINE = '\r\n';
+const NEWLINE = require('os').EOL;
 const toLUHelpers = {
     /**
      * Construct lu file content from LUIS JSON object
