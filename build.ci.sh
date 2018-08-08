@@ -6,6 +6,11 @@ function install() {
     popd
 }
 
+function eslint() {
+    echo Run ESLint for all packages
+    npm run eslint:travis
+}
+
 function create_npmrc() {
     cat > .npmrc << EOF
 registry=https:\${NPM_REGISTRY}
@@ -49,6 +54,7 @@ else
         install LUISGen
         install MSBot
         install QnAMaker with_test
+        eslint
     )
 fi
 errorcode=$?
