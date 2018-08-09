@@ -683,11 +683,11 @@ async function waitForTrainingToComplete(client, args) {
             let status = model.details.status;
             if (status == "Fail") {
                 throw new Error(`Training failed for ${model.modelId}: ${model.details.failureReason}`);
-            }
-            else if (status == "Success" || status == "UpToDate") {
+            } else if (status == "Success" || status == "UpToDate") {
                 trained++;
-            } else {
-                /// if (status == "InProgress" || status == "Queued" || ?other?) 
+            }
+            else {
+                // if (status == "InProgress" || status == "Queued" || "something new") 
                 isTrained = false;
                 break;
             }
