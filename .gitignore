@@ -300,3 +300,4 @@ AzureCli/azext_bot/build/
 # macOS stuff
 .DS_Store
 .nyc_output
+coverage
