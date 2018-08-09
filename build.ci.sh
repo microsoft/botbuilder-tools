@@ -1,21 +1,11 @@
-function install() {
-    echo Install $1
-    pushd $1
-    npm install
-    if [ $2 ]; then npm run test; fi
-    popd
-}
-
 function eslint() {
     echo Run ESLint for all packages
-    npm install
     npm run eslint:travis
 }
 
 function coveralls() {
     echo Run Coveralls Aggregated tests
-    npm install
-    npm run test:travis
+    npm run coveralls:travis
 }
 
 function create_npmrc() {
@@ -52,16 +42,7 @@ if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
     publish QnAMaker
 else
     (
-        set -e
-        install Chatdown with_test
-        install Dispatch
-        # Disable failing tests
-        install Ludown with_test
-        install LUIS with_test
-        install LUISGen
-        install MSBot
-        install QnAMaker with_test
-        
+        npm install
         eslint
         coveralls
     )
