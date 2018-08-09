@@ -1,5 +1,8 @@
 const assert = require('assert');
 const chatdown = require('../lib');
+const path = require('path');
+const botFrameworkPngPath = path.join(__dirname, 'bot-framework.png')
+const helpJsonPath = path.join(__dirname, 'help.json')
 
 describe('The chatdown lib', () => {
     describe('should correctly output data', () => {
@@ -10,7 +13,7 @@ bot=LulaBot
 user: Hello!
 bot: Hello, can I help you?
 user: I need an image
-bot: here you go! [Attachment=bot-framework.png]
+bot: here you go! [Attachment=${botFrameworkPngPath}]
 `;
             const activities = await chatdown(conversation, {});
             assert(activities.length === 5);
@@ -43,7 +46,7 @@ user: Hello!
 bot: [Typing]
 [Delay=5000] How are you?,
 user: Good, hit me with a help fiassert(activities[3].Attachment.length);le!
-bot: [Attachment=help.json] here you go!
+bot: [Attachment=${helpJsonPath}] here you go!
 `;
 
             const activities = await chatdown(conversation, {});
@@ -58,7 +61,7 @@ user: Hello!
 bot: [Typing]
 [Delay=5000] How are you?,
 user: Good, hit me with a help file!
-bot: [Attachment=bot-framework.png] here you go!
+bot: [Attachment=${botFrameworkPngPath}] here you go!
 `;
 
             const activities = await chatdown(conversation, {});
@@ -73,7 +76,7 @@ user: Hello!
 bot: [Typing]
 [Delay=5000] How are you?,
 user: Good, hit me with a help file!
-bot: [Attachment=help.json] here you go!
+bot: [Attachment=${helpJsonPath}] here you go!
 `;
 
             const activities = await chatdown(conversation, {});
