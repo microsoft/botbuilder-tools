@@ -686,11 +686,12 @@ async function waitForTrainingToComplete(client, args) {
             if (status == "Fail") {
                 throw new Error(`Training failed for ${model.modelId}: ${model.details.failureReason}`);
             }
-            else if (status == "InProgress" || status == "Queued") {
+            else if (status == "Success" || status == "UpToDate") {
+                trained++;
+            } else {
+                /// if (status == "InProgress" || status == "Queued" || ?other?) 
                 isTrained = false;
                 break;
-            } else if (status == "Success" || status == "UpToDate") {
-                trained++;
             }
         }
         if (isTrained == true) {
