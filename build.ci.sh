@@ -6,6 +6,12 @@ function install() {
     popd
 }
 
+function eslint() {
+    echo Run ESLint for all packages
+    npm install
+    npm run eslint:travis
+}
+
 function coveralls() {
     echo Run Coveralls Aggregated tests
     npm install
@@ -55,9 +61,11 @@ else
         install LUISGen
         install MSBot
         install QnAMaker with_test
-
+        
+        eslint
         coveralls
     )
+
 fi
 errorcode=$?
 
