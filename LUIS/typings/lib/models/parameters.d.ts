@@ -1,13 +1,13 @@
 import * as msRest from "ms-rest-js";
 export declare const appId: msRest.OperationURLParameter;
 export declare const appName: msRest.OperationQueryParameter;
-export declare const azureRegion: msRest.OperationURLParameter;
 export declare const cChildId: msRest.OperationURLParameter;
 export declare const cEntityId: msRest.OperationURLParameter;
 export declare const clEntityId: msRest.OperationURLParameter;
 export declare const culture: msRest.OperationURLParameter;
 export declare const deleteUtterances: msRest.OperationQueryParameter;
 export declare const domainName: msRest.OperationURLParameter;
+export declare const endpoint: msRest.OperationURLParameter;
 export declare const entityId: msRest.OperationURLParameter;
 export declare const exampleId: msRest.OperationURLParameter;
 export declare const hChildId: msRest.OperationURLParameter;

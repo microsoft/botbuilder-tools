@@ -27,8 +27,8 @@ class LuisAuthoring extends luisAuthoringContext_1.LuisAuthoringContext {
      * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
      *
      */
-    constructor(credentials, options) {
-        super(credentials, options);
+    constructor(endpoint, credentials, options) {
+        super(endpoint, credentials, options);
         this.features = new operations.Features(this);
         this.examples = new operations.Examples(this);
         this.model = new operations.Model(this);

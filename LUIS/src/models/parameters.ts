@@ -28,32 +28,6 @@ export const appName: msRest.OperationQueryParameter = {
     }
   }
 };
-export const azureRegion: msRest.OperationURLParameter = {
-  parameterPath: "azureRegion",
-  mapper: {
-    required: true,
-    serializedName: "AzureRegion",
-    defaultValue: 'westus',
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "westus",
-        "westeurope",
-        "southeastasia",
-        "eastus2",
-        "westcentralus",
-        "westus2",
-        "eastus",
-        "southcentralus",
-        "northeurope",
-        "eastasia",
-        "australiaeast",
-        "brazilsouth"
-      ]
-    }
-  },
-  skipEncoding: true
-};
 export const cChildId: msRest.OperationURLParameter = {
   parameterPath: "cChildId",
   mapper: {
@@ -116,6 +90,18 @@ export const domainName: msRest.OperationURLParameter = {
       name: "String"
     }
   }
+};
+export const endpoint: msRest.OperationURLParameter = {
+  parameterPath: "endpoint",
+  mapper: {
+    required: true,
+    serializedName: "Endpoint",
+    defaultValue: '',
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 export const entityId: msRest.OperationURLParameter = {
   parameterPath: "entityId",

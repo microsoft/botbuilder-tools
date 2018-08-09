@@ -6,8 +6,8 @@ Configuration for generating BotFramework Connector SDK.
 
 ``` yaml
 add-credentials: true
-openapi-type: data-plane
 ```
+openapi-type: data-plane
 The current release for the BotFramework Connector is v3.0.
 
 # Releases
@@ -30,4 +30,4 @@ typescript:
   clear-output-folder: true
   output-folder: ../src
   generate-metadata: false
-```
+``` 

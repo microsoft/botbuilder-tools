@@ -20,10 +20,6 @@ class Permissions {
     /**
      * Gets the list of user emails that have permissions to access your application.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {RequestOptionsBase} [options] Optional Parameters.
@@ -34,9 +30,8 @@ class Permissions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listWithHttpOperationResponse(azureRegion, appId, options) {
+    listWithHttpOperationResponse(appId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             options
         }, listOperationSpec);
@@ -44,10 +39,6 @@ class Permissions {
     /**
      * Adds a user to the allowed list of users to access this LUIS application. Users are added using
      * their email address.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -61,9 +52,8 @@ class Permissions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addWithHttpOperationResponse(azureRegion, appId, userToAdd, options) {
+    addWithHttpOperationResponse(appId, userToAdd, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             userToAdd,
             options
@@ -72,10 +62,6 @@ class Permissions {
     /**
      * Removes a user from the allowed list of users to access this LUIS application. Users are removed
      * using their email address.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -89,9 +75,8 @@ class Permissions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteMethodWithHttpOperationResponse(azureRegion, appId, userToDelete, options) {
+    deleteMethodWithHttpOperationResponse(appId, userToDelete, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             userToDelete,
             options
@@ -100,10 +85,6 @@ class Permissions {
     /**
      * Replaces the current users access list with the one sent in the body. If an empty list is sent,
      * all access to other users will be removed.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -117,25 +98,24 @@ class Permissions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateWithHttpOperationResponse(azureRegion, appId, collaborators, options) {
+    updateWithHttpOperationResponse(appId, collaborators, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             collaborators,
             options
         }, updateOperationSpec);
     }
-    list(azureRegion, appId, options, callback) {
-        return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, appId, options, callback);
+    list(appId, options, callback) {
+        return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), appId, options, callback);
     }
-    add(azureRegion, appId, userToAdd, options, callback) {
-        return msRest.responseToBody(this.addWithHttpOperationResponse.bind(this), azureRegion, appId, userToAdd, options, callback);
+    add(appId, userToAdd, options, callback) {
+        return msRest.responseToBody(this.addWithHttpOperationResponse.bind(this), appId, userToAdd, options, callback);
     }
-    deleteMethod(azureRegion, appId, userToDelete, options, callback) {
-        return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), azureRegion, appId, userToDelete, options, callback);
+    deleteMethod(appId, userToDelete, options, callback) {
+        return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), appId, userToDelete, options, callback);
     }
-    update(azureRegion, appId, collaborators, options, callback) {
-        return msRest.responseToBody(this.updateWithHttpOperationResponse.bind(this), azureRegion, appId, collaborators, options, callback);
+    update(appId, collaborators, options, callback) {
+        return msRest.responseToBody(this.updateWithHttpOperationResponse.bind(this), appId, collaborators, options, callback);
     }
 }
 exports.Permissions = Permissions;
@@ -145,7 +125,7 @@ const listOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/permissions",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     responses: {
@@ -162,7 +142,7 @@ const addOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/permissions",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     requestBody: {
@@ -183,7 +163,7 @@ const deleteMethodOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/permissions",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     requestBody: {
@@ -204,7 +184,7 @@ const updateOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/permissions",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     requestBody: {

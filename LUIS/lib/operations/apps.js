@@ -20,10 +20,6 @@ class Apps {
     /**
      * Creates a new LUIS app.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {ApplicationCreateObject} applicationCreateObject A model containing Name, Description
      * (optional), Culture, Usage Scenario (optional), Domain (optional) and initial version ID
      * (optional) of the application. Default value for the version ID is 0.1. Note: the culture cannot
@@ -37,19 +33,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addWithHttpOperationResponse(azureRegion, applicationCreateObject, options) {
+    addWithHttpOperationResponse(applicationCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             applicationCreateObject,
             options
         }, addOperationSpec);
     }
     /**
      * Lists all of the user applications.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {AppsListOptionalParams} [options] Optional Parameters.
      *
@@ -59,19 +50,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listWithHttpOperationResponse(azureRegion, options) {
+    listWithHttpOperationResponse(options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             options
         }, listOperationSpec);
     }
     /**
      * Imports an application to LUIS, the application's structure should be included in in the request
      * body.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {LuisApp} luisApp A LUIS application structure.
      *
@@ -83,9 +69,8 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    importMethodWithHttpOperationResponse(azureRegion, luisApp, options) {
+    importMethodWithHttpOperationResponse(luisApp, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             luisApp,
             options
         }, importMethodOperationSpec);
@@ -93,10 +78,6 @@ class Apps {
     /**
      * Gets the endpoint URLs for the prebuilt Cortana applications.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
@@ -105,19 +86,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listCortanaEndpointsWithHttpOperationResponse(azureRegion, options) {
+    listCortanaEndpointsWithHttpOperationResponse(options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             options
         }, listCortanaEndpointsOperationSpec);
     }
     /**
      * Gets the available application domains.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
@@ -126,19 +102,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listDomainsWithHttpOperationResponse(azureRegion, options) {
+    listDomainsWithHttpOperationResponse(options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             options
         }, listDomainsOperationSpec);
     }
     /**
      * Gets the application available usage scenarios.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
@@ -147,19 +118,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listUsageScenariosWithHttpOperationResponse(azureRegion, options) {
+    listUsageScenariosWithHttpOperationResponse(options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             options
         }, listUsageScenariosOperationSpec);
     }
     /**
      * Gets the supported application cultures.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
@@ -168,18 +134,13 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listSupportedCulturesWithHttpOperationResponse(azureRegion, options) {
+    listSupportedCulturesWithHttpOperationResponse(options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             options
         }, listSupportedCulturesOperationSpec);
     }
     /**
      * Gets the query logs of the past month for the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -191,9 +152,8 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    downloadQueryLogsWithHttpOperationResponse(azureRegion, appId, options) {
+    downloadQueryLogsWithHttpOperationResponse(appId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             options
         }, downloadQueryLogsOperationSpec);
@@ -201,10 +161,6 @@ class Apps {
     /**
      * Gets the application info.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {RequestOptionsBase} [options] Optional Parameters.
@@ -215,19 +171,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getWithHttpOperationResponse(azureRegion, appId, options) {
+    getWithHttpOperationResponse(appId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             options
         }, getOperationSpec);
     }
     /**
      * Updates the name or description of the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -242,9 +193,8 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateWithHttpOperationResponse(azureRegion, appId, applicationUpdateObject, options) {
+    updateWithHttpOperationResponse(appId, applicationUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             applicationUpdateObject,
             options
@@ -252,10 +202,6 @@ class Apps {
     }
     /**
      * Deletes an application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -267,19 +213,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteMethodWithHttpOperationResponse(azureRegion, appId, options) {
+    deleteMethodWithHttpOperationResponse(appId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             options
         }, deleteMethodOperationSpec);
     }
     /**
      * Publishes a specific version of the application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -294,9 +235,8 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    publishWithHttpOperationResponse(azureRegion, appId, applicationPublishObject, options) {
+    publishWithHttpOperationResponse(appId, applicationPublishObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             applicationPublishObject,
             options
@@ -304,10 +244,6 @@ class Apps {
     }
     /**
      * Get the application settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -319,19 +255,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getSettingsWithHttpOperationResponse(azureRegion, appId, options) {
+    getSettingsWithHttpOperationResponse(appId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             options
         }, getSettingsOperationSpec);
     }
     /**
      * Updates the application settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -346,9 +277,8 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateSettingsWithHttpOperationResponse(azureRegion, appId, applicationSettingUpdateObject, options) {
+    updateSettingsWithHttpOperationResponse(appId, applicationSettingUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             applicationSettingUpdateObject,
             options
@@ -356,10 +286,6 @@ class Apps {
     }
     /**
      * Get the application publish settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -371,19 +297,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getPublishSettingsWithHttpOperationResponse(azureRegion, appId, options) {
+    getPublishSettingsWithHttpOperationResponse(appId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             options
         }, getPublishSettingsOperationSpec);
     }
     /**
      * Updates the application publish settings.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -398,9 +319,8 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updatePublishSettingsWithHttpOperationResponse(azureRegion, appId, publishSettingUpdateObject, options) {
+    updatePublishSettingsWithHttpOperationResponse(appId, publishSettingUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             publishSettingUpdateObject,
             options
@@ -408,10 +328,6 @@ class Apps {
     }
     /**
      * Returns the available endpoint deployment regions and URLs.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -423,19 +339,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listEndpointsWithHttpOperationResponse(azureRegion, appId, options) {
+    listEndpointsWithHttpOperationResponse(appId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             options
         }, listEndpointsOperationSpec);
     }
     /**
      * Gets all the available custom prebuilt domains for all cultures.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {RequestOptionsBase} [options] Optional Parameters.
      *
@@ -445,18 +356,13 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listAvailableCustomPrebuiltDomainsWithHttpOperationResponse(azureRegion, options) {
+    listAvailableCustomPrebuiltDomainsWithHttpOperationResponse(options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             options
         }, listAvailableCustomPrebuiltDomainsOperationSpec);
     }
     /**
      * Adds a prebuilt domain along with its models as a new application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {PrebuiltDomainCreateObject} prebuiltDomainCreateObject A prebuilt domain create object
      * containing the name and culture of the domain.
@@ -469,19 +375,14 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    addCustomPrebuiltDomainWithHttpOperationResponse(azureRegion, prebuiltDomainCreateObject, options) {
+    addCustomPrebuiltDomainWithHttpOperationResponse(prebuiltDomainCreateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             prebuiltDomainCreateObject,
             options
         }, addCustomPrebuiltDomainOperationSpec);
     }
     /**
      * Gets all the available custom prebuilt domains for a specific culture.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} culture Culture.
      *
@@ -493,69 +394,68 @@ class Apps {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listAvailableCustomPrebuiltDomainsForCultureWithHttpOperationResponse(azureRegion, culture, options) {
+    listAvailableCustomPrebuiltDomainsForCultureWithHttpOperationResponse(culture, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             culture,
             options
         }, listAvailableCustomPrebuiltDomainsForCultureOperationSpec);
     }
-    add(azureRegion, applicationCreateObject, options, callback) {
-        return msRest.responseToBody(this.addWithHttpOperationResponse.bind(this), azureRegion, applicationCreateObject, options, callback);
+    add(applicationCreateObject, options, callback) {
+        return msRest.responseToBody(this.addWithHttpOperationResponse.bind(this), applicationCreateObject, options, callback);
     }
-    list(azureRegion, options, callback) {
-        return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, options, callback);
+    list(options, callback) {
+        return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), options, callback);
     }
-    importMethod(azureRegion, luisApp, options, callback) {
-        return msRest.responseToBody(this.importMethodWithHttpOperationResponse.bind(this), azureRegion, luisApp, options, callback);
+    importMethod(luisApp, options, callback) {
+        return msRest.responseToBody(this.importMethodWithHttpOperationResponse.bind(this), luisApp, options, callback);
     }
-    listCortanaEndpoints(azureRegion, options, callback) {
-        return msRest.responseToBody(this.listCortanaEndpointsWithHttpOperationResponse.bind(this), azureRegion, options, callback);
+    listCortanaEndpoints(options, callback) {
+        return msRest.responseToBody(this.listCortanaEndpointsWithHttpOperationResponse.bind(this), options, callback);
     }
-    listDomains(azureRegion, options, callback) {
-        return msRest.responseToBody(this.listDomainsWithHttpOperationResponse.bind(this), azureRegion, options, callback);
+    listDomains(options, callback) {
+        return msRest.responseToBody(this.listDomainsWithHttpOperationResponse.bind(this), options, callback);
     }
-    listUsageScenarios(azureRegion, options, callback) {
-        return msRest.responseToBody(this.listUsageScenariosWithHttpOperationResponse.bind(this), azureRegion, options, callback);
+    listUsageScenarios(options, callback) {
+        return msRest.responseToBody(this.listUsageScenariosWithHttpOperationResponse.bind(this), options, callback);
     }
-    listSupportedCultures(azureRegion, options, callback) {
-        return msRest.responseToBody(this.listSupportedCulturesWithHttpOperationResponse.bind(this), azureRegion, options, callback);
+    listSupportedCultures(options, callback) {
+        return msRest.responseToBody(this.listSupportedCulturesWithHttpOperationResponse.bind(this), options, callback);
     }
-    get(azureRegion, appId, options, callback) {
-        return msRest.responseToBody(this.getWithHttpOperationResponse.bind(this), azureRegion, appId, options, callback);
+    get(appId, options, callback) {
+        return msRest.responseToBody(this.getWithHttpOperationResponse.bind(this), appId, options, callback);
     }
-    update(azureRegion, appId, applicationUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateWithHttpOperationResponse.bind(this), azureRegion, appId, applicationUpdateObject, options, callback);
+    update(appId, applicationUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateWithHttpOperationResponse.bind(this), appId, applicationUpdateObject, options, callback);
     }
-    deleteMethod(azureRegion, appId, options, callback) {
-        return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), azureRegion, appId, options, callback);
+    deleteMethod(appId, options, callback) {
+        return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), appId, options, callback);
     }
-    publish(azureRegion, appId, applicationPublishObject, options, callback) {
-        return msRest.responseToBody(this.publishWithHttpOperationResponse.bind(this), azureRegion, appId, applicationPublishObject, options, callback);
+    publish(appId, applicationPublishObject, options, callback) {
+        return msRest.responseToBody(this.publishWithHttpOperationResponse.bind(this), appId, applicationPublishObject, options, callback);
     }
-    getSettings(azureRegion, appId, options, callback) {
-        return msRest.responseToBody(this.getSettingsWithHttpOperationResponse.bind(this), azureRegion, appId, options, callback);
+    getSettings(appId, options, callback) {
+        return msRest.responseToBody(this.getSettingsWithHttpOperationResponse.bind(this), appId, options, callback);
     }
-    updateSettings(azureRegion, appId, applicationSettingUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateSettingsWithHttpOperationResponse.bind(this), azureRegion, appId, applicationSettingUpdateObject, options, callback);
+    updateSettings(appId, applicationSettingUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateSettingsWithHttpOperationResponse.bind(this), appId, applicationSettingUpdateObject, options, callback);
     }
-    getPublishSettings(azureRegion, appId, options, callback) {
-        return msRest.responseToBody(this.getPublishSettingsWithHttpOperationResponse.bind(this), azureRegion, appId, options, callback);
+    getPublishSettings(appId, options, callback) {
+        return msRest.responseToBody(this.getPublishSettingsWithHttpOperationResponse.bind(this), appId, options, callback);
     }
-    updatePublishSettings(azureRegion, appId, publishSettingUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updatePublishSettingsWithHttpOperationResponse.bind(this), azureRegion, appId, publishSettingUpdateObject, options, callback);
+    updatePublishSettings(appId, publishSettingUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updatePublishSettingsWithHttpOperationResponse.bind(this), appId, publishSettingUpdateObject, options, callback);
     }
-    listEndpoints(azureRegion, appId, options, callback) {
-        return msRest.responseToBody(this.listEndpointsWithHttpOperationResponse.bind(this), azureRegion, appId, options, callback);
+    listEndpoints(appId, options, callback) {
+        return msRest.responseToBody(this.listEndpointsWithHttpOperationResponse.bind(this), appId, options, callback);
     }
-    listAvailableCustomPrebuiltDomains(azureRegion, options, callback) {
-        return msRest.responseToBody(this.listAvailableCustomPrebuiltDomainsWithHttpOperationResponse.bind(this), azureRegion, options, callback);
+    listAvailableCustomPrebuiltDomains(options, callback) {
+        return msRest.responseToBody(this.listAvailableCustomPrebuiltDomainsWithHttpOperationResponse.bind(this), options, callback);
     }
-    addCustomPrebuiltDomain(azureRegion, prebuiltDomainCreateObject, options, callback) {
-        return msRest.responseToBody(this.addCustomPrebuiltDomainWithHttpOperationResponse.bind(this), azureRegion, prebuiltDomainCreateObject, options, callback);
+    addCustomPrebuiltDomain(prebuiltDomainCreateObject, options, callback) {
+        return msRest.responseToBody(this.addCustomPrebuiltDomainWithHttpOperationResponse.bind(this), prebuiltDomainCreateObject, options, callback);
     }
-    listAvailableCustomPrebuiltDomainsForCulture(azureRegion, culture, options, callback) {
-        return msRest.responseToBody(this.listAvailableCustomPrebuiltDomainsForCultureWithHttpOperationResponse.bind(this), azureRegion, culture, options, callback);
+    listAvailableCustomPrebuiltDomainsForCulture(culture, options, callback) {
+        return msRest.responseToBody(this.listAvailableCustomPrebuiltDomainsForCultureWithHttpOperationResponse.bind(this), culture, options, callback);
     }
 }
 exports.Apps = Apps;
@@ -565,7 +465,7 @@ const addOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/",
     urlParameters: [
-        Parameters.azureRegion
+        Parameters.endpoint
     ],
     requestBody: {
         parameterPath: "applicationCreateObject",
@@ -590,7 +490,7 @@ const listOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/",
     urlParameters: [
-        Parameters.azureRegion
+        Parameters.endpoint
     ],
     queryParameters: [
         Parameters.skip,
@@ -621,7 +521,7 @@ const importMethodOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/import",
     urlParameters: [
-        Parameters.azureRegion
+        Parameters.endpoint
     ],
     queryParameters: [
         Parameters.appName
@@ -649,7 +549,7 @@ const listCortanaEndpointsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/assistants",
     urlParameters: [
-        Parameters.azureRegion
+        Parameters.endpoint
     ],
     responses: {
         200: {
@@ -665,7 +565,7 @@ const listDomainsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/domains",
     urlParameters: [
-        Parameters.azureRegion
+        Parameters.endpoint
     ],
     responses: {
         200: {
@@ -691,7 +591,7 @@ const listUsageScenariosOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/usagescenarios",
     urlParameters: [
-        Parameters.azureRegion
+        Parameters.endpoint
     ],
     responses: {
         200: {
@@ -717,7 +617,7 @@ const listSupportedCulturesOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/cultures",
     urlParameters: [
-        Parameters.azureRegion
+        Parameters.endpoint
     ],
     responses: {
         200: {
@@ -744,7 +644,7 @@ const downloadQueryLogsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/querylogs",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     responses: {
@@ -764,7 +664,7 @@ const getOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     responses: {
@@ -781,7 +681,7 @@ const updateOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     requestBody: {
@@ -802,7 +702,7 @@ const deleteMethodOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     responses: {
@@ -819,7 +719,7 @@ const publishOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/publish",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     requestBody: {
@@ -840,7 +740,7 @@ const getSettingsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/settings",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     responses: {
@@ -857,7 +757,7 @@ const updateSettingsOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/settings",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     requestBody: {
@@ -878,7 +778,7 @@ const getPublishSettingsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/publishsettings",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     responses: {
@@ -895,7 +795,7 @@ const updatePublishSettingsOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/publishsettings",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     requestBody: {
@@ -916,7 +816,7 @@ const listEndpointsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/endpoints",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     responses: {
@@ -943,7 +843,7 @@ const listAvailableCustomPrebuiltDomainsOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/customprebuiltdomains",
     urlParameters: [
-        Parameters.azureRegion
+        Parameters.endpoint
     ],
     responses: {
         200: {
@@ -970,7 +870,7 @@ const addCustomPrebuiltDomainOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/customprebuiltdomains",
     urlParameters: [
-        Parameters.azureRegion
+        Parameters.endpoint
     ],
     requestBody: {
         parameterPath: "prebuiltDomainCreateObject",
@@ -995,7 +895,7 @@ const listAvailableCustomPrebuiltDomainsForCultureOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/customprebuiltdomains/{culture}",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.culture
     ],
     responses: {

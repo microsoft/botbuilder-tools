@@ -27,32 +27,6 @@ exports.appName = {
         }
     }
 };
-exports.azureRegion = {
-    parameterPath: "azureRegion",
-    mapper: {
-        required: true,
-        serializedName: "AzureRegion",
-        defaultValue: 'westus',
-        type: {
-            name: "Enum",
-            allowedValues: [
-                "westus",
-                "westeurope",
-                "southeastasia",
-                "eastus2",
-                "westcentralus",
-                "westus2",
-                "eastus",
-                "southcentralus",
-                "northeurope",
-                "eastasia",
-                "australiaeast",
-                "brazilsouth"
-            ]
-        }
-    },
-    skipEncoding: true
-};
 exports.cChildId = {
     parameterPath: "cChildId",
     mapper: {
@@ -115,6 +89,18 @@ exports.domainName = {
             name: "String"
         }
     }
+};
+exports.endpoint = {
+    parameterPath: "endpoint",
+    mapper: {
+        required: true,
+        serializedName: "Endpoint",
+        defaultValue: '',
+        type: {
+            name: "String"
+        }
+    },
+    skipEncoding: true
 };
 exports.entityId = {
     parameterPath: "entityId",

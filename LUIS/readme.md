@@ -294,10 +294,9 @@ npm install --save luis-apis
 import * as msRest from "ms-rest-js";
 import { LuisAuthoring, LuisAuthoringModels, LuisAuthoringMappers } from "luis-apis";
 const options = { customHeaders: { "accept-language": "en-US" } };
-const creds = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": authoringKey } });
-const client = new LuisAuthoring(creds);
-const azureRegion = "westus";
-client.apps.list(azureRegion, options).then((result) => {
+const credentials = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": args.authoringKey } });
+const client = new LuisAuthoring(`https://${region}.api.cognitive.microsoft.com`, credentials);
+client.apps.list(options).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {

@@ -875,13 +875,13 @@ exports.PrebuiltDomainObject = {
         name: "Composite",
         className: "PrebuiltDomainObject",
         modelProperties: {
-            domainName: {
+            domain_name: {
                 serializedName: "domain_name",
                 type: {
                     name: "String"
                 }
             },
-            modelName: {
+            model_name: {
                 serializedName: "model_name",
                 type: {
                     name: "String"
@@ -1179,7 +1179,7 @@ exports.LuisApp = {
                     }
                 }
             },
-            regexEntities: {
+            regex_entities: {
                 serializedName: "regex_entities",
                 type: {
                     name: "Sequence",
@@ -1203,7 +1203,7 @@ exports.LuisApp = {
                     }
                 }
             },
-            regexFeatures: {
+            regex_features: {
                 serializedName: "regex_features",
                 type: {
                     name: "Sequence",
@@ -1215,7 +1215,7 @@ exports.LuisApp = {
                     }
                 }
             },
-            modelFeatures: {
+            model_features: {
                 serializedName: "model_features",
                 type: {
                     name: "Sequence",
@@ -3765,6 +3765,22 @@ exports.AppsImportMethodOptionalParams = {
                 serializedName: "appName",
                 type: {
                     name: "String"
+                }
+            }
+        }
+    }
+};
+exports.VersionsCloneOptionalParams = {
+    serializedName: "CloneOptions",
+    type: {
+        name: "Composite",
+        className: "VersionsCloneOptionalParams",
+        modelProperties: {
+            versionCloneObject: {
+                serializedName: "versionCloneObject",
+                type: {
+                    name: "Composite",
+                    className: "TaskUpdateObject"
                 }
             }
         }

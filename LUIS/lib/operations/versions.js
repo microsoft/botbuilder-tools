@@ -20,17 +20,11 @@ class Versions {
     /**
      * Creates a new version using the current snapshot of the selected application version.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
      *
-     * @param {TaskUpdateObject} versionCloneObject A model containing the new version ID.
-     *
-     * @param {RequestOptionsBase} [options] Optional Parameters.
+     * @param {VersionsCloneOptionalParams} [options] Optional Parameters.
      *
      * @returns {Promise} A promise is returned
      *
@@ -38,21 +32,15 @@ class Versions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    cloneWithHttpOperationResponse(azureRegion, appId, versionId, versionCloneObject, options) {
+    cloneWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
-            versionCloneObject,
             options
         }, cloneOperationSpec);
     }
     /**
      * Gets the application versions info.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -64,19 +52,14 @@ class Versions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    listWithHttpOperationResponse(azureRegion, appId, options) {
+    listWithHttpOperationResponse(appId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             options
         }, listOperationSpec);
     }
     /**
      * Gets the version info.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -90,9 +73,8 @@ class Versions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    getWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    getWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -100,10 +82,6 @@ class Versions {
     }
     /**
      * Updates the name or description of the application version.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -120,9 +98,8 @@ class Versions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    updateWithHttpOperationResponse(azureRegion, appId, versionId, versionUpdateObject, options) {
+    updateWithHttpOperationResponse(appId, versionId, versionUpdateObject, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             versionUpdateObject,
@@ -132,10 +109,6 @@ class Versions {
     /**
      * Deletes an application version.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -148,9 +121,8 @@ class Versions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteMethodWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    deleteMethodWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -159,10 +131,6 @@ class Versions {
     /**
      * Exports a LUIS application to JSON format.
      *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-     *
      * @param {string} appId The application ID.
      *
      * @param {string} versionId The version ID.
@@ -175,9 +143,8 @@ class Versions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    exportMethodWithHttpOperationResponse(azureRegion, appId, versionId, options) {
+    exportMethodWithHttpOperationResponse(appId, versionId, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             options
@@ -185,10 +152,6 @@ class Versions {
     }
     /**
      * Imports a new version into a LUIS application.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -202,9 +165,8 @@ class Versions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    importMethodWithHttpOperationResponse(azureRegion, appId, luisApp, options) {
+    importMethodWithHttpOperationResponse(appId, luisApp, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             luisApp,
             options
@@ -212,10 +174,6 @@ class Versions {
     }
     /**
      * Deleted an unlabelled utterance.
-     *
-     * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-     * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-     * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
      *
      * @param {string} appId The application ID.
      *
@@ -231,38 +189,37 @@ class Versions {
      *
      * @reject {Error|ServiceError} The error object.
      */
-    deleteUnlabelledUtteranceWithHttpOperationResponse(azureRegion, appId, versionId, utterance, options) {
+    deleteUnlabelledUtteranceWithHttpOperationResponse(appId, versionId, utterance, options) {
         return this.client.sendOperationRequest({
-            azureRegion,
             appId,
             versionId,
             utterance,
             options
         }, deleteUnlabelledUtteranceOperationSpec);
     }
-    clone(azureRegion, appId, versionId, versionCloneObject, options, callback) {
-        return msRest.responseToBody(this.cloneWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, versionCloneObject, options, callback);
+    clone(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.cloneWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    list(azureRegion, appId, options, callback) {
-        return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, appId, options, callback);
+    list(appId, options, callback) {
+        return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), appId, options, callback);
     }
-    get(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.getWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    get(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.getWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    update(azureRegion, appId, versionId, versionUpdateObject, options, callback) {
-        return msRest.responseToBody(this.updateWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, versionUpdateObject, options, callback);
+    update(appId, versionId, versionUpdateObject, options, callback) {
+        return msRest.responseToBody(this.updateWithHttpOperationResponse.bind(this), appId, versionId, versionUpdateObject, options, callback);
     }
-    deleteMethod(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    deleteMethod(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.deleteMethodWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    exportMethod(azureRegion, appId, versionId, options, callback) {
-        return msRest.responseToBody(this.exportMethodWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
+    exportMethod(appId, versionId, options, callback) {
+        return msRest.responseToBody(this.exportMethodWithHttpOperationResponse.bind(this), appId, versionId, options, callback);
     }
-    importMethod(azureRegion, appId, luisApp, options, callback) {
-        return msRest.responseToBody(this.importMethodWithHttpOperationResponse.bind(this), azureRegion, appId, luisApp, options, callback);
+    importMethod(appId, luisApp, options, callback) {
+        return msRest.responseToBody(this.importMethodWithHttpOperationResponse.bind(this), appId, luisApp, options, callback);
     }
-    deleteUnlabelledUtterance(azureRegion, appId, versionId, utterance, options, callback) {
-        return msRest.responseToBody(this.deleteUnlabelledUtteranceWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, utterance, options, callback);
+    deleteUnlabelledUtterance(appId, versionId, utterance, options, callback) {
+        return msRest.responseToBody(this.deleteUnlabelledUtteranceWithHttpOperationResponse.bind(this), appId, versionId, utterance, options, callback);
     }
 }
 exports.Versions = Versions;
@@ -272,13 +229,16 @@ const cloneOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/clone",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
     requestBody: {
-        parameterPath: "versionCloneObject",
-        mapper: Object.assign({}, Mappers.TaskUpdateObject, { required: true })
+        parameterPath: [
+            "options",
+            "versionCloneObject"
+        ],
+        mapper: Mappers.TaskUpdateObject
     },
     responses: {
         201: {
@@ -299,7 +259,7 @@ const listOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     queryParameters: [
@@ -331,7 +291,7 @@ const getOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -349,7 +309,7 @@ const updateOperationSpec = {
     httpMethod: "PUT",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -371,7 +331,7 @@ const deleteMethodOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -389,7 +349,7 @@ const exportMethodOperationSpec = {
     httpMethod: "GET",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/export",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],
@@ -407,7 +367,7 @@ const importMethodOperationSpec = {
     httpMethod: "POST",
     path: "luis/api/v2.0/apps/{appId}/versions/import",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId
     ],
     queryParameters: [
@@ -436,7 +396,7 @@ const deleteUnlabelledUtteranceOperationSpec = {
     httpMethod: "DELETE",
     path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/suggest",
     urlParameters: [
-        Parameters.azureRegion,
+        Parameters.endpoint,
         Parameters.appId,
         Parameters.versionId0
     ],

@@ -35,29 +35,6 @@ var OperationStatusType;
     OperationStatusType["Success"] = "Success";
 })(OperationStatusType = exports.OperationStatusType || (exports.OperationStatusType = {}));
 /**
- * Defines values for AzureRegions.
- * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2',
- * 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope',
- * 'eastasia', 'australiaeast', 'brazilsouth'
- * @readonly
- * @enum {string}
- */
-var AzureRegions;
-(function (AzureRegions) {
-    AzureRegions["Westus"] = "westus";
-    AzureRegions["Westeurope"] = "westeurope";
-    AzureRegions["Southeastasia"] = "southeastasia";
-    AzureRegions["Eastus2"] = "eastus2";
-    AzureRegions["Westcentralus"] = "westcentralus";
-    AzureRegions["Westus2"] = "westus2";
-    AzureRegions["Eastus"] = "eastus";
-    AzureRegions["Southcentralus"] = "southcentralus";
-    AzureRegions["Northeurope"] = "northeurope";
-    AzureRegions["Eastasia"] = "eastasia";
-    AzureRegions["Australiaeast"] = "australiaeast";
-    AzureRegions["Brazilsouth"] = "brazilsouth";
-})(AzureRegions = exports.AzureRegions || (exports.AzureRegions = {}));
-/**
  * Defines values for ReadableType.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity
  * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
