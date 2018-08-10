@@ -2,7 +2,7 @@
     "name": "botbuilder-tools",
     "scripts": {
         "test:travis": "nyc mocha \"@(Chatdown|Ludown|LUIS|QnAMaker)*/test/*.test.suite.js\" --timeout 100000 && nyc report --reporter=text-lcov | coveralls",
-        "eslint:travis": "eslint --format \"node_modules/eslint-friendly-formatter\" \"./**/*.js\" \"./@(LUISGen|Dispatch)/bin/*\""
+        "eslint:travis": "eslint --format \"node_modules/eslint-friendly-formatter\" \"./**/*.js\" \"./@(LUISGen|Dispatch|LUIS)/bin/*\""
     },
     "devDependencies": {
         "eslint": "^5.2.0",
