@@ -61,6 +61,7 @@ const helpers = {
         let sectionsInFile = [];
         let currentSectionType = null; //PARSERCONSTS
         let inQnAAnswer = false;
+        let lineIndex = 0;
         for(lineIndex in linesInFile) {
             let currentLine = linesInFile[lineIndex].trim();
             // QnA answer can be multi-line markdown. So (re)set the in answer flag
@@ -129,7 +130,6 @@ const helpers = {
                 if(currentLine.toLowerCase().includes(':')) {
                     // get entity name and type
                     let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
-                    let entityName = entityDef[0];
                     let entityType = entityDef[1];
                     // is entityType a phraseList? 
                     if(entityType.trim().toLowerCase().includes('phraselist') || entityType.trim().toLowerCase().includes('qna-alterations')) {
@@ -204,28 +204,28 @@ const helpers = {
 var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, currentSectionType, lineIndex, log) {
     previousSection = helpers.sanitizeNewLines(previousSection);
     switch(currentSectionType) {
-        case PARSERCONSTS.INTENT:
-            // warn if there isnt at least one utterance in an intent
-            if(previousSection.split(NEWLINE).length === 1)  {
-                ++lineIndex;
-                if(previousSection.split(NEWLINE)[0].includes('?')) {
-                    throw(new exception(retCode.errorCode.INVALID_LINE, 'Line #' + lineIndex + ': [ERR] No answer found for question: ' + previousSection.split(NEWLINE)[0]));
-                } else {
-                    if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No utterances found for intent: ' + previousSection.split(NEWLINE)[0] + NEWLINE));
-                }
-                --lineIndex;
+    case PARSERCONSTS.INTENT:
+        // warn if there isnt at least one utterance in an intent
+        if(previousSection.split(NEWLINE).length === 1)  {
+            ++lineIndex;
+            if(previousSection.split(NEWLINE)[0].includes('?')) {
+                throw(new exception(retCode.errorCode.INVALID_LINE, 'Line #' + lineIndex + ': [ERR] No answer found for question: ' + previousSection.split(NEWLINE)[0]));
+            } else {
+                if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No utterances found for intent: ' + previousSection.split(NEWLINE)[0] + NEWLINE));
             }
-            sectionsInFile.push(previousSection);
-            break;
-        case PARSERCONSTS.ENTITY:
-            // warn if there isnt at least one synonym for a list entity
-            if(previousSection.split(NEWLINE).length === 1)  {
-                ++lineIndex;
-                if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No synonyms list found for list entity:' + previousSection.split(NEWLINE)[0] + NEWLINE));
-                --lineIndex;
-            }
-            sectionsInFile.push(previousSection);
-            break;
+            --lineIndex;
+        }
+        sectionsInFile.push(previousSection);
+        break;
+    case PARSERCONSTS.ENTITY:
+        // warn if there isnt at least one synonym for a list entity
+        if(previousSection.split(NEWLINE).length === 1)  {
+            ++lineIndex;
+            if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No synonyms list found for list entity:' + previousSection.split(NEWLINE)[0] + NEWLINE));
+            --lineIndex;
+        }
+        sectionsInFile.push(previousSection);
+        break;
     }
     return sectionsInFile;
 };

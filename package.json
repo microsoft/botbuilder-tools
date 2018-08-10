@@ -19,8 +19,8 @@
     "eslintConfig": {
         "env": {
             "node": true,
-            "mocha": true,
-            "es6": true
+            "es6": true,
+            "mocha": true
         },
         "extends": "eslint:recommended",
         "parserOptions": {
