@@ -16,6 +16,6 @@ class LUIS {
         this.patternAnyEntities = [];
         this.prebuiltEntities = [];
     }
-};
+}
 
 module.exports = LUIS;
