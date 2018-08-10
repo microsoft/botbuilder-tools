@@ -4,6 +4,15 @@ const qnamaker = require.resolve('../bin/qnamaker');
 
 describe('The QnA Maker cli --help -h argument', () => {
 
+    it('should print the help contents when no args', done => {
+        exec(`node ${qnamaker}`, (error, stdout) => {
+            assert(stdout.includes('Available actions are:'));
+            assert(stdout.includes('Configuration and Overrides:'));
+            assert(stdout.includes('Global Arguments:'));
+            done();
+        });
+    });
+
     it('should print the help contents when --help is used', done => {
         exec(`node ${qnamaker} --help`, (error, stdout) => {
             assert(stdout.includes('Available actions are:'));
