@@ -5,6 +5,7 @@
  *
  * Command pattern is: <api group> <action> <target> <subtarget> --<args>
  */
+/*eslint no-console: ["error", { allow: ["warn", "log"] }] */
 
 const swagger = require('./swagger');
 const fs = require('fs-extra');
@@ -216,8 +217,8 @@ Object.keys(swagger.paths).sort().forEach(pathName => {
             .replace(/( \w)/g, (...args) => args[2] ? args[0]
                 .trim()
                 .toUpperCase() : args[0]
-                    .trim()
-                    .toLowerCase());
+                .trim()
+                .toLowerCase());
 
         // Find the entity to send in the request. If a schema does not exist,
         // attempt to create one using the example.
