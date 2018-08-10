@@ -28,7 +28,7 @@ describe('With helper functions', function() {
     it('splitFileBySections throws when no intent definition found in a line', function(done){
         let testLu = `#Greeting`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done('Test failed: splitFileBySections did not throw!');
         } catch (err) {
             done();
@@ -39,7 +39,7 @@ describe('With helper functions', function() {
         let testLu = `$test:123=
 # Greeting`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done();
         } catch (err) {
             done(err);
@@ -50,7 +50,7 @@ describe('With helper functions', function() {
         let testLu = `# Greeting
 # None`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done();
         } catch (err) {
             done(err);
@@ -61,7 +61,7 @@ describe('With helper functions', function() {
         let testLu = `# ? 123
 # Greeting`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done('Test failed: splitFileBySections did not throw!');
         } catch (err) {
             done();
@@ -72,7 +72,7 @@ describe('With helper functions', function() {
         let testLu = `# ? 123
 [test](1.lu)`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done('Test failed: splitFileBySections did not throw!');
         } catch (err) {
             done();
@@ -82,7 +82,7 @@ describe('With helper functions', function() {
     it('splitFileBySections throws when no answer found for question', function(done){
         let testLu = `# ? 123`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done('Test failed: splitFileBySections did not throw!');
         } catch (err) {
             done();
@@ -95,7 +95,7 @@ describe('With helper functions', function() {
         $commPreference:call
 - phone call`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done('Test failed: splitFileBySections did not throw!');
         } catch (err) {
             done();
@@ -108,7 +108,7 @@ describe('With helper functions', function() {
         $commPreference:call
 - phone call`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done('Test failed: splitFileBySections did not throw!');
         } catch (err) {
             done();
@@ -118,7 +118,7 @@ describe('With helper functions', function() {
     it('splitFileBySections throws when invalid entity definition is found', function(done){
         let testLu = `$PREBUILT:datetimeV23`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done('Test failed: splitFileBySections did not throw!');
         } catch (err) {
             done();
@@ -128,7 +128,7 @@ describe('With helper functions', function() {
     it('splitFileBySections throws when invalid entity definition is found', function(done){
         let testLu = `$PREBUILT=datetimeV23`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done('Test failed: splitFileBySections did not throw!');
         } catch (err) {
             done();
@@ -139,7 +139,7 @@ describe('With helper functions', function() {
         let testLu = `$commPreference:cal=l
 - phone call`;
         try {
-            let test = helpers.splitFileBySections(testLu, false);
+            helpers.splitFileBySections(testLu, false);
             done('Test failed: splitFileBySections did not throw!');
         } catch (err) {
             done();

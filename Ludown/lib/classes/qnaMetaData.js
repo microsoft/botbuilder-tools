@@ -13,6 +13,6 @@ class qnaMetaData {
         this.name = name?name:'';
         this.value = value?value:'';
     }
-};
+}
 
 module.exports = qnaMetaData;

@@ -4,7 +4,6 @@
  */
 const Table = require('cli-table3');
 const chalk = require('chalk');
-const fs = require('fs');
 const path = require('path');
 const txtfile = require('read-text-file');
 const operations = require('./operations');
@@ -28,14 +27,12 @@ module.exports = async function help(args, output) {
     let leftColWidth = 0;
     for (let hc of helpContents) {
         if (hc.table && hc.table[0].length > 0) {
-            const rows = hc.table[0].length;
             for (let row in hc.table) {
                 let len = hc.table[row][0].length;
                 if (len > leftColWidth) {
                     leftColWidth = Math.min(len, Math.floor(width / 3));
                 }
             }
-            let i = rows - 1;
         }
     }
 
@@ -129,9 +126,7 @@ let globalArgs =
  *
  * @returns {*[]}
  */
-function getGeneralHelpContents(output) {
-    let operation;
-    let verbs = [];
+function getGeneralHelpContents() {
     let options = {
         head: chalk.bold(`Available actions are:`),
         table: [
@@ -166,7 +161,6 @@ function getGeneralHelpContents(output) {
  * @returns {*[]}
  */
 function getVerbHelp(verb, output) {
-    let operation;
     let targets = [];
     let options = {
         head: `Available resources for ${chalk.bold(verb)}:`,
@@ -178,27 +172,27 @@ function getVerbHelp(verb, output) {
     let sections = [];
 
     switch (verb) {
-        case "query":
-            output.write(chalk.cyan.bold("luis query -q <querytext> --region <region>\n\n"))
-            options.table.push([chalk.cyan.bold("-q <query>"), "query to get a LUIS prediction for"]);
-            options.table.push([chalk.cyan.bold("--subscriptionKey"), "Specifies the LUIS subscriptionKey. Overrides the .luisrc value and the LUIS_SUBSCRIPTION_KEY environment variable."]);
-            options.table.push([chalk.cyan.bold("--region <region>"), "region to call"]);
-            sections.push(options);
-            sections.push(configSection);
-            sections.push(globalArgs);
-            return sections;
+    case "query":
+        output.write(chalk.cyan.bold("luis query -q <querytext> --region <region>\n\n"))
+        options.table.push([chalk.cyan.bold("-q <query>"), "query to get a LUIS prediction for"]);
+        options.table.push([chalk.cyan.bold("--subscriptionKey"), "Specifies the LUIS subscriptionKey. Overrides the .luisrc value and the LUIS_SUBSCRIPTION_KEY environment variable."]);
+        options.table.push([chalk.cyan.bold("--region <region>"), "region to call"]);
+        sections.push(options);
+        sections.push(configSection);
+        sections.push(globalArgs);
+        return sections;
 
-        case "set":
-            output.write(chalk.cyan.bold("luis set <appIdOrName> [--appId|--versionId|--authoringKey|--endpoint] <value>\n\n"))
-            options.table.push([chalk.cyan.bold("<appIdOrName>"), "change the active application by looking it up by name or id"]);
-            options.table.push([chalk.cyan.bold("--appId <appId>"), "change the active application id "]);
-            options.table.push([chalk.cyan.bold("--versionId <version>"), "change the active version id "]);
-            options.table.push([chalk.cyan.bold("--authoringKey <authoringKey>"), "change the active authoringKey◘"]);
-            options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "change the active endpointBasePath url"]);
-            sections.push(options);
-            sections.push(configSection);
-            sections.push(globalArgs);
-            return sections;
+    case "set":
+        output.write(chalk.cyan.bold("luis set <appIdOrName> [--appId|--versionId|--authoringKey|--endpoint] <value>\n\n"))
+        options.table.push([chalk.cyan.bold("<appIdOrName>"), "change the active application by looking it up by name or id"]);
+        options.table.push([chalk.cyan.bold("--appId <appId>"), "change the active application id "]);
+        options.table.push([chalk.cyan.bold("--versionId <version>"), "change the active version id "]);
+        options.table.push([chalk.cyan.bold("--authoringKey <authoringKey>"), "change the active authoringKey◘"]);
+        options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "change the active endpointBasePath url"]);
+        sections.push(options);
+        sections.push(configSection);
+        sections.push(globalArgs);
+        return sections;
     }
 
     for (let iOperation in operations) {
@@ -232,11 +226,10 @@ function getVerbHelp(verb, output) {
  *
  * @returns {*[]}
  */
-function getAllCommands(output) {
-    const table = [];
+function getAllCommands() {
     let resourceTypes = [];
     let tables = {};
-    operations.forEach((operation, index) => {
+    operations.forEach((operation) => {
         let opCategory = operation.target[0];
         if (resourceTypes.indexOf(opCategory) < 0) {
             resourceTypes.push(opCategory);
@@ -248,7 +241,7 @@ function getAllCommands(output) {
     resourceTypes.sort();
 
     let sections = [];
-    for (resourceType of resourceTypes) {
+    for (let resourceType of resourceTypes) {
         tables[resourceType].sort((a, b) => a[0].localeCompare(b[0]));
         sections.push({
             head: chalk.white.bold(resourceType),
@@ -266,7 +259,7 @@ function getAllCommands(output) {
  *
  * @returns {Array}
  */
-function getHelpContentsForOperation(operation, output) {
+function getHelpContentsForOperation(operation) {
 
     const sections = [];
     // params table is shown only if we have a single
@@ -293,15 +286,15 @@ function getHelpContentsForOperation(operation, output) {
             };
         }
         switch (operation.target[0]) {
-            case 'application':
-                switch (operation.methodAlias) {
-                    case 'add':
-                    case 'import':
-                    case "get":
-                        paramsHelp.table.push([chalk.cyan.bold(`--msbot`), `(OPTIONAL) Format the output as json for piping into msbot connect luis command`]);
-                        break;
-                }
+        case 'application':
+            switch (operation.methodAlias) {
+            case 'add':
+            case 'import':
+            case "get":
+                paramsHelp.table.push([chalk.cyan.bold(`--msbot`), `(OPTIONAL) Format the output as json for piping into msbot connect luis command`]);
                 break;
+            }
+            break;
         }
         sections.push(paramsHelp);
     }
@@ -314,17 +307,4 @@ function getEntityTypeExample(entityType) {
     var examplePath = path.join(__dirname, `../examples/${entityType}.json`);
     let json = txtfile.readSync(examplePath).replace(/[\r\f]+/g, '\n');
     return json;
-}
-
-
-/**
- * Gets the help content for an operation
- *
- * @param {*} operation The operation to display the help contents for
- *
- * @returns {*[]}
- */
-function getHelpForOperation(operation) {
-    const { methodAlias, command, description } = operation;
-    return [`${chalk.cyan.bold(command)}`, `${description}`];
 }

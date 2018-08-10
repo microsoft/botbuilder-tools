@@ -1085,7 +1085,6 @@ exports.LuisApp = {
         className: "LuisApp",
         modelProperties: {
             additionalProperties: {
-                serializedName: "additionalProperties",
                 type: {
                     name: "Dictionary",
                     value: {
@@ -2702,7 +2701,6 @@ exports.ErrorResponse = {
         className: "ErrorResponse",
         modelProperties: {
             additionalProperties: {
-                serializedName: "additionalProperties",
                 type: {
                     name: "Dictionary",
                     value: {

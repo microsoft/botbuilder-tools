@@ -2,6 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+/*eslint no-console: ["error", { allow: ["log"] }] */
 const chai = require('chai');
 const assert = chai.assert;
 const translate = require('../lib/translate');
@@ -37,13 +38,13 @@ describe('With translate module', function() {
         } catch (err) {
             console.log('Unable to create test/output folder. The tests will fail');
         }
-      });
+    });
     
     it('should throw when invalid file is specified', function(done){
         let invalidFile = resolvePath('test/1.lu');
         translate.translateContent({in: invalidFile})
-            .then(res => done('Test fail! Did not throw when expected'))
-            .catch(err => done())
+            .then(() => done('Test fail! Did not throw when expected'))
+            .catch(() => done())
     });
 
     it('correctly localize the file content', function(done) {
@@ -51,7 +52,7 @@ describe('With translate module', function() {
             this.skip();
         }
         let luFilePath = resolvePath('examples/1.lu');
-        exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ${LUDOWN_ROOT}/test/output -n 1_de --verbose --in ` + luFilePath, (error, stdout, stderr) => {
+        exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ${LUDOWN_ROOT}/test/output -n 1_de --verbose --in ` + luFilePath, (error, stdout) => {
             try {
                 compareFiles(LUDOWN_ROOT + '/test/output/de/1.lu', LUDOWN_ROOT + '/test/verified/1.lu');
                 console.log(stdout);
@@ -69,7 +70,7 @@ describe('With translate module', function() {
             .then(function(res) {
                 done(res);
             })
-            .catch(function(err){
+            .catch(function(){
                 done();
             })
     });
@@ -114,10 +115,10 @@ describe('With translate module', function() {
         }
         let fileContent = `- 123`;
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'dex', '', false, true, SHOW_LOGS)
-            .then(function(res) {
+            .then(function() {
                 done('Test fail! Did not throw when expected');
             })
-            .catch (err => done());
+            .catch (() => done());
     });
 
     it('Translate throw with invalid src lang code', function(done) {
@@ -126,10 +127,10 @@ describe('With translate module', function() {
         }
         let fileContent = `[123]('./1.lu')`;
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', 'esx', false, true, SHOW_LOGS)
-            .then(function(res) {
+            .then(function() {
                 done('Test fail! Did not throw when expected');
             })
-            .catch (err => done());
+            .catch (() => done());
     });
 
     it('Link text can be left untranslated', function(done) {
@@ -156,10 +157,10 @@ describe('With translate module', function() {
         let fileContent = `\`\`\`markdown
         test 123`;
         trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', 'esx', false, true, SHOW_LOGS)
-            .then(function(res) {
+            .then(function() {
                 done('Test fail! Did not throw when expected');
             })
-            .catch (err => done());
+            .catch (() => done());
     }); 
 
     it('Alterations are translated correctly', function(done) {
@@ -178,5 +179,4 @@ describe('With translate module', function() {
             })
             .catch (err => done(err));
     }); 
-
 });

@@ -19,7 +19,7 @@ describe('With toLU module', function() {
     it('throws when input file does not parse as luis content', function(done) {
         let invalidFile = resolvePath('test/1.lu')
         toLU.generateMarkdown({LUIS_File:invalidFile})
-            .then(res => done('Test fail! Did not throw when expected'))
+            .then(() => done('Test fail! Did not throw when expected'))
             .catch(err => {
                 assert.equal(new exception(err).errCode, retCode.errorCode.FILE_OPEN_ERROR);
                 done();
@@ -30,7 +30,7 @@ describe('With toLU module', function() {
     it('throws when input file has composite entities', function(done) {
         let invalidFile = resolvePath('test/testcases/InvalidLUISModel.json')
         toLU.generateMarkdown({LUIS_File:invalidFile})
-            .then(res => done('Test fail! Did not throw when expected'))
+            .then(() => done('Test fail! Did not throw when expected'))
             .catch(err => {
                 assert.equal(new exception(err).errCode, retCode.errorCode.INVALID_INPUT_FILE);
                 done();
@@ -40,7 +40,7 @@ describe('With toLU module', function() {
     it('throws when input file has regex entities', function(done) {
         let invalidFile = resolvePath('test/testcases/InvalidLUISModel1.json')
         toLU.generateMarkdown({LUIS_File:invalidFile})
-            .then(res => done('Test fail! Did not throw when expected'))
+            .then(() => done('Test fail! Did not throw when expected'))
             .catch(err => {
                 assert.equal(new exception(err).errCode, retCode.errorCode.INVALID_INPUT_FILE);
                 done();
@@ -50,7 +50,7 @@ describe('With toLU module', function() {
     it('throws when input file has regex features', function(done) {
         let invalidFile = resolvePath('test/testcases/InvalidLUISModel2.json')
         toLU.generateMarkdown({LUIS_File:invalidFile})
-            .then(res => done('Test fail! Did not throw when expected'))
+            .then(() => done('Test fail! Did not throw when expected'))
             .catch(err => {
                 assert.equal(new exception(err).errCode, retCode.errorCode.INVALID_INPUT_FILE);
                 done();
@@ -60,7 +60,7 @@ describe('With toLU module', function() {
     it('throws when input file does not parse as qna content', function(done) {
         let invalidFile = resolvePath('test/1.lu')
         toLU.generateMarkdown({QNA_FILE:invalidFile})
-            .then(res => done('Test fail! Did not throw when expected'))
+            .then(() => done('Test fail! Did not throw when expected'))
             .catch(err => {
                 assert.equal(new exception(err).errCode, retCode.errorCode.FILE_OPEN_ERROR);
                 done();
@@ -70,7 +70,7 @@ describe('With toLU module', function() {
     it('throws when input file does not parse as qna content', function(done) {
         let invalidFile = resolvePath('examples/1.lu')
         toLU.generateMarkdown({LUIS_File:invalidFile})
-            .then(res => done('Test fail! Did not throw when expected'))
+            .then(() => done('Test fail! Did not throw when expected'))
             .catch(err => {
                 assert.equal(new exception(err).errCode, retCode.errorCode.INVALID_INPUT_FILE);
                 done();
@@ -80,11 +80,10 @@ describe('With toLU module', function() {
     it('throws when input file does not parse as LUIS content', function(done) {
         let invalidFile = resolvePath('examples/1.lu')
         toLU.generateMarkdown({QNA_FILE:invalidFile})
-            .then(res => done('Test fail! Did not throw when expected'))
+            .then(() => done('Test fail! Did not throw when expected'))
             .catch(err => {
                 assert.equal(new exception(err).errCode, retCode.errorCode.INVALID_INPUT_FILE);
                 done();
             })
     });
-
 });
