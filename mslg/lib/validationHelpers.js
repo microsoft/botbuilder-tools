@@ -87,11 +87,9 @@ module.exports = {
      */
     callBackFunctionsEnclosedInBraces: function (item) {
         // get call back function references in item
-        let cbFNames = '';
-        reservedNames.forEach(item => {cbFNames += item + '|';});
-        let callBackFunctionRegExp = new RegExp(/( |^).*\((.*?)\)/g);
+        let callBackFunctionRegExp = new RegExp(/{(.*?)\(.*\)}/g);
         let callBackFunctions = item.match(callBackFunctionRegExp);
-        if(callBackFunctions && callBackFunctions.length !== 0) throw (new exception(errCodes.INVALID_CALLBACK_FUNTION_DEF, 'Call back functions need to be enclosed in {}. Invalid variation "' + item + '"'));
+        if(item.includes('(') && !callBackFunctions) throw (new exception(errCodes.INVALID_CALLBACK_FUNTION_DEF, 'Call back functions need to be enclosed in {}. Invalid variation "' + item + '"'));
         return VALIDATION_PASS;
     },
     /**

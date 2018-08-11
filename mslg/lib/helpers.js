@@ -91,9 +91,9 @@ const helpers = {
                 charbuffer += char;
             }
         });
-        if(priorToken !== '') {
+        if(priorToken !== '' && tokensInItem[tokensInItem.length - 1].content !== priorToken.value) {
             // push the token
-            tokensInItem.push(new token(priorToken, TOKENS[priorToken]));
+            tokensInItem.push(new token(priorToken.value, TOKENS[priorToken]));
             priorToken = '';
         } 
         if(charbuffer !== '') {
