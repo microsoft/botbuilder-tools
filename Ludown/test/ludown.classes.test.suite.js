@@ -38,10 +38,6 @@ describe('Testing all classes', function() {
             assert.equal(new exception(testData).text, '');
         });
         it('can create a new instance from no values passed in as args', function() {
-            let testData = {
-                text: 'foo',
-                errCode: 21
-            };
             assert.equal(new exception().text, '');
         });
     });

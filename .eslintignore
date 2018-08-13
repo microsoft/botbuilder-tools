@@ -1,2 +1,5 @@
 node_modules/*
 **/node_modules/*
+QnAMaker/lib/api/*
+LUIS/lib/*
+MSBot/*

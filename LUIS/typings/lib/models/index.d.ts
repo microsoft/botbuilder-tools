@@ -2653,7 +2653,7 @@ export interface PatternGetIntentPatternsOptionalParams extends msRest.RequestOp
 export declare enum TrainingStatus {
     NeedsTraining = "NeedsTraining",
     InProgress = "InProgress",
-    Trained = "Trained",
+    Trained = "Trained"
 }
 /**
  * Defines values for OperationStatusType.
@@ -2669,7 +2669,7 @@ export declare enum TrainingStatus {
 export declare enum OperationStatusType {
     Failed = "Failed",
     FAILED = "FAILED",
-    Success = "Success",
+    Success = "Success"
 }
 /**
  * Defines values for AzureRegions.
@@ -2691,7 +2691,7 @@ export declare enum AzureRegions {
     Northeurope = "northeurope",
     Eastasia = "eastasia",
     Australiaeast = "australiaeast",
-    Brazilsouth = "brazilsouth",
+    Brazilsouth = "brazilsouth"
 }
 /**
  * Defines values for ReadableType.
@@ -2717,7 +2717,7 @@ export declare enum ReadableType {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }
 /**
  * Defines values for ReadableType1.
@@ -2743,7 +2743,7 @@ export declare enum ReadableType1 {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }
 /**
  * Defines values for ReadableType2.
@@ -2769,7 +2769,7 @@ export declare enum ReadableType2 {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }
 /**
  * Defines values for ReadableType3.
@@ -2795,7 +2795,7 @@ export declare enum ReadableType3 {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }
 /**
  * Defines values for ReadableType4.
@@ -2821,7 +2821,7 @@ export declare enum ReadableType4 {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }
 /**
  * Defines values for ReadableType5.
@@ -2847,7 +2847,7 @@ export declare enum ReadableType5 {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }
 /**
  * Defines values for ReadableType6.
@@ -2873,7 +2873,7 @@ export declare enum ReadableType6 {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }
 /**
  * Defines values for ReadableType7.
@@ -2899,7 +2899,7 @@ export declare enum ReadableType7 {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }
 /**
  * Defines values for ReadableType8.
@@ -2925,7 +2925,7 @@ export declare enum ReadableType8 {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }
 /**
  * Defines values for Status.
@@ -2943,7 +2943,7 @@ export declare enum Status {
     InProgress = "InProgress",
     UpToDate = "UpToDate",
     Fail = "Fail",
-    Success = "Success",
+    Success = "Success"
 }
 /**
  * Defines values for Status1.
@@ -2961,7 +2961,7 @@ export declare enum Status1 {
     InProgress = "InProgress",
     UpToDate = "UpToDate",
     Fail = "Fail",
-    Success = "Success",
+    Success = "Success"
 }
 /**
  * Defines values for ReadableType9.
@@ -2987,7 +2987,7 @@ export declare enum ReadableType9 {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }
 /**
  * Defines values for ReadableType10.
@@ -3013,5 +3013,5 @@ export declare enum ReadableType10 {
     PrebuiltEntityExtractor = "Prebuilt Entity Extractor",
     IntentClassifier = "Intent Classifier",
     PatternAnyEntityExtractor = "Pattern.Any Entity Extractor",
-    RegexEntityExtractor = "Regex Entity Extractor",
+    RegexEntityExtractor = "Regex Entity Extractor"
 }

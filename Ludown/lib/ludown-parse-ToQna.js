@@ -8,7 +8,7 @@ const fParser = require('../lib/parser');
 const chalk = require('chalk');
 const retCode = require('../lib/enums/CLI-errors');
 const cmdEnum = require('../lib/enums/parsecommands');
-program.Command.prototype.unknownOption = function (flag) {
+program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
 };
@@ -25,20 +25,20 @@ program
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
     
-    if (process.argv.length < 4) {
+if (process.argv.length < 4) {
+    program.help();
+} else {
+    if (!program.in && !program.lu_folder) {
+        process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
         program.help();
-    } else {
-        if (!program.in && !program.lu_folder) {
-            process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
-            program.help();
-        } 
-        fParser.handleFile(program, cmdEnum.qna)
-            .then(function(){
-                process.exit(retCode.errorCode.SUCCESS);
-            })
-            .catch(function(err) {
-                process.stderr.write(chalk.default.redBright(err.text + '\n'));
-                process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
-                process.exit(err.errCode);
-            });  
     }
+    fParser.handleFile(program, cmdEnum.qna)
+        .then(function () {
+            process.exit(retCode.errorCode.SUCCESS);
+        })
+        .catch(function (err) {
+            process.stderr.write(chalk.default.redBright(err.text + '\n'));
+            process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
+            process.exit(err.errCode);
+        });
+}

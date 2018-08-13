@@ -17,7 +17,7 @@ describe('With the parseAndTranslate method', function() {
             .then(function(res) {
                 assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(`> This is a comment
 `));
-done();
+                done();
             })
             .catch(err => done(err));
     });
@@ -29,8 +29,8 @@ done();
         }
         translate.parseAndTranslate(testData.tests.qna.luFile, TRANSLATE_KEY, testData.tests.qna.langCode, '', false, false, false)
             .then(function(res) {
-                    assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.qna.translatedContent));
-                    done();
+                assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.qna.translatedContent));
+                done();
             })
             .catch(err => done(err))
     });
@@ -43,7 +43,7 @@ done();
         translate.parseAndTranslate(testData.tests.phraseList.luFile, TRANSLATE_KEY, testData.tests.phraseList.langCode, '', false, false, false)
             .then(function(res) {
                 assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.phraseList.translatedContent));
-                    done();
+                done();
             })
             .catch(err => done(err))
     });
@@ -55,8 +55,8 @@ done();
         translate.parseAndTranslate(testData.tests.badLu.luFile, TRANSLATE_KEY, testData.tests.badLu.langCode, '', false, false, false)
             .then(res => done(res)) 
             .catch(function(err) {
-                    assert.equal(err.errCode, retCode.errorCode.INVALID_INPUT_FILE);
-                    done();
+                assert.equal(err.errCode, retCode.errorCode.INVALID_INPUT_FILE);
+                done();
             })
     });
 
@@ -67,7 +67,7 @@ done();
         translate.parseAndTranslate(testData.tests.fileRef.luFile, TRANSLATE_KEY, testData.tests.fileRef.langCode, '', false, false, false)
             .then(function(res) {
                 assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.fileRef.luFile + NEWLINE));
-                    done();
+                done();
             })
             .catch(err => done(err))
     });
@@ -88,10 +88,10 @@ done();
             })
     }); 
 
-        it('Invalid key with comments throws', function(done) {
-            if (!TRANSLATE_KEY) {
-                this.skip();
-            }
+    it('Invalid key with comments throws', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
         translate.parseAndTranslate(`> test comment
 `, TRANSLATE_KEY + '2', testData.tests.badLu.langCode, '', true, false, false)
             .then(function(res) {
@@ -119,16 +119,16 @@ done();
             })
     });
     
-   it('Labelled entity values are translated correctly', function(done) {
-    if (!TRANSLATE_KEY) {
-        this.skip();
-    }
-    translate.parseAndTranslate(testData.tests.labelledEntityValue.luFile, TRANSLATE_KEY, testData.tests.labelledEntityValue.langCode, '', false, true, false)
-        .then(function(res) {
-            assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.labelledEntityValue.translatedContent));
-            done();
-        })
-        .catch(err => done(err))
+    it('Labelled entity values are translated correctly', function (done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
+        translate.parseAndTranslate(testData.tests.labelledEntityValue.luFile, TRANSLATE_KEY, testData.tests.labelledEntityValue.langCode, '', false, true, false)
+            .then(function (res) {
+                assert.equal(helpers.sanitizeNewLines(res), helpers.sanitizeNewLines(testData.tests.labelledEntityValue.translatedContent));
+                done();
+            })
+            .catch(err => done(err))
     });
     
     it('Invalid key with QnA throws', function(done) {
@@ -153,10 +153,10 @@ done();
         }
         translate.parseAndTranslate(`# Greeting
 `, TRANSLATE_KEY, testData.tests.badLu.langCode, '', false, false, true)
-            .then(function(res) {
+            .then(function() {
                 done();
             }) 
-            .catch(function(err) {
+            .catch(function() {
                 done('Test Fail! Threw when not expected');
             })
     });
@@ -195,8 +195,8 @@ done();
         }
         translate.parseAndTranslate(testData.tests.intentsAndUtterances.luFile, TRANSLATE_KEY, testData.tests.intentsAndUtterances.langCode, 'en-us', true, false, true)
             .then(function(res) {
-                    assert.equal(res, helpers.sanitizeNewLines(testData.tests.intentsAndUtterances.translatedContent));
-                    done();
+                assert.equal(res, helpers.sanitizeNewLines(testData.tests.intentsAndUtterances.translatedContent));
+                done();
             })
             .catch(err => done(err))
     }); 
@@ -208,8 +208,8 @@ done();
         translate.parseAndTranslate(`# ? hello
 \`\`\`markdown`, TRANSLATE_KEY, 'de', 'en-us', true, false, true)
             .then(function(res) {
-                    assert.equal('# ? Hallo' + NEWLINE + '```markdown' + NEWLINE, res);
-                    done();
+                assert.equal('# ? Hallo' + NEWLINE + '```markdown' + NEWLINE, res);
+                done();
             })
             .catch(err => done(err))
     }); 

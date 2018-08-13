@@ -299,4 +299,5 @@ AzureCli/azext_bot/build/
 
 # macOS stuff
 .DS_Store
-/LUIS/.nyc_output
+.nyc_output
+coverage

@@ -25,6 +25,6 @@ class qnaList {
         this.questions = questions?questions:[];
         this.metadata = metadata?metadata:[];
     }
-};
+}
 
 module.exports = qnaList;

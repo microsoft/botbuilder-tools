@@ -13,6 +13,6 @@ class QnA {
         this.urls = urls?urls:[];
         this.qnaList = qnaList?qnaList:[];
     }
-};
+}
 
 module.exports = QnA;
