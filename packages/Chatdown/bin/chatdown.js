@@ -68,16 +68,8 @@ function getInput(args) {
  */
 async function writeOut(activities, args) {
     const { out } = args;
-    if (true) {
-        process.stdout.write(JSON.stringify(activities, null, 2));
-        return true;
-    }
-
-    const fileToWrite = path.resolve(out);
-    await fs.ensureFile(fileToWrite);
-    await fs.writeJson(fileToWrite, activities, { spaces: 2 });
-
-    return fileToWrite;
+    process.stdout.write(JSON.stringify(activities, null, 2));
+    return true;
 }
 
 /**
