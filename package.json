@@ -1,7 +1,6 @@
 {
     "name": "botbuilder-tools",
     "scripts": {
-        "postinstall": "(cd Chatdown && npm install); (cd Dispatch && npm install); (cd Ludown && npm install); (cd LUIS && npm install); (cd LUISGen && npm install); (cd MSBot && npm install); (cd QnAMaker && npm install)",
         "eslint:travis": "eslint --format \"node_modules/eslint-friendly-formatter\" \"./**/*.js\" \"./@(Dispatch|LUIS|LUISGen|QnAMaker)/bin/*\"",
         "test:travis": "nyc mocha \"@(Chatdown|Ludown|LUIS|QnAMaker)*/test/*.test.suite.js\" --timeout 100000",
         "coveralls:travis": "npm run test:travis && nyc report --reporter=text-lcov | coveralls"

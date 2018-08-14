@@ -1,3 +1,10 @@
+function install() {
+    echo Install $1
+    pushd $1
+    npm install
+    popd
+}
+
 function eslint() {
     echo Run ESLint for all packages
     npm run eslint:travis
@@ -42,6 +49,16 @@ if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
     publish QnAMaker
 else
     (
+        set -e
+        install Chatdown
+        install Dispatch
+        install Ludown
+        install LUIS
+        install LUISGen
+        install MSBot
+        install QnAMaker
+
+        # root's package.json commands
         npm install
         eslint
         coveralls
