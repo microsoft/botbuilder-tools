@@ -15,3 +15,6 @@ You can use our REST apis to manage your KB.
 
 > You can add URLs for QnA maker to ingest using the #URL reference scheme
 [QnA URL - faqs](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
+
+> You can add files for QnA maker to ingest using the URL reference scheme. If the URI's content-type is not text/html, then the ludown parser will add it to files collection for QnA Maker to ingest. 
+[SurfaceManual.pdf](https://download.microsoft.com/download/2/9/B/29B20383-302C-4517-A006-B0186F04BE28/surface-pro-4-user-guide-EN.pdf)

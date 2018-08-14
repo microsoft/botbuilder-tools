@@ -255,6 +255,12 @@ $botframework : qna-alterations=
 - Microsoft bot framework
 ```
 
+## QnA Maker pdf file ingestion
+QnA Maker also supports ingesting pdf files during KB creation. You can add files for QnA maker to ingest using the URL reference scheme. If the URI's content-type is not text/html, then the ludown parser will add it to files collection for QnA Maker to ingest. 
+
+```markdown
+[SurfaceManual.pdf](https://download.microsoft.com/download/2/9/B/29B20383-302C-4517-A006-B0186F04BE28/surface-pro-4-user-guide-EN.pdf)
+```
 ## Adding comments
 You can add comments to your .lu document by prefixing the comment with >. Here's an example: 
 
