@@ -1,8 +1,15 @@
 const assert = require('assert');
 const {exec} = require('child_process');
-const chatdown = require.resolve('../bin/chatdown');
+const chatdown = require.resolve('../bin/chatdown.js');
 
 describe('The Chatdown cli tool', () => {
+
+    it('should print the help contents when --help is passed as an argument', done => {
+        exec(`node ${chatdown} --help`, (error, stdout) => {
+            assert(stdout.includes('--help') && stdout.includes('--version'));
+            done();
+        });
+    });
 
     it('should print the help contents when --help is passed as an argument', done => {
         exec(`node ${chatdown} --help`, (error, stdout) => {
