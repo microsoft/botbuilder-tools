@@ -7,7 +7,7 @@ const helpJsonPath = path.join(__dirname, 'help.json')
 describe('The chatdown lib', () => {
     describe('should correctly output data', () => {
         it('when the input chat contains an attachment', async () => {
-const conversation = `
+            const conversation = `
 user=Joe
 bot=LulaBot
 user: Hello!
@@ -115,7 +115,7 @@ bot: [Attachment=notThere.json] here you go!
 `;
 
             try {
-                const activities = await chatdown(conversation, {});
+                await chatdown(conversation, {});
                 assert.fail('did not throw', 'will throw');
             } catch (e) {
                 assert(e.code === 'ENOENT');
