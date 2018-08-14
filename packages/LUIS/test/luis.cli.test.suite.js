@@ -1,9 +1,6 @@
 const assert = require('assert');
-const fs = require('fs-extra');
-const path = require('path');
-const { exec, spawnSync } = require('child_process');
+const { exec } = require('child_process');
 const luis = require.resolve('../bin/luis');
-const ApplicationCreateObject = require.resolve('../examples/ApplicationCreateObject.json');
 
 describe('The LUIS cli tool', () => {
 
