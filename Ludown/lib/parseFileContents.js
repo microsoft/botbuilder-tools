@@ -151,21 +151,9 @@ const parseFileContentsModule = {
         for(let chunkIdx in splitOnBlankLines) {
             chunk = splitOnBlankLines[chunkIdx];
             let chunkSplitByLine = chunk.split(NEWLINE);
-            if(chunk.indexOf(PARSERCONSTS.URLREF) === 0) {
+            if(chunk.indexOf(PARSERCONSTS.URLORFILEREF) === 0) {
                 try {
-                    await parseURLOrFileRef(parsedContent, PARSERCONSTS.URLREF,chunkSplitByLine)
-                } catch (err) {
-                    throw (err);
-                }
-            } else if(chunk.indexOf(PARSERCONSTS.FILEREF) === 0) {
-                try {
-                    await parseURLOrFileRef(parsedContent, PARSERCONSTS.FILEREF,chunkSplitByLine)
-                } catch (err) {
-                    throw (err);
-                }
-            } else if(chunk.indexOf(PARSERCONSTS.URLORFILEREF) === 0) {
-                try {
-                    await parseURLOrFileRef(parsedContent, PARSERCONSTS.URLORFILEREF, chunkSplitByLine)
+                    await parseURLOrFileRef(parsedContent, chunkSplitByLine)
                 } catch (err) {
                     throw (err);
                 }
@@ -385,15 +373,18 @@ const mergeResults_closedlists = function(blob, finalCollection, type) {
 const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, log) {
     // we have an entity definition
     let entityDef = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '').split(':');
-    let entityName = entityDef[0];
-    let entityType = entityDef[1];
+    let entityName = entityDef[0].trim();
+    let entityType = entityDef[1].trim();
+    let entityRoles = [];
+    let pEntityName = (entityName === 'PREBUILT')?entityType:entityName;
     // see if we already have this as Pattern.Any entity
-    // see if we already have this in patternAny entity collection; if so, remove it
+    // see if we already have this in patternAny entity collection; if so, remove it but remember the roles (if any)
     for(let i in parsedContent.LUISJsonStructure.patternAnyEntities) {
-        if(parsedContent.LUISJsonStructure.patternAnyEntities[i].name === entityName) {
+        if(parsedContent.LUISJsonStructure.patternAnyEntities[i].name === pEntityName) {
             if(entityType.toLowerCase().trim().indexOf('phraselist') === 0) {
-                throw(new exception(retCode.errorCode.INVALID_INPUT,'[ERROR]: Phrase lists cannot be used as an entity in a pattern "' + entityName));
+                throw(new exception(retCode.errorCode.INVALID_INPUT,'[ERROR]: Phrase lists cannot be used as an entity in a pattern "' + pEntityName));
             }
+            if(parsedContent.LUISJsonStructure.patternAnyEntities[i].roles.length !== 0) entityRoles = parsedContent.LUISJsonStructure.patternAnyEntities[i].roles;
             parsedContent.LUISJsonStructure.patternAnyEntities.splice(i, 1);
             break;
         }
@@ -415,28 +406,12 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
                 process.stdout.write(chalk.default.yellowBright('  Switching to ' + builtInTypes.perLocaleAvailability[locale][entityType] + ' instead.\n'));
             }
             entityType = builtInTypes.perLocaleAvailability[locale][entityType];
-            addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entityType);
+            addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entityType, entityRoles);
         } else {
             // add to prebuiltEntities if it does not exist there.
-            addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entityType);
+            addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entityType, entityRoles);
         }
-        if(entityName !== "PREBUILT") {
-            // add to prebuilt entities if this does not already exist there and if this is not PREBUILT
-            let lMatch = true;
-            for(let i in parsedContent.LUISJsonStructure.prebuiltEntities) {
-                if(parsedContent.LUISJsonStructure.prebuiltEntities[i].type === entityType) {
-                    // add the entityName as a role if it does not already exist
-                    if(!parsedContent.LUISJsonStructure.prebuiltEntities[i].roles.includes(entityName)) {
-                        parsedContent.LUISJsonStructure.prebuiltEntities[i].roles.push(entityName);
-                    } 
-                    lMatch = false;
-                    break;
-                }
-            }
-            if(lMatch) {
-                parsedContent.LUISJsonStructure.prebuiltEntities.push(new helperClass.prebuiltentity(entityType, [entityName]));
-            } 
-        }
+        
     } else if(entityType.indexOf('=', entityType.length - 1) >= 0) 
     {
         // is this qna maker alterations list? 
@@ -449,14 +424,14 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
         } else {
             // treat this as a LUIS list entity type
             try {
-                parseAndHandleListEntity(parsedContent, chunkSplitByLine);
+                parseAndHandleListEntity(parsedContent, chunkSplitByLine, entityRoles);
             } catch (err) {
                 throw (err);
             }
         }        
     } else if(entityType.toLowerCase() === 'simple') {
         // add this to entities if it doesnt exist
-        addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entityName);
+        addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entityName, entityRoles);
     } else if(entityType.toLowerCase().trim().indexOf('phraselist') === 0) {
         // is this interchangeable? 
         let intc = false;
@@ -530,10 +505,11 @@ const parseAndHandleQnAAlterations = function(parsedContent, chunkSplitByLine) {
  * Helper function to parse and handle list entities
  * @param {parserObj} parsedContent parserObj containing current parsed content
  * @param {Array} chunkSplitByLine Array of text lines in the current parsed section
+ * @param {string []} entityRoles Array of possible roles for this entity.
  * @returns {void} Nothing
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
-const parseAndHandleListEntity = function(parsedContent, chunkSplitByLine) {
+const parseAndHandleListEntity = function(parsedContent, chunkSplitByLine, entityRoles) {
     let entityDef = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '').split(':');
     let entityName = entityDef[0];
     let entityType = entityDef[1];
@@ -556,7 +532,7 @@ const parseAndHandleListEntity = function(parsedContent, chunkSplitByLine) {
 
     let closedListExists = helpers.filterMatch(parsedContent.LUISJsonStructure.closedLists, 'name', entityName);
     if(closedListExists.length === 0) {
-        parsedContent.LUISJsonStructure.closedLists.push(new helperClass.closedLists(entityName, [new helperClass.subList(normalizedValue,synonymsList)], []));
+        parsedContent.LUISJsonStructure.closedLists.push(new helperClass.closedLists(entityName, [new helperClass.subList(normalizedValue,synonymsList)], entityRoles));
     } else {
         // closed list with this name already exists
         let subListExists = helpers.filterMatch(closedListExists[0].subLists, 'canonicalForm', normalizedValue);
@@ -567,6 +543,10 @@ const parseAndHandleListEntity = function(parsedContent, chunkSplitByLine) {
                 if(!subListExists[0].list.includes(listItem)) subListExists[0].list.push(listItem);
             })
         }
+        // see if the roles all exist and if not, add them
+        entityRoles.forEach(role => {
+            if(!closedListExists[0].roles.includes(role)) closedListExists[0].roles.push(role);
+        });
     }
 }
 /**
@@ -713,8 +693,17 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
                             let entitiesFound = utterance.match(entityRegex);
                             entitiesFound.forEach(function(entity) {
                                 entity = entity.replace("{", "").replace("}", "");
-                                havePatternAnyEntitiesInUtterance = true;
-                                addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity);
+                                if(entity.includes(':')) {
+                                    // this is an entity with role
+                                    let entitySplit = entity.split(':');
+                                    let entityName = entitySplit[0];
+                                    let roleName = entitySplit[1];
+                                    havePatternAnyEntitiesInUtterance = true;
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entityName, [roleName])
+                                } else {
+                                    havePatternAnyEntitiesInUtterance = true;
+                                    addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity);
+                                }
                             });
                         }
                     }
@@ -742,57 +731,38 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
 /**
  * Helper function to parse and handle URL or file references in lu files
  * @param {parserObj} parsedContent parserObj containing current parsed content
- * @param {PARSERCONSTS} type type can either be URLREF or FILEREF
  * @param {Array} chunkSplitByLine Array of text lines in the current parsed section
  * @returns {void} Nothing
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
-const parseURLOrFileRef = async function(parsedContent, type, chunkSplitByLine) {
-    let urlRef_regex = chunkSplitByLine[0].trim().replace(type, '').split(/\(['"](.*?)['"]\)/g);
-    switch(type) {
-    case PARSERCONSTS.URLREF: 
-        if(urlRef_regex.length !== 3 || urlRef_regex[1].trim() === '') {
-            throw(new exception(retCode.errorCode.INVALID_URL_REF, '[ERROR]: ' + 'Invalid URL Ref: ' + chunkSplitByLine[0]));
-        }
-        parsedContent.qnaJsonStructure.urls.push(urlRef_regex[1]);
-        break;
-    case PARSERCONSTS.FILEREF:
-        if(urlRef_regex.length !== 3 || urlRef_regex[1].trim() === '') {
-            throw(new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: ' + 'Invalid LU File Ref: ' + chunkSplitByLine[0]));
-        }
-        parsedContent.additionalFilesToParse.push(urlRef_regex[1]);
-        break;
-    case PARSERCONSTS.URLORFILEREF: {
-        let linkValueRegEx = new RegExp(/\(.*?\)/g);
-        let linkValueList = chunkSplitByLine[0].trim().match(linkValueRegEx);
-        let linkValueText = chunkSplitByLine[0].trim().split(linkValueRegEx)[0].replace('[', '').replace(']', '');
-        let linkValue = linkValueList[0].replace('(', '').replace(')', '');
-        if (linkValue === '') {
-            throw (new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: Invalid LU File Ref: ' + chunkSplitByLine[0]));
-        }
-        let parseUrl = url.parse(linkValue);
-        if (parseUrl.host || parseUrl.hostname) {
-            let options = { method: 'HEAD'};
-            let response;
-            try {
-                response = await fetch(linkValue, options);
-            } catch (err) {
-                // throw, invalid URI
-                throw(new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
-            }
-            if(!response.ok) throw(new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
-            let contentType = response.headers.get('content-type');
-            if(!contentType.includes('text/html')) {
-                parsedContent.qnaJsonStructure.files.push(new qnaFile(linkValue, linkValueText));
-            } else {
-                parsedContent.qnaJsonStructure.urls.push(linkValue);
-            }
-            
-        } else {
-            parsedContent.additionalFilesToParse.push(linkValue);
-        }
-        break;
+const parseURLOrFileRef = async function(parsedContent, chunkSplitByLine) {
+    let linkValueRegEx = new RegExp(/\(.*?\)/g);
+    let linkValueList = chunkSplitByLine[0].trim().match(linkValueRegEx);
+    let linkValueText = chunkSplitByLine[0].trim().split(linkValueRegEx)[0].replace('[', '').replace(']', '');
+    let linkValue = linkValueList[0].replace('(', '').replace(')', '');
+    if (linkValue === '') {
+        throw (new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: Invalid LU File Ref: ' + chunkSplitByLine[0]));
     }
+    let parseUrl = url.parse(linkValue);
+    if (parseUrl.host || parseUrl.hostname) {
+        let options = { method: 'HEAD'};
+        let response;
+        try {
+            response = await fetch(linkValue, options);
+        } catch (err) {
+            // throw, invalid URI
+            throw(new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
+        }
+        if(!response.ok) throw(new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
+        let contentType = response.headers.get('content-type');
+        if(!contentType.includes('text/html')) {
+            parsedContent.qnaJsonStructure.files.push(new qnaFile(linkValue, linkValueText));
+        } else {
+            parsedContent.qnaJsonStructure.urls.push(linkValue);
+        }
+        
+    } else {
+        parsedContent.additionalFilesToParse.push(linkValue);
     }
 }
 /**
@@ -822,5 +792,31 @@ const addItemIfNotPresent = function(collection, type, value) {
         collection[type].push(itemObj);
     }  
 };
-
+/**
+ * Helper function to add an item to collection if it does not exist
+ * @param {object} collection contents of the current collection
+ * @param {LUISObjNameEnum} type item type
+ * @param {object} value value of the current item to examine and add
+ * @param {string []} roles possible roles to add to the item
+ * @returns {void} nothing
+ */
+const addItemOrRoleIfNotPresent = function(collection, type, value, roles) {
+    let existingItem = collection[type].filter(item => {return item.name == value});
+    if(existingItem.length !== 0) {
+        // see if the role exists
+        roles.forEach(role => {
+            if(!existingItem[0].roles.includes(role)) existingItem[0].roles.push(role);
+        });
+    } else {
+        let itemObj = {};
+        itemObj.name = value;
+        if(type == LUISObjNameEnum.PATTERNANYENTITY) {
+            itemObj.explicitList = [];
+        }
+        if(type !== LUISObjNameEnum.INTENT) {
+            itemObj.roles = roles;
+        } 
+        collection[type].push(itemObj);
+    }
+}
 module.exports = parseFileContentsModule;
