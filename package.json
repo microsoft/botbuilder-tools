@@ -3,8 +3,8 @@
     "scripts": {
         "build": "lerna bootstrap && lerna run build",
         "test": "lerna run test --parallel",
-        "test:travis": "nyc mocha \"@(Chatdown|Ludown|LUIS|QnAMaker)*/test/*.test.suite.js\" --timeout 100000 && nyc report --reporter=text-lcov | coveralls",
-        "eslint:travis": "eslint --format \"node_modules/eslint-friendly-formatter\" \"./**/*.js\" \"./@(Dispatch|LUIS|LUISGen|QnAMaker)/bin/*\""
+        "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+        "eslint": "eslint --format \"node_modules/eslint-friendly-formatter\" \"./packages/**/*.js\" \"./packages/@(Dispatch|LUIS|LUISGen|QnAMaker)/bin/*\""
     },
     "devDependencies": {
         "chai": "^4.1.2",
