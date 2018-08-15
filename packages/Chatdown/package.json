@@ -38,8 +38,5 @@
   },
   "bin": {
     "chatdown": "./bin/chatdown"
-  },
-  "devDependencies": {
-    "mocha": "^5.2.0"
   }
 }

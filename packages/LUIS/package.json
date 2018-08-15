@@ -45,19 +45,5 @@
     "request-promise": "^4.2.2",
     "semver": "^5.5.0",
     "window-size": "^1.1.0"
-  },
-  "devDependencies": {
-    "eslint": "^4.18.1",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.9.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^5.0.4",
-    "ts-loader": "^2.3.7",
-    "tslint": "^5.7.0",
-    "typescript": "^2.5.2",
-    "webpack": "^3.6.0",
-    "uglify-es": "^3.1.0"
   }
 }

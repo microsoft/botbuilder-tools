@@ -1,10 +1,13 @@
 {
     "name": "botbuilder-tools",
     "scripts": {
+        "build": "lerna bootstrap && lerna run build",
+        "test": "lerna run test --parallel",
         "test:travis": "nyc mocha \"@(Chatdown|Ludown|LUIS|QnAMaker)*/test/*.test.suite.js\" --timeout 100000 && nyc report --reporter=text-lcov | coveralls",
         "eslint:travis": "eslint --format \"node_modules/eslint-friendly-formatter\" \"./**/*.js\" \"./@(Dispatch|LUIS|LUISGen|QnAMaker)/bin/*\""
     },
     "devDependencies": {
+        "chai": "^4.1.2",
         "coveralls": "^3.0.2",
         "eslint": "^5.2.0",
         "eslint-config-standard": "^11.0.0",
@@ -15,7 +18,12 @@
         "eslint-plugin-standard": "^3.1.0",
         "lerna": "^3.0.5",
         "mocha": "^5.2.0",
-        "nyc": "^12.0.2"
+        "nyc": "^12.0.2",
+        "ts-loader": "^2.3.7",
+        "tslint": "^5.7.0",
+        "typescript": "^2.5.2",
+        "webpack": "^3.6.0",
+        "uglify-es": "^3.1.0"
     },
     "nyc": {
         "exclude": [
