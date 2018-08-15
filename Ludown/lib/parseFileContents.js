@@ -17,9 +17,11 @@ const helperClass = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
 const qna = require('./classes/qna');
 const exception = require('./classes/exception');
-const LUIS = require('./classes/LUIS');
 const qnaAlterations = require('./classes/qnaAlterations');
 const NEWLINE = require('os').EOL;
+const fetch = require('node-fetch');
+const qnaFile = require('../lib/classes/qnaFiles');
+
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
@@ -146,24 +148,24 @@ const parseFileContentsModule = {
             throw(err);
         }
         // loop through every chunk of information
-        splitOnBlankLines.forEach(function(chunk) {
-            chunk = chunk.trim();
+        for(let chunkIdx in splitOnBlankLines) {
+            chunk = splitOnBlankLines[chunkIdx];
             let chunkSplitByLine = chunk.split(NEWLINE);
             if(chunk.indexOf(PARSERCONSTS.URLREF) === 0) {
                 try {
-                    parseURLOrFileRef(parsedContent, PARSERCONSTS.URLREF,chunkSplitByLine)
+                    await parseURLOrFileRef(parsedContent, PARSERCONSTS.URLREF,chunkSplitByLine)
                 } catch (err) {
                     throw (err);
                 }
             } else if(chunk.indexOf(PARSERCONSTS.FILEREF) === 0) {
                 try {
-                    parseURLOrFileRef(parsedContent, PARSERCONSTS.FILEREF,chunkSplitByLine)
+                    await parseURLOrFileRef(parsedContent, PARSERCONSTS.FILEREF,chunkSplitByLine)
                 } catch (err) {
                     throw (err);
                 }
             } else if(chunk.indexOf(PARSERCONSTS.URLORFILEREF) === 0) {
                 try {
-                    parseURLOrFileRef(parsedContent, PARSERCONSTS.URLORFILEREF, chunkSplitByLine)
+                    await parseURLOrFileRef(parsedContent, PARSERCONSTS.URLORFILEREF, chunkSplitByLine)
                 } catch (err) {
                     throw (err);
                 }
@@ -182,7 +184,7 @@ const parseFileContentsModule = {
             } else if(chunk.indexOf(PARSERCONSTS.QNA) === 0) {
                 parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, chunkSplitByLine[1], 'custom editorial', [chunkSplitByLine[0].replace(PARSERCONSTS.QNA, '').trim()], []));
             } 
-        });
+        };
         return parsedContent;
     },
     /**
@@ -201,6 +203,15 @@ const parseFileContentsModule = {
                 blob.urls.forEach(function(qnaUrl) {
                     if(!FinalQnAJSON.urls.includes(qnaUrl)) {
                         FinalQnAJSON.urls.push(qnaUrl);
+                    }
+                });
+            }
+            // does this blob have files?
+            if(blob.files.length > 0) {
+                // add this url if this does not already exist in finaljson
+                blob.files.forEach(function(qnaFile) {
+                    if(FinalQnAJSON.files.filter(item => {return item.fileUri == qnaFile.fileUri}).length === 0) {
+                        FinalQnAJSON.files.push(qnaFile);
                     }
                 });
             }
@@ -246,7 +257,7 @@ const parseFileContentsModule = {
             if(blob.prebuiltEntities.length > 0) {
                 blob.prebuiltEntities.forEach(function(prebuiltEntity){
                     let prebuiltTypeExists = false;
-                    for(fIndex in FinalLUISJSON.prebuiltEntities) {
+                    for(let fIndex in FinalLUISJSON.prebuiltEntities) {
                         if(prebuiltEntity.type === FinalLUISJSON.prebuiltEntities[fIndex].type) {
                             // do we have all the roles? if not, merge the roles
                             prebuiltEntity.roles.forEach(function(role) {
@@ -319,7 +330,7 @@ const mergeResults = function(blob, finalCollection, type) {
             }
             // add if this item if it does not already exist in final collection
             let itemExists = false;
-            for(fIndex in finalCollection[type]) {
+            for(let fIndex in finalCollection[type]) {
                 if(deepEqual(finalCollection[type][fIndex],blobItem)){
                     itemExists = true;
                     break;
@@ -635,13 +646,13 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
             if((utterance.indexOf('-') !== 0) &&
                 (utterance.indexOf('*') !== 0) && 
                 (utterance.indexOf('+') !== 0)) {
-                    throw ({
-                        errCode: retCode.errorCode.INVALID_UTTERANCE_DEF, 
-                        text: 'Utterance: "' + utterance + '" does not have list decoration. Prefix line with "-" or "+" or "*"'
-                    })
-                }
+                throw ({
+                    errCode: retCode.errorCode.INVALID_UTTERANCE_DEF,
+                    text: 'Utterance: "' + utterance + '" does not have list decoration. Prefix line with "-" or "+" or "*"'
+                })
+            }
             utterance = utterance.slice(1).trim();
-             // handle entities in the utterance
+            // handle entities in the utterance
             if(utterance.includes("{")) {
                 let entityRegex = new RegExp(/\{(.*?)\}/g);
                 let entitiesFound = utterance.match(entityRegex);
@@ -736,35 +747,52 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
  * @returns {void} Nothing
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
-const parseURLOrFileRef = function(parsedContent, type, chunkSplitByLine) {
+const parseURLOrFileRef = async function(parsedContent, type, chunkSplitByLine) {
     let urlRef_regex = chunkSplitByLine[0].trim().replace(type, '').split(/\(['"](.*?)['"]\)/g);
     switch(type) {
-        case PARSERCONSTS.URLREF: 
-            if(urlRef_regex.length !== 3 || urlRef_regex[1].trim() === '') {
-                throw(new exception(retCode.errorCode.INVALID_URL_REF, '[ERROR]: ' + 'Invalid URL Ref: ' + chunkSplitByLine[0]));
-            }
-            parsedContent.qnaJsonStructure.urls.push(urlRef_regex[1]);
+    case PARSERCONSTS.URLREF: 
+        if(urlRef_regex.length !== 3 || urlRef_regex[1].trim() === '') {
+            throw(new exception(retCode.errorCode.INVALID_URL_REF, '[ERROR]: ' + 'Invalid URL Ref: ' + chunkSplitByLine[0]));
+        }
+        parsedContent.qnaJsonStructure.urls.push(urlRef_regex[1]);
         break;
-        case PARSERCONSTS.FILEREF:
-            if(urlRef_regex.length !== 3 || urlRef_regex[1].trim() === '') {
-                throw(new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: ' + 'Invalid LU File Ref: ' + chunkSplitByLine[0]));
-            }
-            parsedContent.additionalFilesToParse.push(urlRef_regex[1]);
+    case PARSERCONSTS.FILEREF:
+        if(urlRef_regex.length !== 3 || urlRef_regex[1].trim() === '') {
+            throw(new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: ' + 'Invalid LU File Ref: ' + chunkSplitByLine[0]));
+        }
+        parsedContent.additionalFilesToParse.push(urlRef_regex[1]);
         break;
-        case PARSERCONSTS.URLORFILEREF:
-            let linkValueRegEx = new RegExp(/\(.*?\)/g);
-            let linkValueList = chunkSplitByLine[0].trim().match(linkValueRegEx);
-            let linkValue = linkValueList[0].replace('(','').replace(')','');
-            if(linkValue === '') {
-                throw(new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: Invalid LU File Ref: ' + chunkSplitByLine[0]));
+    case PARSERCONSTS.URLORFILEREF: {
+        let linkValueRegEx = new RegExp(/\(.*?\)/g);
+        let linkValueList = chunkSplitByLine[0].trim().match(linkValueRegEx);
+        let linkValueText = chunkSplitByLine[0].trim().split(linkValueRegEx)[0].replace('[', '').replace(']', '');
+        let linkValue = linkValueList[0].replace('(', '').replace(')', '');
+        if (linkValue === '') {
+            throw (new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: Invalid LU File Ref: ' + chunkSplitByLine[0]));
+        }
+        let parseUrl = url.parse(linkValue);
+        if (parseUrl.host || parseUrl.hostname) {
+            let options = { method: 'HEAD'};
+            let response;
+            try {
+                response = await fetch(linkValue, options);
+            } catch (err) {
+                // throw, invalid URI
+                throw(new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
             }
-            let parseUrl = url.parse(linkValue);
-            if (parseUrl.host || parseUrl.hostname) {
-                parsedContent.qnaJsonStructure.urls.push(linkValue);
+            if(!response.ok) throw(new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
+            let contentType = response.headers.get('content-type');
+            if(!contentType.includes('text/html')) {
+                parsedContent.qnaJsonStructure.files.push(new qnaFile(linkValue, linkValueText));
             } else {
-                parsedContent.additionalFilesToParse.push(linkValue);
+                parsedContent.qnaJsonStructure.urls.push(linkValue);
             }
+            
+        } else {
+            parsedContent.additionalFilesToParse.push(linkValue);
+        }
         break;
+    }
     }
 }
 /**

@@ -5,8 +5,7 @@
  */
 const program = require('commander');
 const chalk = require('chalk');
-const retCode = require('../lib/enums/CLI-errors');
-program.Command.prototype.unknownOption = function (flag) {
+program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
 };
@@ -19,8 +18,8 @@ program
     .alias('toqna')
     .parse(process.argv);
    
-    const commands = ['toluis', 'toqna']
-    if (!commands.includes(process.argv[2].toLowerCase())) {
-        process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
-        program.help();
-    }
+const commands = ['toluis', 'toqna']
+if (!commands.includes(process.argv[2].toLowerCase())) {
+    process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
+    program.help();
+}

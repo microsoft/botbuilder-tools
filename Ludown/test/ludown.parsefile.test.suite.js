@@ -2,8 +2,6 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-const chai = require('chai');
-const assert = chai.assert;
 const parseFile = require('../lib/parseFileContents');
 
 describe('With helper functions', function() {
@@ -19,17 +17,17 @@ $commPreference:phraseList
         parseFile.parseFile(luFile, false, 'en-us')
             .then(function(parsedContent) {
                 parseFile.validateLUISBlob(parsedContent.LUISJsonStructure)
-                    .then(res => done('Test fail. validateLUISBlob did not throw when expected!'))
-                    .catch(err => done())
+                    .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+                    .catch(() => done())
             })
-            .catch(err => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .catch(() => done('Test fail. validateLUISBlob did not throw when expected!'))
     });
 
     it('parseFile throws on invalid file refs', function(done) {
         let luFile = `[test]()`;
         parseFile.parseFile(luFile, false, 'en-us')
-            .then(res => done('Test fail. validateLUISBlob did not throw when expected!'))
-            .catch(err => done())
+            .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .catch(() => done())
     });
 
     it('parseFile throws on nested entity refs', function(done) {
@@ -37,8 +35,8 @@ $commPreference:phraseList
 - hi {userName=foo {lastName=bar}}
 `;
         parseFile.parseFile(luFile, false, 'en-us')
-            .then(res => done('Test fail. validateLUISBlob did not throw when expected!'))
-            .catch(err => done())
+            .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .catch(() => done())
     });
 
     it('parseFile throws if a QnA maker question does not have a list decoration', function(done) {
@@ -46,8 +44,8 @@ $commPreference:phraseList
 question 2
 `;
         parseFile.parseFile(luFile, false, 'en-us')
-            .then(res => done('Test fail. validateLUISBlob did not throw when expected!'))
-            .catch(err => done())
+            .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .catch(() => done())
     });
 
     it('parseFile throws if a QnA maker filter section does not have list decoration', function(done) {
@@ -56,8 +54,8 @@ question 2
 location = seattle
 `;
         parseFile.parseFile(luFile, false, 'en-us')
-            .then(res => done('Test fail. validateLUISBlob did not throw when expected!'))
-            .catch(err => done())
+            .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .catch(() => done())
     });
 
     it('parseFile throws if a QnA maker filter section does not have valid key = value pair', function(done) {
@@ -66,8 +64,8 @@ location = seattle
 - location
 `;
         parseFile.parseFile(luFile, false, 'en-us')
-            .then(res => done('Test fail. validateLUISBlob did not throw when expected!'))
-            .catch(err => done())
+            .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .catch(() => done())
     });
 
     it('parseFile parses multi-line answer correctly', function(done) {
@@ -78,8 +76,8 @@ test
 \`\`\`
 `;
         parseFile.parseFile(luFile, false, 'en-us')
-            .then(res => done())
-            .catch(err => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .then(() => done())
+            .catch(() => done('Test fail. validateLUISBlob did not throw when expected!'))
     });
 
     it('parseFile throws on conflicting phraseList definitions', function(done) {
@@ -91,8 +89,8 @@ test
 
 `;
         parseFile.parseFile(luFile, false, 'en-us')
-            .then(res => done('Test fail. validateLUISBlob did not throw when expected!'))
-            .catch(err => done())
+            .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .catch(() => done())
     });
 
     it('parseFile throws if phraseList value does not have list decoration', function(done) {
@@ -100,8 +98,8 @@ test
 m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
 `;
         parseFile.parseFile(luFile, false, 'en-us')
-            .then(res => done('Test fail. validateLUISBlob did not throw when expected!'))
-            .catch(err => done())
+            .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .catch(() => done())
     });
 
     it('parseFile throws if List synonyms do not have list decoration', function(done) {
@@ -109,8 +107,7 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
 m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
 `;
         parseFile.parseFile(luFile, false, 'en-us')
-            .then(res => done('Test fail. validateLUISBlob did not throw when expected!'))
-            .catch(err => done())
+            .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .catch(() => done())
     });
-    
 });

@@ -7,7 +7,7 @@ const program = require('commander');
 const chalk = require('chalk');
 const toLU = require('../lib/toLU');
 const retCode = require('../lib/enums/CLI-errors');
-program.Command.prototype.unknownOption = function (flag) {
+program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
 };
@@ -24,20 +24,20 @@ program
     .option('-s, --skip_header', '[Optional] Generate .lu file without the header comment')
     .parse(process.argv);
 
-    if (process.argv.length < 4) {
+if (process.argv.length < 4) {
+    program.help();
+} else {
+    if (!program.LUIS_File && !program.QNA_FILE && !program.QNA_ALTERATION_FILE) {
+        process.stderr.write(chalk.default.redBright(`\n  No LUIS input file or QnA Maker JSON or QnA Alteration file specified.`));
         program.help();
-    } else {
-        if (!program.LUIS_File && !program.QNA_FILE && !program.QNA_ALTERATION_FILE) {
-            process.stderr.write(chalk.default.redBright(`\n  No LUIS input file or QnA Maker JSON or QnA Alteration file specified.`));
-            program.help();
-        } 
-        toLU.generateMarkdown(program)
-            .then(function(){
-                process.exit(retCode.errorCode.SUCCESS);
-            })
-            .catch(function(err) {
-                process.stderr.write(chalk.default.redBright(err.text + '\n'));
-                process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
-                process.exit(err.errCode);
-            });  
     }
+    toLU.generateMarkdown(program)
+        .then(function () {
+            process.exit(retCode.errorCode.SUCCESS);
+        })
+        .catch(function (err) {
+            process.stderr.write(chalk.default.redBright(err.text + '\n'));
+            process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
+            process.exit(err.errCode);
+        });
+}

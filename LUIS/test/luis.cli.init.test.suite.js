@@ -27,40 +27,40 @@ describe('The LUIS cli init argument', () => {
             luisProcess.stdout.on('data', data => {
                 const message = (msgCt++ , data.toString().toLowerCase());
                 switch (msgCt) {
-                    case 1:
-                        assert(message.includes('this util will walk you through creating a .luisrc file'));
-                        assert(message.includes('press ^c at any time to quit.'));
-                        break;
+                case 1:
+                    assert(message.includes('this util will walk you through creating a .luisrc file'));
+                    assert(message.includes('press ^c at any time to quit.'));
+                    break;
 
-                    case 2:
-                        assert.equal('what is your luis authoring key (from luis.ai portal user settings page)? ', message);
-                        luisProcess.stdin.write(`${luisKey}\r`);
-                        break;
+                case 2:
+                    assert.equal('what is your luis authoring key (from luis.ai portal user settings page)? ', message);
+                    luisProcess.stdin.write(`${luisKey}\r`);
+                    break;
 
-                    case 3:
-                        assert.equal('what is your region? [westus, westeurope, australiaeast] ', message);
-                        luisProcess.stdin.write(`${location}\r`);
-                        break;
+                case 3:
+                    assert.equal('what is your region? [westus, westeurope, australiaeast] ', message);
+                    luisProcess.stdin.write(`${location}\r`);
+                    break;
 
-                    case 4:
-                        assert.equal('what is your luis app id? [default: skip] ', message);
-                        luisProcess.stdin.write(`${appId}\r`);
-                        break;
+                case 4:
+                    assert.equal('what is your luis app id? [default: skip] ', message);
+                    luisProcess.stdin.write(`${appId}\r`);
+                    break;
 
-                    case 5:
-                        assert.equal('what is your luis version id? [default: 0.1] ', message);
-                        luisProcess.stdin.write(`${versionId}\r`);
-                        break;
+                case 5:
+                    assert.equal('what is your luis version id? [default: 0.1] ', message);
+                    luisProcess.stdin.write(`${versionId}\r`);
+                    break;
 
-                    case 6:
-                        assert(message.includes('does this look ok?'));
-                        luisProcess.stdin.write('yes\r');
-                        break;
+                case 6:
+                    assert(message.includes('does this look ok?'));
+                    luisProcess.stdin.write('yes\r');
+                    break;
 
-                    case 7:
-                        assert(fs.statSync(rcPath));
-                        resolve();
-                        break;
+                case 7:
+                    assert(fs.statSync(rcPath));
+                    resolve();
+                    break;
                 }
             });
         });

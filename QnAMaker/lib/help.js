@@ -5,7 +5,6 @@
 const Table = require('cli-table3');
 const chalk = require('chalk');
 const path = require('path');
-const fs = require('fs');
 const txtfile = require('read-text-file');
 const manifest = require('./api/qnamaker');
 const windowSize = require('window-size');
@@ -28,14 +27,12 @@ module.exports = async function help(args, output) {
     let leftColWidth = 0;
     for (let hc of helpContents) {
         if (hc.table && hc.table[0].length > 0) {
-            const rows = hc.table[0].length;
             for (let row in hc.table) {
                 let len = hc.table[row][0].length;
                 if (len > leftColWidth) {
                     leftColWidth = Math.min(len, Math.floor(width / 3));
                 }
             }
-            let i = rows - 1;
         }
     }
 
@@ -133,9 +130,7 @@ let globalArgs = {
  *
  * @returns {*[]}
  */
-function getGeneralHelpContents(output) {
-    let operation;
-    let verbs = [];
+function getGeneralHelpContents() {
     let options = {
         head: chalk.bold(`Available actions are:`),
         table: [
@@ -168,7 +163,6 @@ function getGeneralHelpContents(output) {
  * @returns {*[]}
  */
 function getVerbHelp(verb, output) {
-    let operation;
     let targets = [];
     let options = {
         head: `Available resources for ${chalk.bold(verb)}:`,
@@ -178,25 +172,25 @@ function getVerbHelp(verb, output) {
     // special verbs
     let sections = [];
     switch (verb) {
-        case "query":
-            output.write(chalk.cyan.bold("qnamaker query --question <querytext>\n\n"));
-            options.table.push([chalk.cyan.bold("--question <query>"), "query to get a prediction for"]);
-            sections.push(options);
-            sections.push(configSection);
-            sections.push(globalArgs);
-            return sections;
+    case "query":
+        output.write(chalk.cyan.bold("qnamaker query --question <querytext>\n\n"));
+        options.table.push([chalk.cyan.bold("--question <query>"), "query to get a prediction for"]);
+        sections.push(options);
+        sections.push(configSection);
+        sections.push(globalArgs);
+        return sections;
 
-        case "set":
-            output.write(chalk.cyan.bold("qnamaker set <.qnamakerrcSetting> <value>\n\n"));
-            options.table.push([chalk.cyan.bold("kbid <kbid>"), "change the active knowledgebase id "]);
-            options.table.push([chalk.cyan.bold("subscriptionkey <subscriptionkey>"), "change the active subscriptionkey"]);
-            sections.push(options);
-            sections.push(globalArgs);
-            return sections;
-        case "init":
-            output.write(chalk.cyan.bold("qnamaker init\n\n"));
-            sections.push(globalArgs);
-            return sections;
+    case "set":
+        output.write(chalk.cyan.bold("qnamaker set <.qnamakerrcSetting> <value>\n\n"));
+        options.table.push([chalk.cyan.bold("kbid <kbid>"), "change the active knowledgebase id "]);
+        options.table.push([chalk.cyan.bold("subscriptionkey <subscriptionkey>"), "change the active subscriptionkey"]);
+        sections.push(options);
+        sections.push(globalArgs);
+        return sections;
+    case "init":
+        output.write(chalk.cyan.bold("qnamaker init\n\n"));
+        sections.push(globalArgs);
+        return sections;
     }
 
     for (let apiGroupName in manifest) {
@@ -233,12 +227,11 @@ function getVerbHelp(verb, output) {
  * @returns {*[]}
  */
 function getAllCommands() {
-    const table = [];
     let resourceTypes = [];
     let tables = {};
     Object.keys(manifest).forEach(key => {
         const { [key]: category } = manifest;
-        Object.keys(category.operations).forEach((operationKey, index) => {
+        Object.keys(category.operations).forEach((operationKey) => {
             let operation = category.operations[operationKey];
             let opCategory = operation.target[0] || operation.methodAlias;
             if (resourceTypes.indexOf(opCategory) < 0) {
@@ -252,7 +245,7 @@ function getAllCommands() {
     resourceTypes.sort();
 
     let sections = [];
-    for (resourceType of resourceTypes) {
+    for (let resourceType of resourceTypes) {
         tables[resourceType].sort((a, b) => a[0].localeCompare(b[0]));
         sections.push({
             head: chalk.white.bold(resourceType),
@@ -273,9 +266,8 @@ function getAllCommands() {
  *
  * @returns {Array}
  */
-function getHelpContentsForService(serviceManifest, output) {
+function getHelpContentsForService(serviceManifest) {
     const { operation } = serviceManifest;
-    const operations = serviceManifest.operation ? [operation] : serviceManifest.operations;
 
     const sections = [];
     // params table is shown only if we have a single

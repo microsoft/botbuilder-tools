@@ -9,10 +9,14 @@ class QnA {
     /**
      * @property {qnaListObj []} qnaList
      */
-    constructor(urls, qnaList) {
+    /**
+     * @property {string []} files
+     */
+    constructor(urls, qnaList, files) {
         this.urls = urls?urls:[];
         this.qnaList = qnaList?qnaList:[];
+        this.files = files?files:[];
     }
-};
+}
 
 module.exports = QnA;
