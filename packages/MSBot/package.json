@@ -3,6 +3,9 @@
   "version": "1.0.52",
   "description": "MSBot command line tool for manipulating Microsoft Bot Framework .bot files",
   "main": "bin/BotConfig.js",
+  "scripts": {
+    "build": "tsc"
+  },
   "bin": {
     "msbot": "bin/msbot.js"
   },
