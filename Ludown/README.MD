@@ -103,5 +103,6 @@ This CLI writes to stderr on error and stdout otherwise. CLI also returns the fo
 |SYNONYMS_NOT_A_LIST        | 18            |
 |PHRASELIST_NOT_A_LIST      | 19            |
 |TRANSLATE_SERVICE_FAIL     | 20            |
+|INVALID_URI                | 21            |
 |UNKNOWN_ERROR              | 99            |
 

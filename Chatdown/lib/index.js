@@ -2,6 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const fs = require('fs-extra');
 const path = require('path');
 const crypto = require('crypto');
@@ -17,6 +18,7 @@ const ConversationAccount = require('./serializable/conversationAccount');
 const Attachment = require('./serializable/attachment');
 const chalk = require('chalk');
 const request = require('request-promise-native');
+const NEWLINE = require('os').EOL;
 let activityId = 1;
 
 // Matches [someActivityOrInstruction=value]
@@ -41,7 +43,7 @@ module.exports = async function readContents(fileContents, args = {}) {
     // Resolve file paths based on the input file with a fallback to the cwd
     workingDirectory = args.in ? path.dirname(path.resolve(args.in)) : __dirname;
     const activities = [];
-    const lines = fileLineIterator(fileContents.trim() + '\n');
+    const lines = fileLineIterator(fileContents.trim() + NEWLINE);
     // Aggregate the contents of each line until
     // we reach a new activity.
     let aggregate = '';
@@ -50,7 +52,7 @@ module.exports = async function readContents(fileContents, args = {}) {
     let conversationId = getHashCode(fileContents);
 
     args.bot = 'bot';
-    users = [];
+    args.users = [];
     let inHeader = true;
     for (let line of lines) {
         // pick up settings from the first lines
@@ -60,13 +62,13 @@ module.exports = async function readContents(fileContents, args = {}) {
                 throw new Error('Malformed configurations options detected. Options must be in the format optionName=optionValue');
             }
             switch (optionName.trim()) {
-                case 'user':
-                case 'users':
-                    args.users = value.split(',');
-                    break;
-                case 'bot':
-                    args.bot = value.trim();
-                    break;
+            case 'user':
+            case 'users':
+                args.users = value.split(',');
+                break;
+            case 'bot':
+                args.bot = value.trim();
+                break;
             }
             continue;
         }
@@ -81,7 +83,6 @@ module.exports = async function readContents(fileContents, args = {}) {
         }
 
         // process transcript lines
-        const { user, bot } = args;
         if (args.newMessageRegEx.test(line)) {
 
             // process aggregate activites
@@ -117,11 +118,11 @@ module.exports = async function readContents(fileContents, args = {}) {
                 }
             }
             // aggregate starts new with this line
-            aggregate = line.substr(matches[0].length).trim() + "\n";
+            aggregate = line.substr(matches[0].length).trim() + NEWLINE;
         } else {
             // Not a new message but could contain
             // an activity on the line by itself.
-            aggregate += line + "\n";
+            aggregate += line + NEWLINE;
         }
     }
 
@@ -208,12 +209,12 @@ async function readCommandsFromAggregate(args, aggregate) {
     while ((result = commandRegExp.exec(aggregate))) {
         // typeOrField should always be listed first
         let match = result[1]; // result[] doesn't have [] on it
-        let lines = match.split('\n');
+        let lines = match.split(NEWLINE);
         let split = lines[0].indexOf('=');
         let typeOrField = split > 0 ? lines[0].substring(0, split).trim() : lines[0].trim();
         let rest = (split > 0) ? lines[0].substring(split + 1).trim() : undefined;
         if (lines.length > 1)
-            rest = match.substr(match.indexOf('\n') + 1);
+            rest = match.substr(match.indexOf(NEWLINE) + 1);
         const type = activitytypes[typeOrField.toLowerCase()];
         const field = activityfield[typeOrField.toLowerCase()];
         const instruction = instructions[typeOrField.toLowerCase()];
@@ -243,64 +244,65 @@ async function readCommandsFromAggregate(args, aggregate) {
             aggregate = aggregate.substr(result.index);
 
             switch (type) {
-                case activitytypes.typing:
-                    let newActivity = createActivity({ type, recipient: args.recipient, from: args.from, conversationId: args.conversation.id });
-                    newActivity.timestamp = getIncrementedDate(100);
-                    newActivities.push(newActivity);
-                    break;
-                case activitytypes.conversationupdate:
-                    processConversationUpdate(args, newActivities, rest);
-                    break;
+            case activitytypes.typing: {
+                let newActivity = createActivity({ type, recipient: args.recipient, from: args.from, conversationId: args.conversation.id });
+                newActivity.timestamp = getIncrementedDate(100);
+                newActivities.push(newActivity);
+                break;
+            }
+            case activitytypes.conversationupdate:
+                processConversationUpdate(args, newActivities, rest);
+                break;
             }
         }
         else if (instruction) {
             switch (instruction) {
-                case instructions.delay:
-                    delay = parseInt(rest);
-                    break;
+            case instructions.delay:
+                delay = parseInt(rest);
+                break;
             }
         }
         else if (field) {
             // As more activity fields are supported,
             // this should become a util or helper class.
             switch (field) {
-                case activityfield.attachment:
-                    await addAttachment(currentActivity, rest);
-                    break;
-                case activityfield.attachmentlayout:
-                    addAttachmentLayout(currentActivity, rest);
-                    break;
-                case activityfield.suggestions:
-                    addSuggestions(currentActivity, rest);
-                    break;
-                case activityfield.basiccard:
-                case activityfield.herocard:
-                    addCard(cardContentTypes.hero, currentActivity, rest);
-                    break;
-                case activityfield.thumbnailcard:
-                    addCard(cardContentTypes.thumbnail, currentActivity, rest);
-                    break;
-                case activityfield.animationcard:
-                    addCard(cardContentTypes.animation, currentActivity, rest);
-                    break;
-                case activityfield.mediacard:
-                    addCard(cardContentTypes.media, currentActivity, rest);
-                    break;
-                case activityfield.audiocard:
-                    addCard(cardContentTypes.audio, currentActivity, rest);
-                    break;
-                case activityfield.videocard:
-                    addCard(cardContentTypes.video, currentActivity, rest);
-                    break;
-                // case activityfield.receiptcard:
-                //     addCard(cardContentTypes.receipt, currentActivity, rest);
-                //     break;
-                case activityfield.signincard:
-                    addCard(cardContentTypes.signin, currentActivity, rest);
-                    break;
-                case activityfield.oauthcard:
-                    addCard(cardContentTypes.oauth, currentActivity, rest);
-                    break;
+            case activityfield.attachment:
+                await addAttachment(currentActivity, rest);
+                break;
+            case activityfield.attachmentlayout:
+                addAttachmentLayout(currentActivity, rest);
+                break;
+            case activityfield.suggestions:
+                addSuggestions(currentActivity, rest);
+                break;
+            case activityfield.basiccard:
+            case activityfield.herocard:
+                addCard(cardContentTypes.hero, currentActivity, rest);
+                break;
+            case activityfield.thumbnailcard:
+                addCard(cardContentTypes.thumbnail, currentActivity, rest);
+                break;
+            case activityfield.animationcard:
+                addCard(cardContentTypes.animation, currentActivity, rest);
+                break;
+            case activityfield.mediacard:
+                addCard(cardContentTypes.media, currentActivity, rest);
+                break;
+            case activityfield.audiocard:
+                addCard(cardContentTypes.audio, currentActivity, rest);
+                break;
+            case activityfield.videocard:
+                addCard(cardContentTypes.video, currentActivity, rest);
+                break;
+            // case activityfield.receiptcard:
+            //     addCard(cardContentTypes.receipt, currentActivity, rest);
+            //     break;
+            case activityfield.signincard:
+                addCard(cardContentTypes.signin, currentActivity, rest);
+                break;
+            case activityfield.oauthcard:
+                addCard(cardContentTypes.oauth, currentActivity, rest);
+                break;
             }
         }
         // Trim off this activity or activity field and continue.
@@ -329,30 +331,31 @@ function processConversationUpdate(args, activities, rest) {
     conversationUpdate.timestamp = getIncrementedDate(100);
 
     let lines = rest.split('\n');
-    for (line of lines) {
-        let start = line.indexOf('=');;
+    for (let line of lines) {
+        let start = line.indexOf('=');
         let property = line.substr(0, start).trim().toLowerCase();
         let value = line.substr(start + 1).trim();
         switch (property) {
-            case 'added':
-            case 'membersadded':
-                let membersAdded = value.split(',');
-                for (memberAdded of membersAdded) {
-                    memberAdded = memberAdded.trim();
-                    conversationUpdate.membersAdded.push(args.accounts[memberAdded.toLowerCase()]);
-                }
-                break;
-            case 'removed':
-            case 'membersremoved':
-                let membersRemoved = value.split(',');
-                for (memberRemoved of membersRemoved) {
-                    memberRemoved = memberRemoved.trim();
-                    conversationUpdate.membersRemoved.push(args.accounts[memberRemoved.toLowerCase()]);
-                }
-                break;
-            default:
-                throw new Error(`Unknown ConversationUpdate Property ${property}`);
-                break;
+        case 'added':
+        case 'membersadded': {
+            let membersAdded = value.split(',');
+            for (let memberAdded of membersAdded) {
+                memberAdded = memberAdded.trim();
+                conversationUpdate.membersAdded.push(args.accounts[memberAdded.toLowerCase()]);
+            }
+            break;
+        }
+        case 'removed':
+        case 'membersremoved': {
+            let membersRemoved = value.split(',');
+            for (let memberRemoved of membersRemoved) {
+                memberRemoved = memberRemoved.trim();
+                conversationUpdate.membersRemoved.push(args.accounts[memberRemoved.toLowerCase()]);
+            }
+            break;
+        }
+        default:
+            throw new Error(`Unknown ConversationUpdate Property ${property}`);
         }
     }
     activities.push(conversationUpdate);
@@ -378,7 +381,7 @@ function addAttachmentLayout(currentActivity, rest) {
 function addSuggestions(currentActivity, rest) {
     currentActivity.suggestedActions = { actions: [] };
     let actions = rest.split('|');
-    for (action of actions) {
+    for (let action of actions) {
         currentActivity.suggestedActions.actions.push({ title: action.trim(), type: "imBack", value: action.trim() });
     }
 }
@@ -397,48 +400,48 @@ function addSuggestions(currentActivity, rest) {
 function addCard(contentType, currentActivity, rest) {
     let card = { buttons: [] };
     let lines = rest.split('\n');
-    for (line of lines) {
-        let start = line.indexOf('=');;
+    for (let line of lines) {
+        let start = line.indexOf('=');
         let property = line.substr(0, start).trim().toLowerCase();
         let value = line.substr(start + 1).trim().toLowerCase();
         switch (property) {
-            case 'title':
-            case 'subtitle':
-            case 'text':
-            case 'aspect':
-            case 'value':
-            case 'connectioname':
-                card[property] = value;
-                break;
-            case 'image':
-                card.image = { url: value };
-                break;
-            case 'images':
-                if (!card.images) {
-                    card.images = [];
-                }
-                card.images.push({ url: value });
-                break;
-            case 'media':
-                if (!card.media)
-                    card.media = [];
-                card.media.push({ url: value });
-                break;
-            case 'buttons':
-                for (button of value.split('|')) {
-                    card.buttons.push({ title: button.trim(), type: "imBack", value: button.trim() });
-                }
-                break;
-            case 'autostart':
-            case 'sharable':
-            case 'autoloop':
-                card[property] = value.toLowerCase() == 'true';
-                break;
-            case '':
-                break;
-            default:
-                console.warn(chalk.red.bold(`Skipping unknown card property ${property}\n${line}`));
-                break;
+        case 'title':
+        case 'subtitle':
+        case 'text':
+        case 'aspect':
+        case 'value':
+        case 'connectioname':
+            card[property] = value;
+            break;
+        case 'image':
+            card.image = { url: value };
+            break;
+        case 'images':
+            if (!card.images) {
+                card.images = [];
+            }
+            card.images.push({ url: value });
+            break;
+        case 'media':
+            if (!card.media)
+                card.media = [];
+            card.media.push({ url: value });
+            break;
+        case 'buttons':
+            for (let button of value.split('|')) {
+                card.buttons.push({ title: button.trim(), type: "imBack", value: button.trim() });
+            }
+            break;
+        case 'autostart':
+        case 'sharable':
+        case 'autoloop':
+            card[property] = value.toLowerCase() == 'true';
+            break;
+        case '':
+            break;
+        default:
+            console.warn(chalk.red.bold(`Skipping unknown card property ${property}\n${line}`));
+            break;
         }
     }
     let attachment = { contentType: contentType, content: card };
@@ -545,7 +548,7 @@ function getIncrementedDate(byThisAmount = messageTimeGap) {
  */
 function* fileLineIterator(fileContents) {
     var parts = fileContents.split(/\r?\n/);
-    for (part of parts) {
+    for (let part of parts) {
         yield part;
     }
 }
