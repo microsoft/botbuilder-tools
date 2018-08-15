@@ -1215,7 +1215,7 @@ exports.LuisApp = {
                     }
                 }
             },
-            modelFeatures: {
+            model_features: {
                 serializedName: "model_features",
                 type: {
                     name: "Sequence",

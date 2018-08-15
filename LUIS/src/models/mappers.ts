@@ -1258,7 +1258,7 @@ export const LuisApp: msRest.CompositeMapper = {
           }
         }
       },
-      modelFeatures: {
+      model_features: {
         serializedName: "model_features",
         type: {
           name: "Sequence",
