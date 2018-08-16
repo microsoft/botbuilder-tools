@@ -4,12 +4,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const botframework_config_1 = require("botframework-config");
 const chalk = require("chalk");
 const program = require("commander");
 const fsx = require("fs-extra");
 const readline = require("readline-sync");
-const BotConfig_1 = require("./BotConfig");
-const schema_1 = require("./schema");
 program.Command.prototype.unknownOption = function (flag) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.help();
@@ -36,9 +35,7 @@ if (!args.quiet) {
         exists = fsx.existsSync(`${args.name}.bot`);
     }
     if (!args.secret || args.secret.length == 0) {
-        let answer = readline.question(`Would you to secure your bot keys with a secret? [no]`);
-        if (answer == 'y' || answer == 'yes')
-            args.secret = readline.question(`What secret would you like to use? `);
+        args.secret = readline.question(`What secret would you like to use to encrypt your keys? `);
     }
     if (!args.description || args.description.length == 0) {
         args.description = readline.question(`What description would you like for your bot? `);
@@ -68,11 +65,11 @@ if (!args.name) {
     console.error('missing --name argument');
 }
 else {
-    const bot = new BotConfig_1.BotConfig(args.secret);
+    const bot = new botframework_config_1.BotConfiguration();
     bot.name = args.name;
     bot.description = args.description;
     bot.connectService({
-        type: schema_1.ServiceType.Endpoint,
+        type: botframework_config_1.ServiceTypes.Endpoint,
         name: args.name,
         endpoint: args.endpoint,
         description: args.description,
@@ -80,10 +77,8 @@ else {
         appId: args.appId || '',
         appPassword: args.appPassword || ''
     });
-    if (args.secret && args.secret.length > 0)
-        bot.validateSecretKey();
     let filename = bot.name + '.bot';
-    bot.save(filename);
+    bot.save(filename, args.secret);
     console.log(`${filename} created`);
 }
 //# sourceMappingURL=msbot-init.js.map

@@ -4,14 +4,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const botframework_config_1 = require("botframework-config");
 const chalk = require("chalk");
 const program = require("commander");
 const getStdin = require("get-stdin");
-const validurl = require("valid-url");
 const txtfile = require("read-text-file");
-const BotConfig_1 = require("./BotConfig");
-const models_1 = require("./models");
-const schema_1 = require("./schema");
+const validurl = require("valid-url");
 const utils_1 = require("./utils");
 program.Command.prototype.unknownOption = function (flag) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -40,7 +38,7 @@ if (process.argv.length < 3) {
 }
 else {
     if (!args.bot) {
-        BotConfig_1.BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        botframework_config_1.BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectAzureArgs)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -48,7 +46,7 @@ else {
         });
     }
     else {
-        BotConfig_1.BotConfig.Load(args.bot, args.secret)
+        botframework_config_1.BotConfiguration.load(args.bot, args.secret)
             .then(processConnectAzureArgs)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -72,8 +70,8 @@ async function processConnectAzureArgs(config) {
     if (!args.resourceGroup || args.resourceGroup.length == 0)
         throw new Error('Bad or missing --resourceGroup for registered bot');
     let services = [];
-    let service = new models_1.AzureBotService({
-        type: schema_1.ServiceType.AzureBotService,
+    let service = new botframework_config_1.AzureBotService({
+        type: botframework_config_1.ServiceTypes.AzureBotService,
         id: args.id,
         name: args.hasOwnProperty('name') ? args.name : args.id,
         tenantId: args.tenantId,
@@ -83,14 +81,14 @@ async function processConnectAzureArgs(config) {
     config.connectService(service);
     services.push(service);
     if (args.endpoint) {
-        if (!args.endpoint || !validurl.isHttpsUri(args.endpoint))
+        if (!args.endpoint || !(validurl.isHttpUri(args.endpoint) || !validurl.isHttpsUri(args.endpoint)))
             throw new Error('Bad or missing --endpoint');
         if (!args.appId || !utils_1.uuidValidate(args.appId))
             throw new Error('Bad or missing --appId');
         if (!args.appPassword || args.appPassword.length == 0)
             throw new Error('Bad or missing --appPassword');
-        let endpointService = new models_1.EndpointService({
-            type: schema_1.ServiceType.Endpoint,
+        let endpointService = new botframework_config_1.EndpointService({
+            type: botframework_config_1.ServiceTypes.Endpoint,
             id: args.endpoint,
             name: args.name || args.endpoint,
             appId: args.appId,
@@ -100,7 +98,7 @@ async function processConnectAzureArgs(config) {
         config.connectService(endpointService);
         services.push(endpointService);
     }
-    await config.save();
+    await config.save(undefined, args.secret);
     process.stdout.write(JSON.stringify(services, null, 2));
     return config;
 }

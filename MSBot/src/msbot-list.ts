@@ -2,11 +2,10 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+import { BotConfiguration, IBotConfiguration } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
-import { BotConfig } from './BotConfig';
-import { IBotConfig } from './schema';
 
 program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -28,14 +27,14 @@ program
 let parsed = <ListArgs><any>program.parse(process.argv);
 
 if (!parsed.bot) {
-    BotConfig.LoadBotFromFolder(process.cwd(), parsed.secret)
+    BotConfiguration.loadBotFromFolder(process.cwd(), parsed.secret)
         .then(processListArgs)
         .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
             showErrorHelp();
         });
 } else {
-    BotConfig.Load(parsed.bot, parsed.secret)
+    BotConfiguration.load(parsed.bot, parsed.secret)
         .then(processListArgs)
         .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -44,10 +43,10 @@ if (!parsed.bot) {
 }
 
 
-async function processListArgs(config: BotConfig): Promise<BotConfig> {
+async function processListArgs(config: BotConfiguration): Promise<BotConfiguration> {
     let services = config.services;
 
-    console.log(JSON.stringify(<IBotConfig>{
+    console.log(JSON.stringify(<IBotConfiguration>{
         name: config.name,
         description: config.description,
         services: config.services

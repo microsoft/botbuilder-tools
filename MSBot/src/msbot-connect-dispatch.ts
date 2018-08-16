@@ -2,15 +2,11 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+import { BotConfiguration, DispatchService, IConnectedService, IDispatchService, ILuisService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as fs from 'fs-extra';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { Enumerable } from 'linq-collections';
-import { BotConfig } from './BotConfig';
-import { DispatchService } from './models';
-import { IConnectedService, IDispatchService, ILuisService, ServiceType } from './schema';
 import { uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = function (flag: any) {
@@ -18,11 +14,12 @@ program.Command.prototype.unknownOption = function (flag: any) {
     showErrorHelp();
 };
 
-interface ConnectLuisArgs extends ILuisService {
+interface ConnectDispatchArgs extends ILuisService {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
+    serviceIds?:string;
 }
 
 program
@@ -33,6 +30,7 @@ program
     .option('-v, --version <version>', 'version for the dispatch app, (example: 0.1)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating the dispatch model via the LUIS authoring API\n')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
+    .option('--serviceIds <serviceIds>', '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
@@ -42,20 +40,20 @@ program
 
     });
 
-let args = <ConnectLuisArgs><any>program.parse(process.argv);
+let args = <ConnectDispatchArgs><any>program.parse(process.argv);
 
 if (process.argv.length < 3) {
     program.help();
 } else {
     if (!args.bot) {
-        BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectDispatch)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
-        BotConfig.Load(args.bot, args.secret)
+        BotConfiguration.load(args.bot, args.secret)
             .then(processConnectDispatch)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -64,7 +62,7 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processConnectDispatch(config: BotConfig): Promise<BotConfig> {
+async function processConnectDispatch(config: BotConfiguration): Promise<BotConfiguration> {
     args.name = args.hasOwnProperty('name') ? args.name : config.name;
 
     if (args.stdin) {
@@ -91,34 +89,36 @@ async function processConnectDispatch(config: BotConfig): Promise<BotConfig> {
 
     if (!args.id)
         args.id = args.appId;
-        
+
     const newService = new DispatchService(<IDispatchService><any>args);
 
-    const dispatchServices = <IConnectedService[]>(<any>args).services;
+    if (!args.serviceIds) {
+        // default to all services as appropriate
+        const dispatchServices = <IConnectedService[]>(<any>args).services;
 
-    if (<IConnectedService[]>dispatchServices) {
-        for (let service of dispatchServices) {
-            newService.serviceIds.push(service.id || '');
-            if (!Enumerable.fromSource(config.services).any(s => s.id == service.id)) {
+        if (<IConnectedService[]>dispatchServices) {
+            for (let service of dispatchServices) {
                 switch (service.type) {
-                    case ServiceType.File:
-                    case ServiceType.Luis:
-                    case ServiceType.QnA:
-                        config.connectService(service);
+                    case ServiceTypes.File:
+                    case ServiceTypes.Luis:
+                    case ServiceTypes.QnA:
+                        newService.serviceIds.push(service.id || '');
                         break;
                 }
             }
         }
+    } else {
+        newService.serviceIds = args.serviceIds.split(',');
     }
+
     // add the service
     config.connectService(newService);
-    await config.save();
+    await config.save(undefined, args.secret);
     process.stdout.write(JSON.stringify(newService, null, 2));
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const botframework_config_1 = require("botframework-config");
 const chalk = require("chalk");
 const program = require("commander");
-const BotConfig_1 = require("./BotConfig");
 program.Command.prototype.unknownOption = function (flag) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
@@ -16,6 +16,7 @@ program
     .arguments('<service_id_or_Name>')
     .description('disconnect a connected service by id or name')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
+    .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .action((idOrName, actions) => {
     actions.idOrName = idOrName;
 });
@@ -25,7 +26,7 @@ if (process.argv.length < 3) {
 }
 else {
     if (!args.bot) {
-        BotConfig_1.BotConfig.LoadBotFromFolder(process.cwd())
+        botframework_config_1.BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectAzureArgs)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -33,7 +34,7 @@ else {
         });
     }
     else {
-        BotConfig_1.BotConfig.Load(args.bot)
+        botframework_config_1.BotConfiguration.load(args.bot, args.secret)
             .then(processConnectAzureArgs)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -47,7 +48,7 @@ async function processConnectAzureArgs(config) {
     }
     let removedService = config.disconnectServiceByNameOrId(args.idOrName);
     if (removedService != null) {
-        await config.save();
+        await config.save(undefined, args.secret);
         process.stdout.write(`Disconnected ${removedService.type}:${removedService.name} ${removedService.id}`);
     }
     return config;

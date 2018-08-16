@@ -2,12 +2,11 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+import { BotConfiguration, IEndpointService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as fsx from 'fs-extra';
 import * as readline from 'readline-sync';
-import { BotConfig } from './BotConfig';
-import { IEndpointService, ServiceType } from './schema';
 
 program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -50,9 +49,7 @@ if (!args.quiet) {
     }
 
     if (!args.secret || args.secret.length == 0) {
-        let answer = readline.question(`Would you to secure your bot keys with a secret? [no]`);
-        if (answer == 'y' || answer == 'yes')
-            args.secret = readline.question(`What secret would you like to use? `);
+        args.secret = readline.question(`What secret would you like to use to encrypt your keys? `);
     }
 
     if (!args.description || args.description.length == 0) {
@@ -87,12 +84,12 @@ if (!args.name) {
     console.error('missing --name argument');
 }
 else {
-    const bot = new BotConfig(args.secret);
+    const bot = new BotConfiguration();
     bot.name = args.name;
     bot.description = args.description;
 
     bot.connectService(<IEndpointService>{
-        type: ServiceType.Endpoint,
+        type: ServiceTypes.Endpoint,
         name: args.name,
         endpoint: args.endpoint,
         description: args.description,
@@ -101,11 +98,8 @@ else {
         appPassword: args.appPassword || ''
     });
 
-    if (args.secret && args.secret.length > 0)
-        bot.validateSecretKey();
-
     let filename = bot.name + '.bot';
-    bot.save(filename);
+    bot.save(filename, args.secret);
     console.log(`${filename} created`);
 
 }

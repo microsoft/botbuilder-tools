@@ -4,14 +4,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const botframework_config_1 = require("botframework-config");
 const chalk = require("chalk");
 const program = require("commander");
 const getStdin = require("get-stdin");
 const txtfile = require("read-text-file");
-const linq_collections_1 = require("linq-collections");
-const BotConfig_1 = require("./BotConfig");
-const models_1 = require("./models");
-const schema_1 = require("./schema");
 const utils_1 = require("./utils");
 program.Command.prototype.unknownOption = function (flag) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -25,6 +22,7 @@ program
     .option('-v, --version <version>', 'version for the dispatch app, (example: 0.1)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating the dispatch model via the LUIS authoring API\n')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
+    .option('--serviceIds <serviceIds>', '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
@@ -37,7 +35,7 @@ if (process.argv.length < 3) {
 }
 else {
     if (!args.bot) {
-        BotConfig_1.BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        botframework_config_1.BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectDispatch)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -45,7 +43,7 @@ else {
         });
     }
     else {
-        BotConfig_1.BotConfig.Load(args.bot, args.secret)
+        botframework_config_1.BotConfiguration.load(args.bot, args.secret)
             .then(processConnectDispatch)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -73,25 +71,28 @@ async function processConnectDispatch(config) {
         throw new Error('bad --subscriptionKey');
     if (!args.id)
         args.id = args.appId;
-    const newService = new models_1.DispatchService(args);
-    const dispatchServices = args.services;
-    if (dispatchServices) {
-        for (let service of dispatchServices) {
-            newService.serviceIds.push(service.id || '');
-            if (!linq_collections_1.Enumerable.fromSource(config.services).any(s => s.id == service.id)) {
+    const newService = new botframework_config_1.DispatchService(args);
+    if (!args.serviceIds) {
+        // default to all services as appropriate
+        const dispatchServices = args.services;
+        if (dispatchServices) {
+            for (let service of dispatchServices) {
                 switch (service.type) {
-                    case schema_1.ServiceType.File:
-                    case schema_1.ServiceType.Luis:
-                    case schema_1.ServiceType.QnA:
-                        config.connectService(service);
+                    case botframework_config_1.ServiceTypes.File:
+                    case botframework_config_1.ServiceTypes.Luis:
+                    case botframework_config_1.ServiceTypes.QnA:
+                        newService.serviceIds.push(service.id || '');
                         break;
                 }
             }
         }
     }
+    else {
+        newService.serviceIds = args.serviceIds.split(',');
+    }
     // add the service
     config.connectService(newService);
-    await config.save();
+    await config.save(undefined, args.secret);
     process.stdout.write(JSON.stringify(newService, null, 2));
     return config;
 }

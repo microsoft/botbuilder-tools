@@ -2,16 +2,13 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+import { BotConfiguration, EndpointService, IEndpointService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as fs from 'fs-extra';
 import * as getStdin from 'get-stdin';
-import * as txtfile from 'read-text-file';
 import { Enumerable } from 'linq-collections';
+import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
-import { BotConfig } from './BotConfig';
-import { EndpointService } from './models';
-import { IEndpointService, ServiceType } from './schema';
 import { uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = function (flag: any) {
@@ -49,14 +46,14 @@ if (process.argv.length < 3) {
 } else {
 
     if (!args.bot) {
-        BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectEndpointArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();           
             });
     } else {
-        BotConfig.Load(args.bot, args.secret)
+        BotConfiguration.load(args.bot, args.secret)
             .then(processConnectEndpointArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -65,7 +62,7 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processConnectEndpointArgs(config: BotConfig): Promise<BotConfig> {
+async function processConnectEndpointArgs(config: BotConfiguration): Promise<BotConfiguration> {
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
     }
@@ -99,7 +96,7 @@ async function processConnectEndpointArgs(config: BotConfig): Promise<BotConfig>
         id = `${idCount}`;
 
         if (Enumerable.fromSource(config.services)
-            .where(s => s.type == ServiceType.Endpoint && s.id == id)
+            .where(s => s.type == ServiceTypes.Endpoint && s.id == id)
             .any() == false)
             break;
 
@@ -114,7 +111,7 @@ async function processConnectEndpointArgs(config: BotConfig): Promise<BotConfig>
     } as IEndpointService);
     config.connectService(newService);
 
-    await config.save();
+    await config.save(undefined, args.secret);
     process.stdout.write(JSON.stringify(newService, null, 2));
     return config;
 }

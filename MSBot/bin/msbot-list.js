@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const botframework_config_1 = require("botframework-config");
 const chalk = require("chalk");
 const program = require("commander");
 const process = require("process");
-const BotConfig_1 = require("./BotConfig");
 program.Command.prototype.unknownOption = function (flag) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
@@ -20,7 +20,7 @@ program
 });
 let parsed = program.parse(process.argv);
 if (!parsed.bot) {
-    BotConfig_1.BotConfig.LoadBotFromFolder(process.cwd(), parsed.secret)
+    botframework_config_1.BotConfiguration.loadBotFromFolder(process.cwd(), parsed.secret)
         .then(processListArgs)
         .catch((reason) => {
         console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -28,7 +28,7 @@ if (!parsed.bot) {
     });
 }
 else {
-    BotConfig_1.BotConfig.Load(parsed.bot, parsed.secret)
+    botframework_config_1.BotConfiguration.load(parsed.bot, parsed.secret)
         .then(processListArgs)
         .catch((reason) => {
         console.error(chalk.default.redBright(reason.toString().split('\n')[0]));

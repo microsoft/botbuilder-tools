@@ -4,15 +4,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const botframework_config_1 = require("botframework-config");
 const chalk = require("chalk");
 const program = require("commander");
 const getStdin = require("get-stdin");
-const txtfile = require("read-text-file");
 const linq_collections_1 = require("linq-collections");
+const txtfile = require("read-text-file");
 const validurl = require("valid-url");
-const BotConfig_1 = require("./BotConfig");
-const models_1 = require("./models");
-const schema_1 = require("./schema");
 const utils_1 = require("./utils");
 program.Command.prototype.unknownOption = function (flag) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -37,7 +35,7 @@ if (process.argv.length < 3) {
 }
 else {
     if (!args.bot) {
-        BotConfig_1.BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        botframework_config_1.BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectEndpointArgs)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -45,7 +43,7 @@ else {
         });
     }
     else {
-        BotConfig_1.BotConfig.Load(args.bot, args.secret)
+        botframework_config_1.BotConfiguration.load(args.bot, args.secret)
             .then(processConnectEndpointArgs)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -80,12 +78,12 @@ async function processConnectEndpointArgs(config) {
     while (true) {
         id = `${idCount}`;
         if (linq_collections_1.Enumerable.fromSource(config.services)
-            .where(s => s.type == schema_1.ServiceType.Endpoint && s.id == id)
+            .where(s => s.type == botframework_config_1.ServiceTypes.Endpoint && s.id == id)
             .any() == false)
             break;
         idCount++;
     }
-    let newService = new models_1.EndpointService({
+    let newService = new botframework_config_1.EndpointService({
         id,
         name: args.name,
         appId: (args.appId && args.appId.length > 0) ? args.appId : '',
@@ -93,7 +91,7 @@ async function processConnectEndpointArgs(config) {
         endpoint: args.endpoint
     });
     config.connectService(newService);
-    await config.save();
+    await config.save(undefined, args.secret);
     process.stdout.write(JSON.stringify(newService, null, 2));
     return config;
 }

@@ -2,9 +2,9 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+import { BotConfiguration } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import { BotConfig } from './BotConfig';
 
 program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
@@ -33,14 +33,14 @@ if (process.argv.length < 3) {
     showErrorHelp();
 } else {
     if (!args.bot) {
-        BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processSecret)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
-        BotConfig.Load(args.bot, args.secret)
+        BotConfiguration.load(args.bot, args.secret)
             .then(processSecret)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -49,15 +49,13 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processSecret(config: BotConfig): Promise<BotConfig> {
-    config.validateSecretKey();
+async function processSecret(config: BotConfiguration): Promise<BotConfiguration> {
     if (args.clear) {
         config.clearSecret();
+        delete args.secret;
     }
 
-
-    let filename = config.name + '.bot';
-    config.save(filename);
+    await config.save(undefined, args.secret);
     return config;
 }
 

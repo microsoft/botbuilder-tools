@@ -2,9 +2,9 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+import { BotConfiguration } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import { BotConfig } from './BotConfig';
 
 program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -14,6 +14,7 @@ program.Command.prototype.unknownOption = function (flag: any) {
 interface DisconnectServiceArgs {
     bot: string;
     idOrName: string;
+    secret: string;
 }
 
 program
@@ -21,6 +22,7 @@ program
     .arguments('<service_id_or_Name>')
     .description('disconnect a connected service by id or name')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
+    .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .action((idOrName, actions) => {
         actions.idOrName = idOrName;
     });
@@ -31,14 +33,14 @@ if (process.argv.length < 3) {
     program.help();
 } else {
     if (!args.bot) {
-        BotConfig.LoadBotFromFolder(process.cwd())
+        BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectAzureArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
-        BotConfig.Load(args.bot)
+        BotConfiguration.load(args.bot, args.secret)
             .then(processConnectAzureArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -47,14 +49,14 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
+async function processConnectAzureArgs(config: BotConfiguration): Promise<BotConfiguration> {
     if (!args.idOrName) {
         throw new Error('missing id or name of service to disconnect');
     }
 
     let removedService = config.disconnectServiceByNameOrId(args.idOrName);
     if (removedService != null) {
-        await config.save();
+        await config.save(undefined, args.secret);
         process.stdout.write(`Disconnected ${removedService.type}:${removedService.name} ${removedService.id}`);
     }
 
@@ -62,8 +64,7 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
 }
 
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

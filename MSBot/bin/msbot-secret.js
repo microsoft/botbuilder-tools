@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const botframework_config_1 = require("botframework-config");
 const chalk = require("chalk");
 const program = require("commander");
-const BotConfig_1 = require("./BotConfig");
 program.Command.prototype.unknownOption = function (flag) {
     console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
     showErrorHelp();
@@ -25,7 +25,7 @@ if (process.argv.length < 3) {
 }
 else {
     if (!args.bot) {
-        BotConfig_1.BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        botframework_config_1.BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processSecret)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -33,7 +33,7 @@ else {
         });
     }
     else {
-        BotConfig_1.BotConfig.Load(args.bot, args.secret)
+        botframework_config_1.BotConfiguration.load(args.bot, args.secret)
             .then(processSecret)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -42,12 +42,11 @@ else {
     }
 }
 async function processSecret(config) {
-    config.validateSecretKey();
     if (args.clear) {
         config.clearSecret();
+        delete args.secret;
     }
-    let filename = config.name + '.bot';
-    config.save(filename);
+    await config.save(undefined, args.secret);
     return config;
 }
 function showErrorHelp() {

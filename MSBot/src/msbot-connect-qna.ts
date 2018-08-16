@@ -2,16 +2,13 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+import { BotConfiguration, IQnAService, QnaMakerService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as fs from 'fs-extra';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { BotConfig } from './BotConfig';
-import { QnaMakerService } from './models';
-import { IQnAService, ServiceType } from './schema';
-import { uuidValidate } from './utils';
 import * as validurl from 'valid-url';
+import { uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -50,14 +47,14 @@ if (process.argv.length < 3) {
     program.help();
 } else {
     if (!args.bot) {
-        BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectQnaArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
-        BotConfig.Load(args.bot, args.secret)
+        BotConfiguration.load(args.bot, args.secret)
             .then(processConnectQnaArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -66,7 +63,7 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processConnectQnaArgs(config: BotConfig): Promise<BotConfig> {
+async function processConnectQnaArgs(config: BotConfiguration): Promise<BotConfiguration> {
     args.name = args.hasOwnProperty('name') ? args.name : config.name;
 
     if (args.stdin) {
@@ -95,7 +92,7 @@ async function processConnectQnaArgs(config: BotConfig): Promise<BotConfig> {
     let newService = new QnaMakerService(args);
     config.connectService(newService);
 
-    await config.save();
+    await config.save(undefined, args.secret);
     process.stdout.write(JSON.stringify(newService, null, 2));
     return config;
 }

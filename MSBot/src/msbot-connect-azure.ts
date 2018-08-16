@@ -2,15 +2,12 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+import { AzureBotService, BotConfiguration, EndpointService, IAzureBotService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as fs from 'fs-extra';
 import * as getStdin from 'get-stdin';
-import * as validurl from 'valid-url';
 import * as txtfile from 'read-text-file';
-import { BotConfig } from './BotConfig';
-import { AzureBotService, EndpointService } from './models';
-import { IAzureBotService, ServiceType } from './schema';
+import * as validurl from 'valid-url';
 import { uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = function (flag: any) {
@@ -54,14 +51,14 @@ if (process.argv.length < 3) {
     program.help();
 } else {
     if (!args.bot) {
-        BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectAzureArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
-        BotConfig.Load(args.bot, args.secret)
+        BotConfiguration.load(args.bot, args.secret)
             .then(processConnectAzureArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -70,7 +67,7 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
+async function processConnectAzureArgs(config: BotConfiguration): Promise<BotConfiguration> {
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
     }
@@ -91,7 +88,7 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
         throw new Error('Bad or missing --resourceGroup for registered bot');
     let services=[];
     let service = new AzureBotService({
-        type: ServiceType.AzureBotService,
+        type: ServiceTypes.AzureBotService,
         id: args.id, // bot id
         name: args.hasOwnProperty('name') ? args.name : args.id,
         tenantId: args.tenantId,
@@ -101,7 +98,7 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
     config.connectService(service);
     services.push(service);
     if (args.endpoint) {
-        if (!args.endpoint || !validurl.isHttpsUri(args.endpoint))
+        if (!args.endpoint ||  !(validurl.isHttpUri(args.endpoint) || !validurl.isHttpsUri(args.endpoint)))
             throw new Error('Bad or missing --endpoint');
 
         if (!args.appId || !uuidValidate(args.appId))
@@ -112,7 +109,7 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
 
 
         let endpointService = new EndpointService({
-            type: ServiceType.Endpoint,
+            type: ServiceTypes.Endpoint,
             id: args.endpoint,
             name: args.name || args.endpoint,
             appId: args.appId,
@@ -122,7 +119,7 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
         config.connectService(endpointService);
         services.push(endpointService);
     }
-    await config.save();
+    await config.save(undefined, args.secret);
     process.stdout.write(JSON.stringify(services, null, 2));
     return config;
 }

@@ -4,14 +4,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const botframework_config_1 = require("botframework-config");
 const chalk = require("chalk");
 const program = require("commander");
 const getStdin = require("get-stdin");
 const txtfile = require("read-text-file");
-const BotConfig_1 = require("./BotConfig");
-const models_1 = require("./models");
-const utils_1 = require("./utils");
 const validurl = require("valid-url");
+const utils_1 = require("./utils");
 program.Command.prototype.unknownOption = function (flag) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
@@ -37,7 +36,7 @@ if (process.argv.length < 3) {
 }
 else {
     if (!args.bot) {
-        BotConfig_1.BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        botframework_config_1.BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectQnaArgs)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -45,7 +44,7 @@ else {
         });
     }
     else {
-        BotConfig_1.BotConfig.Load(args.bot, args.secret)
+        botframework_config_1.BotConfiguration.load(args.bot, args.secret)
             .then(processConnectQnaArgs)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -72,9 +71,9 @@ async function processConnectQnaArgs(config) {
     if (!args.hostname || !validurl.isWebUri(args.hostname))
         throw new Error('bad or missing --hostname');
     // add the service
-    let newService = new models_1.QnaMakerService(args);
+    let newService = new botframework_config_1.QnaMakerService(args);
     config.connectService(newService);
-    await config.save();
+    await config.save(undefined, args.secret);
     process.stdout.write(JSON.stringify(newService, null, 2));
     return config;
 }
