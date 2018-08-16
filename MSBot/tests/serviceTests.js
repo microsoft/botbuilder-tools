@@ -133,6 +133,22 @@ describe("msbot tests", () => {
         await exec("node bin/msbot-list.js -b all.bot --secret password");
     });
 
+    it("msbot secret", async () => {
+        var config = await bf.BotConfiguration.load("all.bot", "password");
+        assert.equal(config.services.length, 6, "service is missing");
+
+        // save as test.bot
+        await config.save("test.bot", "password");
+        config = await bf.BotConfiguration.load("test.bot", "password");
+        assert.ok(config.secretKey, "should have a secretKey");
+
+        await exec("node bin/msbot-secret.js -b test.bot --secret password --clear");
+        // verify we can load without a password
+        config = await bf.BotConfiguration.load("test.bot");
+
+        fs.unlinkSync("test.bot");
+    });
+
     it("msbot disconnect azure", async () => {
         var config = await bf.BotConfiguration.load("all.bot", "password");
         assert.equal(config.services.length, 6, "service is missing");
