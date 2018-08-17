@@ -15,6 +15,7 @@ main() {
             npm install
             npm run build
             npm run eslint
+            npm run tslint
             npm run coverage
         )
 
