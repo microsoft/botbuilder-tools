@@ -51,7 +51,7 @@ Arguments:
 Example:
 
 ```shell
-dispatch init -n TestDispatch --luisAuthoringKey F57AEEEBE67349C282E1DC51F6BA66D9 --luisAuthoringRegion westus 
+dispatch init -n TestDispatch --luisAuthoringKey "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" --luisAuthoringRegion westus 
 dispatch init --bot c:\src\bot\testbot.bot
 ```
 
@@ -62,9 +62,9 @@ This step is not needed if you have a .bot file already connected with services 
 and add each of the services it can dispatch to .dispatch file.  Currently, a maximum of 500 dispatch sources could be added to a Dispatch model.
 
 ```shell
-dispatch add -t luis -i 1090A345-2D89-4BED-99EF-1CE3E08B690E -n TestLuisApp -v 0.1 -k F57AEEEBE67349C282E1DC51F6BA66D9
-dispatch add -t luis -i 1090A345-2D89-4BED-99EF-1CE3E08B690E -n TestLuisApp --intentName foo -v 0.1 -k F57AEEEBE67349C282E1DC51F6BA66D9
-dispatch add -t qna -i 09DF8311-9MSA-L2I9-DJEE-4MT434481212 -n Faq -k L2340T8NM78OSFDWAS23B4TAASMPO1N1
+dispatch add -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n TestLuisApp -v 0.1 -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+dispatch add -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n TestLuisApp --intentName foo -v 0.1 -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dispatch add -t file -n TestModule -f c:\src\testmodule.tsv
 dispatch add -t file -n TestModule2 -f c:\src\testmodule2.txt
 dispatch add -t file -n TestModule3 -f c:\src\testmodule3.json
@@ -101,8 +101,8 @@ Supported file types:
 To remove one of the services from .dispatch file, run
 
 ```shell
-dispatch remove -t luis -i 1090A345-2D89-4BED-99EF-1CE3E08B690E 
-dispatch remove -t qna -i 09DF8311-9MSA-L2I9-DJEE-4MT434481212 
+dispatch remove -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 
+dispatch remove -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 
 dispatch remove -t file -f c:\src\testmodule.json
 
 ```
