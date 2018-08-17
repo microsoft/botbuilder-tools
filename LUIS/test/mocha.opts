@@ -1,3 +1,3 @@
+--timeout 30000
 --recursive
---timeout 10000
 **/*.js
