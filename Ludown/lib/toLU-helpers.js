@@ -16,12 +16,12 @@ const toLUHelpers = {
         let fileContent = '';
         let luisObj = new helperClasses.rLuisObj();
         let intentInObj;
-        if(LUISJSON.intents.length >= 0) {
+        if(LUISJSON.intents && LUISJSON.intents.length >= 0) {
             LUISJSON.intents.forEach(function(intent) {
                 luisObj.intents.push(new helperClasses.intent(intent, []));
             });
         }
-        if(LUISJSON.utterances.length >= 0) {
+        if(LUISJSON.utterances && LUISJSON.utterances.length >= 0) {
             LUISJSON.utterances.forEach(function(utteranceObj) {
                 intentInObj = luisObj.intents.filter(function(item) {
                     return item.intent.name == utteranceObj.intent;
@@ -29,7 +29,7 @@ const toLUHelpers = {
                 intentInObj[0].utterances.push(utteranceObj);
             });
         }
-        if(LUISJSON.patterns.length >= 0) {
+        if(LUISJSON.patterns && LUISJSON.patterns.length >= 0) {
             LUISJSON.patterns.forEach(function(patternObj) {
                 intentInObj = luisObj.intents.filter(function(item) {
                     return item.intent.name == patternObj.intent;
