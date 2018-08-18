@@ -92,7 +92,8 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     }
     
     var writeQnAFile = (finalQnAJSON.qnaList.length > 0) || 
-                        (finalQnAJSON.urls.length > 0);
+                        (finalQnAJSON.urls.length > 0) || 
+                        (finalQnAJSON.files.length > 0);
 
     var  writeLUISFile = finalLUISJSON?true:false;
 
