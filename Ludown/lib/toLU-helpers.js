@@ -15,32 +15,13 @@ const toLUHelpers = {
     constructMdFromLUISJSON : async function(LUISJSON) {
         let fileContent = '';
         let luisObj = new helperClasses.rLuisObj();
-        let intentInObj;
-        if(LUISJSON.intents && LUISJSON.intents.length >= 0) {
-            LUISJSON.intents.forEach(function(intent) {
-                luisObj.intents.push(new helperClasses.intent(intent, []));
-            });
-        }
-        if(LUISJSON.utterances && LUISJSON.utterances.length >= 0) {
-            LUISJSON.utterances.forEach(function(utteranceObj) {
-                intentInObj = luisObj.intents.filter(function(item) {
-                    return item.intent.name == utteranceObj.intent;
-                });
-                intentInObj[0].utterances.push(utteranceObj);
-            });
-        }
-        if(LUISJSON.patterns && LUISJSON.patterns.length >= 0) {
-            LUISJSON.patterns.forEach(function(patternObj) {
-                intentInObj = luisObj.intents.filter(function(item) {
-                    return item.intent.name == patternObj.intent;
-                });
-                // only push this utterance if it does not already exist
-                let utteranceExists = helpers.filterMatch(intentInObj[0].utterances, 'text', patternObj.pattern)
-                if(utteranceExists.length === 0) {
-                    intentInObj[0].utterances.push(new helperClasses.uttereances(patternObj.pattern,patternObj.intent,[]));
-                }
-            });
-        }
+        (LUISJSON.intents || []).forEach(function(intent) {
+            luisObj.intents.push(new helperClasses.intent(intent, []));
+        });
+        // add utterances to luisObj
+        updateUtterancesList(LUISJSON.utterances, luisObj.intents, 'text');
+        // add patterns to luisObj
+        updateUtterancesList(LUISJSON.patterns, luisObj.intents, 'pattern');
         if(luisObj.intents.length >= 0) {
             fileContent += NEWLINE;
             fileContent += '> # Intent definitions' + NEWLINE + NEWLINE;
@@ -212,5 +193,39 @@ const objectSortByStartPos = function (objectArray) {
     });
     return ObjectByStartPos;
 };
+/**
+ * helper function to add utterances to collection if it does not exist
+ * @param {object[]} tgtCollection target collection of utterance objects
+ * @param {object []} srcCollection source collection of utterance objects
+ * @param {string} attribute attribute to check on and copy over
+ * @returns {void}
+ */
+const updateUtterancesList = function (srcCollection, tgtCollection, attribute) {
+    (srcCollection || []).forEach(srcItem => {
+        let matchInTarget = tgtCollection.find(item => item.intent.name == srcItem.intent);
+        if(matchInTarget.utterances.length === 0) {
+            addUtteranceToCollection(attribute, srcItem, matchInTarget);
+            return;
+        }
+        if(!matchInTarget.utterances.find(item => item.text == srcItem[attribute])) {
+            addUtteranceToCollection(attribute, srcItem, matchInTarget);
+            return;
+        }
+    });
+}
+/**
+ * helper function to add utterances to collection based on src type (pattern or utterance)
+ * @param {string} attribute attribute to check on and copy over
+ * @param {object} srcItem source object
+ * @param {object []} matchInTarget target collection of objects
+ * @returns {void}
+ */
+const addUtteranceToCollection = function (attribute, srcItem, matchInTarget) {
+    if(attribute === 'text') {
+        matchInTarget.utterances.push(srcItem); 
+    } else {
+        matchInTarget.utterances.push(new helperClasses.uttereances(srcItem.pattern,srcItem.intent,[]));
+    }
+}
 
 module.exports = toLUHelpers;

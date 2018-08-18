@@ -32,34 +32,13 @@ const parseFileContentsModule = {
     validateLUISBlob : async function(LUISJSONBlob) {
         // patterns can have references to any other entity types. 
         // So if there is a pattern.any entity that is also defined as another type, remove the pattern.any entity
-        let spliceList = [];
-        if(LUISJSONBlob.patternAnyEntities.length > 0) {
-            for(let i in LUISJSONBlob.patternAnyEntities) {
-                let patternAnyEntity = LUISJSONBlob.patternAnyEntities[i];
-                if(helpers.filterMatch(LUISJSONBlob.entities, 'name', patternAnyEntity.name).length > 0) {
-                    spliceList.push(patternAnyEntity.name);
-                }
-                if(helpers.filterMatch(LUISJSONBlob.closedLists, 'name', patternAnyEntity.name).length > 0) {
-                    spliceList.push(patternAnyEntity.name);
-                }
-                if(helpers.filterMatch(LUISJSONBlob.model_features, 'name', patternAnyEntity.name).length > 0) {
-                    spliceList.push(patternAnyEntity.name);
-                }
-                if(helpers.filterMatch(LUISJSONBlob.prebuiltEntities, 'name', patternAnyEntity.name).length > 0) {
-                    spliceList.push(patternAnyEntity.name);
-                }
-            }
-        }
-        if(spliceList.length > 0) {
-            spliceList.forEach(function(item) {
-                for(let i in LUISJSONBlob.patternAnyEntities) {
-                    if(LUISJSONBlob.patternAnyEntities[i].name === item) {
-                        LUISJSONBlob.patternAnyEntities.splice(i, 1);
-                        break;
-                    }
-                }
-            })
-        }
+        LUISJSONBlob.patternAnyEntities = (LUISJSONBlob.patternAnyEntities || []).filter(entity => {
+            if(itemExists(LUISJSONBlob.entities, entity.name, entity.roles)) return false;
+            if(itemExists(LUISJSONBlob.closedLists, entity.name, entity.roles)) return false;
+            if(itemExists(LUISJSONBlob.model_features, entity.name, entity.roles)) return false;
+            if(itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
+            return true;
+        });
         
         // look for entity name collisions - list, simple, patternAny, phraselist
         // look for list entities labelled
@@ -381,7 +360,7 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
     // see if we already have this in patternAny entity collection; if so, remove it but remember the roles (if any)
     for(let i in parsedContent.LUISJsonStructure.patternAnyEntities) {
         if(parsedContent.LUISJsonStructure.patternAnyEntities[i].name === pEntityName) {
-            if(entityType.toLowerCase().trim().indexOf('phraselist') === 0) {
+            if(entityType.toLowerCase().trim().includes('phraselist')) {
                 throw(new exception(retCode.errorCode.INVALID_INPUT,'[ERROR]: Phrase lists cannot be used as an entity in a pattern "' + pEntityName));
             }
             if(parsedContent.LUISJsonStructure.patternAnyEntities[i].roles.length !== 0) entityRoles = parsedContent.LUISJsonStructure.patternAnyEntities[i].roles;
@@ -412,7 +391,7 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
             addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entityType, entityRoles);
         }
         
-    } else if(entityType.indexOf('=', entityType.length - 1) >= 0) 
+    } else if(entityType.endsWith('=')) 
     {
         // is this qna maker alterations list? 
         if(entityType.includes(PARSERCONSTS.QNAALTERATIONS)) {
@@ -510,9 +489,7 @@ const parseAndHandleQnAAlterations = function(parsedContent, chunkSplitByLine) {
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const parseAndHandleListEntity = function(parsedContent, chunkSplitByLine, entityRoles) {
-    let entityDef = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '').split(':');
-    let entityName = entityDef[0];
-    let entityType = entityDef[1];
+    const [entityName, entityType] = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '').split(':');
     // get normalized value
     let normalizedValue = entityType.substring(0, entityType.length - 1);
     // remove the first entity declaration line
@@ -544,9 +521,13 @@ const parseAndHandleListEntity = function(parsedContent, chunkSplitByLine, entit
             })
         }
         // see if the roles all exist and if not, add them
+        mergeRoles(closedListExists[0].roles, entityRoles);
+        /*const rolesMap = closedListExists[0].roles.reduce((map, role) => (map[role] = true, map), {});
         entityRoles.forEach(role => {
-            if(!closedListExists[0].roles.includes(role)) closedListExists[0].roles.push(role);
-        });
+            if (!rolesMap[role]) {
+                closedListExists[0].roles.push(role);
+            }
+        });*/
     }
 }
 /**
@@ -695,9 +676,7 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
                                 entity = entity.replace("{", "").replace("}", "");
                                 if(entity.includes(':')) {
                                     // this is an entity with role
-                                    let entitySplit = entity.split(':');
-                                    let entityName = entitySplit[0];
-                                    let roleName = entitySplit[1];
+                                    const [entityName, roleName] = entity.split(':');
                                     havePatternAnyEntitiesInUtterance = true;
                                     addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entityName, [roleName])
                                 } else {
@@ -801,12 +780,14 @@ const addItemIfNotPresent = function(collection, type, value) {
  * @returns {void} nothing
  */
 const addItemOrRoleIfNotPresent = function(collection, type, value, roles) {
-    let existingItem = collection[type].filter(item => {return item.name == value});
+    let existingItem = collection[type].filter(item => item.name == value);
     if(existingItem.length !== 0) {
-        // see if the role exists
-        roles.forEach(role => {
+        // see if the role exists and if so, merge
+        mergeRoles(existingItem[0].roles, roles);
+
+        /*roles.forEach(role => {
             if(!existingItem[0].roles.includes(role)) existingItem[0].roles.push(role);
-        });
+        });*/
     } else {
         let itemObj = {};
         itemObj.name = value;
@@ -818,5 +799,37 @@ const addItemOrRoleIfNotPresent = function(collection, type, value, roles) {
         } 
         collection[type].push(itemObj);
     }
+}
+/**
+ * Helper function merge roles
+ * @param {string []} srcEntityRoles contents of the current collection
+ * @param {string []} tgtEntityRoles target entity roles collection to merge
+ * @returns {void} nothing
+ */
+const mergeRoles = function(srcEntityRoles, tgtEntityRoles) {
+    const rolesMap = srcEntityRoles.reduce((map, role) => (map[role] = true, map), {});
+    tgtEntityRoles.forEach(role => {
+        if (!rolesMap[role]) {
+            srcEntityRoles.push(role);
+        }
+    });
+}
+/**
+ * Helper function that returns true if the item exists. Merges roles before returning 
+ * @param {Object} collection contents of the current collection
+ * @param {string} entityName name of entity to look for in the current collection
+ * @param {string []} entityRoles target entity roles collection to merge
+ * @returns {void} nothing
+ */
+const itemExists = function(collection, entityName, entityRoles) {
+    let matchInClosedLists = helpers.filterMatch(collection, 'name', entityName);
+    if(matchInClosedLists.length !== 0) {
+        // merge roles if there are any roles in the pattern entity
+        if(entityRoles.length !== 0) {
+            mergeRoles(matchInClosedLists[0].roles, entityRoles);
+        }
+        return true;
+    }
+    return false;
 }
 module.exports = parseFileContentsModule;

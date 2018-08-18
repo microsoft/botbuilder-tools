@@ -1,5 +1,6 @@
 > You can use roles in patterns using the entityName:role notation.
 # getUserName
+- call me {name=vishwac}
 - call me {name:userName}
 - I'm {name:userName}
 - my name is {name:userName}
