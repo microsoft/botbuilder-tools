@@ -522,12 +522,6 @@ const parseAndHandleListEntity = function(parsedContent, chunkSplitByLine, entit
         }
         // see if the roles all exist and if not, add them
         mergeRoles(closedListExists[0].roles, entityRoles);
-        /*const rolesMap = closedListExists[0].roles.reduce((map, role) => (map[role] = true, map), {});
-        entityRoles.forEach(role => {
-            if (!rolesMap[role]) {
-                closedListExists[0].roles.push(role);
-            }
-        });*/
     }
 }
 /**
@@ -784,10 +778,6 @@ const addItemOrRoleIfNotPresent = function(collection, type, value, roles) {
     if(existingItem.length !== 0) {
         // see if the role exists and if so, merge
         mergeRoles(existingItem[0].roles, roles);
-
-        /*roles.forEach(role => {
-            if(!existingItem[0].roles.includes(role)) existingItem[0].roles.push(role);
-        });*/
     } else {
         let itemObj = {};
         itemObj.name = value;
