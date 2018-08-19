@@ -24,6 +24,7 @@ program
     .option('-s, --serviceName <serviceName>', 'Azure service name')
     .option("-i, --instrumentationKey <instrumentationKey>", "App Insights InstrumentationKey")
     .option("-a, --applicationId <applicationId>", "(OPTIONAL) App Insights Application Id")
+    .option('--keys <keys>', "Json app keys, example: {'key1':'value1','key2':'value2'} ")
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
@@ -69,6 +70,16 @@ async function processConnectAzureArgs(config) {
         throw new Error('Bad or missing --resourceGroup');
     if (!args.instrumentationKey || args.instrumentationKey.length == 0)
         throw new Error('Bad or missing --instrumentationKey');
+    if (!args.apiKeys) {
+        args.apiKeys = {};
+        if (args.keys) {
+            console.log(args.keys);
+            var keys = JSON.parse(args.keys);
+            for (var key in keys) {
+                args.apiKeys[key] = keys[key].toString();
+            }
+        }
+    }
     let service = new botframework_config_1.AppInsightsService({
         name: args.hasOwnProperty('name') ? args.name : args.serviceName,
         tenantId: args.tenantId,
@@ -77,7 +88,7 @@ async function processConnectAzureArgs(config) {
         serviceName: args.serviceName,
         instrumentationKey: args.instrumentationKey,
         applicationId: args.applicationId,
-        apiKeys: {}
+        apiKeys: args.apiKeys
     });
     var id = config.connectService(service);
     await config.save(args.secret);

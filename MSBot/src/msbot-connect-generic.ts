@@ -2,7 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-import { BotConfiguration, GenericService } from 'botframework-config';
+import { BotConfiguration, GenericService, IGenericService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 
@@ -11,14 +11,12 @@ program.Command.prototype.unknownOption = function (flag: any) {
     showErrorHelp();
 };
 
-interface ConnectGenericArgs /* extends IGenericService */ {
-    name:string;
-    url:string;
-    configuration:string;
+interface ConnectGenericArgs extends IGenericService  {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
+    keys: string;
 }
 
 program
@@ -26,7 +24,7 @@ program
     .description('Connect a generic service to the bot')
     .option('-n, --name <name>', 'name of the service')
     .option('-u, --url <url>', 'deep link url for the service\n')
-    .option('-c, --configuration  <configuration>', 'serialized json key/value configuration for the service')
+    .option('--keys <keys>', 'serialized json key/value configuration for the service')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
@@ -65,16 +63,23 @@ async function processConnectFile(config: BotConfiguration): Promise<BotConfigur
     if (!args.url)
         throw new Error('mising --url');
 
-    if (!args.configuration || args.configuration.length == 0)
-        args.configuration = '{}';
+    if (!args.configuration) {
+        args.configuration = {};
+        if (args.keys) {
+            var keys = JSON.parse(args.keys);
+            for (var key in keys) {
+                args.configuration[key] = keys[key].toString();
+            }
+        }
+    }
 
     // add the service
     let newService = new GenericService({
         name: args.hasOwnProperty('name') ? args.name : args.url,
         url: args.url,
-        configuration: JSON.parse(args.configuration)
+        configuration: args.configuration
     });
-    let id =config.connectService(newService);
+    let id = config.connectService(newService);
     await config.save(args.secret);
     process.stdout.write(JSON.stringify(config.findService(id), null, 2));
     return config;

@@ -16,7 +16,7 @@ program
     .description('Connect a generic service to the bot')
     .option('-n, --name <name>', 'name of the service')
     .option('-u, --url <url>', 'deep link url for the service\n')
-    .option('-c, --configuration  <configuration>', 'serialized json key/value configuration for the service')
+    .option('--keys <keys>', 'serialized json key/value configuration for the service')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
@@ -51,13 +51,21 @@ async function processConnectFile(config) {
     args.name = args.hasOwnProperty('name') ? args.name : config.name;
     if (!args.url)
         throw new Error('mising --url');
-    if (!args.configuration || args.configuration.length == 0)
-        args.configuration = '{}';
+    if (!args.configuration) {
+        args.configuration = {};
+        if (args.keys) {
+            console.log(args.keys);
+            var keys = JSON.parse(args.keys);
+            for (var key in keys) {
+                args.configuration[key] = keys[key].toString();
+            }
+        }
+    }
     // add the service
     let newService = new botframework_config_1.GenericService({
         name: args.hasOwnProperty('name') ? args.name : args.url,
         url: args.url,
-        configuration: JSON.parse(args.configuration)
+        configuration: args.configuration
     });
     let id = config.connectService(newService);
     await config.save(args.secret);

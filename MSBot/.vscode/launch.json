@@ -53,10 +53,17 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/bin/msbot-init.js",
+            "program": "${workspaceFolder}/bin/msbot-connect-generic.js",
             "args": [
-                "-b","xxx.bot","-n","TestInsights","--serviceName","testInsights","--instrumentationKey","testInstrumentationKey","--applicationId","2f510b5e-10fe-4f53-9159-b134539ac123","-s","2f510b5e-10fe-4f53-9159-b134539ac594","--tenantId","microsoft.onmicrosoft.com","--resourceGroup","testGroup"
-           ]
+                "-b",
+                "xxx.bot",
+                "-n",
+                "test",
+                "--url",
+                "https://bing.com",
+                "--keys",
+                "{\"key1\":\"value1\"}"
+            ]
         }
-     ]
+    ]
 }

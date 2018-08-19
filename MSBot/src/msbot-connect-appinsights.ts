@@ -19,6 +19,7 @@ interface ConnectAppInsightsArgs extends IAppInsightsService {
     secret: string;
     stdin: boolean;
     input?: string;
+    keys: string;
 }
 
 program
@@ -31,6 +32,7 @@ program
     .option('-s, --serviceName <serviceName>', 'Azure service name')
     .option("-i, --instrumentationKey <instrumentationKey>", "App Insights InstrumentationKey")
     .option("-a, --applicationId <applicationId>", "(OPTIONAL) App Insights Application Id")
+    .option('--keys <keys>', "Json app keys, example: {'key1':'value1','key2':'value2'} ")
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
@@ -85,6 +87,17 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
     if (!args.instrumentationKey || args.instrumentationKey.length == 0)
         throw new Error('Bad or missing --instrumentationKey');
 
+    if (!args.apiKeys) {
+        args.apiKeys = {};
+        if (args.keys) {
+            console.log(args.keys);
+            var keys = JSON.parse(args.keys);
+            for (var key in keys) {
+                args.apiKeys[key] = keys[key].toString();
+            }
+        }
+    }
+
     let service = new AppInsightsService({
         name: args.hasOwnProperty('name') ? args.name : args.serviceName,
         tenantId: args.tenantId,
@@ -93,7 +106,7 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
         serviceName: args.serviceName,
         instrumentationKey: args.instrumentationKey,
         applicationId: args.applicationId,
-        apiKeys: {}
+        apiKeys: args.apiKeys
     });
     var id = config.connectService(service);
     await config.save(args.secret);

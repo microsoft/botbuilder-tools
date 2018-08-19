@@ -12,7 +12,18 @@ describe("msbot connection tests", () => {
         bot.name = "test";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-appinsights.js -b save.bot -n TestInsights --serviceName testInsights --instrumentationKey testInstrumentationKey --applicationId 2f510b5e-10fe-4f53-9159-b134539ac123 --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup`);
+        let command = `node bin/msbot-connect-appinsights.js `;
+        command += `-b save.bot `;
+        command += `-n TestInsights `;
+        command += `--serviceName testInsights `;
+        command += `--instrumentationKey testInstrumentationKey `;
+        command += `--applicationId 2f510b5e-10fe-4f53-9159-b134539ac123 `;
+        command += `--keys "{\\"key1\\":\\"value1\\"}" `;
+        command += `--secret ${secret} `;
+        command += `-s 2f510b5e-10fe-4f53-9159-b134539ac594 `;
+        command += `--tenantId microsoft.onmicrosoft.com `
+        command += `--resourceGroup testGroup`;
+        let p = await exec(command);
 
         var config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
@@ -27,6 +38,7 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[0].resourceGroup, "testGroup", "resourceGroup is wrong")
         assert.equal(config.services[0].instrumentationKey, "testInstrumentationKey", "instrumentationKey missing");
         assert.equal(config.services[0].applicationId, "2f510b5e-10fe-4f53-9159-b134539ac123", "applicationId missing");
+        assert.equal(config.services[0].apiKeys.key1, 'value1', "key not set");
     });
 
     it("msbot connect blob", async () => {
@@ -181,7 +193,13 @@ describe("msbot connection tests", () => {
         bot.name = "test";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-generic.js -b save.bot -n TestGeneric --url https://bing.com --secret ${secret}`);
+        let command = `node bin/msbot-connect-generic.js `;
+        command += `-b save.bot `;
+        command += `-n TestGeneric `;
+        command += `--url https://bing.com `;
+        command += `--keys "{\\"key1\\":\\"value1\\"}" `;
+        command += `--secret ${secret}`;
+        let p = await exec(command);
 
         var config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
@@ -191,7 +209,7 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[0].name, "TestGeneric", "name is wrong");
         assert.ok(config.services[0].id.length > 0, "id is wrong");
         assert.equal(config.services[0].url, "https://bing.com", "url missing");
-        assert.deepEqual(config.services[0].configuration, {}, "configuration missing");
+        assert.equal(config.services[0].configuration.key1, "value1", "missing configuration");
     });
 
     it("msbot connect qna", async () => {
