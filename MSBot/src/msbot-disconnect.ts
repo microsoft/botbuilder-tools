@@ -34,14 +34,14 @@ if (process.argv.length < 3) {
 } else {
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
-            .then(processConnectAzureArgs)
+            .then(processDisconnectArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
-            .then(processConnectAzureArgs)
+            .then(processDisconnectArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
@@ -49,14 +49,14 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processConnectAzureArgs(config: BotConfiguration): Promise<BotConfiguration> {
+async function processDisconnectArgs(config: BotConfiguration): Promise<BotConfiguration> {
     if (!args.idOrName) {
         throw new Error('missing id or name of service to disconnect');
     }
 
     let removedService = config.disconnectServiceByNameOrId(args.idOrName);
     if (removedService != null) {
-        await config.save(undefined, args.secret);
+        await config.save(args.secret);
         process.stdout.write(`Disconnected ${removedService.type}:${removedService.name} ${removedService.id}`);
     }
 

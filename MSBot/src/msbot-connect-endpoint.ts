@@ -2,11 +2,10 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-import { BotConfiguration, EndpointService, IEndpointService, ServiceTypes } from 'botframework-config';
+import { BotConfiguration, EndpointService, IEndpointService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
-import { Enumerable } from 'linq-collections';
 import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
 import { uuidValidate } from './utils';
@@ -26,8 +25,8 @@ interface ConnectEndpointArgs extends IEndpointService {
 program
     .name('msbot connect endpoint')
     .description('Connect the bot to an endpoint')
+    .option('-n, --name <name>', 'name of the endpoint')
     .option('-e, --endpoint <endpoint>', 'url for the endpoint\n')
-    .option('-n, --name <name>', '(OPTIONAL) name of the endpoint')
     .option('-a, --appId  <appid>', '(OPTIONAL) Microsoft AppId used for auth with the endpoint')
     .option('-p, --appPassword <password>', '(OPTIONAL) Microsoft app password used for auth with the endpoint')
 
@@ -90,29 +89,16 @@ async function processConnectEndpointArgs(config: BotConfiguration): Promise<Bot
             args.name = args.endpoint;
     }
 
-    let idCount = 1;
-    let id: string;
-    while (true) {
-        id = `${idCount}`;
-
-        if (Enumerable.fromSource(config.services)
-            .where(s => s.type == ServiceTypes.Endpoint && s.id == id)
-            .any() == false)
-            break;
-
-        idCount++;
-    }
     let newService = new EndpointService({
-        id,
         name: args.name,
         appId: ( args.appId && args.appId.length > 0 ) ? args.appId : '',
         appPassword: ( args.appPassword && args.appPassword.length > 0 ) ? args.appPassword : '',
         endpoint: args.endpoint
     } as IEndpointService);
-    config.connectService(newService);
 
-    await config.save(undefined, args.secret);
-    process.stdout.write(JSON.stringify(newService, null, 2));
+    let id = config.connectService(newService);
+    await config.save(args.secret);
+    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
     return config;
 }
 

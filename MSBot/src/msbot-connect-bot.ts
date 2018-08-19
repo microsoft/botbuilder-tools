@@ -2,7 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-import { AzureBotService, BotConfiguration, EndpointService, IAzureBotService, ServiceTypes } from 'botframework-config';
+import { BotConfiguration, BotService, EndpointService, IBotService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
@@ -15,24 +15,24 @@ program.Command.prototype.unknownOption = function (flag: any) {
     showErrorHelp();
 };
 
-interface ConnectAzureArgs extends IAzureBotService {
+interface ConnectAzureArgs extends IBotService {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
-    appId?: string;
-    endpoint?: string;
-    appPassword?: string;
+    appId?:string;
+    appPassword?:string;
+    endpoint?:string;
 }
 
 program
-    .name('msbot connect azure')
+    .name('msbot connect bot')
     .description('Connect the bot to Azure Bot Service')
-    .option('-i, --id <id>', 'Azure Bot Service bot id')
-    .option('-n, --name <name>', 'Name of the azure bot service')
-    .option('-t, --tenantId <tenantId>', 'id of the tenant for the Azure Bot Service Registrartion (either GUID or xxx.onmicrosoft.com)')
-    .option('-s, --subscriptionId <subscriptionId>', 'GUID of the subscription for the Azure Bot Service')
-    .option('-r, --resourceGroup <resourceGroup>', 'name of the resourceGroup for the Azure Bot Service')
+    .option('-n, --name <name>', 'Friendly name for this service (defaults to serviceName')
+    .option('--serviceName <serviceName>', 'Azure Bot Service bot id')
+    .option('-t, --tenantId <tenantId>', 'id of the tenant for the Azure service (either GUID or xxx.onmicrosoft.com)')
+    .option('-s, --subscriptionId <subscriptionId>', 'GUID of the subscription for the Azure Service')
+    .option('-r, --resourceGroup <resourceGroup>', 'name of the resourceGroup for the Azure Service')
     .option('-e, --endpoint <endpoint>', '(OPTIONAL) Registered endpoint url for the Azure Bot Service')
     .option('-a, --appId  <appid>', '(OPTIONAL) Microsoft AppId for the Azure Bot Service\n')
     .option('-p, --appPassword  <appPassword>', '(OPTIONAL) Microsoft AppPassword for the Azure Bot Service\n')
@@ -75,8 +75,8 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.id || args.id.length == 0)
-        throw new Error('Bad or missing --id for registered bot');
+    if (!args.serviceName || args.serviceName.length == 0)
+        throw new Error('Bad or missing --serviceName');
 
     if (!args.tenantId || args.tenantId.length == 0)
         throw new Error('Bad or missing --tenantId');
@@ -86,11 +86,11 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
 
     if (!args.resourceGroup || args.resourceGroup.length == 0)
         throw new Error('Bad or missing --resourceGroup for registered bot');
+
     let services=[];
-    let service = new AzureBotService({
-        type: ServiceTypes.AzureBotService,
-        id: args.id, // bot id
-        name: args.hasOwnProperty('name') ? args.name : args.id,
+    let service = new BotService({
+        name: args.hasOwnProperty('name') ? args.name : args.serviceName,
+        serviceName: args.serviceName,
         tenantId: args.tenantId,
         subscriptionId: args.subscriptionId,
         resourceGroup: args.resourceGroup
@@ -107,11 +107,9 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
         if (!args.appPassword || args.appPassword.length == 0)
             throw new Error('Bad or missing --appPassword');
 
-
         let endpointService = new EndpointService({
             type: ServiceTypes.Endpoint,
-            id: args.endpoint,
-            name: args.name || args.endpoint,
+            name: args.hasOwnProperty('name') ? args.name : args.endpoint,
             appId: args.appId,
             appPassword: args.appPassword,
             endpoint: args.endpoint
@@ -119,7 +117,7 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
         config.connectService(endpointService);
         services.push(endpointService);
     }
-    await config.save(undefined, args.secret);
+    await config.save(args.secret);
     process.stdout.write(JSON.stringify(services, null, 2));
     return config;
 }

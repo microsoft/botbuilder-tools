@@ -27,6 +27,7 @@ program
     .option('-n, --name <name>', 'name for the LUIS app')
     .option('-a, --appId <appid>', 'AppId for the LUIS App')
     .option('-v, --version <version>', 'version for the LUIS App, (example: v0.1)')
+    .option('-r, --region <region>', 'region for the LUIS App, (default:westus)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying a LUIS model\n')
 
@@ -83,22 +84,28 @@ async function processConnectLuisArgs(config: BotConfiguration): Promise<BotConf
     if (!args.authoringKey || !uuidValidate(args.authoringKey))
         throw new Error('bad or missing --authoringKey');
 
-    if (!args.id)
-        args.id = args.appId;
+    if (!args.region || args.region.length == 0)
+        args.region = "westus";
 
     //if (!args.subscriptionKey || !uuidValidate(args.subscriptionKey))
     //    throw new Error("bad or missing --subscriptionKey");
 
     // add the service
-    let newService = new LuisService(args);
-    config.connectService(newService);
-    await config.save(undefined, args.secret);
-    process.stdout.write(JSON.stringify(newService, null, 2));
+    let newService = new LuisService({
+        name: args.name,
+        appId: args.appId,
+        version: args.version,
+        authoringKey: args.authoringKey,
+        subscriptionKey: args.subscriptionKey,
+        region: args.region
+    });
+    let id = config.connectService(newService);
+    await config.save(args.secret);
+    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

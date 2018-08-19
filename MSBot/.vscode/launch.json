@@ -23,9 +23,9 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/bin/msbot-connect-dispatch.js",
+            "program": "${workspaceFolder}/bin/msbot-init.js",
             "args": [
-                "-b","test.bot","--secret","password","-n","Dispatch","-a","e06e3198-45fd-494a-8086-028d260a484b","--authoringKey","e06e3198-45fd-494a-8086-028d260a484b","--subscriptionKey","e06e3198-45fd-494a-8086-028d260a484b","--version","1.0","--serviceIds","2f510b5e-10fe-4f53-9159-b134539ac594"
+                
 
            ]
         }

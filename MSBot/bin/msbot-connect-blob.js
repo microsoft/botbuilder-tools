@@ -15,14 +15,15 @@ program.Command.prototype.unknownOption = function (flag) {
     showErrorHelp();
 };
 program
-    .name('msbot connect luis')
-    .description('Connect the bot to a LUIS application')
-    .option('-n, --name <name>', 'name for the LUIS app')
-    .option('-a, --appId <appid>', 'AppId for the LUIS App')
-    .option('-v, --version <version>', 'version for the LUIS App, (example: v0.1)')
-    .option('-r, --region <region>', 'region for the LUIS App, (default:westus)')
-    .option('--authoringKey <authoringkey>', 'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
-    .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying a LUIS model\n')
+    .name('msbot connect blobstorage')
+    .description('Connect the bot to Azure Blob Storage Service')
+    .option('-n, -name <name>', 'friendly name (defaults to serviceName)')
+    .option('-t, --tenantId <tenantId>', 'Azure Tenant id (either GUID or xxx.onmicrosoft.com)')
+    .option('-s, --subscriptionId <subscriptionId>', 'Azure Subscription Id')
+    .option('-r, --resourceGroup <resourceGroup>', 'Azure resource group name')
+    .option('--serviceName <serviceName>', 'Azure service name')
+    .option('--connectionString <connectionString>', 'Blob storage connection string')
+    .option('-c, --container <container>', "blob container name")
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
@@ -36,7 +37,7 @@ if (process.argv.length < 3) {
 else {
     if (!args.bot) {
         botframework_config_1.BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
-            .then(processConnectLuisArgs)
+            .then(processConnectAzureArgs)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
             showErrorHelp();
@@ -44,43 +45,41 @@ else {
     }
     else {
         botframework_config_1.BotConfiguration.load(args.bot, args.secret)
-            .then(processConnectLuisArgs)
+            .then(processConnectAzureArgs)
             .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
             showErrorHelp();
         });
     }
 }
-async function processConnectLuisArgs(config) {
-    args.name = args.hasOwnProperty('name') ? args.name : config.name;
+async function processConnectAzureArgs(config) {
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
     }
-    else if (args.input) {
+    else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(args.input)));
     }
-    if (!args.hasOwnProperty('name'))
-        throw new Error('Bad or missing --name');
-    if (!args.appId || !utils_1.uuidValidate(args.appId))
-        throw new Error('bad or missing --appId');
-    if (!args.version)
-        throw new Error('bad or missing --version');
-    if (!args.authoringKey || !utils_1.uuidValidate(args.authoringKey))
-        throw new Error('bad or missing --authoringKey');
-    if (!args.region || args.region.length == 0)
-        args.region = "westus";
-    //if (!args.subscriptionKey || !uuidValidate(args.subscriptionKey))
-    //    throw new Error("bad or missing --subscriptionKey");
-    // add the service
-    let newService = new botframework_config_1.LuisService({
-        name: args.name,
-        appId: args.appId,
-        version: args.version,
-        authoringKey: args.authoringKey,
-        subscriptionKey: args.subscriptionKey,
-        region: args.region
+    if (!args.serviceName || args.serviceName.length == 0)
+        throw new Error('Bad or missing --serviceName');
+    if (!args.tenantId || args.tenantId.length == 0)
+        throw new Error('Bad or missing --tenantId');
+    if (!args.subscriptionId || !utils_1.uuidValidate(args.subscriptionId))
+        throw new Error('Bad or missing --subscriptionId');
+    if (!args.resourceGroup || args.resourceGroup.length == 0)
+        throw new Error('Bad or missing --resourceGroup');
+    if (!args.connectionString || args.connectionString.length == 0)
+        throw new Error('Bad or missing --connectionString');
+    let services = [];
+    let service = new botframework_config_1.BlobStorageService({
+        name: args.hasOwnProperty('name') ? args.name : args.serviceName,
+        serviceName: args.serviceName,
+        tenantId: args.tenantId,
+        subscriptionId: args.subscriptionId,
+        resourceGroup: args.resourceGroup,
+        connectionString: args.connectionString,
+        container: args.container
     });
-    let id = config.connectService(newService);
+    let id = config.connectService(service);
     await config.save(args.secret);
     process.stdout.write(JSON.stringify(config.findService(id), null, 2));
     return config;
@@ -92,4 +91,4 @@ function showErrorHelp() {
     });
     process.exit(1);
 }
-//# sourceMappingURL=msbot-connect-luis.js.map
+//# sourceMappingURL=msbot-connect-blob.js.map

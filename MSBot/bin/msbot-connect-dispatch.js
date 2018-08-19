@@ -21,6 +21,7 @@ program
     .option('-a, --appId <appid>', 'LUID AppId for the dispatch app')
     .option('-v, --version <version>', 'version for the dispatch app, (example: 0.1)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating the dispatch model via the LUIS authoring API\n')
+    .option('r, --region <region>', "region to use (defaults to westus)")
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
     .option('--serviceIds <serviceIds>', '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
@@ -69,8 +70,6 @@ async function processConnectDispatch(config) {
         throw new Error('bad or missing --authoringKey');
     if (args.subscriptionKey && !utils_1.uuidValidate(args.subscriptionKey))
         throw new Error('bad --subscriptionKey');
-    if (!args.id)
-        args.id = args.appId;
     const newService = new botframework_config_1.DispatchService(args);
     if (!args.serviceIds) {
         // default to all services as appropriate
@@ -91,9 +90,9 @@ async function processConnectDispatch(config) {
         newService.serviceIds = args.serviceIds.split(',');
     }
     // add the service
-    config.connectService(newService);
-    await config.save(undefined, args.secret);
-    process.stdout.write(JSON.stringify(newService, null, 2));
+    let id = config.connectService(newService);
+    await config.save(args.secret);
+    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
     return config;
 }
 function showErrorHelp() {

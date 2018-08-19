@@ -89,16 +89,21 @@ async function processConnectQnaArgs(config: BotConfiguration): Promise<BotConfi
         throw new Error('bad or missing --hostname');
 
     // add the service
-    let newService = new QnaMakerService(args);
-    config.connectService(newService);
+    let newService = new QnaMakerService({
+        name: args.name,
+        kbId: args.kbId,
+        subscriptionKey: args.subscriptionKey,
+        endpointKey: args.endpointKey,
+        hostname: args.hostname
+    });
+    let id = config.connectService(newService);
 
-    await config.save(undefined, args.secret);
-    process.stdout.write(JSON.stringify(newService, null, 2));
+    await config.save(args.secret);
+    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

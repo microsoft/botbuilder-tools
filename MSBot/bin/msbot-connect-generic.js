@@ -7,16 +7,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const botframework_config_1 = require("botframework-config");
 const chalk = require("chalk");
 const program = require("commander");
-const path = require("path");
 program.Command.prototype.unknownOption = function (flag) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 program
-    .name('msbot connect file <path>')
-    .description('Connect a file to the bot')
+    .name('msbot connect generic')
+    .description('Connect a generic service to the bot')
+    .option('-n, --name <name>', 'name of the service')
+    .option('-u, --url <url>', 'deep link url for the service\n')
+    .option('-c, --configuration  <configuration>', 'serialized json key/value configuration for the service')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
+    .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
+    .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((filePath, actions) => {
     if (filePath)
         actions.filePath = filePath;
@@ -45,12 +49,15 @@ else {
 }
 async function processConnectFile(config) {
     args.name = args.hasOwnProperty('name') ? args.name : config.name;
-    if (!args.hasOwnProperty('filePath'))
-        throw new Error('Bad or missing file');
+    if (!args.url)
+        throw new Error('mising --url');
+    if (!args.configuration || args.configuration.length == 0)
+        throw new Error('mising --configuration');
     // add the service
-    let newService = new botframework_config_1.FileService({
-        name: path.basename(args.path),
-        path: args.path
+    let newService = new botframework_config_1.GenericService({
+        name: args.hasOwnProperty('name') ? args.name : args.url,
+        url: args.url,
+        configuration: JSON.parse(args.configuration)
     });
     let id = config.connectService(newService);
     await config.save(args.secret);
@@ -64,4 +71,4 @@ function showErrorHelp() {
     });
     process.exit(1);
 }
-//# sourceMappingURL=msbot-connect-file.js.map
+//# sourceMappingURL=msbot-connect-generic.js.map

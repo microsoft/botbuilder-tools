@@ -2,7 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-import { BotConfiguration, IBotConfiguration } from 'botframework-config';
+import { BotConfiguration } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
@@ -46,11 +46,7 @@ if (!parsed.bot) {
 async function processListArgs(config: BotConfiguration): Promise<BotConfiguration> {
     let services = config.services;
 
-    console.log(JSON.stringify(<IBotConfiguration>{
-        name: config.name,
-        description: config.description,
-        services: config.services
-    }, null, 4));
+    console.log(JSON.stringify(config.services, null, 4));
     return config;
 }
 
