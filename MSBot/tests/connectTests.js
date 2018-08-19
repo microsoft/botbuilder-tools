@@ -4,67 +4,54 @@ let util = require('util');
 let fs = require('fs');
 let exec = util.promisify(require('child_process').exec);
 
-describe("msbot commands", () => {
-    it("msbot init", async () => {
-        let p = await exec(`node bin/msbot-init.js -n save --secret -e http://foo.com/api/messages --appId 2f510b5e-10fe-4f53-9159-b134539ac594 --appPassword appPassword -q`);
-        var result = JSON.parse(p.stdout);
-
-        assert.ok(result.secret, "should have created secret");
-        var config = await bf.BotConfiguration.load("save.bot", result.secret);
-        fs.unlinkSync("save.bot");
-
-        assert.equal(config.name, "save", "name is wrong");
-        assert.equal(config.services.length, 1, "service is not saved");
-        assert.equal(config.services[0].type, "endpoint", "type is wrong");
-        assert.equal(config.services[0].name, "save", "name is wrong");
-        assert.equal(config.services[0].appId, "2f510b5e-10fe-4f53-9159-b134539ac594", "appId is wrong");
-        assert.equal(config.services[0].appPassword, "appPassword", "password is wrong");
-    });
-
-    it("msbot list", async () => {
-        let bot = await bf.BotConfiguration.load("all.bot");
-        let p = await exec(`node bin/msbot-list.js -b all.bot`);
-        let result = JSON.parse(p.stdout);
-        assert.deepEqual(result, bot.toJSON().services, "services are different");
-
-        // list with secret
-        let secret = bf.BotConfiguration.generateKey();
-        await bot.saveAs("save.bot", secret);
-        p = await exec(`node bin/msbot-list.js -b save.bot --secret ${secret}`);
-        result = JSON.parse(p.stdout);
-        let saveBot = await bf.BotConfiguration.load("save.bot", secret);
-        assert.deepEqual(result, bot.toJSON().services, "encrypted services are different");
-    });
-
-
-    it("msbot secret", async () => {
-        var config = await bf.BotConfiguration.load("all.bot");
-        config.saveAs('save.bot');
-
-        // test add secret
-        let p = await exec(`node bin/msbot-secret.js -b save.bot --new`);
-        var secret = p.stdout.split('\n')[1];
-        var buf = new Buffer(secret, "base64");
-        assert.equal(buf.length, 32, "secret should be 32 bytes");
-        config = await bf.BotConfiguration.load("save.bot", secret);
-        assert.ok(config.secretKey.length > 0, "secretKey should be set");
-
-        // test new secret
-        p = await exec(`node bin/msbot-secret.js -b save.bot --secret ${secret} --new`);
-        var secret2 = p.stdout.split('\n')[1];
-        assert.notEqual(secret2, secret, "secret should change");
-
-        // test clear secret
-        p = await exec(`node bin/msbot-secret.js -b save.bot --secret ${secret2} --clear`);
-
-        // verify we can load without a password
-        config = await bf.BotConfiguration.load("save.bot");
-
-        fs.unlinkSync("save.bot");
-    });
-});
-
 describe("msbot connection tests", () => {
+
+    it("msbot connect appinsights", async () => {
+        let secret = bf.BotConfiguration.generateKey();
+        let bot = new bf.BotConfiguration();
+        bot.name = "test";
+        await bot.saveAs("save.bot", secret);
+
+        let p = await exec(`node bin/msbot-connect-appinsights.js -b save.bot -n TestInsights --serviceName testInsights --instrumentationKey testInstrumentationKey --applicationId 2f510b5e-10fe-4f53-9159-b134539ac123 --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup`);
+
+        var config = await bf.BotConfiguration.load("save.bot", secret);
+        fs.unlinkSync("save.bot");
+
+        assert.equal(config.services.length, 1, "service is not saved");
+        assert.equal(config.services[0].type, "appInsights", "type is wrong");
+        assert.equal(config.services[0].name, "TestInsights", "name is wrong");
+        assert.equal(config.services[0].serviceName, "testInsights", "servicename is wrong");
+        assert.ok(config.services[0].id.length > 0, "id is wrong");
+        assert.equal(config.services[0].subscriptionId, "2f510b5e-10fe-4f53-9159-b134539ac594", "subscriptionId is wrong")
+        assert.equal(config.services[0].tenantId, "microsoft.onmicrosoft.com", " tenantid is wrong")
+        assert.equal(config.services[0].resourceGroup, "testGroup", "resourceGroup is wrong")
+        assert.equal(config.services[0].instrumentationKey, "testInstrumentationKey", "instrumentationKey missing");
+        assert.equal(config.services[0].applicationId, "2f510b5e-10fe-4f53-9159-b134539ac123", "applicationId missing");
+    });
+
+    it("msbot connect blob", async () => {
+        let secret = bf.BotConfiguration.generateKey();
+        let bot = new bf.BotConfiguration();
+        bot.name = "test";
+        await bot.saveAs("save.bot", secret);
+
+        let p = await exec(`node bin/msbot-connect-blob.js -b save.bot -n TestBlob --serviceName testBlob --connectionString testConnection --container testContainer --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup `);
+
+        var config = await bf.BotConfiguration.load("save.bot", secret);
+        fs.unlinkSync("save.bot");
+
+        assert.equal(config.services.length, 1, "service is not saved");
+        assert.equal(config.services[0].type, "blob", "type is wrong");
+        assert.equal(config.services[0].name, "TestBlob", "name is wrong");
+        assert.equal(config.services[0].serviceName, "testBlob", "servicename is wrong");
+        assert.ok(config.services[0].id.length > 0, "id is wrong");
+        assert.equal(config.services[0].subscriptionId, "2f510b5e-10fe-4f53-9159-b134539ac594", "subscriptionId is wrong")
+        assert.equal(config.services[0].tenantId, "microsoft.onmicrosoft.com", " tenantid is wrong")
+        assert.equal(config.services[0].resourceGroup, "testGroup", "resourceGroup is wrong")
+        assert.equal(config.services[0].connectionString, "testConnection", "connection missing");
+        assert.equal(config.services[0].container, "testContainer", "container missing");
+    });
+    
     it("msbot connect bot", async () => {
         let secret = bf.BotConfiguration.generateKey();
         let bot = new bf.BotConfiguration();
@@ -89,27 +76,30 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[1].appPassword, "appPassword", "endpoint password is wrong");
     });
 
-    it("msbot connect luis", async () => {
+    it("msbot connect cosmosdb", async () => {
         let secret = bf.BotConfiguration.generateKey();
         let bot = new bf.BotConfiguration();
         bot.name = "test";
-        bot.description = "testd";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-luis.js -b save.bot --secret ${secret} -n LUIS -a 2f510b5e-10fe-4f53-9159-b134539ac594 --authoringKey 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --region eastus --version 1.0`);
+        let p = await exec(`node bin/msbot-connect-cosmosdb.js -b save.bot -n TestCosmos --serviceName testCosmos --connectionString testConnection --database testDatabase --collection testCollection --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup `);
 
         var config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
-        assert.equal(config.services[0].type, "luis", "type is wrong");
-        assert.equal(config.services[0].name, "LUIS", "name is wrong");
-        assert.equal(config.services[0].region, "eastus", "region is wrong");
-        assert.equal(config.services[0].appId, "2f510b5e-10fe-4f53-9159-b134539ac594", "appId is wrong")
-        assert.equal(config.services[0].subscriptionKey, "2f510b5e-10fe-4f53-9159-b134539ac594", "subscriptionKey is wrong")
-        assert.equal(config.services[0].authoringKey, "2f510b5e-10fe-4f53-9159-b134539ac594", "authoringKey is wrong")
-        assert.equal(config.services[0].version, 1.0, "version is wrong")
+        assert.equal(config.services[0].type, "cosmosdb", "type is wrong");
+        assert.equal(config.services[0].name, "TestCosmos", "name is wrong");
+        assert.equal(config.services[0].serviceName, "testCosmos", "servicename is wrong");
+        assert.ok(config.services[0].id.length > 0, "id is wrong");
+        assert.equal(config.services[0].subscriptionId, "2f510b5e-10fe-4f53-9159-b134539ac594", "subscriptionId is wrong")
+        assert.equal(config.services[0].tenantId, "microsoft.onmicrosoft.com", " tenantid is wrong")
+        assert.equal(config.services[0].resourceGroup, "testGroup", "resourceGroup is wrong")
+        assert.equal(config.services[0].connectionString, "testConnection", "connection missing");
+        assert.equal(config.services[0].database, "testDatabase", "database missing");
+        assert.equal(config.services[0].collection, "testCollection", "collection missing");
     });
+
 
     it("msbot connect dispatch", async () => {
         let secret = bf.BotConfiguration.generateKey();
@@ -143,6 +133,28 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[1].serviceIds[0], result.id, "dispatch serviceIds[0] is wrong");
     });
 
+    it("msbot connect luis", async () => {
+        let secret = bf.BotConfiguration.generateKey();
+        let bot = new bf.BotConfiguration();
+        bot.name = "test";
+        bot.description = "testd";
+        await bot.saveAs("save.bot", secret);
+
+        let p = await exec(`node bin/msbot-connect-luis.js -b save.bot --secret ${secret} -n LUIS -a 2f510b5e-10fe-4f53-9159-b134539ac594 --authoringKey 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --region eastus --version 1.0`);
+
+        var config = await bf.BotConfiguration.load("save.bot", secret);
+        fs.unlinkSync("save.bot");
+
+        assert.equal(config.services.length, 1, "service is not saved");
+        assert.equal(config.services[0].type, "luis", "type is wrong");
+        assert.equal(config.services[0].name, "LUIS", "name is wrong");
+        assert.equal(config.services[0].region, "eastus", "region is wrong");
+        assert.equal(config.services[0].appId, "2f510b5e-10fe-4f53-9159-b134539ac594", "appId is wrong")
+        assert.equal(config.services[0].subscriptionKey, "2f510b5e-10fe-4f53-9159-b134539ac594", "subscriptionKey is wrong")
+        assert.equal(config.services[0].authoringKey, "2f510b5e-10fe-4f53-9159-b134539ac594", "authoringKey is wrong")
+        assert.equal(config.services[0].version, 1.0, "version is wrong")
+    });
+
     it("msbot connect endpoint", async () => {
         let secret = bf.BotConfiguration.generateKey();
         let bot = new bf.BotConfiguration();
@@ -161,6 +173,25 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[0].appId, "2f510b5e-10fe-4f53-9159-b134539ac594", "appId is wrong")
         assert.equal(config.services[0].appPassword, "appPassword", "appPassword is wrong")
         assert.equal(config.services[0].endpoint, "https://foo.com/api/messages", "endpoint is wrong")
+    });
+
+    it("msbot connect generic", async () => {
+        let secret = bf.BotConfiguration.generateKey();
+        let bot = new bf.BotConfiguration();
+        bot.name = "test";
+        await bot.saveAs("save.bot", secret);
+
+        let p = await exec(`node bin/msbot-connect-generic.js -b save.bot -n TestGeneric --url https://bing.com --secret ${secret}`);
+
+        var config = await bf.BotConfiguration.load("save.bot", secret);
+        fs.unlinkSync("save.bot");
+
+        assert.equal(config.services.length, 1, "service is not saved");
+        assert.equal(config.services[0].type, "generic", "type is wrong");
+        assert.equal(config.services[0].name, "TestGeneric", "name is wrong");
+        assert.ok(config.services[0].id.length > 0, "id is wrong");
+        assert.equal(config.services[0].url, "https://bing.com", "url missing");
+        assert.deepEqual(config.services[0].configuration, {}, "configuration missing");
     });
 
     it("msbot connect qna", async () => {
@@ -184,36 +215,3 @@ describe("msbot connection tests", () => {
     });
 });
 
-describe("msbot disconnect tests", () => {
-
-    it("msbot disconnect name", async () => {
-        let secret = bf.BotConfiguration.generateKey();
-        var config = await bf.BotConfiguration.load("all.bot");
-        assert.equal(config.services.length, 9, "service is missing");
-        // save as save.bot
-        await config.saveAs("save.bot", secret);
-
-        let p = await exec(`node bin/msbot-disconnect.js -b save.bot --secret ${secret} testLuis`);
-        var config = await bf.BotConfiguration.load("save.bot", secret);
-        assert.equal(config.services.length, 8, "service wasn't removed");
-
-        fs.unlinkSync("save.bot");
-    });
-
-    it("msbot disconnect id", async () => {
-        let secret = bf.BotConfiguration.generateKey();
-        var config = await bf.BotConfiguration.load("all.bot");
-        assert.equal(config.services.length, 9, "service is missing");
-        // save as save.bot
-        await config.saveAs("save.bot", secret);
-
-        let service = config.services[3];
-        let p = await exec(`node bin/msbot-disconnect.js -b save.bot --secret ${secret} ${service.id}`);
-        var config = await bf.BotConfiguration.load("save.bot", secret);
-        assert.equal(config.services.length, 8, "service wasn't removed");
-        assert.equal(null, config.findService(service.id), "service should have been removed");
-
-        fs.unlinkSync("save.bot");
-    });
-
-});

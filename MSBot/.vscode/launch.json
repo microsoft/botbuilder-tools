@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Mocha Tests",
+            "name": "Command Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
@@ -15,7 +15,37 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/tests"
+                "${workspaceFolder}/tests/commandTests.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Connection Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/tests/connectTests.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Disconnect Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/tests/disconnectTests.js"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -25,8 +55,7 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}/bin/msbot-init.js",
             "args": [
-                
-
+                "-b","xxx.bot","-n","TestInsights","--serviceName","testInsights","--instrumentationKey","testInstrumentationKey","--applicationId","2f510b5e-10fe-4f53-9159-b134539ac123","-s","2f510b5e-10fe-4f53-9159-b134539ac594","--tenantId","microsoft.onmicrosoft.com","--resourceGroup","testGroup"
            ]
         }
      ]

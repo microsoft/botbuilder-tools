@@ -46,7 +46,7 @@ if (!parsed.bot) {
 async function processListArgs(config: BotConfiguration): Promise<BotConfiguration> {
     let services = config.services;
 
-    console.log(JSON.stringify(config.services, null, 4));
+    console.log(JSON.stringify(config, null, 4));
     return config;
 }
 

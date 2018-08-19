@@ -37,7 +37,7 @@ else {
 }
 async function processListArgs(config) {
     let services = config.services;
-    console.log(JSON.stringify(config.services, null, 4));
+    console.log(JSON.stringify(config, null, 4));
     return config;
 }
 function showErrorHelp() {

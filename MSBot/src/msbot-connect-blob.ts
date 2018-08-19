@@ -22,9 +22,9 @@ interface ConnectBlobArgs extends IBlobStorageService {
 }
 
 program
-    .name('msbot connect blobstorage')
+    .name('msbot connect blob')
     .description('Connect the bot to Azure Blob Storage Service')
-    .option('-n, -name <name>', 'friendly name (defaults to serviceName)')
+    .option('-n, --name <name>', 'friendly name (defaults to serviceName)')
     .option('-t, --tenantId <tenantId>', 'Azure Tenant id (either GUID or xxx.onmicrosoft.com)')
     .option('-s, --subscriptionId <subscriptionId>', 'Azure Subscription Id')
     .option('-r, --resourceGroup <resourceGroup>', 'Azure resource group name')
@@ -84,6 +84,9 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
 
     if (!args.connectionString || args.connectionString.length == 0)
         throw new Error('Bad or missing --connectionString');
+
+    if (!args.container || args.container.length == 0)
+        throw new Error('Bad or missing --container');
 
     let services = [];
     let service = new BlobStorageService({

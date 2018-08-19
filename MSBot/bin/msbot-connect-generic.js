@@ -52,7 +52,7 @@ async function processConnectFile(config) {
     if (!args.url)
         throw new Error('mising --url');
     if (!args.configuration || args.configuration.length == 0)
-        throw new Error('mising --configuration');
+        args.configuration = '{}';
     // add the service
     let newService = new botframework_config_1.GenericService({
         name: args.hasOwnProperty('name') ? args.name : args.url,

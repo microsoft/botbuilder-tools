@@ -28,8 +28,8 @@ interface ConnectAzureArgs extends IBotService {
 program
     .name('msbot connect bot')
     .description('Connect the bot to Azure Bot Service')
-    .option('-n, --name <name>', 'Friendly name for this service (defaults to serviceName')
     .option('--serviceName <serviceName>', 'Azure Bot Service bot id')
+    .option('-n, --name <name>', 'Friendly name for this service (defaults to serviceName)')
     .option('-t, --tenantId <tenantId>', 'id of the tenant for the Azure service (either GUID or xxx.onmicrosoft.com)')
     .option('-s, --subscriptionId <subscriptionId>', 'GUID of the subscription for the Azure Service')
     .option('-r, --resourceGroup <resourceGroup>', 'name of the resourceGroup for the Azure Service')

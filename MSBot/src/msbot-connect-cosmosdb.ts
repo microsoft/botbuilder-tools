@@ -24,7 +24,7 @@ interface ConnectoCosmosDbArgs extends ICosmosDBService {
 program
     .name('msbot connect cosmosdb')
     .description('Connect the bot to Azure CosmosDb Service')
-    .option('-n, -name <name>', 'friendly name (defaults to serviceName)')
+    .option('-n, --name <name>', 'friendly name (defaults to serviceName)')
     .option('-t, --tenantId <tenantId>', 'Azure Tenant id (either GUID or xxx.onmicrosoft.com)')
     .option('-s, --subscriptionId <subscriptionId>', 'Azure Subscription Id')
     .option('-r, --resourceGroup <resourceGroup>', 'Azure resource group name')
