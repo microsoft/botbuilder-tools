@@ -1,15 +1,15 @@
-# Bot Builder tools (PREVIEW) [![Build Status](https://travis-ci.org/Microsoft/botbuilder-tools.svg?branch=master)](https://travis-ci.org/Microsoft/botbuilder-tools) [![Coverage Status](https://coveralls.io/repos/github/Microsoft/botbuilder-tools/badge.svg?branch=master)](https://coveralls.io/github/Microsoft/botbuilder-tools?branch=master)
+# Bot Builder tools (PREVIEW) [![Build Status](https://travis-ci.org/Microsoft/botbuilder-tools.svg?branch=master)](https://travis-ci.org/Microsoft/botbuilder-tools) [![Coverage Status](https://coveralls.io/repos/github/Microsoft/botbuilder-tools/badge.svg?branch=master)](https://coveralls.io/github/Microsoft/botbuilder-tools?branch=master) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 Bot Builder tools are designed to cover end-to-end bot development workflow and include the following tools - 
 
 |   | Tool | Description |
 |---|------|--------------|
-| [![npm version](https://badge.fury.io/js/chatdown.svg)](https://badge.fury.io/js/chatdown) | [Chatdown](https://github.com/Microsoft/botbuilder-tools/tree/master/Chatdown) | Prototype mock conversations in markdown and convert the markdown to transcripts you can load and view in the new V4 Bot Framework Emulator |
-| [![npm version](https://badge.fury.io/js/msbot.svg)](https://badge.fury.io/js/msbot) |[MSBot](https://github.com/Microsoft/botbuilder-tools/tree/master/MSBot)| Create and manage connected services in your bot configuration file|
-| [![npm version](https://badge.fury.io/js/ludown.svg)](https://badge.fury.io/js/ludown) |[LUDown](https://github.com/Microsoft/botbuilder-tools/tree/master/Ludown)| Build LUIS language understanding models using markdown files|
-| [![npm version](https://badge.fury.io/js/luis-apis.svg)](https://badge.fury.io/js/luis-apis) |[LUIS](https://github.com/Microsoft/botbuilder-tools/tree/master/LUIS)| Create and manage your [LUIS.ai](http://luis.ai) applications |
-| [![npm version](https://badge.fury.io/js/qnamaker.svg)](https://badge.fury.io/js/qnamaker) |[QnAMaker](https://github.com/Microsoft/botbuilder-tools/tree/master/QnAMaker) | Create and manage [QnAMaker.ai](http://qnamaker.ai) Knowledge Bases. |
-| [![npm version](https://badge.fury.io/js/botdispatch.svg)](https://badge.fury.io/js/botdispatch) | [Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/Dispatch) | Build language models allowing you to dispatch between disparate components (such as QnA, LUIS and custom code)|
-| [![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)| [LUISGen](https://github.com/Microsoft/botbuilder-tools/tree/master/LUISGen) | Autogenerate backing C#/Typescript classesfor your LUIS intents and entities.|
+| [![npm version](https://badge.fury.io/js/chatdown.svg)](https://badge.fury.io/js/chatdown) | [Chatdown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown) | Prototype mock conversations in markdown and convert the markdown to transcripts you can load and view in the new V4 Bot Framework Emulator |
+| [![npm version](https://badge.fury.io/js/msbot.svg)](https://badge.fury.io/js/msbot) |[MSBot](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot)| Create and manage connected services in your bot configuration file|
+| [![npm version](https://badge.fury.io/js/ludown.svg)](https://badge.fury.io/js/ludown) |[LUDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown)| Build LUIS language understanding models using markdown files|
+| [![npm version](https://badge.fury.io/js/luis-apis.svg)](https://badge.fury.io/js/luis-apis) |[LUIS](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS)| Create and manage your [LUIS.ai](http://luis.ai) applications |
+| [![npm version](https://badge.fury.io/js/qnamaker.svg)](https://badge.fury.io/js/qnamaker) |[QnAMaker](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) | Create and manage [QnAMaker.ai](http://qnamaker.ai) Knowledge Bases. |
+| [![npm version](https://badge.fury.io/js/botdispatch.svg)](https://badge.fury.io/js/botdispatch) | [Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) | Build language models allowing you to dispatch between disparate components (such as QnA, LUIS and custom code)|
+| [![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)| [LUISGen](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUISGen) | Autogenerate backing C#/Typescript classesfor your LUIS intents and entities.|
 
 To install all CLI tools:
 
@@ -35,6 +35,27 @@ As your bot grows in sophistication, [Dispatch](https://github.com/Microsoft/bot
 Throughout the Build phase, you can use [MSBot](https://github.com/Microsoft/botbuilder-tools/tree/master/MSBot) CLI to create and keep your bot configuration file updated with all relevant service references.
 
 To test and refine your bot, you can use the new [V4 Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/releases). The Bot Framework Emulator is a cross-platform electron application that enables you to test and debug your bots on  local machine or in the cloud. The new emulator includes features like faster load times, an improved dynamic layout model, support for multiple bot configurations, simple bot components management, and the ability to inspect responses from connected services such as LUIS and QnA. The Bot Framework Emulator also deep links to different parts used by the bot. The Bot Framework Emulator new functionality enables you to debug bots based on transcript logs and to view previous chat in presentation mode. The Bot Framework Emulator is available as open source on [Github](https://github.com/Microsoft/BotFramework-Emulator). 
+
+## Building the tools
+
+In order to build the SDK, ensure that you have [Git](https://git-scm.com/downloads) and [Node.js](https://nodejs.org/en/) installed.
+
+Run the following commands to build all tools.
+
+```
+npm install
+npm run build
+```
+
+Run the following command to verify your instalation.
+
+```
+npm run test
+```
+
+This repository uses [lerna](https://github.com/lerna/lerna) to manage the packages included. This allows you to execute scripts for all packages or only for some packages. For instance, `lerna run test` will run all tests in each package, but `lerna run test --scope chatdown` will run the tests of chatdown.
+
+To use lerna, install it as a global package with `npm install lerna --global`.
 
 ## Contributing
 
