@@ -53,16 +53,9 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/bin/msbot-connect-generic.js",
+            "program": "${workspaceFolder}/bin/msbot-get.js",
             "args": [
-                "-b",
-                "xxx.bot",
-                "-n",
-                "test",
-                "--url",
-                "https://bing.com",
-                "--keys",
-                "{\"key1\":\"value1\"}"
+                "9"
             ]
         }
     ]

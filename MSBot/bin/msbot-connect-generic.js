@@ -54,7 +54,6 @@ async function processConnectFile(config) {
     if (!args.configuration) {
         args.configuration = {};
         if (args.keys) {
-            console.log(args.keys);
             var keys = JSON.parse(args.keys);
             for (var key in keys) {
                 args.configuration[key] = keys[key].toString();

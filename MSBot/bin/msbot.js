@@ -2,8 +2,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk = require("chalk");
-const process = require("process");
 const program = require("commander");
+const process = require("process");
 const pkg = require('../package.json');
 const semver = require('semver');
 let requiredVersion = pkg.engines.node;
@@ -26,6 +26,10 @@ program
     .command('init', 'create a new .bot file');
 program
     .command('secret', 'set or clear the secret for a .bot file');
+program
+    .command('get', 'get a connected service');
+program
+    .command('list', 'list all connected services');
 // program
 //     .command('export', 'export all connected services');
 // program
@@ -34,8 +38,6 @@ program
     .command('connect <service>', 'connect to a resource (Luis/Qna/Azure/...) used by the bot');
 program
     .command('disconnect <service>', 'disconnect from a resource used by the bot');
-program
-    .command('list', 'list all connected services');
 const args = program.parse(process.argv);
 // args should be undefined is subcommand is executed
 if (args) {
