@@ -159,6 +159,50 @@ This example would be treated as an utterance since it has a labelled value with
 
 Note: By default any entity that is left undescribed in a pattern will be mapped to Pattern.Any entity type.
 
+## Roles
+[Roles](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-roles) are named, contextual subtypes of an entity used only in [Patterns](#Patterns).
+
+For example, in the utterance buy a ticket from New York to London, both New York and London are cities but each has a different meaning in the sentence. New York is the origin city and London is the destination city.
+
+Roles give a name to those differences:
+
+|Entity	|Role	|Purpose|
+|-------|-------|-------|
+|Location	|origin	|where the plane leaves from|
+|Location	|destination	|where the plane lands|
+
+In patterns, you can use roles using the {\<entityName\>:\<roleName\>} notation. Here's an example: 
+
+```markdown
+# getUserName
+- call me {name:userName}
+- I'm {name:userName}
+- my name is {name:userName}
+```
+
+You can define multiple roles for an entity in patterns and the ludown parser will do rest! 
+
+```markdown
+# BookFlight
+> roles can be specified for list entity types as well - in this case fromCity and toCity are added as roles to the 'city' list entity defined further below
+- book flight from {city:fromCity} to {city:toCity}
+- [can you] get me a flight from {city:fromCity} to {city:toCity}
+- get me a flight to {city:toCity}
+- I need to fly from {city:fromCity}
+
+$city:Seattle=
+- Seattle
+- Tacoma
+- SeaTac
+- SEA
+
+$city:Portland=
+- Portland
+- PDX
+```
+
+See this [example](..\examples\patterns.lu) for more details. 
+
 ## Question and Answer pairs
 .lu file (and the parser) supports question and answer definitions as well. You can this notation to describe them:
 
