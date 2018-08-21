@@ -32,6 +32,7 @@ program
     .option('-v, --version <version>', 'version for the LUIS App, (example: v0.1)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying a LUIS model\n')
+    .option('--endpointBasePath <endpointBasePath>', '(OPTIONAL) application URL base path for querying a LUIS model\n')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
