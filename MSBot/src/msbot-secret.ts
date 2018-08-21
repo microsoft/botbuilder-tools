@@ -28,6 +28,7 @@ program
     });
 
 let args: SecretArgs = <SecretArgs><any>program.parse(process.argv);
+let path: string;
 
 if (process.argv.length < 3) {
     showErrorHelp();
@@ -55,14 +56,11 @@ async function processSecret(config: BotConfig): Promise<BotConfig> {
         config.clearSecret();
     }
 
-
-    let filename = config.name + '.bot';
-    config.save(filename);
+    config.save(args.bot);
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

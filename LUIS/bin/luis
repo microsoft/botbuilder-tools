@@ -350,7 +350,6 @@ async function runProgram() {
         case "application":
             result = await client.apps.importMethod(args.region, requestBody, args);
             result = await client.apps.get(args.region, result, args);
-            writeAppToConsole(config, args, requestBody, result);
             break;
 
         case "version":
@@ -675,32 +674,16 @@ async function initializeConfig() {
 }
 
 async function waitForTrainingToComplete(client, args) {
-    let isTrained = true;
     do {
-        let total = 0;
-        let trained = 0;
         let result = await client.train.getStatus(args.region, args.appId, args.versionId, args);
-        for (let model of result) {
-            total++;
-            let status = model.details.status;
-            if (status == "Fail") {
-                throw new Error(`Training failed for ${model.modelId}: ${model.details.failureReason}`);
-            }
-            else if (status == "Success" || status == "UpToDate") {
-                trained++;
-            } else {
-                /// if (status == "InProgress" || status == "Queued" || ?other?) 
-                isTrained = false;
-                break;
-            }
-        }
-        if (isTrained == true) {
-            process.stderr.write(`${trained}/${total} ${trained / total * 100}%\n`);
-            return result;
-        }
+        // get completed or up to date items
+        let completedItems = result.filter(item => {return (item.details.status == "Success") || (item.details.status == "UpToDate")});
+        if(completedItems.length == result.length) return result;
+        let failedItems = result.filter(item => {return item.details.status == "Fail"});
+        if(failedItems.length !== 0) throw new Error(`Training failed for ${failedItems[0].modelId}: ${failedItems[0].details.failureReason}`);
+        process.stderr.write(`${completedItems.length}/${result.length} complete.`);
         await Delay(1000);
-        process.stderr.write(`${trained}/${total} ${trained / total}%\r`);
-    } while (!isTrained);
+    } while(true);
 }
 
 /**

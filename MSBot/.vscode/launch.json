@@ -8,12 +8,12 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/bin/msbot-init.js",
+            "program": "${workspaceFolder}/bin/msbot-secret.js",
             "args": [
-                "--name",
-                "xxx",
-                "--endpoint",
-                "https://tomdemobot.azurewebsites.net/api/messages"
+                "secret","set", "-b",
+                "C:\\source\\github\\botbuilder-dotnet\\tests\\Microsoft.Bot.Configuration.Tests\\encrypted.bot",
+                "--secret",
+                "test"
             ]
         }
     ]
