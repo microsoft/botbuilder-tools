@@ -21,6 +21,20 @@ describe("msbot commands", () => {
         assert.equal(config.services[0].appPassword, "appPassword", "password is wrong");
     });
 
+    it("msbot get", async () => {
+        let p = await exec(`node bin/msbot-get.js -b all.bot 2`);
+        let result = JSON.parse(p.stdout);
+
+        let bot = await bf.BotConfiguration.load("all.bot");
+
+        assert.deepEqual(result, bot.findServiceByNameOrId(2), "service by id is wrong");
+
+        p = await exec(`node bin/msbot-get.js -b all.bot testBlob`);
+        result = JSON.parse(p.stdout);
+        assert.deepEqual(result, bot.findServiceByNameOrId('testBlob'), "service by name is wrong");
+    });
+    
+
     it("msbot list", async () => {
         let bot = await bf.BotConfiguration.load("all.bot");
         let p = await exec(`node bin/msbot-list.js -b all.bot`);
