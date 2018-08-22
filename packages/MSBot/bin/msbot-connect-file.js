@@ -19,10 +19,11 @@ program
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .action((filePath, actions) => {
-    if (filePath)
+    if (filePath) {
         actions.filePath = filePath;
+    }
 });
-let args = program.parse(process.argv);
+const args = program.parse(process.argv);
 if (process.argv.length < 3) {
     program.help();
 }
@@ -46,10 +47,11 @@ else {
 }
 async function processConnectFile(config) {
     args.name = args.hasOwnProperty('name') ? args.name : config.name;
-    if (!args.hasOwnProperty('filePath'))
+    if (!args.hasOwnProperty('filePath')) {
         throw new Error('Bad or missing file');
+    }
     // add the service
-    let newService = new fileService_1.FileService({
+    const newService = new fileService_1.FileService({
         id: args.filePath,
         name: path.basename(args.filePath),
         filePath: args.filePath

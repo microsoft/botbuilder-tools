@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chalk = require("chalk");
 const program = require("commander");
 const getStdin = require("get-stdin");
-const validurl = require("valid-url");
 const txtfile = require("read-text-file");
+const validurl = require("valid-url");
 const BotConfig_1 = require("./BotConfig");
 const models_1 = require("./models");
 const schema_1 = require("./schema");
@@ -34,7 +34,7 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd, actions) => {
 });
-let args = program.parse(process.argv);
+const args = program.parse(process.argv);
 if (process.argv.length < 3) {
     program.help();
 }
@@ -63,16 +63,20 @@ async function processConnectAzureArgs(config) {
     else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(args.input)));
     }
-    if (!args.id || args.id.length == 0)
+    if (!args.id || args.id.length == 0) {
         throw new Error('Bad or missing --id for registered bot');
-    if (!args.tenantId || args.tenantId.length == 0)
+    }
+    if (!args.tenantId || args.tenantId.length == 0) {
         throw new Error('Bad or missing --tenantId');
-    if (!args.subscriptionId || !utils_1.uuidValidate(args.subscriptionId))
+    }
+    if (!args.subscriptionId || !utils_1.uuidValidate(args.subscriptionId)) {
         throw new Error('Bad or missing --subscriptionId');
-    if (!args.resourceGroup || args.resourceGroup.length == 0)
+    }
+    if (!args.resourceGroup || args.resourceGroup.length == 0) {
         throw new Error('Bad or missing --resourceGroup for registered bot');
-    let services = [];
-    let service = new models_1.AzureBotService({
+    }
+    const services = [];
+    const service = new models_1.AzureBotService({
         type: schema_1.ServiceType.AzureBotService,
         id: args.id,
         name: args.hasOwnProperty('name') ? args.name : args.id,
@@ -83,13 +87,16 @@ async function processConnectAzureArgs(config) {
     config.connectService(service);
     services.push(service);
     if (args.endpoint) {
-        if (!args.endpoint || !validurl.isHttpsUri(args.endpoint))
+        if (!args.endpoint || !validurl.isHttpsUri(args.endpoint)) {
             throw new Error('Bad or missing --endpoint');
-        if (!args.appId || !utils_1.uuidValidate(args.appId))
+        }
+        if (!args.appId || !utils_1.uuidValidate(args.appId)) {
             throw new Error('Bad or missing --appId');
-        if (!args.appPassword || args.appPassword.length == 0)
+        }
+        if (!args.appPassword || args.appPassword.length == 0) {
             throw new Error('Bad or missing --appPassword');
-        let endpointService = new models_1.EndpointService({
+        }
+        const endpointService = new models_1.EndpointService({
             type: schema_1.ServiceType.Endpoint,
             id: args.endpoint,
             name: args.name || args.endpoint,

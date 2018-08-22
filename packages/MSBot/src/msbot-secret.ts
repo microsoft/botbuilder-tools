@@ -27,7 +27,7 @@ program
         console.log(name);
     });
 
-let args: SecretArgs = <SecretArgs><any>program.parse(process.argv);
+const args: SecretArgs = <SecretArgs><any>program.parse(process.argv);
 let path: string;
 
 if (process.argv.length < 3) {
