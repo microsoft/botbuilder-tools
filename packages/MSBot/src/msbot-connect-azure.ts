@@ -6,8 +6,8 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as fs from 'fs-extra';
 import * as getStdin from 'get-stdin';
-import * as validurl from 'valid-url';
 import * as txtfile from 'read-text-file';
+import * as validurl from 'valid-url';
 import { BotConfig } from './BotConfig';
 import { AzureBotService, EndpointService } from './models';
 import { IAzureBotService, ServiceType } from './schema';
@@ -48,7 +48,7 @@ program
 
     });
 
-let args = <ConnectAzureArgs><any>program.parse(process.argv);
+const args = <ConnectAzureArgs><any>program.parse(process.argv);
 
 if (process.argv.length < 3) {
     program.help();
@@ -73,24 +73,27 @@ if (process.argv.length < 3) {
 async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
-    }
-    else if (args.input != null) {
+    } else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.id || args.id.length == 0)
+    if (!args.id || args.id.length == 0) {
         throw new Error('Bad or missing --id for registered bot');
+    }
 
-    if (!args.tenantId || args.tenantId.length == 0)
+    if (!args.tenantId || args.tenantId.length == 0) {
         throw new Error('Bad or missing --tenantId');
+    }
 
-    if (!args.subscriptionId || !uuidValidate(args.subscriptionId))
+    if (!args.subscriptionId || !uuidValidate(args.subscriptionId)) {
         throw new Error('Bad or missing --subscriptionId');
+    }
 
-    if (!args.resourceGroup || args.resourceGroup.length == 0)
+    if (!args.resourceGroup || args.resourceGroup.length == 0) {
         throw new Error('Bad or missing --resourceGroup for registered bot');
-    let services=[];
-    let service = new AzureBotService({
+    }
+    const services = [];
+    const service = new AzureBotService({
         type: ServiceType.AzureBotService,
         id: args.id, // bot id
         name: args.hasOwnProperty('name') ? args.name : args.id,
@@ -101,24 +104,26 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
     config.connectService(service);
     services.push(service);
     if (args.endpoint) {
-        if (!args.endpoint || !validurl.isHttpsUri(args.endpoint))
+        if (!args.endpoint || !validurl.isHttpsUri(args.endpoint)) {
             throw new Error('Bad or missing --endpoint');
+        }
 
-        if (!args.appId || !uuidValidate(args.appId))
+        if (!args.appId || !uuidValidate(args.appId)) {
             throw new Error('Bad or missing --appId');
+        }
 
-        if (!args.appPassword || args.appPassword.length == 0)
+        if (!args.appPassword || args.appPassword.length == 0) {
             throw new Error('Bad or missing --appPassword');
+        }
 
-
-        let endpointService = new EndpointService({
+        const endpointService = new EndpointService({
             type: ServiceType.Endpoint,
             id: args.endpoint,
             name: args.name || args.endpoint,
             appId: args.appId,
             appPassword: args.appPassword,
             endpoint: args.endpoint
-        })
+        });
         config.connectService(endpointService);
         services.push(endpointService);
     }
@@ -127,8 +132,7 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

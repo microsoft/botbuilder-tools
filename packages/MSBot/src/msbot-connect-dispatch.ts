@@ -6,8 +6,8 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as fs from 'fs-extra';
 import * as getStdin from 'get-stdin';
-import * as txtfile from 'read-text-file';
 import { Enumerable } from 'linq-collections';
+import * as txtfile from 'read-text-file';
 import { BotConfig } from './BotConfig';
 import { DispatchService } from './models';
 import { IConnectedService, IDispatchService, ILuisService, ServiceType } from './schema';
@@ -42,7 +42,7 @@ program
 
     });
 
-let args = <ConnectLuisArgs><any>program.parse(process.argv);
+const args = <ConnectLuisArgs><any>program.parse(process.argv);
 
 if (process.argv.length < 3) {
     program.help();
@@ -69,35 +69,40 @@ async function processConnectDispatch(config: BotConfig): Promise<BotConfig> {
 
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
-    }
-    else if (args.input != null) {
+    } else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.hasOwnProperty('name'))
+    if (!args.hasOwnProperty('name')) {
         throw new Error('Bad or missing --name');
+    }
 
-    if (!args.appId || !uuidValidate(args.appId))
+    if (!args.appId || !uuidValidate(args.appId)) {
         throw new Error('bad or missing --appId');
+    }
 
-    if (!args.version)
+    if (!args.version) {
         throw new Error('bad or missing --version');
+    }
 
-    if (!args.authoringKey || !uuidValidate(args.authoringKey))
+    if (!args.authoringKey || !uuidValidate(args.authoringKey)) {
         throw new Error('bad or missing --authoringKey');
+    }
 
-    if (args.subscriptionKey && !uuidValidate(args.subscriptionKey))
+    if (args.subscriptionKey && !uuidValidate(args.subscriptionKey)) {
         throw new Error('bad --subscriptionKey');
+    }
 
-    if (!args.id)
+    if (!args.id) {
         args.id = args.appId;
-        
+    }
+
     const newService = new DispatchService(<IDispatchService><any>args);
 
     const dispatchServices = <IConnectedService[]>(<any>args).services;
 
     if (<IConnectedService[]>dispatchServices) {
-        for (let service of dispatchServices) {
+        for (const service of dispatchServices) {
             newService.serviceIds.push(service.id || '');
             if (!Enumerable.fromSource(config.services).any(s => s.id == service.id)) {
                 switch (service.type) {
@@ -105,7 +110,6 @@ async function processConnectDispatch(config: BotConfig): Promise<BotConfig> {
                     case ServiceType.Luis:
                     case ServiceType.QnA:
                         config.connectService(service);
-                        break;
                 }
             }
         }
@@ -117,8 +121,7 @@ async function processConnectDispatch(config: BotConfig): Promise<BotConfig> {
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

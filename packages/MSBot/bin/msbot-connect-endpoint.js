@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chalk = require("chalk");
 const program = require("commander");
 const getStdin = require("get-stdin");
-const txtfile = require("read-text-file");
 const linq_collections_1 = require("linq-collections");
+const txtfile = require("read-text-file");
 const validurl = require("valid-url");
 const BotConfig_1 = require("./BotConfig");
 const models_1 = require("./models");
@@ -31,7 +31,7 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd, actions) => {
 });
-let args = program.parse(process.argv);
+const args = program.parse(process.argv);
 if (process.argv.length < 3) {
     showErrorHelp();
 }
@@ -60,20 +60,25 @@ async function processConnectEndpointArgs(config) {
     else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(args.input)));
     }
-    if (!args.endpoint)
+    if (!args.endpoint) {
         throw new Error('missing --endpoint');
+    }
     if (!validurl.isHttpUri(args.endpoint) && !validurl.isHttpsUri(args.endpoint)) {
         throw new Error(`--endpoint ${args.endpoint} is not a valid url`);
     }
-    if (args.appId && !utils_1.uuidValidate(args.appId))
+    if (args.appId && !utils_1.uuidValidate(args.appId)) {
         throw new Error('--appId is not valid');
-    if (args.appPassword && args.appPassword.length == 0)
+    }
+    if (args.appPassword && args.appPassword.length == 0) {
         throw new Error('zero length --appPassword');
+    }
     if (!args.hasOwnProperty('name')) {
-        if (args.appId)
+        if (args.appId) {
             args.name = `${args.endpoint} - ${args.appId}`;
-        else
+        }
+        else {
             args.name = args.endpoint;
+        }
     }
     let idCount = 1;
     let id;
@@ -81,11 +86,12 @@ async function processConnectEndpointArgs(config) {
         id = `${idCount}`;
         if (linq_collections_1.Enumerable.fromSource(config.services)
             .where(s => s.type == schema_1.ServiceType.Endpoint && s.id == id)
-            .any() == false)
+            .any() == false) {
             break;
+        }
         idCount++;
     }
-    let newService = new models_1.EndpointService({
+    const newService = new models_1.EndpointService({
         id,
         name: args.name,
         appId: (args.appId && args.appId.length > 0) ? args.appId : '',
