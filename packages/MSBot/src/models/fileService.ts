@@ -2,7 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-import { IFileService, ServiceType, } from '../schema';
+import { IFileService, ServiceType } from '../schema';
 import { ConnectedService } from './connectedService';
 
 export class FileService extends ConnectedService implements IFileService {
@@ -18,6 +18,6 @@ export class FileService extends ConnectedService implements IFileService {
 
     public toJSON(): IFileService {
         const { name = '', id = '', filePath = '' } = this;
-        return { type: ServiceType.File, id: filePath, name, filePath, };
+        return { type: ServiceType.File, id: filePath, name, filePath };
     }
 }

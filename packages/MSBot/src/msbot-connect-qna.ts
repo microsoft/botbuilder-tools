@@ -7,11 +7,11 @@ import * as program from 'commander';
 import * as fs from 'fs-extra';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
+import * as validurl from 'valid-url';
 import { BotConfig } from './BotConfig';
 import { QnaMakerService } from './models';
 import { IQnAService, ServiceType } from './schema';
 import { uuidValidate } from './utils';
-import * as validurl from 'valid-url';
 
 program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -44,7 +44,7 @@ program
 
 program.parse(process.argv);
 
-let args = <ConnectQnaArgs><any>program.parse(process.argv);
+const args = <ConnectQnaArgs><any>program.parse(process.argv);
 
 if (process.argv.length < 3) {
     program.help();
@@ -71,28 +71,32 @@ async function processConnectQnaArgs(config: BotConfig): Promise<BotConfig> {
 
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
-    }
-    else if (args.input != null) {
+    } else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.kbId || !uuidValidate(args.kbId))
+    if (!args.kbId || !uuidValidate(args.kbId)) {
         throw new Error('bad or missing --kbId');
+    }
 
-    if (!args.hasOwnProperty('name'))
+    if (!args.hasOwnProperty('name')) {
         throw new Error('missing --name');
+    }
 
-    if (!args.subscriptionKey || !uuidValidate(args.subscriptionKey))
+    if (!args.subscriptionKey || !uuidValidate(args.subscriptionKey)) {
         throw new Error('bad or missing --subscriptionKey');
+    }
 
-    if (!args.endpointKey || !uuidValidate(args.endpointKey))
+    if (!args.endpointKey || !uuidValidate(args.endpointKey)) {
         throw new Error('bad or missing --endpointKey');
+    }
 
-    if (!args.hostname || !validurl.isWebUri(args.hostname))
+    if (!args.hostname || !validurl.isWebUri(args.hostname)) {
         throw new Error('bad or missing --hostname');
+    }
 
     // add the service
-    let newService = new QnaMakerService(args);
+    const newService = new QnaMakerService(args);
     config.connectService(newService);
 
     await config.save();
@@ -100,8 +104,7 @@ async function processConnectQnaArgs(config: BotConfig): Promise<BotConfig> {
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

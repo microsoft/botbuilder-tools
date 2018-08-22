@@ -22,7 +22,6 @@ export interface IConnectedService {
     id?: string;
 }
 
-
 export interface IEndpointService extends IConnectedService {
     // type = ServiceTypes.Endpoint
     // id = bot id
@@ -30,7 +29,7 @@ export interface IEndpointService extends IConnectedService {
     // MSA Appid
     appId: string;
 
-    // MSA app password for the bot 
+    // MSA app password for the bot
     appPassword: string;
 
     // endpoint of localhost service
@@ -101,7 +100,7 @@ export interface IQnAService extends IConnectedService {
     // hostname for private service endpoint Example: https://myqna.azurewebsites.net
     hostname: string;
 
-    // endpointKey for querying the kb 
+    // endpointKey for querying the kb
     endpointKey: string;
 }
 

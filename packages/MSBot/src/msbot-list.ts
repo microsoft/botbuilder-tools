@@ -25,7 +25,7 @@ program
     .action((cmd, actions) => {
     });
 
-let parsed = <ListArgs><any>program.parse(process.argv);
+const parsed = <ListArgs><any>program.parse(process.argv);
 
 if (!parsed.bot) {
     BotConfig.LoadBotFromFolder(process.cwd(), parsed.secret)
@@ -43,20 +43,18 @@ if (!parsed.bot) {
         });
 }
 
-
 async function processListArgs(config: BotConfig): Promise<BotConfig> {
-    let services = config.services;
+    const services = config.services;
 
     console.log(JSON.stringify(<IBotConfig>{
         name: config.name,
         description: config.description,
         services: config.services
-    }, null, 4));
+    },                         null, 4));
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';
