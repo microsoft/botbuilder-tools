@@ -1,0 +1,24 @@
+﻿user=Joe
+bot=LulaBot
+
+[ConversationUpdate:
+    membersadded=Joe,Susan]
+
+LulaBot->Joe: Hi Joe!
+LulaBot->Susan: Hi Susan!
+
+[ConversationUpdate:membersremoved=Susan]
+
+Joe: Hi!
+
+LulaBot: Hello there!
+
+LulaBot:
+[Typing]
+[Delay = 5000]
+
+Lulabot: # cheese choices
+1. cheese 1 
+2. cheese 2
+3. cheese 3
+[Suggestions=option 1|option 2|option 3]

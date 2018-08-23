@@ -12,7 +12,8 @@ module.exports = function (output) {
     output.write('\nChatdown cli tool used to parse chat dialogs (.chat file) into a mock transcript file\n\n© 2018 Microsoft Corporation\n\n');
     output.write(chalk.cyan.bold(`chatdown [chat] [--help] [--version] [--static]\n\n`));
     let left = 20;
-    let right = windowSize.width - left - 3; // 3 is for 3 vertical bar characters
+    let width = windowSize ? windowSize.width : 250;
+    let right = width - left - 3; // 3 is for 3 vertical bar characters
     const table = new Table({
         head: [chalk.bold('Argument'), chalk.bold('Description')],
         // don't use lines for table

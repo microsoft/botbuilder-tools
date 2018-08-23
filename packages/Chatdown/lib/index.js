@@ -75,7 +75,7 @@ module.exports = async function readContents(fileContents, args = {}) {
 
         if (inHeader) {
             inHeader = false;
-            if (!args.users)
+            if (!Array.isArray(args.users) || !args.users.length)
                 args.users = ['user'];
 
             // starting the transcript, initialize the bot/user data accounts
@@ -101,8 +101,6 @@ module.exports = async function readContents(fileContents, args = {}) {
 
             if (customRecipient) {
                 args.recipient = args.accounts[customRecipient.toLowerCase()];
-                if (!args.recipient)
-                    throw new Error(`unknown custom recipient: ${customRecipient}\n${line}`);
             }
             else {
                 // pick recipient based on role
@@ -141,8 +139,7 @@ function initConversation(args, conversationId, activities) {
     args.accounts = {};
     args.accounts.bot = new ChannelAccount({ id: getHashCode(args.bot), name: args.bot, role: 'bot' });
     args.accounts[args.bot.toLowerCase()] = args.accounts.bot;
-    if (args.users.length == 0)
-        args.users.push('user');
+
     // first activity should be a ConversationUpdate, create and add it
     let conversationUpdate = createConversationUpdate(args,
         /* membersAdded */[
@@ -214,7 +211,7 @@ async function readCommandsFromAggregate(args, aggregate) {
         let typeOrField = split > 0 ? lines[0].substring(0, split).trim() : lines[0].trim();
         let rest = (split > 0) ? lines[0].substring(split + 1).trim() : undefined;
         if (lines.length > 1)
-            rest = match.substr(match.indexOf(NEWLINE) + 1);
+            rest = match.substr(match.indexOf(NEWLINE) + NEWLINE.length);
         const type = activitytypes[typeOrField.toLowerCase()];
         const field = activityfield[typeOrField.toLowerCase()];
         const instruction = instructions[typeOrField.toLowerCase()];
@@ -330,7 +327,7 @@ function processConversationUpdate(args, activities, rest) {
         ])
     conversationUpdate.timestamp = getIncrementedDate(100);
 
-    let lines = rest.split('\n');
+    let lines = rest.split(NEWLINE);
     for (let line of lines) {
         let start = line.indexOf('=');
         let property = line.substr(0, start).trim().toLowerCase();
