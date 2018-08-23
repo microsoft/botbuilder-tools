@@ -17,7 +17,7 @@ class AzureBotService extends connectedService_1.ConnectedService {
         Object.assign(this, { tenantId, subscriptionId, resourceGroup });
     }
     toJSON() {
-        let { id, name, tenantId, subscriptionId, resourceGroup } = this;
+        const { id, name, tenantId, subscriptionId, resourceGroup } = this;
         return { type: schema_1.ServiceType.AzureBotService, id, name, tenantId, subscriptionId, resourceGroup };
     }
 }

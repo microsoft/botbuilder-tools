@@ -28,8 +28,7 @@ if (args) {
     showErrorHelp();
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

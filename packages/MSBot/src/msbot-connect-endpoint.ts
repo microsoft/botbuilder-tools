@@ -6,8 +6,8 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as fs from 'fs-extra';
 import * as getStdin from 'get-stdin';
-import * as txtfile from 'read-text-file';
 import { Enumerable } from 'linq-collections';
+import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
 import { BotConfig } from './BotConfig';
 import { EndpointService } from './models';
@@ -16,7 +16,7 @@ import { uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
-    showErrorHelp();           
+    showErrorHelp();
 };
 
 interface ConnectEndpointArgs extends IEndpointService {
@@ -42,10 +42,10 @@ program
 
     });
 
-let args = <ConnectEndpointArgs><any>program.parse(process.argv);
+const args = <ConnectEndpointArgs><any>program.parse(process.argv);
 
 if (process.argv.length < 3) {
-    showErrorHelp();           
+    showErrorHelp();
 } else {
 
     if (!args.bot) {
@@ -53,7 +53,7 @@ if (process.argv.length < 3) {
             .then(processConnectEndpointArgs)
             .catch((reason) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
-                showErrorHelp();           
+                showErrorHelp();
             });
     } else {
         BotConfig.Load(args.bot, args.secret)
@@ -68,29 +68,32 @@ if (process.argv.length < 3) {
 async function processConnectEndpointArgs(config: BotConfig): Promise<BotConfig> {
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
-    }
-    else if (args.input != null) {
+    } else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.endpoint)
+    if (!args.endpoint) {
         throw new Error('missing --endpoint');
+    }
 
     if (!validurl.isHttpUri(args.endpoint) && !validurl.isHttpsUri(args.endpoint)) {
         throw new Error(`--endpoint ${args.endpoint} is not a valid url`);
     }
 
-    if (args.appId && !uuidValidate(args.appId))
+    if (args.appId && !uuidValidate(args.appId)) {
         throw new Error('--appId is not valid');
+    }
 
-    if (args.appPassword && args.appPassword.length == 0)
+    if (args.appPassword && args.appPassword.length == 0) {
         throw new Error('zero length --appPassword');
+    }
 
     if (!args.hasOwnProperty('name')) {
-        if (args.appId)
+        if (args.appId) {
             args.name = `${args.endpoint} - ${args.appId}`;
-        else
+        } else {
             args.name = args.endpoint;
+        }
     }
 
     let idCount = 1;
@@ -100,16 +103,17 @@ async function processConnectEndpointArgs(config: BotConfig): Promise<BotConfig>
 
         if (Enumerable.fromSource(config.services)
             .where(s => s.type == ServiceType.Endpoint && s.id == id)
-            .any() == false)
+            .any() == false) {
             break;
+        }
 
         idCount++;
     }
-    let newService = new EndpointService({
+    const newService = new EndpointService({
         id,
         name: args.name,
-        appId: ( args.appId && args.appId.length > 0 ) ? args.appId : '',
-        appPassword: ( args.appPassword && args.appPassword.length > 0 ) ? args.appPassword : '',
+        appId: (args.appId && args.appId.length > 0) ? args.appId : '',
+        appPassword: (args.appPassword && args.appPassword.length > 0) ? args.appPassword : '',
         endpoint: args.endpoint
     } as IEndpointService);
     config.connectService(newService);
@@ -119,8 +123,7 @@ async function processConnectEndpointArgs(config: BotConfig): Promise<BotConfig>
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

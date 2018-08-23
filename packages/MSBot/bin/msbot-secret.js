@@ -19,7 +19,8 @@ program
     .action((name, x) => {
     console.log(name);
 });
-let args = program.parse(process.argv);
+const args = program.parse(process.argv);
+let path;
 if (process.argv.length < 3) {
     showErrorHelp();
 }
@@ -46,8 +47,7 @@ async function processSecret(config) {
     if (args.clear) {
         config.clearSecret();
     }
-    let filename = config.name + '.bot';
-    config.save(filename);
+    config.save(args.bot);
     return config;
 }
 function showErrorHelp() {

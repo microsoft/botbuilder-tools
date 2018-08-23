@@ -37,22 +37,24 @@ program
         console.log(name);
     });
 
-let args: InitArgs = <InitArgs><any>program.parse(process.argv);
+const args: InitArgs = <InitArgs><any>program.parse(process.argv);
 
 if (!args.quiet) {
 
     let exists = fsx.existsSync(`${args.name}.bot`);
     while (((!args.hasOwnProperty('name') || args.name.length == 0)) || exists) {
-        if (exists)
+        if (exists) {
             console.log(`${args.name}.bot already exists`);
+        }
         args.name = readline.question(`What name would you like for your bot? `);
         exists = fsx.existsSync(`${args.name}.bot`);
     }
 
     if (!args.secret || args.secret.length == 0) {
-        let answer = readline.question(`Would you to secure your bot keys with a secret? [no]`);
-        if (answer == 'y' || answer == 'yes')
+        const answer = readline.question(`Would you to secure your bot keys with a secret? [no]`);
+        if (answer == 'y' || answer == 'yes') {
             args.secret = readline.question(`What secret would you like to use? `);
+        }
     }
 
     if (!args.description || args.description.length == 0) {
@@ -85,8 +87,7 @@ if (!args.quiet) {
 
 if (!args.name) {
     console.error('missing --name argument');
-}
-else {
+} else {
     const bot = new BotConfig(args.secret);
     bot.name = args.name;
     bot.description = args.description;
@@ -101,10 +102,11 @@ else {
         appPassword: args.appPassword || ''
     });
 
-    if (args.secret && args.secret.length > 0)
+    if (args.secret && args.secret.length > 0) {
         bot.validateSecretKey();
+    }
 
-    let filename = bot.name + '.bot';
+    const filename = bot.name + '.bot';
     bot.save(filename);
     console.log(`${filename} created`);
 

@@ -25,7 +25,7 @@ program
         actions.idOrName = idOrName;
     });
 
-let args = <DisconnectServiceArgs><any>program.parse(process.argv);
+const args = <DisconnectServiceArgs><any>program.parse(process.argv);
 
 if (process.argv.length < 3) {
     program.help();
@@ -52,7 +52,7 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
         throw new Error('missing id or name of service to disconnect');
     }
 
-    let removedService = config.disconnectServiceByNameOrId(args.idOrName);
+    const removedService = config.disconnectServiceByNameOrId(args.idOrName);
     if (removedService != null) {
         await config.save();
         process.stdout.write(`Disconnected ${removedService.type}:${removedService.name} ${removedService.id}`);
@@ -61,9 +61,7 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
     return config;
 }
 
-
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';

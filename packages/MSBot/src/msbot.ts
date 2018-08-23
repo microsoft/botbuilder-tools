@@ -4,12 +4,12 @@
  * Licensed under the MIT License.
  */
 import * as chalk from 'chalk';
-import * as process from 'process';
 import * as program from 'commander';
+import * as process from 'process';
 
 const pkg = require('../package.json');
 const semver = require('semver');
-let requiredVersion = pkg.engines.node;
+const requiredVersion = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
     console.error(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
     process.exit(1);
@@ -23,7 +23,6 @@ program.Command.prototype.unknownOption = function (flag: any) {
     });
     process.exit(1);
 };
-
 
 program
     .version(pkg.version, '-V, --Version')

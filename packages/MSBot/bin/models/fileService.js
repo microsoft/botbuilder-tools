@@ -17,7 +17,7 @@ class FileService extends connectedService_1.ConnectedService {
     }
     toJSON() {
         const { name = '', id = '', filePath = '' } = this;
-        return { type: schema_1.ServiceType.File, id: filePath, name, filePath, };
+        return { type: schema_1.ServiceType.File, id: filePath, name, filePath };
     }
 }
 exports.FileService = FileService;

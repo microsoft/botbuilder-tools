@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chalk = require("chalk");
 const program = require("commander");
 const getStdin = require("get-stdin");
-const txtfile = require("read-text-file");
 const linq_collections_1 = require("linq-collections");
+const txtfile = require("read-text-file");
 const BotConfig_1 = require("./BotConfig");
 const models_1 = require("./models");
 const schema_1 = require("./schema");
@@ -31,7 +31,7 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd, actions) => {
 });
-let args = program.parse(process.argv);
+const args = program.parse(process.argv);
 if (process.argv.length < 3) {
     program.help();
 }
@@ -61,22 +61,28 @@ async function processConnectDispatch(config) {
     else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(args.input)));
     }
-    if (!args.hasOwnProperty('name'))
+    if (!args.hasOwnProperty('name')) {
         throw new Error('Bad or missing --name');
-    if (!args.appId || !utils_1.uuidValidate(args.appId))
+    }
+    if (!args.appId || !utils_1.uuidValidate(args.appId)) {
         throw new Error('bad or missing --appId');
-    if (!args.version)
+    }
+    if (!args.version) {
         throw new Error('bad or missing --version');
-    if (!args.authoringKey || !utils_1.uuidValidate(args.authoringKey))
+    }
+    if (!args.authoringKey || !utils_1.uuidValidate(args.authoringKey)) {
         throw new Error('bad or missing --authoringKey');
-    if (args.subscriptionKey && !utils_1.uuidValidate(args.subscriptionKey))
+    }
+    if (args.subscriptionKey && !utils_1.uuidValidate(args.subscriptionKey)) {
         throw new Error('bad --subscriptionKey');
-    if (!args.id)
+    }
+    if (!args.id) {
         args.id = args.appId;
+    }
     const newService = new models_1.DispatchService(args);
     const dispatchServices = args.services;
     if (dispatchServices) {
-        for (let service of dispatchServices) {
+        for (const service of dispatchServices) {
             newService.serviceIds.push(service.id || '');
             if (!linq_collections_1.Enumerable.fromSource(config.services).any(s => s.id == service.id)) {
                 switch (service.type) {
@@ -84,7 +90,6 @@ async function processConnectDispatch(config) {
                     case schema_1.ServiceType.Luis:
                     case schema_1.ServiceType.QnA:
                         config.connectService(service);
-                        break;
                 }
             }
         }
