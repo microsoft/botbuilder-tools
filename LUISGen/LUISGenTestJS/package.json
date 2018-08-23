@@ -1,0 +1,22 @@
+{
+  "name": "luisgen-test-js",
+  "version": "0.0.0",
+  "description": "LUISGenTestJS",
+  "main": "app.js",
+  "author": {
+    "name": "chrimc"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.0",
+    "@types/node": "^6.0.87",
+    "mocha": "^5.1.1"
+  },
+  "dependencies": {
+    "botbuilder-ai": "^4.0.0-preview1.2",
+    "fs-extra": "^5.0.0",
+    "nock": "^9.6.1"
+  },
+  "scripts": {
+    "test": "mocha lib/tests.js"
+  }
+}
