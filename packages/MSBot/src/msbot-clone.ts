@@ -16,7 +16,6 @@ program
     .description('allows you to clone a bot with a new configuration')
     .action((cmd, actions) => {
 
-
     });
 program.parse(process.argv);
 

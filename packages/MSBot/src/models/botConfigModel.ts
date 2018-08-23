@@ -55,4 +55,4 @@ export class BotConfigModel implements Partial<IBotConfig> {
         return { name, description, services, secretKey };
     }
 }
-
+

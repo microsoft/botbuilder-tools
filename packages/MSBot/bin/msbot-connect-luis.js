@@ -29,7 +29,7 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd, actions) => {
 });
-let args = program.parse(process.argv);
+const args = program.parse(process.argv);
 if (process.argv.length < 3) {
     program.help();
 }
@@ -59,20 +59,25 @@ async function processConnectLuisArgs(config) {
     else if (args.input) {
         Object.assign(args, JSON.parse(await txtfile.read(args.input)));
     }
-    if (!args.hasOwnProperty('name'))
+    if (!args.hasOwnProperty('name')) {
         throw new Error('Bad or missing --name');
-    if (!args.appId || !utils_1.uuidValidate(args.appId))
+    }
+    if (!args.appId || !utils_1.uuidValidate(args.appId)) {
         throw new Error('bad or missing --appId');
-    if (!args.version)
+    }
+    if (!args.version) {
         throw new Error('bad or missing --version');
-    if (!args.authoringKey || !utils_1.uuidValidate(args.authoringKey))
+    }
+    if (!args.authoringKey || !utils_1.uuidValidate(args.authoringKey)) {
         throw new Error('bad or missing --authoringKey');
-    if (!args.id)
+    }
+    if (!args.id) {
         args.id = args.appId;
+    }
     //if (!args.subscriptionKey || !uuidValidate(args.subscriptionKey))
     //    throw new Error("bad or missing --subscriptionKey");
     // add the service
-    let newService = new models_1.LuisService(args);
+    const newService = new models_1.LuisService(args);
     config.connectService(newService);
     await config.save();
     process.stdout.write(JSON.stringify(newService, null, 2));

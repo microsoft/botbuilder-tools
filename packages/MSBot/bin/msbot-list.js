@@ -18,7 +18,7 @@ program
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .action((cmd, actions) => {
 });
-let parsed = program.parse(process.argv);
+const parsed = program.parse(process.argv);
 if (!parsed.bot) {
     BotConfig_1.BotConfig.LoadBotFromFolder(process.cwd(), parsed.secret)
         .then(processListArgs)
@@ -36,7 +36,7 @@ else {
     });
 }
 async function processListArgs(config) {
-    let services = config.services;
+    const services = config.services;
     console.log(JSON.stringify({
         name: config.name,
         description: config.description,

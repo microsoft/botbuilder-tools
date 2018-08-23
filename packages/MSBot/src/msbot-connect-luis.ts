@@ -41,7 +41,7 @@ program
 
     });
 
-let args = <ConnectLuisArgs><any>program.parse(process.argv);
+const args = <ConnectLuisArgs><any>program.parse(process.argv);
 
 if (process.argv.length < 3) {
     program.help();
@@ -69,39 +69,42 @@ async function processConnectLuisArgs(config: BotConfig): Promise<BotConfig> {
 
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
-    }
-    else if (args.input) {
+    } else if (args.input) {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.hasOwnProperty('name'))
+    if (!args.hasOwnProperty('name')) {
         throw new Error('Bad or missing --name');
+    }
 
-    if (!args.appId || !uuidValidate(args.appId))
+    if (!args.appId || !uuidValidate(args.appId)) {
         throw new Error('bad or missing --appId');
+    }
 
-    if (!args.version)
+    if (!args.version) {
         throw new Error('bad or missing --version');
+    }
 
-    if (!args.authoringKey || !uuidValidate(args.authoringKey))
+    if (!args.authoringKey || !uuidValidate(args.authoringKey)) {
         throw new Error('bad or missing --authoringKey');
+    }
 
-    if (!args.id)
+    if (!args.id) {
         args.id = args.appId;
+    }
 
     //if (!args.subscriptionKey || !uuidValidate(args.subscriptionKey))
     //    throw new Error("bad or missing --subscriptionKey");
 
     // add the service
-    let newService = new LuisService(args);
+    const newService = new LuisService(args);
     config.connectService(newService);
     await config.save();
     process.stdout.write(JSON.stringify(newService, null, 2));
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';
