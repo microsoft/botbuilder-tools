@@ -13,11 +13,17 @@ bot=LulaBot
 user: Hello!
 bot: Hello, can I help you?
 user: I need an image
-bot: here you go! [Attachment=${botFrameworkPngPath}]
+bot: here you go!
+[AttachmentLayout=carousel]
+[Attachment=${botFrameworkPngPath}]
+bot: Another one1
+[AttachmentLayout=list]
+[Attachment=${botFrameworkPngPath}]
 `;
             const activities = await chatdown(conversation, {});
-            assert(activities.length === 5);
-            assert(activities[4].attachments.length == 1);
+            assert.equal(activities.length, 6);
+            assert.equal(activities[4].attachments.length, 1);
+            assert.equal(activities[5].attachments.length, 1);
         });
 
         it('when the input chat contains [Delay=xxxx] instructions', async () => {
@@ -215,6 +221,85 @@ bot: Great!. I have the following choices:
             const activities = await chatdown(conversation, {});
             assert(activities.length === 5);
             assert(activities[4].text.trim().split('\n').length === 4);
+        });
+
+        it('when static use default message time gap of 2000ms', async () => {
+            const conversation = `
+bot=LulaBot
+user: Hello!
+bot: Hello, can I help you?`;
+
+            const activities = await chatdown(conversation, { static: true });
+            assert.equal(activities.length, 3);
+            assert.equal(activities[1].timestamp, new Date(new Date(activities[0].timestamp).getTime()+2000).toISOString());
+        });
+
+        it('support multiline conversationupdate', async () => {
+            const conversation = `
+[ConversationUpdate=
+    MembersAdded=Joe,Susan]
+[ConversationUpdate=
+    MembersRemoved=Susan]
+bot->Joe: Hi Joe!`;
+
+            assert.doesNotReject(chatdown(conversation));
+        });
+
+        it('Reject invalid conversationupdate', async () => {
+            const conversation = `
+[ConversationUpdate=
+    invalid=Joe,Susan]
+`;
+            assert.rejects(chatdown(conversation));
+        });
+
+        it('support message card types', async () => {
+            const conversation = `
+bot:[Herocard   
+    title=Cheese gromit!
+    subtitle=Hero Card
+    text=This is some text describing the card, it's cool because it's cool
+    image=${botFrameworkPngPath}
+    buttons=Option 1| Option 2| Option 3]
+bot:[ThumbnailCard   
+    title=Cheese gromit!
+    subtitle=Hero Card
+    text=This is some text describing the card, it's cool because it's cool
+    image=${botFrameworkPngPath}
+    buttons=Option 1| Option 2| Option 3]
+bot:[AudioCard   
+    title=Cheese gromit!
+    subtitle=Hero Card
+    text=This is some text describing the card, it's cool because it's cool
+    image=${botFrameworkPngPath}
+    buttons=Option 1| Option 2| Option 3]
+bot:[VideoCard   
+    title=Cheese gromit!
+    subtitle=Hero Card
+    text=This is some text describing the card, it's cool because it's cool
+    image=${botFrameworkPngPath}
+    buttons=Option 1| Option 2| Option 3]
+bot:[AnimationCard   
+    title=Cheese gromit!
+    subtitle=Hero Card
+    text=This is some text describing the card, it's cool because it's cool
+    autoloop=true
+    images=${botFrameworkPngPath}
+    buttons=Option 1| Option 2| Option 3]
+bot:[MediaCard 
+    title=Cheese gromit!
+    subtitle=Hero Card
+    text=This is some text describing the card, it's cool because it's cool
+    media=${botFrameworkPngPath}
+    buttons=Option 1| Option 2| Option 3]
+[Signincard=
+    Title=BotFramework Sign-in Card
+    Buttons=Sign-in]
+[OauthCard=
+    Title=BotFramework Sign-in Card
+    Buttons=Sign-in]`;
+
+            assert.doesNotReject(chatdown(conversation));
         });
     });
 });

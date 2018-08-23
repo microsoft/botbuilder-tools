@@ -44,11 +44,13 @@ function update_version() {
 
 function publish() {
     echo Publish $1
+    pushd packages
     pushd $1
     create_npmrc
     update_version
     npm install
     npm publish
+    popd
     popd
 }
 
