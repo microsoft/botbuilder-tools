@@ -226,8 +226,8 @@ export class BotConfig extends BotConfigModel {
     // encrypt just a service
     private encryptService(service: IConnectedService): IConnectedService {
         const encryptedProperties = this.getEncryptedProperties(<ServiceType>service.type);
-        for (let i = 0; i < encryptedProperties.length; i++) {
-            const prop = encryptedProperties[i];
+        for (const property of encryptedProperties) {
+            const prop = property;
             const val = <string>(<any>service)[prop];
             (<any>service)[prop] = this.encryptValue(val);
         }
@@ -237,8 +237,8 @@ export class BotConfig extends BotConfigModel {
     // decrypt just a service
     private decryptService(service: IConnectedService): IConnectedService {
         const encryptedProperties = this.getEncryptedProperties(<ServiceType>service.type);
-        for (let i = 0; i < encryptedProperties.length; i++) {
-            const prop = encryptedProperties[i];
+        for (const property of encryptedProperties) {
+            const prop = property;
             const val = <string>(<any>service)[prop];
             (<any>service)[prop] = this.decryptValue(val);
         }
@@ -259,4 +259,3 @@ export class BotConfig extends BotConfigModel {
         return value;
     }
 }
-
