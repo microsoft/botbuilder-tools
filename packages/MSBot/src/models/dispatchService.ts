@@ -22,6 +22,7 @@ export class DispatchService extends ConnectedService implements IDispatchServic
 
     public toJSON(): IDispatchService {
         const { appId, authoringKey, name, serviceIds, subscriptionKey, version } = this;
+
         return {  type: ServiceType.Dispatch, id: appId, name, appId, authoringKey, serviceIds, subscriptionKey, version };
     }
 }

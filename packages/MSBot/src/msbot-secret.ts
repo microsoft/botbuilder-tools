@@ -57,12 +57,14 @@ async function processSecret(config: BotConfig): Promise<BotConfig> {
     }
 
     config.save(args.bot);
+
     return config;
 }
 
 function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);

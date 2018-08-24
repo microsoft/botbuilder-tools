@@ -101,12 +101,14 @@ async function processConnectLuisArgs(config: BotConfig): Promise<BotConfig> {
     config.connectService(newService);
     await config.save();
     process.stdout.write(JSON.stringify(newService, null, 2));
+
     return config;
 }
 
 function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);

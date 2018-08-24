@@ -129,12 +129,14 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
     }
     await config.save();
     process.stdout.write(JSON.stringify(services, null, 2));
+
     return config;
 }
 
 function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);
