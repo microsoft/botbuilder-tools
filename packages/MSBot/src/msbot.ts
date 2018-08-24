@@ -19,6 +19,7 @@ program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
     program.outputHelp((str) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);
@@ -57,6 +58,7 @@ if (args) {
     console.error(chalk.default.redBright(`Unknown arguments: ${a.join(' ')}`));
     program.outputHelp((str) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);
