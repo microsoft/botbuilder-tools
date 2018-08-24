@@ -62,7 +62,7 @@ if (!args.quiet) {
     }
 
     while (!args.endpoint || args.endpoint.length === 0) {
-        args.endpoint = readline.question(`What localhost endpoint does your bot use for debugging [Example: http://localhost:3978/api/messages]? `, {
+        args.endpoint = readline.question(`What endpoint does your bot use for debugging [Example: http://localhost:3978/api/messages]? `, {
             defaultInput: `http://localhost:3978/api/messages`
         });
     }

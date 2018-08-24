@@ -30,8 +30,10 @@ program
     .description('Connect the bot to a QnA knowledgebase')
     .option('-n, --name <name>', 'name for the QNA knowledgebase')
     .option('-k, --kbId <kbId>', 'QnA Knowledgebase Id ')
-    .option('--subscriptionKey <subscriptionKey>', 'Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)')
-    .option('--endpointKey <endpointKey>', 'endpointKey for calling the QnA service (from https://qnamaker.ai portal or qnamaker list endpointkeys command)')
+    .option('--subscriptionKey <subscriptionKey>',
+            'Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)')
+    .option('--endpointKey <endpointKey>',
+            'endpointKey for calling the QnA service (from https://qnamaker.ai portal or qnamaker list endpointkeys command)')
     .option('--hostname <url>', 'url for private QnA service (example: https://myqna.azurewebsites.net)')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
