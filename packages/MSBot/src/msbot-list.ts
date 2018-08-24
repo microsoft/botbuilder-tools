@@ -51,12 +51,14 @@ async function processListArgs(config: BotConfig): Promise<BotConfig> {
         description: config.description,
         services: config.services
     },                         null, 4));
+
     return config;
 }
 
 function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);
