@@ -44,9 +44,7 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((cmd, actions) => {
-
-    });
+    .action((cmd, actions) => undefined);
 
 const args = <ConnectAzureArgs><any>program.parse(process.argv);
 
