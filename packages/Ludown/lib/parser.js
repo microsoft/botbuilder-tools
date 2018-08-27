@@ -118,14 +118,14 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
         if(!program.luis_name) {
             program.lOutFile = path.basename(rootFile, path.extname(rootFile)) + "_LUISApp.json";  
         } else {
-            program.lOutFile = program.luis_name + ".json";
+            program.lOutFile = program.luis_name.includes('.')?program.luis_name:program.luis_name + ".json";
         }
     }
     if(!program.qOutFile) {
         if(!program.qna_name) {
             program.qOutFile = path.basename(rootFile, path.extname(rootFile)) + "_qnaKB.json";
         } else {
-            program.qOutFile = program.qna_name + ".json";
+            program.qOutFile = program.qna_name.includes('.')?program.qna_name:program.qna_name + ".json";
         }
     }
     if((cmd == cmdEnum.luis) && writeLUISFile) {
@@ -140,8 +140,8 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
         if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote LUIS model to ' + path.join(outFolder, program.lOutFile) + '\n'));
     }
     if((cmd == cmdEnum.qna) && writeQnAFile) {
-        var qnaJson = JSON.stringify(finalQnAJSON, null, 2);
-        var qnaFilePath = path.join(outFolder, program.qOutFile);
+        let qnaJson = JSON.stringify(finalQnAJSON, null, 2);
+        let qnaFilePath = path.join(outFolder, program.qOutFile);
         // write out the final LUIS Json
         try {
             fs.writeFileSync(qnaFilePath, qnaJson, 'utf-8');
@@ -152,9 +152,9 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     }
     // write luis batch test file if requested
     if((cmd == cmdEnum.luis) && program.write_luis_batch_tests) {
-        var lBatchFile = JSON.stringify(finalLUISJSON.utterances, null, 2);
-        var LUISBatchFileName = program.lOutFile.replace(".json","_LUISBatchTest.json");
-        var lBFileName = path.join(outFolder, LUISBatchFileName);
+        let lBatchFile = JSON.stringify(finalLUISJSON.utterances, null, 2);
+        let LUISBatchFileName = program.lOutFile + '_LUISBatchTest.json';
+        let lBFileName = path.join(outFolder, LUISBatchFileName);
         // write out the final LUIS Json
         try {
             fs.writeFileSync(lBFileName, lBatchFile, 'utf-8');
@@ -167,7 +167,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     // write out QnA Alterations if requested
     if((cmd == cmdEnum.qna) && program.write_qna_alterations) {
         let qAlterationsFileContent = JSON.stringify(finalQnAAlterations, null, 2);
-        let qAlterationsFileName = program.qOutFile.replace(".json", "_Alterations.json");
+        let qAlterationsFileName = program.qOutFile + '_Alterations.json';
         let qAFileName = path.join(outFolder, qAlterationsFileName);
         // write out the final QnA alterations file
         try {
