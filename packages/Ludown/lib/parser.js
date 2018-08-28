@@ -153,7 +153,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     // write luis batch test file if requested
     if((cmd == cmdEnum.luis) && program.write_luis_batch_tests) {
         let lBatchFile = JSON.stringify(finalLUISJSON.utterances, null, 2);
-        let LUISBatchFileName = program.lOutFile + '_LUISBatchTest.json';
+        let LUISBatchFileName = program.lOutFile.endsWith('.json')?program.lOutFile.replace('.json','_LUISBatchTest.json'):program.lOutFile + '_LUISBatchTest.json';
         let lBFileName = path.join(outFolder, LUISBatchFileName);
         // write out the final LUIS Json
         try {
@@ -167,7 +167,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     // write out QnA Alterations if requested
     if((cmd == cmdEnum.qna) && program.write_qna_alterations) {
         let qAlterationsFileContent = JSON.stringify(finalQnAAlterations, null, 2);
-        let qAlterationsFileName = program.qOutFile + '_Alterations.json';
+        let qAlterationsFileName = program.qOutFile.endsWith('.json')?program.qOutFile.replace('.json','_Alterations.json'):program.qOutFile + '_Alterations.json';
         let qAFileName = path.join(outFolder, qAlterationsFileName);
         // write out the final QnA alterations file
         try {
