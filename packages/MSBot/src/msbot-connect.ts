@@ -31,6 +31,7 @@ if (args) {
 function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);

@@ -55,11 +55,13 @@ export class BotConfigModel implements Partial<IBotConfig> {
         services = services.slice().map(BotConfigModel.serviceFromJSON);
         const botConfig = new BotConfigModel();
         Object.assign(botConfig, { services, description, name, secretKey });
+
         return botConfig;
     }
 
     public toJSON(): Partial<IBotConfig> {
         const { name, description, services, secretKey } = this;
+
         return { name, description, services, secretKey };
     }
 }

@@ -21,6 +21,7 @@ export class LuisService extends ConnectedService implements ILuisService {
 
     public toJSON(): ILuisService {
         const { appId, authoringKey, id, name, subscriptionKey, type, version } = this;
+
         return { type: ServiceType.Luis, id: appId, name, version, appId, authoringKey, subscriptionKey };
     }
 }

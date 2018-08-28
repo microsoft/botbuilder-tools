@@ -147,6 +147,7 @@ export class BotConfig extends BotConfigModel {
             if (service.id === nameOrId || service.name === nameOrId) {
                 svs.removeAt(i);
                 this.services = svs.toArray();
+
                 return service;
             }
         }
@@ -162,6 +163,7 @@ export class BotConfig extends BotConfigModel {
             if (service.type === type && service.id === id) {
                 svs.removeAt(i);
                 this.services = svs.toArray();
+
                 return;
             }
         }
@@ -177,6 +179,7 @@ export class BotConfig extends BotConfigModel {
 
             return this.internalEncrypt(value);
         }
+
         return value;
     }
 
@@ -190,6 +193,7 @@ export class BotConfig extends BotConfigModel {
 
             return this.internalDecrypt(encryptedValue);
         }
+
         return encryptedValue;
     }
 
@@ -231,6 +235,7 @@ export class BotConfig extends BotConfigModel {
             const val = <string>(<any>service)[prop];
             (<any>service)[prop] = this.encryptValue(val);
         }
+
         return service;
     }
 
@@ -242,6 +247,7 @@ export class BotConfig extends BotConfigModel {
             const val = <string>(<any>service)[prop];
             (<any>service)[prop] = this.decryptValue(val);
         }
+
         return service;
     }
 
@@ -249,6 +255,7 @@ export class BotConfig extends BotConfigModel {
         const cipher = crypto.createCipher('aes192', this.internal.secret);
         let encryptedValue = cipher.update(value, 'utf8', 'hex');
         encryptedValue += cipher.final('hex');
+
         return encryptedValue;
     }
 
@@ -256,6 +263,7 @@ export class BotConfig extends BotConfigModel {
         const decipher = crypto.createDecipher('aes192', this.internal.secret);
         let value = decipher.update(encryptedValue, 'hex', 'utf8');
         value += decipher.final('utf8');
+
         return value;
     }
 }
