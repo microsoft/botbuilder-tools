@@ -44,9 +44,7 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((cmd, actions) => {
-
-    });
+    .action((cmd, actions) => undefined);
 
 const args = <ConnectAzureArgs><any>program.parse(process.argv);
 
@@ -77,11 +75,11 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.id || args.id.length == 0) {
+    if (!args.id || args.id.length === 0) {
         throw new Error('Bad or missing --id for registered bot');
     }
 
-    if (!args.tenantId || args.tenantId.length == 0) {
+    if (!args.tenantId || args.tenantId.length === 0) {
         throw new Error('Bad or missing --tenantId');
     }
 
@@ -89,7 +87,7 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
         throw new Error('Bad or missing --subscriptionId');
     }
 
-    if (!args.resourceGroup || args.resourceGroup.length == 0) {
+    if (!args.resourceGroup || args.resourceGroup.length === 0) {
         throw new Error('Bad or missing --resourceGroup for registered bot');
     }
     const services = [];
@@ -112,7 +110,7 @@ async function processConnectAzureArgs(config: BotConfig): Promise<BotConfig> {
             throw new Error('Bad or missing --appId');
         }
 
-        if (!args.appPassword || args.appPassword.length == 0) {
+        if (!args.appPassword || args.appPassword.length === 0) {
             throw new Error('Bad or missing --appPassword');
         }
 

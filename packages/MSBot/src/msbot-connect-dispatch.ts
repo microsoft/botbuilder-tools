@@ -38,9 +38,7 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((cmd, actions) => {
-
-    });
+    .action((cmd, actions) => undefined);
 
 const args = <ConnectLuisArgs><any>program.parse(process.argv);
 
@@ -104,7 +102,7 @@ async function processConnectDispatch(config: BotConfig): Promise<BotConfig> {
     if (<IConnectedService[]>dispatchServices) {
         for (const service of dispatchServices) {
             newService.serviceIds.push(service.id || '');
-            if (!Enumerable.fromSource(config.services).any(s => s.id == service.id)) {
+            if (!Enumerable.fromSource(config.services).any(s => s.id === service.id)) {
                 switch (service.type) {
                     case ServiceType.File:
                     case ServiceType.Luis:
