@@ -42,7 +42,7 @@ const args: InitArgs = <InitArgs><any>program.parse(process.argv);
 if (!args.quiet) {
 
     let exists = fsx.existsSync(`${args.name}.bot`);
-    while (((!args.hasOwnProperty('name') || args.name.length == 0)) || exists) {
+    while (((!args.hasOwnProperty('name') || args.name.length === 0)) || exists) {
         if (exists) {
             console.log(`${args.name}.bot already exists`);
         }
@@ -50,35 +50,35 @@ if (!args.quiet) {
         exists = fsx.existsSync(`${args.name}.bot`);
     }
 
-    if (!args.secret || args.secret.length == 0) {
+    if (!args.secret || args.secret.length === 0) {
         const answer = readline.question(`Would you to secure your bot keys with a secret? [no]`);
-        if (answer == 'y' || answer == 'yes') {
+        if (answer === 'y' || answer === 'yes') {
             args.secret = readline.question(`What secret would you like to use? `);
         }
     }
 
-    if (!args.description || args.description.length == 0) {
+    if (!args.description || args.description.length === 0) {
         args.description = readline.question(`What description would you like for your bot? `);
     }
 
-    while (!args.endpoint || args.endpoint.length == 0) {
+    while (!args.endpoint || args.endpoint.length === 0) {
         args.endpoint = readline.question(`What localhost endpoint does your bot use for debugging [Example: http://localhost:3978/api/messages]? `, {
             defaultInput: `http://localhost:3978/api/messages`
         });
     }
 
-    if (!args.appId || args.appId.length == 0) {
+    if (!args.appId || args.appId.length === 0) {
         const answer = readline.question(`Do you have an Application Id for this bot? [no] `, {
             defaultInput: 'no'
         });
-        if (answer == 'y' || answer == 'yes') {
+        if (answer === 'y' || answer === 'yes') {
             args.appId = readline.question(`What is your Application Id? [none] `, {
                 defaultInput: ''
             });
         }
     }
 
-    while (args.appId && args.appId.length > 0 && (!args.appPassword || args.appPassword.length == 0)) {
+    while (args.appId && args.appId.length > 0 && (!args.appPassword || args.appPassword.length === 0)) {
         args.appPassword = readline.question(`What is your Msa Application password for ${args.appId}? `, {
             defaultInput: ''
         });

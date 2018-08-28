@@ -102,7 +102,7 @@ async function processConnectDispatch(config: BotConfig): Promise<BotConfig> {
     if (<IConnectedService[]>dispatchServices) {
         for (const service of dispatchServices) {
             newService.serviceIds.push(service.id || '');
-            if (!Enumerable.fromSource(config.services).any(s => s.id == service.id)) {
+            if (!Enumerable.fromSource(config.services).any(s => s.id === service.id)) {
                 switch (service.type) {
                     case ServiceType.File:
                     case ServiceType.Luis:

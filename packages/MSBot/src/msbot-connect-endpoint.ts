@@ -82,7 +82,7 @@ async function processConnectEndpointArgs(config: BotConfig): Promise<BotConfig>
         throw new Error('--appId is not valid');
     }
 
-    if (args.appPassword && args.appPassword.length == 0) {
+    if (args.appPassword && args.appPassword.length === 0) {
         throw new Error('zero length --appPassword');
     }
 
@@ -100,8 +100,8 @@ async function processConnectEndpointArgs(config: BotConfig): Promise<BotConfig>
         id = `${idCount}`;
 
         if (Enumerable.fromSource(config.services)
-            .where(s => s.type == ServiceType.Endpoint && s.id == id)
-            .any() == false) {
+            .where(s => s.type === ServiceType.Endpoint && s.id === id)
+            .any() === false) {
             break;
         }
 
