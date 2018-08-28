@@ -39,7 +39,7 @@ export class BotConfig extends BotConfigModel {
 
     public static async LoadBotFromFolder(folder?: string, secret?: string): Promise<BotConfig> {
         const files = Enumerable.fromSource(await fsx.readdir(folder || process.cwd()))
-            .where(file => path.extname(<string>file) == '.bot');
+            .where(file => path.extname(<string>file) === '.bot');
 
         if (files.any()) {
             return BotConfig.Load(<string>files.first(), secret);
@@ -67,10 +67,10 @@ export class BotConfig extends BotConfigModel {
 
         // make sure that all dispatch serviceIds still match services that are in the bot
         for (const service of this.services) {
-            if (service.type == ServiceType.Dispatch) {
+            if (service.type === ServiceType.Dispatch) {
                 const dispatchService = <IDispatchService>service;
                 dispatchService.serviceIds = Enumerable.fromSource(dispatchService.serviceIds)
-                    .where(serviceId => Enumerable.fromSource(this.services).any(s => s.id == serviceId))
+                    .where(serviceId => Enumerable.fromSource(this.services).any(s => s.id === serviceId))
                     .toArray();
             }
         }
@@ -99,8 +99,8 @@ export class BotConfig extends BotConfigModel {
     // connect to a service
     public connectService(newService: IConnectedService): void {
         if (Enumerable.fromSource(this.services)
-            .where(s => s.type == newService.type)
-            .where(s => s.id == newService.id)
+            .where(s => s.type === newService.type)
+            .where(s => s.id === newService.id)
             .any()) {
             throw Error(`service with ${newService.id} already connected`);
         } else {
@@ -113,7 +113,7 @@ export class BotConfig extends BotConfigModel {
                     name = `${newService.name} (${nameCount})`;
                 }
 
-                if (!Enumerable.fromSource(this.services).where(s => s.name == name).any()) {
+                if (!Enumerable.fromSource(this.services).where(s => s.name === name).any()) {
                     break;
                 }
                 nameCount++;
@@ -144,7 +144,7 @@ export class BotConfig extends BotConfigModel {
 
         for (let i = 0; i < svs.count(); i++) {
             const service = svs.elementAt(i);
-            if (service.id == nameOrId || service.name == nameOrId) {
+            if (service.id === nameOrId || service.name === nameOrId) {
                 svs.removeAt(i);
                 this.services = svs.toArray();
                 return service;
@@ -159,7 +159,7 @@ export class BotConfig extends BotConfigModel {
 
         for (let i = 0; i < svs.count(); i++) {
             const service = svs.elementAt(i);
-            if (service.type == type && service.id == id) {
+            if (service.type === type && service.id === id) {
                 svs.removeAt(i);
                 this.services = svs.toArray();
                 return;
@@ -168,7 +168,7 @@ export class BotConfig extends BotConfigModel {
     }
 
     public encryptValue(value: string): string {
-        if (!value || value.length == 0) {
+        if (!value || value.length === 0) {
             return value;
         }
 
@@ -181,7 +181,7 @@ export class BotConfig extends BotConfigModel {
     }
 
     public decryptValue(encryptedValue: string): string {
-        if (!encryptedValue || encryptedValue.length == 0) {
+        if (!encryptedValue || encryptedValue.length === 0) {
             return encryptedValue;
         }
 
@@ -199,12 +199,12 @@ export class BotConfig extends BotConfigModel {
             return;
         }
 
-        if (!this.internal.secret || this.internal.secret.length == 0) {
+        if (!this.internal.secret || this.internal.secret.length === 0) {
             throw new Error('You are attempting to perform an operation which needs access to the secret and --secret is missing');
         }
 
         try {
-            if (!this.secretKey || this.secretKey.length == 0) {
+            if (!this.secretKey || this.secretKey.length === 0) {
                 // if no key, create a guid and enrypt that to use as secret validator
                 this.secretKey = this.internalEncrypt(uuid());
             } else {
