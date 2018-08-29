@@ -108,13 +108,17 @@ async function processConnectEndpointArgs(config: BotConfig): Promise<BotConfig>
 
         idCount++;
     }
-    const newService = new EndpointService({
+
+    const connectedService: IEndpointService = {
         id,
         name: args.name,
         appId: (args.appId && args.appId.length > 0) ? args.appId : '',
         appPassword: (args.appPassword && args.appPassword.length > 0) ? args.appPassword : '',
-        endpoint: args.endpoint
-    } as IEndpointService);
+        endpoint: args.endpoint,
+        type: ServiceType.Endpoint
+    }
+
+    const newService = new EndpointService(connectedService);
     config.connectService(newService);
 
     await config.save();
