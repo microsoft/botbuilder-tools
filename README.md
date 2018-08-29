@@ -55,7 +55,7 @@ npm run test
 
 This repository uses [lerna](https://github.com/lerna/lerna) to manage the packages included. This allows you to execute scripts for all packages or only for some packages. For instance, `lerna run test` will run all tests in each package, but `lerna run test --scope chatdown` will run the tests of chatdown.
 
-To use lerna, install it as a global package with `npm install lerna --global`.
+To use lerna, install it as a global package with `npm install lerna@3.2.1 --global`.
 
 ## Contributing
 
