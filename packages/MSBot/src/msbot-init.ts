@@ -92,15 +92,16 @@ if (!args.name) {
     bot.name = args.name;
     bot.description = args.description;
 
-    bot.connectService(<IEndpointService>{
+    const connectedService: IEndpointService = {
         type: ServiceType.Endpoint,
         name: args.name,
         endpoint: args.endpoint,
-        description: args.description,
         id: args.endpoint,
         appId: args.appId || '',
         appPassword: args.appPassword || ''
-    });
+    }
+
+    bot.connectService(connectedService);
 
     if (args.secret && args.secret.length > 0) {
         bot.validateSecretKey();

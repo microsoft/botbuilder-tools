@@ -60,11 +60,14 @@ async function processConnectFile(config: BotConfig): Promise<BotConfig> {
     }
 
     // add the service
-    const newService = new FileService({
+    const connectedService: IFileService = {
         id: args.filePath,
         name: path.basename(args.filePath),
-        filePath: args.filePath
-    } as IFileService);
+        filePath: args.filePath,
+        type: ServiceType.File
+    }
+
+    const newService: FileService = new FileService(connectedService);
     config.connectService(newService);
     await config.save();
     process.stdout.write(JSON.stringify(newService, null, 2));
