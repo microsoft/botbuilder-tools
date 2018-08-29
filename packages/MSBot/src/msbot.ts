@@ -6,9 +6,10 @@
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
+import * as semver from 'semver';
 
+// tslint:disable-next-line:no-require-imports no-var-requires
 const pkg = require('../package.json');
-const semver = require('semver');
 const requiredVersion = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
     console.error(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
