@@ -107,7 +107,7 @@ if (!args.name) {
         bot.validateSecretKey();
     }
 
-    const filename = bot.name + '.bot';
+    const filename = `${bot.name}.bot`;
     bot.save(filename);
     console.log(`${filename} created`);
 
