@@ -51,6 +51,6 @@
     "uuid": "^3.2.1",
     "valid-url": "^1.0.9",
     "validator": "^9.4.1",
-    "botframework-config" : "^4.0.0-preview1.2"
+    "botframework-config": "^4.0.0-preview1.2"
   }
 }
