@@ -28,7 +28,7 @@ program
     });
 
 const args: SecretArgs = <SecretArgs><any>program.parse(process.argv);
-let path: string;
+const path: string = '';
 
 if (process.argv.length < 3) {
     showErrorHelp();
