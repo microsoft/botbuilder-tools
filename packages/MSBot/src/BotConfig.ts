@@ -20,7 +20,7 @@ interface internalBotConfig {
 
 export class BotConfig extends BotConfigModel {
 
-    protected encryptedProperties: { [key: string]: string[]; } = {
+    protected encryptedProperties: { [key: string]: string[] } = {
         endpoint: ['appPassword'],
         abs: ['appPassword'],
         luis: ['authoringKey', 'subscriptionKey'],
