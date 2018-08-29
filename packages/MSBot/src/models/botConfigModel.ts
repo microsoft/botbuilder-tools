@@ -51,7 +51,9 @@ export class BotConfigModel implements Partial<IBotConfig> {
     }
 
     public static fromJSON(source: Partial<IBotConfig> = {}): BotConfigModel {
-        let { name = '', description = '', secretKey = '', services = [] } = source;
+        const { description = '', secretKey = '', name = '' } = source;
+        let { services = [] } = source;
+
         services = services.slice().map(BotConfigModel.serviceFromJSON);
         const botConfig = new BotConfigModel();
         Object.assign(botConfig, { services, description, name, secretKey });
