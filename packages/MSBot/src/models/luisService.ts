@@ -12,7 +12,7 @@ export class LuisService extends ConnectedService implements ILuisService {
     public subscriptionKey = '';
     public version = '';
 
-    constructor(source: ILuisService = {} as ILuisService) {
+    constructor(source: ILuisService) {
         super(source);
         const { appId = '', authoringKey = '', subscriptionKey = '', version = '' } = source;
         this.id = appId;

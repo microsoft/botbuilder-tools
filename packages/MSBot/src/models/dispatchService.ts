@@ -13,7 +13,7 @@ export class DispatchService extends ConnectedService implements IDispatchServic
     public subscriptionKey = '';
     public version = '';
 
-    constructor(source: IDispatchService = {} as IDispatchService) {
+    constructor(source: IDispatchService) {
         super(source);
         const { appId = '', authoringKey = '', serviceIds = [], subscriptionKey = '', version = '' } = source;
         this.id = appId;
