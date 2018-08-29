@@ -2,6 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+// tslint:disable:no-console
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as fsx from 'fs-extra';
@@ -107,7 +108,7 @@ if (!args.name) {
         bot.validateSecretKey();
     }
 
-    const filename = bot.name + '.bot';
+    const filename = `${bot.name}.bot`;
     bot.save(filename);
     console.log(`${filename} created`);
 
