@@ -7,7 +7,7 @@
 
 const pkg = require('../package.json');
 const semver = require('semver');
-
+const stdin = require('get-stdin');
 const msRest = require("ms-rest-js");
 const { LuisAuthoring } = require('../lib/luisAuthoring');
 const getOperation = require('./getOperation');
@@ -354,6 +354,13 @@ async function runProgram() {
                     break;
 
                 case "version":
+                    if (args.stdin) {
+                        let json = JSON.parse(await stdin());
+                        args.authoringKey = json.
+                        args.region = json.region;
+                        args.appId = json.appId;
+                        args.version = json.version;
+                    }
                     result = await client.versions.importMethod(args.region, args.appId, requestBody, args);
                     break;
 
