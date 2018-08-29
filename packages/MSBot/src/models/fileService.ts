@@ -9,7 +9,7 @@ export class FileService extends ConnectedService implements IFileService {
     public readonly type = ServiceType.File;
     public filePath = '';
 
-    constructor(source: IFileService = {} as IFileService) {
+    constructor(source: IFileService) {
         super(source);
         const { filePath = '' } = source;
         this.id = filePath;

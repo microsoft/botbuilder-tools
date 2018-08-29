@@ -79,7 +79,7 @@ export class BotConfig extends BotConfigModel {
             this.encryptAll();
         }
 
-        await fsx.writeJson(botpath || <string>this.internal.location, <IBotConfig>{
+        await fsx.writeJson(botpath || <string>this.internal.location, {
             name: this.name,
             description: this.description,
             secretKey: this.secretKey,

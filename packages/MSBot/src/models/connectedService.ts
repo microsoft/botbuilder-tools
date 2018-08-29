@@ -9,7 +9,7 @@ export abstract class ConnectedService implements IConnectedService {
     public name = '';
     public abstract readonly type: ServiceType;
 
-    protected constructor(source: IConnectedService = {} as IConnectedService) {
+    protected constructor(source: IConnectedService) {
         const { id = '', name = '' } = source;
         Object.assign(this, { id, name });
     }

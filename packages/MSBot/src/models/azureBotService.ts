@@ -11,7 +11,7 @@ export class AzureBotService extends ConnectedService implements IAzureBotServic
     public subscriptionId = '';
     public resourceGroup = '';
 
-    constructor(source: IAzureBotService = {} as IAzureBotService) {
+    constructor(source: IAzureBotService) {
         super(source);
         const { tenantId = '', subscriptionId = '', resourceGroup = '' } = source;
         Object.assign(this, { tenantId, subscriptionId, resourceGroup });

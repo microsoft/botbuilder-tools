@@ -45,7 +45,7 @@ if (!parsed.bot) {
 async function processListArgs(config: BotConfig): Promise<BotConfig> {
     const services = config.services;
 
-    console.log(JSON.stringify(<IBotConfig>{
+    console.log(JSON.stringify({
         name: config.name,
         description: config.description,
         services: config.services
