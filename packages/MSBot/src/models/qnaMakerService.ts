@@ -15,7 +15,8 @@ export class QnaMakerService extends ConnectedService implements IQnAService {
 
     constructor(source: IQnAService = {} as IQnAService) {
         super(source);
-        let { id = '', name = '', kbId = '', subscriptionKey = '', endpointKey = '', hostname = '' } = source;
+        const { name = '', kbId = '', subscriptionKey = '', endpointKey = ''} = source;
+        let { id = '', hostname = ''} = source;
         this.id = kbId;
         if (hostname) {
             hostname = url.resolve(hostname, '/qnamaker');
