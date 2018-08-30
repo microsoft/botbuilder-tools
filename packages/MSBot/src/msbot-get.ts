@@ -17,7 +17,7 @@ interface ListArgs {
     bot: string;
     secret: string;
     service: string;
-    args: [];
+    args: string[];
 }
 
 program
