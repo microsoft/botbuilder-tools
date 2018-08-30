@@ -107,6 +107,7 @@ let configSection = {
         [chalk.cyan.bold('--authoringKey'), 'Specifies the LUIS authoring  key (from luis.ai portal user settings page). Overrides the .luisrc value and the LUIS_AUTHORING_KEY environment variable.'],
         [chalk.cyan.bold('--versionId'), 'Specifies the version id. Overrides the .luisrc value and the LUIS_VERSION_ID environment variable.'],
         [chalk.cyan.bold('--endpointBasePath'), 'Specifies the base URI for all requests. Overrides the .luisrc value and the LUIS_ENDPOINT_BASE_PATH environment variable.'],
+        [chalk.cyan.bold('--stdin'), 'Pull in service keys from stdin in the format of that is the output of: msbot get service'],
     ]
 };
 
