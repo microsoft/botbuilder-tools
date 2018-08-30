@@ -91,7 +91,7 @@ if (!args.name) {
 else {
     const bot = new BotConfiguration();
     bot.name = args.name;
-    bot.description = args.desc;
+    bot.description = args.description;
 
     bot.connectService(new EndpointService({
         name: args.name,
