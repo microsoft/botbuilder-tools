@@ -16,26 +16,28 @@ program.Command.prototype.unknownOption = function (flag: any) {
 interface ListArgs {
     bot: string;
     secret: string;
+    service: string;
+    args: string[];
 }
 
 program
-    .name('msbot list')
+    .name('msbot get <serviceNameOrId>')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .action((cmd, actions) => {
     });
 
-let parsed = <ListArgs><any>program.parse(process.argv);
+let args = <ListArgs><any>program.parse(process.argv);
 
-if (!parsed.bot) {
-    BotConfiguration.loadBotFromFolder(process.cwd(), parsed.secret)
+if (!args.bot) {
+    BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
         .then(processListArgs)
         .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
             showErrorHelp();
         });
 } else {
-    BotConfiguration.load(parsed.bot, parsed.secret)
+    BotConfiguration.load(args.bot, args.secret)
         .then(processListArgs)
         .catch((reason) => {
             console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
@@ -45,9 +47,16 @@ if (!parsed.bot) {
 
 
 async function processListArgs(config: BotConfiguration): Promise<BotConfiguration> {
-    let services = config.services;
 
-    console.log(JSON.stringify(config, null, 4));
+    if (args.args.length < 2) {
+        throw new Error('missing the service id or name');
+    }
+    let nameOrId = args.args[0];
+    var service = config.findServiceByNameOrId(nameOrId);
+    if (service == null) {
+        throw new Error(`${nameOrId} was not found in ${config.getPath()}`);
+    }
+    console.log(JSON.stringify(service, null, 4));
     return config;
 }
 

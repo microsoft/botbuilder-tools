@@ -1,6 +1,6 @@
 {
   "name": "msbot",
-  "version": "1.0.52",
+  "version": "2.0.1",
   "description": "MSBot command line tool for manipulating Microsoft Bot Framework .bot files",
   "main": "bin/BotConfig.js",
   "scripts": {
@@ -51,6 +51,7 @@
     "semver": "^5.5.0",
     "uuid": "^3.2.1",
     "valid-url": "^1.0.9",
-    "validator": "^9.4.1"
+    "validator": "^9.4.1",
+    "botframework-config": "^4.0.0-preview1.2"
   }
 }
