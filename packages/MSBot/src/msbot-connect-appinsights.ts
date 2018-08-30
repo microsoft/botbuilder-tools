@@ -2,6 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+// tslint:disable:no-console
 import { AppInsightsService, BotConfiguration, IAppInsightsService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
