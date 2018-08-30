@@ -6,6 +6,7 @@
 /*eslint no-console: ["error", { allow: ["log"] }] */
 const pkg = require('../package.json');
 const semver = require('semver');
+
 let requiredVersion = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
     console.log(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
@@ -13,6 +14,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 }
 
 global.fetch = require('node-fetch'); // Browser compatibility
+const stdin = require('get-stdin');
 const assert = require('assert');
 const fs = require('fs-extra');
 const path = require('path');
@@ -64,14 +66,21 @@ async function runProgram() {
         return process.stdout.write(require(path.join(__dirname, '../package.json')).version + "\n");
     }
 
+    let serviceIn = {};
+    if (args.stdin) {
+        let json = await stdin();
+        serviceIn = JSON.parse(json);
+    }
 
     const config = await composeConfig(args);
-    if (!args.kbId)
-        args.kbId = config.kbId;
-    if (!args.hostname)
-        args.hostname = config.hostname;
+    args.kbId = args.kbId || serviceIn.kbId || config.kbId;
+    args.subscriptionKey = args.subscriptionKey || serviceIn.subscriptionKey || config.subscriptionKey;
+    args.endpointKey = args.endpointKey || serviceIn.endpointKey || config.endpointKey;
+    args.hostname = args.hostname || serviceIn.hostname || config.hostname;
 
-    ServiceBase.config = config;
+    ServiceBase.config = args;
+
+    validateConfig(args);
 
     if (args._[0] == "set")
         return await handleSetCommand(args, config);
@@ -82,30 +91,30 @@ async function runProgram() {
 
     // special case operations
     switch (serviceManifest.operation.methodAlias) {
-    case "delete":
-        if (!args.f && !args.force) {
-            let kbResult = await new Knowledgebase().getKnowledgebaseDetails(config);
-            let kb = JSON.parse(await kbResult.text());
-            let answer = readlineSync.question(`Are you sure you would like to delete ${kb.name} [${kb.id}]? [no] `, { defaultInput: 'no' });
-            if (answer.trim()[0] == 'n') {
-                process.stderr.write('operation canceled');
-                return;
+        case "delete":
+            if (!args.f && !args.force) {
+                let kbResult = await new Knowledgebase().getKnowledgebaseDetails(config);
+                let kb = JSON.parse(await kbResult.text());
+                let answer = readlineSync.question(`Are you sure you would like to delete ${kb.name} [${kb.id}]? [no] `, { defaultInput: 'no' });
+                if (answer.trim()[0] == 'n') {
+                    process.stderr.write('operation canceled');
+                    return;
+                }
             }
-        }
-        break;
+            break;
 
-    case "create":
-        if (args.name)
-            requestBody.name = args.name;
+        case "create":
+            if (args.name)
+                requestBody.name = args.name;
 
-        if (!requestBody.name) {
-            if (!(args.q || args.quiet)) {
-                let answer = readlineSync.question(`What would you like to name your new knowledgebase? `);
-                if (answer && answer.length > 0)
-                    requestBody.name = answer.trim();
+            if (!requestBody.name) {
+                if (!(args.q || args.quiet)) {
+                    let answer = readlineSync.question(`What would you like to name your new knowledgebase? `);
+                    if (answer && answer.length > 0)
+                        requestBody.name = answer.trim();
+                }
             }
-        }
-        break;
+            break;
     }
 
     let result = await qnamaker(config, serviceManifest, args, requestBody);
@@ -115,30 +124,8 @@ async function runProgram() {
 
     // special case response
     switch (serviceManifest.operation.name) {
-    case "getKnowledgebaseDetails": {
-        config.kbId = result.id;
-        let kb = await updateKbId(config);
-        if (args.msbot) {
-            process.stdout.write(JSON.stringify({
-                type: "qna",
-                name: kb.name,
-                id: kb.id,
-                kbId: kb.id,
-                subscriptionKey: config.subscriptionKey,
-                endpointKey: config.endpointKey,
-                hostname: kb.hostName
-            }, null, 2) + "\n");
-        } else {
-            process.stdout.write(JSON.stringify(result, null, 2) + "\n");
-        }
-        break;
-    }
-    case "createKnowledgebase":
-        if (args.wait || args.msbot) {
-            result = await waitForOperationSucceeded(config, result);
-
-            let kbId = result.resourceLocation.split('/')[2];
-            config.kbId = kbId;
+        case "getKnowledgebaseDetails": {
+            config.kbId = result.id;
             let kb = await updateKbId(config);
             if (args.msbot) {
                 process.stdout.write(JSON.stringify({
@@ -148,39 +135,61 @@ async function runProgram() {
                     kbId: kb.id,
                     subscriptionKey: config.subscriptionKey,
                     endpointKey: config.endpointKey,
-                    hostname: config.hostname
+                    hostname: kb.hostName
                 }, null, 2) + "\n");
+            } else {
+                process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+            }
+            break;
+        }
+        case "createKnowledgebase":
+            if (args.wait || args.msbot) {
+                result = await waitForOperationSucceeded(config, result);
 
+                let kbId = result.resourceLocation.split('/')[2];
+                config.kbId = kbId;
+                let kb = await updateKbId(config);
+                if (args.msbot) {
+                    process.stdout.write(JSON.stringify({
+                        type: "qna",
+                        name: kb.name,
+                        id: kb.id,
+                        kbId: kb.id,
+                        subscriptionKey: config.subscriptionKey,
+                        endpointKey: config.endpointKey,
+                        hostname: config.hostname
+                    }, null, 2) + "\n");
+
+                } else {
+                    process.stdout.write(JSON.stringify(result, null, 2));
+                }
+                if (args.wait && !(args.q || args.quiet) && !args.msbot) {
+                    let answer = readlineSync.question(`Would you like to save ${kb.name} ${kb.id} in your .qnamakerrc so that future commands will be with this KB? [yes] `, { defaultInput: 'yes' });
+                    if (answer[0] == 'y') {
+                        await fs.writeJson(path.join(process.cwd(), '.qnamakerrc'), config, { spaces: 2 });
+                        process.stdout.write('.qnamakerrc updated' + "\n");
+                    }
+                }
             } else {
                 process.stdout.write(JSON.stringify(result, null, 2));
             }
-            if (args.wait && !(args.q || args.quiet) && !args.msbot) {
-                let answer = readlineSync.question(`Would you like to save ${kb.name} ${kb.id} in your .qnamakerrc so that future commands will be with this KB? [yes] `, { defaultInput: 'yes' });
-                if (answer[0] == 'y') {
-                    await fs.writeJson(path.join(process.cwd(), '.qnamakerrc'), config, { spaces: 2 });
-                    process.stdout.write('.qnamakerrc updated' + "\n");
-                }
+            break;
+
+        case "updateKnowledgebase":
+            if (args.wait || args.msbot) {
+                result = await waitForOperationSucceeded(config, result);
             }
-        } else {
             process.stdout.write(JSON.stringify(result, null, 2));
-        }
-        break;
+            break;
 
-    case "updateKnowledgebase":
-        if (args.wait || args.msbot) {
-            result = await waitForOperationSucceeded(config, result);
+        default: {
+            // dump json as json stringified
+            if (typeof result == 'string')
+                process.stdout.write(result + "\n");
+            else
+                process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+            break;
         }
-        process.stdout.write(JSON.stringify(result, null, 2));
-        break;
-
-    default: {
-        // dump json as json stringified
-        if (typeof result == 'string')
-            process.stdout.write(result + "\n");
-        else
-            process.stdout.write(JSON.stringify(result, null, 2) + "\n");
-        break;
-    }
     }
 }
 
@@ -292,7 +301,6 @@ async function composeConfig() {
             endpointKey: (endpointKey || qnamakerrcJson.endpointKey || QNAMAKER_ENDPOINTKEY),
             kbId: (kbId || qnamakerrcJson.kbId || QNA_MAKER_KBID)
         };
-        validateConfig(config);
     }
     return config;
 }
@@ -349,15 +357,15 @@ async function validateArguments(serviceManifest) {
         }
         else {
             switch (serviceManifest.operation.name) {
-            case "generateAnswer":
-                body = {
-                    question: args.question,
-                    top: args.top
-                };
-                break;
-            default:
-                error.message = `The ${operation.name} requires an input of type: ${operation.entityType}`;
-                throw error;
+                case "generateAnswer":
+                    body = {
+                        question: args.question,
+                        top: args.top
+                    };
+                    break;
+                default:
+                    error.message = `The ${operation.name} requires an input of type: ${operation.entityType}`;
+                    throw error;
             }
         }
     }
