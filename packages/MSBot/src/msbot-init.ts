@@ -2,6 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+// tslint:disable:no-console
 import { BotConfiguration, EndpointService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
@@ -15,7 +16,7 @@ program.Command.prototype.unknownOption = function (flag: any) {
 
 interface InitArgs {
     name: string;
-    desc: string;
+    description: string;
     secret: boolean;
     endpoint: string;
     appId: string;
