@@ -1,21 +1,31 @@
-function install() {
-    echo Install $1
-    pushd $1
-    npm install
-    if [ $2 ]; then npm run test; fi
-    popd
-}
+#!/bin/bash
 
-function eslint() {
-    echo Run ESLint for all packages
-    npm install
-    npm run eslint:travis
-}
+main() {
+    if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
+        publish Chatdown
+        publish Dispatch
+        publish Ludown
+        publish LUIS
+        publish LUISGen
+        publish MSBot
+        publish QnAMaker
+    else
+        (
+            set -e
+            npm install
+            npm run build
+            npm run eslint
+            npm run tslint
+            npm run coverage
+        )
 
-function coveralls() {
-    echo Run Coveralls Aggregated tests
-    npm install
-    npm run test:travis
+    fi
+    errorcode=$?
+
+    if [ $errorcode -ne 0 ]; then
+    echo exiting with errorcode $errorcode
+    exit $errorcode
+    fi
 }
 
 function create_npmrc() {
@@ -34,42 +44,14 @@ function update_version() {
 
 function publish() {
     echo Publish $1
+    pushd packages
     pushd $1
     create_npmrc
     update_version
     npm install
     npm publish
     popd
+    popd
 }
 
-if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
-    publish Chatdown
-    publish Dispatch
-    publish Ludown
-    publish LUIS
-    publish LUISGen
-    publish MSBot
-    publish QnAMaker
-else
-    (
-        set -e
-        install Chatdown with_test
-        install Dispatch
-        # Disable failing tests
-        install Ludown with_test
-        install LUIS with_test
-        install LUISGen
-        install MSBot
-        install QnAMaker with_test
-        
-        eslint
-        coveralls
-    )
-
-fi
-errorcode=$?
-
-if [ $errorcode -ne 0 ]; then
-  echo exiting with errorcode $errorcode
-  exit $errorcode
-fi
+main "$@"

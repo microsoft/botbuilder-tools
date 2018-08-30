@@ -1,6 +1,0 @@
-{
-  "appId": "1031616",
-  "authoringKey": "dummy-key",
-  "versionId": "12586",
-  "endpointBasePath": "https://westus.api.cognitive.microsoft.com/luis/api/v2.0"
-}
