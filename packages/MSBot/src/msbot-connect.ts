@@ -13,10 +13,14 @@ program.Command.prototype.unknownOption = function (flag: any) {
 
 program
     .name('msbot connect')
-    .command('azure', 'connect to Azure Bot Service')
+    .command('appinsights', 'connect to Azure AppInsights')
+    .command('blob', 'connect to Azure Blob storage')
+    .command('bot', 'connect to Azure Bot Service')
+    .command('cosmosdb', 'connect to Azure CosmosDB')
     .command('dispatch', 'connect to a Dispatch model')
     .command('endpoint', 'connect to endpoint')
     .command('file', 'connect to file to the bot')
+    .command('generic', 'connect to generic service configuration')
     .command('luis', 'connect to a LUIS application')
     .command('qna', 'connect to QNA a service');
 

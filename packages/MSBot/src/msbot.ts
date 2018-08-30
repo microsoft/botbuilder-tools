@@ -36,6 +36,12 @@ program
 program
     .command('secret', 'set or clear the secret for a .bot file');
 
+program
+    .command('get', 'get a connected service');
+
+program
+    .command('list', 'list all connected services');
+
 // program
 //     .command('export', 'export all connected services');
 
@@ -47,9 +53,6 @@ program
 
 program
     .command('disconnect <service>', 'disconnect from a resource used by the bot');
-
-program
-    .command('list', 'list all connected services');
 
 const args = program.parse(process.argv);
 
