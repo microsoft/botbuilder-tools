@@ -68,14 +68,22 @@ async function runProgram() {
     }
 
     const config = await composeConfig();
+    let serviceIn = {};
+    if (args.stdin) {
+        let json = await stdin();
+        serviceIn = JSON.parse(json);
+    }
 
-    args.subscriptionKey = args.subscriptionKey || args.s || config.subscriptionKey;
-    args.authoringKey = args.authoringKey || config.authoringKey;
-    args.appId = args.appId || args.applicationId || args.a || config.appId;
-    args.versionId = args.versionId || config.versionId;
+    args.authoringKey = args.authoringKey || serviceIn.authoringKey || config.authoringKey;
+    args.subscriptionKey = args.subscriptionKey || args.s || serviceIn.subscriptionKey || config.subscriptionKey;
+    args.appId = args.appId || args.applicationId || args.a || serviceIn.appId || config.appId;
+    args.versionId = args.versionId || serviceIn.versionId || config.versionId;
+    args.region = args.region || serviceIn.region || config.region || "westus";
+    args.endpointBasePath = (args.region) ? `https://${args.region}.api.cognitive.microsoft.com/luis/api/v2.0` : config.endpointBasePath;
     args.customHeaders = { "accept-language": "en-US" };
-    if (!args.region)
-        args.region = "westus";
+
+    validateConfig(args);
+
     let credentials = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": args.authoringKey } });
     const client = new LuisAuthoring(credentials);
 
@@ -354,13 +362,6 @@ async function runProgram() {
                     break;
 
                 case "version":
-                    if (args.stdin) {
-                        let json = JSON.parse(await stdin());
-                        args.authoringKey = json.
-                        args.region = json.region;
-                        args.appId = json.appId;
-                        args.version = json.version;
-                    }
                     result = await client.versions.importMethod(args.region, args.appId, requestBody, args);
                     break;
 
@@ -739,7 +740,6 @@ async function composeConfig() {
             versionId: (args_versionId || luisrcJson.versionId || LUIS_VERSION_ID),
             endpointBasePath: (args_endpointBasePath || luisrcJson.endpointBasePath || LUIS_ENDPOINT_BASE_PATH)
         };
-        validateConfig(config);
     }
     return config;
 }
