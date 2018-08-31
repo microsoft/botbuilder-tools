@@ -53,9 +53,12 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/bin/msbot-get.js",
+            "program": "${workspaceFolder}/bin/msbot-export.js",
             "args": [
-                "9"
+                "-b",
+                "../bad.bot",
+                "-f",
+                "xxx"
             ]
         }
     ]

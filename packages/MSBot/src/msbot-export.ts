@@ -17,6 +17,8 @@ interface ExportArgs {
     bot: string;
     folder: string;
     secret: string;
+    quiet: boolean;
+    verbose: boolean;
     args: string[];
 }
 
@@ -24,6 +26,8 @@ program
     .name('msbot export')
     .description('export all of the connected services to local folder with .bot.recipe file to support cloning')
     .option('-f, --folder <folder>', 'path to folder to place exported resources')
+    .option('--verbose', 'show verbose export information')
+    .option('-q, --quiet', 'disable output')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .action((cmd, actions) => undefined);
 program.parse(process.argv);
@@ -50,12 +54,30 @@ async function processConfiguration(config: BotConfiguration): Promise<void> {
     if (!args.folder) {
         throw new Error('missing --folder argument');
     }
+    try {
 
-    let recipe = await config.export(args.folder, (service, index, total) =>{
-        console.warn(`exporting service ${service.type}:${service.name} (${index}/${total})`);
-    });
+        let recipe = await config.export(args.folder, (service, command, index, total) => {
+            if (!args.quiet) {
+                let output = `${service.name} [${service.type}] (${index}/${total})`;
+                if (args.verbose) {
+                    console.warn(chalk.default.bold(output));
+                    console.log(chalk.default.italic(command + '\n'));
+                } else {
+                    console.warn(output);
+                }
+            }
+        });
+    } catch (error) {
+        let lines = error.message.split('\n');
+        let message = '';
+        for (let line of lines) {
+            // trim to copywrite symbol, help from inner process command line args is inappropriate
+            if (line.indexOf('©') > 0)
+                process.exit(1);
+            console.error(chalk.default.redBright(line));
+        }
+    }
 
-    console.log(JSON.stringify(recipe, null, 2));
 }
 
 function showErrorHelp() {
