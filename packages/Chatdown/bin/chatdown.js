@@ -18,6 +18,7 @@ const minimist = require('minimist');
 const help = require('../lib/help');
 const chatdown = require('../lib/index');
 const txtfile = require('read-text-file');
+const glob = require('glob');
 
 /**
  * Retrieves the content to be parsed from a file if
@@ -67,11 +68,40 @@ function getInput(args) {
  * @returns {Promise<string>|boolean} The path of the file to write or true if written to stdout
  */
 async function writeOut(activities, args) {
-    const { out } = args;
+    const { out } = args; //Is this used? Doesn't seem to be...
     process.stdout.write(JSON.stringify(activities, null, 2));
     return true;
 }
 
+/**
+ * Processes multiple files, and writes them to the output directory.
+ *
+ * @param {string} inputDir String representing a glob that specifies the input directory
+ * @param {string} outputDir String representing the output directory for the processesd files
+ * @returns {Promise<string>|boolean} The length of the files array that was processes
+ */
+async function processFiles(inputDir, outputDir) {
+    return new Promise(async (resolve, reject) => {
+        let files = glob.sync(inputDir, { "ignore": ["**/node_modules/**"] });
+        for(let i = 0; i < files.length; i++) {
+            try {
+                let fileName = files[i];
+                if(files[i].lastIndexOf("/") != -1) {
+                    fileName = files[i].substr(files[i].lastIndexOf("/"))
+                }
+                fileName = fileName.split(".")[0];
+                let activities = await chatdown(txtfile.readSync(files[i]));
+                let writeFile = `${outputDir}/${fileName}.transcript`;
+                await fs.ensureFile(writeFile);
+                await fs.writeJson(writeFile, activities, { spaces: 2 });
+            }
+            catch(e) {
+                reject(e);
+            }
+        }
+        resolve(files.length);
+    });
+}
 /**
  * Runs the program
  *
@@ -89,19 +119,32 @@ async function runProgram() {
         return 0;
     }
 
-    const fileContents = await getInput(args);
-    if (fileContents) {
-        const activities = await chatdown(fileContents, args);
-        const writeConfirmation = await writeOut(activities, args);
-
-        if (typeof writeConfirmation === 'string') {
-            process.stdout.write(chalk`{green Successfully wrote file:} {blue ${writeConfirmation}}\n`);
+    if(args.f || args.folder) {
+        let inputDir = args.f.trim();
+        if(args.s || args.subfolder) {
+            
         }
-        return 0;
+        let outputDir = (args.o || args.out_folder) ?  args.o.trim() : "./";
+        if (outputDir.substr(0, 2) === "./") {
+            outputDir = path.resolve(process.cwd(), outputDir.substr(2))
+        }
+        await processFiles(inputDir, outputDir);
     }
     else {
-        help();
-        return -1;
+        const fileContents = await getInput(args);
+        if (fileContents) {
+            const activities = await chatdown(fileContents, args);
+            const writeConfirmation = await writeOut(activities, args);
+
+            if (typeof writeConfirmation === 'string') {
+                process.stdout.write(chalk`{green Successfully wrote file:} {blue ${writeConfirmation}}\n`);
+            }
+            return 0;
+        }
+        else {
+            help();
+            return -1;
+        }
     }
 }
 

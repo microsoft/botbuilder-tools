@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Chatdown",
+            "program": "${workspaceFolder}\\packages\\Chatdown\\bin\\chatdown.js",
+            "cwd": "${workspaceFolder}\\packages\\Chatdown\\Examples",
+            "args": [
+                "-f **/*.chat",
+                "-o ./transcript"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        }
+    ]
+}
