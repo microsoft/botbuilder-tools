@@ -1,0 +1,50 @@
+{
+  "name": "luis-apis",
+  "version": "2.0.10",
+  "description": "Tooling for connectivity with LUIS APIs",
+  "main": "./lib/luisAuthoring.js",
+  "types": "./typing/lib/luisAuthoring.d.ts",
+  "bin": {
+    "luis": "./bin/luis"
+  },
+  "directories": {
+    "bin": "bin",
+    "doc": "docs",
+    "lib": "lib",
+    "typings": "typings",
+    "examples": "examples"
+  },
+  "scripts": {
+    "test": "cd test/ && mocha --opts mocha.opts",
+    "build": "tsc"
+  },
+  "engines": {
+    "node": ">=8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Microsoft/botbuilder-tools/issues"
+  },
+  "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
+  "dependencies": {
+    "await-delay": "^1.0.0",
+    "chalk": "^2.4.1",
+    "cli-table3": "^0.5.0",
+    "fs-extra": "^5.0.0",
+    "get-stdin": "^6.0.0",
+    "minimist": "^1.2.0",
+    "ms-rest-js": "^0.17.375",
+    "node-fetch": "^2.0.0",
+    "read-text-file": "^1.1.0",
+    "readline-sync": "^1.4.9",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2",
+    "semver": "^5.5.0",
+    "window-size": "^1.1.0"
+  }
+}

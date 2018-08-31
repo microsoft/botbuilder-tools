@@ -1,0 +1,256 @@
+{
+  "intents": [
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "AskForUserName"
+    },
+    {
+      "name": "CreateAlarm"
+    },
+    {
+      "name": "DeleteAlarm"
+    },
+    {
+      "name": "CommunicationPreference"
+    },
+    {
+      "name": "changeAlarm"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [
+    {
+      "name": "userName",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "commPreference",
+      "subLists": [
+        {
+          "canonicalForm": "call",
+          "list": [
+            "phone call",
+            "give me a ring",
+            "ring",
+            "call",
+            "cell phone",
+            "phone"
+          ]
+        },
+        {
+          "canonicalForm": "text",
+          "list": [
+            "message",
+            "text",
+            "sms",
+            "text message"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Good morning",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Good evening",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "please help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "I'm vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "call me vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "my name is vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "vishwac is my name",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "you can call me vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "create an alarm",
+      "intent": "CreateAlarm",
+      "entities": []
+    },
+    {
+      "text": "create an alarm for 7AM",
+      "intent": "CreateAlarm",
+      "entities": []
+    },
+    {
+      "text": "set an alarm for 7AM next thursday",
+      "intent": "CreateAlarm",
+      "entities": []
+    },
+    {
+      "text": "delete the {alarmTime} alarm",
+      "intent": "DeleteAlarm",
+      "entities": []
+    },
+    {
+      "text": "set phone call as my communication preference",
+      "intent": "CommunicationPreference",
+      "entities": []
+    },
+    {
+      "text": "I prefer to receive text message",
+      "intent": "CommunicationPreference",
+      "entities": []
+    },
+    {
+      "text": "change an alarm",
+      "intent": "changeAlarm",
+      "entities": []
+    },
+    {
+      "text": "who is your ceo?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "santa wants a blue ribbon",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "delete the {alarmTime} alarm",
+      "intent": "DeleteAlarm"
+    },
+    {
+      "pattern": "remove the {alarmTime} alarm",
+      "intent": "DeleteAlarm"
+    },
+    {
+      "pattern": "change {remTime} to {newTime}",
+      "intent": "changeAlarm"
+    }
+  ],
+  "patternAnyEntities": [
+    {
+      "name": "alarmTime",
+      "explicitList": [],
+      "roles": []
+    },
+    {
+      "name": "remTime",
+      "explicitList": [],
+      "roles": []
+    },
+    {
+      "name": "newTime",
+      "explicitList": [],
+      "roles": []
+    }
+  ],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "11",
+  "desc": "",
+  "culture": "en-us"
+}
