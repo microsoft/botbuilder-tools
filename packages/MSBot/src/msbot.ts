@@ -42,8 +42,8 @@ program
 program
     .command('list', 'list all connected services');
 
-// program
-//     .command('export', 'export all connected services');
+program
+    .command('export', 'export all connected services so that this bot can be cloned');
 
 // program
 //     .command('clone', 'create a new .bot file based on another .bot file');

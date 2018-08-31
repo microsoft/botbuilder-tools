@@ -13,7 +13,7 @@ program.Command.prototype.unknownOption = function (flag: any) {
 
 program
     .name('msbot clone')
-    .option('-bot, -b', 'path to bot file.  If omitted, local folder will look for a .bot file')
+    .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .description('allows you to clone a bot with a new configuration')
     .action((cmd, actions) => undefined);
 program.parse(process.argv);
