@@ -53,11 +53,8 @@ const args: IConnectLuisArgs = {
 };
 
 const commands: program.Command = program.parse(process.argv);
-for (const i of commands.args) {
-    if (args.hasOwnProperty(i)) {
-        args[i] = commands[i];
-    }
-}
+Object.assign(args, commands);
+
 if (process.argv.length < 3) {
     program.help();
 } else {
