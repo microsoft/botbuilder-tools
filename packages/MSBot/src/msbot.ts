@@ -7,18 +7,19 @@
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
+import * as semver from 'semver';
 
-const pkg = require('../package.json');
-const semver = require('semver');
-const requiredVersion = pkg.engines.node;
+// tslint:disable-next-line:no-var-requires no-require-imports
+const pkg: IPackage = require('../package.json');
+const requiredVersion: string = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
     console.error(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
     process.exit(1);
 }
 
-program.Command.prototype.unknownOption = function (flag: any) {
+program.Command.prototype.unknownOption = function (): void {
     console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
-    program.outputHelp((str) => {
+    program.outputHelp((str: string) => {
         console.error(str);
 
         return '';
@@ -54,16 +55,21 @@ program
 program
     .command('disconnect <service>', 'disconnect from a resource used by the bot');
 
-const args = program.parse(process.argv);
+const args: program.Command = program.parse(process.argv);
 
 // args should be undefined is subcommand is executed
 if (args) {
-    const a = process.argv.slice(2);
-    console.error(chalk.default.redBright(`Unknown arguments: ${a.join(' ')}`));
-    program.outputHelp((str) => {
+    const unknownArgs: string[] = process.argv.slice(2);
+    console.error(chalk.default.redBright(`Unknown arguments: ${unknownArgs.join(' ')}`));
+    program.outputHelp((str: string) => {
         console.error(str);
 
         return '';
     });
     process.exit(1);
+}
+
+interface IPackage {
+    version: string;
+    engines: { node: string };
 }
