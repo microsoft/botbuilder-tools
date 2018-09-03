@@ -231,5 +231,22 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[0].endpointKey, "2f510b5e-10fe-4f53-9159-b134539ac594", "endpointKey is wrong")
         assert.equal(config.services[0].hostname, "https://foo.com/qnamaker", "hostname is wrong")
     });
+
+    it("msbot connect file", async () => {
+        let secret = bf.BotConfiguration.generateKey();
+        let bot = new bf.BotConfiguration();
+        bot.name = "test";
+        await bot.saveAs("save.bot", secret);
+
+        let p = await exec(`node bin/msbot-connect-file.js -b save.bot -f docs\\readme.md --secret ${secret}  `);
+
+        var config = await bf.BotConfiguration.load("save.bot", secret);
+        fs.unlinkSync("save.bot");
+
+        assert.equal(config.services.length, 1, "service is not saved");
+        assert.equal(config.services[0].type, "file", "type is wrong");
+        assert.equal(config.services[0].name, "readme.md", "name is wrong");
+        assert.equal(config.services[0].path, "docs/readme.md", "path is wrong");
+    });
 });
 

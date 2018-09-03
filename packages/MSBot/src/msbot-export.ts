@@ -58,7 +58,7 @@ async function processConfiguration(config: BotConfiguration): Promise<void> {
 
         let recipe = await config.export(args.folder, (service, command, index, total) => {
             if (!args.quiet) {
-                let output = `${service.name} [${service.type}] (${index}/${total})`;
+                let output = `exporting ${chalk.default.bold(service.name)} [${service.type}] (${index}/${total})`;
                 if (args.verbose) {
                     console.warn(chalk.default.bold(output));
                     console.log(chalk.default.italic(command + '\n'));

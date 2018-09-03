@@ -53,12 +53,13 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/bin/msbot-export.js",
+            "program": "${workspaceFolder}/bin/msbot-clone.js",
             "args": [
-                "-b",
-                "../bad.bot",
-                "-f",
-                "xxx"
+                "--name","CloneBot40",
+                "--folder","CloneBot33",
+                "--location","westus",
+                "--luisAuthoringKey","736465dedefd479093d666ab661d7b31",
+                "--verbose"
             ]
         }
     ]

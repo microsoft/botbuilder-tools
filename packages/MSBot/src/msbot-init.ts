@@ -8,6 +8,7 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as fsx from 'fs-extra';
 import * as readline from 'readline-sync';
+import * as validurl from 'valid-url';
 
 program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -50,25 +51,28 @@ if (!args.quiet) {
 
     while (!args.endpoint || args.endpoint.length == 0) {
         args.endpoint = readline.question(`What localhost endpoint does your bot use for debugging [Example: http://localhost:3978/api/messages]? `, {
-            defaultInput: `http://localhost:3978/api/messages`
+            defaultInput: ' '
         });
     }
 
-    if (!args.appId || args.appId.length == 0) {
-        const answer = readline.question(`Do you have an appId for endpoint? [no] `, {
-            defaultInput: 'no'
-        });
-        if (answer == 'y' || answer == 'yes') {
-            args.appId = readline.question(`What is your appId for ${args.endpoint}? [none] `, {
+    if (validurl.isHttpUri(args.endpoint) || validurl.isHttpsUri(args.endpoint)) {
+
+        if (!args.appId || args.appId.length == 0) {
+            const answer = readline.question(`Do you have an appId for endpoint? [no] `, {
+                defaultInput: 'no'
+            });
+            if (answer == 'y' || answer == 'yes') {
+                args.appId = readline.question(`What is your appId for ${args.endpoint}? [none] `, {
+                    defaultInput: ''
+                });
+            }
+        }
+
+        while (args.appId && args.appId.length > 0 && (!args.appPassword || args.appPassword.length == 0)) {
+            args.appPassword = readline.question(`What is your appPassword for ${args.endpoint}? `, {
                 defaultInput: ''
             });
         }
-    }
-
-    while (args.appId && args.appId.length > 0 && (!args.appPassword || args.appPassword.length == 0)) {
-        args.appPassword = readline.question(`What is your appPassword for ${args.endpoint}? `, {
-            defaultInput: ''
-        });
     }
 
     if (!args.secret) {
@@ -93,12 +97,14 @@ else {
     bot.name = args.name;
     bot.description = args.description;
 
-    bot.connectService(new EndpointService({
-        name: args.name,
-        endpoint: args.endpoint,
-        appId: args.appId || '',
-        appPassword: args.appPassword || ''
-    }));
+    if (validurl.isHttpUri(args.endpoint) || validurl.isHttpsUri(args.endpoint)) {
+        bot.connectService(new EndpointService({
+            name: args.name,
+            endpoint: args.endpoint,
+            appId: args.appId || '',
+            appPassword: args.appPassword || ''
+        }));
+    }
 
     let filename = bot.name + '.bot';
     bot.saveAs(filename, secret);
