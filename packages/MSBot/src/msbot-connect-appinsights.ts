@@ -55,10 +55,7 @@ const args: IConnectAppInsightsArgs = {
     serviceName: '',
     name: ''
 };
-
-for (const key of args.keys) {
-    args[key] = commands[key];
-}
+Object.assign(args, commands);
 
 if (process.argv.length < 3) {
     program.help();
