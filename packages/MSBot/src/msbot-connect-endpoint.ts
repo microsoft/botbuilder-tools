@@ -11,16 +11,17 @@ import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
 import { uuidValidate } from './utils';
 
-program.Command.prototype.unknownOption = function (flag: any) {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
-    showErrorHelp();           
+program.Command.prototype.unknownOption = (): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+    showErrorHelp();
 };
 
-interface ConnectEndpointArgs extends IEndpointService {
+interface IConnectEndpointArgs extends IEndpointService {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
+    [key: string]: string | boolean | undefined;
 }
 
 program
@@ -35,27 +36,43 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((cmd, actions) => {
+    .action((cmd: program.Command, actions: program.Command) => undefined);
 
-    });
+const args: IConnectEndpointArgs = {
+    bot: '',
+    secret: '',
+    stdin: true,
+    appId: '',
+    appPassword: '',
+    endpoint: '',
+    tenantId: '',
+    subscriptionId: '',
+    resourceGroup: '',
+    name: ''
+};
 
-let args = <ConnectEndpointArgs><any>program.parse(process.argv);
+const commands: program.Command = program.parse(process.argv);
+for (const i of commands.args) {
+    if (args.hasOwnProperty(i)) {
+        args[i] = commands[i];
+    }
+}
 
 if (process.argv.length < 3) {
-    showErrorHelp();           
+    showErrorHelp();
 } else {
 
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectEndpointArgs)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
-                showErrorHelp();           
+                showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectEndpointArgs)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
@@ -65,48 +82,52 @@ if (process.argv.length < 3) {
 async function processConnectEndpointArgs(config: BotConfiguration): Promise<BotConfiguration> {
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
-    }
-    else if (args.input != null) {
+    } else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.endpoint)
+    if (!args.endpoint) {
         throw new Error('missing --endpoint');
+    }
 
     if (!validurl.isHttpUri(args.endpoint) && !validurl.isHttpsUri(args.endpoint)) {
         throw new Error(`--endpoint ${args.endpoint} is not a valid url`);
     }
 
-    if (args.appId && !uuidValidate(args.appId))
+    if (args.appId && !uuidValidate(args.appId)) {
         throw new Error('--appId is not valid');
-
-    if (args.appPassword && args.appPassword.length == 0)
-        throw new Error('zero length --appPassword');
-
-    if (!args.hasOwnProperty('name')) {
-        if (args.appId)
-            args.name = `${args.endpoint} - ${args.appId}`;
-        else
-            args.name = args.endpoint;
     }
 
-    let newService = new EndpointService({
-        name: args.name,
-        appId: ( args.appId && args.appId.length > 0 ) ? args.appId : '',
-        appPassword: ( args.appPassword && args.appPassword.length > 0 ) ? args.appPassword : '',
-        endpoint: args.endpoint
-    } as IEndpointService);
+    if (args.appPassword && args.appPassword.length === 0) {
+        throw new Error('zero length --appPassword');
+    }
 
-    let id = config.connectService(newService);
+    if (!args.hasOwnProperty('name')) {
+        if (args.appId) {
+            args.name = `${args.endpoint} - ${args.appId}`;
+        } else {
+            args.name = args.endpoint;
+        }
+    }
+
+    const newService: IEndpointService = new EndpointService({
+        name: args.name,
+        appId: (args.appId && args.appId.length > 0) ? args.appId : '',
+        appPassword: (args.appPassword && args.appPassword.length > 0) ? args.appPassword : '',
+        endpoint: args.endpoint
+    });
+
+    const id: string = config.connectService(newService);
     await config.save(args.secret);
     process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+
     return config;
 }
 
-function showErrorHelp()
-{
-    program.outputHelp((str) => {
+function showErrorHelp(): void {
+    program.outputHelp((str: string) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);
