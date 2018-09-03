@@ -7,17 +7,18 @@ import { BotConfiguration, GenericService, IGenericService } from 'botframework-
 import * as chalk from 'chalk';
 import * as program from 'commander';
 
-program.Command.prototype.unknownOption = function (flag: any) {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+program.Command.prototype.unknownOption = function (): void {
+    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
     showErrorHelp();
 };
 
-interface ConnectGenericArgs extends IGenericService  {
+interface IConnectGenericArgs extends IGenericService  {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
     keys: string;
+    [key: string]: string | boolean | undefined | {[key: string]: string};
 }
 
 program
@@ -31,12 +32,25 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((filePath, actions) => {
-        if (filePath)
-            actions.filePath = filePath;
+    .action((filePath: program.Command, actions: program.Command) => {
+        if (filePath) {
+            actions.filePath = filePath; }
     });
 
-let args = <ConnectGenericArgs><any>program.parse(process.argv);
+const commands: program.Command = program.parse(process.argv);
+const args: IConnectGenericArgs = {
+    bot: '',
+    secret: '',
+    stdin: false,
+    keys: '',
+    url: '',
+    configuration: { '': '' },
+    name: ''
+};
+
+for (const key of args.keys) {
+    args[key] = commands[key];
+}
 
 if (process.argv.length < 3) {
     program.help();
@@ -44,14 +58,14 @@ if (process.argv.length < 3) {
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectFile)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectFile)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
@@ -61,34 +75,36 @@ if (process.argv.length < 3) {
 async function processConnectFile(config: BotConfiguration): Promise<BotConfiguration> {
     args.name = args.hasOwnProperty('name') ? args.name : config.name;
 
-    if (!args.url)
-        throw new Error('mising --url');
+    if (!args.url) {
+        throw new Error('mising --url'); }
 
     if (!args.configuration) {
         args.configuration = {};
         if (args.keys) {
-            var keys = JSON.parse(args.keys);
-            for (var key in keys) {
-                args.configuration[key] = keys[key].toString();
+            const keys: string[] = JSON.parse(args.keys);
+            for (const key of keys) {
+                args.configuration[key] = key;
             }
         }
     }
 
     // add the service
-    let newService = new GenericService({
+    const newService: GenericService = new GenericService({
         name: args.hasOwnProperty('name') ? args.name : args.url,
         url: args.url,
         configuration: args.configuration
     });
-    let id = config.connectService(newService);
+    const id: string = config.connectService(newService);
     await config.save(args.secret);
     process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+
     return config;
 }
 
-function showErrorHelp() {
-    program.outputHelp((str) => {
+function showErrorHelp(): void {
+    program.outputHelp((str: string) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);
