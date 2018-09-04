@@ -56,14 +56,16 @@ async function processConfiguration(config: BotConfiguration): Promise<void> {
     }
     try {
 
-        let recipe = await config.export(args.folder, (service, command, index, total) => {
-            if (!args.quiet) {
-                let output = `exporting ${chalk.default.bold(service.name)} [${service.type}] (${index}/${total})`;
-                if (args.verbose) {
-                    console.warn(chalk.default.bold(output));
-                    console.log(chalk.default.italic(command + '\n'));
-                } else {
-                    console.warn(output);
+        let recipe = await config.export(args.folder, {
+            progress: (service, command, index, total) => {
+                if (!args.quiet) {
+                    let output = `exporting ${chalk.default.bold(service.name)} [${service.type}] (${index}/${total})`;
+                    if (args.verbose) {
+                        console.warn(chalk.default.bold(output));
+                        console.log(chalk.default.italic(command + '\n'));
+                    } else {
+                        console.warn(output);
+                    }
                 }
             }
         });

@@ -410,7 +410,6 @@ async function processConfiguration(): Promise<void> {
                             id: genericResource.id,
                             name: genericResource.name,
                             url: genericResource.url,
-                            path: genericResource.path,
                             configuration: genericResource.configuration,
                         });
                         await config.save();
