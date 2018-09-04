@@ -15,7 +15,7 @@ import { spawnAsync } from './processUtils';
 let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
-program.Command.prototype.unknownOption = function (flag: any) {
+program.Command.prototype.unknownOption = (): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
     program.help();
 };
@@ -48,7 +48,7 @@ program
     .option('--verbose', 'show verbose information')
     .option('-q, --quiet', 'disable output')
     .description('allows you to clone a bot with a new configuration')
-    .action((cmd, actions) => undefined);
+    .action((cmd: program.Command, actions: program.Command) => undefined);
 program.parse(process.argv);
 
 let args = <CloneArgs><any>program.parse(process.argv);
