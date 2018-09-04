@@ -92,8 +92,8 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
         args.apiKeys = {};
         if (args.keys) {
             console.log(args.keys);
-            var keys = JSON.parse(args.keys);
-            for (var key in keys) {
+            let keys = JSON.parse(args.keys);
+            for (let key in keys) {
                 args.apiKeys[key] = keys[key].toString();
             }
         }
@@ -109,7 +109,7 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
         applicationId: args.applicationId,
         apiKeys: args.apiKeys
     });
-    var id = config.connectService(service);
+    let id = config.connectService(service);
     await config.save(args.secret);
     process.stdout.write(JSON.stringify(config.findService(id), null, 2));
     return config;
