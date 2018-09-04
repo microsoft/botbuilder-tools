@@ -14,6 +14,11 @@
     "typings": "typings",
     "examples": "examples"
   },
+  "files": [
+    "bin/**/*.js",
+    "lib/**/*.js",
+    "typings/**/*.d.ts"
+  ],
   "scripts": {
     "test": "cd test/ && mocha --opts mocha.opts",
     "build": "tsc"
