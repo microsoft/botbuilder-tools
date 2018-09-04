@@ -238,7 +238,7 @@ describe("msbot connection tests", () => {
         bot.name = "test";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-file.js -b save.bot -f docs\\readme.md --secret ${secret}  `);
+        let p = await exec(`node bin/msbot-connect-file.js -b save.bot -f docs/readme.md --secret ${secret}  `);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
