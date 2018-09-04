@@ -27,7 +27,7 @@ describe("msbot commands", () => {
 
         let bot = await bf.BotConfiguration.load("bot.txt");
 
-        assert.deepEqual(result, bot.findServiceByNameOrId(141), "service by id is wrong");
+        assert.deepEqual(result, bot.findServiceByNameOrId("141"), "service by id is wrong");
 
         p = await exec(`node bin/msbot-get.js -b bot.txt testBlob`);
         result = JSON.parse(p.stdout);

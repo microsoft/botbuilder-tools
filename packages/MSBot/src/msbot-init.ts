@@ -38,22 +38,8 @@ program
         console.log(name);
     });
 
-const args: IInitArgs = {
-    name: '',
-    description: '',
-    secret: false,
-    endpoint: '',
-    appId: '',
-    appPassword: '',
-    quiet: false
-};
+let args  = <IInitArgs><any>program.parse(process.argv);
 
-const commands: program.Command = program.parse(process.argv);
-for (const i of commands.args) {
-    if (args.hasOwnProperty(i)) {
-        args[i] = commands[i];
-    }
-}
 if (!args.quiet) {
 
     let exists: boolean = fsx.existsSync(`${args.name}.bot`);
