@@ -25,7 +25,7 @@ describe("msbot connection tests", () => {
         command += `--resourceGroup testGroup`;
         let p = await exec(command);
 
-        var config = await bf.BotConfiguration.load("save.bot", secret);
+        let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
@@ -49,7 +49,7 @@ describe("msbot connection tests", () => {
 
         let p = await exec(`node bin/msbot-connect-blob.js -b save.bot -n TestBlob --serviceName testBlob --connectionString testConnection --container testContainer --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup `);
 
-        var config = await bf.BotConfiguration.load("save.bot", secret);
+        let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
@@ -73,7 +73,7 @@ describe("msbot connection tests", () => {
 
         let p = await exec(`node bin/msbot-connect-bot.js -b save.bot -n TestBot --serviceName TestBot --secret ${secret} --endpoint http://foo.com/api/messages -s 2f510b5e-10fe-4f53-9159-b134539ac594 --appId 2f510b5e-10fe-4f53-9159-b134539ac594 --appPassword appPassword --tenantId microsoft.onmicrosoft.com --resourceGroup test `);
 
-        var config = await bf.BotConfiguration.load("save.bot", secret);
+        let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 2, "service is not saved");
@@ -96,7 +96,7 @@ describe("msbot connection tests", () => {
 
         let p = await exec(`node bin/msbot-connect-cosmosdb.js -b save.bot -n TestCosmos --serviceName testCosmos --connectionString testConnection --database testDatabase --collection testCollection --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup `);
 
-        var config = await bf.BotConfiguration.load("save.bot", secret);
+        let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
@@ -124,7 +124,7 @@ describe("msbot connection tests", () => {
         let result = JSON.parse(p.stdout);
         p = await exec(`node bin/msbot-connect-dispatch.js -b save.bot --secret ${secret} -n Dispatch -a e06e3198-45fd-494a-8086-028d260a484b --authoringKey e06e3198-45fd-494a-8086-028d260a484b --subscriptionKey e06e3198-45fd-494a-8086-028d260a484b --version 1.0 --serviceIds ${result.id}`);
 
-        var config = await bf.BotConfiguration.load("save.bot", secret);
+        let config = await bf.BotConfiguration.load("save.bot", secret);
         //        fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 2, "service is not saved");
@@ -154,7 +154,7 @@ describe("msbot connection tests", () => {
 
         let p = await exec(`node bin/msbot-connect-luis.js -b save.bot --secret ${secret} -n LUIS -a 2f510b5e-10fe-4f53-9159-b134539ac594 --authoringKey 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --region eastus --version 1.0`);
 
-        var config = await bf.BotConfiguration.load("save.bot", secret);
+        let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
@@ -176,7 +176,7 @@ describe("msbot connection tests", () => {
 
         let p = await exec(`node bin/msbot-connect-endpoint.js -b save.bot --secret ${secret} -n Endpoint2 --endpoint https://foo.com/api/messages --appId 2f510b5e-10fe-4f53-9159-b134539ac594 --appPassword appPassword`);
 
-        var config = await bf.BotConfiguration.load("save.bot", secret);
+        let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
@@ -201,7 +201,7 @@ describe("msbot connection tests", () => {
         command += `--secret ${secret}`;
         let p = await exec(command);
 
-        var config = await bf.BotConfiguration.load("save.bot", secret);
+        let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
@@ -221,7 +221,7 @@ describe("msbot connection tests", () => {
 
         let p = await exec(`node bin/msbot-connect-qna.js -b save.bot --secret ${secret} -n QnA --hostname https://foo.com/qnamaker -k 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --endpointKey  2f510b5e-10fe-4f53-9159-b134539ac594 `);
 
-        var config = await bf.BotConfiguration.load("save.bot", secret);
+        let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
@@ -240,7 +240,7 @@ describe("msbot connection tests", () => {
 
         let p = await exec(`node bin/msbot-connect-file.js -b save.bot -f docs\\readme.md --secret ${secret}  `);
 
-        var config = await bf.BotConfiguration.load("save.bot", secret);
+        let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");

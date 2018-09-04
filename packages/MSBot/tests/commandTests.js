@@ -7,10 +7,10 @@ let exec = util.promisify(require('child_process').exec);
 describe("msbot commands", () => {
     it("msbot init", async () => {
         let p = await exec(`node bin/msbot-init.js -n save --secret -e http://foo.com/api/messages --appId 2f510b5e-10fe-4f53-9159-b134539ac594 --appPassword appPassword -q`);
-        var result = JSON.parse(p.stdout);
+        let result = JSON.parse(p.stdout);
 
         assert.ok(result.secret, "should have created secret");
-        var config = await bf.BotConfiguration.load("save.bot", result.secret);
+        let config = await bf.BotConfiguration.load("save.bot", result.secret);
         fs.unlinkSync("save.bot");
 
         assert.equal(config.name, "save", "name is wrong");
@@ -53,13 +53,13 @@ describe("msbot commands", () => {
 
 
     it("msbot secret --new add", async () => {
-        var config = await bf.BotConfiguration.load("bot.txt");
+        let config = await bf.BotConfiguration.load("bot.txt");
         config.saveAs('save.bot');
 
         // test add secret
         let p = await exec(`node bin/msbot-secret.js -b save.bot --new`);
-        var secret = p.stdout.split('\n')[1];
-        var buf = new Buffer(secret, "base64");
+        let secret = p.stdout.split('\n')[1];
+        let buf = new Buffer(secret, "base64");
         assert.equal(buf.length, 32, "secret should be 32 bytes");
         config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
@@ -67,19 +67,19 @@ describe("msbot commands", () => {
     });
 
     it("msbot secret --new replace", async () => {
-        var config = await bf.BotConfiguration.load("bot.txt");
+        let config = await bf.BotConfiguration.load("bot.txt");
         let secret = bf.BotConfiguration.generateKey();
         config.saveAs('save.bot', secret);
 
         // test new secret
         p = await exec(`node bin/msbot-secret.js -b save.bot --secret ${secret} --new`);
         fs.unlinkSync("save.bot");
-        var secret2 = p.stdout.split('\n')[1];
+        let secret2 = p.stdout.split('\n')[1];
         assert.notEqual(secret2, secret, "secret should change");
     });
 
     it("msbot secret --clear", async () => {
-        var config = await bf.BotConfiguration.load("bot.txt");
+        let config = await bf.BotConfiguration.load("bot.txt");
         let secret = bf.BotConfiguration.generateKey();
         config.saveAs('save.bot', secret);
 
