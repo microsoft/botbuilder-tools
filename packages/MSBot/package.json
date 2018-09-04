@@ -5,7 +5,7 @@
   "main": "bin/BotConfig.js",
   "scripts": {
     "build": "tsc",
-    "test": "tsc && nyc mocha tests/ --timeout 5000",
+    "test": "tsc && nyc mocha tests/ --timeout 10000",
     "clean": "erase /q /s .\\bin",
     "set-version": "npm version --allow-same-version ${Version}"
   },
