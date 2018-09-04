@@ -4,7 +4,10 @@
   "description": "MSBot command line tool for manipulating Microsoft Bot Framework .bot files",
   "main": "bin/BotConfig.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "tsc && nyc mocha tests/ --timeout 5000",
+    "clean": "erase /q /s .\\bin",
+    "set-version": "npm version --allow-same-version ${Version}"
   },
   "bin": {
     "msbot": "bin/msbot.js"
@@ -41,7 +44,7 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
-    "botframework-config": "^4.0.0-preview1.2",
+    "botframework-config": "^4.0.0-preview1.3.1",
     "chalk": "^2.3.2",
     "commander": "^2.15.1",
     "fs-extra": "^5.0.0",
