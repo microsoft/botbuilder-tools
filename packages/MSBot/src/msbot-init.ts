@@ -8,6 +8,7 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as fsx from 'fs-extra';
 import * as readline from 'readline-sync';
+import * as validurl from 'valid-url';
 
 program.Command.prototype.unknownOption = (): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
@@ -37,22 +38,8 @@ program
         console.log(name);
     });
 
-const args: IInitArgs = {
-    name: '',
-    description: '',
-    secret: false,
-    endpoint: '',
-    appId: '',
-    appPassword: '',
-    quiet: false
-};
+let args  = <IInitArgs><any>program.parse(process.argv);
 
-const commands: program.Command = program.parse(process.argv);
-for (const i of commands.args) {
-    if (args.hasOwnProperty(i)) {
-        args[i] = commands[i];
-    }
-}
 if (!args.quiet) {
 
     let exists: boolean = fsx.existsSync(`${args.name}.bot`);
@@ -65,26 +52,29 @@ if (!args.quiet) {
     }
 
     while (!args.endpoint || args.endpoint.length === 0) {
-        args.endpoint = readline.question(`What endpoint does your bot use for debugging [Example: http://localhost:3978/api/messages]? `, {
-            defaultInput: `http://localhost:3978/api/messages`
+        args.endpoint = readline.question(`What localhost endpoint does your bot use for debugging [Example: http://localhost:3978/api/messages]? `, {
+            defaultInput: ' '
         });
     }
 
-    if (!args.appId || args.appId.length === 0) {
-        const answer: string = readline.question(`Do you have an appId for endpoint? [no] `, {
-            defaultInput: 'no'
-        });
-        if (answer === 'y' || answer === 'yes') {
-            args.appId = readline.question(`What is your appId for ${args.endpoint}? [none] `, {
+    if (validurl.isHttpUri(args.endpoint) || validurl.isHttpsUri(args.endpoint)) {
+
+        if (!args.appId || args.appId.length === 0) {
+            const answer = readline.question(`Do you have an appId for endpoint? [no] `, {
+                defaultInput: 'no'
+            });
+            if (answer == 'y' || answer === 'yes') {
+                args.appId = readline.question(`What is your appId for ${args.endpoint}? [none] `, {
+                    defaultInput: ''
+                });
+            }
+        }
+
+        while (args.appId && args.appId.length > 0 && (!args.appPassword || args.appPassword.length === 0)) {
+            args.appPassword = readline.question(`What is your appPassword for ${args.endpoint}? `, {
                 defaultInput: ''
             });
         }
-    }
-
-    while (args.appId && args.appId.length > 0 && (!args.appPassword || args.appPassword.length === 0)) {
-        args.appPassword = readline.question(`What is your appPassword for ${args.endpoint}? `, {
-            defaultInput: ''
-        });
     }
 
     if (!args.secret) {
@@ -109,12 +99,14 @@ if (!args.name) {
     bot.name = args.name;
     bot.description = args.description;
 
-    bot.connectService(new EndpointService({
-        name: args.name,
-        endpoint: args.endpoint,
-        appId: args.appId || '',
-        appPassword: args.appPassword || ''
-    }));
+    if (validurl.isHttpUri(args.endpoint) || validurl.isHttpsUri(args.endpoint)) {
+        bot.connectService(new EndpointService({
+            name: args.name,
+            endpoint: args.endpoint,
+            appId: args.appId || '',
+            appPassword: args.appPassword || ''
+        }));
+    }
 
     const filename: string = `${bot.name}.bot`;
     bot.saveAs(filename, secret);

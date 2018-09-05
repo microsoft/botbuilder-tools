@@ -80,7 +80,7 @@ async function processConnectFile(config: BotConfiguration): Promise<BotConfigur
         if (args.keys) {
             const keys: string[] = JSON.parse(args.keys);
             for (const key of keys) {
-                args.configuration[key] = key;
+                args.configuration[key] = key.toString();
             }
         }
     }
