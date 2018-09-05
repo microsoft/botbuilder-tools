@@ -27,7 +27,7 @@ program.Command.prototype.unknownOption = function (flag: any) {
 };
 
 program
-    .version(pkg.version, '-V, --Version')
+    .version(pkg.version, '-v, --version')
     .description(`The msbot program makes it easy to manipulate .bot files for Microsoft Bot Framework tools.`);
 
 program
