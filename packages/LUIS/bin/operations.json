@@ -312,7 +312,7 @@
         "target": [
             "settings"
         ],
-        "command": "luis update settings --in applicationSettingUpdateObject.json --appId <string>",
+        "command": "luis update settings --in applicationSettingUpdateObject.json --appId <string> --public <true|false>",
         "pathFragment": "",
         "params": [
             {
@@ -322,6 +322,14 @@
                 "type": "string",
                 "format": "uuid",
                 "description": "The application ID.",
+                "x-ms-parameter-location": "method"
+            },
+            {
+                "name": "public",
+                "in": "path",
+                "description": "Should application be public to anyone or private.",
+                "required": false,
+                "type": "boolean",
                 "x-ms-parameter-location": "method"
             }
         ],
@@ -584,7 +592,9 @@
             }
         ],
         "description": "Updates the name or description of the application version.",
-        "name": "Update"
+        "name": "Update",
+        "entityName": "ApplicationUpdateObject",
+        "entityType": "ApplicationUpdateObject"
     },
     {
         "method": "get",
