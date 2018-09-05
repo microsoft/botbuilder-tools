@@ -25,17 +25,7 @@ program
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
-const args: IListArgs = {
-    bot: '',
-    secret: ''
-};
-
-const commands: program.Command = program.parse(process.argv);
-for (const i of commands.args) {
-    if (args.hasOwnProperty(i)) {
-        args[i] = commands[i];
-    }
-}
+let args  = <IListArgs><any>program.parse(process.argv);
 
 if (!args.bot) {
     BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
