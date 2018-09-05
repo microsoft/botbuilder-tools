@@ -1,10 +1,13 @@
 {
   "name": "msbot",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "description": "MSBot command line tool for manipulating Microsoft Bot Framework .bot files",
   "main": "bin/BotConfig.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "tsc && nyc mocha tests/ --timeout 10000",
+    "clean": "erase /q /s .\\bin",
+    "set-version": "npm version --allow-same-version ${Version}"
   },
   "bin": {
     "msbot": "bin/msbot.js"
@@ -33,7 +36,8 @@
   "devDependencies": {
     "@types/fs-extra": "^5.0.2",
     "@types/get-stdin": "^5.0.1",
-    "@types/node": "^6.0.87",
+    "@types/node": "^10.9.4",
+    "@types/opn": "^5.1.0",
     "@types/readline-sync": "^1.4.3",
     "@types/uuid": "^3.4.3",
     "@types/valid-url": "^1.0.2",
@@ -41,17 +45,18 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
+    "botframework-config": "^4.0.0-preview1.3.2",
     "chalk": "^2.3.2",
     "commander": "^2.15.1",
     "fs-extra": "^5.0.0",
     "get-stdin": "^6.0.0",
     "linq-collections": "^1.0.251",
+    "opn": "^5.3.0",
     "read-text-file": "^1.1.0",
     "readline-sync": "^1.4.9",
     "semver": "^5.5.0",
     "uuid": "^3.2.1",
     "valid-url": "^1.0.9",
-    "validator": "^9.4.1",
-    "botframework-config": "^4.0.0-preview1.2"
+    "validator": "^9.4.1"
   }
 }

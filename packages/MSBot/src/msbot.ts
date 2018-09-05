@@ -28,7 +28,7 @@ program.Command.prototype.unknownOption = function (): void {
 };
 
 program
-    .version(pkg.version, '-V, --Version')
+    .version(pkg.version, '-v, --version')
     .description(`The msbot program makes it easy to manipulate .bot files for Microsoft Bot Framework tools.`);
 
 program
@@ -43,11 +43,11 @@ program
 program
     .command('list', 'list all connected services');
 
-// program
-//     .command('export', 'export all connected services');
+program
+    .command('export', 'export all connected services so that this bot can be cloned');
 
-// program
-//     .command('clone', 'create a new .bot file based on another .bot file');
+program
+    .command('clone', 'create a new .bot file and all of its resources based on an exported .recipe file and folder ');
 
 program
     .command('connect <service>', 'connect to a resource (Luis/Qna/Azure/...) used by the bot');

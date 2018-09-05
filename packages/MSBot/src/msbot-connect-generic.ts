@@ -67,8 +67,8 @@ async function processConnectFile(config: BotConfiguration): Promise<BotConfigur
     if (!args.configuration) {
         args.configuration = {};
         if (args.keys) {
-            var keys = JSON.parse(args.keys);
-            for (var key in keys) {
+            let keys = JSON.parse(args.keys);
+            for (let key in keys) {
                 args.configuration[key] = keys[key].toString();
             }
         }
