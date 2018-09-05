@@ -275,7 +275,23 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
         // add additional files to parse to the list
         if(parsedContent.additionalFilesToParse.length > 0) {
             parsedContent.additionalFilesToParse.forEach(function(file) {
-                if(path.isAbsolute(file)) {
+                // Support wild cards at the end of a relative .LU file path. 
+                // './bar/*' should look for all .lu files under the specified folder.
+                // './bar/**' should recursively look for .lu files under sub-folders as well.
+                if(file.endsWith('*')) {
+                    const isRecursive = file.endsWith('**');
+                    const rootFolder = file.replace(/\*/g, '');
+                    let rootPath = rootFolder;
+                    if(!path.isAbsolute(rootFolder)) {
+                        rootPath = path.resolve(parentFilePath, rootFolder);
+                    } 
+                    // Get LU files in this location
+                    const luFilesToAdd = helpers.findLUFiles(rootPath, isRecursive);
+                    if(luFilesToAdd.length !== 0) {
+                        // add these to filesToParse
+                        filesToParse = filesToParse.concat(luFilesToAdd);
+                    }
+                } else if(path.isAbsolute(file)) {
                     filesToParse.push(file);
                 } else {
                     filesToParse.push(path.resolve(parentFilePath, file));

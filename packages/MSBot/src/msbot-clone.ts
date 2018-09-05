@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
-import { AppInsightsService, BlobStorageService, BotConfiguration, BotRecipe, BotService, EndpointService, IAppInsightsService, IBlobResource, IBlobStorageService, IBotService, ICosmosDBResource, IDispatchResource, IDispatchService, IEndpointService, IFileResource, IFileService, IGenericResource, IGenericService, IUrlResource, ServiceTypes } from 'botframework-config';
+import { AppInsightsService, BlobStorageService, BotConfiguration, BotRecipe, BotService, EndpointService, IAppInsightsService, IBlobResource, IBlobStorageService, IBotService, ICosmosDBResource, IDispatchResource, IDispatchService, IEndpointService, IFileResource, IFileService, IGenericResource, IGenericService, ILuisService, IQnAService, IUrlResource, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as child_process from 'child_process';
 import * as program from 'commander';
@@ -41,7 +41,7 @@ program
     .name('msbot clone')
     .option('-n, --name <name>', 'name of new bot')
     .option('-f, --folder <folder>', 'path to folder containing exported resources')
-    .option('-l, --location <location>', 'region to create the bot service in')
+    .option('-l, --location <location>', 'location to create the bot service in (westus, ...)')
     .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key for creating luis resources')
     .option('--subscriptionId <subscriptionId>', '(OPTIONAL) Azure subscriptionId to clone bot to, if not passed then current az account will be used')
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
@@ -53,7 +53,7 @@ program.parse(process.argv);
 
 let args = <CloneArgs><any>program.parse(process.argv);
 
-if (!args.name) {
+if (typeof (args.name) != 'string') {
     console.error(chalk.default.redBright('missing --name argument'));
     showErrorHelp();
 }
@@ -195,15 +195,10 @@ async function processConfiguration(): Promise<void> {
                     }
                     break;
 
-                case ServiceTypes.AppInsights:
-                case ServiceTypes.BlobStorage:
-                case ServiceTypes.CosmosDB:
-                case ServiceTypes.Bot:
+                default:
                     if (!args.location) {
                         throw new Error('missing --location argument');
                     }
-                    break;
-                default:
                     break;
             }
         }
@@ -268,7 +263,7 @@ async function processConfiguration(): Promise<void> {
                         logCommand(args, `Fetching Azure Blob Storage connection string [${args.name}]`, command);
                         p = await exec(command);
                         let blobConnection = JSON.parse(p.stdout);
-                        
+
                         let blobResource = <IBlobResource>resource;
                         config.services.push(<IBlobStorageService>{
                             type: ServiceTypes.BlobStorage,
@@ -406,7 +401,7 @@ async function processConfiguration(): Promise<void> {
                     {
                         let genericResource = <IGenericResource>resource;
                         config.services.push(<IGenericService>{
-                            type: ServiceTypes.File,
+                            type: ServiceTypes.Generic,
                             id: genericResource.id,
                             name: genericResource.name,
                             url: genericResource.url,
@@ -419,17 +414,23 @@ async function processConfiguration(): Promise<void> {
                 case ServiceTypes.Dispatch:
                     {
                         let dispatchResource = <IDispatchResource>resource;
+
                         // import application 
                         let luisPath = args.folder + '/' + resource.id + '.luis';
                         let appName = `${args.name}-${resource.name}`;
                         command = `luis import application --appName ${appName} --in "${luisPath}" --authoringKey ${args.luisAuthoringKey} --msbot`;
                         logCommand(args, `Creating LUIS Dispatch application [${appName}]`, command);
                         p = await exec(command);
-                        let dispatchService = <IDispatchService>JSON.parse(p.stdout);
+                        let luisService = <ILuisService>JSON.parse(p.stdout);
+
+                        let dispatchService: IDispatchService = Object.assign({ serviceIds: dispatchResource.serviceIds, }, luisService);
+                        (<any>dispatchService).type = ServiceTypes.Dispatch;
                         dispatchService.id = resource.id; // keep same resource id
-                        dispatchService.serviceIds = dispatchResource.serviceIds; // keep same servicesIds
                         config.services.push(dispatchService);
                         await config.save();
+
+                        // train luis service
+                        await TrainAndPublishLuisService(luisService);
                     }
                     break;
 
@@ -441,10 +442,13 @@ async function processConfiguration(): Promise<void> {
                         command = `luis import application --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`;
                         logCommand(args, `Creating LUIS application [${luisAppName}]`, command);
                         p = await exec(command);
-                        let luisService = JSON.parse(p.stdout);
+                        let luisService = <ILuisService>JSON.parse(p.stdout);
                         luisService.id = resource.id; // keep same resource id
                         config.services.push(luisService);
                         await config.save();
+
+                        // train luis service
+                        await TrainAndPublishLuisService(luisService);
                     }
                     break;
 
@@ -456,7 +460,7 @@ async function processConfiguration(): Promise<void> {
                         command = `qnamaker create kb --subscriptionKey ${args.qnaSubscriptionKey} --name "${kbName}" --in ${qnaPath} --wait --msbot -q`;
                         logCommand(args, `Creating QnA Maker KB [${kbName}]`, command);
                         p = await exec(command);
-                        let service = JSON.parse(p.stdout);
+                        let service = <IQnAService>JSON.parse(p.stdout);
                         service.id = resource.id; // keep id
                         service.name = kbName;
                         config.services.push(service);
@@ -468,6 +472,7 @@ async function processConfiguration(): Promise<void> {
                     break;
             }
         }
+
         // hook up appinsights and blob storage if it hasn't been already
         if (azBot) {
             let hasBot = false;
@@ -559,6 +564,22 @@ async function processConfiguration(): Promise<void> {
 
 
 
+async function TrainAndPublishLuisService(luisService: ILuisService) {
+    let command = `luis train version --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --wait `;
+    logCommand(args, `Training LUIS application [${luisService.name}]`, command);
+    await spawnAsync(command);
+
+    // publish application
+    command = `luis publish version --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --region ${luisService.region} `;
+    logCommand(args, `Publishing LUIS application [${luisService.name}]`, command);
+    await exec(command);
+
+    // mark application as public (TEMPORARY, THIS SHOULD BE REMOVED ONCE LUIS PROVIDES KEY ASSIGN API)
+    command = `luis update settings --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --public true`;
+    logCommand(args, `Updating LUIS settings [${luisService.name}]`, command);
+    await exec(command);
+}
+
 async function createBot(): Promise<IBotService> {
     let command = `az bot create -g ${args.name} --name ${args.name} --kind webapp --location ${args.location}`;
     logCommand(args, `Creating Azure Bot Service [${args.name}]`, command);
@@ -577,7 +598,10 @@ async function createBot(): Promise<IBotService> {
 }
 
 async function createGroup(): Promise<any> {
-
+    if (!args.location) {
+        throw new Error('missing --location argument');
+    }
+    
     let command = `az group create -g ${args.name} -l ${args.location}`;
     logCommand(args, `Creating Azure group [${args.name}]`, command);
     let p = await exec(command);
@@ -591,8 +615,11 @@ function showErrorHelp() {
         console.error(str);
         return '';
     });
-    console.log(chalk.default.bold(`NOTE: You did not complete clone process. To delete the group and resources run:`));
-    console.log(chalk.default.italic(`az delete group -g ${args.name} --no-wait`));
+    console.log(chalk.default.bold(`NOTE: You did not complete clone process.`));
+    if (typeof (args.name) == 'string') {
+        console.log(`To delete the group and resources run:`);
+        console.log(chalk.default.italic(`az group delete -g ${args.name} --no-wait`));
+    }
     process.exit(1);
 }
 

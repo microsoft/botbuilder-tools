@@ -58,12 +58,7 @@
                 "--name",
                 "CloneBot40",
                 "--folder",
-                "CloneBot33",
-                "--location",
-                "westus",
-                "--luisAuthoringKey",
-                "736465dedefd479093d666ab661d7b31",
-                "--verbose"
+                "xxx",
             ]
         },
         {
