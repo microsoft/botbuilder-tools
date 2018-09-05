@@ -41,7 +41,7 @@ program
     .name('msbot clone')
     .option('-n, --name <name>', 'name of new bot')
     .option('-f, --folder <folder>', 'path to folder containing exported resources')
-    .option('-l, --location <location>', 'region to create the bot service in')
+    .option('-l, --location <location>', 'location to create the bot service in (westus, ...)')
     .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key for creating luis resources')
     .option('--subscriptionId <subscriptionId>', '(OPTIONAL) Azure subscriptionId to clone bot to, if not passed then current az account will be used')
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
@@ -53,7 +53,7 @@ program.parse(process.argv);
 
 let args = <CloneArgs><any>program.parse(process.argv);
 
-if (!args.name) {
+if (typeof (args.name) != 'string') {
     console.error(chalk.default.redBright('missing --name argument'));
     showErrorHelp();
 }
@@ -195,15 +195,10 @@ async function processConfiguration(): Promise<void> {
                     }
                     break;
 
-                case ServiceTypes.AppInsights:
-                case ServiceTypes.BlobStorage:
-                case ServiceTypes.CosmosDB:
-                case ServiceTypes.Bot:
+                default:
                     if (!args.location) {
                         throw new Error('missing --location argument');
                     }
-                    break;
-                default:
                     break;
             }
         }
@@ -576,12 +571,12 @@ async function TrainAndPublishLuisService(luisService: ILuisService) {
 
     // publish application
     command = `luis publish version --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --region ${luisService.region} `;
-    logCommand(args, `publishing LUIS application [${luisService.name}]`, command);
+    logCommand(args, `Publishing LUIS application [${luisService.name}]`, command);
     await exec(command);
 
     // mark application as public (TEMPORARY, THIS SHOULD BE REMOVED ONCE LUIS PROVIDES KEY ASSIGN API)
     command = `luis update settings --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --public true`;
-    logCommand(args, `udpating LUIS settings [${luisService.name}]`, command);
+    logCommand(args, `Updating LUIS settings [${luisService.name}]`, command);
     await exec(command);
 }
 
@@ -603,7 +598,10 @@ async function createBot(): Promise<IBotService> {
 }
 
 async function createGroup(): Promise<any> {
-
+    if (!args.location) {
+        throw new Error('missing --location argument');
+    }
+    
     let command = `az group create -g ${args.name} -l ${args.location}`;
     logCommand(args, `Creating Azure group [${args.name}]`, command);
     let p = await exec(command);
@@ -617,8 +615,11 @@ function showErrorHelp() {
         console.error(str);
         return '';
     });
-    console.log(chalk.default.bold(`NOTE: You did not complete clone process. To delete the group and resources run:`));
-    console.log(chalk.default.italic(`az group delete -g ${args.name} --no-wait`));
+    console.log(chalk.default.bold(`NOTE: You did not complete clone process.`));
+    if (typeof (args.name) == 'string') {
+        console.log(`To delete the group and resources run:`);
+        console.log(chalk.default.italic(`az group delete -g ${args.name} --no-wait`));
+    }
     process.exit(1);
 }
 
