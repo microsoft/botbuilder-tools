@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
-import { AppInsightsService, BlobStorageService, BotConfiguration, BotRecipe, BotService, EndpointService, IAppInsightsService, IBlobResource, IBlobStorageService, IBotService, ICosmosDBResource, IDispatchResource, IDispatchService, IEndpointService, IFileResource, IFileService, IGenericResource, IGenericService, IUrlResource, ServiceTypes } from 'botframework-config';
+import { AppInsightsService, BlobStorageService, BotConfiguration, BotRecipe, BotService, EndpointService, IAppInsightsService, IBlobResource, IBlobStorageService, IBotService, ICosmosDBResource, IDispatchResource, IDispatchService, IEndpointService, IFileResource, IFileService, IGenericResource, IGenericService, ILuisService, IUrlResource, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as child_process from 'child_process';
 import * as program from 'commander';
@@ -268,7 +268,7 @@ async function processConfiguration(): Promise<void> {
                         logCommand(args, `Fetching Azure Blob Storage connection string [${args.name}]`, command);
                         p = await exec(command);
                         let blobConnection = JSON.parse(p.stdout);
-                        
+
                         let blobResource = <IBlobResource>resource;
                         config.services.push(<IBlobStorageService>{
                             type: ServiceTypes.BlobStorage,
@@ -406,7 +406,7 @@ async function processConfiguration(): Promise<void> {
                     {
                         let genericResource = <IGenericResource>resource;
                         config.services.push(<IGenericService>{
-                            type: ServiceTypes.File,
+                            type: ServiceTypes.Generic,
                             id: genericResource.id,
                             name: genericResource.name,
                             url: genericResource.url,
@@ -425,11 +425,30 @@ async function processConfiguration(): Promise<void> {
                         command = `luis import application --appName ${appName} --in "${luisPath}" --authoringKey ${args.luisAuthoringKey} --msbot`;
                         logCommand(args, `Creating LUIS Dispatch application [${appName}]`, command);
                         p = await exec(command);
-                        let dispatchService = <IDispatchService>JSON.parse(p.stdout);
-                        dispatchService.id = resource.id; // keep same resource id
-                        dispatchService.serviceIds = dispatchResource.serviceIds; // keep same servicesIds
+                        let luisService = <ILuisService>JSON.parse(p.stdout);
+                        let dispatchService: IDispatchService = {
+                            type: ServiceTypes.Dispatch,
+                            id: resource.id, // keep resource id
+                            name: luisService.name,
+                            appId: luisService.appId,
+                            authoringKey: luisService.authoringKey,
+                            subscriptionKey: luisService.subscriptionKey,
+                            version: luisService.version,
+                            region: luisService.region,
+                            serviceIds: dispatchResource.serviceIds,
+                        };
                         config.services.push(dispatchService);
                         await config.save();
+
+                        // train application
+                        command = `luis train version --appId ${dispatchService.appId} --authoringKey ${dispatchService.authoringKey} --versionId "${dispatchService.version}" --wait `;
+                        logCommand(args, `Training LUIS Dispatch application [${appName}]`, command);
+                        p = await exec(command);
+
+                        // publis application
+                        command = `luis train version --appId ${dispatchService.appId} --authoringKey ${dispatchService.authoringKey} --versionId "${dispatchService.version}" --wait `;
+                        logCommand(args, `Training LUIS Dispatch application [${appName}]`, command);
+                        p = await exec(command);
                     }
                     break;
 
@@ -592,7 +611,7 @@ function showErrorHelp() {
         return '';
     });
     console.log(chalk.default.bold(`NOTE: You did not complete clone process. To delete the group and resources run:`));
-    console.log(chalk.default.italic(`az delete group -g ${args.name} --no-wait`));
+    console.log(chalk.default.italic(`az group delete -g ${args.name} --no-wait`));
     process.exit(1);
 }
 

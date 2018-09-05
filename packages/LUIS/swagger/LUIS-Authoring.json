@@ -7662,7 +7662,8 @@
         "public": {
           "description": "Setting your application as public allows other people to use your application's endpoint using their own keys.",
           "type": "boolean",
-          "x-nullable": false
+          "x-nullable": false,
+          "x-ms-client-name": "isPublic"
         }
       }
     },
