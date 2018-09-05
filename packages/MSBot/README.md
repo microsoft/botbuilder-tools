@@ -21,7 +21,7 @@ Via the .bot file, you can register services like:
 * Blob or CosmosDB storage 
 * AppInsights
 * etc.
-
+ 
 ## Prerequisite
 
 - [Node.js](https://nodejs.org/) version 8.5 or higher

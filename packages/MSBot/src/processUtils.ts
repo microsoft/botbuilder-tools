@@ -4,7 +4,7 @@ import * as child_process from "child_process";
 export function spawnAsync(command: string, stdout?: (data: string) => void, stderr?: (data: string) => void): Promise<string> {
     return new Promise<any>((resolve, reject) => {
         let parts = command.split(' ');
-        let p = child_process.spawn('az', parts.slice(1), { shell: true, stdio: ['inherit', 'pipe', 'pipe'] });
+        let p = child_process.spawn(parts[0], parts.slice(1), { shell: true, stdio: ['inherit', 'pipe', 'pipe'] });
         let out = '';
         p.stderr.on('data', (data) => {
             if (stderr) {

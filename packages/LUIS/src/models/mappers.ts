@@ -237,7 +237,7 @@ export const ApplicationSettingUpdateObject: msRest.CompositeMapper = {
     name: "Composite",
     className: "ApplicationSettingUpdateObject",
     modelProperties: {
-      publicProperty: {
+      isPublic: {
         nullable: false,
         serializedName: "public",
         type: {
