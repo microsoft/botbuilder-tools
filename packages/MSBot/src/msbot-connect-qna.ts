@@ -2,27 +2,26 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+// tslint:disable:no-console
+import { BotConfiguration, IQnAService, QnaMakerService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as fs from 'fs-extra';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
-import { BotConfig } from './BotConfig';
-import { QnaMakerService } from './models';
-import { IQnAService, ServiceType } from './schema';
 import { uuidValidate } from './utils';
 
-program.Command.prototype.unknownOption = function (flag: any) {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+program.Command.prototype.unknownOption = (): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
     showErrorHelp();
 };
 
-interface ConnectQnaArgs extends IQnAService {
+interface IConnectQnaArgs extends IQnAService {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
+    [key: string]: string | boolean | undefined;
 }
 
 program
@@ -40,33 +39,33 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((cmd, actions) => undefined);
+    .action((cmd: program.Command, actions: program.Command) => undefined);
 
 program.parse(process.argv);
 
-const args = <ConnectQnaArgs><any>program.parse(process.argv);
+const args = <IConnectQnaArgs><any>program.parse(process.argv);
 
 if (process.argv.length < 3) {
     program.help();
 } else {
     if (!args.bot) {
-        BotConfig.LoadBotFromFolder(process.cwd(), args.secret)
+        BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectQnaArgs)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
-        BotConfig.Load(args.bot, args.secret)
+        BotConfiguration.load(args.bot, args.secret)
             .then(processConnectQnaArgs)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     }
 }
 
-async function processConnectQnaArgs(config: BotConfig): Promise<BotConfig> {
+async function processConnectQnaArgs(config: BotConfiguration): Promise<BotConfiguration> {
     args.name = args.hasOwnProperty('name') ? args.name : config.name;
 
     if (args.stdin) {
@@ -85,28 +84,34 @@ async function processConnectQnaArgs(config: BotConfig): Promise<BotConfig> {
 
     if (!args.subscriptionKey || !uuidValidate(args.subscriptionKey)) {
         throw new Error('bad or missing --subscriptionKey');
-    }
-
+        }
     if (!args.endpointKey || !uuidValidate(args.endpointKey)) {
         throw new Error('bad or missing --endpointKey');
-    }
-
+        }
     if (!args.hostname || !validurl.isWebUri(args.hostname)) {
         throw new Error('bad or missing --hostname');
-    }
+        }
 
     // add the service
-    const newService = new QnaMakerService(args);
-    config.connectService(newService);
+    const newService: QnaMakerService = new QnaMakerService({
+        name: args.name,
+        kbId: args.kbId,
+        subscriptionKey: args.subscriptionKey,
+        endpointKey: args.endpointKey,
+        hostname: args.hostname
+    });
+    const id: string = config.connectService(newService);
 
-    await config.save();
-    process.stdout.write(JSON.stringify(newService, null, 2));
+    await config.save(args.secret);
+    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+
     return config;
 }
 
-function showErrorHelp() {
-    program.outputHelp((str) => {
+function showErrorHelp(): void {
+    program.outputHelp((str: string) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);

@@ -2,46 +2,47 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+// tslint:disable:no-console
+import { BotConfiguration, EndpointService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as fsx from 'fs-extra';
 import * as readline from 'readline-sync';
-import { BotConfig } from './BotConfig';
-import { IEndpointService, ServiceType } from './schema';
+import * as validurl from 'valid-url';
 
-program.Command.prototype.unknownOption = function (flag: any) {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+program.Command.prototype.unknownOption = (): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
     program.help();
 };
 
-interface InitArgs {
+interface IInitArgs {
     name: string;
     description: string;
-    secret: string;
+    secret: boolean;
     endpoint: string;
     appId: string;
     appPassword: string;
     quiet: boolean;
+    [key: string]: string | boolean;
 }
 
 program
     .name('msbot init')
-    .option('--secret <secret>', 'secret used to encrypt service keys')
     .option('-n, --name <name>', 'name of the bot')
-    .option('-d, --description <description>', 'description of the bot')
     .option('-a, --appId  <appid>', 'Microsoft AppId used for auth with the endpoint')
     .option('-p, --appPassword <password>', 'Microsoft app password used for auth with the endpoint')
     .option('-e, --endpoint <endpoint>', 'local endpoint for the bot')
+    .option('--secret', 'generate a secret and encrypt service keys with it')
     .option('-q, --quiet', 'do not prompt')
-    .action((name, x) => {
+    .action((name: program.Command, x: program.Command) => {
         console.log(name);
     });
 
-const args: InitArgs = <InitArgs><any>program.parse(process.argv);
+let args  = <IInitArgs><any>program.parse(process.argv);
 
 if (!args.quiet) {
 
-    let exists = fsx.existsSync(`${args.name}.bot`);
+    let exists: boolean = fsx.existsSync(`${args.name}.bot`);
     while (((!args.hasOwnProperty('name') || args.name.length === 0)) || exists) {
         if (exists) {
             console.log(`${args.name}.bot already exists`);
@@ -50,64 +51,83 @@ if (!args.quiet) {
         exists = fsx.existsSync(`${args.name}.bot`);
     }
 
-    if (!args.secret || args.secret.length === 0) {
-        const answer = readline.question(`Would you to secure your bot keys with a secret? [no]`);
-        if (answer === 'y' || answer === 'yes') {
-            args.secret = readline.question(`What secret would you like to use? `);
-        }
-    }
-
-    if (!args.description || args.description.length === 0) {
-        args.description = readline.question(`What description would you like for your bot? `);
-    }
-
     while (!args.endpoint || args.endpoint.length === 0) {
-        args.endpoint = readline.question(`What endpoint does your bot use for debugging [Example: http://localhost:3978/api/messages]? `, {
-            defaultInput: `http://localhost:3978/api/messages`
+        args.endpoint = readline.question(`What localhost endpoint does your bot use for debugging [Example: http://localhost:3978/api/messages]? `, {
+            defaultInput: ' '
         });
     }
 
-    if (!args.appId || args.appId.length === 0) {
-        const answer = readline.question(`Do you have an Application Id for this bot? [no] `, {
-            defaultInput: 'no'
-        });
-        if (answer === 'y' || answer === 'yes') {
-            args.appId = readline.question(`What is your Application Id? [none] `, {
+    if (validurl.isHttpUri(args.endpoint) || validurl.isHttpsUri(args.endpoint)) {
+
+        if (!args.appId || args.appId.length === 0) {
+            const answer = readline.question(`Do you have an appId for endpoint? [no] `, {
+                defaultInput: 'no'
+            });
+            if (answer == 'y' || answer === 'yes') {
+                args.appId = readline.question(`What is your appId for ${args.endpoint}? [none] `, {
+                    defaultInput: ''
+                });
+            }
+        }
+
+        while (args.appId && args.appId.length > 0 && (!args.appPassword || args.appPassword.length === 0)) {
+            args.appPassword = readline.question(`What is your appPassword for ${args.endpoint}? `, {
                 defaultInput: ''
             });
         }
     }
 
-    while (args.appId && args.appId.length > 0 && (!args.appPassword || args.appPassword.length === 0)) {
-        args.appPassword = readline.question(`What is your Msa Application password for ${args.appId}? `, {
-            defaultInput: ''
+    if (!args.secret) {
+        // tslint:disable-next-line:max-line-length
+        const answer: string = readline.question(`=== Your bot file contains service keys and we strongly recommend you encrypt them to keep them safe. ===\nWould you like to encrypt your keys with a secret? [yes] `, {
+            defaultInput: 'yes'
         });
+        args.secret = answer === 'y' || answer === 'yes';
     }
+}
+
+let secret: string | undefined;
+
+if (args.secret) {
+    secret = BotConfiguration.generateKey();
 }
 
 if (!args.name) {
     console.error('missing --name argument');
 } else {
-    const bot = new BotConfig(args.secret);
+    const bot: BotConfiguration = new BotConfiguration();
     bot.name = args.name;
     bot.description = args.description;
 
-    bot.connectService(<IEndpointService>{
-        type: ServiceType.Endpoint,
-        name: args.name,
-        endpoint: args.endpoint,
-        description: args.description,
-        id: args.endpoint,
-        appId: args.appId || '',
-        appPassword: args.appPassword || ''
-    });
-
-    if (args.secret && args.secret.length > 0) {
-        bot.validateSecretKey();
+    if (validurl.isHttpUri(args.endpoint) || validurl.isHttpsUri(args.endpoint)) {
+        bot.connectService(new EndpointService({
+            name: args.name,
+            endpoint: args.endpoint,
+            appId: args.appId || '',
+            appPassword: args.appPassword || ''
+        }));
     }
 
-    const filename = bot.name + '.bot';
-    bot.save(filename);
-    console.log(`${filename} created`);
+    const filename: string = `${bot.name}.bot`;
+    bot.saveAs(filename, secret);
+    const result: IResult = {
+        status: 'OK',
+        file: filename,
+        secret: secret
+    };
+    if (args.quiet) {
+        console.log(JSON.stringify(result, null, 2));
+    } else {
+        console.log(`created ${filename}`);
+        if (secret) {
+            // tslint:disable-next-line:max-line-length
+            console.log(`Your bot is encrypted with secret:\n${secret}\n\nPlease save this secret in a secure place to keep your keys safe.`);
+        }
+    }
+}
 
+interface IResult {
+    status: string;
+    file: string;
+    secret: string | undefined;
 }
