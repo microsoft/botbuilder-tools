@@ -128,7 +128,9 @@ async function runProgram() {
         if (outputDir.substr(0, 2) === "./") {
             outputDir = path.resolve(process.cwd(), outputDir.substr(2))
         }
-        await processFiles(inputDir, outputDir);
+            const len = await processFiles(inputDir, outputDir);
+            process.stdout.write(chalk`{green Successfully wrote ${len} files}\n`);
+            return len;
     }
     else {
         const fileContents = await getInput(args);

@@ -33,7 +33,7 @@ LulaBot: Here are some pictures
 
 
 LulaBot: Here's card1
-[Attachment=test/bot-framework.png]
+[Attachment=bot-framework.png]
 
 LulaBot: Here's card2
 [Attachment=https://raw.githubusercontent.com/Microsoft/botbuilder-tools/master/Chatdown/test/samplecard.json adaptivecard]
@@ -52,4 +52,3 @@ Lulabot: # cheese choices
 2. cheese 2
 3. cheese 3
 [Suggestions=option 1|option 2|option 3]
-
