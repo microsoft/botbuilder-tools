@@ -95,6 +95,7 @@ async function processConnectDispatch(config: BotConfiguration): Promise<BotConf
     if (!args.version) {
         throw new Error('bad or missing --version');
     }
+    args.version = args.version.toString();
 
     if (!args.authoringKey || !uuidValidate(args.authoringKey)) {
         throw new Error('bad or missing --authoringKey');

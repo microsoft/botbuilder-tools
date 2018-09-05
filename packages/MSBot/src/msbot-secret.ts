@@ -30,20 +30,8 @@ program
         console.log(name);
     });
 
-const args: ISecretArgs = {
-    bot: '',
-    secret: '',
-    endpoint: '',
-    clear: false,
-    new: false
-};
+let args = <ISecretArgs><any>program.parse(process.argv);
 
-const commands: program.Command = program.parse(process.argv);
-for (const i of commands.args) {
-    if (args.hasOwnProperty(i)) {
-        args[i] = commands[i];
-    }
-}
 if (process.argv.length < 3) {
     showErrorHelp();
 } else {
