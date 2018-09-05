@@ -8,9 +8,9 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\bin\\luis.js",
+            "program": "${workspaceFolder}\\bin\\luis",
             "args" :[
-                
+                "update", "settings", "--public", "true"
             ]
         }
     ]
