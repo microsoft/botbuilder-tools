@@ -121,9 +121,6 @@ async function runProgram() {
 
     if(args.f || args.folder) {
         let inputDir = args.f.trim();
-        if(args.s || args.subfolder) {
-            
-        }
         let outputDir = (args.o || args.out_folder) ?  args.o.trim() : "./";
         if (outputDir.substr(0, 2) === "./") {
             outputDir = path.resolve(process.cwd(), outputDir.substr(2))
