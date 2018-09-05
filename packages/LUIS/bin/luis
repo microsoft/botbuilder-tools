@@ -54,7 +54,7 @@ async function runProgram() {
         args._.includes('help')) {
         return help(args, process.stdout);
     }
-    if (args.version || args.v) {
+    if (args.v) {
         return process.stdout.write(require(path.join(__dirname, '../package.json')).version + "\n");
     }
 
@@ -110,6 +110,8 @@ async function runProgram() {
                 case "application":
                     result = await client.apps.add(args.region, requestBody, args);
                     result = await client.apps.get(args.region, result, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
                     return;
                 case "closedlist":
@@ -204,10 +206,7 @@ async function runProgram() {
         case "clone":
             switch (target) {
                 case "version":
-                    if (!args.newVersionId) {
-                        throw new Error(`missing --newVersionId`);
-                    }
-                    result = await client.versions.clone(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
+                    result = await client.versions.clone(args.region, args.appId, args.versionId, requestBody, args);
                     break;
 
                 default:
@@ -276,6 +275,8 @@ async function runProgram() {
                 case "app":
                 case "application":
                     result = await client.apps.get(args.region, args.appId, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
                     return;
 
@@ -356,10 +357,15 @@ async function runProgram() {
             switch (target) {
                 case "app":
                 case "application":
+                    if (args.appName) {
+                        requestBody.name = args.appName;
+                    }
                     result = await client.apps.importMethod(args.region, requestBody, args);
                     result = await client.apps.get(args.region, result, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
-                    break;
+                    return;
 
                 case "version":
                     result = await client.versions.importMethod(args.region, args.appId, requestBody, args);
@@ -486,11 +492,7 @@ async function runProgram() {
             switch (target) {
 
                 case "version":
-                    if (!args.newVersionId) {
-                        throw new Error(`missing --newVersionId`);
-                    }
-
-                    result = await client.versions.update(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
+                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -571,11 +573,7 @@ async function runProgram() {
                     result = await client.model.updateSubList(args.region, args.appId, args.versionId, args.clEntityId, args.subListId, requestBody, args);
                     break;
                 case "version":
-                    if (!args.newVersionId) {
-                        throw new Error(`missing --newVersionId`);
-                    }
-
-                    result = await client.versions.update(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
+                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
                     break;
 
                 default:
@@ -690,7 +688,7 @@ async function waitForTrainingToComplete(client, args) {
         if (completedItems.length == result.length) return result;
         let failedItems = result.filter(item => { return item.details.status == "Fail" });
         if (failedItems.length !== 0) throw new Error(`Training failed for ${failedItems[0].modelId}: ${failedItems[0].details.failureReason}`);
-        process.stderr.write(`${completedItems.length}/${result.length} complete.`);
+        process.stderr.write(`${completedItems.length}/${result.length} complete.\r`);
         await Delay(1000);
     } while (true);
 }
@@ -796,14 +794,38 @@ async function validateArguments(args, operation) {
                 case "version":
                     switch (operation.methodAlias) {
                         case "publish":
-                            body = {
-                                versionId: args.versionId,
-                                isStaging: args.staging === true,
-                                region: args.region
-                            };
+                            if (args.region && args.versionId) {
+                                body = {
+                                    versionId: `${args.versionId}`,
+                                    isStaging: args.staging === 'true',
+                                    region: args.region
+                                };
+                            }
+                            break;
+                        case "rename":
+                        case "update":
+                        case "clone":
+                            if (args.newVersionId) {
+                                body = {
+                                    version: `${args.newVersionId}`
+                                };
+                            }
                             break;
                     }
                     break;
+
+                case "settings":
+                    switch (operation.methodAlias) {
+                        case "update":
+                            if (args.hasOwnProperty("public")) {
+                                body = {
+                                    isPublic : args.public === 'true'
+                                };
+                            }
+                            break;
+                    }
+                    break;
+
                 default:
                     error.message = `The --in requires an input of type: ${operation.entityType}`;
                     throw error;
