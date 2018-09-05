@@ -110,6 +110,8 @@ async function runProgram() {
                 case "application":
                     result = await client.apps.add(args.region, requestBody, args);
                     result = await client.apps.get(args.region, result, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
                     return;
                 case "closedlist":
@@ -273,6 +275,8 @@ async function runProgram() {
                 case "app":
                 case "application":
                     result = await client.apps.get(args.region, args.appId, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
                     return;
 
@@ -358,6 +362,8 @@ async function runProgram() {
                     }
                     result = await client.apps.importMethod(args.region, requestBody, args);
                     result = await client.apps.get(args.region, result, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
                     return;
 
