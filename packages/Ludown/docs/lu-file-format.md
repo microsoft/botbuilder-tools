@@ -243,7 +243,11 @@ You can add multiple questions to the same answer by simply additing variations 
 ## External references
 Two different references are supported in the .lu file. These follow Markdown link syntax.
 - Reference to another .lu file via `\[link name](\<.lu file name\>)`. Reference can be an absolute path or a relative path from the containing .lu file.
+- Reference to a folder with other .lu files is supported through 
+	- `\[link name](\<.lu file path\>/*)` - will look for .lu files under the specified absolute or relative path
+	- `\[link name](\<.lu file path\>/**)` - will recursively look for .lu files under the specified absolute or relative path including sub-folders.
 - Reference to URL for QnAMaker to ingest during KB creation via `\[link name](\<URL\>)`
+
 
 Here's an example of those references: 
 
@@ -251,6 +255,12 @@ Here's an example of those references:
 [QnaURL](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
 
 [none intent definition](./none.lu)
+
+> Look for all .lu files under a path
+[Cafe model](./cafeModels/*)
+
+> Recursively look for .lu files under a path including sub-folders.
+[Chit chat](../chitchat/resources/**)
 ```
 ## QnAMaker Filters
 Filters in QnA Maker are simple key value pairs that can be used to narrow search results, boost answers and store context. You can add filters using the following notation: 
