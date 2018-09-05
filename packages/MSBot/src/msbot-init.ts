@@ -23,8 +23,6 @@ interface IInitArgs {
     appId: string;
     appPassword: string;
     quiet: boolean;
-    // tslint:disable-next-line:no-any
-    [key: string]: any;
 }
 
 program
@@ -49,9 +47,7 @@ const args: IInitArgs = {
     appPassword: '',
     quiet: false
 };
-for (const key of args.keys) {
-    args[key] = command[key];
-}
+Object.assign(args, command);
 
 if (!args.quiet) {
 
