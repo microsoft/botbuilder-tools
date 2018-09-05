@@ -15,13 +15,16 @@ program.Command.prototype.unknownOption = function (flag: any) {
 
 interface ConnectFileArgs extends IFileService {
     bot: string;
+    file: string;
     secret: string;
 }
 
 program
-    .name('msbot connect file <path>')
+    .name('msbot connect file')
     .description('Connect a file to the bot')
-    .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
+    .option('-n, --name <name>', 'name of the file service')
+    .option('-f, --file <file>', 'path to file to connect to')
+    .option('-b, --bot <bot>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .action((filePath, actions) => {
         if (filePath)
@@ -51,15 +54,13 @@ if (process.argv.length < 3) {
 }
 
 async function processConnectFile(config: BotConfiguration): Promise<BotConfiguration> {
-    args.name = args.hasOwnProperty('name') ? args.name : config.name;
-
-    if (!args.hasOwnProperty('filePath'))
-        throw new Error('Bad or missing file');
+    if (!args.path && !args.file)
+        throw new Error('missing --file');
 
     // add the service
     let newService = new FileService({
-        name: path.basename(args.path),
-        path: args.path
+        name: path.basename(args.file || args.path),
+        path: (args.file || args.path).replace('\\','/')
     } as IFileService);
     let id = config.connectService(newService);
     await config.save(args.secret);
@@ -67,8 +68,7 @@ async function processConnectFile(config: BotConfiguration): Promise<BotConfigur
     return config;
 }
 
-function showErrorHelp()
-{
+function showErrorHelp() {
     program.outputHelp((str) => {
         console.error(str);
         return '';
