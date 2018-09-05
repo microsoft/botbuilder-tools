@@ -23,7 +23,8 @@ interface IInitArgs {
     appId: string;
     appPassword: string;
     quiet: boolean;
-    [key: string]: string | boolean;
+    // tslint:disable-next-line:no-any
+    [key: string]: any;
 }
 
 program
@@ -38,7 +39,19 @@ program
         console.log(name);
     });
 
-let args  = <IInitArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args: IInitArgs = {
+    name : '',
+    description: '',
+    secret: false,
+    endpoint: '',
+    appId: '',
+    appPassword: '',
+    quiet: false
+};
+for (const key of args.keys) {
+    args[key] = command[key];
+}
 
 if (!args.quiet) {
 
