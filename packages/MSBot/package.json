@@ -5,7 +5,7 @@
   "main": "bin/BotConfig.js",
   "scripts": {
     "build": "tsc",
-    "test": "tsc && nyc mocha tests/ --timeout 10000",
+    "test": "cd test/ && mocha --opts mocha.opts",
     "clean": "erase /q /s .\\bin",
     "set-version": "npm version --allow-same-version ${Version}"
   },
@@ -41,6 +41,7 @@
     "@types/readline-sync": "^1.4.3",
     "@types/uuid": "^3.4.3",
     "@types/valid-url": "^1.0.2",
+    "@types/semver": "^5.5.0",
     "mocha": "^5.2.0"
   },
   "dependencies": {
