@@ -8,12 +8,12 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as path from 'path';
 
-program.Command.prototype.unknownOption = function (flag: any) {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+program.Command.prototype.unknownOption = function (): void {
+    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
     showErrorHelp();
 };
 
-interface ConnectFileArgs extends IFileService {
+interface IConnectFileArgs extends IFileService {
     bot: string;
     file: string;
     secret: string;
@@ -26,12 +26,20 @@ program
     .option('-f, --file <file>', 'path to file to connect to')
     .option('-b, --bot <bot>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
-    .action((filePath, actions) => {
-        if (filePath)
-            actions.filePath = filePath;
+    .action((filePath: program.Command, actions: program.Command) => {
+        if (filePath) {
+            actions.filePath = filePath; }
     });
 
-let args = <ConnectFileArgs><any>program.parse(process.argv);
+const commands: program.Command = program.parse(process.argv);
+const args: IConnectFileArgs = {
+    bot: '',
+    secret: '',
+    path: '',
+    name: ''
+};
+
+Object.assign(args, commands);
 
 if (process.argv.length < 3) {
     program.help();
@@ -39,14 +47,14 @@ if (process.argv.length < 3) {
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectFile)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectFile)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
@@ -58,19 +66,21 @@ async function processConnectFile(config: BotConfiguration): Promise<BotConfigur
         throw new Error('missing --file');
 
     // add the service
-    let newService = new FileService({
+    const newService = new FileService({
         name: path.basename(args.file || args.path),
         path: (args.file || args.path).replace('\\','/')
     } as IFileService);
-    let id = config.connectService(newService);
+    const id = config.connectService(newService);
     await config.save(args.secret);
     process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+
     return config;
 }
 
-function showErrorHelp() {
-    program.outputHelp((str) => {
+function showErrorHelp(): void {
+    program.outputHelp((str: string) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);
