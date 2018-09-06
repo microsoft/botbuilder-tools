@@ -56,4 +56,19 @@ describe('The Chatdown cli tool', () => {
             done();
         });
     });
+
+    it('should process all files when a glob is passed in with the -f argument, and the -o is passed in for the output directory', done => {
+        exec(`node ${chatdown} -f **/*.chat -o ./`, (error, stdout, stderr) => {
+            assert(stdout.includes('Successfully wrote'));
+            done();
+        });
+    });
+
+    it('should process all files when a glob is passed in with the -f argument', done => {
+        exec(`node ${chatdown} -f **/*.chat`, (error, stdout, stderr) => {
+            assert(stdout.includes('Successfully wrote'));
+            done();
+        });
+    });
+
 });
