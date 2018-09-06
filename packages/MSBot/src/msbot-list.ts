@@ -26,7 +26,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args = <IListArgs>{};
+const args: IListArgs = <IListArgs>{};
 Object.assign(args, command);
 
 if (!args.bot) {
