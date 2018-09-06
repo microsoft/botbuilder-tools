@@ -54,7 +54,7 @@ async function runProgram() {
         args._.includes('help')) {
         return help(args, process.stdout);
     }
-    if (args.v) {
+    if (args.version || args.v) {
         return process.stdout.write(require(path.join(__dirname, '../package.json')).version + "\n");
     }
 

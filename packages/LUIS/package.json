@@ -5,7 +5,7 @@
   "main": "./lib/luisAuthoring.js",
   "types": "./typing/lib/luisAuthoring.d.ts",
   "bin": {
-    "luis": "./bin/luis"
+    "luis": "./bin/luis.js"
   },
   "directories": {
     "bin": "bin",
