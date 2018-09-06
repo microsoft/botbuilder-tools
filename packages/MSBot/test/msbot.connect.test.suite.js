@@ -3,6 +3,7 @@ let assert = require('assert');
 let util = require('util');
 let fs = require('fs');
 let exec = util.promisify(require('child_process').exec);
+const msbot = require.resolve('../bin/msbot.js');
 
 describe("msbot connection tests", () => {
 
@@ -12,7 +13,7 @@ describe("msbot connection tests", () => {
         bot.name = "test";
         await bot.saveAs("save.bot", secret);
 
-        let command = `node bin/msbot-connect-appinsights.js `;
+        let command = `node ${msbot} connect appinsights `;
         command += `-b save.bot `;
         command += `-n TestInsights `;
         command += `--serviceName testInsights `;
@@ -47,7 +48,7 @@ describe("msbot connection tests", () => {
         bot.name = "test";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-blob.js -b save.bot -n TestBlob --serviceName testBlob --connectionString testConnection --container testContainer --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup `);
+        let p = await exec(`node ${msbot} connect blob -b save.bot -n TestBlob --serviceName testBlob --connectionString testConnection --container testContainer --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup `);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
@@ -71,7 +72,7 @@ describe("msbot connection tests", () => {
         bot.description = "testd";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-bot.js -b save.bot -n TestBot --serviceName TestBot --secret ${secret} --endpoint http://foo.com/api/messages -s 2f510b5e-10fe-4f53-9159-b134539ac594 --appId 2f510b5e-10fe-4f53-9159-b134539ac594 --appPassword appPassword --tenantId microsoft.onmicrosoft.com --resourceGroup test `);
+        let p = await exec(`node ${msbot} connect bot -b save.bot -n TestBot --serviceName TestBot --secret ${secret} --endpoint http://foo.com/api/messages -s 2f510b5e-10fe-4f53-9159-b134539ac594 --appId 2f510b5e-10fe-4f53-9159-b134539ac594 --appPassword appPassword --tenantId microsoft.onmicrosoft.com --resourceGroup test `);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
@@ -94,7 +95,7 @@ describe("msbot connection tests", () => {
         bot.name = "test";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-cosmosdb.js -b save.bot -n TestCosmos --serviceName testCosmos --connectionString testConnection --database testDatabase --collection testCollection --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup `);
+        let p = await exec(`node ${msbot} connect cosmosdb -b save.bot -n TestCosmos --serviceName testCosmos --connectionString testConnection --database testDatabase --collection testCollection --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup `);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
@@ -120,9 +121,9 @@ describe("msbot connection tests", () => {
         bot.description = "testd";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-luis.js -b save.bot --secret ${secret} -n LUIS -a 2f510b5e-10fe-4f53-9159-b134539ac594 --authoringKey 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --version 1.0`);
+        let p = await exec(`node ${msbot} connect luis -b save.bot --secret ${secret} -n LUIS -a 2f510b5e-10fe-4f53-9159-b134539ac594 --authoringKey 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --version 1.0`);
         let result = JSON.parse(p.stdout);
-        p = await exec(`node bin/msbot-connect-dispatch.js -b save.bot --secret ${secret} -n Dispatch -a e06e3198-45fd-494a-8086-028d260a484b --authoringKey e06e3198-45fd-494a-8086-028d260a484b --subscriptionKey e06e3198-45fd-494a-8086-028d260a484b --version 1.0 --serviceIds ${result.id}`);
+        p = await exec(`node ${msbot} connect dispatch -b save.bot --secret ${secret} -n Dispatch -a e06e3198-45fd-494a-8086-028d260a484b --authoringKey e06e3198-45fd-494a-8086-028d260a484b --subscriptionKey e06e3198-45fd-494a-8086-028d260a484b --version 1.0 --serviceIds ${result.id}`);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         //        fs.unlinkSync("save.bot");
@@ -152,7 +153,7 @@ describe("msbot connection tests", () => {
         bot.description = "testd";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-luis.js -b save.bot --secret ${secret} -n LUIS -a 2f510b5e-10fe-4f53-9159-b134539ac594 --authoringKey 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --region eastus --version 1.0`);
+        let p = await exec(`node ${msbot} connect luis -b save.bot --secret ${secret} -n LUIS -a 2f510b5e-10fe-4f53-9159-b134539ac594 --authoringKey 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --region eastus --version 1.0`);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
@@ -174,7 +175,7 @@ describe("msbot connection tests", () => {
         bot.description = "testd";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-endpoint.js -b save.bot --secret ${secret} -n Endpoint2 --endpoint https://foo.com/api/messages --appId 2f510b5e-10fe-4f53-9159-b134539ac594 --appPassword appPassword`);
+        let p = await exec(`node ${msbot} connect endpoint -b save.bot --secret ${secret} -n Endpoint2 --endpoint https://foo.com/api/messages --appId 2f510b5e-10fe-4f53-9159-b134539ac594 --appPassword appPassword`);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
@@ -193,7 +194,7 @@ describe("msbot connection tests", () => {
         bot.name = "test";
         await bot.saveAs("save.bot", secret);
 
-        let command = `node bin/msbot-connect-generic.js `;
+        let command = `node ${msbot} connect generic `;
         command += `-b save.bot `;
         command += `-n TestGeneric `;
         command += `--url https://bing.com `;
@@ -219,7 +220,7 @@ describe("msbot connection tests", () => {
         bot.description = "testd";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-qna.js -b save.bot --secret ${secret} -n QnA --hostname https://foo.com/qnamaker -k 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --endpointKey  2f510b5e-10fe-4f53-9159-b134539ac594 `);
+        let p = await exec(`node ${msbot} connect qna -b save.bot --secret ${secret} -n QnA --hostname https://foo.com/qnamaker -k 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --endpointKey  2f510b5e-10fe-4f53-9159-b134539ac594 `);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
@@ -238,7 +239,7 @@ describe("msbot connection tests", () => {
         bot.name = "test";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node bin/msbot-connect-file.js -b save.bot -f docs/readme.md --secret ${secret}  `);
+        let p = await exec(`node ${msbot} connect file -b save.bot -f docs/readme.md --secret ${secret}  `);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
