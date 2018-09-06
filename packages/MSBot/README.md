@@ -21,7 +21,7 @@ Via the .bot file, you can register services like:
 * Blob or CosmosDB storage 
 * AppInsights
 * etc.
-
+ 
 ## Prerequisite
 
 - [Node.js](https://nodejs.org/) version 8.5 or higher
@@ -240,7 +240,7 @@ With the following options:
 | ---------------------------- | ------------------------------------------------------------ |
 | -n, --name <name>         | name of the LUIS application                                |
 | -a, --appId  <appid>      | application ID for the LUIS application|
-|-v, --version <version>        |version for the LUIS App, (example: v0.1)|
+| --version <version>        |version for the LUIS App, (example: v0.1)|
 |  --authoringKey <authoringkey>  |authoring key for authoring LUIS models via the authoring API |
 | --subscriptionKey <subscriptionKey>   | (Optional) subscription key used for querying a LUIS model
 | --input <jsonfile>           | path to arguments in JSON format   |
@@ -298,7 +298,7 @@ Options:
 | ------ | ----------- |
 |-n, --name <name>                    | name for the dispatch|
 |-a, --appId <appid>                  | LUIS AppId for the dispatch app|
-|-v, --version <version>              | version for the dispatch app (example: 0.1)|
+| --version <version>              | version for the dispatch app (example: 0.1)|
 |--subscriptionKey <subscriptionKey>  | (Optional) subscription key used for querying the dispatch model|
 |--authoringKey <authoringkey>        | authoring key for using manipulating the dispatch model via the LUIS authoring API|
 |-b, --bot <path>                     | path to bot file.  If omitted, local folder will look for a .bot file|

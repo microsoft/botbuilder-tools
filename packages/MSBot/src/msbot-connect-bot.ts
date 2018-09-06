@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
-import { BotConfiguration, BotService, EndpointService, IBotService, ServiceTypes } from 'botframework-config';
+import { BotConfiguration, BotService, EndpointService, IBotService, IConnectedService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
@@ -11,19 +11,20 @@ import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
 import { uuidValidate } from './utils';
 
-program.Command.prototype.unknownOption = function (flag: any) {
+program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
-interface ConnectAzureArgs extends IBotService {
+interface IConnectAzureArgs extends IBotService {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
-    appId?:string;
-    appPassword?:string;
-    endpoint?:string;
+    appId?: string;
+    appPassword?: string;
+    endpoint?: string;
+    [key: string]: string | boolean | undefined;
 }
 
 program
@@ -42,11 +43,11 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((cmd, actions) => {
+    .action((cmd: program.Command, actions: program.Command) => undefined);
 
-    });
-
-let args = <ConnectAzureArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args = <IConnectAzureArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     program.help();
@@ -54,14 +55,14 @@ if (process.argv.length < 3) {
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectAzureArgs)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectAzureArgs)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
@@ -71,25 +72,28 @@ if (process.argv.length < 3) {
 async function processConnectAzureArgs(config: BotConfiguration): Promise<BotConfiguration> {
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
-    }
-    else if (args.input != null) {
+    } else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.serviceName || args.serviceName.length == 0)
+    if (!args.serviceName || args.serviceName.length === 0) {
         throw new Error('Bad or missing --serviceName');
+        }
 
-    if (!args.tenantId || args.tenantId.length == 0)
+    if (!args.tenantId || args.tenantId.length === 0) {
         throw new Error('Bad or missing --tenantId');
+        }
 
-    if (!args.subscriptionId || !uuidValidate(args.subscriptionId))
+    if (!args.subscriptionId || !uuidValidate(args.subscriptionId)) {
         throw new Error('Bad or missing --subscriptionId');
+        }
 
-    if (!args.resourceGroup || args.resourceGroup.length == 0)
+    if (!args.resourceGroup || args.resourceGroup.length === 0) {
         throw new Error('Bad or missing --resourceGroup for registered bot');
+        }
 
-    let services=[];
-    let service = new BotService({
+    const services: IConnectedService[] = [];
+    const service: BotService = new BotService({
         name: args.hasOwnProperty('name') ? args.name : args.serviceName,
         serviceName: args.serviceName,
         tenantId: args.tenantId,
@@ -98,35 +102,37 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
     });
     config.connectService(service);
     services.push(service);
-    if (args.endpoint) {
-        if (!args.endpoint ||  !(validurl.isHttpUri(args.endpoint) || !validurl.isHttpsUri(args.endpoint)))
-            throw new Error('Bad or missing --endpoint');
+    if (!args.endpoint ||  !(validurl.isHttpUri(args.endpoint) || !validurl.isHttpsUri(args.endpoint))) {
+        throw new Error('Bad or missing --endpoint');
+        }
 
-        if (!args.appId || !uuidValidate(args.appId))
-            throw new Error('Bad or missing --appId');
+    if (!args.appId || !uuidValidate(args.appId)) {
+        throw new Error('Bad or missing --appId');
+        }
 
-        if (!args.appPassword || args.appPassword.length == 0)
-            throw new Error('Bad or missing --appPassword');
+    if (!args.appPassword || args.appPassword.length === 0) {
+        throw new Error('Bad or missing --appPassword');
+        }
 
-        let endpointService = new EndpointService({
-            type: ServiceTypes.Endpoint,
-            name: args.hasOwnProperty('name') ? args.name : args.endpoint,
-            appId: args.appId,
-            appPassword: args.appPassword,
-            endpoint: args.endpoint
-        })
-        config.connectService(endpointService);
-        services.push(endpointService);
-    }
+    const endpointService: EndpointService = new EndpointService({
+        type: ServiceTypes.Endpoint,
+        name: args.hasOwnProperty('name') ? args.name : args.endpoint,
+        appId: args.appId,
+        appPassword: args.appPassword,
+        endpoint: args.endpoint
+    });
+    config.connectService(endpointService);
+    services.push(endpointService);
     await config.save(args.secret);
     process.stdout.write(JSON.stringify(services, null, 2));
+
     return config;
 }
 
-function showErrorHelp()
-{
-    program.outputHelp((str) => {
+function showErrorHelp(): void {
+    program.outputHelp((str: string) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);
