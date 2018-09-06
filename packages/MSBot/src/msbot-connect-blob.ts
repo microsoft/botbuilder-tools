@@ -10,8 +10,8 @@ import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import { uuidValidate } from './utils';
 
-program.Command.prototype.unknownOption = function (): void {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -41,20 +41,9 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
-const commands: program.Command = program.parse(process.argv);
-const args: IConnectBlobArgs = {
-    bot: '',
-    secret: '',
-    stdin: false,
-    connectionString: '',
-    container: '',
-    tenantId: '',
-    subscriptionId: '',
-    resourceGroup: '',
-    serviceName: '',
-    name: ''
-};
-Object.assign(args, commands);
+const command: program.Command = program.parse(process.argv);
+const args = <IConnectBlobArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     program.help();

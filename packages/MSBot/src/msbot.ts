@@ -17,8 +17,8 @@ if (!semver.satisfies(process.version, requiredVersion)) {
     process.exit(1);
 }
 
-program.Command.prototype.unknownOption = function (): void {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.outputHelp((str: string) => {
         console.error(str);
 
@@ -28,7 +28,7 @@ program.Command.prototype.unknownOption = function (): void {
 };
 
 program
-    .version(pkg.version, '-v, --version')
+.version(pkg.version, '-v, --Version')
     .description(`The msbot program makes it easy to manipulate .bot files for Microsoft Bot Framework tools.`);
 
 program

@@ -10,8 +10,8 @@ import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import { uuidValidate } from './utils';
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -28,10 +28,10 @@ program
     .description('Connect the bot to a LUIS application')
     .option('-n, --name <name>', 'name for the LUIS app')
     .option('-a, --appId <appid>', 'AppId for the LUIS App')
-    .option('-v, --version <version>', 'version for the LUIS App, (example: v0.1)')
+    .option('--version <version>', 'version for the LUIS App, (example: v0.1)')
     .option('-r, --region <region>', 'region for the LUIS App, (default:westus)')
     .option('--authoringKey <authoringkey>',
-            'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
+        'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying a LUIS model\n')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
@@ -40,20 +40,9 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
-const args: IConnectLuisArgs = {
-    bot: '',
-    secret: '',
-    stdin: true,
-    appId: '',
-    authoringKey: '',
-    subscriptionKey: '',
-    version: '',
-    region: '',
-    name: ''
-};
-
-const commands: program.Command = program.parse(process.argv);
-Object.assign(args, commands);
+const command: program.Command = program.parse(process.argv);
+const args = <IConnectLuisArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     program.help();

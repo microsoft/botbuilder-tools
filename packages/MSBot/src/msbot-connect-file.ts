@@ -8,8 +8,8 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as path from 'path';
 
-program.Command.prototype.unknownOption = function (): void {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -28,18 +28,13 @@ program
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .action((filePath: program.Command, actions: program.Command) => {
         if (filePath) {
-            actions.filePath = filePath; }
+            actions.filePath = filePath;
+        }
     });
 
-const commands: program.Command = program.parse(process.argv);
-const args: IConnectFileArgs = {
-    bot: '',
-    secret: '',
-    path: '',
-    name: ''
-};
-
-Object.assign(args, commands);
+const command: program.Command = program.parse(process.argv);
+const args = <IConnectFileArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     program.help();
@@ -68,7 +63,7 @@ async function processConnectFile(config: BotConfiguration): Promise<BotConfigur
     // add the service
     const newService = new FileService({
         name: path.basename(args.file || args.path),
-        path: (args.file || args.path).replace('\\','/')
+        path: (args.file || args.path).replace('\\', '/')
     } as IFileService);
     const id = config.connectService(newService);
     await config.save(args.secret);
