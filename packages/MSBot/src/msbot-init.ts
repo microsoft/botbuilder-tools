@@ -23,7 +23,6 @@ interface IInitArgs {
     appId: string;
     appPassword: string;
     quiet: boolean;
-    [key: string]: string | boolean;
 }
 
 program
@@ -38,7 +37,17 @@ program
         console.log(name);
     });
 
-let args  = <IInitArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args: IInitArgs = {
+    name : '',
+    description: '',
+    secret: false,
+    endpoint: '',
+    appId: '',
+    appPassword: '',
+    quiet: false
+};
+Object.assign(args, command);
 
 if (!args.quiet) {
 
