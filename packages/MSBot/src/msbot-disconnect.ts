@@ -7,8 +7,8 @@ import { BotConfiguration, IConnectedService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -29,13 +29,9 @@ program
         actions.idOrName = idOrName;
     });
 
-const args: IDisconnectServiceArgs = {
-    bot: '',
-    idOrName: '',
-    secret: ''
-};
-const commands: program.Command = program.parse(process.argv);
-Object.assign(args, commands);
+const command: program.Command = program.parse(process.argv);
+const args = <IDisconnectServiceArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     program.help();

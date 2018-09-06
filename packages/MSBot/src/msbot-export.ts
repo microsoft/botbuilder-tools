@@ -8,12 +8,12 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.help();
 };
 
-interface ExportArgs {
+interface IExportArgs {
     bot: string;
     folder: string;
     secret: string;
@@ -32,7 +32,9 @@ program
     .action((cmd, actions) => undefined);
 program.parse(process.argv);
 
-let args = <ExportArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args = <IExportArgs>{};
+Object.assign(args, command);
 
 if (!args.bot) {
     BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)

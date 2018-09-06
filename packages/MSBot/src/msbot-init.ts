@@ -10,8 +10,8 @@ import * as fsx from 'fs-extra';
 import * as readline from 'readline-sync';
 import * as validurl from 'valid-url';
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.help();
 };
 
@@ -38,15 +38,7 @@ program
     });
 
 const command: program.Command = program.parse(process.argv);
-const args: IInitArgs = {
-    name : '',
-    description: '',
-    secret: false,
-    endpoint: '',
-    appId: '',
-    appPassword: '',
-    quiet: false
-};
+const args = <IInitArgs>{};
 Object.assign(args, command);
 
 if (!args.quiet) {

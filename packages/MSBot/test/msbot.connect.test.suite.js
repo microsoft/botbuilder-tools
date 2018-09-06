@@ -126,7 +126,7 @@ describe("msbot connection tests", () => {
         p = await exec(`node ${msbot} connect dispatch -b save.bot --secret ${secret} -n Dispatch -a e06e3198-45fd-494a-8086-028d260a484b --authoringKey e06e3198-45fd-494a-8086-028d260a484b --subscriptionKey e06e3198-45fd-494a-8086-028d260a484b --version 1.0 --serviceIds ${result.id}`);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
-        //        fs.unlinkSync("save.bot");
+        fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 2, "service is not saved");
         assert.equal(config.services[0].type, "luis", "type is wrong");

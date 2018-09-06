@@ -10,8 +10,8 @@ import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import { uuidValidate } from './utils';
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -28,12 +28,12 @@ program
     .description('Connect the bot to a dispatch model')
     .option('-n, --name <name>', 'name for the dispatch')
     .option('-a, --appId <appid>', 'LUID AppId for the dispatch app')
-    .option('-v, --version <version>', 'version for the dispatch app, (example: 0.1)')
+    .option('--version <version>', 'version for the dispatch app, (example: 0.1)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating the dispatch model via the LUIS authoring API\n')
     .option('r, --region <region>', 'region to use (defaults to westus)')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
     .option('--serviceIds <serviceIds>',
-            '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
+        '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
@@ -41,19 +41,9 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
-const args: IConnectDispatchArgs = {
-    bot: '',
-    secret: '',
-    stdin: true,
-    appId: '',
-    authoringKey: '',
-    subscriptionKey: '',
-    version: '',
-    region: '',
-    name: ''
-};
-const commands: program.Command = program.parse(process.argv);
-Object.assign(args, commands);
+const command: program.Command = program.parse(process.argv);
+const args = <IConnectDispatchArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     program.help();
@@ -105,16 +95,7 @@ async function processConnectDispatch(config: BotConfiguration): Promise<BotConf
         throw new Error('bad --subscriptionKey');
     }
 
-    const dispatchService: ITempDispatchService = {
-        appId: '',
-        authoringKey: '',
-        subscriptionKey: '',
-        version: '',
-        serviceIds: [''],
-        region: '',
-        type: ServiceTypes.Dispatch,
-        name: ''
-    };
+    const dispatchService = <ITempDispatchService>{};
     Object.assign(dispatchService, args);
     const newService: IDispatchService = new DispatchService(dispatchService);
 

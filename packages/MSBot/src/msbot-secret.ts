@@ -7,8 +7,8 @@ import { BotConfiguration } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -30,7 +30,9 @@ program
         console.log(name);
     });
 
-let args = <ISecretArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args = <ISecretArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     showErrorHelp();

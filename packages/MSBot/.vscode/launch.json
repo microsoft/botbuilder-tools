@@ -15,7 +15,7 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/tests/commandTests.js"
+                "${workspaceFolder}/test/msbot.command.test.suite.js"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -30,7 +30,7 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/tests/connectTests.js"
+                "${workspaceFolder}/test/msbot.connect.test.suite.js"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -45,7 +45,7 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/tests/disconnectTests.js"
+                "${workspaceFolder}/test/msbot.disconnect.test.suite.js"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -107,6 +107,54 @@
                 "2f510b5e-10fe-4f53-9159-b134539ac594",
                 "--endpointKey",
                 "2f510b5e-10fe-4f53-9159-b134539ac594"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "msbot connect appinsights",
+            "program": "${workspaceFolder}/bin/msbot-connect-appinsights.js",
+            "args": [
+                "-b",
+                "test/bot.txt",
+                "-n",
+                "TestInsights",
+                "--serviceName",
+                "testInsights",
+                "--instrumentationKey",
+                "testInstrumentationKey",
+                "--applicationId",
+                "2f510b5e-10fe-4f53-9159-b134539ac123",
+                "--keys",
+                "{\"key1\":\"value1\"}",
+                "--secret",
+                "cDSM45Tw769TWAxaYcASMRdAMAjp36g12kGW5a6NFjc=",
+                "-s",
+                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "--tenantId",
+                "microsoft.onmicrosoft.com",
+                "--resourceGroup",
+                "testGroup"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "msbot connect dispatch",
+            "program": "${workspaceFolder}/bin/msbot-connect-dispatch.js",
+            "args": [
+                "-b",
+                "test/bot.txt",
+                "-n",
+                "LUIS",
+                "-a",
+                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "--authoringKey",
+                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "--subscriptionKey",
+                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "--version",
+                "1.0"
             ]
         }
     ]

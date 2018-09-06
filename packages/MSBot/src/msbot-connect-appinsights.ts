@@ -10,8 +10,8 @@ import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import { uuidValidate } from './utils';
 
-program.Command.prototype.unknownOption = function (): void {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -21,7 +21,6 @@ interface IConnectAppInsightsArgs extends IAppInsightsService {
     stdin: boolean;
     input?: string;
     keys: string;
-    [key: string]: string | boolean | undefined | {[apiKey: string]: string};
 }
 
 program
@@ -42,20 +41,9 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
-const commands: program.Command = program.parse(process.argv);
-const args: IConnectAppInsightsArgs = {
-    bot: '',
-    secret: '',
-    stdin: false,
-    keys: '',
-    instrumentationKey: '',
-    tenantId: '',
-    subscriptionId: '',
-    resourceGroup: '',
-    serviceName: '',
-    name: ''
-};
-Object.assign(args, commands);
+const command: program.Command = program.parse(process.argv);
+const args = <IConnectAppInsightsArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     program.help();
@@ -85,29 +73,28 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
     }
 
     if (!args.serviceName || args.serviceName.length === 0) {
-        throw new Error('Bad or missing --serviceName'); }
+        throw new Error('Bad or missing --serviceName');
+    }
 
     if (!args.tenantId || args.tenantId.length === 0) {
-        throw new Error('Bad or missing --tenantId'); }
+        throw new Error('Bad or missing --tenantId');
+    }
 
     if (!args.subscriptionId || !uuidValidate(args.subscriptionId)) {
-        throw new Error('Bad or missing --subscriptionId'); }
+        throw new Error('Bad or missing --subscriptionId');
+    }
 
     if (!args.resourceGroup || args.resourceGroup.length === 0) {
-        throw new Error('Bad or missing --resourceGroup'); }
+        throw new Error('Bad or missing --resourceGroup');
+    }
 
     if (!args.instrumentationKey || args.instrumentationKey.length === 0) {
-        throw new Error('Bad or missing --instrumentationKey'); }
+        throw new Error('Bad or missing --instrumentationKey');
+    }
 
-    if (!args.apiKeys) {
-        args.apiKeys = {};
-        if (args.keys) {
-            console.log(args.keys);
-            const keys: string[] = JSON.parse(args.keys);
-            for (const key of keys) {
-                args.apiKeys[key] = key;
-            }
-        }
+    args.apiKeys = {};
+    if (args.keys) {
+        args.apiKeys = JSON.parse(args.keys);
     }
 
     const service: AppInsightsService = new AppInsightsService({

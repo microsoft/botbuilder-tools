@@ -15,12 +15,12 @@ import { spawnAsync } from './processUtils';
 let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.help();
 };
 
-interface CloneArgs {
+interface ICloneArgs {
     name: string;
     folder: string;
     location: string;
@@ -51,7 +51,9 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 program.parse(process.argv);
 
-let args = <CloneArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args = <ICloneArgs>{};
+Object.assign(args, command);
 
 if (typeof (args.name) != 'string') {
     console.error(chalk.default.redBright('missing --name argument'));
@@ -601,7 +603,7 @@ async function createGroup(): Promise<any> {
     if (!args.location) {
         throw new Error('missing --location argument');
     }
-    
+
     let command = `az group create -g ${args.name} -l ${args.location}`;
     logCommand(args, `Creating Azure group [${args.name}]`, command);
     let p = await exec(command);
@@ -623,7 +625,7 @@ function showErrorHelp() {
     process.exit(1);
 }
 
-function logCommand(args: CloneArgs, message: string, command: string) {
+function logCommand(args: ICloneArgs, message: string, command: string) {
     if (!args.quiet) {
         console.log(chalk.default.bold(message));
         if (args.verbose) {

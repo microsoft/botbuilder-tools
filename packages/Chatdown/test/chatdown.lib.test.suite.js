@@ -242,7 +242,17 @@ bot: Hello, can I help you?`;
     MembersRemoved=Susan]
 bot->Joe: Hi Joe!`;
 
-            assert.doesNotReject(chatdown(conversation));
+            chatdown(conversation)
+                .then((result) => {
+                    assert.equal(result[0].type, 'conversationUpdate', "wrong type 0");
+                    assert.equal(result[1].type, 'conversationUpdate', "wrong type 1");
+                    assert.equal(result[2].type, 'conversationUpdate', "wrong type 2");  
+                    assert.equal(result[0].membersAdded[0].name, 'bot', 'bot should be first');
+                    assert.equal(result[1].membersAdded[0].name, 'Joe', 'Joe should be first');
+                    assert.equal(result[1].membersAdded[1].name, 'Susan', 'Susan should be second');
+                    assert.equal(result[2].membersRemoved[0].name, 'Susan', 'Susan should be removed');
+                })
+                .catch((reason) => assert.fail('failed to output'));
         });
 
         it('Reject invalid conversationupdate', async () => {
@@ -250,7 +260,9 @@ bot->Joe: Hi Joe!`;
 [ConversationUpdate=
     invalid=Joe,Susan]
 `;
-            assert.rejects(chatdown(conversation));
+            chatdown(conversation)
+                .then(() => assert.fail('should have thrown exception'))
+                .catch(() => assert.ok(true, "yay"));
         });
 
         it('support message card types', async () => {
@@ -299,7 +311,9 @@ bot:[MediaCard
     Title=BotFramework Sign-in Card
     Buttons=Sign-in]`;
 
-            assert.doesNotReject(chatdown(conversation));
+            chatdown(conversation)
+                .then((result) => assert.ok(result, "ok"))
+                .catch(() => assert.fail('should not have thrown exception'));
         });
     });
 });

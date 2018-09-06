@@ -7,18 +7,17 @@ import { BotConfiguration, GenericService, IGenericService } from 'botframework-
 import * as chalk from 'chalk';
 import * as program from 'commander';
 
-program.Command.prototype.unknownOption = function (): void {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
-interface IConnectGenericArgs extends IGenericService  {
+interface IConnectGenericArgs extends IGenericService {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
     keys: string;
-    [key: string]: string | boolean | undefined | {[key: string]: string};
 }
 
 program
@@ -34,20 +33,13 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((filePath: program.Command, actions: program.Command) => {
         if (filePath) {
-            actions.filePath = filePath; }
+            actions.filePath = filePath;
+        }
     });
 
-const commands: program.Command = program.parse(process.argv);
-const args: IConnectGenericArgs = {
-    bot: '',
-    secret: '',
-    stdin: false,
-    keys: '',
-    url: '',
-    configuration: { '': '' },
-    name: ''
-};
-Object.assign(args, commands);
+const command: program.Command = program.parse(process.argv);
+const args = <IConnectGenericArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     program.help();
@@ -73,14 +65,14 @@ async function processConnectFile(config: BotConfiguration): Promise<BotConfigur
     args.name = args.hasOwnProperty('name') ? args.name : config.name;
 
     if (!args.url) {
-        throw new Error('mising --url'); }
+        throw new Error('mising --url');
+    }
 
     if (!args.configuration) {
         args.configuration = {};
         if (args.keys) {
-            const keys: string[] = JSON.parse(args.keys);
-            for (const key of keys) {
-                args.configuration[key] = key.toString();
+            if (args.keys) {
+                args.configuration = JSON.parse(args.keys);
             }
         }
     }

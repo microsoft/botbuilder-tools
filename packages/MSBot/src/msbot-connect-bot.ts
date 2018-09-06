@@ -11,8 +11,8 @@ import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
 import { uuidValidate } from './utils';
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -45,19 +45,9 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
-const args: IConnectAzureArgs = {
-    bot: '',
-    secret: '',
-    stdin: true,
-    tenantId: '',
-    subscriptionId: '',
-    resourceGroup: '',
-    serviceName: '',
-    name: ''
-};
-
-const commands: program.Command = program.parse(process.argv);
-Object.assign(args, commands);
+const command: program.Command = program.parse(process.argv);
+const args = <IConnectAzureArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     program.help();
