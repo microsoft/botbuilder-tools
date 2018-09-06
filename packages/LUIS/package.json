@@ -5,7 +5,7 @@
   "main": "./lib/luisAuthoring.js",
   "types": "./typing/lib/luisAuthoring.d.ts",
   "bin": {
-    "luis": "./bin/luis"
+    "luis": "./bin/luis.js"
   },
   "directories": {
     "bin": "bin",
@@ -14,6 +14,11 @@
     "typings": "typings",
     "examples": "examples"
   },
+  "files": [
+    "bin/**/*.js",
+    "lib/**/*.js",
+    "typings/**/*.d.ts"
+  ],
   "scripts": {
     "test": "cd test/ && mocha --opts mocha.opts",
     "build": "tsc"
