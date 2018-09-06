@@ -105,7 +105,6 @@ async function getHelpContents(args, output) {
     return getGeneralHelpContents(output);
 }
 
-
 let configSection = {
     head: 'Configuration and Overrides:',
     table: [
@@ -113,6 +112,7 @@ let configSection = {
         [chalk.cyan.bold('--hostname <url>'), 'Specifies the url for your private QnA service. Overrides the .qnamakerrc value and the QNAMAKER_HOSTNAME environment variable.'],
         [chalk.cyan.bold('--endpointKey <key>'), 'Specifies the endpoint key for your private QnA service.(from qnamaker.ai portal user settings page). Overrides the .qnamakerrc value and the QNAMAKER_ENDPOINTKEY environment variable.'],
         [chalk.cyan.bold('--kbId <kbId>'), 'Specifies the active qnamaker knowledgebase id. Overrides the .qnamakerrc value and the QNAMAKER_KBID environment variable.'],
+        [chalk.cyan.bold('--stdin'), 'Specifies qnamaker configuration is being passed via stdin. (Example: output of msbot get service) Overrides the .qnamakerrc value and the QNAMAKER_KBID environment variable.'],
     ]
 };
 

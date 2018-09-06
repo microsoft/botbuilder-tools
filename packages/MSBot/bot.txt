@@ -1,0 +1,101 @@
+{
+    "name": "all.bot",
+    "description": null,
+    "version": "2.0",
+    "secretKey": null,
+    "services": [
+        {
+            "type": "appInsights",
+            "id": "47",
+            "name": "testInsights",
+            "tenantId": "microsoft.onmicrosoft.com",
+            "subscriptionId": "2f510b5e-10fe-4f53-9159-b134539ac594",
+            "resourceGroup": "testGroup",
+            "serviceName": "testInsights",
+            "instrumentationKey": "testInstrumentationKey",
+            "applicationId": "2f510b5e-10fe-4f53-9159-b134539ac123",
+            "apiKeys": {
+                "key1": "value1"
+            }
+        },
+        {
+            "type": "blob",
+            "id": "203",
+            "name": "testBlob",
+            "tenantId": "microsoft.onmicrosoft.com",
+            "subscriptionId": "2f510b5e-10fe-4f53-9159-b134539ac594",
+            "resourceGroup": "testGroup",
+            "serviceName": "testBlob",
+            "connectionString": "testConnection",
+            "container": "testContainer"
+        },
+        {
+            "type": "abs",
+            "id": "236",
+            "name": "testBot",
+            "tenantId": "microsoft.onmicrosoft.com",
+            "subscriptionId": "2f510b5e-10fe-4f53-9159-b134539ac594",
+            "resourceGroup": "testGroup",
+            "serviceName": "testBot"
+        },
+        {
+            "type": "cosmosdb",
+            "id": "141",
+            "name": "testCosmosDB",
+            "tenantId": "microsoft.onmicrosoft.com",
+            "subscriptionId": "2f510b5e-10fe-4f53-9159-b134539ac594",
+            "resourceGroup": "testGroup",
+            "serviceName": "testCosmosDB",
+            "connectionString": "testConnectionString",
+            "database": "testDatabase",
+            "collection": "testCollection"
+        },
+        {
+            "type": "luis",
+            "id": "61",
+            "name": "testLuis",
+            "version": "1.0",
+            "appId": "bc2433d4c2564facbe9b1b7a4b6aec5a",
+            "authoringKey": "bca760886b7743eda6385a0e7108c5a5",
+            "subscriptionKey": "1ef3374011f04568bcb274d97bcf3bad",
+            "region": "westus"
+        },
+        {
+            "type": "dispatch",
+            "id": "49",
+            "name": "testDispatch",
+            "appId": "46771c3812f24f45834bbe46fbc771bb",
+            "authoringKey": "c6e9658b1e9b45ada3decda5920a52ab",
+            "serviceIds": [],
+            "subscriptionKey": "d219f80dea564c7a8aba60111308c948",
+            "version": "1.0",
+            "region": "westus"
+        },
+        {
+            "type": "endpoint",
+            "name": "testEndpoint",
+            "id": "66",
+            "appId": "11e830ec-3a22-4c78-84ba-7c065dbf7aa8",
+            "appPassword": "password",
+            "endpoint": "http://foo.com"
+        },
+        {
+            "type": "generic",
+            "id": "204",
+            "name": "testGeneric",
+            "url": "http://foo.com/generic",
+            "configuration": {
+                "key1": "value1"
+            }
+        },
+        {
+            "type": "qna",
+            "id": "125",
+            "name": "testQna",
+            "kbId": "11e830ec-3a22-4c78-84ba-7c065dbf7aa8",
+            "subscriptionKey": "11e830ec-3a22-4c78-84ba-7c065dbf7aa1",
+            "endpointKey": "11e830ec-3a22-4c78-84ba-7c065dbf7a22",
+            "hostname": "https://myqna.azurewebsites.net/qnamaker"
+        }
+    ]
+}

@@ -3,6 +3,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+// tslint:disable:no-console
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
@@ -19,6 +20,7 @@ program.Command.prototype.unknownOption = function (flag: any) {
     console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
     program.outputHelp((str) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);
@@ -34,20 +36,23 @@ program
 program
     .command('secret', 'set or clear the secret for a .bot file');
 
-// program
-//     .command('export', 'export all connected services');
+program
+    .command('get', 'get a connected service');
 
-// program
-//     .command('clone', 'create a new .bot file based on another .bot file');
+program
+    .command('list', 'list all connected services');
+
+program
+    .command('export', 'export all connected services so that this bot can be cloned');
+
+program
+    .command('clone', 'create a new .bot file and all of its resources based on an exported .recipe file and folder ');
 
 program
     .command('connect <service>', 'connect to a resource (Luis/Qna/Azure/...) used by the bot');
 
 program
     .command('disconnect <service>', 'disconnect from a resource used by the bot');
-
-program
-    .command('list', 'list all connected services');
 
 const args = program.parse(process.argv);
 
@@ -57,6 +62,7 @@ if (args) {
     console.error(chalk.default.redBright(`Unknown arguments: ${a.join(' ')}`));
     program.outputHelp((str) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);

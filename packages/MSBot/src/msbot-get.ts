@@ -16,16 +16,18 @@ program.Command.prototype.unknownOption = (): void => {
 interface IListArgs {
     bot: string;
     secret: string;
-    [key: string]: string;
+    service: string;
+    args: string[];
+    [key: string]: string | string[];
 }
 
 program
-    .name('msbot list')
+    .name('msbot get <serviceNameOrId>')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
-let args  = <IListArgs><any>program.parse(process.argv);
+const args = <IListArgs><any>program.parse(process.argv);
 
 if (!args.bot) {
     BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
@@ -44,9 +46,16 @@ if (!args.bot) {
 }
 
 async function processListArgs(config: BotConfiguration): Promise<BotConfiguration> {
-    const services: IConnectedService[] = config.services;
 
-    console.log(JSON.stringify(config, null, 4));
+    if (args.args.length < 2) {
+        throw new Error('missing the service id or name');
+    }
+    const nameOrId: string = args.args[0];
+    const service: IConnectedService = config.findServiceByNameOrId(nameOrId);
+    if (service == null) {
+        throw new Error(`${nameOrId} was not found in ${config.getPath()}`);
+    }
+    console.log(JSON.stringify(service, null, 4));
 
     return config;
 }
