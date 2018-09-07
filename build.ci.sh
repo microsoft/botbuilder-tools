@@ -18,7 +18,7 @@ main() {
             npm run build
             npm run eslint
             npm run tslint
-            npm run coverage
+            npm run coveralls
         )
 
     fi
