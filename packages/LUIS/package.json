@@ -15,7 +15,7 @@
     "examples": "examples"
   },
   "files": [
-    "bin/**/*.js",
+    "bin/**/*.js*",
     "lib/**/*.js",
     "typings/**/*.d.ts"
   ],
