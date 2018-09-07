@@ -3,7 +3,8 @@
     "scripts": {
         "build": "lerna bootstrap && lerna run build",
         "test": "lerna run test --parallel",
-        "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+        "coverage": "nyc npm test",
+        "coveralls": "npm run coverage && nyc report --reporter=text-lcov | coveralls",
         "eslint": "eslint --format \"node_modules/eslint-friendly-formatter\" \"./packages/**/*.js\" \"./packages/@(Dispatch|LUIS|LUISGen|QnAMaker)/bin/*\"",
         "tslint": "tslint ./packages/*/src/**/*.ts -t verbose"
     },
