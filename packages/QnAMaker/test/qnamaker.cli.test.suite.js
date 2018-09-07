@@ -101,7 +101,6 @@ describe('The QnA Maker cli bin', () => {
 
         it('should create the kb when --msbot is used', function(done) {
             if (!subscriptionKey) this.skip('subscriptionKey not found');
-            this.timeout(15000);
             exec(`node ${qnamaker} --subscriptionKey ${subscriptionKey} create kb --in ${createKb} --msbot`, (error, stdout, stderr) => {
                 if (stdout) {
                     assert(stderr.includes('Succeeded'));
