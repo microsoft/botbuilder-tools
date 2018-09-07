@@ -21,7 +21,7 @@ interface IConnectAzureArgs extends IBotService {
     secret: string;
     stdin: boolean;
     input?: string;
-    appId?: string;
+    appId: string;
     appPassword?: string;
     endpoint?: string;
     [key: string]: string | boolean | undefined;
@@ -35,8 +35,8 @@ program
     .option('-t, --tenantId <tenantId>', 'id of the tenant for the Azure service (either GUID or xxx.onmicrosoft.com)')
     .option('-s, --subscriptionId <subscriptionId>', 'GUID of the subscription for the Azure Service')
     .option('-r, --resourceGroup <resourceGroup>', 'name of the resourceGroup for the Azure Service')
+    .option('-a, --appId  <appid>', 'Microsoft AppId for the Azure Bot Service\n')
     .option('-e, --endpoint <endpoint>', '(OPTIONAL) Registered endpoint url for the Azure Bot Service')
-    .option('-a, --appId  <appid>', '(OPTIONAL) Microsoft AppId for the Azure Bot Service\n')
     .option('-p, --appPassword  <appPassword>', '(OPTIONAL) Microsoft AppPassword for the Azure Bot Service\n')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
@@ -78,19 +78,23 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
 
     if (!args.serviceName || args.serviceName.length === 0) {
         throw new Error('Bad or missing --serviceName');
-        }
+    }
 
     if (!args.tenantId || args.tenantId.length === 0) {
         throw new Error('Bad or missing --tenantId');
-        }
+    }
 
     if (!args.subscriptionId || !uuidValidate(args.subscriptionId)) {
         throw new Error('Bad or missing --subscriptionId');
-        }
+    }
 
     if (!args.resourceGroup || args.resourceGroup.length === 0) {
         throw new Error('Bad or missing --resourceGroup for registered bot');
-        }
+    }
+
+    if (!args.appId || !uuidValidate(args.appId)) {
+        throw new Error('Bad or missing --appId');
+    }
 
     const services: IConnectedService[] = [];
     const service: BotService = new BotService({
@@ -98,21 +102,18 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
         serviceName: args.serviceName,
         tenantId: args.tenantId,
         subscriptionId: args.subscriptionId,
-        resourceGroup: args.resourceGroup
+        resourceGroup: args.resourceGroup,
+        appId: args.appId
     });
     config.connectService(service);
     services.push(service);
-    if (!args.endpoint ||  !(validurl.isHttpUri(args.endpoint) || !validurl.isHttpsUri(args.endpoint))) {
+    if (!args.endpoint || !(validurl.isHttpUri(args.endpoint) || !validurl.isHttpsUri(args.endpoint))) {
         throw new Error('Bad or missing --endpoint');
-        }
-
-    if (!args.appId || !uuidValidate(args.appId)) {
-        throw new Error('Bad or missing --appId');
-        }
+    }
 
     if (!args.appPassword || args.appPassword.length === 0) {
         throw new Error('Bad or missing --appPassword');
-        }
+    }
 
     const endpointService: EndpointService = new EndpointService({
         type: ServiceTypes.Endpoint,

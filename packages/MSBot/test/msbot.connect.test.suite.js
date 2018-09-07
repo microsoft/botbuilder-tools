@@ -95,7 +95,7 @@ describe("msbot connection tests", () => {
         bot.name = "test";
         await bot.saveAs("save.bot", secret);
 
-        let p = await exec(`node ${msbot} connect cosmosdb -b save.bot -n TestCosmos --serviceName testCosmos --connectionString testConnection --database testDatabase --collection testCollection --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup `);
+        let p = await exec(`node ${msbot} connect cosmosdb -b save.bot -n TestCosmos --serviceName testCosmos --endpoint http://localhost:8081 --key testKey --database testDatabase --collection testCollection --secret ${secret} -s 2f510b5e-10fe-4f53-9159-b134539ac594 --tenantId microsoft.onmicrosoft.com --resourceGroup testGroup `);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
@@ -108,7 +108,8 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[0].subscriptionId, "2f510b5e-10fe-4f53-9159-b134539ac594", "subscriptionId is wrong")
         assert.equal(config.services[0].tenantId, "microsoft.onmicrosoft.com", " tenantid is wrong")
         assert.equal(config.services[0].resourceGroup, "testGroup", "resourceGroup is wrong")
-        assert.equal(config.services[0].connectionString, "testConnection", "connection missing");
+        assert.equal(config.services[0].endpoint, "http://localhost:8081", "endpoint is wrong");
+        assert.equal(config.services[0].key, "testKey", "key is missing");
         assert.equal(config.services[0].database, "testDatabase", "database missing");
         assert.equal(config.services[0].collection, "testCollection", "collection missing");
     });
