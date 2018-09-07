@@ -31,7 +31,7 @@ program
     });
 
 const command: program.Command = program.parse(process.argv);
-const args = <ISecretArgs>{};
+const args: ISecretArgs = <ISecretArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {

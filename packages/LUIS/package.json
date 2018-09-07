@@ -15,12 +15,14 @@
     "examples": "examples"
   },
   "files": [
-    "bin/**/*.js",
-    "lib/**/*.js",
-    "typings/**/*.d.ts"
+    "bin/",
+    "docs/",
+    "lib/",
+    "typings/"
   ],
   "scripts": {
     "test": "cd test/ && mocha --opts mocha.opts",
+    "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",
     "build": "tsc"
   },
   "engines": {

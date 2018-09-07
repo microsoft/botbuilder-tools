@@ -20,7 +20,6 @@ interface IConnectLuisArgs extends ILuisService {
     secret: string;
     stdin: boolean;
     input?: string;
-    [key: string]: string | boolean | undefined;
 }
 
 program
@@ -31,7 +30,7 @@ program
     .option('--version <version>', 'version for the LUIS App, (example: v0.1)')
     .option('-r, --region <region>', 'region for the LUIS App, (default:westus)')
     .option('--authoringKey <authoringkey>',
-        'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
+            'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying a LUIS model\n')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
@@ -41,7 +40,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args = <IConnectLuisArgs>{};
+const args: IConnectLuisArgs = <IConnectLuisArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {

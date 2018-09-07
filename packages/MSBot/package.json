@@ -1,24 +1,27 @@
 {
   "name": "msbot",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "MSBot command line tool for manipulating Microsoft Bot Framework .bot files",
   "main": "bin/BotConfig.js",
   "scripts": {
     "build": "tsc",
     "test": "cd test/ && mocha --opts mocha.opts",
-    "clean": "erase /q /s .\\bin",
+    "clean": "erase /Q /s .\\bin && erase /Q /s .\\typings",
     "set-version": "npm version --allow-same-version ${Version}"
   },
   "bin": {
     "msbot": "bin/msbot.js"
   },
   "types": "bin/index.d.ts",
+  "directories": {
+    "bin": "bin",
+    "doc": "docs",
+    "typings": "typings"
+  },
   "files": [
-    "bin/**/*.js",
-    "bin/models/*.*",
-    "bin/BotConfig.*",
-    "bin/schema.*",
-    "bin/index.d.ts"
+    "bin/**/*.js*",
+    "docs/**",
+    "typings/**/*.d.ts"
   ],
   "engines": {
     "node": ">=8.0"
@@ -45,7 +48,7 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
-    "botframework-config": "^4.0.0-preview1.3.2",
+    "botframework-config": "^4.0.0-preview1.3.3",
     "chalk": "^2.3.2",
     "commander": "^2.15.1",
     "fs-extra": "^5.0.0",

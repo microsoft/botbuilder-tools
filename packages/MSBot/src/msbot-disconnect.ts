@@ -30,7 +30,7 @@ program
     });
 
 const command: program.Command = program.parse(process.argv);
-const args = <IDisconnectServiceArgs>{};
+const args: IDisconnectServiceArgs = <IDisconnectServiceArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {

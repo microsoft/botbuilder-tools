@@ -258,6 +258,16 @@ chatdown(conversation, config)
     });
 ```
 
+## Processing multiple Chatdown files
+
+If you are dealing strictly with files, and not standard input/output, you can process all Chatdown files at once:
+
+```bash
+chatdown -f **/*.chat -o ./transcripts
+```
+
+The above command will process all `*.chat` files in the current directory and all subdirectories, and put the output in the "transcripts" folder of the current directory. If an output directory is not present, it will default to the current working directory.
+
 ## Setting up a watcher to automatically transcribe chat files
 Chokidar-cli is a great utility to do this.
 
@@ -272,4 +282,3 @@ chokidar "**/*.chat" -c "chatdown {path} > {path}.transcript"
 ```
 
 Now, any time a .chat file is created or saved, chatdown will automatically create the transcript file beside it.
-
