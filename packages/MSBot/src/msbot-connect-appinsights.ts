@@ -42,7 +42,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args = <IConnectAppInsightsArgs>{};
+const args: IConnectAppInsightsArgs = <IConnectAppInsightsArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {

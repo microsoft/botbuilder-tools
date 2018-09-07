@@ -30,7 +30,8 @@ program
     .option('-s, --subscriptionId <subscriptionId>', 'Azure Subscription Id')
     .option('-r, --resourceGroup <resourceGroup>', 'Azure resource group name')
     .option('--serviceName <serviceName>', 'Azure service name')
-    .option('--connectionString <connectionString>', 'CosmosDB connection string')
+    .option('-e, --endpoint <endpoint>', 'CosmosDB endpoint url')
+    .option('-k, --key <key>', 'CosmosDB auth key')
     .option('-d, --database <database>', 'database name')
     .option('-c, --collection <collection>', 'collection name')
 
@@ -41,7 +42,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args = <IConnectCosmosDbArgs>{};
+const args: IConnectCosmosDbArgs = <IConnectCosmosDbArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {
@@ -73,39 +74,44 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
 
     if (!args.serviceName || args.serviceName.length === 0) {
         throw new Error('Bad or missing --serviceName');
-        }
+    }
 
     if (!args.tenantId || args.tenantId.length === 0) {
         throw new Error('Bad or missing --tenantId');
-        }
+    }
 
     if (!args.subscriptionId || !uuidValidate(args.subscriptionId)) {
         throw new Error('Bad or missing --subscriptionId');
-        }
+    }
 
     if (!args.resourceGroup || args.resourceGroup.length === 0) {
         throw new Error('Bad or missing --resourceGroup');
-        }
+    }
 
-    if (!args.connectionString || args.connectionString.length === 0) {
-        throw new Error('Bad or missing --connectionString');
-        }
+    if (!args.endpoint || args.endpoint.length === 0) {
+        throw new Error('Bad or missing --key');
+    }
+
+    if (!args.key || args.key.length === 0) {
+        throw new Error('Bad or missing --key');
+    }
 
     if (!args.database || args.database.length === 0) {
         throw new Error('Bad or missing --database');
-        }
+    }
 
     if (!args.collection || args.collection.length === 0) {
         throw new Error('Bad or missing --collection');
-        }
+    }
 
     const service: CosmosDbService = new CosmosDbService({
         name: args.hasOwnProperty('name') ? args.name : args.serviceName,
-        serviceName : args.serviceName,
+        serviceName: args.serviceName,
         tenantId: args.tenantId,
         subscriptionId: args.subscriptionId,
         resourceGroup: args.resourceGroup,
-        connectionString: args.connectionString,
+        endpoint: args.endpoint,
+        key: args.key,
         database: args.database,
         collection: args.collection
     });

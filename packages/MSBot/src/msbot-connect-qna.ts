@@ -44,7 +44,7 @@ program
 program.parse(process.argv);
 
 const command: program.Command = program.parse(process.argv);
-const args = <IConnectQnaArgs>{};
+const args: IConnectQnaArgs = <IConnectQnaArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {

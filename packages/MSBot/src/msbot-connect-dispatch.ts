@@ -33,7 +33,7 @@ program
     .option('r, --region <region>', 'region to use (defaults to westus)')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
     .option('--serviceIds <serviceIds>',
-        '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
+            '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
@@ -42,7 +42,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args = <IConnectDispatchArgs>{};
+const args: IConnectDispatchArgs = <IConnectDispatchArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {
@@ -95,7 +95,7 @@ async function processConnectDispatch(config: BotConfiguration): Promise<BotConf
         throw new Error('bad --subscriptionKey');
     }
 
-    const dispatchService = <ITempDispatchService>{};
+    const dispatchService: ITempDispatchService = <ITempDispatchService>{};
     Object.assign(dispatchService, args);
     const newService: IDispatchService = new DispatchService(dispatchService);
 
