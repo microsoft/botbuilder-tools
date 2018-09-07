@@ -8,17 +8,10 @@
     "luis": "./bin/luis.js"
   },
   "directories": {
-    "bin": "bin",
-    "doc": "docs",
     "lib": "lib",
-    "typings": "typings",
-    "examples": "examples"
+    "doc": "docs",
+    "test": "test"
   },
-  "files": [
-    "bin/**/*.js*",
-    "lib/**/*.js",
-    "typings/**/*.d.ts"
-  ],
   "scripts": {
     "test": "cd test/ && mocha --opts mocha.opts",
     "build": "tsc"

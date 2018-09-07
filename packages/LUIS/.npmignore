@@ -1,0 +1,5 @@
+.luisrc
+*.tgz
+.vscode/
+swagger/
+examples/
