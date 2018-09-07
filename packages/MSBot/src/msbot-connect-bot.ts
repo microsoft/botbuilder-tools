@@ -24,7 +24,6 @@ interface IConnectAzureArgs extends IBotService {
     appId: string;
     appPassword?: string;
     endpoint?: string;
-    [key: string]: string | boolean | undefined;
 }
 
 program
@@ -46,7 +45,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args = <IConnectAzureArgs>{};
+const args: IConnectAzureArgs = <IConnectAzureArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {
