@@ -16,7 +16,7 @@ let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
     program.help();
 };
 
@@ -56,7 +56,7 @@ const args = <ICloneArgs>{};
 Object.assign(args, command);
 
 if (typeof (args.name) != 'string') {
-    console.error(chalk.default.redBright('missing --name argument'));
+    console.error(chalk.default.redBright('[msbot] missing --name argument'));
     showErrorHelp();
 }
 
@@ -65,7 +65,7 @@ config.name = args.name;
 config.saveAs(config.name + '.bot')
     .then(processConfiguration)
     .catch((reason) => {
-        console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
+        console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
         showErrorHelp();
     });
 
@@ -616,7 +616,7 @@ async function createGroup(): Promise<any> {
 
 function showErrorHelp() {
     program.outputHelp((str) => {
-        console.error(str);
+        console.error(`[msbot] ${str}`);
         return '';
     });
     console.log(chalk.default.bold(`NOTE: You did not complete clone process.`));

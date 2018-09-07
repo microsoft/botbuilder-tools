@@ -11,7 +11,7 @@ import * as readline from 'readline-sync';
 import * as validurl from 'valid-url';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
     program.help();
 };
 
@@ -95,7 +95,7 @@ if (args.secret) {
 }
 
 if (!args.name) {
-    console.error('missing --name argument');
+    console.error('[msbot] missing --name argument');
 } else {
     const bot: BotConfiguration = new BotConfiguration();
     bot.name = args.name;
