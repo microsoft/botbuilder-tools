@@ -38,7 +38,7 @@ program
     });
 
 const command: program.Command = program.parse(process.argv);
-const args = <IConnectGenericArgs>{};
+const args: IConnectGenericArgs = <IConnectGenericArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {

@@ -20,8 +20,6 @@ interface IConnectBlobArgs extends IBlobStorageService {
     secret: string;
     stdin: boolean;
     input?: string;
-    // tslint:disable-next-line:no-any
-    [key: string]: any;
 }
 
 program
@@ -42,7 +40,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args = <IConnectBlobArgs>{};
+const args: IConnectBlobArgs = <IConnectBlobArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {

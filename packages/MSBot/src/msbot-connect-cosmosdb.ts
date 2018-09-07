@@ -42,7 +42,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args = <IConnectCosmosDbArgs>{};
+const args: IConnectCosmosDbArgs = <IConnectCosmosDbArgs>{};
 Object.assign(args, command);
 
 if (process.argv.length < 3) {
