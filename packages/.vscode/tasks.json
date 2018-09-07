@@ -10,6 +10,14 @@
             "problemMatcher": [
                 "$tsc"
             ]
+        },
+        {
+            "type": "npm",
+            "script": "build",
+            "path": "MSBot/",
+            "problemMatcher": [
+                "$tsc"
+            ]
         }
     ]
 }
