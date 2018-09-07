@@ -8,18 +8,12 @@
     "luis": "./bin/luis.js"
   },
   "directories": {
-    "bin": "bin",
-    "doc": "docs",
     "lib": "lib",
-    "typings": "typings",
-    "examples": "examples"
+    "doc": "docs",
+    "test": "test",
+    "example": "examples",
+    "bin": "bin"
   },
-  "files": [
-    "bin/",
-    "docs/",
-    "lib/",
-    "typings/"
-  ],
   "scripts": {
     "test": "cd test/ && mocha --opts mocha.opts",
     "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",

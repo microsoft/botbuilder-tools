@@ -1,3 +1,7 @@
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
 const operations = require('./operations');
 
 module.exports = function getOperation(verb, target) {
@@ -17,4 +21,3 @@ module.exports = function getOperation(verb, target) {
     }
     return null;
 }
-
