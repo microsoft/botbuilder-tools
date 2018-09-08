@@ -4,6 +4,7 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
+// tslint:disable:no-object-literal-type-assertion
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
