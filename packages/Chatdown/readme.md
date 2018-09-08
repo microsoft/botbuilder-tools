@@ -65,7 +65,7 @@ Here's a form for you
 
 ```
 
-> See the [Examples](https://github.com/Microsoft/botbuilder-tools/tree/master/Chatdown/Examples) folder for more samples.
+> See the [Examples](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown/Examples) folder for more samples.
 
 
 Chat files are markdown files that contain 2 parts:
