@@ -19,9 +19,9 @@
     "typings": "typings"
   },
   "files": [
-    "bin/**/*.js*",
-    "docs/**",
-    "typings/**/*.d.ts"
+    "bin/",
+    "docs/",
+    "typings/"
   ],
   "engines": {
     "node": ">=8.0"
@@ -45,7 +45,9 @@
     "@types/uuid": "^3.4.3",
     "@types/valid-url": "^1.0.2",
     "@types/semver": "^5.5.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "enum-files": "^1.1.0",
+    "tgz": "0.0.3"
   },
   "dependencies": {
     "botframework-config": "^4.0.0-preview1.3.3",

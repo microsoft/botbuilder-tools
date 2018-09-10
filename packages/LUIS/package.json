@@ -47,5 +47,10 @@
     "request-promise": "^4.2.2",
     "semver": "^5.5.0",
     "window-size": "^1.1.0"
+  },
+  "devDependencies": {
+    "enum-files": "^1.1.0",
+    "mocha": "^5.2.0",
+    "tgz": "0.0.3"
   }
 }
