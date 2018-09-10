@@ -338,6 +338,12 @@ function processConversationUpdate(args, activities, rest) {
             let membersAdded = value.split(',');
             for (let memberAdded of membersAdded) {
                 memberAdded = memberAdded.trim();
+                
+                // add the account if we don't know it already
+                if (!args.accounts[memberAdded.toLowerCase()]) {
+                    args.accounts[memberAdded.toLowerCase()] = new ChannelAccount({ id: getHashCode(memberAdded), name: memberAdded, role: 'user' });
+                }
+
                 conversationUpdate.membersAdded.push(args.accounts[memberAdded.toLowerCase()]);
             }
             break;

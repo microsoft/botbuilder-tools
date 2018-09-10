@@ -3,32 +3,39 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
-import { BotConfiguration, FileService, IFileService } from 'botframework-config';
+import { BotConfiguration, FileService, IFileService, ConnectedService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as path from 'path';
 
-program.Command.prototype.unknownOption = function (flag: any) {
+program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
-interface ConnectFileArgs extends IFileService {
+interface IConnectFileArgs extends IFileService {
     bot: string;
+    file: string;
     secret: string;
 }
 
 program
-    .name('msbot connect file <path>')
+    .name('msbot connect file')
     .description('Connect a file to the bot')
-    .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
+    .option('-n, --name <name>', 'name of the file service')
+    .option('-f, --file <file>', 'path to file to connect to')
+    .option('-p, --path <path>', 'path to file to connect to')
+    .option('-b, --bot <bot>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
-    .action((filePath, actions) => {
-        if (filePath)
+    .action((filePath: program.Command, actions: program.Command) => {
+        if (filePath) {
             actions.filePath = filePath;
+        }
     });
 
-let args = <ConnectFileArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args: IConnectFileArgs = <IConnectFileArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     program.help();
@@ -36,14 +43,14 @@ if (process.argv.length < 3) {
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectFile)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectFile)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
@@ -51,26 +58,25 @@ if (process.argv.length < 3) {
 }
 
 async function processConnectFile(config: BotConfiguration): Promise<BotConfiguration> {
-    args.name = args.hasOwnProperty('name') ? args.name : config.name;
-
-    if (!args.hasOwnProperty('filePath'))
-        throw new Error('Bad or missing file');
+    if (!args.path && !args.file) {
+        throw new Error('missing --file'); }
 
     // add the service
-    let newService = new FileService({
-        name: path.basename(args.path),
-        path: args.path
+    const newService: FileService = new FileService({
+        name: path.basename(args.file || args.path),
+        path: (args.file || args.path).replace('\\', '/')
     } as IFileService);
-    let id = config.connectService(newService);
+    const id: string = config.connectService(newService);
     await config.save(args.secret);
     process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+
     return config;
 }
 
-function showErrorHelp()
-{
-    program.outputHelp((str) => {
+function showErrorHelp(): void {
+    program.outputHelp((str: string) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);

@@ -2,6 +2,8 @@
 
 main() {
     if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
+        npm install
+        npm run build
         publish Chatdown
         publish Dispatch
         publish Ludown
@@ -16,7 +18,7 @@ main() {
             npm run build
             npm run eslint
             npm run tslint
-            npm run coverage
+            npm run coveralls
         )
 
     fi
@@ -48,7 +50,6 @@ function publish() {
     pushd $1
     create_npmrc
     update_version
-    npm install
     npm publish
     popd
     popd

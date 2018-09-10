@@ -15,6 +15,14 @@ describe('The LUIS cli init argument', () => {
         }
     });
 
+    afterEach(async () => {
+        try {
+            await fs.remove(rcPath);
+        } catch(e) {
+            // do noting
+        }
+    });
+
     it('should prompt the user though the creation of the .luisrc and write the file', async () => {
         const luisProcess = spawn('node', [luis, 'init'], { stdio: ['pipe', 'pipe', process.stderr] });
         let msgCt = 0;

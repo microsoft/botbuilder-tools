@@ -7,7 +7,7 @@ The MSBot tool is a command line tool to create and manipulate a bot resources v
 
 # What is a .bot file?
 
-Bots usually consume lots of diverse services, such as [LUIS.ai](https://luis.ai), or [QnaMaker.ai](https://qnamaker.ai). When you are developing a bot, there is no uniform place to store the the metadata about the services that are in use.  This prevents us from building tooling that looks at a bot as a whole.
+Bots usually consume lots of diverse services, such as [LUIS.ai](https://luis.ai), or [QnaMaker.ai](https://qnamaker.ai). When you are developing a bot, there is no uniform place to store the metadata about the services that are in use.  This prevents us from building tooling that looks at a bot as a whole.
 
 To address this problem, we have created a **.bot file** to act as the place to unify all of these services together to enable tooling.  For example, the [new v4 Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/releases) uses a the .bot file to create a unified view over the connected services your bot consumes.  
 
@@ -17,11 +17,11 @@ Via the .bot file, you can register services like:
 * [**Azure Bot Service**](https://azure.microsoft.com/en-us/services/bot-service/) Azure Bot Service registrations.
 * [**LUIS.AI**](https://www.luis.ai/) Language Understanding (LUIS) allows your application to understand what a person wants in their own words. 
 * [**QnA Maker**](https://qnamaker.ai/) Build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
-* [**Dispatcher**](https://github.com/Microsoft/botbuilder-tools/tree/master/Dispatch) models for dispatching across heterogeneous sources.
+* [**Dispatcher**](../Dispatch) models for dispatching across heterogeneous sources.
 * Blob or CosmosDB storage 
 * AppInsights
 * etc.
-
+ 
 ## Prerequisite
 
 - [Node.js](https://nodejs.org/) version 8.5 or higher
@@ -240,7 +240,7 @@ With the following options:
 | ---------------------------- | ------------------------------------------------------------ |
 | -n, --name <name>         | name of the LUIS application                                |
 | -a, --appId  <appid>      | application ID for the LUIS application|
-|-v, --version <version>        |version for the LUIS App, (example: v0.1)|
+| --version <version>        |version for the LUIS App, (example: v0.1)|
 |  --authoringKey <authoringkey>  |authoring key for authoring LUIS models via the authoring API |
 | --subscriptionKey <subscriptionKey>   | (Optional) subscription key used for querying a LUIS model
 | --input <jsonfile>           | path to arguments in JSON format   |
@@ -298,7 +298,7 @@ Options:
 | ------ | ----------- |
 |-n, --name <name>                    | name for the dispatch|
 |-a, --appId <appid>                  | LUIS AppId for the dispatch app|
-|-v, --version <version>              | version for the dispatch app (example: 0.1)|
+| --version <version>              | version for the dispatch app (example: 0.1)|
 |--subscriptionKey <subscriptionKey>  | (Optional) subscription key used for querying the dispatch model|
 |--authoringKey <authoringkey>        | authoring key for using manipulating the dispatch model via the LUIS authoring API|
 |-b, --bot <path>                     | path to bot file.  If omitted, local folder will look for a .bot file|

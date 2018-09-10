@@ -4,21 +4,23 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
+// tslint:disable:no-object-literal-type-assertion
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
+import * as semver from 'semver';
 
-const pkg = require('../package.json');
-const semver = require('semver');
-const requiredVersion = pkg.engines.node;
+// tslint:disable-next-line:no-var-requires no-require-imports
+const pkg: IPackage = require('../package.json');
+const requiredVersion: string = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
     console.error(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
     process.exit(1);
 }
 
-program.Command.prototype.unknownOption = function (flag: any) {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
-    program.outputHelp((str) => {
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+    program.outputHelp((str: string) => {
         console.error(str);
 
         return '';
@@ -27,7 +29,7 @@ program.Command.prototype.unknownOption = function (flag: any) {
 };
 
 program
-    .version(pkg.version, '-V, --Version')
+.version(pkg.version, '-v, --Version')
     .description(`The msbot program makes it easy to manipulate .bot files for Microsoft Bot Framework tools.`);
 
 program
@@ -42,11 +44,11 @@ program
 program
     .command('list', 'list all connected services');
 
-// program
-//     .command('export', 'export all connected services');
+program
+    .command('export', 'export all connected services so that this bot can be cloned');
 
-// program
-//     .command('clone', 'create a new .bot file based on another .bot file');
+program
+    .command('clone', 'create a new .bot file and all of its resources based on an exported .recipe file and folder ');
 
 program
     .command('connect <service>', 'connect to a resource (Luis/Qna/Azure/...) used by the bot');
@@ -54,16 +56,21 @@ program
 program
     .command('disconnect <service>', 'disconnect from a resource used by the bot');
 
-const args = program.parse(process.argv);
+const args: program.Command = program.parse(process.argv);
 
 // args should be undefined is subcommand is executed
 if (args) {
-    const a = process.argv.slice(2);
-    console.error(chalk.default.redBright(`Unknown arguments: ${a.join(' ')}`));
-    program.outputHelp((str) => {
+    const unknownArgs: string[] = process.argv.slice(2);
+    console.error(chalk.default.redBright(`Unknown arguments: ${unknownArgs.join(' ')}`));
+    program.outputHelp((str: string) => {
         console.error(str);
 
         return '';
     });
     process.exit(1);
+}
+
+interface IPackage {
+    version: string;
+    engines: { node: string };
 }

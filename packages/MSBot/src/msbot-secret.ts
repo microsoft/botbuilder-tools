@@ -3,20 +3,22 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
+// tslint:disable:no-object-literal-type-assertion
 import { BotConfiguration } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 
-program.Command.prototype.unknownOption = function (flag: any) {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
-interface SecretArgs {
+interface ISecretArgs {
     bot: string;
     secret: string;
     clear: boolean;
     new: boolean;
+    [key: string]: string | boolean;
 }
 
 program
@@ -25,11 +27,13 @@ program
     .option('--secret <secret>', 'secret used to confirm you can do secret operations')
     .option('-c, --clear', 'clear the secret and store keys unencrypted')
     .option('-n, --new', 'generate a new secret and store keys encrypted')
-    .action((name, x) => {
+    .action((name: program.Command, x: program.Command) => {
         console.log(name);
     });
 
-let args: SecretArgs = <SecretArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args: ISecretArgs = <ISecretArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     showErrorHelp();
@@ -37,14 +41,14 @@ if (process.argv.length < 3) {
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processSecret)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processSecret)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
@@ -59,7 +63,8 @@ async function processSecret(config: BotConfiguration): Promise<BotConfiguration
     if (args.new) {
         config.clearSecret();
         args.secret = BotConfiguration.generateKey();
-        console.log(`Your bot is encrypted with secret:\n${args.secret}\n\nPlease save this secret in a secure place to keep your keys safe.`);
+        console.log(
+            `Your bot is encrypted with secret:\n${args.secret}\n\nPlease save this secret in a secure place to keep your keys safe.`);
     } else if (args.clear) {
         config.clearSecret();
         console.log('Your bot file and keys are now unencrypted');
@@ -67,12 +72,14 @@ async function processSecret(config: BotConfiguration): Promise<BotConfiguration
     }
 
     await config.save(args.secret);
+
     return config;
 }
 
-function showErrorHelp() {
-    program.outputHelp((str) => {
+function showErrorHelp(): void {
+    program.outputHelp((str: string) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);

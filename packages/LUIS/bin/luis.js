@@ -68,14 +68,22 @@ async function runProgram() {
     }
 
     const config = await composeConfig();
+    let serviceIn = {};
+    if (args.stdin) {
+        let json = await stdin();
+        serviceIn = JSON.parse(json);
+    }
 
-    args.subscriptionKey = args.subscriptionKey || args.s || config.subscriptionKey;
-    args.authoringKey = args.authoringKey || config.authoringKey;
-    args.appId = args.appId || args.applicationId || args.a || config.appId;
-    args.versionId = args.versionId || config.versionId;
+    args.authoringKey = args.authoringKey || serviceIn.authoringKey || config.authoringKey;
+    args.subscriptionKey = args.subscriptionKey || args.s || serviceIn.subscriptionKey || config.subscriptionKey;
+    args.appId = args.appId || args.applicationId || args.a || serviceIn.appId || config.appId;
+    args.versionId = args.versionId || serviceIn.versionId || config.versionId;
+    args.region = args.region || serviceIn.region || config.region || "westus";
+    args.endpointBasePath = (args.region) ? `https://${args.region}.api.cognitive.microsoft.com/luis/api/v2.0` : config.endpointBasePath;
     args.customHeaders = { "accept-language": "en-US" };
-    if (!args.region)
-        args.region = "westus";
+
+    validateConfig(args);
+
     let credentials = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": args.authoringKey } });
     const client = new LuisAuthoring(credentials);
 
@@ -102,6 +110,8 @@ async function runProgram() {
                 case "application":
                     result = await client.apps.add(args.region, requestBody, args);
                     result = await client.apps.get(args.region, result, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
                     return;
                 case "closedlist":
@@ -196,10 +206,7 @@ async function runProgram() {
         case "clone":
             switch (target) {
                 case "version":
-                    if (!args.newVersionId) {
-                        throw new Error(`missing --newVersionId`);
-                    }
-                    result = await client.versions.clone(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
+                    result = await client.versions.clone(args.region, args.appId, args.versionId, requestBody, args);
                     break;
 
                 default:
@@ -268,6 +275,8 @@ async function runProgram() {
                 case "app":
                 case "application":
                     result = await client.apps.get(args.region, args.appId, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
                     return;
 
@@ -348,19 +357,17 @@ async function runProgram() {
             switch (target) {
                 case "app":
                 case "application":
+                    if (args.appName) {
+                        requestBody.name = args.appName;
+                    }
                     result = await client.apps.importMethod(args.region, requestBody, args);
                     result = await client.apps.get(args.region, result, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
-                    break;
+                    return;
 
                 case "version":
-                    if (args.stdin) {
-                        let json = JSON.parse(await stdin());
-                        args.authoringKey = json.
-                        args.region = json.region;
-                        args.appId = json.appId;
-                        args.version = json.version;
-                    }
                     result = await client.versions.importMethod(args.region, args.appId, requestBody, args);
                     break;
 
@@ -485,11 +492,7 @@ async function runProgram() {
             switch (target) {
 
                 case "version":
-                    if (!args.newVersionId) {
-                        throw new Error(`missing --newVersionId`);
-                    }
-
-                    result = await client.versions.update(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
+                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -570,11 +573,7 @@ async function runProgram() {
                     result = await client.model.updateSubList(args.region, args.appId, args.versionId, args.clEntityId, args.subListId, requestBody, args);
                     break;
                 case "version":
-                    if (!args.newVersionId) {
-                        throw new Error(`missing --newVersionId`);
-                    }
-
-                    result = await client.versions.update(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
+                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
                     break;
 
                 default:
@@ -689,7 +688,7 @@ async function waitForTrainingToComplete(client, args) {
         if (completedItems.length == result.length) return result;
         let failedItems = result.filter(item => { return item.details.status == "Fail" });
         if (failedItems.length !== 0) throw new Error(`Training failed for ${failedItems[0].modelId}: ${failedItems[0].details.failureReason}`);
-        process.stderr.write(`${completedItems.length}/${result.length} complete.`);
+        process.stderr.write(`${completedItems.length}/${result.length} complete.\r`);
         await Delay(1000);
     } while (true);
 }
@@ -739,7 +738,6 @@ async function composeConfig() {
             versionId: (args_versionId || luisrcJson.versionId || LUIS_VERSION_ID),
             endpointBasePath: (args_endpointBasePath || luisrcJson.endpointBasePath || LUIS_ENDPOINT_BASE_PATH)
         };
-        validateConfig(config);
     }
     return config;
 }
@@ -796,14 +794,38 @@ async function validateArguments(args, operation) {
                 case "version":
                     switch (operation.methodAlias) {
                         case "publish":
-                            body = {
-                                versionId: args.versionId,
-                                isStaging: args.staging === true,
-                                region: args.region
-                            };
+                            if (args.region && args.versionId) {
+                                body = {
+                                    versionId: `${args.versionId}`,
+                                    isStaging: args.staging === 'true',
+                                    region: args.region
+                                };
+                            }
+                            break;
+                        case "rename":
+                        case "update":
+                        case "clone":
+                            if (args.newVersionId) {
+                                body = {
+                                    version: `${args.newVersionId}`
+                                };
+                            }
                             break;
                     }
                     break;
+
+                case "settings":
+                    switch (operation.methodAlias) {
+                        case "update":
+                            if (args.hasOwnProperty("public")) {
+                                body = {
+                                    isPublic : args.public === 'true'
+                                };
+                            }
+                            break;
+                    }
+                    break;
+
                 default:
                     error.message = `The --in requires an input of type: ${operation.entityType}`;
                     throw error;

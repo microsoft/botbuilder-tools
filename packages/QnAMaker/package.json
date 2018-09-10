@@ -34,6 +34,7 @@
     "chalk": "^2.3.2",
     "cli-table3": "^0.5.0",
     "fs-extra": "^5.0.0",
+    "get-stdin": "^6.0.0",
     "hoek": "^5.0.3",
     "md5": "^2.2.1",
     "minimist": "^1.2.0",
@@ -46,5 +47,10 @@
     "request-promise-native": "^1.0.5",
     "semver": "^5.5.0",
     "window-size": "^1.1.0"
+  },
+  "devDependencies": {
+    "enum-files": "^1.1.0",
+    "mocha": "^5.2.0",
+    "tgz": "0.0.3"
   }
 }
