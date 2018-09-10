@@ -14,6 +14,14 @@
     "example": "examples",
     "bin": "bin"
   },
+  "files": [
+    "bin/",
+    "docs/",
+    "lib/",
+    "swagger/",
+    "examples/",
+    "typings/"
+  ],
   "scripts": {
     "test": "cd test/ && mocha --opts mocha.opts",
     "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",

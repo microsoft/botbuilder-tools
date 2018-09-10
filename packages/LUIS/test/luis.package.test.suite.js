@@ -13,6 +13,7 @@ describe('Package test', async () => {
             'bin',
             'lib',
             'docs',
+            'swagger',
             'typings',
             'examples'
         ];
@@ -45,4 +46,3 @@ describe('Package test', async () => {
         fs.unlinkSync(packageName);
     });
 });
-
