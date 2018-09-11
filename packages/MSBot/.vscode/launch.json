@@ -156,6 +156,27 @@
                 "--version",
                 "1.0"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "msbot connect bot",
+            "program": "${workspaceFolder}/bin/msbot-connect-qna.js",
+            "args": [
+                "-b",
+                "save.bot",
+                "--secret ${secret}",
+                "-n",
+                "QnA",
+                "--hostname",
+                "https://foo.com/qnamaker",
+                "-k",
+                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "--subscriptionKey",
+                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "--endpointKey",
+                "2f510b5e-10fe-4f53-9159-b134539ac594"
+            ]
         }
     ]
 }
