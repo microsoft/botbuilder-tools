@@ -856,7 +856,7 @@ async function handleError(error) {
 async function handleQueryCommand(args, config) {
     let query = args.q || args.question;
     if (!query) {
-        process.inerr.write(chalk.red.bold(`missing -q\n`));
+        process.stderr.write(chalk.red.bold(`missing -q\n`));
         return help(args);
     }
     let appId = args.appId || config.appId;
