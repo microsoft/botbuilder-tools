@@ -3,7 +3,8 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
-import { BotConfiguration, FileService, IFileService, ConnectedService } from 'botframework-config';
+// tslint:disable:no-object-literal-type-assertion
+import { BotConfiguration, FileService, IFileService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as path from 'path';
