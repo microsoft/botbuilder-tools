@@ -21,7 +21,7 @@ Via the .bot file, you can register services like:
 * Blob or CosmosDB storage 
 * AppInsights
 * etc.
- 
+
 ## Prerequisite
 
 - [Node.js](https://nodejs.org/) version 8.5 or higher
@@ -49,15 +49,16 @@ It will ask you for the name of the bot and the local endpoint for it and will c
 
 Arguments:
 
-| Option               | Description    |
-| -------------------- | --------------- |
-|-n, --name <name>|name of the bot|
-|-a, --appId <appid>| Microsoft appId used for auth with the endpoint|
-|-p, --appPassword <password>|Microsoft appPassword used for auth with the endpoint|
-|-e, --endpoint <endpoint>|local endpoint for the bot|
-|--secret|generate a secret and encrypt service keys with it|
-|-q, --quiet|do not prompt|
-|-h, --help|output usage information|
+| Option                       | Description                                           |
+|------------------------------|-------------------------------------------------------|
+| --------------------         | ---------------                                       |
+| -n, --name <name>            | name of the bot                                       |
+| -a, --appId <appid>          | Microsoft appId used for auth with the endpoint       |
+| -p, --appPassword <password> | Microsoft appPassword used for auth with the endpoint |
+| -e, --endpoint <endpoint>    | local endpoint for the bot                            |
+| --secret                     | generate a secret and encrypt service keys with it    |
+| -q, --quiet                  | do not prompt                                         |
+| -h, --help                   | output usage information                              |
 
 Example:
 
@@ -75,19 +76,20 @@ msbot connect [command]
 
 Where the command is one of the services
 
-| Command | Description |
-| ------ | ----------- |
-|appinsights|connect to Azure AppInsights|
-|blob|connect to Azure Blob storage|
-|bot|connect to Azure Bot Service|
-|cosmosdb|connect to Azure CosmosDB|
-|dispatch|connect to a Dispatch model|
-|endpoint|connect to endpoint|
-|file|connect to file to the bot|
-|generic|connect to generic service configuration|
-|luis|connect to a LUIS application|
-|qna|connect to QNA a service|
-|help [cmd]|display help for [cmd]|
+| Command     | Description                              |
+|-------------|------------------------------------------|
+| ------      | -----------                              |
+| appinsights | connect to Azure AppInsights             |
+| blob        | connect to Azure Blob storage            |
+| bot         | connect to Azure Bot Service             |
+| cosmosdb    | connect to Azure CosmosDB                |
+| dispatch    | connect to a Dispatch model              |
+| endpoint    | connect to endpoint                      |
+| file        | connect to file to the bot               |
+| generic     | connect to generic service configuration |
+| luis        | connect to a LUIS application            |
+| qna         | connect to QNA a service                 |
+| help [cmd]  | display help for [cmd]                   |
 
 ### Connecting to Azure AppInsights Service 
 
@@ -99,21 +101,22 @@ msbot connect appinsights [options]
 
 With the following options
 
-| Option | Description |
-| ------ | ----------- |
-|-n, --name <name>|friendly name (defaults to serviceName)|
-|-t, --tenantId <tenantId>|Azure Tenant id (either GUID or xxx.onmicrosoft.com)|
-|-s, --subscriptionId <subscriptionId>|Azure Subscription Id|
-|-r, --resourceGroup <resourceGroup>|Azure resource group name|
-|-s, --serviceName <serviceName>|Azure service name|
-|-i, --instrumentationKey <instrumentationKey>|App Insights InstrumentationKey|
-|-a, --applicationId <applicationId>|(OPTIONAL) App Insights Application Id|
-|--keys <keys>|Json app keys, example: {'key1':'value1','key2':'value2'}|
-|-b, --bot <path>|path to bot file.|
-|--input <jsonfile>|path to arguments in JSON format { id:'',name:'', ... }|
-|--secret <secret>|bot file secret password for encrypting service secrets|
-|--stdin|arguments are passed in as JSON object via stdin|
-|-h, --help|output usage information|
+| Option                                        | Description                                               |
+|-----------------------------------------------|-----------------------------------------------------------|
+| ------                                        | -----------                                               |
+| -n, --name <name>                             | friendly name (defaults to serviceName)                   |
+| -t, --tenantId <tenantId>                     | Azure Tenant id (either GUID or xxx.onmicrosoft.com)      |
+| -s, --subscriptionId <subscriptionId>         | Azure Subscription Id                                     |
+| -r, --resourceGroup <resourceGroup>           | Azure resource group name                                 |
+| -s, --serviceName <serviceName>               | Azure service name                                        |
+| -i, --instrumentationKey <instrumentationKey> | App Insights InstrumentationKey                           |
+| -a, --applicationId <applicationId>           | (OPTIONAL) App Insights Application Id                    |
+| --keys <keys>                                 | Json app keys, example: {'key1':'value1','key2':'value2'} |
+| -b, --bot <path>                              | path to bot file.                                         |
+| --input <jsonfile>                            | path to arguments in JSON format { id:'',name:'', ... }   |
+| --secret <secret>                             | bot file secret password for encrypting service secrets   |
+| --stdin                                       | arguments are passed in as JSON object via stdin          |
+| -h, --help                                    | output usage information                                  |
 
 ### Connecting to Azure Blob Service 
 
@@ -126,19 +129,20 @@ msbot connect blob [options]
 With the following options
 
 | Option                                        | Description                                               |
+|-----------------------------------------------|-----------------------------------------------------------|
 | --------------------------------------------- | --------------------------------------------------------- |
-|-n, --name <name>|friendly name (defaults to serviceName)|
-|-t, --tenantId <tenantId>|Azure Tenant id (either GUID or xxx.onmicrosoft.com)|
-|-s, --subscriptionId <subscriptionId>|Azure Subscription Id|
-|-r, --resourceGroup <resourceGroup>|Azure resource group name|
-|--serviceName <serviceName>|Azure service name|
-|--connectionString <connectionString>|Blob storage connection string|
-|-c, --container <container>|blob container name|
-|-b, --bot <path>|path to bot file.|
-|--input <jsonfile>|path to arguments in JSON format { id:'',name:'', ... }|
-|--secret <secret>|bot file secret password for encrypting service secrets|
-|--stdin|arguments are passed in as JSON object via stdin|
-|-h, --help|output usage information|
+| -n, --name <name>                             | friendly name (defaults to serviceName)                   |
+| -t, --tenantId <tenantId>                     | Azure Tenant id (either GUID or xxx.onmicrosoft.com)      |
+| -s, --subscriptionId <subscriptionId>         | Azure Subscription Id                                     |
+| -r, --resourceGroup <resourceGroup>           | Azure resource group name                                 |
+| --serviceName <serviceName>                   | Azure service name                                        |
+| --connectionString <connectionString>         | Blob storage connection string                            |
+| -c, --container <container>                   | blob container name                                       |
+| -b, --bot <path>                              | path to bot file.                                         |
+| --input <jsonfile>                            | path to arguments in JSON format { id:'',name:'', ... }   |
+| --secret <secret>                             | bot file secret password for encrypting service secrets   |
+| --stdin                                       | arguments are passed in as JSON object via stdin          |
+| -h, --help                                    | output usage information                                  |
 
 ### Connecting to Azure Bot Service  
 
@@ -150,21 +154,22 @@ msbot connect bot [options]
 
 Options:
 
-|Option | Description|
-| ------ | ----------- |
-|--serviceName <serviceName>|Azure Bot Service bot id|
-|-n, --name <name>|Friendly name for this service (defaults to serviceName)|
-|-t, --tenantId <tenantId>|id of the tenant for the Azure service (either GUID or xxx.onmicrosoft.com)|
-|-s, --subscriptionId <subscriptionId>|GUID of the subscription for the Azure Service|
-|-r, --resourceGroup <resourceGroup>|name of the resourceGroup for the Azure Service|
-|-e, --endpoint <endpoint>|(OPTIONAL) Registered endpoint url for the Azure Bot Service|
-|-a, --appId<appid>| appId |
-|-p, --appPassword <appPassword>| appPassword|
-|-b, --bot <path>|path to bot file.|
-|--input <jsonfile>|path to arguments in JSON format { id:'',name:'', ... }|
-|--secret <secret>|bot file secret password for encrypting service secrets|
-|--stdin|arguments are passed in as JSON object via stdin|
-|-h, --help|output usage information|
+| Option                                | Description                                                                 |
+|---------------------------------------|-----------------------------------------------------------------------------|
+| ------                                | -----------                                                                 |
+| --serviceName <serviceName>           | Azure Bot Service bot id                                                    |
+| -n, --name <name>                     | Friendly name for this service (defaults to serviceName)                    |
+| -t, --tenantId <tenantId>             | id of the tenant for the Azure service (either GUID or xxx.onmicrosoft.com) |
+| -s, --subscriptionId <subscriptionId> | GUID of the subscription for the Azure Service                              |
+| -r, --resourceGroup <resourceGroup>   | name of the resourceGroup for the Azure Service                             |
+| -e, --endpoint <endpoint>             | (OPTIONAL) Registered endpoint url for the Azure Bot Service                |
+| -a, --appId<appid>                    | appId                                                                       |
+| -p, --appPassword <appPassword>       | appPassword                                                                 |
+| -b, --bot <path>                      | path to bot file.                                                           |
+| --input <jsonfile>                    | path to arguments in JSON format { id:'',name:'', ... }                     |
+| --secret <secret>                     | bot file secret password for encrypting service secrets                     |
+| --stdin                               | arguments are passed in as JSON object via stdin                            |
+| -h, --help                            | output usage information                                                    |
 
 An example:
 ```shell
@@ -182,20 +187,21 @@ msbot connect cosmosdb [options]
 With the following options
 
 | Option                                        | Description                                               |
+|-----------------------------------------------|-----------------------------------------------------------|
 | --------------------------------------------- | --------------------------------------------------------- |
-|-n, --name <name>|friendly name (defaults to serviceName)|
-|-t, --tenantId <tenantId>|Azure Tenant id (either GUID or xxx.onmicrosoft.com)|
-|-s, --subscriptionId <subscriptionId>|Azure Subscription Id|
-|-r, --resourceGroup <resourceGroup>|Azure resource group name|
-|--serviceName <serviceName>|Azure service name|
-|--connectionString <connectionString>|CosmosDB connection string|
-|-d, --database <database>|CosmosDB database name|
-|-c, --collection <collection>|CosmosDB collection name|
-|-b, --bot <path>|path to bot file.|
-|--input <jsonfile>|path to arguments in JSON format { id:'',name:'', ... }|
-|--secret <secret>|bot file secret password for encrypting service secrets|
-|--stdin|arguments are passed in as JSON object via stdin|
-|-h, --help|output usage information|
+| -n, --name <name>                             | friendly name (defaults to serviceName)                   |
+| -t, --tenantId <tenantId>                     | Azure Tenant id (either GUID or xxx.onmicrosoft.com)      |
+| -s, --subscriptionId <subscriptionId>         | Azure Subscription Id                                     |
+| -r, --resourceGroup <resourceGroup>           | Azure resource group name                                 |
+| --serviceName <serviceName>                   | Azure service name                                        |
+| --connectionString <connectionString>         | CosmosDB connection string                                |
+| -d, --database <database>                     | CosmosDB database name                                    |
+| -c, --collection <collection>                 | CosmosDB collection name                                  |
+| -b, --bot <path>                              | path to bot file.                                         |
+| --input <jsonfile>                            | path to arguments in JSON format { id:'',name:'', ... }   |
+| --secret <secret>                             | bot file secret password for encrypting service secrets   |
+| --stdin                                       | arguments are passed in as JSON object via stdin          |
+| -h, --help                                    | output usage information                                  |
 
 ### Connecting to a Endpoint Service  
 
@@ -207,17 +213,18 @@ msbot connect endpoint [options]
 
 With the following options
 
-| Option                       | Description                                                  |
-| ---------------------------- | ------------------------------------------------------------ |
-| --secret <secret>            | bot file secret password for encrypting service secrets |
-| -n, --name <name>            | (Optional) name of the Azure Bot Service                                |
-| -a, --appId  <appid>         | (Optional) Microsoft AppId for the Azure Bot Service         |
-| -p, --appPassword <password> | (Optional) Microsoft app password for the Azure Bot Service   |
-| -e, --endpoint <endpoint>    | endpoint for the bot using the MSA AppId          |
+| Option                       | Description                                                            |
+|------------------------------|------------------------------------------------------------------------|
+| ---------------------------- | ------------------------------------------------------------           |
+| --secret <secret>            | bot file secret password for encrypting service secrets                |
+| -n, --name <name>            | (Optional) name of the Azure Bot Service                               |
+| -a, --appId  <appid>         | (Optional) Microsoft AppId for the Azure Bot Service                   |
+| -p, --appPassword <password> | (Optional) Microsoft app password for the Azure Bot Service            |
+| -e, --endpoint <endpoint>    | endpoint for the bot using the MSA AppId                               |
 | -b, --bot <path>             | path to bot file.  If omitted, local folder will look for a .bot file. |
-| --input <jsonfile>           | path to arguments in JSON format   |
-| --stdin                      | arguments are passed in as a JSON object via stdin |
-| -h, --help                   | output usage information                                     |
+| --input <jsonfile>           | path to arguments in JSON format                                       |
+| --stdin                      | arguments are passed in as a JSON object via stdin                     |
+| -h, --help                   | output usage information                                               |
 
 An example:
 
@@ -236,18 +243,19 @@ msbot connect luis [options]
 
 With the following options:
 
-| Option                       | Description                                                  |
-| ---------------------------- | ------------------------------------------------------------ |
-| -n, --name <name>         | name of the LUIS application                                |
-| -a, --appId  <appid>      | application ID for the LUIS application|
-| --version <version>        |version for the LUIS App, (example: v0.1)|
-|  --authoringKey <authoringkey>  |authoring key for authoring LUIS models via the authoring API |
-| --subscriptionKey <subscriptionKey>   | (Optional) subscription key used for querying a LUIS model
-| --input <jsonfile>           | path to arguments in JSON format   |
-| --stdin                      | arguments are passed in as a JSON object via stdin |
-|-b, --bot <path>           | path to bot file.  If omitted, local folder will look for a .bot file |
-| --secret <secret>         | bot file secret password for encrypting service secrets |
-| -h, --help                   | output usage information|
+| Option                              | Description                                                           |
+|-------------------------------------|-----------------------------------------------------------------------|
+| ----------------------------        | ------------------------------------------------------------          |
+| -n, --name <name>                   | name of the LUIS application                                          |
+| -a, --appId  <appid>                | application ID for the LUIS application                               |
+| --version <version>                 | version for the LUIS App, (example: v0.1)                             |
+| --authoringKey <authoringkey>       | authoring key for authoring LUIS models via the authoring API         |
+| --subscriptionKey <subscriptionKey> |                                                                       |
+| --input <jsonfile>                  | path to arguments in JSON format                                      |
+| --stdin                             | arguments are passed in as a JSON object via stdin                    |
+| -b, --bot <path>                    | path to bot file.  If omitted, local folder will look for a .bot file |
+| --secret <secret>                   | bot file secret password for encrypting service secrets               |
+| -h, --help                          | output usage information                                              |
 
 Here is an example invocation:
 
@@ -265,18 +273,19 @@ msbot connect qna [options]
 
 With the following options:
 
-| Option                        | Description                                                  |
-| ----------------------------- | ------------------------------------------------------------ |
-| -n, --name <name>             | name of the QnA knowledge base                                 |
-| -k, --kbId <kbId>                    |QnA knowledge base Id|
-| --subscriptionKey <subscriptionKey> |sSubscription key for accessing the QnA service|
-| --endpointKey <endpointKey> | endpoint key for calling the QnA service |
-| --hostname <url>  | url for private QnA service
-| -b, --bot <path>              | path to bot file.  If omitted, local folder will look for a .bot file |
-| --input <jsonfile>           | path to arguments in JSON format   |
-| --stdin                      | arguments are passed in as a JSON object via stdin |
-| --secret <secret>             | bot file secret password for encrypting service secrets |
-| -h, --help                    | output usage information                                     |
+| Option                              | Description                                                           |
+|-------------------------------------|-----------------------------------------------------------------------|
+| -----------------------------       | ------------------------------------------------------------          |
+| -n, --name <name>                   | name of the QnA knowledge base                                        |
+| -k, --kbId <kbId>                   | QnA knowledge base Id                                                 |
+| --subscriptionKey <subscriptionKey> | sSubscription key for accessing the QnA service                       |
+| --endpointKey <endpointKey>         | endpoint key for calling the QnA service                              |
+| --hostname <url>                    |                                                                       |
+| -b, --bot <path>                    | path to bot file.  If omitted, local folder will look for a .bot file |
+| --input <jsonfile>                  | path to arguments in JSON format                                      |
+| --stdin                             | arguments are passed in as a JSON object via stdin                    |
+| --secret <secret>                   | bot file secret password for encrypting service secrets               |
+| -h, --help                          | output usage information                                              |
 
 Here is an example invocation:
 
@@ -294,17 +303,18 @@ msbot connect dispatch [options]
 
 Options:
 
-|Option | Description|
-| ------ | ----------- |
-|-n, --name <name>                    | name for the dispatch|
-|-a, --appId <appid>                  | LUIS AppId for the dispatch app|
-| --version <version>              | version for the dispatch app (example: 0.1)|
-|--subscriptionKey <subscriptionKey>  | (Optional) subscription key used for querying the dispatch model|
-|--authoringKey <authoringkey>        | authoring key for using manipulating the dispatch model via the LUIS authoring API|
-|-b, --bot <path>                     | path to bot file.  If omitted, local folder will look for a .bot file|
-|--secret <secret>                    | bot file secret password for encrypting service secrets|
-|--stdin                              | arguments are passed in as JSON object via stdin|
-|--input <dispatchfile>               | arguments passed in as path to arguments in JSON format|
+| Option                              | Description                                                                        |
+|-------------------------------------|------------------------------------------------------------------------------------|
+| ------                              | -----------                                                                        |
+| -n, --name <name>                   | name for the dispatch                                                              |
+| -a, --appId <appid>                 | LUIS AppId for the dispatch app                                                    |
+| --version <version>                 | version for the dispatch app (example: 0.1)                                        |
+| --subscriptionKey <subscriptionKey> | (Optional) subscription key used for querying the dispatch model                   |
+| --authoringKey <authoringkey>       | authoring key for using manipulating the dispatch model via the LUIS authoring API |
+| -b, --bot <path>                    | path to bot file.  If omitted, local folder will look for a .bot file              |
+| --secret <secret>                   | bot file secret password for encrypting service secrets                            |
+| --stdin                             | arguments are passed in as JSON object via stdin                                   |
+| --input <dispatchfile>              | arguments passed in as path to arguments in JSON format                            |
 
 Here is an example invocation:
 ```shell
@@ -321,11 +331,12 @@ msbot get <serviceNameOrId> [options]
 
 Options:
 
-| Option                        | Description                                                  |
-| ----------------------------- | ------------------------------------------------------------ |
-| -b, --bot <path>   |path to bot file.  If omitted, local folder will look for a .bot file|
-|--secret <secret> | bot file secret password for encrypting service secrets|
-|-h, --help        | output usage information|
+| Option                        | Description                                                           |
+|-------------------------------|-----------------------------------------------------------------------|
+| ----------------------------- | ------------------------------------------------------------          |
+| -b, --bot <path>              | path to bot file.  If omitted, local folder will look for a .bot file |
+| --secret <secret>             | bot file secret password for encrypting service secrets               |
+| -h, --help                    | output usage information                                              |
 
 If you omit the secret, you will get the configured services with the secrets encrypted.  If you pass the secret password, you will see the secrets decrypted.
 
@@ -339,11 +350,12 @@ msbot list [options]
 
 Options:
 
-| Option                        | Description                                                  |
-| ----------------------------- | ------------------------------------------------------------ |
-| -b, --bot <path>   |path to bot file.  If omitted, local folder will look for a .bot file|
-|--secret <secret> | bot file secret password for encrypting service secrets|
-|-h, --help        | output usage information|
+| Option                        | Description                                                           |
+|-------------------------------|-----------------------------------------------------------------------|
+| ----------------------------- | ------------------------------------------------------------          |
+| -b, --bot <path>              | path to bot file.  If omitted, local folder will look for a .bot file |
+| --secret <secret>             | bot file secret password for encrypting service secrets               |
+| -h, --help                    | output usage information                                              |
 
 If you omit the secret, you will get the configured services with the secrets encrypted.  If you pass the secret password, you will see the secrets decrypted.
 
@@ -363,14 +375,64 @@ Example using ID:
 msbot disconnect "339411fa-ac8d-47ad-8d92-4b083a2c5305"
 ```
 
+## Exporting Services
+
+You can export all of the resources necessary for someone to recreate in their own
+subscription by using the **msbot export services** command.  This is useful for you to
+be able to check-in resources without the keys. 
+
+The result of the command is a folder with all of the QnAMaker, and LUIS models exported 
+and a .bot.recipe file which are the instructions for **msbot clone services** to recreate.
+
+```shell
+msbot export services --folder folderName --bot your.bot 
+```
+
+| Option                | Description                                                           |
+|-----------------------|-----------------------------------------------------------------------|
+| ----                  | ----                                                                  |
+| -b, --bot <path>      | path to bot file.  If omitted, local folder will look for a .bot file |
+| --secret <secret>     | bot file secret password for encrypting service secrets               |
+| -f, --folder <folder> | folder to put the bot recipe into                                     |
+| -h, --help            | output usage information                                              |
+
+## Cloning Services
+
+The **msbot clone services** command will take a .bot.recipe file and folder which was created via
+**msbot export services** and use it to recreate all of the services you need to run a project.  
+
+It will create a new Azure Resource Group and all of the services you need in that resource group
+and emit a new .bot file with all of the service data and secrets stored.
+
+```shell
+msbot clone services --folder folderName --name NewBot --luisAuthoringKey 000000000000000000 --location westus 
+```
+
+> **NOTE:** msbot clone services does NOT encrypt the .bot file with a secret.  If you want to secure your 
+> secrets you should do that via the **msbot secret** command after it has been created.
+
+
+| Option                    | Description                                                          |
+|---------------------------|----------------------------------------------------------------------|
+| -f, --folder <folder>     | folder to put the bot recipe into                                    |
+| -n, --name <name>         | name of the bot to register in Azure Bot Service and the .bot file   |
+| --luisAuthoringKey <key>  | LUIS.ai authoring key for creating LUIS subscription                 |
+| -l, --location <location> | The azure region location to create the Azure Group and resources in |
+| -h, --help                | output usage information                                             |
+
 # Bot Secrets
 
-It is useful for tools like the emulator to have secure access to keys it needs to work with the services that are connected to the bot.  The MSBot tool supports this by allowing you to specify a **secret** which is a password that is used to encrypt/decrypt secure keys in the .bot file.
+It is useful for tools like the emulator to have secure access to keys it needs to work with 
+the services that are connected to the bot.  The MSBot tool supports this by allowing you to 
+specify a **secret** which is a password that is used to encrypt/decrypt secure keys in the .bot file.
 
-Any command which accepts the `--secret` option has data which needs to be encrypted with the secret. 
-This allows you to check in a .bot file into a public repo safely and only need the secret to unlock all of the keys your bot uses.
+Any command which accepts the `--secret` option has data which needs to be encrypted with the
+secret. This allows you to check in a .bot file into a public repo safely and only need the 
+secret to unlock all of the keys your bot uses.
 
-> NOTE: You cannot retrieve a secret, and it is being used to secure all of your sensitive information.  You should use best practices to secure your secret.  *It is strongly encouraged that you DO NOT check it into your source repo or code directly and instead rely on technogies such as Azure Key Vault to securely store it. **
+> NOTE: You cannot retrieve a secret, and it is being used to secure all of your sensitive information.  
+> You should use best practices to secure your secret.  *It is strongly encouraged that you DO NOT check 
+> it into your source repo or code directly and instead rely on technologies such as Azure Key Vault to securely store it. **
 
 ## Encrypting a bot file with a new secret
 You can switch to encrypting your file by using the msbot secret command with the --new switch.
