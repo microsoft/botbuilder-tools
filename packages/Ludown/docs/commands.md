@@ -61,7 +61,7 @@ Convert .lu file(s) into LUIS JSON file. Optionally you can also generate a LUIS
     -s, --subfolder                                  [Optional] Include sub-folders as well when looking for .lu files
     -n, --luis_name <luis_appName>                   [Optional] LUIS app name
     -d, --luis_desc <luis_appDesc>                   [Optional] LUIS app description
-    -v, --luis_versionId <luis_versionId>            [Optional] LUIS app version (default: 0.1)
+    -i, --luis_versionId <luis_versionId>            [Optional] LUIS app version (default: 0.1)
     -c, --luis_culture <luis_appCulture>             [Optional] LUIS app culture (default: en-us)
     -t, --write_luis_batch_tests                     [Optional] Write out LUIS batch test json file
     --verbose                                        [Optional] Get verbose messages from parser
