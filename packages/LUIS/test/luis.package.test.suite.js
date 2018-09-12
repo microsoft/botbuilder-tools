@@ -1,3 +1,4 @@
+const path = require('path');
 const assert = require('assert');
 const fs = require('fs-extra');
 const util = require('util');
@@ -22,7 +23,7 @@ describe('Package test', async () => {
         for (var includedFolder of includedFolders) {
             let files = await enumFiles.filesRecursively(`../${includedFolder}`);
             for (let file of files) {
-                file = file.replace('..', `${output_test_folder}\\package`);
+                file = file.replace('..', path.join(`${output_test_folder}`, `package`));
                 expectedFiles.push(file);
                 //console.log(file);
             }
