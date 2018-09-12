@@ -121,6 +121,7 @@ let globalArgs = {
     table: [
         [chalk.cyan.bold('--help,    -h'), 'Prints this help file.'],
         [chalk.cyan.bold('--version, -v'), 'Prints the version of this cli tool'],
+        [chalk.cyan.bold('--force,   -f'), 'Do not prompt for confirmation, force the operation'],
         [chalk.cyan.bold('--!          '), 'Dumps all documented commands to the console with descriptions']
     ]
 };

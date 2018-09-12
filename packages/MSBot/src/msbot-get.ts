@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
+// tslint:disable:no-object-literal-type-assertion
 import { BotConfiguration, IConnectedService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
