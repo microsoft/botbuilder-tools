@@ -94,7 +94,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     }
 
     if(finalQnAJSON) finalQnAJSON.name = program.qna_name.split('.')[0];
-    
+
     var writeQnAFile = (finalQnAJSON.qnaList.length > 0) || 
                         (finalQnAJSON.urls.length > 0) || 
                         (finalQnAJSON.files.length > 0);
@@ -118,25 +118,25 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
         }
     }
     
-    if(!program.lOutFile) {
-        if(program.out) {
-            program.lOutFile = program.out.includes('.')?program.out:program.out + ".json"
+    if (!program.lOutFile) {
+        if (program.out) {
+            program.lOutFile = program.out.includes('.') ? program.out : program.out + ".json"
         } else {
-            if(!program.luis_name) {
+            if (!program.luis_name) {
                 program.lOutFile = path.basename(rootFile, path.extname(rootFile)) + "_LUISApp.json";  
             } else {
-                program.lOutFile = program.luis_name.includes('.')?program.luis_name:program.luis_name + ".json";
+                program.lOutFile = program.luis_name.includes('.') ? program.luis_name : program.luis_name + ".json";
             }
         }
     }
-    if(!program.qOutFile) {
-        if(program.out) {
-            program.qOutFile = program.out.includes('.')?program.out:program.out + ".json"
+    if (!program.qOutFile) {
+        if (program.out) {
+            program.qOutFile = program.out.includes('.') ? program.out : program.out + ".json"
         } else {
-            if(!program.qna_name) {
+            if (!program.qna_name) {
                 program.qOutFile = path.basename(rootFile, path.extname(rootFile)) + "_qnaKB.json";
             } else {
-                program.qOutFile = program.qna_name.includes('.')?program.qna_name:program.qna_name + ".json";
+                program.qOutFile = program.qna_name.includes('.') ? program.qna_name : program.qna_name + ".json";
             }
         }
     }
