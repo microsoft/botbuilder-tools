@@ -64,10 +64,10 @@ async function processConfiguration(config: BotConfiguration): Promise<void> {
                 if (!args.quiet) {
                     const output: string = `exporting ${chalk.default.bold(service.name)} [${service.type}] (${index}/${total})`;
                     if (args.verbose) {
-                        console.warn(chalk.default.bold(output));
-                        console.log(chalk.default.italic(`${newCommand}\n`));
+                        console.warn(chalk.default.bold(`[msbot] ${output}`));
+                        console.log(chalk.default.italic(`[msbot] ${newCommand}\n`));
                     } else {
-                        console.warn(output);
+                        console.warn(`[msbot] ${output}`);
                     }
                 }
             }

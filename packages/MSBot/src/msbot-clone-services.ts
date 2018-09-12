@@ -16,7 +16,7 @@ let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`[msbot clone] Unknown arguments: ${flag}`));
     program.help();
 };
 
@@ -56,7 +56,7 @@ const args = <ICloneArgs>{};
 Object.assign(args, command);
 
 if (typeof (args.name) != 'string') {
-    console.error(chalk.default.redBright('missing --name argument'));
+    console.error(chalk.default.redBright('[msbot clone] missing --name argument'));
     showErrorHelp();
 }
 
@@ -65,7 +65,7 @@ config.name = args.name;
 config.saveAs(config.name + '.bot')
     .then(processConfiguration)
     .catch((reason) => {
-        console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
+        console.error(chalk.default.redBright(`[msbot clone] ${reason.toString().split('\n')[0]}`));
         showErrorHelp();
     });
 
@@ -92,7 +92,7 @@ async function processConfiguration(): Promise<void> {
         args.subscriptionId = azAccount.id;
         args.tenantId = azAccount.tenantId;
         if (!args.quiet) {
-            console.log(`Creating resources in subscription: ${azAccount.name} ${azAccount.id}`);
+            console.log(`[msbot clone] Creating resources in subscription: ${azAccount.name} ${azAccount.id}`);
         }
 
         // create group
@@ -551,8 +551,8 @@ async function processConfiguration(): Promise<void> {
                 await config.save();
             }
         }
-        console.log(`${config.getPath()} created.`);
-        console.log(`Done cloning.`);
+        console.log(`[msbot clone] ${config.getPath()} created.`);
+        console.log(`[msbot clone] Done cloning.`);
     } catch (error) {
         let lines = error.message.split('\n');
         let message = '';
@@ -590,12 +590,12 @@ async function createBot(): Promise<IBotService> {
 
     let stdout = await spawnAsync(command, undefined, (stderr) => {
         if (stderr.indexOf('https://microsoft.com/devicelogin') > 0) {
-            console.warn(stderr.replace('WARNING: ', ''));
+            console.warn(`[az bot] ${stderr.replace('WARNING: ', '')}`);
             opn('https://microsoft.com/devicelogin');
         }
         else if (stderr.indexOf('Provisioning') > 0) {
             // we need to show warning to user so we can get instructions on logging in
-            console.warn(stderr.replace('WARNING: ', '') + " (this will take several minutes)");
+            console.warn(`[az bot] ${stderr.replace('WARNING: ', '')} (this will take several minutes)`);
         }
     });
     return <IBotService>JSON.parse(stdout);
@@ -619,9 +619,9 @@ function showErrorHelp() {
         console.error(str);
         return '';
     });
-    console.log(chalk.default.bold(`NOTE: You did not complete clone process.`));
+    console.log(chalk.default.bold(`[msbot clone] NOTE: You did not complete clone process.`));
     if (typeof (args.name) == 'string') {
-        console.log(`To delete the group and resources run:`);
+        console.log(`[msbot clone] To delete the group and resources run:`);
         console.log(chalk.default.italic(`az group delete -g ${args.name} --no-wait`));
     }
     process.exit(1);
@@ -629,9 +629,9 @@ function showErrorHelp() {
 
 function logCommand(args: ICloneArgs, message: string, command: string) {
     if (!args.quiet) {
-        console.log(chalk.default.bold(message));
+        console.log(chalk.default.bold(`[msbot clone] ${message}`));
         if (args.verbose) {
-            console.log(chalk.default.italic(command));
+            console.log(chalk.default.italic(`[msbot clone] ${command}`));
         }
     }
 }
