@@ -58,6 +58,6 @@
   "devDependencies": {
     "enum-files": "^1.1.0",
     "mocha": "^5.2.0",
-    "tgz": "0.0.3"
+    "targz": "^1.0.1"
   }
 }
