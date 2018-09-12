@@ -212,7 +212,7 @@ const parseFileContentsModule = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     collateLUISFiles : async function(parsedLUISList) {
-        if(parsedLUISList.length === 0) return undefined;
+        if (parsedLUISList.length === 0) return undefined;
         let FinalLUISJSON = parsedLUISList[0].LUISJsonStructure;
         parsedLUISList.splice(0,1);
         parsedLUISList.forEach(function(blob) {
@@ -224,14 +224,14 @@ const parseFileContentsModule = {
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.PATTERNS);
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.PATTERNANYENTITY);
             // do we have prebuiltEntities here?
-            if(blob.prebuiltEntities.length > 0) {
+            if (blob.prebuiltEntities.length > 0) {
                 blob.prebuiltEntities.forEach(function(prebuiltEntity){
                     let prebuiltTypeExists = false;
-                    for(let fIndex in FinalLUISJSON.prebuiltEntities) {
-                        if(prebuiltEntity.name === FinalLUISJSON.prebuiltEntities[fIndex].name) {
+                    for (let fIndex in FinalLUISJSON.prebuiltEntities) {
+                        if (prebuiltEntity.name === FinalLUISJSON.prebuiltEntities[fIndex].name) {
                             // do we have all the roles? if not, merge the roles
                             prebuiltEntity.roles.forEach(function(role) {
-                                if(!FinalLUISJSON.prebuiltEntities[fIndex].roles.includes(role)) {
+                                if (!FinalLUISJSON.prebuiltEntities[fIndex].roles.includes(role)) {
                                     FinalLUISJSON.prebuiltEntities[fIndex].roles.push(role);
                                 }
                             });

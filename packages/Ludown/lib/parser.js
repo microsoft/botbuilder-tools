@@ -93,7 +93,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
         finalLUISJSON.culture = program.luis_culture;
     }
 
-    if(finalQnAJSON) finalQnAJSON.name = program.qna_name.split('.')[0];
+    if (finalQnAJSON) finalQnAJSON.name = program.qna_name.split('.')[0];
 
     var writeQnAFile = (finalQnAJSON.qnaList.length > 0) || 
                         (finalQnAJSON.urls.length > 0) || 
@@ -258,10 +258,10 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
     let allParsedAlterationsContent = [];
     filesToParse = filesToParseClass.stringArrayToFileToParseList(filesToParse);
     let parsedFiles = [];
-    while(filesToParse.length > 0) {
+    while (filesToParse.length > 0) {
         let file = filesToParse[0].filePath;
         // skip this file if we have parsed it already
-        if(parsedFiles.includes(file)) {
+        if (parsedFiles.includes(file)) {
             filesToParse.splice(0,1)
             continue;
         }
@@ -283,7 +283,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
         } 
         parsedFiles.push(file);
         try {
-            if(haveLUISContent(parsedContent.LUISJsonStructure) && await parseFileContents.validateLUISBlob(parsedContent.LUISJsonStructure)) allParsedLUISContent.push(parserObject.create(parsedContent.LUISJsonStructure, undefined, undefined, file, filesToParse[0].includeInCollate));
+            if (haveLUISContent(parsedContent.LUISJsonStructure) && await parseFileContents.validateLUISBlob(parsedContent.LUISJsonStructure)) allParsedLUISContent.push(parserObject.create(parsedContent.LUISJsonStructure, undefined, undefined, file, filesToParse[0].includeInCollate));
         } catch (err) {
             throw (err);
         }
@@ -313,7 +313,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
                     }
                 } else {
                     if(!path.isAbsolute(file.filePath)) file.filePath = path.resolve(parentFilePath, file.filePath);
-                    // avoid parsing files that have been parsed already.
+                    // avoid parsing files that have been parsed already
                     if(parsedFiles.includes(file.filePath)) {
                         // find matching parsed files and ensure includeInCollate is updated if needed.
                         updateParsedFiles(allParsedLUISContent, allParsedQnAContent, allParsedAlterationsContent, file);
@@ -337,28 +337,28 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const resolveReferencesInUtterances = async function(allParsedContent) {
-    // Find LUIS utterances that have references
+    // find LUIS utterances that have references
     (allParsedContent.LUISContent || []).forEach(luisModel => {
-        if(!luisModel.includeInCollate) return;
+        if (!luisModel.includeInCollate) return;
         let newUtterancesToAdd = [];
         let spliceList = [];
         (luisModel.LUISJsonStructure.utterances || []).forEach((utterance,idx) => {
             // does this utterance have a deep link uri? 
             let linkExp = (utterance.text || '').trim().match(new RegExp(/\(.*?\)/g));
-            if(linkExp && linkExp.length !== 0) {
-                // we have stuff to parse and resolve.
+            if (linkExp && linkExp.length !== 0) {
+                // we have stuff to parse and resolve
                 let parsedUtterance = helpers.parseLinkURI(utterance.text);
-                if(!path.isAbsolute(parsedUtterance.luFile)) parsedUtterance.luFile = path.resolve(path.dirname(luisModel.srcFile), parsedUtterance.luFile);
+                if (!path.isAbsolute(parsedUtterance.luFile)) parsedUtterance.luFile = path.resolve(path.dirname(luisModel.srcFile), parsedUtterance.luFile);
                 // see if we are in need to pull LUIS or QnA utterances
-                if(parsedUtterance.ref.endsWith('?')) {
-                    if(parsedUtterance.luFile.endsWith('*')) {
+                if (parsedUtterance.ref.endsWith('?')) {
+                    if( parsedUtterance.luFile.endsWith('*')) {
                     let parsedQnABlobs = (allParsedContent.QnAContent || []).filter(item => item.srcFile.includes(parsedUtterance.luFile.replace(/\*/g, '')));
-                    if(parsedQnABlobs === undefined) throw(new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
+                    if(parsedQnABlobs === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
                     parsedQnABlobs.forEach(blob => blob.qnaJsonStructure.qnaList.forEach(item => item.questions.forEach(question => newUtterancesToAdd.push(new hClasses.uttereances(question, utterance.intent)))));
                     } else {
-                        // look for QnA.
+                        // look for QnA
                         let parsedQnABlob = (allParsedContent.QnAContent || []).find(item => item.srcFile == parsedUtterance.luFile);
-                        if(parsedQnABlob === undefined) throw(new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
+                        if(parsedQnABlob === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
                         // get questions list from .lu file and update list
                         parsedQnABlob.qnaJsonStructure.qnaList.forEach(item => item.questions.forEach(question => newUtterancesToAdd.push(new hClasses.uttereances(question, utterance.intent))));
                     }
@@ -366,8 +366,8 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                 } else {
                     // find the parsed file
                     let parsedLUISBlob = (allParsedContent.LUISContent || []).find(item => item.srcFile == parsedUtterance.luFile);
-                    if(parsedLUISBlob === undefined) throw(new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
-                    // get utterance list from reference intent and update list.
+                    if(parsedLUISBlob === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
+                    // get utterance list from reference intent and update list
                     let referenceIntent = parsedUtterance.ref.replace(/-/g, ' ').trim();
                     let utterances = parsedLUISBlob.LUISJsonStructure.utterances.filter(item => item.intent == referenceIntent);
                     (utterances || []).forEach(item => newUtterancesToAdd.push(new hClasses.uttereances(item.text, utterance.intent)));
@@ -376,21 +376,21 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                 }
             }
         });
-        // remove reference utterances from the list. The spliceList needs to be sorted so splice will actually work
+        // remove reference utterances from the list. The spliceList needs to be sorted so splice will actually work.
         spliceList.sort((a,b) => a-b).forEach((item, idx) => luisModel.LUISJsonStructure.utterances.splice((item - idx), 1));
-        // add new utterances to the list.
+        // add new utterances to the list
         newUtterancesToAdd.forEach(item => luisModel.LUISJsonStructure.utterances.push(item));
     });
 }
 /**
- * Helper function to update parsed files based on changes to include in collate
+ * Helper function to update parsed files to include in collate
  * @param {Object} allParsedLUISContent 
  * @param {Object} allParsedQnAContent 
  * @param {Object} allParsedAlterationsContent 
  * @param {Object} file 
  */
 const updateParsedFiles = function(allParsedLUISContent, allParsedQnAContent, allParsedAlterationsContent, file) {
-    // find this and ensure the includeInCollate is set correctly 
+    // find the instance and ensure includeInCollate property is set correctly 
     let matchInLUIS = allParsedLUISContent.find(item => item.srcFile == file.filePath);
     if(matchInLUIS && (matchInLUIS.includeInCollate === false && file.includeInCollate === true)) matchInLUIS.includeInCollate = true;
     let matchInQnA = allParsedQnAContent.find(item => item.srcFile == file.filePath);
