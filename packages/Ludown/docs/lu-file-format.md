@@ -241,12 +241,17 @@ You can add multiple questions to the same answer by simply additing variations 
 ```
 
 ## External references
-Two different references are supported in the .lu file. These follow Markdown link syntax.
+
+Few different references are supported in the .lu file. These follow Markdown link syntax.
 - Reference to another .lu file via `\[link name](\<.lu file name\>)`. Reference can be an absolute path or a relative path from the containing .lu file.
 - Reference to a folder with other .lu files is supported through 
 	- `\[link name](\<.lu file path\>/*)` - will look for .lu files under the specified absolute or relative path
 	- `\[link name](\<.lu file path\>/**)` - will recursively look for .lu files under the specified absolute or relative path including sub-folders.
 - Reference to URL for QnAMaker to ingest during KB creation via `\[link name](\<URL\>)`
+- You can also add references to utterances defined in a specific file under an Intent section or as QnA pairs.
+	- `\[link name](\<.lu file path\>#\<INTENT-NAME\>) will find all utterances found under \<INTENT-NAME\> in the .lu file and add them to the list of untterances where this reference is specified
+	- `\[link name](\<.lu file path\>#?) will find questions from all QnA pairs defined in the .lu file and add them to the list of utterances where this reference is specified.
+	- `\[link name](\<.lu folder\>/*#?) will find all questions from all .lu files in the specified folder and add them to the list of utterances where this reference is specified. 
 
 
 Here's an example of those references: 
@@ -262,6 +267,15 @@ Here's an example of those references:
 > Recursively look for .lu files under a path including sub-folders.
 [Chit chat](../chitchat/resources/**)
 ```
+
+Take a look at these additional example .lu files to learn more about external references.
+
+- [Simple external reference](../examples/luFileReference1.lu)
+- [References with wild cards](../examples/luFileReference2.lu)
+- [Deep reference to an intent](../examples/luFileReference3.lu)
+- [Deep reference to QnA questions](../examples/luFileReference4.lu)
+- [Deep reference to QnA questions with wild card](../examples/luFileReference5.lu)
+
 ## QnAMaker Filters
 Filters in QnA Maker are simple key value pairs that can be used to narrow search results, boost answers and store context. You can add filters using the following notation: 
 ```markdown
