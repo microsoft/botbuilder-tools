@@ -12,7 +12,7 @@ import * as txtfile from 'read-text-file';
 import { uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -53,14 +53,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectAzureArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
+                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectAzureArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
+                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
                 showErrorHelp();
             });
     }
@@ -117,7 +117,7 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(str);
+        console.error(`[msbot] ${str}`);
 
         return '';
     });

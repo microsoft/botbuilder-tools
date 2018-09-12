@@ -9,7 +9,7 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -41,14 +41,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processDisconnectArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
+                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processDisconnectArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
+                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
                 showErrorHelp();
             });
     }
@@ -70,7 +70,7 @@ async function processDisconnectArgs(config: BotConfiguration): Promise<BotConfi
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(str);
+        console.error(`[msbot] ${str}`);
 
         return '';
     });
