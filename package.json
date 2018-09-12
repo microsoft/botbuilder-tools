@@ -46,10 +46,7 @@
             "ecmaVersion": 2017
         },
         "rules": {
-            "indent": [
-                "warn",
-                4
-            ],
+            "indent": "off",
             "linebreak-style": [
                 "warn",
                 "unix"
