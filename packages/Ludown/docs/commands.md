@@ -64,6 +64,7 @@ Convert .lu file(s) into LUIS JSON file. Optionally you can also generate a LUIS
     -i, --luis_versionId <luis_versionId>            [Optional] LUIS app version (default: 0.1)
     -c, --luis_culture <luis_appCulture>             [Optional] LUIS app culture (default: en-us)
     -t, --write_luis_batch_tests                     [Optional] Write out LUIS batch test json file
+    --out <output_file_name>                         [Optional] Output file name for the LUIS model
     --verbose                                        [Optional] Get verbose messages from parser
     -h, --help                                       output usage information
 ```

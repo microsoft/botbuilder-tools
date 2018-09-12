@@ -25,6 +25,7 @@ program
     .option('-i, --luis_versionId <luis_versionId>', '[Optional] LUIS app version', '0.1')
     .option('-c, --luis_culture <luis_appCulture>', '[Optional] LUIS app culture', 'en-us')
     .option('-t, --write_luis_batch_tests', '[Optional] Write out LUIS batch test json file')
+    .option('--out <OutFileName>', '[Optional] Output file name for the LUIS model')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
 
