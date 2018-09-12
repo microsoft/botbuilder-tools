@@ -22,7 +22,7 @@ describe('Package test', async () => {
         for (var includedFolder of includedFolders) {
             let files = await enumFiles.filesRecursively(`../${includedFolder}`);
             for (let file of files) {
-                file = file.replace('..', 'package').replace(/\\/g, "/");
+                file = file.replace('..', `${output_test_folder}\\package`);
                 expectedFiles.push(file);
             }
         }
@@ -30,7 +30,7 @@ describe('Package test', async () => {
         // make package
         let result = await exec('npm pack ..');
         packageName = result.stdout.trim('\n');
-        
+
         await new Promise((resolve, reject) => {
             targz.decompress({ src: packageName, dest: output_test_folder }, function (error) {
                 if (error) {
@@ -38,15 +38,26 @@ describe('Package test', async () => {
                     reject();
                 }
 
-                enumFiles.filesRecursively(output_test_folder).then((files) => {
-                    for (let expectedFile of expectedFiles) {
-                        assert.ok(files.hasOwnProperty(expectedFile), `missing ${expectedFile}`);
-                    }
-                });
-                resolve();
+                enumFiles.filesRecursively(output_test_folder)
+                    .then((packageFiles) => {
+                        for (let expectedFile of expectedFiles) {
+                            let found = false;
+                            for (let packageFile of packageFiles) {
+                                if (packageFile == expectedFile) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            assert.ok(found, `missing ${expectedFile}`);
+                        }
+                        resolve();
+                    })
+                    .catch((reason) => {
+                        reject(reason);
+                    });
             });
         });
-    });
+    }).timeout(15000);
 
     after(function () {
         // runs after all tests in this block
