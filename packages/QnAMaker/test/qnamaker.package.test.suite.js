@@ -2,11 +2,12 @@ const assert = require('assert');
 const fs = require('fs-extra');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
-const tgz = require('tgz');
+const targz = require('targz');
 const enumFiles = require('enum-files');
 
 describe('package test', async () => {
     let packageName = '';
+    let output_test_folder = 'output_test_folder';
     it('package should have all expected files', async () => {
 
         let includedFolders = [
@@ -30,10 +31,17 @@ describe('package test', async () => {
         packageName = result.stdout.trim('\n');
         
         await new Promise((resolve, reject) => {
-            tgz(packageName, (error, files) => {
-                for (let expectedFile of expectedFiles) {
-                    assert.ok(files.hasOwnProperty(expectedFile), `missing ${expectedFile}`);
+            targz.decompress({ src: packageName, dest: output_test_folder }, function (error) {
+                if (error) {
+                    assert.fail(error);
+                    reject();
                 }
+
+                enumFiles.filesRecursively(output_test_folder).then((files) => {
+                    for (let expectedFile of expectedFiles) {
+                        assert.ok(files.hasOwnProperty(expectedFile), `missing ${expectedFile}`);
+                    }
+                });
                 resolve();
             });
         });
@@ -42,6 +50,7 @@ describe('package test', async () => {
     after(function () {
         // runs after all tests in this block
         fs.unlinkSync(packageName);
+        fs.removeSync(output_test_folder);
     });
 });
 
