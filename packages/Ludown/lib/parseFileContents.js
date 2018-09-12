@@ -21,7 +21,7 @@ const qnaAlterations = require('./classes/qnaAlterations');
 const NEWLINE = require('os').EOL;
 const fetch = require('node-fetch');
 const qnaFile = require('../lib/classes/qnaFiles');
-
+const fileToParse = require('../lib/classes/filesToParse');
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
@@ -164,6 +164,7 @@ const parseFileContentsModule = {
     collateQnAFiles : async function(parsedQnAList) {
         let FinalQnAJSON = new qna();
         parsedQnAList.forEach(function(blob) {
+            blob = blob.qnaJsonStructure;
             // does this blob have URLs?
             if(blob.urls.length > 0) {
                 // add this url if this does not already exist in finaljson
@@ -211,9 +212,11 @@ const parseFileContentsModule = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     collateLUISFiles : async function(parsedLUISList) {
-        let FinalLUISJSON = parsedLUISList[0];
+        if(parsedLUISList.length === 0) return undefined;
+        let FinalLUISJSON = parsedLUISList[0].LUISJsonStructure;
         parsedLUISList.splice(0,1);
         parsedLUISList.forEach(function(blob) {
+            blob = blob.LUISJsonStructure;
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.INTENT);
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.ENTITIES);
             mergeResults_closedlists(blob, FinalLUISJSON, LUISObjNameEnum.CLOSEDLISTS);
@@ -225,7 +228,7 @@ const parseFileContentsModule = {
                 blob.prebuiltEntities.forEach(function(prebuiltEntity){
                     let prebuiltTypeExists = false;
                     for(let fIndex in FinalLUISJSON.prebuiltEntities) {
-                        if(prebuiltEntity.type === FinalLUISJSON.prebuiltEntities[fIndex].type) {
+                        if(prebuiltEntity.name === FinalLUISJSON.prebuiltEntities[fIndex].name) {
                             // do we have all the roles? if not, merge the roles
                             prebuiltEntity.roles.forEach(function(role) {
                                 if(!FinalLUISJSON.prebuiltEntities[fIndex].roles.includes(role)) {
@@ -271,6 +274,7 @@ const parseFileContentsModule = {
     collateQnAAlterations : async function(allParsedQnAAlterations) {
         let finalQnAAlterationsList = new qnaAlterations.qnaAlterations();
         allParsedQnAAlterations.forEach(function(alterationList) {
+            alterationList = alterationList.qnaAlterations;
             if(alterationList.wordAlterations) {
                 alterationList.wordAlterations.forEach(function(alteration) {
                     finalQnAAlterationsList.wordAlterations.push(alteration);
@@ -607,6 +611,13 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
                 })
             }
             utterance = utterance.slice(1).trim();
+            // see if this utterance has a reference to LU section
+            let linkExp = (utterance || '').trim().match(new RegExp(/\(.*?\)/g));
+            if(linkExp && linkExp.length !== 0) {
+                let parsedLinkUriInUtterance = helpers.parseLinkURI(utterance);
+                // examine and add these to filestoparse list.
+                parsedContent.additionalFilesToParse.push(new fileToParse(parsedLinkUriInUtterance.luFile, false));
+            }
             // handle entities in the utterance
             if(utterance.includes("{")) {
                 let entityRegex = new RegExp(/\{(.*?)\}/g);
@@ -735,7 +746,7 @@ const parseURLOrFileRef = async function(parsedContent, chunkSplitByLine) {
         }
         
     } else {
-        parsedContent.additionalFilesToParse.push(linkValue);
+        parsedContent.additionalFilesToParse.push(new fileToParse(linkValue));
     }
 }
 /**

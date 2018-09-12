@@ -393,4 +393,38 @@ describe('The example lu files', function() {
             }
         });
     });
+
+    it('Deep references in lu files - intent references are handled correctly', function (done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/ref1.lu --out ref1.json -o ${TEST_ROOT}/output`, () => {
+            try {
+                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/ref1.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/ref1.json')));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('Deep references in lu files - QnA question references are handled correctly', function (done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/ref4.lu --out ref4.json -o ${TEST_ROOT}/output`, () => {
+            try {
+                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/ref4.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/ref4.json')));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('Deep references in lu files - QnA question references when a wildcard is specified is handled correctly', function (done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/ref5.lu --out ref5.json -o ${TEST_ROOT}/output`, () => {
+            try {
+                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/ref5.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/ref5.json')));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
 });

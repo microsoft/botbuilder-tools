@@ -228,7 +228,7 @@
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "root2_luis.json",
+  "name": "root2",
   "desc": "",
   "culture": "en-us"
 }
