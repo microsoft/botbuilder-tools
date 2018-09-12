@@ -4,7 +4,7 @@ const { TestAdapter, TurnContext } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 const nock = require('nock');
 const luisAppId = "6209a76f-e836-413b-ba92-a5772d1b2087";
-const endpointKey = process.env.LUISAPPKEY;
+const endpointKey = process.env.LUISAPPKEY || "MockedKey";
 // If this is false the actual LUIS service will be hit and if there is a difference from
 // the expected oracle, there will be a new oracle files that can be compared.
 // If this is true the http response comes from the oracle file.
@@ -60,7 +60,7 @@ function TestJson(file, done): any {
     if (mockLuis)
     {
         nock('https://westus.api.cognitive.microsoft.com')
-        .get(/apps/)
+        .post(/apps/)
         .reply(200, expected.luisResult);
     }
     var newPath = expectedPath + ".new";
@@ -96,6 +96,10 @@ function CheckApp(app: Contoso_App) {
 }
 
 describe('LUISGen tests', function () {
+    if (!mockLuis && endpointKey == "MockedKey") {
+        console.warn('WARNING: skipping LuisRecognizer test suite because the LUISAPPKEY environment variable is not defined');
+        return;
+    }
     it('Match composite1.json', function (done) {
         TestJson("Composite1.json", function (app: Contoso_App) {
             CheckApp(app);

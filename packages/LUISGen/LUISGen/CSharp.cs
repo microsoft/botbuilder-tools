@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,16 +79,16 @@ namespace {space}
                     switch ((string)type)
                     {
                         case "age":
-                            w.IndentLine($"public Microsoft.Bot.Builder.Ai.Luis.Age[] {realName};");
+                            w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.Age[] {realName};");
                             break;
                         case "dimension":
-                            w.IndentLine($"public Microsoft.Bot.Builder.Ai.Luis.Dimension[] {realName};");
+                            w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.Dimension[] {realName};");
                             break;
                         case "money":
-                            w.IndentLine($"public Microsoft.Bot.Builder.Ai.Luis.Money[] {realName};");
+                            w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.Money[] {realName};");
                             break;
                         case "temperature":
-                            w.IndentLine($"public Microsoft.Bot.Builder.Ai.Luis.Temperature[] {realName};");
+                            w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.Temperature[] {realName};");
                             break;
                         case "number":
                         case "ordinal":
@@ -96,7 +96,7 @@ namespace {space}
                             w.IndentLine($"public double[] {realName};");
                             break;
                         case "datetimeV2":
-                            w.IndentLine($"public Microsoft.Bot.Builder.Ai.Luis.DateTimeSpec[] {realName};");
+                            w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.DateTimeSpec[] {realName};");
                             break;
                         case "list":
                             w.IndentLine($"public string[][] {realName};");
@@ -175,7 +175,7 @@ namespace {space}
                     {
                         var childName = PropertyName(child, app);
                         AddJSonProperty(childName, app, w);
-                        w.IndentLine($"public Microsoft.Bot.Builder.Ai.Luis.InstanceData[] {childName};");
+                        w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.InstanceData[] {childName};");
                     }
                     w.Outdent();
                     w.IndentLine("}");
@@ -204,7 +204,7 @@ namespace {space}
             {
                 var realName = PropertyName(name, app);
                 AddJSonProperty(realName, app, w);
-                w.IndentLine($"public Microsoft.Bot.Builder.Ai.Luis.InstanceData[] {realName};");
+                w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.InstanceData[] {realName};");
             });
             w.Outdent();
             w.IndentLine("}");

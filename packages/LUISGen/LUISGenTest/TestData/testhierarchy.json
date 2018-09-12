@@ -147,22 +147,22 @@
       {
         "entity": "dallas",
         "type": "City::To",
-        "startIndex": 20.0,
-        "endIndex": 25.0,
+        "startIndex": 20,
+        "endIndex": 25,
         "score": 0.9266698
       },
       {
         "entity": "seattle",
         "type": "City::From",
-        "startIndex": 9.0,
-        "endIndex": 15.0,
+        "startIndex": 9,
+        "endIndex": 15,
         "score": 0.990908
       },
       {
         "entity": "3pm",
         "type": "builtin.datetimeV2.time",
-        "startIndex": 30.0,
-        "endIndex": 32.0,
+        "startIndex": 30,
+        "endIndex": 32,
         "resolution": {
           "values": [
             {
@@ -176,8 +176,8 @@
       {
         "entity": "3pm",
         "type": "builtin.dimension",
-        "startIndex": 30.0,
-        "endIndex": 32.0,
+        "startIndex": 30,
+        "endIndex": 32,
         "resolution": {
           "unit": "Picometer",
           "value": "3"

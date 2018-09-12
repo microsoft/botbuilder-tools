@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Bot.Builder.Ai.Luis;
+using Microsoft.Bot.Builder.AI.Luis;
 using Newtonsoft.Json;
 using Microsoft.Bot.Builder;
 using Newtonsoft.Json.Linq;
@@ -22,10 +22,10 @@ namespace LUISGenTest
     {
         private readonly string _luisAppId = TestUtilities.GetKey("LUISAPPID", "ab48996d-abe2-4785-8eff-f18d15fc3560");
         private readonly string _subscriptionKey = TestUtilities.GetKey("LUISAPPKEY", "cc7bbcc0-3715-44f0-b7c9-d8fee333dce1");
-        private readonly string _region = TestUtilities.GetKey("LUISREGION", "westus");
+        private readonly string _endpoint = TestUtilities.GetKey("LUISENDPOINT", "https://westus.api.cognitive.microsoft.com");
         // Changing this to false will cause running against the actual LUIS service.
         // This is useful in order to see if the oracles for mocking or testing have changed.
-        private readonly bool _mock = true;
+        private readonly bool _mock = false;
 
         private bool WithinDelta(JToken token1, JToken token2, double delta, bool compare = false)
         {
@@ -113,7 +113,7 @@ namespace LUISGenTest
                     mockHttp.When(GetRequestUrl()).WithPartialContent(query)
                         .Respond("application/json", mockResponse);
 
-                    var luisRecognizer = GetLuisRecognizer(mockHttp, true, new LuisPredictionOptions { Verbose = true });
+                    var luisRecognizer = GetLuisRecognizer(mockHttp, true, new LuisPredictionOptions { IncludeAllIntents = true });
                     var typedResult = await luisRecognizer.RecognizeAsync<T>(context, CancellationToken.None);
                     var typedJson = Json(typedResult);
 
@@ -175,11 +175,11 @@ namespace LUISGenTest
 
         private IRecognizer GetLuisRecognizer(MockHttpMessageHandler messageHandler, bool verbose = false, LuisPredictionOptions options = null)
         {
-            var luisApp = new LuisApplication(_luisAppId, _subscriptionKey, _region);
+            var luisApp = new LuisApplication(_luisAppId, _subscriptionKey, _endpoint);
             return new LuisRecognizer(luisApp, options, verbose, _mock ? new MockedHttpClientHandler(messageHandler.ToHttpClient()) : null);
         }
 
-        private string GetRequestUrl() => $"https://{_region}.api.cognitive.microsoft.com/luis/v2.0/apps/{_luisAppId}";
+        private string GetRequestUrl() => $"{_endpoint}/luis/v2.0/apps/{_luisAppId}";
 
         // Access the checked-in oracles so that if they are changed you can compare the changes and easily modify them.
         private const string _testData = @"..\..\..\TestData\";

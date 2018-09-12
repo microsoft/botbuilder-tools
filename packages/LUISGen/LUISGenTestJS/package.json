@@ -7,12 +7,12 @@
     "name": "chrimc"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.0",
-    "@types/node": "^6.0.87",
-    "mocha": "^5.1.1"
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^6.0.117",
+    "mocha": "^5.2.0"
   },
   "dependencies": {
-    "botbuilder-ai": "^4.0.0-preview1.2",
+    "botbuilder-ai": "^4.0.0-preview1.1302",
     "fs-extra": "^5.0.0",
     "nock": "^9.6.1"
   },
