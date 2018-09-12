@@ -3,16 +3,17 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
+// tslint:disable:no-object-literal-type-assertion
 import { BotConfiguration, BotService, EndpointService, IBotService, IConnectedService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import * as validurl from 'valid-url';
+import * as url from 'url';
 import { uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -55,14 +56,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectAzureArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
+                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectAzureArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
+                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
                 showErrorHelp();
             });
     }
@@ -75,6 +76,8 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
+    args.serviceName = args.serviceName || args.name || args.id || '';
+    
     if (!args.serviceName || args.serviceName.length === 0) {
         throw new Error('Bad or missing --serviceName');
     }
@@ -106,7 +109,8 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
     });
     config.connectService(service);
     services.push(service);
-    if (!args.endpoint || !(validurl.isHttpUri(args.endpoint) || !validurl.isHttpsUri(args.endpoint))) {
+
+    if (!args.endpoint || !(new url.URL(args.endpoint).protocol.startsWith('http'))) {
         throw new Error('Bad or missing --endpoint');
     }
 
@@ -131,7 +135,7 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(str);
+        console.error(`[msbot] ${str}`);
 
         return '';
     });

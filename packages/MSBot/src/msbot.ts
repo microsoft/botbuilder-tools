@@ -14,14 +14,14 @@ import * as semver from 'semver';
 const pkg: IPackage = require('../package.json');
 const requiredVersion: string = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
-    console.error(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
+    console.error(`[msbot] Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
     process.exit(1);
 }
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
     program.outputHelp((str: string) => {
-        console.error(str);
+        console.error(`[msbot] ${str}`);
 
         return '';
     });
@@ -48,7 +48,7 @@ program
     .command('export', 'export all connected services so that this bot can be cloned');
 
 program
-    .command('clone', 'create a new .bot file and all of its resources based on an exported .recipe file and folder ');
+    .command('clone', 'create a new Azure Group and clone all of the .recipe services into it. ');
 
 program
     .command('connect <service>', 'connect to a resource (Luis/Qna/Azure/...) used by the bot');
@@ -61,9 +61,9 @@ const args: program.Command = program.parse(process.argv);
 // args should be undefined is subcommand is executed
 if (args) {
     const unknownArgs: string[] = process.argv.slice(2);
-    console.error(chalk.default.redBright(`Unknown arguments: ${unknownArgs.join(' ')}`));
+    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${unknownArgs.join(' ')}`));
     program.outputHelp((str: string) => {
-        console.error(str);
+        console.error(`[msbot] ${str}`);
 
         return '';
     });

@@ -223,11 +223,14 @@ async function runProgram() {
                         if (app.error) {
                             throw new Error(app.error);
                         }
-                        let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} (${app.id})? [no] `, { defaultResponse: 'no' });
-                        if (answer.length == 0 || answer[0] != 'y') {
-                            process.stderr.write('delete operation canceled\n');
-                            process.exit(1);
-                            return;
+
+                        if (!args.force) {
+                            let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} (${app.id})? [no] `, { defaultResponse: 'no' });
+                            if (answer.length == 0 || answer[0] != 'y') {
+                                process.stderr.write('delete operation canceled\n');
+                                process.exit(1);
+                                return;
+                            }
                         }
                         result = await client.apps.deleteMethod(args.region, args.appId, args);
                     }
@@ -239,11 +242,13 @@ async function runProgram() {
                         if (app.error) {
                             throw new Error(app.error);
                         }
-                        let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} version ${args.versionId}? [no] `, { defaultResponse: 'no' });
-                        if (answer.length == 0 || answer[0] != 'y') {
-                            process.stderr.write('delete operation canceled\n');
-                            process.exit(1);
-                            return;
+                        if (!args.force) {
+                            let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} version ${args.versionId}? [no] `, { defaultResponse: 'no' });
+                            if (answer.length == 0 || answer[0] != 'y') {
+                                process.stderr.write('delete operation canceled\n');
+                                process.exit(1);
+                                return;
+                            }
                         }
                         result = await client.versions.deleteMethod(args.region, args.appId, args.versionId, args);
                     }
@@ -819,7 +824,7 @@ async function validateArguments(args, operation) {
                         case "update":
                             if (args.hasOwnProperty("public")) {
                                 body = {
-                                    isPublic : args.public === 'true'
+                                    isPublic: args.public === 'true'
                                 };
                             }
                             break;

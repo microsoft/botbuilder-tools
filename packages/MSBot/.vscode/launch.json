@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "node",
             "request": "launch",
@@ -31,6 +32,22 @@
                 "999999",
                 "--colors",
                 "${workspaceFolder}/test/msbot.connect.test.suite.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Package Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}/test",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "msbot.package.test.suite.js"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -155,6 +172,27 @@
                 "2f510b5e-10fe-4f53-9159-b134539ac594",
                 "--version",
                 "1.0"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "msbot connect bot",
+            "program": "${workspaceFolder}/bin/msbot-connect-qna.js",
+            "args": [
+                "-b",
+                "save.bot",
+                "--secret ${secret}",
+                "-n",
+                "QnA",
+                "--hostname",
+                "https://foo.com/qnamaker",
+                "-k",
+                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "--subscriptionKey",
+                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "--endpointKey",
+                "2f510b5e-10fe-4f53-9159-b134539ac594"
             ]
         }
     ]

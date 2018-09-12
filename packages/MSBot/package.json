@@ -42,12 +42,12 @@
     "@types/node": "^10.9.4",
     "@types/opn": "^5.1.0",
     "@types/readline-sync": "^1.4.3",
+    "@types/semver": "^5.5.0",
     "@types/uuid": "^3.4.3",
     "@types/valid-url": "^1.0.2",
-    "@types/semver": "^5.5.0",
-    "mocha": "^5.2.0",
     "enum-files": "^1.1.0",
-    "tgz": "0.0.3"
+    "mocha": "^5.2.0",
+    "targz": "^1.0.1"
   },
   "dependencies": {
     "botframework-config": "^4.0.0-preview1.3.3",
