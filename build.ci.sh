@@ -16,9 +16,9 @@ main() {
             set -e
             npm install
             npm run build
+            npm run coveralls
             npm run eslint
             npm run tslint
-            npm run coveralls
         )
 
     fi
