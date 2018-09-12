@@ -24,6 +24,7 @@ describe('Package test', async () => {
             for (let file of files) {
                 file = file.replace('..', `${output_test_folder}\\package`);
                 expectedFiles.push(file);
+                //console.log(file);
             }
         }
 
@@ -33,7 +34,7 @@ describe('Package test', async () => {
 
         await new Promise((resolve, reject) => {
             targz.decompress({ src: packageName, dest: output_test_folder }, function (error) {
-                if (error) {
+                if (error) { 
                     assert.fail(error);
                     reject();
                 }
