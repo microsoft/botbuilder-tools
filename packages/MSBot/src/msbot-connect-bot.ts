@@ -9,7 +9,7 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import * as validurl from 'valid-url';
+import * as url from 'url';
 import { uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
@@ -76,6 +76,8 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
+    args.serviceName = args.serviceName || args.name || args.id || '';
+    
     if (!args.serviceName || args.serviceName.length === 0) {
         throw new Error('Bad or missing --serviceName');
     }
@@ -107,7 +109,8 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
     });
     config.connectService(service);
     services.push(service);
-    if (!args.endpoint || !(validurl.isHttpUri(args.endpoint) || !validurl.isHttpsUri(args.endpoint))) {
+
+    if (!args.endpoint || !(new url.URL(args.endpoint).protocol.startsWith('http'))) {
         throw new Error('Bad or missing --endpoint');
     }
 
