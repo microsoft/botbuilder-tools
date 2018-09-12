@@ -17,8 +17,8 @@ main() {
             npm install
             npm run build
             npm run coveralls
-            npm run eslint
             npm run tslint
+            npm run eslint
         )
 
     fi
@@ -38,9 +38,10 @@ EOF
 }
 
 function update_version() {
-    pname=$(npm show --json | jq -r '.name')
-    pversion=$(npm view $pname version)
-    npm version --allow-same-version $pversion
+    pname=$(cat package.json | jq -r '.name' | cut -d- -f1)
+    pversion=$(cat package.json | jq -r '.version' | cut -d- -f1)
+    ppatch=$(npm view $pname version | cut -d- -f2)
+    npm version --allow-same-version $pversion-$ppatch
     npm version prerelease
 }
 
