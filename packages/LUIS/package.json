@@ -8,18 +8,17 @@
     "luis": "./bin/luis.js"
   },
   "directories": {
-    "lib": "lib",
+    "bin": "bin",
     "doc": "docs",
-    "test": "test",
     "example": "examples",
-    "bin": "bin"
+    "lib": "lib",
+    "test": "test"
   },
   "files": [
     "bin/",
     "docs/",
-    "lib/",
-    "swagger/",
     "examples/",
+    "lib/",
     "typings/"
   ],
   "scripts": {

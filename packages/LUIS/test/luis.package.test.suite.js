@@ -15,7 +15,6 @@ describe('Package test', async () => {
             'bin',
             'lib',
             'docs',
-            'swagger',
             'typings',
             'examples'
         ];
