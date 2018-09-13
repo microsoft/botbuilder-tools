@@ -62,7 +62,7 @@ describe('LU files...', function() {
     });
 
     it('[LUIS] with references specified via /* are parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/root.lu -o ${TEST_ROOT}/output -n root_luis.json`, () => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/root.lu -o ${TEST_ROOT}/output --out root_luis.json -n root`, () => {
             try {
                 assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/root_luis.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/root_luis.json'))));    
                 done();
@@ -74,7 +74,7 @@ describe('LU files...', function() {
     });
 
     it('[LUIS] with references specified via /** are parsed correctly', function(done) {
-        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/root2.lu -o ${TEST_ROOT}/output -n root2_luis.json`, () => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/root2.lu -o ${TEST_ROOT}/output --out root2_luis.json -n root2`, () => {
             try {
                 assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/root2_luis.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/root2_luis.json'))));    
                 done();

@@ -145,4 +145,54 @@ describe('With helper functions', function() {
             done();
         }
     });
+
+    it('parseLinkURI throws when invalid link definition is found', function(done){
+        let testLu = `[test](https://botframework.com`;
+        try {
+            helpers.parseLinkURI (testLu);
+            done('Test failed: splitFileBySections did not throw!');
+        } catch (err) {
+            done();
+        }
+    });
+
+    it('parseLinkURI throws when invalid link definition is found', function(done){
+        let testLu = `[test](https://botframework.com)`;
+        try {
+            helpers.parseLinkURI (testLu);
+            done('Test failed: splitFileBySections did not throw!');
+        } catch (err) {
+            done();
+        }
+    });
+
+    it('parseLinkURI throws when invalid link definition is found', function(done){
+        let testLu = `[test](./1.lu)`;
+        try {
+            helpers.parseLinkURI (testLu);
+            done('Test failed: splitFileBySections did not throw!');
+        } catch (err) {
+            done();
+        }
+    });
+
+    it('parseLinkURI throws when invalid link definition is found', function(done){
+        let testLu = `[test](./1.lu/*)`;
+        try {
+            helpers.parseLinkURI (testLu);
+            done('Test failed: splitFileBySections did not throw!');
+        } catch (err) {
+            done();
+        }
+    });
+
+    it('parseLinkURI throws when invalid link definition is found', function(done){
+        let testLu = `[test](./1.lu/!)`;
+        try {
+            helpers.parseLinkURI (testLu);
+            done('Test failed: splitFileBySections did not throw!');
+        } catch (err) {
+            done();
+        }
+    });
 });
