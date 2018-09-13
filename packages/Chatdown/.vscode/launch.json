@@ -7,6 +7,15 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/bin/chatdown.js",
+            "args":[
+                "c:/scratch/foo.chat"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Connection Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [

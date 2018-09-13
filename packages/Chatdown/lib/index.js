@@ -312,7 +312,7 @@ async function readCommandsFromAggregate(args, aggregate) {
     // if we have content, then add it
     if (currentActivity.text.length > 0 ||
         (currentActivity.attachments && currentActivity.attachments.length > 0) ||
-        (currentActivity.suggestedActions && currentActivity.suggestedActions.length > 0)) {
+        (currentActivity.suggestedActions && currentActivity.suggestedActions.actions.length > 0)) {
         newActivities.push(currentActivity);
     }
     return newActivities.length ? newActivities : null;
