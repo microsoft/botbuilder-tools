@@ -50,7 +50,7 @@
     "node-fetch": "^2.0.0",
     "read-text-file": "^1.1.0",
     "readline-sync": "^1.4.9",
-    "request": "^2.85.0",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "semver": "^5.5.0",
     "window-size": "^1.1.0"
