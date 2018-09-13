@@ -1,0 +1,63 @@
+{
+  "intents": [
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "How do I change the default message",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "How do I programmatically update my KB?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Who is your ceo?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "get me your ceo info",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Where can I get coffee?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I need coffee",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Where can I get coffee?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I need coffee",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "ref4",
+  "desc": "",
+  "culture": "en-us"
+}

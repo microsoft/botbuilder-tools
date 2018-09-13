@@ -1,0 +1,7 @@
+> References to other files can have wildcards in them
+[en-us](./en-us/*)
+
+> References to other lu files can include sub-folders as well. 
+> /** indicates to the parser to recursively look for .lu files in all subfolders as well.
+> Note: this sample will fail to parse due to negative examples in the examples folder
+[all LU files](../**)

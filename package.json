@@ -2,7 +2,7 @@
     "name": "botbuilder-tools",
     "scripts": {
         "build": "lerna bootstrap && lerna run build",
-        "test": "lerna run test --parallel",
+        "test": "lerna run test",
         "coverage": "nyc npm test",
         "coveralls": "npm run coverage && nyc report --reporter=text-lcov | coveralls",
         "eslint": "eslint --format \"node_modules/eslint-friendly-formatter\" \"./packages/**/*.js\" \"./packages/@(Dispatch|LUIS|LUISGen|QnAMaker)/bin/*\"",
@@ -46,10 +46,7 @@
             "ecmaVersion": 2017
         },
         "rules": {
-            "indent": [
-                "warn",
-                4
-            ],
+            "indent": "off",
             "linebreak-style": [
                 "warn",
                 "unix"
