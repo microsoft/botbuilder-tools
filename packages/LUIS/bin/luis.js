@@ -374,7 +374,15 @@ async function runProgram() {
 
                 case "version":
                     result = await client.versions.importMethod(args.region, args.appId, requestBody, args);
-                    break;
+                    if (args.msbot) {
+                        let version = result.version;
+                        result = await client.apps.get(args.region, args.appId || args.applicationId || config.applicationId, args);
+                        result.version = version;
+                        
+                        // Write output to console and return
+                        writeAppToConsole(config, args, requestBody, result);
+                    }
+                    return;
 
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -606,10 +614,10 @@ function writeAppToConsole(config, args, requestBody, result) {
         process.stdout.write(JSON.stringify({
             type: "luis",
             name: result.name,
-            appId: result.id || result,
-            authoringKey: config.authoringKey,
-            subscriptionKey: config.subscriptionKey || config.authoringKey,
-            version: result.activeVersion || requestBody.initialVersionId,
+            appId: result.id || result.appId,
+            authoringKey: args.authoringKey || config.authoringKey,
+            subscriptionKey: args.subscriptionKey || config.subscriptionKey || config.authoringKey,
+            version: result.activeVersion || requestBody.initialVersionId || requestBody.versionId,
             region: args.region || config.region
         }, null, 2) + "\n");
     }
