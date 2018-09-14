@@ -231,7 +231,7 @@ bot: Hello, can I help you?`;
 
             const activities = await chatdown(conversation, { static: true });
             assert.equal(activities.length, 3);
-            assert.equal(activities[1].timestamp, new Date(new Date(activities[0].timestamp).getTime()+2000).toISOString());
+            assert.equal(activities[1].timestamp, new Date(new Date(activities[0].timestamp).getTime() + 2000).toISOString());
         });
 
         it('support multiline conversationupdate', async () => {
@@ -246,7 +246,7 @@ bot->Joe: Hi Joe!`;
                 .then((result) => {
                     assert.equal(result[0].type, 'conversationUpdate', "wrong type 0");
                     assert.equal(result[1].type, 'conversationUpdate', "wrong type 1");
-                    assert.equal(result[2].type, 'conversationUpdate', "wrong type 2");  
+                    assert.equal(result[2].type, 'conversationUpdate', "wrong type 2");
                     assert.equal(result[0].membersAdded[0].name, 'bot', 'bot should be first');
                     assert.equal(result[1].membersAdded[0].name, 'Joe', 'Joe should be first');
                     assert.equal(result[1].membersAdded[1].name, 'Susan', 'Susan should be second');
@@ -315,5 +315,21 @@ bot:[MediaCard
                 .then((result) => assert.ok(result, "ok"))
                 .catch(() => assert.fail('should not have thrown exception'));
         });
+    });
+
+    it('support suggested Actions', async () => {
+        const conversation = 
+`bot: Hello [Suggestions=option 1|option 2]
+bot:[Suggestions=option 3|option 4]`;
+
+        var result = await chatdown(conversation);
+        assert.equal(result[1].suggestedActions.actions[0].title, 'option 1');
+        assert.equal(result[1].suggestedActions.actions[0].value, 'option 1');
+        assert.equal(result[1].suggestedActions.actions[1].title, 'option 2');
+        assert.equal(result[1].suggestedActions.actions[1].value, 'option 2');
+        assert.equal(result[2].suggestedActions.actions[0].title, 'option 3');
+        assert.equal(result[2].suggestedActions.actions[0].value, 'option 3');
+        assert.equal(result[2].suggestedActions.actions[1].title, 'option 4');
+        assert.equal(result[2].suggestedActions.actions[1].value, 'option 4');
     });
 });
