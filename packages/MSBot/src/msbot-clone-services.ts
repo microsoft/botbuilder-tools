@@ -446,7 +446,7 @@ async function processConfiguration(): Promise<void> {
                         logCommand(args, `Creating LUIS application [${luisAppName}]`, command);
                         p = await exec(command);
                         let luisService = new LuisService(JSON.parse(p.stdout));
-                        luisService.id = resource.id; // keep same resource id
+                        luisService.id = `${resource.id}`; // keep same resource id
                         config.services.push(luisService);
                         await config.save();
 
@@ -464,7 +464,7 @@ async function processConfiguration(): Promise<void> {
                         logCommand(args, `Creating QnA Maker KB [${kbName}]`, command);
                         p = await exec(command);
                         let service = new QnaMakerService(JSON.parse(p.stdout));
-                        service.id = resource.id; // keep id
+                        service.id = `${resource.id}`; // keep id
                         service.name = kbName;
                         config.services.push(service);
                         await config.save();
