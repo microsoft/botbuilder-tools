@@ -62,6 +62,10 @@ program
 program
     .command('disconnect <service>', 'disconnect from a resource used by the bot');
 
+program
+    .command('update <service>', 'update a service record (Luis/Qna/Azure/...) used by the bot');
+
+
 const args: program.Command = program.parse(process.argv);
 
 // args should be undefined is subcommand is executed
