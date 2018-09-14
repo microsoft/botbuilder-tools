@@ -51,7 +51,6 @@ Arguments:
 
 | Option                       | Description                                           |
 |------------------------------|-------------------------------------------------------|
-| --------------------         | ---------------                                       |
 | -n, --name <name>            | name of the bot                                       |
 | -a, --appId <appid>          | Microsoft appId used for auth with the endpoint       |
 | -p, --appPassword <password> | Microsoft appPassword used for auth with the endpoint |
@@ -78,7 +77,6 @@ Where the command is one of the services
 
 | Command     | Description                              |
 |-------------|------------------------------------------|
-| ------      | -----------                              |
 | appinsights | connect to Azure AppInsights             |
 | blob        | connect to Azure Blob storage            |
 | bot         | connect to Azure Bot Service             |
@@ -103,7 +101,6 @@ With the following options
 
 | Option                                        | Description                                               |
 |-----------------------------------------------|-----------------------------------------------------------|
-| ------                                        | -----------                                               |
 | -n, --name <name>                             | friendly name (defaults to serviceName)                   |
 | -t, --tenantId <tenantId>                     | Azure Tenant id (either GUID or xxx.onmicrosoft.com)      |
 | -s, --subscriptionId <subscriptionId>         | Azure Subscription Id                                     |
@@ -128,21 +125,20 @@ msbot connect blob [options]
 
 With the following options
 
-| Option                                        | Description                                               |
-|-----------------------------------------------|-----------------------------------------------------------|
-| --------------------------------------------- | --------------------------------------------------------- |
-| -n, --name <name>                             | friendly name (defaults to serviceName)                   |
-| -t, --tenantId <tenantId>                     | Azure Tenant id (either GUID or xxx.onmicrosoft.com)      |
-| -s, --subscriptionId <subscriptionId>         | Azure Subscription Id                                     |
-| -r, --resourceGroup <resourceGroup>           | Azure resource group name                                 |
-| --serviceName <serviceName>                   | Azure service name                                        |
-| --connectionString <connectionString>         | Blob storage connection string                            |
-| -c, --container <container>                   | blob container name                                       |
-| -b, --bot <path>                              | path to bot file.                                         |
-| --input <jsonfile>                            | path to arguments in JSON format { id:'',name:'', ... }   |
-| --secret <secret>                             | bot file secret password for encrypting service secrets   |
-| --stdin                                       | arguments are passed in as JSON object via stdin          |
-| -h, --help                                    | output usage information                                  |
+| Option                                | Description                                             |
+|---------------------------------------|---------------------------------------------------------|
+| -n, --name <name>                     | friendly name (defaults to serviceName)                 |
+| -t, --tenantId <tenantId>             | Azure Tenant id (either GUID or xxx.onmicrosoft.com)    |
+| -s, --subscriptionId <subscriptionId> | Azure Subscription Id                                   |
+| -r, --resourceGroup <resourceGroup>   | Azure resource group name                               |
+| --serviceName <serviceName>           | Azure service name                                      |
+| --connectionString <connectionString> | Blob storage connection string                          |
+| -c, --container <container>           | blob container name                                     |
+| -b, --bot <path>                      | path to bot file.                                       |
+| --input <jsonfile>                    | path to arguments in JSON format { id:'',name:'', ... } |
+| --secret <secret>                     | bot file secret password for encrypting service secrets |
+| --stdin                               | arguments are passed in as JSON object via stdin        |
+| -h, --help                            | output usage information                                |
 
 ### Connecting to Azure Bot Service  
 
@@ -156,7 +152,6 @@ Options:
 
 | Option                                | Description                                                                 |
 |---------------------------------------|-----------------------------------------------------------------------------|
-| ------                                | -----------                                                                 |
 | --serviceName <serviceName>           | Azure Bot Service bot id                                                    |
 | -n, --name <name>                     | Friendly name for this service (defaults to serviceName)                    |
 | -t, --tenantId <tenantId>             | id of the tenant for the Azure service (either GUID or xxx.onmicrosoft.com) |
@@ -186,22 +181,21 @@ msbot connect cosmosdb [options]
 
 With the following options
 
-| Option                                        | Description                                               |
-|-----------------------------------------------|-----------------------------------------------------------|
-| --------------------------------------------- | --------------------------------------------------------- |
-| -n, --name <name>                             | friendly name (defaults to serviceName)                   |
-| -t, --tenantId <tenantId>                     | Azure Tenant id (either GUID or xxx.onmicrosoft.com)      |
-| -s, --subscriptionId <subscriptionId>         | Azure Subscription Id                                     |
-| -r, --resourceGroup <resourceGroup>           | Azure resource group name                                 |
-| --serviceName <serviceName>                   | Azure service name                                        |
-| --connectionString <connectionString>         | CosmosDB connection string                                |
-| -d, --database <database>                     | CosmosDB database name                                    |
-| -c, --collection <collection>                 | CosmosDB collection name                                  |
-| -b, --bot <path>                              | path to bot file.                                         |
-| --input <jsonfile>                            | path to arguments in JSON format { id:'',name:'', ... }   |
-| --secret <secret>                             | bot file secret password for encrypting service secrets   |
-| --stdin                                       | arguments are passed in as JSON object via stdin          |
-| -h, --help                                    | output usage information                                  |
+| Option                                | Description                                             |
+|---------------------------------------|---------------------------------------------------------|
+| -n, --name <name>                     | friendly name (defaults to serviceName)                 |
+| -t, --tenantId <tenantId>             | Azure Tenant id (either GUID or xxx.onmicrosoft.com)    |
+| -s, --subscriptionId <subscriptionId> | Azure Subscription Id                                   |
+| -r, --resourceGroup <resourceGroup>   | Azure resource group name                               |
+| --serviceName <serviceName>           | Azure service name                                      |
+| --connectionString <connectionString> | CosmosDB connection string                              |
+| -d, --database <database>             | CosmosDB database name                                  |
+| -c, --collection <collection>         | CosmosDB collection name                                |
+| -b, --bot <path>                      | path to bot file.                                       |
+| --input <jsonfile>                    | path to arguments in JSON format { id:'',name:'', ... } |
+| --secret <secret>                     | bot file secret password for encrypting service secrets |
+| --stdin                               | arguments are passed in as JSON object via stdin        |
+| -h, --help                            | output usage information                                |
 
 ### Connecting to a Endpoint Service  
 
@@ -215,7 +209,6 @@ With the following options
 
 | Option                       | Description                                                            |
 |------------------------------|------------------------------------------------------------------------|
-| ---------------------------- | ------------------------------------------------------------           |
 | --secret <secret>            | bot file secret password for encrypting service secrets                |
 | -n, --name <name>            | (Optional) name of the Azure Bot Service                               |
 | -a, --appId  <appid>         | (Optional) Microsoft AppId for the Azure Bot Service                   |
@@ -245,7 +238,6 @@ With the following options:
 
 | Option                              | Description                                                           |
 |-------------------------------------|-----------------------------------------------------------------------|
-| ----------------------------        | ------------------------------------------------------------          |
 | -n, --name <name>                   | name of the LUIS application                                          |
 | -a, --appId  <appid>                | application ID for the LUIS application                               |
 | --version <version>                 | version for the LUIS App, (example: v0.1)                             |
@@ -275,7 +267,6 @@ With the following options:
 
 | Option                              | Description                                                           |
 |-------------------------------------|-----------------------------------------------------------------------|
-| -----------------------------       | ------------------------------------------------------------          |
 | -n, --name <name>                   | name of the QnA knowledge base                                        |
 | -k, --kbId <kbId>                   | QnA knowledge base Id                                                 |
 | --subscriptionKey <subscriptionKey> | sSubscription key for accessing the QnA service                       |
@@ -305,7 +296,6 @@ Options:
 
 | Option                              | Description                                                                        |
 |-------------------------------------|------------------------------------------------------------------------------------|
-| ------                              | -----------                                                                        |
 | -n, --name <name>                   | name for the dispatch                                                              |
 | -a, --appId <appid>                 | LUIS AppId for the dispatch app                                                    |
 | --version <version>                 | version for the dispatch app (example: 0.1)                                        |
@@ -331,12 +321,11 @@ msbot get <serviceNameOrId> [options]
 
 Options:
 
-| Option                        | Description                                                           |
-|-------------------------------|-----------------------------------------------------------------------|
-| ----------------------------- | ------------------------------------------------------------          |
-| -b, --bot <path>              | path to bot file.  If omitted, local folder will look for a .bot file |
-| --secret <secret>             | bot file secret password for encrypting service secrets               |
-| -h, --help                    | output usage information                                              |
+| Option            | Description                                                           |
+|-------------------|-----------------------------------------------------------------------|
+| -b, --bot <path>  | path to bot file.  If omitted, local folder will look for a .bot file |
+| --secret <secret> | bot file secret password for encrypting service secrets               |
+| -h, --help        | output usage information                                              |
 
 If you omit the secret, you will get the configured services with the secrets encrypted.  If you pass the secret password, you will see the secrets decrypted.
 
@@ -350,14 +339,55 @@ msbot list [options]
 
 Options:
 
-| Option                        | Description                                                           |
-|-------------------------------|-----------------------------------------------------------------------|
-| ----------------------------- | ------------------------------------------------------------          |
-| -b, --bot <path>              | path to bot file.  If omitted, local folder will look for a .bot file |
-| --secret <secret>             | bot file secret password for encrypting service secrets               |
-| -h, --help                    | output usage information                                              |
+| Option            | Description                                                           |
+|-------------------|-----------------------------------------------------------------------|
+| -b, --bot <path>  | path to bot file.  If omitted, local folder will look for a .bot file |
+| --secret <secret> | bot file secret password for encrypting service secrets               |
+| -h, --help        | output usage information                                              |
 
 If you omit the secret, you will get the configured services with the secrets encrypted.  If you pass the secret password, you will see the secrets decrypted.
+
+## Updating Service
+To update a service with new information you can use the msbot update set of commands
+
+```shell
+msbot update [serviceType] --[requiredArg] [value]
+```
+
+This allows you to rename a service, update keys, etc.
+
+| ServiceType | Description                          | Required argument |
+|-------------|--------------------------------------|-------------------|
+| appinsights | update Azure AppInsights             | --serviceName     |
+| blob        | update Azure Blob storage            | --serviceName     |
+| cosmosdb    | update Azure CosmosDB                | --serviceName     |
+| dispatch    | update Dispatch model                | --applicationId   |
+| endpoint    | update endpoint                      | --endpoint        |
+| generic     | update generic service configuration | --url             |
+| luis        | update LUIS application              | --applicationId   |
+| qna         | update QNA service                   | --kbId            |
+
+These commands take the same args as the msbot connect <servicetype> commands, but only some properties can be updated.
+For example, you can change the name of a Azure service, but you can't change the serviceName, tenantId or subscriptionId
+as those values are immutable.
+
+The update commands can be used with switches.  Unlike with connect where you are required to pass all switches in only need
+to pass in the unique id for the service and any changed values.
+
+Here is an example with cosmosdb, where the unique required argument is serviceName and we are changing the property collection to "newCollection":
+```shell
+msbot update cosmosdb --serviceName myCosmosDb --collection newCollection
+```
+
+Update commands also support --stdin switch allow you to chain tools together.  In this case we
+are importing a new version of a LUIS application and outputting the service record using **--msbot** flag
+and piping it into the **msbot update luis --stdin** which will find the service record by appId and update
+it with the new values piped in.
+
+```shell
+luis import version --in app.json --versionId 2.1 --msbot | msbot update luis --stdin
+```
+
 
 ## Disconnecting a service
 You can remove a service by using the disconnect command:

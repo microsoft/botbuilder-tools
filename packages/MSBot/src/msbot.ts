@@ -29,7 +29,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 };
 
 program
-.version(pkg.version, '-v, --Version')
+    .version(pkg.version, '-v, --Version')
     .description(`The msbot program makes it easy to manipulate .bot files for Microsoft Bot Framework tools.`);
 
 program
@@ -55,6 +55,10 @@ program
 
 program
     .command('disconnect <service>', 'disconnect from a resource used by the bot');
+
+program
+    .command('update <service>', 'update a service record (Luis/Qna/Azure/...) used by the bot');
+
 
 const args: program.Command = program.parse(process.argv);
 
