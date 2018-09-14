@@ -11,8 +11,12 @@ import * as fsx from 'fs-extra';
 import * as readline from 'readline-sync';
 import * as validurl from 'valid-url';
 
+import { showMessage } from './utils';
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
+
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.help();
 };
 
@@ -33,10 +37,7 @@ program
     .option('-p, --appPassword <password>', 'Microsoft app password used for auth with the endpoint')
     .option('-e, --endpoint <endpoint>', 'local endpoint for the bot')
     .option('--secret', 'generate a secret and encrypt service keys with it')
-    .option('-q, --quiet', 'do not prompt')
-    .action((name: program.Command, x: program.Command) => {
-        console.log(name);
-    });
+    .option('-q, --quiet', 'do not prompt');
 
 const command: program.Command = program.parse(process.argv);
 const args: IInitArgs = <IInitArgs>{};
@@ -96,7 +97,7 @@ if (args.secret) {
 }
 
 if (!args.name) {
-    console.error('[msbot] missing --name argument');
+    console.error('missing --name argument');
 } else {
     const bot: BotConfiguration = new BotConfiguration();
     bot.name = args.name;
