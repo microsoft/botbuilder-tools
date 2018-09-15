@@ -3,10 +3,11 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
-import { AppInsightsService, BlobStorageService, BotConfiguration, BotRecipe, BotService, CosmosDbService, DispatchService, EndpointService, FileService, GenericService, IBlobResource, IBotService, ICosmosDBResource, IDispatchResource, IDispatchService, IEndpointService, IFileResource, IGenericResource, ILuisService, IUrlResource, LuisService, QnaMakerService, ServiceTypes } from 'botframework-config';
+import { AppInsightsService, BlobStorageService, BotConfiguration, BotRecipe, BotService, CosmosDbService, DispatchService, EndpointService, FileService, GenericService, IBlobResource, IBotService, ICosmosDBResource, IDispatchResource, IDispatchService, IEndpointService, IFileResource, IGenericResource, IResource, IUrlResource, LuisService, QnaMakerService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as child_process from 'child_process';
 import * as program from 'commander';
+import * as path from 'path';
 import * as process from 'process';
 import * as txtfile from 'read-text-file';
 import * as url from 'url';
@@ -65,7 +66,11 @@ config.name = args.name;
 config.saveAs(config.name + '.bot')
     .then(processConfiguration)
     .catch((reason) => {
-        console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+        if (reason.message) {
+            console.error(chalk.default.redBright(`[msbot] ${reason.message}`));
+        } else {
+            console.error(chalk.default.redBright(`[msbot] ${reason}`));
+        }
         showErrorHelp();
     });
 
@@ -73,12 +78,20 @@ async function processConfiguration(): Promise<void> {
     if (!args.folder) {
         throw new Error('missing --folder argument');
     }
-    let recipeJson = await txtfile.read(args.folder + `/bot.recipe`);
+
+    if (!args.location) {
+        throw new Error('missing --location argument');
+    }
+
+    let recipeJson = await txtfile.read(path.join(args.folder, `bot.recipe`));
     let recipe = <BotRecipe>JSON.parse(recipeJson);
 
     try {
         let command = null;
         let p = null;
+
+        // verify az command exists and is correct version
+         await checkAzBotServiceVersion();
 
         // get subscription account data
         command = `az account show`;
@@ -416,49 +429,29 @@ async function processConfiguration(): Promise<void> {
 
                 case ServiceTypes.Dispatch:
                     {
+                        let luisService = await importAndTrainLuisApp(resource);
                         let dispatchResource = <IDispatchResource>resource;
-
-                        // import application 
-                        let luisPath = args.folder + '/' + resource.id + '.luis';
-                        let appName = `${args.name}-${resource.name}`;
-                        command = `luis import application --appName ${appName} --in "${luisPath}" --authoringKey ${args.luisAuthoringKey} --msbot`;
-                        logCommand(args, `Creating LUIS Dispatch application [${appName}]`, command);
-                        p = await exec(command);
-                        let luisService = <ILuisService>JSON.parse(p.stdout);
-
                         let dispatchService: IDispatchService = Object.assign({ serviceIds: dispatchResource.serviceIds, }, luisService);
                         (<any>dispatchService).type = ServiceTypes.Dispatch;
                         dispatchService.id = resource.id; // keep same resource id
                         config.services.push(new DispatchService(dispatchService));
                         await config.save();
-
-                        // train luis service
-                        await TrainAndPublishLuisService(luisService);
                     }
                     break;
 
                 case ServiceTypes.Luis:
                     {
-                        // import application 
-                        let luisPath = args.folder + '/' + resource.id + '.luis';
-                        let luisAppName = `${args.name}-${resource.name}`;
-                        command = `luis import application --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`;
-                        logCommand(args, `Creating LUIS application [${luisAppName}]`, command);
-                        p = await exec(command);
-                        let luisService = new LuisService(JSON.parse(p.stdout));
+                        let luisService = await importAndTrainLuisApp(resource);
                         luisService.id = `${resource.id}`; // keep same resource id
                         config.services.push(luisService);
                         await config.save();
-
-                        // train luis service
-                        await TrainAndPublishLuisService(luisService);
                     }
                     break;
 
                 case ServiceTypes.QnA:
                     {
                         // qnamaker create kb --subscriptionKey c87eb99bfc274a4db6b671b43f867575  --name testtesttest --in qna.json --wait --msbot -q
-                        let qnaPath = `${args.folder}/${resource.id}.qna`;
+                        let qnaPath = path.join(args.folder, `${resource.id}.qna`);
                         let kbName = `${args.name}-${resource.name}`;
                         command = `qnamaker create kb --subscriptionKey ${args.qnaSubscriptionKey} --name "${kbName}" --in ${qnaPath} --wait --msbot -q`;
                         logCommand(args, `Creating QnA Maker KB [${kbName}]`, command);
@@ -568,8 +561,43 @@ async function processConfiguration(): Promise<void> {
 
 
 
-async function TrainAndPublishLuisService(luisService: ILuisService) {
-    let command = `luis train version --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --wait `;
+async function checkAzBotServiceVersion() {
+    let command = `az -v `;
+    logCommand(args, `Checking az botservice version`, command);
+    let p = await exec(command);
+    let version = new AzBotServiceVersion('(0.0.0)');
+    let azVersionCount = 0;
+    for (let line of p.stdout.split('\n')) {
+        if (line.startsWith('botservice')) {
+            azVersionCount++;
+            let newVersion = new AzBotServiceVersion(line);
+            if (version.isOlder(newVersion))
+                version = newVersion;
+        }
+    }
+    let neededVersion = new AzBotServiceVersion('(0.4.0)');
+    if (version.isOlder(neededVersion)) {
+        console.error(chalk.default.redBright(`[msbot] You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
+To do this run:
+   az extension remove -n botservice
+   az extension add -n botservice
+`));
+        process.exit(1);
+    }
+    return { command, p };
+}
+
+async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisService> {
+    let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
+    let luisService: LuisService;
+
+    let luisAppName = `${args.name}-${luisResource.name}`;
+    let command = `luis import application --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`;
+    logCommand(args, `Creating and importing LUIS application [${luisAppName}]`, command);
+    let p = await exec(command);
+    luisService = new LuisService(JSON.parse(p.stdout));
+
+    command = `luis train version --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --wait `;
     logCommand(args, `Training LUIS application [${luisService.name}]`, command);
     await spawnAsync(command);
 
@@ -582,6 +610,8 @@ async function TrainAndPublishLuisService(luisService: ILuisService) {
     command = `luis update settings --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --public true`;
     logCommand(args, `Updating LUIS settings [${luisService.name}]`, command);
     await exec(command);
+
+    return luisService;
 }
 
 async function createBot(): Promise<IBotService> {
@@ -636,3 +666,32 @@ function logCommand(args: ICloneArgs, message: string, command: string) {
     }
 }
 
+class AzBotServiceVersion {
+    constructor(version: string) {
+        const versionPattern = /([0-9]+)\.([0-9]+)\.([0-9]+)\)/;
+        const versions = versionPattern.exec(version) || ['0', '0', '0', '0'];
+        this.major = parseInt(versions[1]);
+        this.minor = parseInt(versions[2]);
+        this.patch = parseInt(versions[3]);
+    }
+
+    public major: number;
+    public minor: number;
+    public patch: number;
+
+    public isOlder(version: AzBotServiceVersion): boolean {
+        if (version.major == this.major && version.minor == this.minor && version.patch == this.patch)
+            return false;
+
+        if (version.major >= this.major)
+            return true;
+
+        if (version.minor >= this.minor)
+            return true;
+
+        if (version.patch >= this.patch)
+            return true;
+
+        return false;
+    }
+}
