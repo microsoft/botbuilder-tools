@@ -71,9 +71,9 @@ config.saveAs(config.name + '.bot')
     .then(processConfiguration)
     .catch((reason) => {
         if (reason.message) {
-            console.error(chalk.default.redBright(`[msbot] ${reason.message}`));
+            console.error(chalk.default.redBright(reason.message));
         } else {
-            console.error(chalk.default.redBright(`[msbot] ${reason}`));
+            console.error(chalk.default.redBright(reason));
         }
         showErrorHelp();
     });
