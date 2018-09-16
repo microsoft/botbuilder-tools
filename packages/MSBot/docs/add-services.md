@@ -10,16 +10,16 @@ Where the command is one of the services
 
 | Command                                                 | Description                              |
 |---------------------------------------------------------|------------------------------------------|
-| [appinsights](#Connecting-to-Azure-AppInsights-Service) | connect to Azure AppInsights             |
-| [blob](#Connecting-to-Azure-Blob-Service)               | connect to Azure Blob storage            |
-| [bot](#Connecting-to-Azure-Bot-Service)                 | connect to Azure Bot Service             |
-| [cosmosdb](#Connecting-to-Azure-CosmosDB-Service)       | connect to Azure CosmosDB                |
-| [dispatch](#Connecting-to-Bot-Dispatch)                 | connect to a Dispatch model              |
-| [endpoint](#Connecting-to-a-Endpoint-Service)           | connect to endpoint                      |
-| [file](#Connecting-to-file)                             | connect to file to the bot               |
-| [generic](#Connecting-to-generic-service)               | connect to generic service configuration |
-| [luis](#Connecting-to-LUIS-Application)                 | connect to a LUIS application            |
-| [qna](#Connecting-to-QnA-Maker-Knowledge-base)          | connect to QNA a service                 |
+| [appinsights](#connecting-to-azure-appinsights-service) | connect to Azure AppInsights             |
+| [blob](#connecting-to-azure-blob-service)               | connect to Azure Blob storage            |
+| [bot](#connecting-to-azure-bot-service)                 | connect to Azure Bot Service             |
+| [cosmosdb](#connecting-to-azure-cosmosdb-service)       | connect to Azure CosmosDB                |
+| [dispatch](#connecting-to-bot-dispatch)                 | connect to a Dispatch model              |
+| [endpoint](#connecting-to-a-endpoint-service)           | connect to endpoint                      |
+| [file](#connecting-to-file)                             | connect to file to the bot               |
+| [generic](#connecting-to-generic-service)               | connect to generic service configuration |
+| [luis](#connecting-to-luis-application)                 | connect to a LUIS application            |
+| [qna](#connecting-to-qna-maker-knowledge-base)          | connect to QNA a service                 |
 | help [cmd]                                              | display help for [cmd]                   |
 
 ### Connecting to Azure AppInsights Service 

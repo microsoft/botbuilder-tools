@@ -4,7 +4,7 @@
 
 The MSBot tool is a command line tool to create and manage bot resources described via a .bot file. See [here](./docs/bot-file.md) to learn more about the .bot file. 
 
-Bot Builder tools are designed to work together. Other Bot Builder tools like [LUIS CLI](../../LUIS), [QnA Maker CLI](../../QnAMaker), [Dispatch CLI](../../Dispatch) and the [Bot Framework V4 Emulator](Microsoft/botframework-emulator) are designed to work with the .bot file and the MSBot CLI.
+Bot Builder tools are designed to work together. Other Bot Builder tools like [LUIS CLI](../LUIS), [QnA Maker CLI](../QnAMaker), [Dispatch CLI](../Dispatch) and the [Bot Framework V4 Emulator](https://github.com/microsoft/botframework-emulator) are designed to work with the .bot file and the MSBot CLI.
 
 ## Prerequisite
 
@@ -41,7 +41,7 @@ npm uninstall -g msbot
 
 See [here](./docs/botframework-configuration.md) to learn about consuming the .bot file in your bots built with the [Bot Builder SDK](microsoft/botbuilder). This will enable a seamless end-to-end creating, management and consumption of connected services your bot relies on.
 
-See [here](microsoft/botframework-emulator) to learn more about Bot Framework Emulator V4. Emulator also relies on .bot file and provides rich UI based experience to connect and manage connected services your bot relies on. 
+See [here](https://github.com/microsoft/botframework-emulator) to learn more about Bot Framework Emulator V4. Emulator also relies on .bot file and provides rich UI based experience to connect and manage connected services your bot relies on. 
 
 ## Nightly builds
 
