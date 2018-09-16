@@ -1,33 +1,47 @@
 # Bot Secrets
 
-It is useful for tools like the emulator to have secure access to keys it needs to work with the services that are connected to the bot.  The MSBot tool supports this by allowing you to specify a **secret** which is a password that is used to encrypt/decrypt secure keys in the .bot file.
+It is useful for tools like the emulator to have secure access to keys it needs to work with the services that are connected to the bot.  The MSBot tool supports encrypting keys in your .bot file. When you request the .bot file be encrypted, a secret is generated using AES256 and provided to you. 
 
 Any command which accepts the `--secret` option has data which needs to be encrypted with the secret. 
 This allows you to check in a .bot file into a public repo safely and only need the secret to unlock all of the keys your bot uses.
 
-> NOTE: You should make sure that you use the same secret when adding all of the services.
+**CAUTION::**
+- There are no retrieval mechanisms in place for retrieving a lost secret key. You should use best practices to secure your secret.  **It is strongly encouraged that you DO NOT check it into your source repo or code directly and instead rely on technologies such as Azure Key Vault to securely store it.**
+- You should make sure that you use the same secret when adding all services.
 
+## Encryption life-cycle
+You can use the MSBot secret command to manage the encryption life-cycle. 
 
-# Bot Secrets
+```bash
+>msbot secret -h
+Usage: msbot secret [options]
 
-It is useful for tools like the emulator to have secure access to keys it needs to work with 
-the services that are connected to the bot.  The MSBot tool supports this by allowing you to 
-specify a **secret** which is a password that is used to encrypt/decrypt secure keys in the .bot file.
+Options:
 
-Any command which accepts the `--secret` option has data which needs to be encrypted with the
-secret. This allows you to check in a .bot file into a public repo safely and only need the 
-secret to unlock all of the keys your bot uses.
+  -b, --bot <path>   path to bot file.  If omitted, local folder will look for a .bot file
+  --secret <secret>  secret used to confirm you can do secret operations
+  -c, --clear        clear the secret and store keys unencrypted
+  -n, --new          generate a new secret and store keys encrypted
+  -h, --help         output usage information
+```
 
-> NOTE: You cannot retrieve a secret, and it is being used to secure all of your sensitive information.  
-> You should use best practices to secure your secret.  *It is strongly encouraged that you DO NOT check 
-> it into your source repo or code directly and instead rely on technologies such as Azure Key Vault to securely store it. **
-
-## Encrypting a bot file with a new secret
-You can switch to encrypting your file by using the msbot secret command with the --new switch.
+## Encrypt a .bot file
+To encrypt an unencrypted bot file, use
 
 ```shell
-msbot secret -b my.bot --new
+msbot secret --new
 ```
+
+**NOTE::** This command will generate a new encryption key and output it to the console window. Please store this key securely.
+
+Example:
+```bash
+Your bot is encrypted with secret:
+hWZp+rv5E+k4dqimok20Vh84M2tpvUcDfbOvZA27Cbk=
+
+Please save this secret in a secure place to keep your keys safe.
+```
+
 This will encrypt all sensitive data and give you a new key which you can use with --secret switch to access the data again.
 
 ## Getting a new secret (rolling)

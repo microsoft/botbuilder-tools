@@ -1,5 +1,3 @@
-
-
 ## Updating Service
 To update a service with new information you can use the msbot update set of commands
 

@@ -1,5 +1,3 @@
-
-
 ## Disconnecting a service
 You can remove a service by using the disconnect command:
 

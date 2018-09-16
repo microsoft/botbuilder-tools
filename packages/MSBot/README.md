@@ -6,11 +6,11 @@ The MSBot tool is a command line tool to create and manage bot resources describ
 
 Bot Builder tools are designed to work together. Other Bot Builder tools like [LUIS CLI](../../LUIS), [QnA Maker CLI](../../QnAMaker), [Dispatch CLI](../../Dispatch) and the [Bot Framework V4 Emulator](Microsoft/botframework-emulator) are designed to work with the .bot file and the MSBot CLI.
 
-# Prerequisite
+## Prerequisite
 
 - [Node.js](https://nodejs.org/) version 8.5 or higher
 
-# Installation
+## Installation
 
 To install using npm:
 
@@ -26,7 +26,7 @@ To uninstall using npm:
 npm uninstall -g msbot
 ```
 
-# MSBot functionality
+## MSBot functionality
 - [Create](./docs/create-bot.md) a .bot file
 - [Encrypting keys](./docs/bot-file-encryption.md) in .bot file
 - [Add services](./docs/add-services.md) to .bot file
@@ -43,7 +43,7 @@ See [here](./docs/botframework-configuration.md) to learn about consuming the .b
 
 See [here](microsoft/botframework-emulator) to learn more about Bot Framework Emulator V4. Emulator also relies on .bot file and provides rich UI based experience to connect and manage connected services your bot relies on. 
 
-# Nightly builds
+## Nightly builds
 
 Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
 
@@ -61,3 +61,4 @@ npm i -g msbot
 To reset registry:
 ```shell
 npm config set registry https://registry.npmjs.org/
+```

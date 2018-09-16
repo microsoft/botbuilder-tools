@@ -8,19 +8,19 @@ msbot connect [command]
 
 Where the command is one of the services
 
-| Command     | Description                              |
-|-------------|------------------------------------------|
-| appinsights | connect to Azure AppInsights             |
-| blob        | connect to Azure Blob storage            |
-| bot         | connect to Azure Bot Service             |
-| cosmosdb    | connect to Azure CosmosDB                |
-| dispatch    | connect to a Dispatch model              |
-| endpoint    | connect to endpoint                      |
-| file        | connect to file to the bot               |
-| generic     | connect to generic service configuration |
-| luis        | connect to a LUIS application            |
-| qna         | connect to QNA a service                 |
-| help [cmd]  | display help for [cmd]                   |
+| Command                                                 | Description                              |
+|---------------------------------------------------------|------------------------------------------|
+| [appinsights](#Connecting-to-Azure-AppInsights-Service) | connect to Azure AppInsights             |
+| [blob](#Connecting-to-Azure-Blob-Service)               | connect to Azure Blob storage            |
+| [bot](#Connecting-to-Azure-Bot-Service)                 | connect to Azure Bot Service             |
+| [cosmosdb](#Connecting-to-Azure-CosmosDB-Service)       | connect to Azure CosmosDB                |
+| [dispatch](#Connecting-to-Bot-Dispatch)                 | connect to a Dispatch model              |
+| [endpoint](#Connecting-to-a-Endpoint-Service)           | connect to endpoint                      |
+| [file](#Connecting-to-file)                             | connect to file to the bot               |
+| [generic](#Connecting-to-generic-service)               | connect to generic service configuration |
+| [luis](#Connecting-to-LUIS-Application)                 | connect to a LUIS application            |
+| [qna](#Connecting-to-QnA-Maker-Knowledge-base)          | connect to QNA a service                 |
+| help [cmd]                                              | display help for [cmd]                   |
 
 ### Connecting to Azure AppInsights Service 
 
@@ -157,8 +157,6 @@ An example:
 ```shell
 msbot connect endpoint --name "Debug TestBot" --appId "562789d2-a344-445c-b4b1-41e8583f9f72" --appPassword 1abHDN3421342 --endpoint http://localhost:9090/api/messages
 ```
-
-
 ### Connecting to LUIS Application
 
 To connect your bot to a LUIS application:
@@ -243,3 +241,44 @@ Here is an example invocation:
 ```shell
 msbot connect dispatch --input my.dispatch
 ```
+
+### Connecting to file
+
+To connect your bot to a file: 
+
+```bash
+msbot connect file [options]
+```
+
+Options:
+
+| Option                              | Description                                                                        |
+|-------------------------------------|------------------------------------------------------------------------------------|
+| -n, --name <name>                   | name of the file service                                                           |
+| -f, --file <file>                   | path to file to connect to                                                         |
+| -p, --path <path>                   | path to file to connect to                                                         |
+| -b, --bot <bot>                     | path to bot file.  If omitted, local folder will look for a .bot file              |
+| --secret <secret>                   | bot file secret password for encrypting service secrets                            |
+| -h, --help                          | output usage information                                                           |
+
+
+### Connecting to generic service
+
+To connect your bot to a generic service with key value pairs: 
+
+```bash
+msbot connect generic [options]
+```
+
+Options:
+
+| Option                              | Description                                                                        |
+|-------------------------------------|------------------------------------------------------------------------------------|
+| -n, --name <name>                   | name of the service                                                                |
+| -u, --url <url>                     | deep link url for the service                                                      |
+| --keys <keys>                       | serialized json key/value configuration for the service                            |
+| -b, --bot <bot>                     | path to bot file.  If omitted, local folder will look for a .bot file              |
+| --input <jsonfile>                  | path to arguments in JSON format { id:'',name:'', ... }                            |
+| --stdin                             | arguments are passed in as JSON object via stdin                                   |
+| --secret <secret>                   | bot file secret password for encrypting service secrets                            |
+| -h, --help                          | output usage information                                                           |
