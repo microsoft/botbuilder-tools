@@ -5,7 +5,8 @@ let fs = require('fs');
 let exec = util.promisify(require('child_process').exec);
 const msbot = require.resolve('../bin/msbot.js');
 
-describe("msbot connection tests", () => {
+describe("msbot update tests", () => {
+    afterEach(() => fs.unlinkSync("save.bot"));
 
     it("msbot update appinsights", async () => {
         let bot = new bf.BotConfiguration();
@@ -29,7 +30,6 @@ describe("msbot connection tests", () => {
         let p = await exec(command);
 
         let config = await bf.BotConfiguration.load("save.bot");
-        fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
         assert.equal(config.services[0].type, "appInsights", "type is wrong");
@@ -42,6 +42,15 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[0].instrumentationKey, "00000000-0000-0000-0000-000000000003", "instrumentationKey missing");
         assert.equal(config.services[0].applicationId, "00000000-0000-0000-0000-000000000001", "applicationId missing");
         assert.equal(config.services[0].apiKeys.key1, 'value1', "key not set");
+
+        command = `node ${msbot} update appinsights `;
+        command += `-b save.bot `;
+        command += `--id ${config.services[0].id} `;
+        command += `--name test3`;
+        p = await exec(command);
+
+        config = await bf.BotConfiguration.load("save.bot");
+        assert.equal(config.services[0].name, "test3", "name is wrong");
     });
 
     it("msbot update blob", async () => {
@@ -58,7 +67,6 @@ describe("msbot connection tests", () => {
         p = await exec(command);
 
         let config = await bf.BotConfiguration.load("save.bot");
-        fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
         assert.equal(config.services[0].type, "blob", "type is wrong");
@@ -86,7 +94,6 @@ describe("msbot connection tests", () => {
         p = await exec(command);
 
         let config = await bf.BotConfiguration.load("save.bot");
-        fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
         assert.equal(config.services[0].type, "cosmosdb", "type is wrong");
@@ -100,6 +107,15 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[0].key, "testKey", "key is missing");
         assert.equal(config.services[0].database, "testDatbase2", "database missing");
         assert.equal(config.services[0].collection, "testCollection", "collection missing");
+
+        command = `node ${msbot} update cosmosdb `;
+        command += `-b save.bot `;
+        command += `--id ${config.services[0].id} `;
+        command += `--database testDatbase3`;
+        p = await exec(command);
+
+        config = await bf.BotConfiguration.load("save.bot");
+        assert.equal(config.services[0].database, "testDatbase3", "database missing");
     });
 
 
@@ -121,7 +137,6 @@ describe("msbot connection tests", () => {
         p = await exec(command);
 
         let config = await bf.BotConfiguration.load("save.bot");
-        fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 2, "service is not saved");
         assert.equal(config.services[0].type, "luis", "type is wrong");
@@ -139,6 +154,15 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[1].version, 1.0, "dispatch version is wrong");
         assert.equal(config.services[1].serviceIds.length, 1, "dispatch serviceIds is wrong");
         assert.equal(config.services[1].serviceIds[0], result.id, "dispatch serviceIds[0] is wrong");
+
+        command = `node ${msbot} update dispatch `;
+        command += `-b save.bot `;
+        command += `--id ${config.services[1].id}  `;
+        command += `--name Dispatch3`;
+        p = await exec(command);
+
+        config = await bf.BotConfiguration.load("save.bot");
+        assert.equal(config.services[1].name, "Dispatch3", "dispatch name is wrong");
     });
 
     it("msbot update luis", async () => {
@@ -156,7 +180,6 @@ describe("msbot connection tests", () => {
         p = await exec(command);
 
         let config = await bf.BotConfiguration.load("save.bot");
-        fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
         assert.equal(config.services[0].type, "luis", "type is wrong");
@@ -166,6 +189,15 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[0].subscriptionKey, "0000000f-1000-0000-0000-000000000002", "subscriptionKey is wrong")
         assert.equal(config.services[0].authoringKey, "2f510b5e-10fe-4f53-9159-b134539ac594", "authoringKey is wrong")
         assert.equal(config.services[0].version, 1.0, "version is wrong")
+
+        command = `node ${msbot} update luis `;
+        command += `-b save.bot `;
+        command += `--id ${config.services[0].id}  `;
+        command += `--subscriptionKey 0000000f-1000-0000-0000-000000000003        `;
+        p = await exec(command);
+
+        config = await bf.BotConfiguration.load("save.bot");
+        assert.equal(config.services[0].subscriptionKey, "0000000f-1000-0000-0000-000000000003", "subscriptionKey is wrong")
     });
 
     it("msbot update endpoint", async () => {
@@ -184,7 +216,6 @@ describe("msbot connection tests", () => {
         p = await exec(command);
 
         let config = await bf.BotConfiguration.load("save.bot");
-        fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
         assert.equal(config.services[0].type, "endpoint", "type is wrong");
@@ -192,6 +223,15 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[0].appId, "2f510b5e-10fe-4f53-9159-b134539ac594", "appId is wrong")
         assert.equal(config.services[0].appPassword, "thisIsNew", "appPassword is wrong")
         assert.equal(config.services[0].endpoint, "https://foo.com/api/messages", "endpoint is wrong")
+
+        command = `node ${msbot} update endpoint `;
+        command += `-b save.bot `;
+        command += `--id ${config.services[0].id} `;
+        command += `--appPassword thisIsNew2`;
+        p = await exec(command);
+
+        config = await bf.BotConfiguration.load("save.bot");
+        assert.equal(config.services[0].appPassword, "thisIsNew2", "appPassword is wrong")
     });
 
     it("msbot update generic", async () => {
@@ -215,7 +255,6 @@ describe("msbot connection tests", () => {
         p = await exec(command);
 
         let config = await bf.BotConfiguration.load("save.bot");
-        fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
         assert.equal(config.services[0].type, "generic", "type is wrong");
@@ -223,6 +262,15 @@ describe("msbot connection tests", () => {
         assert.ok(config.services[0].id.length > 0, "id is wrong");
         assert.equal(config.services[0].url, "https://bing.com", "url missing");
         assert.equal(config.services[0].configuration.key1, "value2", "missing configuration");
+
+        command = `node ${msbot} update generic `;
+        command += `-b save.bot `;
+        command += `--id ${config.services[0].id} `;
+        command += `--keys "{\\"key1\\":\\"value3\\"}" `;
+        p = await exec(command);
+
+        config = await bf.BotConfiguration.load("save.bot");
+        assert.equal(config.services[0].configuration.key1, "value3", "missing configuration");
     });
 
     it("msbot update qna", async () => {
@@ -241,7 +289,6 @@ describe("msbot connection tests", () => {
         p = await exec(command);
 
         let config = await bf.BotConfiguration.load("save.bot");
-        fs.unlinkSync("save.bot");
 
         assert.equal(config.services.length, 1, "service is not saved");
         assert.equal(config.services[0].type, "qna", "type is wrong");
@@ -250,6 +297,15 @@ describe("msbot connection tests", () => {
         assert.equal(config.services[0].subscriptionKey, "2f510b5e-10fe-4f53-9159-b134539ac594", "subscriptionKey is wrong")
         assert.equal(config.services[0].endpointKey, "20000000-0000-0000-0000-000000020001", "endpointKey is wrong")
         assert.equal(config.services[0].hostname, "https://foo.com/qnamaker", "hostname is wrong")
+
+        command = `node ${msbot} update qna `;
+        command += `-b save.bot `;
+        command += `--id ${config.services[0].id} `;
+        command += `--endpointKey 20000000-0000-0000-0000-000000020002 `;
+        p = await exec(command);
+
+        config = await bf.BotConfiguration.load("save.bot");
+        assert.equal(config.services[0].endpointKey, "20000000-0000-0000-0000-000000020002", "endpointKey is wrong")
     });
 
 });
