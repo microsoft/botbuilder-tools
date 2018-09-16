@@ -47,3 +47,23 @@ The variable will be strongly typed LUIS result.
     `recognizer.recognize(context).then(app : APPNAME => {});`
 
 The callback value app will be a strongly typed LUIS result.
+
+## Nightly builds
+
+Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
+
+You can get the latest nightly build of MSBot from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+
+```shell
+npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+```
+
+Install using npm:
+```shell
+npm i -g luisgen
+```
+
+To reset registry:
+```shell
+npm config set registry https://registry.npmjs.org/
+```

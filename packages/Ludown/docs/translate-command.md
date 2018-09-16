@@ -11,7 +11,7 @@ You can learn more about language x locale support for [LUIS.ai](https://www.lui
 With the ludown translate command you can translate: 
 - An .lu file and optionally translate
     - Comments in the lu file
-    - LU and QnA refrence link texts
+    - LU and QnA reference link texts
 - List of .lu files under a specific path.
 
 When translating .lu file, 
@@ -42,7 +42,7 @@ When translating .lu file,
 ```
 
 ## Getting keys
-Ludown translate expects a Machine tranlsation subscription key. You can obtain one [here](https://aka.ms/translate-key)
+Ludown translate expects a Machine translation subscription key. You can obtain one [here](https://aka.ms/translate-key)
 
 ## Generating LUIS models from translated lu files
 You can follow instructions [here](https://aka.ms/translate-langs) to create LUIS models from lu files using ludown translate command. 
