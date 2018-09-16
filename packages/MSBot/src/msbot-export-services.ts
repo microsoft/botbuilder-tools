@@ -9,6 +9,10 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
 
+import { showMessage } from './utils';
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
+
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.help();
@@ -64,10 +68,10 @@ async function processConfiguration(config: BotConfiguration): Promise<void> {
                 if (!args.quiet) {
                     const output: string = `exporting ${chalk.default.bold(service.name)} [${service.type}] (${index}/${total})`;
                     if (args.verbose) {
-                        console.warn(chalk.default.bold(`[msbot] ${output}`));
-                        console.log(chalk.default.italic(`[msbot] ${newCommand}\n`));
+                        console.warn(chalk.default.bold(output));
+                        console.log(chalk.default.italic(`${newCommand}\n`));
                     } else {
-                        console.warn(`[msbot] ${output}`);
+                        console.warn(output);
                     }
                 }
             }

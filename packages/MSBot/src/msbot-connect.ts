@@ -6,8 +6,12 @@
 import * as chalk from 'chalk';
 import * as program from 'commander';
 
+import { showMessage } from './utils';
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
+
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -29,13 +33,13 @@ const args: program.Command = program.parse(process.argv);
 // args should be undefined is subcommand is executed
 if (args) {
     const a: string[] = process.argv.slice(2);
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${a.join(' ')}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${a.join(' ')}`));
     showErrorHelp();
 }
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(`[msbot] ${str}`);
+        console.error(str);
 
         return '';
     });
