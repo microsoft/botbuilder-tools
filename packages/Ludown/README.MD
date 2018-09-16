@@ -30,6 +30,16 @@ Checkout the [examples](examples) folder for example .lu files.
 
 Also see the [here](ChitChat) to add Small talk/ chit-chat capabilities to your bot.
 
+## Docs
+- [Ludown commands](docs/commands.md)
+- [.lu File Format](docs/lu-file-format.md)
+- [Creating LUIS JSON model file](docs/create-luis-json.md)
+- [Creating QnA Maker KB model file](docs/create-qna-json.md)
+- [Recreating .lu files with Refresh command](docs/refresh-command.md)
+- [Machine translating .lu files](docs/translate-command.md)
+- [Adding small talk/ chit-chat capabilities to your bot](ChitChat/README.MD)
+- [Ludown as a library](docs/ludown-library.md)
+
 ## Use ludown as a library
 Ludown can be used within a Node.js application as an imported library. Install locally:
 
@@ -66,16 +76,6 @@ ludown.parser.parseFile(luContent1, log, locale)
 
 ```
 Check out the full reference [here](docs/ludown-library.md)
-
-## Docs
-- [Ludown commands](docs/commands.md)
-- [.lu File Format](docs/lu-file-format.md)
-- [Creating LUIS JSON model file](docs/create-luis-json.md)
-- [Creating QnA Maker KB model file](docs/create-qna-json.md)
-- [Recreating .lu files with Refresh command](docs/refresh-command.md)
-- [Machine translating .lu files](docs/translate-command.md)
-- [Adding small talk/ chit-chat capabilities to your bot](ChitChat/README.MD)
-- [Ludown as a library](docs/ludown-library.md)
 
 ## CLI return codes
 This CLI writes to stderr on error and stdout otherwise. CLI also returns the following codes based on the outcome of parsing.
