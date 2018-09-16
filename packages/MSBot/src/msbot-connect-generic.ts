@@ -7,8 +7,8 @@
 import { BotConfiguration, GenericService, IGenericService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-
 import { showMessage } from './utils';
+
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -36,11 +36,7 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((filePath: program.Command, actions: program.Command) => {
-        if (filePath) {
-            actions.filePath = filePath;
-        }
-    });
+    .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
 const args: IConnectGenericArgs = <IConnectGenericArgs>{};

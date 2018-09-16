@@ -31,9 +31,7 @@ program
     .option('--secret <secret>', 'secret used to confirm you can do secret operations')
     .option('-c, --clear', 'clear the secret and store keys unencrypted')
     .option('-n, --new', 'generate a new secret and store keys encrypted')
-    .action((name: program.Command, x: program.Command) => {
-        console.log(name);
-    });
+    .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
 const args: ISecretArgs = <ISecretArgs>{};

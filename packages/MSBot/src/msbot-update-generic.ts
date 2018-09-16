@@ -37,11 +37,7 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((filePath: program.Command, actions: program.Command) => {
-        if (filePath) {
-            actions.filePath = filePath;
-        }
-    });
+    .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
 const args: IGenericArgs = <IGenericArgs>{};
