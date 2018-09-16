@@ -1,5 +1,5 @@
 # Bot Builder tools [![Build Status](https://travis-ci.org/Microsoft/botbuilder-tools.svg?branch=master)](https://travis-ci.org/Microsoft/botbuilder-tools) [![Coverage Status](https://coveralls.io/repos/github/Microsoft/botbuilder-tools/badge.svg?branch=master)](https://coveralls.io/github/Microsoft/botbuilder-tools?branch=master) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
-Bot Builder tools are designed to cover end-to-end bot development workflow and include the following tools - 
+Bot Builder tools is a collection of cross-platform command line tools designed to cover end-to-end bot development workflow.
 
 |   | Tool | Description |
 |---|------|--------------|
@@ -60,23 +60,6 @@ This repository uses [lerna](https://github.com/lerna/lerna) to manage the packa
 
 To use lerna, install it as a global package with `npm install lerna --global`.
 
-## Nightly builds
-For bleeding edge versions, you can use the nightly feed available via [MyGet](https://botbuilder.myget.org). To connect to the tools feed, 
-
-```bash
-> npm configure set registry https://botbuilder.myget.org/gallery/botbuilder-tools-daily
-```
-
-Then install the tools via
-```bash
-> npm i -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
-```
-
-To reset the registry,
-```bash
-> npm configure set registry https://registry.npmjs.org/
-```
-
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
@@ -99,3 +82,23 @@ Security issues and bugs should be reported privately, via email, to the Microso
 Copyright (c) Microsoft Corporation. All rights reserved.
 
 Licensed under the [MIT](LICENSE) License.
+
+## Nightly builds
+
+Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
+
+You can get the latest nightly build of MSBot from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+
+```shell
+npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+```
+
+Install using npm:
+```shell
+npm i -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
+```
+
+To reset registry:
+```shell
+npm config set registry https://registry.npmjs.org/
+```
