@@ -15,8 +15,12 @@ import { spawnAsync } from './processUtils';
 let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
+import { showMessage } from './utils';
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
+
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.help();
 };
 
@@ -56,7 +60,7 @@ const args = <ICloneArgs>{};
 Object.assign(args, command);
 
 if (typeof (args.name) != 'string') {
-    console.error(chalk.default.redBright('[msbot] missing --name argument'));
+    console.error(chalk.default.redBright('missing --name argument'));
     showErrorHelp();
 }
 
@@ -65,7 +69,7 @@ config.name = args.name;
 config.saveAs(config.name + '.bot')
     .then(processConfiguration)
     .catch((reason) => {
-        console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+        console.error(chalk.default.redBright(`${reason.toString().split('\n')[0]}`));
         showErrorHelp();
     });
 
@@ -92,7 +96,7 @@ async function processConfiguration(): Promise<void> {
         args.subscriptionId = azAccount.id;
         args.tenantId = azAccount.tenantId;
         if (!args.quiet) {
-            console.log(`[msbot] Creating resources in subscription: ${azAccount.name} ${azAccount.id}`);
+            console.log(`Creating resources in subscription: ${azAccount.name} ${azAccount.id}`);
         }
 
         // create group
@@ -551,8 +555,8 @@ async function processConfiguration(): Promise<void> {
                 await config.save();
             }
         }
-        console.log(`[msbot] ${config.getPath()} created.`);
-        console.log(`[msbot] Done cloning.`);
+        console.log(`${config.getPath()} created.`);
+        console.log(`Done cloning.`);
     } catch (error) {
         let lines = error.message.split('\n');
         let message = '';
@@ -619,9 +623,9 @@ function showErrorHelp() {
         console.error(str);
         return '';
     });
-    console.log(chalk.default.bold(`[msbot] NOTE: You did not complete clone process.`));
+    console.log(chalk.default.bold(`NOTE: You did not complete clone process.`));
     if (typeof (args.name) == 'string') {
-        console.log(`[msbot] To delete the group and resources run:`);
+        console.log('To delete the group and resources run:');
         console.log(chalk.default.italic(`az group delete -g ${args.name} --no-wait`));
     }
     process.exit(1);
@@ -629,9 +633,9 @@ function showErrorHelp() {
 
 function logCommand(args: ICloneArgs, message: string, command: string) {
     if (!args.quiet) {
-        console.log(chalk.default.bold(`[msbot] ${message}`));
+        console.log(chalk.default.bold(message));
         if (args.verbose) {
-            console.log(chalk.default.italic(`[msbot] ${command}`));
+            console.log(chalk.default.italic(command));
         }
     }
 }
