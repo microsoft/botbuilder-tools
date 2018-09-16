@@ -23,7 +23,7 @@ msbot get <LUIS-SERVICE-NAME-OR-ID> [--secret <YOUR-SECRET>] | luis <COMMAND> --
 msbot get <LUIS-SERVICE-NAME-OR-ID> [--secret <YOUR-SECRET>] | luis import version --in <new_application.json> --stdin
 ```
 
-### Train and pulish LUIS application version using LUIS configuration in .bot file
+### Train and publish LUIS application version using LUIS configuration in .bot file
 ```bash
 > msbot get <LUIS-SERVICE-NAME-OR-ID> [--secret <YOUR-SECRET>] | luis train version [--wait] --stdin
 

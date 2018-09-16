@@ -16,7 +16,7 @@ msbot get <QnA-SERVICE-NAME-OR-ID> [--secret <YOUR-SECRET>] | qnamaker <COMMAND>
 msbot get <QnA-SERVICE-NAME-OR-ID> [--secret <YOUR-SECRET>] | qnamaker replace kb --in <new_KB.json> --stdin
 ```
 
-### Train and pulish QnA Maker KB
+### Train and publish QnA Maker KB
 ```
 msbot get <QnA-SERVICE-NAME-OR-ID> [--secret <YOUR-SECRET>] | qnamaker publish kb --stdin
 ```

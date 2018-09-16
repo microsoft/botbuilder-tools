@@ -26,7 +26,7 @@ Options:
 ```
 
 ## Encrypt a .bot file
-To encrypt an unencrypted bot file, use
+To encrypt an decrypted bot file, use
 
 ```shell
 msbot secret --new
@@ -60,5 +60,5 @@ You can stop using encryption by passing in the secret with a --clear flag.
 ```shell
 msbot secret -b my.bot --secret OLDSECRET --clear
 ```
-This will leave your file unencrypted and the old secret will not be used anymore.
+This will leave your file decrypted and the old secret will not be used anymore.
 
