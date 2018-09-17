@@ -43,6 +43,7 @@ Arguments:
 | --luisAuthoringKey    | (optional) LUIS authoring key     |
 | --luisAuthoringRegion | (optional) LUIS authoring region  |
 | -b, --bot             | (optional) .bot file path         |
+| -s, --secret          | (optional) .bot file secret       |
 | -c, --culture         | (optional) Used to set LUIS app culture for dispatch. Required if none of dispatch source(s) is LUIS app. |
 | --hierarchical        | (optional) Default to true.  If false, existing intents from source LUIS model(s) will be available as the dispatch intents. |
 | --dataFolder          | (optional) Dispatch working directory |
@@ -125,13 +126,16 @@ To create, train and publish your new dispatch model:
 
 ```shell
 dispatch create [options]
+dispatch create --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
+
 ```
 
 Options:
 
 | Option               | Description                                                  |
 | ----------------     | ------------------------------------------------------------ |
-| -b, --bot            | (optional) .bot file path         |
+| -b, --bot            | (optional) .bot file path          |
+| -s, --secret         | (optional) .bot file secret        |
 | -c, --culture        | (optional) Used to set LUIS app culture for dispatch. Required if none of dispatch source(s) is LUIS app. |
 | --dispatch           | (optional) .dispatch file path    |
 | --dataFolder         | (optional) Dispatch working directory |
@@ -146,6 +150,7 @@ To train and publish your existing dispatch model after modification:
 
 ```shell
 dispatch refresh [options]
+dispatch refresh --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
 ```
 
 With the following options
@@ -154,6 +159,7 @@ With the following options
 | ----------------     | ------------------------------------------------------------ |
 | -v, --version        | (optional) Dispatch LUIS app version. A new version will be created if param value is different than previously created version.  |
 | -b, --bot            | (optional) .bot file path         |
+| -s, --secret         | (optional) .bot file secret       |
 | --dispatch           | (optional) .dispatch file path    |
 | --dataFolder         | (optional) Dispatch working directory |
 | -h, --help           | Output usage information |
@@ -238,6 +244,22 @@ With the following options
 
 
 # Common Tasks
+
+## Create bot dispatch using bot file
+If you have a .bot file containing one or more LUIS model(s) and/or one or more QnA Maker knowledge base(s), you could create Dispatch model without having to initialize Dispatch and add all of the sources separately. Running the eval command is optional but it provides insight into how well the newly created or updated Dispatch model will perform.  In addition, it provides suggestions for improving the bot components.
+
+
+
+```shell
+dispatch create --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
+dispatch eval --luisSubscriptionKey <azure_luis_key> --luisSubscriptionRegion <azure_luis_region>
+```
+If any of your LUIS/QnA Maker models have changed or if you have added more LUIS/QnA maker component(s) to your bot, update your Dispatch model with refresh command.
+
+```shell
+dispatch refresh --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
+dispatch eval --luisSubscriptionKey <azure_luis_key> --luisSubscriptionRegion <azure_luis_region>
+```
 
 ## Create and evaluate bot dispatch
 
