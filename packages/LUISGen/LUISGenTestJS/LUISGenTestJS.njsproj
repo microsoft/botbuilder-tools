@@ -6,6 +6,8 @@
     <RootNamespace>LUISGenTestJS</RootNamespace>
     <ToolsVersionPromptShown>2.6</ToolsVersionPromptShown>
     <ScriptArguments>./lib/*.js</ScriptArguments>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+    <JavaScriptTestFramework>mocha</JavaScriptTestFramework>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -35,13 +37,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="package.json" />
-    <Content Include="README.md" />
     <Content Include="src\TestData\Composite1.json" />
     <Content Include="src\TestData\Composite2.json" />
     <Content Include="src\TestData\Patterns.json" />
     <Content Include="src\TestData\Prebuilt.json" />
+    <Content Include="src\TestData\review.cmd" />
     <Content Include="tsconfig.json" />
-    <TypeScriptCompile Include="src\tests.ts" />
+    <TypeScriptCompile Include="src\Contoso_App.ts" />
+    <TypeScriptCompile Include="src\tests.ts">
+      <Publish>True</Publish>
+      <TestFramework>Mocha</TestFramework>
+    </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

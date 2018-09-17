@@ -292,3 +292,9 @@ coverage
 
 # Chatdown test transcripts
 test/*.transcript
+/packages/LUISGen/LUISGenTestJS/src/tests.js.map
+/packages/LUISGen/LUISGenTestJS/src/tests.js
+/packages/LUISGen/LUISGenTestJS/src/tests.d.ts
+/packages/LUISGen/LUISGenTestJS/src/Contoso_App.js.map
+/packages/LUISGen/LUISGenTestJS/src/Contoso_App.js
+/packages/LUISGen/LUISGenTestJS/src/Contoso_App.d.ts

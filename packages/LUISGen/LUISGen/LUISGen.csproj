@@ -10,6 +10,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="NodeTool\node_modules\**" />
+	  <EmbeddedResource Remove="NodeTool\node_modules\**" />
+	  <None Remove="NodeTool\node_modules\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
 	</ItemGroup>
 
@@ -20,7 +26,7 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="rd /s /q $(ProjectDir)NodeTool\bin\netcoreapp2.0\&#xD;&#xA;mkdir $(ProjectDir)NodeTool\bin\netcoreapp2.0\&#xD;&#xA;copy $(OutDir)* $(ProjectDir)NodeTool\bin\netcoreapp2.0\&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" />
+	  <Exec Command="rd /s /q $(ProjectDir)NodeTool\bin\netcoreapp2.1\&#xD;&#xA;mkdir $(ProjectDir)NodeTool\bin\netcoreapp2.1\&#xD;&#xA;copy $(OutDir)* $(ProjectDir)NodeTool\bin\netcoreapp2.1\&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" />
 	</Target>
 
 </Project>

@@ -20,8 +20,8 @@ namespace LUISGenTest
     [TestClass]
     public class Tests
     {
-        private readonly string _luisAppId = TestUtilities.GetKey("LUISAPPID", "ab48996d-abe2-4785-8eff-f18d15fc3560");
-        private readonly string _subscriptionKey = TestUtilities.GetKey("LUISAPPKEY", "cc7bbcc0-3715-44f0-b7c9-d8fee333dce1");
+        private readonly string _appId = TestUtilities.GetKey("LUISAPPID", "ab48996d-abe2-4785-8eff-f18d15fc3560");
+        private readonly string _endpointKey = TestUtilities.GetKey("LUISAPPKEY", null);
         private readonly string _endpoint = TestUtilities.GetKey("LUISENDPOINT", "https://westus.api.cognitive.microsoft.com");
         // Changing this to false will cause running against the actual LUIS service.
         // This is useful in order to see if the oracles for mocking or testing have changed.
@@ -175,11 +175,15 @@ namespace LUISGenTest
 
         private IRecognizer GetLuisRecognizer(MockHttpMessageHandler messageHandler, bool verbose = false, LuisPredictionOptions options = null)
         {
-            var luisApp = new LuisApplication(_luisAppId, _subscriptionKey, _endpoint);
+            if (!_mock && _endpointKey == null)
+            {
+                Assert.Inconclusive("Cannot run live tests without an endpoint key.");
+            }
+            var luisApp = new LuisApplication(_appId, _endpointKey, _endpoint);
             return new LuisRecognizer(luisApp, options, verbose, _mock ? new MockedHttpClientHandler(messageHandler.ToHttpClient()) : null);
         }
 
-        private string GetRequestUrl() => $"{_endpoint}/luis/v2.0/apps/{_luisAppId}";
+        private string GetRequestUrl() => $"{_endpoint}/luis/v2.0/apps/{_appId}";
 
         // Access the checked-in oracles so that if they are changed you can compare the changes and easily modify them.
         private const string _testData = @"..\..\..\TestData\";
