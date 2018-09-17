@@ -603,7 +603,7 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
     let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
     let luisService: LuisService;
 
-    let luisAppName = `${args.name}-${luisResource.name}`;
+    let luisAppName = `${args.name}_${luisResource.name}`;
     let command = `luis import application --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`;
     logCommand(args, `Creating and importing LUIS application [${luisAppName}]`, command);
     let p = await exec(command);
