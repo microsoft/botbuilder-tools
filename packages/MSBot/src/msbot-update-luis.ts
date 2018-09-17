@@ -9,10 +9,13 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { uuidValidate } from './utils';
+import { showMessage } from './utils';
+
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -25,7 +28,8 @@ interface ILuisArgs extends ILuisService {
 
 program
     .name('msbot update luis')
-    .description('update the bot to a LUIS application')
+    .description('update the bot to a LUIS application (--id or --appId is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'name for the LUIS app')
     .option('-a, --appId <appid>', 'AppId for the LUIS App')
     .option('--version <version>', 'version for the LUIS App, (example: v0.1)')
@@ -44,6 +48,11 @@ const command: program.Command = program.parse(process.argv);
 const args: ILuisArgs = <ILuisArgs>{};
 Object.assign(args, command);
 
+if (args.stdin) {
+    //force verbosity output if args are passed via stdin
+    process.env.VERBOSE = 'verbose';
+}
+
 if (process.argv.length < 3) {
     program.help();
 } else {
@@ -51,14 +60,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     }
@@ -71,41 +80,36 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.appId || !uuidValidate(args.appId)) {
-        throw new Error('bad or missing --appId');
+    if (!args.id && !args.appId) {
+        throw new Error('requires --id or --appId');
     }
 
     for (const service of config.services) {
         if (service.type === ServiceTypes.Luis) {
             const luisService = <ILuisService>service;
-            if (luisService.appId === args.appId) {
-                if (args.hasOwnProperty('name')) {
+            if (luisService.id === args.id || luisService.appId === args.appId) {
+                if (args.hasOwnProperty('name'))
                     luisService.name = args.name;
-                }
-                if (args.version) {
-                    luisService.version = args.version;
-                }
-                if (args.authoringKey) {
-                    luisService.authoringKey = args.authoringKey;
-                }
-                if (args.subscriptionKey) {
+                if (args.appId)
+                    luisService.appId = args.appId;
+                if (args.subscriptionKey)
                     luisService.subscriptionKey = args.subscriptionKey;
-                }
-                if (args.region) {
-                    luisService.subscriptionKey = args.region;
-                }
+                if (args.authoringKey)
+                    luisService.authoringKey = args.authoringKey;
+                if (args.region)
+                    luisService.region = args.region;
                 await config.save(args.secret);
                 process.stdout.write(JSON.stringify(luisService, null, 2));
                 return config;
             }
         }
     }
-    throw new Error(`[msbot] LUIS Service ${args.appId} was not found in the bot file`);
+    throw new Error(`LUIS Service ${args.appId} was not found in the bot file`);
 }
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(`[msbot] ${str}`);
+        console.error(str);
 
         return '';
     });

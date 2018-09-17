@@ -9,9 +9,13 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
+import { showMessage } from './utils';
+
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -24,9 +28,13 @@ interface IAppInsightsArgs extends IAppInsightsService {
 }
 
 program
-    .name('msbot update appinsights')
-    .description('update the bot file to Azure App Insights')
+    .name('msbot update appinsights ')
+    .description('update the bot file to Azure App Insights (--id or --serviceName is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'friendly name (defaults to serviceName)')
+    .option('-t, --tenantId <tenantId>', 'Azure Tenant id (either GUID or xxx.onmicrosoft.com)')
+    .option('-s, --subscriptionId <subscriptionId>', 'Azure Subscription Id')
+    .option('-r, --resourceGroup <resourceGroup>', 'Azure resource group name')
     .option('-s, --serviceName <serviceName>', 'Azure service name')
     .option('-i, --instrumentationKey <instrumentationKey>', 'App Insights InstrumentationKey')
     .option('-a, --applicationId <applicationId>', '(OPTIONAL) App Insights Application Id')
@@ -42,6 +50,11 @@ const command: program.Command = program.parse(process.argv);
 const args: IAppInsightsArgs = <IAppInsightsArgs>{};
 Object.assign(args, command);
 
+if (args.stdin) {
+    //force verbosity output if args are passed via stdin
+    process.env.VERBOSE = 'verbose';
+}
+
 if (process.argv.length < 3) {
     program.help();
 } else {
@@ -49,14 +62,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processUpdateArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processUpdateArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     }
@@ -69,11 +82,10 @@ async function processUpdateArgs(config: BotConfiguration): Promise<BotConfigura
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.serviceName || args.serviceName.length === 0) {
-        throw new Error('Bad or missing --serviceName');
+    if (!args.id && !args.serviceName) {
+        throw new Error('requires --id or --serviceName');
     }
 
-    args.apiKeys = {};
     if (args.keys) {
         args.apiKeys = JSON.parse(args.keys);
     }
@@ -81,28 +93,33 @@ async function processUpdateArgs(config: BotConfiguration): Promise<BotConfigura
     for (const service of config.services) {
         if (service.type === ServiceTypes.AppInsights) {
             const appInsights = <IAppInsightsService>service;
-            if (appInsights.serviceName === args.serviceName) {
-                if (args.instrumentationKey) {
-                    appInsights.instrumentationKey = args.instrumentationKey;
-                }
-                if (args.hasOwnProperty('name')) {
+            if (appInsights.id === args.id || appInsights.serviceName === args.serviceName) {
+                if (args.hasOwnProperty('name'))
                     appInsights.name = args.name;
-                }
-                if (args.keys) {
+                if (args.tenantId)
+                    appInsights.tenantId = args.tenantId;
+                if (args.subscriptionId)
+                    appInsights.subscriptionId = args.subscriptionId;
+                if (args.resourceGroup)
+                    appInsights.resourceGroup = args.resourceGroup;
+                if (args.serviceName)
+                    appInsights.serviceName = args.serviceName;
+                if (args.instrumentationKey)
+                    appInsights.instrumentationKey = args.instrumentationKey;
+                if (args.apiKeys)
                     appInsights.apiKeys = args.apiKeys;
-                }
                 await config.save(args.secret);
                 process.stdout.write(JSON.stringify(appInsights, null, 2));
                 return config;
             }
         }
     }
-    throw new Error(`[msbot] AppInsights service ${args.serviceName} was not found in the bot file`);
+    throw new Error(`AppInsights service ${args.serviceName} was not found in the bot file`);
 }
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(`[msbot] ${str}`);
+        console.error(str);
 
         return '';
     });

@@ -4,16 +4,19 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import { BotConfiguration, IEndpointService, ServiceTypes } from 'botframework-config';
+import { BotConfiguration, EndpointService, IEndpointService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
-import { uuidValidate } from './utils';
+import { showMessage } from './utils';
+
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -26,9 +29,10 @@ interface IEndpointArgs extends IEndpointService {
 
 program
     .name('msbot update endpoint')
-    .description('update the bot to an endpoint')
-    .option('-e, --endpoint <endpoint>', 'url for the endpoint\n')
+    .description('update the bot to an endpoint (--id or --endpoint is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'name of the endpoint')
+    .option('-e, --endpoint <endpoint>', 'url for the endpoint\n')
     .option('-a, --appId  <appid>', '(OPTIONAL) Microsoft AppId used for auth with the endpoint')
     .option('-p, --appPassword <password>', '(OPTIONAL) Microsoft app password used for auth with the endpoint')
 
@@ -42,6 +46,11 @@ const command: program.Command = program.parse(process.argv);
 const args: IEndpointArgs = <IEndpointArgs>{};
 Object.assign(args, command);
 
+if (args.stdin) {
+    //force verbosity output if args are passed via stdin
+    process.env.VERBOSE = 'verbose';
+}
+
 if (process.argv.length < 3) {
     showErrorHelp();
 } else {
@@ -50,14 +59,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     }
@@ -70,39 +79,34 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.endpoint) {
-        throw new Error('missing --endpoint');
+    if (!args.id && !args.endpoint) {
+        throw new Error('requires --id or --endpoint');
     }
 
-    if (!validurl.isHttpUri(args.endpoint) && !validurl.isHttpsUri(args.endpoint)) {
+    if (args.endpoint && (!validurl.isHttpUri(args.endpoint) && !validurl.isHttpsUri(args.endpoint))) {
         throw new Error(`--endpoint ${args.endpoint} is not a valid url`);
     }
 
     for (const service of config.services) {
         if (service.type === ServiceTypes.Endpoint) {
             const endpointService = <IEndpointService>service;
-            if (endpointService.endpoint === args.endpoint) {
-                if (args.hasOwnProperty('name')) {
-                    endpointService.name = args.name;
-                }
-                if (args.appId && !uuidValidate(args.appId)) {
-                    endpointService.appId = args.appId;
-                }
-                if (args.appPassword) {
-                    endpointService.appPassword = args.appPassword;
-                }
+            if (endpointService.id === args.id || endpointService.endpoint === args.endpoint) {
+                const id = service.id;
+                const newService = new EndpointService(args);
+                Object.assign(service, newService);
+                service.id = id;
                 await config.save(args.secret);
                 process.stdout.write(JSON.stringify(endpointService, null, 2));
                 return config;
             }
         }
     }
-    throw new Error(`[msbot] Endpoint Service ${args.endpoint} was not found in the bot file`);
+    throw new Error(`Endpoint Service ${args.endpoint} was not found in the bot file`);
 }
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(`[msbot] ${str}`);
+        console.error(str);
 
         return '';
     });

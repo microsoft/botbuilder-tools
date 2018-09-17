@@ -86,12 +86,17 @@
             "type": "node",
             "request": "launch",
             "name": "msbot clone",
-            "program": "${workspaceFolder}/bin/msbot-clone.js",
+            "program": "${workspaceFolder}/bin/msbot-clone-services.js",
             "args": [
-                "--name",
-                "CloneBot40",
                 "--folder",
-                "xxx",
+                "darren",
+                "--luisAuthoringKey",
+                "736465dedefd479093d666ab661d7b31",
+                "--location",
+                "westus",
+                "--name",
+                "DarrenBot5",
+                "--verbose"
             ]
         },
         {
