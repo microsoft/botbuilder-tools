@@ -1,7 +1,9 @@
 #!/bin/bash
 
 main() {
-    if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
+  if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]] || [[ $1 = "publish" ]]; then
+        npm install
+        npm run build
         publish Chatdown
         publish Dispatch
         publish Ludown
@@ -14,9 +16,9 @@ main() {
             set -e
             npm install
             npm run build
-            npm run eslint
+            npm run coveralls
             npm run tslint
-            npm run coverage
+            npm run eslint
         )
 
     fi
@@ -36,10 +38,14 @@ EOF
 }
 
 function update_version() {
-    pname=$(npm show --json | jq -r '.name')
-    pversion=$(npm view $pname version)
-    npm version --allow-same-version $pversion
-    npm version prerelease
+  oldregistry=npm config get registry
+  npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+  pname=$(cat package.json | jq -r '.name' | cut -d- -f1)
+  pversion=$(cat package.json | jq -r '.version' | cut -d- -f1)
+  ppatch=$(npm view $pname version | cut -d- -f2 | rev | cut -d. -f1 | rev)
+  npm version --allow-same-version $pversion-$ppatch
+  npm version prerelease
+  npm config set registry $oldregistry
 }
 
 function publish() {
@@ -48,7 +54,6 @@ function publish() {
     pushd $1
     create_npmrc
     update_version
-    npm install
     npm publish
     popd
     popd

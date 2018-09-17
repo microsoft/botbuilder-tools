@@ -61,9 +61,10 @@ Convert .lu file(s) into LUIS JSON file. Optionally you can also generate a LUIS
     -s, --subfolder                                  [Optional] Include sub-folders as well when looking for .lu files
     -n, --luis_name <luis_appName>                   [Optional] LUIS app name
     -d, --luis_desc <luis_appDesc>                   [Optional] LUIS app description
-    -v, --luis_versionId <luis_versionId>            [Optional] LUIS app version (default: 0.1)
+    -i, --luis_versionId <luis_versionId>            [Optional] LUIS app version (default: 0.1)
     -c, --luis_culture <luis_appCulture>             [Optional] LUIS app culture (default: en-us)
     -t, --write_luis_batch_tests                     [Optional] Write out LUIS batch test json file
+    --out <output_file_name>                         [Optional] Output file name for the LUIS model
     --verbose                                        [Optional] Get verbose messages from parser
     -h, --help                                       output usage information
 ```
@@ -93,7 +94,7 @@ Convert .lu file(s) into QnA Maker JSON file.
 ```
 
 ## Refresh command
-After you have bootstrapped and created your LUIS model and / or QnAMaker knowledge base, you might make subsequent refinements to your models directly from [luis.ai](https://luis.ai/) or [qnamaker.ai](https://qnamaker.ai). You can use the refresh command to re-genrate .lu files from your LUIS JSON and / or QnAMaker JSON files.  
+After you have bootstrapped and created your LUIS model and / or QnAMaker knowledge base, you might make subsequent refinements to your models directly from [luis.ai](https://luis.ai/) or [qnamaker.ai](https://qnamaker.ai). You can use the refresh command to re-generate .lu files from your LUIS JSON and / or QnAMaker JSON files.  
 
 ```
 >ludown refresh

@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
+// tslint:disable:no-object-literal-type-assertion
 import { BotConfiguration, IQnAService, QnaMakerService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
@@ -11,8 +12,12 @@ import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
 import { uuidValidate } from './utils';
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+import { showMessage } from './utils';
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
+
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -43,7 +48,14 @@ program
 
 program.parse(process.argv);
 
-const args = <IConnectQnaArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args: IConnectQnaArgs = <IConnectQnaArgs>{};
+Object.assign(args, command);
+
+if (args.stdin) {
+    //force verbosity output if args are passed via stdin
+    process.env.VERBOSE = 'verbose';
+}
 
 if (process.argv.length < 3) {
     program.help();

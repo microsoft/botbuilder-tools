@@ -77,7 +77,7 @@ async function runProgram() {
     args.authoringKey = args.authoringKey || serviceIn.authoringKey || config.authoringKey;
     args.subscriptionKey = args.subscriptionKey || args.s || serviceIn.subscriptionKey || config.subscriptionKey;
     args.appId = args.appId || args.applicationId || args.a || serviceIn.appId || config.appId;
-    args.versionId = args.versionId || serviceIn.versionId || config.versionId;
+    args.versionId = args.versionId || args.version || serviceIn.versionId || config.versionId;
     args.region = args.region || serviceIn.region || config.region || "westus";
     args.endpointBasePath = (args.region) ? `https://${args.region}.api.cognitive.microsoft.com/luis/api/v2.0` : config.endpointBasePath;
     args.customHeaders = { "accept-language": "en-US" };
@@ -110,6 +110,8 @@ async function runProgram() {
                 case "application":
                     result = await client.apps.add(args.region, requestBody, args);
                     result = await client.apps.get(args.region, result, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
                     return;
                 case "closedlist":
@@ -204,10 +206,7 @@ async function runProgram() {
         case "clone":
             switch (target) {
                 case "version":
-                    if (!args.newVersionId) {
-                        throw new Error(`missing --newVersionId`);
-                    }
-                    result = await client.versions.clone(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
+                    result = await client.versions.clone(args.region, args.appId, args.versionId, requestBody, args);
                     break;
 
                 default:
@@ -224,11 +223,14 @@ async function runProgram() {
                         if (app.error) {
                             throw new Error(app.error);
                         }
-                        let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} (${app.id})? [no] `, { defaultResponse: 'no' });
-                        if (answer.length == 0 || answer[0] != 'y') {
-                            process.stderr.write('delete operation canceled\n');
-                            process.exit(1);
-                            return;
+
+                        if (!args.force) {
+                            let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} (${app.id})? [no] `, { defaultResponse: 'no' });
+                            if (answer.length == 0 || answer[0] != 'y') {
+                                process.stderr.write('delete operation canceled\n');
+                                process.exit(1);
+                                return;
+                            }
                         }
                         result = await client.apps.deleteMethod(args.region, args.appId, args);
                     }
@@ -240,11 +242,13 @@ async function runProgram() {
                         if (app.error) {
                             throw new Error(app.error);
                         }
-                        let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} version ${args.versionId}? [no] `, { defaultResponse: 'no' });
-                        if (answer.length == 0 || answer[0] != 'y') {
-                            process.stderr.write('delete operation canceled\n');
-                            process.exit(1);
-                            return;
+                        if (!args.force) {
+                            let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} version ${args.versionId}? [no] `, { defaultResponse: 'no' });
+                            if (answer.length == 0 || answer[0] != 'y') {
+                                process.stderr.write('delete operation canceled\n');
+                                process.exit(1);
+                                return;
+                            }
                         }
                         result = await client.versions.deleteMethod(args.region, args.appId, args.versionId, args);
                     }
@@ -276,6 +280,8 @@ async function runProgram() {
                 case "app":
                 case "application":
                     result = await client.apps.get(args.region, args.appId, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
                     return;
 
@@ -361,12 +367,22 @@ async function runProgram() {
                     }
                     result = await client.apps.importMethod(args.region, requestBody, args);
                     result = await client.apps.get(args.region, result, args);
+
+                    // Write output to console and return
                     writeAppToConsole(config, args, requestBody, result);
                     return;
 
                 case "version":
                     result = await client.versions.importMethod(args.region, args.appId, requestBody, args);
-                    break;
+                    if (args.msbot) {
+                        let version = result.version;
+                        result = await client.apps.get(args.region, args.appId || args.applicationId || config.applicationId, args);
+                        result.version = version;
+                        
+                        // Write output to console and return
+                        writeAppToConsole(config, args, requestBody, result);
+                    }
+                    return;
 
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -489,11 +505,7 @@ async function runProgram() {
             switch (target) {
 
                 case "version":
-                    if (!args.newVersionId) {
-                        throw new Error(`missing --newVersionId`);
-                    }
-
-                    result = await client.versions.update(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
+                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -574,11 +586,7 @@ async function runProgram() {
                     result = await client.model.updateSubList(args.region, args.appId, args.versionId, args.clEntityId, args.subListId, requestBody, args);
                     break;
                 case "version":
-                    if (!args.newVersionId) {
-                        throw new Error(`missing --newVersionId`);
-                    }
-
-                    result = await client.versions.update(args.region, args.appId, args.versionId, { version: '' + args.newVersionId }, args);
+                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
                     break;
 
                 default:
@@ -606,10 +614,10 @@ function writeAppToConsole(config, args, requestBody, result) {
         process.stdout.write(JSON.stringify({
             type: "luis",
             name: result.name,
-            appId: result.id || result,
-            authoringKey: config.authoringKey,
-            subscriptionKey: config.subscriptionKey || config.authoringKey,
-            version: result.activeVersion || requestBody.initialVersionId,
+            appId: result.id || result.appId,
+            authoringKey: args.authoringKey || config.authoringKey,
+            subscriptionKey: args.subscriptionKey || config.subscriptionKey || config.authoringKey,
+            version: result.activeVersion || requestBody.initialVersionId || requestBody.versionId,
             region: args.region || config.region
         }, null, 2) + "\n");
     }
@@ -693,7 +701,7 @@ async function waitForTrainingToComplete(client, args) {
         if (completedItems.length == result.length) return result;
         let failedItems = result.filter(item => { return item.details.status == "Fail" });
         if (failedItems.length !== 0) throw new Error(`Training failed for ${failedItems[0].modelId}: ${failedItems[0].details.failureReason}`);
-        process.stderr.write(`${completedItems.length}/${result.length} complete.`);
+        process.stderr.write(`${completedItems.length}/${result.length} complete.\r`);
         await Delay(1000);
     } while (true);
 }
@@ -799,14 +807,38 @@ async function validateArguments(args, operation) {
                 case "version":
                     switch (operation.methodAlias) {
                         case "publish":
-                            body = {
-                                versionId: args.versionId,
-                                isStaging: args.staging === true,
-                                region: args.region
-                            };
+                            if (args.region && args.versionId) {
+                                body = {
+                                    versionId: `${args.versionId}`,
+                                    isStaging: args.staging === 'true',
+                                    region: args.region
+                                };
+                            }
+                            break;
+                        case "rename":
+                        case "update":
+                        case "clone":
+                            if (args.newVersionId) {
+                                body = {
+                                    version: `${args.newVersionId}`
+                                };
+                            }
                             break;
                     }
                     break;
+
+                case "settings":
+                    switch (operation.methodAlias) {
+                        case "update":
+                            if (args.hasOwnProperty("public")) {
+                                body = {
+                                    isPublic: args.public === 'true'
+                                };
+                            }
+                            break;
+                    }
+                    break;
+
                 default:
                     error.message = `The --in requires an input of type: ${operation.entityType}`;
                     throw error;

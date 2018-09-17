@@ -182,7 +182,7 @@ If no options are supplied, the tool will prompt for the required information it
 
 ## Testing your dispatch model  
 
-To test your dispatch model againsts test set:
+To test your dispatch model against test set:
 
 ```shell
 dispatch test [options]
@@ -202,7 +202,7 @@ Options:
 
 ## Run prediction using your dispatch model  
 
-To run prediction againsts your new dispatch model, run
+To run prediction against your new dispatch model, run
 
 ```shell
 dispatch predict [options]
@@ -268,7 +268,7 @@ The output, Summary.html, contains all the evaluation results. The file is locat
 
 ## Test a LUIS model using test utterances
 
-Suppose the dispatcher model was already created following the steps of one of the above tasks. To test this model with a tab-delimitted text file run these commands:
+Suppose the dispatcher model was already created following the steps of one of the above tasks. To test this model with a tab-delimited text file run these commands:
 
 ```shell
 dispatch test --testFilePath <text_file>
@@ -277,8 +277,28 @@ dispatch test --testFilePath <text_file>
 The output, Summary.html, contains all the evaluation results. The file is located in the location of the test file.
 
 # Sample Code and Tutorial
-C# Sample: https://github.com/Microsoft/botbuilder-dotnet/tree/master/samples/Microsoft.Bot.Samples.Ai.Luis.Dispatch
+C# Sample: https://github.com/Microsoft/botbuilder-dotnet/tree/master/samples-final/9.AspNetCore-Luis-Dispatch-Bot
 
 JS Sample: https://github.com/Microsoft/botbuilder-js/tree/master/samples/dispatch-es6 
 
 Tutorial: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch
+
+## Nightly builds
+
+Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
+
+You can get the latest nightly build of MSBot from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+
+```shell
+npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+```
+
+Install using npm:
+```shell
+npm i -g botdispatch
+```
+
+To reset registry:
+```shell
+npm config set registry https://registry.npmjs.org/
+```

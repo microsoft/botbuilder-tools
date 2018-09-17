@@ -289,3 +289,6 @@ AzureCli/azext_bot/build/
 .DS_Store
 .nyc_output
 coverage
+
+# Chatdown test transcripts
+test/*.transcript

@@ -4,6 +4,13 @@
         "tslint:recommended",
         "tslint-microsoft-contrib"
     ],
+    "linterOptions": {
+      "exclude": [
+        "packages/LUIS/src/**",
+        "packages/Dispatch/**",
+        "packages/LUISGen/**"
+      ]
+    },
     "jsRules": {},
     "rules": {},
     "rulesDirectory": [

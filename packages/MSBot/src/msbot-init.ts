@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
+// tslint:disable:no-object-literal-type-assertion
 import { BotConfiguration, EndpointService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
@@ -10,8 +11,12 @@ import * as fsx from 'fs-extra';
 import * as readline from 'readline-sync';
 import * as validurl from 'valid-url';
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+import { showMessage } from './utils';
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
+
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.help();
 };
 
@@ -23,7 +28,6 @@ interface IInitArgs {
     appId: string;
     appPassword: string;
     quiet: boolean;
-    [key: string]: string | boolean;
 }
 
 program
@@ -33,12 +37,11 @@ program
     .option('-p, --appPassword <password>', 'Microsoft app password used for auth with the endpoint')
     .option('-e, --endpoint <endpoint>', 'local endpoint for the bot')
     .option('--secret', 'generate a secret and encrypt service keys with it')
-    .option('-q, --quiet', 'do not prompt')
-    .action((name: program.Command, x: program.Command) => {
-        console.log(name);
-    });
+    .option('-q, --quiet', 'do not prompt');
 
-let args  = <IInitArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args: IInitArgs = <IInitArgs>{};
+Object.assign(args, command);
 
 if (!args.quiet) {
 
@@ -52,18 +55,19 @@ if (!args.quiet) {
     }
 
     while (!args.endpoint || args.endpoint.length === 0) {
-        args.endpoint = readline.question(`What localhost endpoint does your bot use for debugging [Example: http://localhost:3978/api/messages]? `, {
-            defaultInput: ' '
-        });
+        // tslint:disable-next-line:max-line-length
+        args.endpoint = readline.question(`What localhost endpoint does your bot use for debugging? ` +
+                                          `[Example: http://localhost:3978/api/messages] `,
+                                          { defaultInput: ' ' });
     }
 
     if (validurl.isHttpUri(args.endpoint) || validurl.isHttpsUri(args.endpoint)) {
 
         if (!args.appId || args.appId.length === 0) {
-            const answer = readline.question(`Do you have an appId for endpoint? [no] `, {
+            const answer: string = readline.question(`Do you have an appId for endpoint? [no] `, {
                 defaultInput: 'no'
             });
-            if (answer == 'y' || answer === 'yes') {
+            if (answer === 'y' || answer === 'yes') {
                 args.appId = readline.question(`What is your appId for ${args.endpoint}? [none] `, {
                     defaultInput: ''
                 });

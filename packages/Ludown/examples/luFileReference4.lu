@@ -1,0 +1,5 @@
+> You can include deep references to QnA maker questions defined in a .lu file in utterances
+# None
+- [QnA questions](./qna1.lu#?)
+
+> With the above statement, the parser will parse qna1.lu and extract out all questions from QnA pairs in that file and add them under 'None' intent as defined in this file.

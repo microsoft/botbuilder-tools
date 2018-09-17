@@ -46,7 +46,8 @@
             "subscriptionId": "2f510b5e-10fe-4f53-9159-b134539ac594",
             "resourceGroup": "testGroup",
             "serviceName": "testCosmosDB",
-            "connectionString": "testConnectionString",
+            "endpoint": "https://localhost:8081",
+            "key": "testKey",
             "database": "testDatabase",
             "collection": "testCollection"
         },

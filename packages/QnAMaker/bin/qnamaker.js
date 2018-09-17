@@ -95,10 +95,12 @@ async function runProgram() {
             if (!args.f && !args.force) {
                 let kbResult = await new Knowledgebase().getKnowledgebaseDetails(config);
                 let kb = JSON.parse(await kbResult.text());
-                let answer = readlineSync.question(`Are you sure you would like to delete ${kb.name} [${kb.id}]? [no] `, { defaultInput: 'no' });
-                if (answer.trim()[0] == 'n') {
-                    process.stderr.write('operation canceled');
-                    return;
+                if (!args.force) {
+                    let answer = readlineSync.question(`Are you sure you would like to delete ${kb.name} [${kb.id}]? [no] `, { defaultInput: 'no' });
+                    if (answer.trim()[0] == 'n') {
+                        process.stderr.write('operation canceled');
+                        return;
+                    }
                 }
             }
             break;

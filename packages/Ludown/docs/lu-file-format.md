@@ -30,7 +30,7 @@ You can stitch together multiple intent definitions in a single file like this:
 - I need help
 - please help
 ```
-Each section is idenfied by #\<intent name\> notation. Blank lines are skipped when parsing the file.
+Each section is identified by #\<intent name\> notation. Blank lines are skipped when parsing the file.
 
 ## Entity
 An entity represents detailed information that is relevant in the utterance. For example, in the utterance "Book a ticket to Paris", "Paris" is a location. 
@@ -90,7 +90,7 @@ $PREBUILT:number
 $PREBUILT:datetimeV2
 ```
 
-You can describe list entites using the following notation:
+You can describe list entities using the following notation:
 $listEntity:\<normalized-value\>=
     - \<synonym1\>
     - \<synonym2\>
@@ -157,7 +157,7 @@ This example would be treated as an utterance since it has a labelled value with
 - delete the {alarmTime=7AM} alarm
 ```
 
-Note: By default any entity that is left undescribed in a pattern will be mapped to Pattern.Any entity type.
+Note: By default any entity that is left un-described in a pattern will be mapped to Pattern.Any entity type.
 
 ## Roles
 [Roles](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-roles) are named, contextual subtypes of an entity used only in [Patterns](#Patterns).
@@ -230,7 +230,7 @@ Here's an example of question and answer definitions. The LUDown tool will autom
 	```
 ```
 
-You can add multiple questions to the same answer by simply additing variations to questions:
+You can add multiple questions to the same answer by simply adding variations to questions:
 
 ```markdown
 ### ? Who is your ceo?
@@ -241,9 +241,18 @@ You can add multiple questions to the same answer by simply additing variations 
 ```
 
 ## External references
-Two different references are supported in the .lu file. These follow Markdown link syntax.
+
+Few different references are supported in the .lu file. These follow Markdown link syntax.
 - Reference to another .lu file via `\[link name](\<.lu file name\>)`. Reference can be an absolute path or a relative path from the containing .lu file.
+- Reference to a folder with other .lu files is supported through 
+	- `\[link name](\<.lu file path\>/*)` - will look for .lu files under the specified absolute or relative path
+	- `\[link name](\<.lu file path\>/**)` - will recursively look for .lu files under the specified absolute or relative path including sub-folders.
 - Reference to URL for QnAMaker to ingest during KB creation via `\[link name](\<URL\>)`
+- You can also add references to utterances defined in a specific file under an Intent section or as QnA pairs.
+	- `\[link name](\<.lu file path\>#\<INTENT-NAME\>) will find all utterances found under \<INTENT-NAME\> in the .lu file and add them to the list of utterances where this reference is specified
+	- `\[link name](\<.lu file path\>#?) will find questions from all QnA pairs defined in the .lu file and add them to the list of utterances where this reference is specified.
+	- `\[link name](\<.lu folder\>/*#?) will find all questions from all .lu files in the specified folder and add them to the list of utterances where this reference is specified. 
+
 
 Here's an example of those references: 
 
@@ -251,7 +260,22 @@ Here's an example of those references:
 [QnaURL](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
 
 [none intent definition](./none.lu)
+
+> Look for all .lu files under a path
+[Cafe model](./cafeModels/*)
+
+> Recursively look for .lu files under a path including sub-folders.
+[Chit chat](../chitchat/resources/**)
 ```
+
+Take a look at these additional example .lu files to learn more about external references.
+
+- [Simple external reference](../examples/luFileReference1.lu)
+- [References with wild cards](../examples/luFileReference2.lu)
+- [Deep reference to an intent](../examples/luFileReference3.lu)
+- [Deep reference to QnA questions](../examples/luFileReference4.lu)
+- [Deep reference to QnA questions with wild card](../examples/luFileReference5.lu)
+
 ## QnAMaker Filters
 Filters in QnA Maker are simple key value pairs that can be used to narrow search results, boost answers and store context. You can add filters using the following notation: 
 ```markdown
@@ -284,7 +308,7 @@ Here's an example usage:
 ```
 
 ## QnA Maker alterations
-QnA Maker supports [word alterations](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/best-practices#use-synonyms) as a way to improve the likelihood that a given user query is answered with an appropriate response. You can use this feature to add synonyms to keywords that take differen form. 
+QnA Maker supports [word alterations](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/best-practices#use-synonyms) as a way to improve the likelihood that a given user query is answered with an appropriate response. You can use this feature to add synonyms to keywords that take different form. 
 
 You can describe word alterations/ synonyms list in .lu files using the following notation - 
 ```markdown

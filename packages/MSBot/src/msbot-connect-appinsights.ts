@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
+// tslint:disable:no-object-literal-type-assertion
 import { AppInsightsService, BotConfiguration, IAppInsightsService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
@@ -10,12 +11,16 @@ import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import { uuidValidate } from './utils';
 
-program.Command.prototype.unknownOption = function (flag: any) {
+import { showMessage } from './utils';
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
+
+program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
-interface ConnectAppInsightsArgs extends IAppInsightsService {
+interface IConnectAppInsightsArgs extends IAppInsightsService {
     bot: string;
     secret: string;
     stdin: boolean;
@@ -31,19 +36,24 @@ program
     .option('-s, --subscriptionId <subscriptionId>', 'Azure Subscription Id')
     .option('-r, --resourceGroup <resourceGroup>', 'Azure resource group name')
     .option('-s, --serviceName <serviceName>', 'Azure service name')
-    .option("-i, --instrumentationKey <instrumentationKey>", "App Insights InstrumentationKey")
-    .option("-a, --applicationId <applicationId>", "(OPTIONAL) App Insights Application Id")
-    .option('--keys <keys>', "Json app keys, example: {'key1':'value1','key2':'value2'} ")
+    .option('-i, --instrumentationKey <instrumentationKey>', 'App Insights InstrumentationKey')
+    .option('-a, --applicationId <applicationId>', '(OPTIONAL) App Insights Application Id')
+    .option('--keys <keys>', `Json app keys, example: {'key1':'value1','key2':'value2'} `)
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((cmd, actions) => {
+    .action((cmd: program.Command, actions: program.Command) => undefined);
 
-    });
+const command: program.Command = program.parse(process.argv);
+const args: IConnectAppInsightsArgs = <IConnectAppInsightsArgs>{};
+Object.assign(args, command);
 
-let args = <ConnectAppInsightsArgs><any>program.parse(process.argv);
+if (args.stdin) {
+    //force verbosity output if args are passed via stdin
+    process.env.VERBOSE = 'verbose';
+}
 
 if (process.argv.length < 3) {
     program.help();
@@ -51,14 +61,14 @@ if (process.argv.length < 3) {
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectAzureArgs)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectAzureArgs)
-            .catch((reason) => {
+            .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
@@ -68,38 +78,36 @@ if (process.argv.length < 3) {
 async function processConnectAzureArgs(config: BotConfiguration): Promise<BotConfiguration> {
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
-    }
-    else if (args.input != null) {
+    } else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.serviceName || args.serviceName.length == 0)
+    if (!args.serviceName || args.serviceName.length === 0) {
         throw new Error('Bad or missing --serviceName');
-
-    if (!args.tenantId || args.tenantId.length == 0)
-        throw new Error('Bad or missing --tenantId');
-
-    if (!args.subscriptionId || !uuidValidate(args.subscriptionId))
-        throw new Error('Bad or missing --subscriptionId');
-
-    if (!args.resourceGroup || args.resourceGroup.length == 0)
-        throw new Error('Bad or missing --resourceGroup');
-
-    if (!args.instrumentationKey || args.instrumentationKey.length == 0)
-        throw new Error('Bad or missing --instrumentationKey');
-
-    if (!args.apiKeys) {
-        args.apiKeys = {};
-        if (args.keys) {
-            console.log(args.keys);
-            let keys = JSON.parse(args.keys);
-            for (let key in keys) {
-                args.apiKeys[key] = keys[key].toString();
-            }
-        }
     }
 
-    let service = new AppInsightsService({
+    if (!args.tenantId || args.tenantId.length === 0) {
+        throw new Error('Bad or missing --tenantId');
+    }
+
+    if (!args.subscriptionId || !uuidValidate(args.subscriptionId)) {
+        throw new Error('Bad or missing --subscriptionId');
+    }
+
+    if (!args.resourceGroup || args.resourceGroup.length === 0) {
+        throw new Error('Bad or missing --resourceGroup');
+    }
+
+    if (!args.instrumentationKey || args.instrumentationKey.length === 0) {
+        throw new Error('Bad or missing --instrumentationKey');
+    }
+
+    args.apiKeys = {};
+    if (args.keys) {
+        args.apiKeys = JSON.parse(args.keys);
+    }
+
+    const service: AppInsightsService = new AppInsightsService({
         name: args.hasOwnProperty('name') ? args.name : args.serviceName,
         tenantId: args.tenantId,
         subscriptionId: args.subscriptionId,
@@ -109,15 +117,17 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
         applicationId: args.applicationId,
         apiKeys: args.apiKeys
     });
-    let id = config.connectService(service);
+    const id: string = config.connectService(service);
     await config.save(args.secret);
     process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+
     return config;
 }
 
-function showErrorHelp() {
-    program.outputHelp((str) => {
+function showErrorHelp(): void {
+    program.outputHelp((str: string) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);

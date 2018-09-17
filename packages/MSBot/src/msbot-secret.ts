@@ -3,12 +3,17 @@
  * Licensed under the MIT License.
  */
 // tslint:disable:no-console
+// tslint:disable:no-object-literal-type-assertion
 import { BotConfiguration } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
+import { showMessage } from './utils';
 
-program.Command.prototype.unknownOption = (): void => {
-    console.error(chalk.default.redBright(`Unknown arguments: ${process.argv.slice(2).join(' ')}`));
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
+
+program.Command.prototype.unknownOption = (flag: string): void => {
+    console.error(chalk.default.redBright(showMessage(`Unknown arguments: ${flag}`)));
     showErrorHelp();
 };
 
@@ -26,11 +31,11 @@ program
     .option('--secret <secret>', 'secret used to confirm you can do secret operations')
     .option('-c, --clear', 'clear the secret and store keys unencrypted')
     .option('-n, --new', 'generate a new secret and store keys encrypted')
-    .action((name: program.Command, x: program.Command) => {
-        console.log(name);
-    });
+    .action((cmd: program.Command, actions: program.Command) => undefined);
 
-let args = <ISecretArgs><any>program.parse(process.argv);
+const command: program.Command = program.parse(process.argv);
+const args: ISecretArgs = <ISecretArgs>{};
+Object.assign(args, command);
 
 if (process.argv.length < 3) {
     showErrorHelp();

@@ -7,10 +7,29 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Mocha Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}/test",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "luis.package.test.suite.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\bin\\luis.js",
-            "args" :[
-                
+            "program": "${workspaceFolder}\\bin\\luis",
+            "args": [
+                "update",
+                "settings",
+                "--public",
+                "true"
             ]
         }
     ]
