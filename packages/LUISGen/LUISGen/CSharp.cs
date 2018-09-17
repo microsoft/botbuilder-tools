@@ -17,12 +17,14 @@ namespace LUISGen
 // </auto-generated>
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 namespace {space}
 {{");
             w.Indent();
 
             // Main class
-            w.IndentLine($"public class {className}: Microsoft.Bot.Builder.IRecognizerConvert");
+            w.IndentLine($"public class {className}: IRecognizerConvert");
             w.IndentLine("{");
             w.Indent();
 
@@ -51,7 +53,7 @@ namespace {space}
             w.WriteLine();
             w.Outdent();
             w.IndentLine("};"); // Intent enum
-            w.IndentLine("public Dictionary<Intent, Microsoft.Bot.Builder.IntentScore> Intents;");
+            w.IndentLine("public Dictionary<Intent, IntentScore> Intents;");
         }
 
         static string PropertyName(dynamic name, dynamic app)
@@ -79,16 +81,16 @@ namespace {space}
                     switch ((string)type)
                     {
                         case "age":
-                            w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.Age[] {realName};");
+                            w.IndentLine($"public Age[] {realName};");
                             break;
                         case "dimension":
-                            w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.Dimension[] {realName};");
+                            w.IndentLine($"public Dimension[] {realName};");
                             break;
                         case "money":
-                            w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.Money[] {realName};");
+                            w.IndentLine($"public Money[] {realName};");
                             break;
                         case "temperature":
-                            w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.Temperature[] {realName};");
+                            w.IndentLine($"public Temperature[] {realName};");
                             break;
                         case "number":
                         case "ordinal":
@@ -96,7 +98,7 @@ namespace {space}
                             w.IndentLine($"public double[] {realName};");
                             break;
                         case "datetimeV2":
-                            w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.DateTimeSpec[] {realName};");
+                            w.IndentLine($"public DateTimeSpec[] {realName};");
                             break;
                         case "list":
                             w.IndentLine($"public string[][] {realName};");
@@ -175,7 +177,7 @@ namespace {space}
                     {
                         var childName = PropertyName(child, app);
                         AddJSonProperty(childName, app, w);
-                        w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.InstanceData[] {childName};");
+                        w.IndentLine($"public InstanceData[] {childName};");
                     }
                     w.Outdent();
                     w.IndentLine("}");
@@ -204,7 +206,7 @@ namespace {space}
             {
                 var realName = PropertyName(name, app);
                 AddJSonProperty(realName, app, w);
-                w.IndentLine($"public Microsoft.Bot.Builder.AI.Luis.InstanceData[] {realName};");
+                w.IndentLine($"public InstanceData[] {realName};");
             });
             w.Outdent();
             w.IndentLine("}");
@@ -247,7 +249,7 @@ namespace {space}
             w.IndentLine("{");
             w.Indent();
             w.IndentLine("maxIntent = entry.Key;");
-            w.IndentLine("max = entry.Value.Score;");
+            w.IndentLine("max = entry.Value.Score.Value;");
             w.Outdent();
             w.IndentLine("}");
             w.Outdent();

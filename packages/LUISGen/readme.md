@@ -4,7 +4,7 @@ This enables build-time checking and intellisense.
 
 ## Building the tool
 If you open the .sln file and build the LUISGen project, it will produce a LUISGen\NodeTool directory which has everything required publishing or using the LUISGen tool. 
-You can find detatils on using the tool  in the [readme](LUISGen\NodeTool\readme.ms).  Once you build the tool, you can test it by running the tests.
+You can find detatils on using the tool  in the [readme](LUISGen\NodeTool\readme.md).  Once you build the tool, you can test it by running the tests.
 
 ## Testing the tool output in C#
 The project LUISGenTest tests a LUISGen C# generated class.  All tests should pass if you run them since it uses a mocked interface to LUIS. 
