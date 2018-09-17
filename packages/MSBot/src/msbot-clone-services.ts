@@ -13,10 +13,10 @@ import * as txtfile from 'read-text-file';
 import * as url from 'url';
 import * as util from 'util';
 import { spawnAsync } from './processUtils';
+import { showMessage } from './utils';
 let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
-import { showMessage } from './utils';
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -39,6 +39,8 @@ interface ICloneArgs {
     luisSubscriptionKey: string;
     qnaSubscriptionKey: string;
     luisRegion: string;
+    sdkVersion: string;
+    sdkLanguage: string;
     args: string[];
 }
 
@@ -50,6 +52,8 @@ program
     .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key for creating luis resources')
     .option('--subscriptionId <subscriptionId>', '(OPTIONAL) Azure subscriptionId to clone bot to, if not passed then current az account will be used')
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
+    .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
+    .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
     .option('--verbose', 'show verbose information')
     .option('-q, --quiet', 'disable output')
     .description('allows you to clone all of the services a bot into a new azure resource group')
@@ -87,6 +91,10 @@ async function processConfiguration(): Promise<void> {
         throw new Error('missing --location argument');
     }
 
+    if (!args.sdkVersion) {
+        args.sdkVersion = "v4";
+    }
+
     let recipeJson = await txtfile.read(path.join(args.folder, `bot.recipe`));
     let recipe = <BotRecipe>JSON.parse(recipeJson);
 
@@ -95,7 +103,7 @@ async function processConfiguration(): Promise<void> {
         let p = null;
 
         // verify az command exists and is correct version
-         await checkAzBotServiceVersion();
+        await checkAzBotServiceVersion();
 
         // get subscription account data
         command = `az account show`;
@@ -245,12 +253,37 @@ async function processConfiguration(): Promise<void> {
         let azGroupResources = JSON.parse(p.stdout);
         let appInsightInfo;
         let storageInfo;
-        for (let groupResource of azGroupResources) {
-            if (groupResource.type == "microsoft.insights/components") {
-                appInsightInfo = groupResource;
-            } else if (groupResource.type == "Microsoft.Storage/storageAccounts") {
-                storageInfo = groupResource;
+        let botAppSite;
+        for (let resource of azGroupResources) {
+            if (resource.type == "microsoft.insights/components") {
+                appInsightInfo = resource;
+            } else if (resource.type == "Microsoft.Storage/storageAccounts") {
+                storageInfo = resource;
+            } else if (resource.type == "Microsoft.Web/sites") {
+                // the website for the bot does have the bot name in it (qna host does)
+                if (resource.name.indexOf(args.name) < 0)
+                    botAppSite = resource;
             }
+        }
+
+        // get appSettings from botAppSite (specifically to get secret)
+        command = `az webapp config appsettings list -g ${args.groupName} -n ${botAppSite.name}`;
+        logCommand(args, `Get bot website appsettings [${args.name}]`, command);
+        p = await exec(command);
+        let botAppSettings = JSON.parse(p.stdout);
+        for (let setting of botAppSettings) {
+            if (setting.name == "BotSecret") {
+                args.secret = setting.value;
+                break;
+            }
+        }
+
+        if (!args.secret) {
+            args.secret = BotConfiguration.generateKey();
+            // set the appsetting
+            command = `az webapp config appsettings set -g ${args.groupName} -n ${botAppSite.name} --settings BotSecret="${args.secret}" `;
+            logCommand(args, `Set bot website appsettings secret [${args.name}]`, command);
+            p = await exec(command);
         }
 
         for (let resource of recipe.resources) {
@@ -548,6 +581,10 @@ async function processConfiguration(): Promise<void> {
                 await config.save();
             }
         }
+        if (args.secret) {
+            console.log(`The secret for ${config.getPath()} is ${chalk.default.magentaBright(args.secret)}.  Store this in a secure place.`);
+            await config.save(args.secret);
+        }
         console.log(`${config.getPath()} created.`);
         console.log(`Done cloning.`);
     } catch (error) {
@@ -619,7 +656,10 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
 }
 
 async function createBot(): Promise<IBotService> {
-    let command = `az bot create -g ${args.name} --name ${args.name} --kind webapp --location ${args.location}`;
+    let command = `az bot create -g ${args.name} --name ${args.name} --kind webapp --location ${args.location} --version ${args.sdkVersion}`;
+    if (args.sdkLanguage)
+        command += ` --lang ${args.sdkLanguage}`;
+
     logCommand(args, `Creating Azure Bot Service [${args.name}]`, command);
 
     let stdout = await spawnAsync(command, undefined, (stderr) => {
@@ -632,7 +672,8 @@ async function createBot(): Promise<IBotService> {
             console.warn(`[az bot] ${stderr.replace('WARNING: ', '')} (this will take several minutes)`);
         }
     });
-    return <IBotService>JSON.parse(stdout);
+    let botService = <IBotService>JSON.parse(stdout);
+    return botService;
 }
 
 async function createGroup(): Promise<any> {
