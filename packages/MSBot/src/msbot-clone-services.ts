@@ -13,10 +13,10 @@ import * as txtfile from 'read-text-file';
 import * as url from 'url';
 import * as util from 'util';
 import { spawnAsync } from './processUtils';
+import { showMessage } from './utils';
 let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
-import { showMessage } from './utils';
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -85,6 +85,10 @@ async function processConfiguration(): Promise<void> {
 
     if (!args.location) {
         throw new Error('missing --location argument');
+    }
+
+    if (!args.groupName) {
+        args.groupName = args.name;
     }
 
     let recipeJson = await txtfile.read(path.join(args.folder, `bot.recipe`));
@@ -233,7 +237,7 @@ async function processConfiguration(): Promise<void> {
 
         let azBotEndpoint = <IEndpointService><any>azBot;
 
-        command = `az bot show -g ${args.name} -n ${args.name}`;
+        command = `az bot show -g ${args.groupName} -n ${args.name}`;
         logCommand(args, `Fetching bot extended information [${args.name}]`, command);
         p = await exec(command);
         let azBotExtended = JSON.parse(p.stdout);
@@ -551,15 +555,19 @@ async function processConfiguration(): Promise<void> {
         console.log(`${config.getPath()} created.`);
         console.log(`Done cloning.`);
     } catch (error) {
-        let lines = error.message.split('\n');
-        let message = '';
-        for (let line of lines) {
+        if (error.message) {
+
+            let lines = error.message.split('\n');
+            let message = '';
+            for (let line of lines) {
             // trim to copywrite symbol, help from inner process command line args is inappropriate
             if (line.indexOf('©') > 0)
                 break;
-            message += line;
+                message += line;
+            }
+            throw new Error(message);
         }
-        throw new Error(message);
+        throw new Error(error);
     }
 }
 
@@ -619,7 +627,7 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
 }
 
 async function createBot(): Promise<IBotService> {
-    let command = `az bot create -g ${args.name} --name ${args.name} --kind webapp --location ${args.location}`;
+    let command = `az bot create -g ${args.groupName} --name ${args.name} --kind webapp --location ${args.location}`;
     logCommand(args, `Creating Azure Bot Service [${args.name}]`, command);
 
     let stdout = await spawnAsync(command, undefined, (stderr) => {
@@ -639,9 +647,11 @@ async function createGroup(): Promise<any> {
     if (!args.location) {
         throw new Error('missing --location argument');
     }
-
-    let command = `az group create -g ${args.name} -l ${args.location}`;
-    logCommand(args, `Creating Azure group [${args.name}]`, command);
+    if (!args.groupName) {
+        throw new Error('missing --groupName argument');
+    }
+    let command = `az group create -g ${args.groupName} -l ${args.location}`;
+    logCommand(args, `Creating Azure group [${args.groupName}]`, command);
     let p = await exec(command);
     let azGroup = JSON.parse(p.stdout);
     args.groupName = azGroup.name;
@@ -656,7 +666,7 @@ function showErrorHelp() {
     console.log(chalk.default.bold(`NOTE: You did not complete clone process.`));
     if (typeof (args.name) == 'string') {
         console.log('To delete the group and resources run:');
-        console.log(chalk.default.italic(`az group delete -g ${args.name} --no-wait`));
+        console.log(chalk.default.italic(`az group delete -g ${args.groupName} --no-wait`));
     }
     process.exit(1);
 }
