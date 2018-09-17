@@ -1,7 +1,7 @@
 #!/bin/bash
 
 main() {
-    if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
+  if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]] || [[ $1 = "publish" ]]; then
         npm install
         npm run build
         publish Chatdown
