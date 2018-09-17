@@ -4,14 +4,13 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import { AppInsightsService, BotConfiguration, IAppInsightsService } from 'botframework-config';
+import { BotConfiguration, IAppInsightsService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { uuidValidate } from './utils';
-
 import { showMessage } from './utils';
+
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -20,7 +19,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     showErrorHelp();
 };
 
-interface IConnectAppInsightsArgs extends IAppInsightsService {
+interface IAppInsightsArgs extends IAppInsightsService {
     bot: string;
     secret: string;
     stdin: boolean;
@@ -29,8 +28,9 @@ interface IConnectAppInsightsArgs extends IAppInsightsService {
 }
 
 program
-    .name('msbot connect appinsights')
-    .description('Connect the bot file to Azure App Insights')
+    .name('msbot update appinsights ')
+    .description('update the bot file to Azure App Insights (--id or --serviceName is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'friendly name (defaults to serviceName)')
     .option('-t, --tenantId <tenantId>', 'Azure Tenant id (either GUID or xxx.onmicrosoft.com)')
     .option('-s, --subscriptionId <subscriptionId>', 'Azure Subscription Id')
@@ -47,7 +47,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args: IConnectAppInsightsArgs = <IConnectAppInsightsArgs>{};
+const args: IAppInsightsArgs = <IAppInsightsArgs>{};
 Object.assign(args, command);
 
 if (args.stdin) {
@@ -60,14 +60,14 @@ if (process.argv.length < 3) {
 } else {
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
-            .then(processConnectAzureArgs)
+            .then(processUpdateArgs)
             .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
-            .then(processConnectAzureArgs)
+            .then(processUpdateArgs)
             .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
@@ -75,53 +75,46 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processConnectAzureArgs(config: BotConfiguration): Promise<BotConfiguration> {
+async function processUpdateArgs(config: BotConfiguration): Promise<BotConfiguration> {
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
     } else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.serviceName || args.serviceName.length === 0) {
-        throw new Error('Bad or missing --serviceName');
+    if (!args.id && !args.serviceName) {
+        throw new Error('requires --id or --serviceName');
     }
 
-    if (!args.tenantId || args.tenantId.length === 0) {
-        throw new Error('Bad or missing --tenantId');
-    }
-
-    if (!args.subscriptionId || !uuidValidate(args.subscriptionId)) {
-        throw new Error('Bad or missing --subscriptionId');
-    }
-
-    if (!args.resourceGroup || args.resourceGroup.length === 0) {
-        throw new Error('Bad or missing --resourceGroup');
-    }
-
-    if (!args.instrumentationKey || args.instrumentationKey.length === 0) {
-        throw new Error('Bad or missing --instrumentationKey');
-    }
-
-    args.apiKeys = {};
     if (args.keys) {
         args.apiKeys = JSON.parse(args.keys);
     }
 
-    const service: AppInsightsService = new AppInsightsService({
-        name: args.hasOwnProperty('name') ? args.name : args.serviceName,
-        tenantId: args.tenantId,
-        subscriptionId: args.subscriptionId,
-        resourceGroup: args.resourceGroup,
-        serviceName: args.serviceName,
-        instrumentationKey: args.instrumentationKey,
-        applicationId: args.applicationId,
-        apiKeys: args.apiKeys
-    });
-    const id: string = config.connectService(service);
-    await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
-
-    return config;
+    for (const service of config.services) {
+        if (service.type === ServiceTypes.AppInsights) {
+            const appInsights = <IAppInsightsService>service;
+            if (appInsights.id === args.id || appInsights.serviceName === args.serviceName) {
+                if (args.hasOwnProperty('name'))
+                    appInsights.name = args.name;
+                if (args.tenantId)
+                    appInsights.tenantId = args.tenantId;
+                if (args.subscriptionId)
+                    appInsights.subscriptionId = args.subscriptionId;
+                if (args.resourceGroup)
+                    appInsights.resourceGroup = args.resourceGroup;
+                if (args.serviceName)
+                    appInsights.serviceName = args.serviceName;
+                if (args.instrumentationKey)
+                    appInsights.instrumentationKey = args.instrumentationKey;
+                if (args.apiKeys)
+                    appInsights.apiKeys = args.apiKeys;
+                await config.save(args.secret);
+                process.stdout.write(JSON.stringify(appInsights, null, 2));
+                return config;
+            }
+        }
+    }
+    throw new Error(`AppInsights service ${args.serviceName} was not found in the bot file`);
 }
 
 function showErrorHelp(): void {

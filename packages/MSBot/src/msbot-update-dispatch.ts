@@ -4,12 +4,12 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import { BotConfiguration, DispatchService, IConnectedService, IDispatchService, ILuisService, ServiceTypes } from 'botframework-config';
+import { BotConfiguration, IDispatchService, ILuisService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { showMessage, uuidValidate } from './utils';
+import { showMessage } from './utils';
 
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
@@ -19,7 +19,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     showErrorHelp();
 };
 
-interface IConnectDispatchArgs extends ILuisService {
+interface IDispatchArgs extends ILuisService {
     bot: string;
     secret: string;
     stdin: boolean;
@@ -28,8 +28,9 @@ interface IConnectDispatchArgs extends ILuisService {
 }
 
 program
-    .name('msbot connect dispatch')
-    .description('Connect the bot to a dispatch model')
+    .name('msbot update dispatch')
+    .description('update the bot to a dispatch model (--id or --appId is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'name for the dispatch')
     .option('-a, --appId <appid>', 'LUID AppId for the dispatch app')
     .option('--version <version>', 'version for the dispatch app, (example: 0.1)')
@@ -46,7 +47,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args: IConnectDispatchArgs = <IConnectDispatchArgs>{};
+const args: IDispatchArgs = <IDispatchArgs>{};
 Object.assign(args, command);
 
 if (args.stdin) {
@@ -59,14 +60,14 @@ if (process.argv.length < 3) {
 } else {
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
-            .then(processConnectDispatch)
+            .then(processArgs)
             .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
-            .then(processConnectDispatch)
+            .then(processArgs)
             .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
@@ -74,8 +75,7 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processConnectDispatch(config: BotConfiguration): Promise<BotConfiguration> {
-    args.name = args.hasOwnProperty('name') ? args.name : config.name;
+async function processArgs(config: BotConfiguration): Promise<BotConfiguration> {
 
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
@@ -83,57 +83,37 @@ async function processConnectDispatch(config: BotConfiguration): Promise<BotConf
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.hasOwnProperty('name')) {
-        throw new Error('Bad or missing --name');
+    if (!args.id && !args.appId) {
+        throw new Error('requires --id or --appId');
     }
 
-    if (!args.appId || !uuidValidate(args.appId)) {
-        throw new Error('bad or missing --appId');
+    if (args.version) {
+        args.version = args.version.toString();
     }
 
-    if (!args.version) {
-        throw new Error('bad or missing --version');
-    }
-    args.version = args.version.toString();
-
-    if (!args.authoringKey || !uuidValidate(args.authoringKey)) {
-        throw new Error('bad or missing --authoringKey');
-    }
-
-    if (args.subscriptionKey && !uuidValidate(args.subscriptionKey)) {
-        throw new Error('bad --subscriptionKey');
-    }
-
-    const newService: IDispatchService = new DispatchService({
-        name: args.name,
-        appId: args.appId,
-        authoringKey: args.authoringKey,
-        subscriptionKey: args.subscriptionKey,
-        version: args.version,
-        region: args.region,
-        serviceIds: (args.serviceIds) ? args.serviceIds.split(',') : []
-    });
-
-    if (!args.serviceIds) {
-        // default to all services as appropriate
-        // tslint:disable-next-line:no-any
-        const dispatchServices: IConnectedService[] = <IConnectedService[]>(<any>args).services;
-
-        if (<IConnectedService[]>dispatchServices) {
-            for (const service of dispatchServices) {
-                if (service.type === ServiceTypes.File || service.type === ServiceTypes.Luis || service.type === ServiceTypes.QnA) {
-                    newService.serviceIds.push(service.id || '');
-                }
+    for (const service of config.services) {
+        if (service.type === ServiceTypes.Dispatch) {
+            const dispatchService = <IDispatchService>service;
+            if (dispatchService.id === args.id || dispatchService.appId === args.appId) {
+                if (args.hasOwnProperty('name'))
+                    dispatchService.name = args.name;
+                if (args.appId)
+                    dispatchService.appId = args.appId;
+                if (args.subscriptionKey)
+                    dispatchService.subscriptionKey = args.subscriptionKey;
+                if (args.authoringKey)
+                    dispatchService.authoringKey = args.authoringKey;
+                if (args.region)
+                    dispatchService.region = args.region;
+                if (args.serviceIds)
+                    dispatchService.serviceIds = args.serviceIds.split(',');
+                await config.save(args.secret);
+                process.stdout.write(JSON.stringify(dispatchService, null, 2));
+                return config;
             }
         }
     }
-
-    // add the service
-    const id: string = config.connectService(newService);
-    await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
-
-    return config;
+    throw new Error(`Dispatch Service ${args.appId} was not found in the bot file`);
 }
 
 function showErrorHelp(): void {
@@ -145,6 +125,3 @@ function showErrorHelp(): void {
     process.exit(1);
 }
 
-interface ITempDispatchService extends IDispatchService {
-    [key: string]: string | string[] | undefined | boolean | IConnectedService[];
-}

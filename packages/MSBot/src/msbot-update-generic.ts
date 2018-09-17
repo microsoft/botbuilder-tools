@@ -4,7 +4,7 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import { BotConfiguration, GenericService, IGenericService } from 'botframework-config';
+import { BotConfiguration, GenericService, IGenericService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import { showMessage } from './utils';
@@ -17,7 +17,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     showErrorHelp();
 };
 
-interface IConnectGenericArgs extends IGenericService {
+interface IGenericArgs extends IGenericService {
     bot: string;
     secret: string;
     stdin: boolean;
@@ -27,7 +27,8 @@ interface IConnectGenericArgs extends IGenericService {
 
 program
     .name('msbot connect generic')
-    .description('Connect a generic service to the bot')
+    .description('Connect a generic service to the bot (--id or --url is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'name of the service')
     .option('-u, --url <url>', 'deep link url for the service\n')
     .option('--keys <keys>', 'serialized json key/value configuration for the service')
@@ -39,22 +40,27 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args: IConnectGenericArgs = <IConnectGenericArgs>{};
+const args: IGenericArgs = <IGenericArgs>{};
 Object.assign(args, command);
+
+if (args.stdin) {
+    //force verbosity output if args are passed via stdin
+    process.env.VERBOSE = 'verbose';
+}
 
 if (process.argv.length < 3) {
     program.help();
 } else {
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
-            .then(processConnectFile)
+            .then(processArgs)
             .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
-            .then(processConnectFile)
+            .then(processArgs)
             .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
@@ -62,33 +68,29 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processConnectFile(config: BotConfiguration): Promise<BotConfiguration> {
-    args.name = args.hasOwnProperty('name') ? args.name : config.name;
-
-    if (!args.url) {
-        throw new Error('mising --url');
+async function processArgs(config: BotConfiguration): Promise<BotConfiguration> {
+    if (!args.id && !args.url) {
+        throw new Error('requires --id or --url');
     }
 
-    if (!args.configuration) {
-        args.configuration = {};
-        if (args.keys) {
-            if (args.keys) {
-                args.configuration = JSON.parse(args.keys);
+    for (const service of config.services) {
+        if (service.type === ServiceTypes.Generic) {
+            const genericService = <IGenericService>service;
+            if (genericService.id === args.id || genericService.url === args.url) {
+                const id = service.id;
+                const newService = new GenericService(args);
+                Object.assign(service, newService);
+                service.id = id;
+                if (args.keys) {
+                    genericService.configuration = JSON.parse(args.keys);
+                }
+                await config.save(args.secret);
+                process.stdout.write(JSON.stringify(genericService, null, 2));
+                return config;
             }
         }
     }
-
-    // add the service
-    const newService: GenericService = new GenericService({
-        name: args.hasOwnProperty('name') ? args.name : args.url,
-        url: args.url,
-        configuration: args.configuration
-    });
-    const id: string = config.connectService(newService);
-    await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
-
-    return config;
+    throw new Error(`Generic Service ${args.url} was not found in the bot file`);
 }
 
 function showErrorHelp(): void {

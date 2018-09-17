@@ -9,8 +9,12 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
 
+import { showMessage } from './utils';
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
+
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -34,14 +38,14 @@ if (!args.bot) {
     BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
         .then(processListArgs)
         .catch((reason: Error) => {
-            console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+            console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
             showErrorHelp();
         });
 } else {
     BotConfiguration.load(args.bot, args.secret)
         .then(processListArgs)
         .catch((reason: Error) => {
-            console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+            console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
             showErrorHelp();
         });
 }
@@ -56,7 +60,7 @@ async function processListArgs(config: BotConfiguration): Promise<BotConfigurati
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(`[msbot] ${str}`);
+        console.error(str);
 
         return '';
     });

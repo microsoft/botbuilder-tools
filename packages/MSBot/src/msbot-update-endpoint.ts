@@ -4,14 +4,14 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import { BotConfiguration, ILuisService, LuisService } from 'botframework-config';
+import { BotConfiguration, EndpointService, IEndpointService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { uuidValidate } from './utils';
-
+import * as validurl from 'valid-url';
 import { showMessage } from './utils';
+
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -20,7 +20,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     showErrorHelp();
 };
 
-interface IConnectLuisArgs extends ILuisService {
+interface IEndpointArgs extends IEndpointService {
     bot: string;
     secret: string;
     stdin: boolean;
@@ -28,15 +28,13 @@ interface IConnectLuisArgs extends ILuisService {
 }
 
 program
-    .name('msbot connect luis')
-    .description('Connect the bot to a LUIS application')
-    .option('-n, --name <name>', 'name for the LUIS app')
-    .option('-a, --appId <appid>', 'AppId for the LUIS App')
-    .option('--version <version>', 'version for the LUIS App, (example: v0.1)')
-    .option('-r, --region <region>', 'region for the LUIS App, (default:westus)')
-    .option('--authoringKey <authoringkey>',
-            'authoring key for using manipulating LUIS apps via the authoring API (See http://aka.ms/luiskeys for help)')
-    .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying a LUIS model\n')
+    .name('msbot update endpoint')
+    .description('update the bot to an endpoint (--id or --endpoint is required)')
+    .option('--id <id>', 'service id')
+    .option('-n, --name <name>', 'name of the endpoint')
+    .option('-e, --endpoint <endpoint>', 'url for the endpoint\n')
+    .option('-a, --appId  <appid>', '(OPTIONAL) Microsoft AppId used for auth with the endpoint')
+    .option('-p, --appPassword <password>', '(OPTIONAL) Microsoft app password used for auth with the endpoint')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
@@ -45,7 +43,7 @@ program
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
-const args: IConnectLuisArgs = <IConnectLuisArgs>{};
+const args: IEndpointArgs = <IEndpointArgs>{};
 Object.assign(args, command);
 
 if (args.stdin) {
@@ -54,18 +52,19 @@ if (args.stdin) {
 }
 
 if (process.argv.length < 3) {
-    program.help();
+    showErrorHelp();
 } else {
+
     if (!args.bot) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
-            .then(processConnectLuisArgs)
+            .then(processArgs)
             .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
-            .then(processConnectLuisArgs)
+            .then(processArgs)
             .catch((reason: Error) => {
                 console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
@@ -73,53 +72,36 @@ if (process.argv.length < 3) {
     }
 }
 
-async function processConnectLuisArgs(config: BotConfiguration): Promise<BotConfiguration> {
-
-    args.name = args.hasOwnProperty('name') ? args.name : config.name;
-
+async function processArgs(config: BotConfiguration): Promise<BotConfiguration> {
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
-    } else if (args.input) {
+    } else if (args.input != null) {
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.hasOwnProperty('name')) {
-        throw new Error('Bad or missing --name');
+    if (!args.id && !args.endpoint) {
+        throw new Error('requires --id or --endpoint');
     }
 
-    if (!args.appId || !uuidValidate(args.appId)) {
-        throw new Error('bad or missing --appId');
+    if (args.endpoint && (!validurl.isHttpUri(args.endpoint) && !validurl.isHttpsUri(args.endpoint))) {
+        throw new Error(`--endpoint ${args.endpoint} is not a valid url`);
     }
 
-    if (!args.version) {
-        throw new Error('bad or missing --version');
+    for (const service of config.services) {
+        if (service.type === ServiceTypes.Endpoint) {
+            const endpointService = <IEndpointService>service;
+            if (endpointService.id === args.id || endpointService.endpoint === args.endpoint) {
+                const id = service.id;
+                const newService = new EndpointService(args);
+                Object.assign(service, newService);
+                service.id = id;
+                await config.save(args.secret);
+                process.stdout.write(JSON.stringify(endpointService, null, 2));
+                return config;
+            }
+        }
     }
-
-    if (!args.authoringKey || !uuidValidate(args.authoringKey)) {
-        throw new Error('bad or missing --authoringKey');
-    }
-
-    if (!args.region || args.region.length === 0) {
-        args.region = 'westus';
-    }
-
-    //if (!args.subscriptionKey || !uuidValidate(args.subscriptionKey))
-    //    throw new Error("bad or missing --subscriptionKey");
-
-    // add the service
-    const newService: LuisService = new LuisService({
-        name: args.name,
-        appId: args.appId,
-        version: args.version,
-        authoringKey: args.authoringKey,
-        subscriptionKey: args.subscriptionKey,
-        region: args.region
-    });
-    const id: string = config.connectService(newService);
-    await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
-
-    return config;
+    throw new Error(`Endpoint Service ${args.endpoint} was not found in the bot file`);
 }
 
 function showErrorHelp(): void {

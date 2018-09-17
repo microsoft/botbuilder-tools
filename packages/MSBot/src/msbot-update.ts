@@ -2,7 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-/* tslint:disable */
+// tslint:disable:no-console
 import * as chalk from 'chalk';
 import * as program from 'commander';
 
@@ -16,8 +16,15 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 };
 
 program
-    .name('msbot clone services')
-    .command('services', 'clone services from a bot recipe folder to Azure')
+    .name('msbot update')
+    .command('appinsights', 'update Azure AppInsights')
+    .command('blob', 'update Azure Blob storage')
+    .command('cosmosdb', 'update Azure CosmosDB')
+    .command('dispatch', 'update Dispatch model')
+    .command('endpoint', 'update endpoint')
+    .command('generic', 'update generic service configuration')
+    .command('luis', 'update LUIS application')
+    .command('qna', 'update QNA service');
 
 const args: program.Command = program.parse(process.argv);
 
