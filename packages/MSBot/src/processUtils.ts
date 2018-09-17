@@ -27,7 +27,7 @@ export function spawnAsync(command: string, stdout?: (data: string) => void, std
 
         p.on('close', (code: number) => {
             if (code > 0) {
-                reject(` ${code}`);
+                reject(`${command} exit code: ${code}`);
             } else {
                 resolve(out);
             }
