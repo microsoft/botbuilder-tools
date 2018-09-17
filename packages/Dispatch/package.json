@@ -19,6 +19,6 @@
     "dispatch": "bin/dispatch.js"
   },
   "dependencies": {
-    "dotnet-2.1": "^2.1.0"
+
   }
 }
