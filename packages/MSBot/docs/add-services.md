@@ -101,7 +101,7 @@ Options:
 
 An example:
 ```shell
-msbot connect bot --serviceName testbot --name "Test Bot" --appId "562789d2-a344-445c-b4b1-41e8583f9f72" --appPassword 1abHDN3421342 --endpoint https://testbot.azurewebsites.net/api/messages --tenantId "be7b8d72-10ae-4ac1-8527-340bf93e459a" --subscriptionId "60436c45-7f80-46e8-ba10-a8c2f6e4a737" --resourceGroup "Test"
+msbot connect bot --serviceName testbot --name "Test Bot" --appId <APP-ID> --appPassword 1abHDN3421342 --endpoint https://testbot.azurewebsites.net/api/messages --tenantId <TENANT-ID> --subscriptionId <SUBSCRIPTION-ID> --resourceGroup "Test"
 ```
 
 ### Connecting to Azure CosmosDB Service 
@@ -155,7 +155,7 @@ With the following options
 An example:
 
 ```shell
-msbot connect endpoint --name "Debug TestBot" --appId "562789d2-a344-445c-b4b1-41e8583f9f72" --appPassword 1abHDN3421342 --endpoint http://localhost:9090/api/messages
+msbot connect endpoint --name "Debug TestBot" --appId <APP-ID> --appPassword 1abHDN3421342 --endpoint http://localhost:9090/api/messages
 ```
 ### Connecting to LUIS Application
 
@@ -183,7 +183,7 @@ With the following options:
 Here is an example invocation:
 
 ```shell
-msbot connect luis --name "My Luis Model" --appId "562789d2-a344-445c-b4b1-41e8583f9f72" --version v0.1 --authoringKey "6e5adf8b-88ea-46f3-ba2c-c97ecacd4304"
+msbot connect luis --name "My Luis Model" --appId <APP-ID> --version v0.1 --authoringKey <AUTHORING-KEY>
 ```
 
 ### Connecting to QnA Maker Knowledge base
@@ -212,7 +212,7 @@ With the following options:
 Here is an example invocation:
 
 ```shell
-msbot connect qna --secret EncryptItPlease --name "QnA Sauce" --kbId "cfbc14a3-9f69-4fb1-8882-e6f333691a2a" --subscriptionKey "cfbc14a3-9f69-4fb1-8882-e6f333691a2a" --endpointKey "1f998c1c-2c54-49b9-bbbc-5f78e2bfec90" --hostname "https://myqna.azurewebsites.net"
+msbot connect qna --secret EncryptItPlease --name "QnA Sauce" --kbId <KB-ID> --subscriptionKey <KEY> --endpointKey <ENDPOINT-KEY> --hostname "https://myqna.azurewebsites.net"
 ```
 
 ### Connecting to Bot Dispatch

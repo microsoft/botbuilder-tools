@@ -11,5 +11,5 @@ msbot disconnect MyLuisApp
 ```
 Example using ID:
 ```shell
-msbot disconnect "339411fa-ac8d-47ad-8d92-4b083a2c5305"
+msbot disconnect <ID>
 ```
