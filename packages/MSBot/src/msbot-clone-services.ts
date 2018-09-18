@@ -18,7 +18,6 @@ let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
 require('log-prefix')(() => showMessage('%s'));
-program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -54,15 +53,14 @@ program
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
     .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
-    .option('--verbose', 'show verbose information')
     .option('-q, --quiet', 'disable output')
     .description('allows you to clone all of the services a bot into a new azure resource group')
     .action((cmd: program.Command, actions: program.Command) => undefined);
-program.parse(process.argv);
 
 const command: program.Command = program.parse(process.argv);
 const args = <ICloneArgs>{};
 Object.assign(args, command);
+args.verbose = process.env.VERBOSE === 'verbose';
 
 if (typeof (args.name) != 'string') {
     console.error(chalk.default.redBright('missing --name argument'));
