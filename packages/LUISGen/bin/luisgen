@@ -19,7 +19,9 @@ if (args == '"-v"' || args == '"--version"') {
 }
 
 try {
+    process.stdout.write('\n[LUISGen] Calling netcore DLL\n');
     require('child_process').execSync('dotnet ' + __dirname + '/netcoreapp2.0/LUISGen.dll ' + args, { stdio: [0, 1, 2] });
+    process.stdout.write('\n[LUISGen] End of calling netcore DLL\n');
 } catch(err) {
     return 0;
 }
