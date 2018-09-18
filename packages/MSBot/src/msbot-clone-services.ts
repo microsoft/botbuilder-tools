@@ -363,7 +363,7 @@ async function processConfiguration(): Promise<void> {
 
                         // az cosmosdb create --n name -g Group1
                         let cosmosDb = await runCommand(`az cosmosdb create -n ${cosmosName} -g ${azGroup.name}`,
-                            `Creating Azure CosmosDB account [${cosmosName}] ${chalk.default.italic.yellow(`(Please be patient, this may take several minutes)`)}`);
+                            `Creating Azure CosmosDB account [${cosmosName}] ${chalk.default.italic.yellow(`(Please be patient, this may take 5 minutes)`)}`);
 
                         // get keys
                         let cosmosDbKeys = await runCommand(`az cosmosdb list-keys -g ${azGroup.name} -n ${cosmosName}`,
@@ -699,7 +699,7 @@ async function createBot(): Promise<IBotService> {
         }
         else if (stderr.indexOf('Provisioning') > 0) {
             // we need to show warning to user so we can get instructions on logging in
-            console.warn(`[az bot] ${stderr.replace('WARNING: ', '')} (this will take several minutes)`);
+            console.warn(`[az bot] ${stderr.replace('WARNING: ', '')} ${chalk.default.italic.yellow(`(Please be patient, this may take several minutes)`)}`);
         }
     });
     let botService = <IBotService>JSON.parse(stdout);
