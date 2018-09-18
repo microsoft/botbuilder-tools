@@ -764,13 +764,13 @@ class AzBotServiceVersion {
         if (version.major == this.major && version.minor == this.minor && version.patch == this.patch)
             return false;
 
-        if (version.major >= this.major)
+        if (version.major > this.major)
             return true;
 
-        if (version.minor >= this.minor)
+        if (version.minor > this.minor)
             return true;
 
-        if (version.patch >= this.patch)
+        if (version.patch > this.patch)
             return true;
 
         return false;
