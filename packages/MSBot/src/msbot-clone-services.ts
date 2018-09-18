@@ -13,12 +13,11 @@ import * as txtfile from 'read-text-file';
 import * as url from 'url';
 import * as util from 'util';
 import { spawnAsync } from './processUtils';
+import { showMessage } from './utils';
 let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
-import { showMessage } from './utils';
 require('log-prefix')(() => showMessage('%s'));
-program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -39,6 +38,8 @@ interface ICloneArgs {
     luisSubscriptionKey: string;
     qnaSubscriptionKey: string;
     luisRegion: string;
+    sdkVersion: string;
+    sdkLanguage: string;
     args: string[];
 }
 
@@ -50,18 +51,24 @@ program
     .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key for creating luis resources')
     .option('--subscriptionId <subscriptionId>', '(OPTIONAL) Azure subscriptionId to clone bot to, if not passed then current az account will be used')
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
-    .option('--verbose', 'show verbose information')
+    .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
+    .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
     .option('-q, --quiet', 'disable output')
     .description('allows you to clone all of the services a bot into a new azure resource group')
     .action((cmd: program.Command, actions: program.Command) => undefined);
-program.parse(process.argv);
 
 const command: program.Command = program.parse(process.argv);
 const args = <ICloneArgs>{};
 Object.assign(args, command);
+args.verbose = process.env.VERBOSE === 'verbose';
 
 if (typeof (args.name) != 'string') {
     console.error(chalk.default.redBright('missing --name argument'));
+    showErrorHelp();
+}
+
+if (args.name.length < 4 || args.name.length > 42) {
+    console.error(chalk.default.redBright('name has to be between 4 and 42 characters long'));
     showErrorHelp();
 }
 
@@ -87,6 +94,14 @@ async function processConfiguration(): Promise<void> {
         throw new Error('missing --location argument');
     }
 
+    if (!args.sdkVersion) {
+        args.sdkVersion = "v4";
+    }
+
+    if (!args.groupName) {
+        args.groupName = args.name;
+    }
+
     let recipeJson = await txtfile.read(path.join(args.folder, `bot.recipe`));
     let recipe = <BotRecipe>JSON.parse(recipeJson);
 
@@ -95,7 +110,7 @@ async function processConfiguration(): Promise<void> {
         let p = null;
 
         // verify az command exists and is correct version
-         await checkAzBotServiceVersion();
+        await checkAzBotServiceVersion();
 
         // get subscription account data
         command = `az account show`;
@@ -233,7 +248,7 @@ async function processConfiguration(): Promise<void> {
 
         let azBotEndpoint = <IEndpointService><any>azBot;
 
-        command = `az bot show -g ${args.name} -n ${args.name}`;
+        command = `az bot show -g ${args.groupName} -n ${args.name}`;
         logCommand(args, `Fetching bot extended information [${args.name}]`, command);
         p = await exec(command);
         let azBotExtended = JSON.parse(p.stdout);
@@ -245,12 +260,42 @@ async function processConfiguration(): Promise<void> {
         let azGroupResources = JSON.parse(p.stdout);
         let appInsightInfo;
         let storageInfo;
-        for (let groupResource of azGroupResources) {
-            if (groupResource.type == "microsoft.insights/components") {
-                appInsightInfo = groupResource;
-            } else if (groupResource.type == "Microsoft.Storage/storageAccounts") {
-                storageInfo = groupResource;
+        let botAppSite;
+        for (let resource of azGroupResources) {
+            if (resource.type == "microsoft.insights/components") {
+                appInsightInfo = resource;
+            } else if (resource.type == "Microsoft.Storage/storageAccounts") {
+                storageInfo = resource;
+            } else if (resource.type == "Microsoft.Web/sites") {
+                // the website for the bot does have the bot name in it (qna host does)
+                if (resource.name.indexOf('-qnahost') < 0)
+                    botAppSite = resource;
             }
+        }
+
+        // get appSettings from botAppSite (specifically to get secret)
+        if (botAppSite) {
+            command = `az webapp config appsettings list -g ${args.groupName} -n ${botAppSite.name}`;
+            logCommand(args, `Fetching bot website appsettings [${args.name}]`, command);
+            p = await exec(command);
+            let botAppSettings = JSON.parse(p.stdout);
+            for (let setting of botAppSettings) {
+                if (setting.name == "BotSecret") {
+                    args.secret = setting.value;
+                    break;
+                }
+            }
+
+            if (!args.secret) {
+                args.secret = BotConfiguration.generateKey();
+                // set the appsetting
+                command = `az webapp config appsettings set -g ${args.groupName} -n ${botAppSite.name} --settings BotSecret="${args.secret}" `;
+                logCommand(args, `Setting bot website appsettings secret [${args.name}]`, command);
+                p = await exec(command);
+            }
+
+        } else {
+            throw new Error('botsite was not found');
         }
 
         for (let resource of recipe.resources) {
@@ -456,7 +501,8 @@ async function processConfiguration(): Promise<void> {
                     {
                         // qnamaker create kb --subscriptionKey c87eb99bfc274a4db6b671b43f867575  --name testtesttest --in qna.json --wait --msbot -q
                         let qnaPath = path.join(args.folder, `${resource.id}.qna`);
-                        let kbName = `${args.name}-${resource.name}`;
+                        let kbName = resource.name;
+
                         command = `qnamaker create kb --subscriptionKey ${args.qnaSubscriptionKey} --name "${kbName}" --in ${qnaPath} --wait --msbot -q`;
                         logCommand(args, `Creating QnA Maker KB [${kbName}]`, command);
                         p = await exec(command);
@@ -465,6 +511,16 @@ async function processConfiguration(): Promise<void> {
                         service.name = kbName;
                         config.services.push(service);
                         await config.save();
+
+                        // publish  
+                        try
+                        {
+                            command =`qnamaker publish kb --subscriptionKey ${service.subscriptionKey} --kbId ${service.kbId} --hostname ${service.hostname} --endpointKey ${service.endpointKey}`;
+                            logCommand(args, `Publishing QnA Maker KB [${kbName}]`, command);
+                            p = await exec(command);
+                        } catch(err){
+                            console.warn(err.message || err);
+                        }
                     }
                     break;
 
@@ -548,18 +604,26 @@ async function processConfiguration(): Promise<void> {
                 await config.save();
             }
         }
+        if (args.secret) {
+            console.log(`The secret for ${config.getPath()} is ${chalk.default.magentaBright(args.secret)}.  Store this in a secure place.`);
+            await config.save(args.secret);
+        }
         console.log(`${config.getPath()} created.`);
         console.log(`Done cloning.`);
     } catch (error) {
-        let lines = error.message.split('\n');
-        let message = '';
-        for (let line of lines) {
-            // trim to copywrite symbol, help from inner process command line args is inappropriate
-            if (line.indexOf('©') > 0)
-                break;
-            message += line;
+        if (error.message) {
+
+            let lines = error.message.split('\n');
+            let message = '';
+            for (let line of lines) {
+                // trim to copyright symbol, help from inner process command line args is inappropriate
+                if (line.indexOf('©') > 0)
+                    break;
+                message += line;
+            }
+            throw new Error(message);
         }
-        throw new Error(message);
+        throw new Error(error);
     }
 }
 
@@ -595,7 +659,7 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
     let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
     let luisService: LuisService;
 
-    let luisAppName = `${args.name}-${luisResource.name}`;
+    let luisAppName = `${args.name}_${luisResource.name}`;
     let command = `luis import application --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`;
     logCommand(args, `Creating and importing LUIS application [${luisAppName}]`, command);
     let p = await exec(command);
@@ -619,7 +683,15 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
 }
 
 async function createBot(): Promise<IBotService> {
-    let command = `az bot create -g ${args.name} --name ${args.name} --kind webapp --location ${args.location}`;
+    let command = `az bot create -g ${args.groupName} --name ${args.name} --kind webapp --location ${args.location}`;
+    if (args.sdkVersion) {
+        command += ` --version ${args.sdkVersion}`;
+    }
+
+    if (args.sdkLanguage) {
+        command += ` --lang ${args.sdkLanguage}`;
+    }
+
     logCommand(args, `Creating Azure Bot Service [${args.name}]`, command);
 
     let stdout = await spawnAsync(command, undefined, (stderr) => {
@@ -632,16 +704,19 @@ async function createBot(): Promise<IBotService> {
             console.warn(`[az bot] ${stderr.replace('WARNING: ', '')} (this will take several minutes)`);
         }
     });
-    return <IBotService>JSON.parse(stdout);
+    let botService = <IBotService>JSON.parse(stdout);
+    return botService;
 }
 
 async function createGroup(): Promise<any> {
     if (!args.location) {
         throw new Error('missing --location argument');
     }
-
-    let command = `az group create -g ${args.name} -l ${args.location}`;
-    logCommand(args, `Creating Azure group [${args.name}]`, command);
+    if (!args.groupName) {
+        throw new Error('missing --groupName argument');
+    }
+    let command = `az group create -g ${args.groupName} -l ${args.location}`;
+    logCommand(args, `Creating Azure group [${args.groupName}]`, command);
     let p = await exec(command);
     let azGroup = JSON.parse(p.stdout);
     args.groupName = azGroup.name;
@@ -656,7 +731,7 @@ function showErrorHelp() {
     console.log(chalk.default.bold(`NOTE: You did not complete clone process.`));
     if (typeof (args.name) == 'string') {
         console.log('To delete the group and resources run:');
-        console.log(chalk.default.italic(`az group delete -g ${args.name} --no-wait`));
+        console.log(chalk.default.italic(`az group delete -g ${args.groupName} --no-wait`));
     }
     process.exit(1);
 }
@@ -687,13 +762,13 @@ class AzBotServiceVersion {
         if (version.major == this.major && version.minor == this.minor && version.patch == this.patch)
             return false;
 
-        if (version.major >= this.major)
+        if (version.major > this.major)
             return true;
 
-        if (version.minor >= this.minor)
+        if (version.minor > this.minor)
             return true;
 
-        if (version.patch >= this.patch)
+        if (version.patch > this.patch)
             return true;
 
         return false;
