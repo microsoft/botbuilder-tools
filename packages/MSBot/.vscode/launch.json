@@ -120,6 +120,15 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "msbot secret",
+            "program": "${workspaceFolder}/bin/msbot-secret.js",
+            "args": [
+                "testQna"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "msbot get",
             "program": "${workspaceFolder}/bin/msbot-get.js",
             "args": [

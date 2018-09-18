@@ -53,7 +53,7 @@ if (!args.bot) {
 async function processListArgs(config: BotConfiguration): Promise<BotConfiguration> {
     const services: IConnectedService[] = config.services;
 
-    delete config.padlock;
+    config.clearSecret();
     console.log(JSON.stringify(config, null, 4));
 
     return config;
