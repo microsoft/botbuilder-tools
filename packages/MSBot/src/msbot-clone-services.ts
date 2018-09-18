@@ -618,7 +618,7 @@ async function processConfiguration(): Promise<void> {
             let lines = error.message.split('\n');
             let message = '';
             for (let line of lines) {
-                // trim to copywrite symbol, help from inner process command line args is inappropriate
+                // trim to copyright symbol, help from inner process command line args is inappropriate
                 if (line.indexOf('©') > 0)
                     break;
                 message += line;
