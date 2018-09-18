@@ -17,6 +17,8 @@ import { showMessage } from './utils';
 let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
+const AZMINVERSION = '(0.4.1)';
+
 require('log-prefix')(() => showMessage('%s'));
 
 program.Command.prototype.unknownOption = (flag: string): void => {
@@ -644,7 +646,7 @@ async function checkAzBotServiceVersion() {
                 version = newVersion;
         }
     }
-    let neededVersion = new AzBotServiceVersion('(0.4.0)');
+    let neededVersion = new AzBotServiceVersion(AZMINVERSION);
     if (version.isOlder(neededVersion)) {
         console.error(chalk.default.redBright(`[msbot] You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
 To do this run:
