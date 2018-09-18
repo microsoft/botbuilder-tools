@@ -5,8 +5,25 @@ LUISGen is a tool for generating a strongly typed C# class or typescript interfa
 
 ## Prerequisite
 
-- [Node.js](https://nodejs.org/) version 8.5 or higher
+[Node.js](https://nodejs.org/) version 8.5 or higher.
 
+To use C# generated files you may require the latest unpubplished NuGet Bot Builder packages.  They should be downloaded from the private nuget feed
+https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json
+
+To use Typescript generated files you may require the latest unpublished npm Bot Builder pakages. To install from the daily feed follow these instructions in the LUISGenTestJS 
+diretory.
+- Point to the myget feed 
+    ```bash
+    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
+    ```
+- Install modules
+    ```bash
+    npm install
+    ```
+- To reset registry, you can do
+    ```bash
+    npm config set registry https://registry.npmjs.org/
+    ```
 
 ## Installation
 To install LUISGen into the global path:
