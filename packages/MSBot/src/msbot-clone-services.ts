@@ -130,10 +130,96 @@ async function processConfiguration(): Promise<void> {
         // create group
         let azGroup: any;
         let azBot: IBotService | undefined;
+        let azSitePlan: any;
+        let appInsightInfo;
+        let storageInfo;
         let azQnaSubscription: any;
         let azLuisSubscription: any;
+        let azBotExtended: any;
+        let azBotEndpoint: IEndpointService | undefined;
+
+        // create group if not created yet
+        azGroup = await createGroup();
 
         // make sure we have args for services and provisioned LUIS and QnA cognitive services
+
+        // pass 1 - create bot if we are going to need one.  This will create 
+        // * group
+        // * sitePlan
+        // * site
+        // * appInsights
+        // * storage
+        for (let resource of recipe.resources) {
+            if (resource.type == ServiceTypes.Bot) {
+                if (!azBot) {
+                    azBot = await createBot();
+                    azBotEndpoint = <IEndpointService><any>azBot;
+
+                    command = `az bot show -g ${args.groupName} -n ${args.name}`;
+                    logCommand(args, `Fetching bot extended information [${args.name}]`, command);
+                    p = await exec(command);
+                    azBotExtended = JSON.parse(p.stdout);
+
+                    // fetch co-created resources so we can get blob and appinsights data
+                    command = `az resource list -g ${azGroup.name}`;
+                    logCommand(args, `Fetching co-created resources [${args.name}]`, command);
+                    p = await exec(command);
+                    let azGroupResources = JSON.parse(p.stdout);
+                    let botWebSite;
+                    for (let resource of azGroupResources) {
+                        if (resource.type == "microsoft.insights/components") {
+                            appInsightInfo = resource;
+                        } else if (resource.type == "Microsoft.Storage/storageAccounts") {
+                            storageInfo = resource;
+                        } else if (resource.type == "Microsoft.Web/serverfarms") {
+                            azSitePlan = resource;
+                        } else if (resource.type == "Microsoft.Web/sites") {
+                            // the website for the bot does have the bot name in it (qna host does)
+                            if (resource.name.indexOf('-qnahost') < 0)
+                                botWebSite = resource;
+                        }
+                    }
+                    // get appSettings from botAppSite (specifically to get secret)
+                    if (botWebSite) {
+                        command = `az webapp config appsettings list -g ${args.groupName} -n ${botWebSite.name}`;
+                        logCommand(args, `Fetching bot website appsettings [${args.name}]`, command);
+                        p = await exec(command);
+                        let botAppSettings = JSON.parse(p.stdout);
+                        for (let setting of botAppSettings) {
+                            if (setting.name == "BotSecret") {
+                                args.secret = setting.value;
+                                break;
+                            }
+                        }
+
+                        if (!args.secret) {
+                            args.secret = BotConfiguration.generateKey();
+                            // set the appsetting
+                            command = `az webapp config appsettings set -g ${args.groupName} -n ${botWebSite.name} --settings BotSecret="${args.secret}" `;
+                            logCommand(args, `Setting bot website appsettings secret [${args.name}]`, command);
+                            p = await exec(command);
+                        }
+
+                    } else {
+                        throw new Error('botsite was not found');
+                    }
+
+                    config.services.push(new BotService({
+                        type: ServiceTypes.Bot,
+                        id: resource.id,
+                        name: azBot.name,
+                        tenantId: args.tenantId,
+                        subscriptionId: args.subscriptionId,
+                        resourceGroup: args.groupName,
+                        serviceName: azBot.name,
+                        appId: azBot.appId
+                    }));
+                    await config.save();
+                }
+            }
+        }
+
+        // pass 2 - create LUIS and QNA subscriptions
         for (let resource of recipe.resources) {
             switch (resource.type) {
                 case ServiceTypes.Luis:
@@ -141,10 +227,8 @@ async function processConfiguration(): Promise<void> {
                     if (!args.luisAuthoringKey) {
                         throw new Error('missing --luisAuthoringKey argument');
                     }
+
                     if (!azLuisSubscription) {
-                        if (!azGroup) {
-                            azGroup = await createGroup();
-                        }
 
                         // create luis subscription
                         let luisCogsName = `${args.name}-LUIS`;
@@ -165,12 +249,12 @@ async function processConfiguration(): Promise<void> {
 
                 case ServiceTypes.QnA:
                     if (!azQnaSubscription) {
-                        if (!azGroup) {
-                            azGroup = await createGroup();
-                        }
 
-                        if (!azBot) {
-                            azBot = await createBot();
+                        if (!azSitePlan) {
+                            command = `az appservice plan create -g  ${args.groupName} --sku s1 --name ${args.name}`;
+                            logCommand(args, `Creating site plan [${args.name}]`, command);
+                            p = await exec(command);
+                            azSitePlan = JSON.parse(p.stdout);
                         }
                         // create qnaMaker service in resource group
 
@@ -236,86 +320,30 @@ async function processConfiguration(): Promise<void> {
                     break;
             }
         }
-        // create group if not created yet
-        if (!azGroup) {
-            azGroup = await createGroup();
-        }
 
-        // create bot if not created yet
-        if (!azBot) {
-            azBot = await createBot();
-        }
-
-        let azBotEndpoint = <IEndpointService><any>azBot;
-
-        command = `az bot show -g ${args.groupName} -n ${args.name}`;
-        logCommand(args, `Fetching bot extended information [${args.name}]`, command);
-        p = await exec(command);
-        let azBotExtended = JSON.parse(p.stdout);
-
-        // fetch co-created resources so we can get blob and appinsights data
-        command = `az resource list -g ${azGroup.name}`;
-        logCommand(args, `Fetching co-created resources [${args.name}]`, command);
-        p = await exec(command);
-        let azGroupResources = JSON.parse(p.stdout);
-        let appInsightInfo;
-        let storageInfo;
-        let botAppSite;
-        for (let resource of azGroupResources) {
-            if (resource.type == "microsoft.insights/components") {
-                appInsightInfo = resource;
-            } else if (resource.type == "Microsoft.Storage/storageAccounts") {
-                storageInfo = resource;
-            } else if (resource.type == "Microsoft.Web/sites") {
-                // the website for the bot does have the bot name in it (qna host does)
-                if (resource.name.indexOf('-qnahost') < 0)
-                    botAppSite = resource;
-            }
-        }
-
-        // get appSettings from botAppSite (specifically to get secret)
-        if (botAppSite) {
-            command = `az webapp config appsettings list -g ${args.groupName} -n ${botAppSite.name}`;
-            logCommand(args, `Fetching bot website appsettings [${args.name}]`, command);
-            p = await exec(command);
-            let botAppSettings = JSON.parse(p.stdout);
-            for (let setting of botAppSettings) {
-                if (setting.name == "BotSecret") {
-                    args.secret = setting.value;
-                    break;
-                }
-            }
-
-            if (!args.secret) {
-                args.secret = BotConfiguration.generateKey();
-                // set the appsetting
-                command = `az webapp config appsettings set -g ${args.groupName} -n ${botAppSite.name} --settings BotSecret="${args.secret}" `;
-                logCommand(args, `Setting bot website appsettings secret [${args.name}]`, command);
-                p = await exec(command);
-            }
-
-        } else {
-            throw new Error('botsite was not found');
-        }
-
+        // pass 3- create the actual services
         for (let resource of recipe.resources) {
             switch (resource.type) {
 
                 case ServiceTypes.AppInsights:
                     {
                         // this was created via az bot create, hook it up
-                        config.services.push(new AppInsightsService({
-                            type: ServiceTypes.AppInsights,
-                            id: resource.id,
-                            tenantId: args.tenantId,
-                            subscriptionId: args.subscriptionId,
-                            resourceGroup: args.groupName,
-                            name: appInsightInfo.name,
-                            serviceName: appInsightInfo.name,
-                            instrumentationKey: azBotExtended.properties.developerAppInsightKey,
-                            applicationId: azBotExtended.properties.developerAppInsightsApplicationId,
-                            apiKeys: azBotExtended.properties.developerAppInsightsApiKey
-                        }));
+                        if (azBotExtended) {
+                            config.services.push(new AppInsightsService({
+                                type: ServiceTypes.AppInsights,
+                                id: resource.id,
+                                tenantId: args.tenantId,
+                                subscriptionId: args.subscriptionId,
+                                resourceGroup: args.groupName,
+                                name: appInsightInfo.name,
+                                serviceName: appInsightInfo.name,
+                                instrumentationKey: azBotExtended.properties.developerAppInsightKey,
+                                applicationId: azBotExtended.properties.developerAppInsightsApplicationId,
+                                apiKeys: azBotExtended.properties.developerAppInsightsApiKey
+                            }));
+                        } else {
+                            console.warn("WARNING: No bot appInsights plan was created because no bot was created");
+                        }
                         await config.save();
                     }
                     break;
@@ -323,41 +351,40 @@ async function processConfiguration(): Promise<void> {
                 case ServiceTypes.BlobStorage:
                     {
                         // this was created via az bot create, get the connection string and then hook it up
-                        command = `az storage account show-connection-string -g ${azGroup.name} -n "${storageInfo.name}"`;
-                        logCommand(args, `Fetching Azure Blob Storage connection string [${args.name}]`, command);
-                        p = await exec(command);
-                        let blobConnection = JSON.parse(p.stdout);
+                        if (!storageInfo) {
+                            let storageName = `${storageInfo.name.toLowerCase().replace(' ', '')}storage`;
+                            command = `az storage account create -g ${azGroup.name} -n "${storageName}" --location ${args.location} --sku Standard_LRS`;
+                            logCommand(args, `Creating Azure Blob Storage  [${storageName}]`, command);
+                            p = await exec(command);
+                            storageInfo = JSON.parse(p.stdout);
+                        }
 
-                        let blobResource = <IBlobResource>resource;
-                        config.services.push(new BlobStorageService({
-                            type: ServiceTypes.BlobStorage,
-                            id: resource.id,
-                            name: storageInfo.name,
-                            serviceName: storageInfo.name,
-                            tenantId: args.tenantId,
-                            subscriptionId: args.subscriptionId,
-                            resourceGroup: args.groupName,
-                            connectionString: blobConnection.connectionString,
-                            container: blobResource.container
-                        }));
+                        if (storageInfo) {
+                            command = `az storage account show-connection-string -g ${azGroup.name} -n "${storageInfo.name}"`;
+                            logCommand(args, `Fetching Azure Blob Storage connection string [${args.name}]`, command);
+                            p = await exec(command);
+                            let blobConnection = JSON.parse(p.stdout);
+
+                            let blobResource = <IBlobResource>resource;
+                            config.services.push(new BlobStorageService({
+                                type: ServiceTypes.BlobStorage,
+                                id: resource.id,
+                                name: storageInfo.name,
+                                serviceName: storageInfo.name,
+                                tenantId: args.tenantId,
+                                subscriptionId: args.subscriptionId,
+                                resourceGroup: args.groupName,
+                                connectionString: blobConnection.connectionString,
+                                container: blobResource.container
+                            }));
+                        }
                         await config.save();
                     }
                     break;
 
                 case ServiceTypes.Bot:
                     {
-                        // created via az bot create, register the result
-                        config.services.push(new BotService({
-                            type: ServiceTypes.Bot,
-                            id: resource.id,
-                            name: azBot.name,
-                            tenantId: args.tenantId,
-                            subscriptionId: args.subscriptionId,
-                            resourceGroup: args.groupName,
-                            serviceName: azBot.name,
-                            appId: azBot.appId
-                        }));
-                        await config.save();
+                        // already created
                     }
                     break;
 
@@ -421,28 +448,32 @@ async function processConfiguration(): Promise<void> {
                                 type: ServiceTypes.Endpoint,
                                 id: resource.id,
                                 name: resource.name,
-                                appId: azBotEndpoint.appId,
-                                appPassword: azBotEndpoint.appPassword,
+                                appId: (azBotEndpoint) ? azBotEndpoint.appId : '',
+                                appPassword: (azBotEndpoint) ? azBotEndpoint.appPassword : '',
                                 endpoint: urlResource.url
                             }));
                         } else {
                             // merge oldUrl and new Url hostname
                             let oldUrl = new url.URL(urlResource.url);
-                            let azUrl = new url.URL(azBotEndpoint.endpoint);
-                            oldUrl.hostname = azUrl.hostname;
+                            if (azBotEndpoint) {
 
-                            config.services.push(new EndpointService({
-                                type: ServiceTypes.Endpoint,
-                                id: resource.id,
-                                name: resource.name,
-                                appId: azBotEndpoint.appId,
-                                appPassword: azBotEndpoint.appPassword,
-                                endpoint: oldUrl.href
-                            }));
+                                let azUrl = new url.URL(azBotEndpoint.endpoint);
+                                oldUrl.hostname = azUrl.hostname;
 
-                            if (oldUrl != azUrl) {
-                                // TODO update bot service record with merged url
+                                config.services.push(new EndpointService({
+                                    type: ServiceTypes.Endpoint,
+                                    id: resource.id,
+                                    name: resource.name,
+                                    appId: azBotEndpoint.appId,
+                                    appPassword: azBotEndpoint.appPassword,
+                                    endpoint: oldUrl.href
+                                }));
 
+                                if (oldUrl != azUrl) {
+                                    // TODO update bot service record with merged url
+                                }
+                            } else {
+                                console.warn("There is no cloud endpoint to because there is no bot created");
                             }
                         }
                         await config.save();
@@ -513,12 +544,11 @@ async function processConfiguration(): Promise<void> {
                         await config.save();
 
                         // publish  
-                        try
-                        {
-                            command =`qnamaker publish kb --subscriptionKey ${service.subscriptionKey} --kbId ${service.kbId} --hostname ${service.hostname} --endpointKey ${service.endpointKey}`;
+                        try {
+                            command = `qnamaker publish kb --subscriptionKey ${service.subscriptionKey} --kbId ${service.kbId} --hostname ${service.hostname} --endpointKey ${service.endpointKey}`;
                             logCommand(args, `Publishing QnA Maker KB [${kbName}]`, command);
                             p = await exec(command);
-                        } catch(err){
+                        } catch (err) {
                             console.warn(err.message || err);
                         }
                     }
@@ -547,7 +577,7 @@ async function processConfiguration(): Promise<void> {
                         break;
                 }
             }
-            if (!hasBot && azBot) {
+            if (!hasBot && azBotEndpoint) {
                 // created via az bot create, register the result
                 config.connectService(new BotService({
                     name: azBot.name,
