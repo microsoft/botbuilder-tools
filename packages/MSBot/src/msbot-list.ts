@@ -8,8 +8,8 @@ import { BotConfiguration, IConnectedService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
-
 import { showMessage } from './utils';
+
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -53,6 +53,7 @@ if (!args.bot) {
 async function processListArgs(config: BotConfiguration): Promise<BotConfiguration> {
     const services: IConnectedService[] = config.services;
 
+    delete config.padlock;
     console.log(JSON.stringify(config, null, 4));
 
     return config;
