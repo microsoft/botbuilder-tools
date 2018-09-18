@@ -262,4 +262,7 @@ __pycache__/
 
 # Output
 netcoreapp2.0/
-/LUISGenTestJS/lib
+LUISGenTestJS/src/*.js
+LUISGenTestJS/src/*.map
+LUISGenTestJS/src/*.d.ts
+

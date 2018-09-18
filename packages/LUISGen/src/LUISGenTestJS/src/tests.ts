@@ -1,4 +1,6 @@
-﻿const assert = require('assert');
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+const assert = require('assert');
 const fs = require('fs-extra');
 const { TestAdapter, TurnContext } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');

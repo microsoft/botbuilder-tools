@@ -1,25 +1,69 @@
 # LUISGen Command Line Tool
-This is the source for LUISGen, a tool for  which is a tool for generating a strongly typed C# class or Typescript interface file to make consuming LUIS output easier.  
-This enables build-time checking and intellisense.
+[![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)
 
-## Building the tool
-If you open the .sln file and build the LUISGen project, it will produce a LUISGen\NodeTool directory which has everything required publishing or using the LUISGen tool. 
-You can find detatils on using the tool  in the [readme](LUISGen\NodeTool\readme.md).  Once you build the tool, you can test it by running the tests.
+LUISGen is a tool for generating a strongly typed C# class or typescript interface to make consuming LUIS output easier.  This enables build-time error checking and intellisense.
 
-## Testing the tool output in C#
-The project LUISGenTest tests a LUISGen C# generated class.  All tests should pass if you run them since it uses a mocked interface to LUIS. 
-If you update LUISGen and want to test it, you should replace the Contoso_App.cs in LUISGenTest with your newly generated one with this debug command:
-`"..\..\..\..\LUISGenTest\Contoso App.json" -cs Microsoft.Bot.Builder.Ai.LUIS.Tests.Contoso_App  -o ..\..\..\..\LUISGenTest`
-If you want to run live tests against the LUIS service you need to make changes in Tests.cs:
-1) Set _mock = false and supply a LUIS endpoint key in _endpointKey.
-2) Run the tests.  This will go against the LUIS service and if there are changes from the checked in oracle files they will be added to LUISGenTest\TestData as <test>.json.new.
-3) If there are failures run LUISGenTest\TestData\review.cmd to look at the changes and approve them as new oracle file.
+## Prerequisite
 
-## Testing the tool output in Typescript
-The project LUISGenTestJS tests a LUISGen Typescript generated inteface.  All test should pass if you run them since it uses a mocked interface to LUIS.
-If you update LUISGen and want to test it, you should replace src\Contoso_App.ts in LUISGenTest with your newly generated one with this debug command:
-`"..\..\..\..\LUISGenTest\Contoso App.json" -ts ..\..\..\..\LUISGenTestJS\src`
-If you want to run live tests against the LUIS service you must make changes in src\tests.ts:
-1) Set mockLuis = true and endpointKey to a LUIS endpoint key. 
-2) Run the tests.  This will go against the LUIS service and if there are changes from the checked in oracle files they will be added to LUISGenTestJS\src\TestData as <test>.json.new.
-3) If there are failures run LUISGenTestJS\src\TestData\review.cmd to look at the changes and approve them as new oracle file.
+- [Node.js](https://nodejs.org/) version 8.5 or higher
+
+
+## Installation
+To install LUISGen into the global path:
+
+```shell
+npm install -g luisgen
+```
+
+## Generating a class
+
+Generate a strongly typed class for consuming intents and entities from a LUIS export file:
+`LUISGen <AppNameLUISExport.json> [-cs [[NAMESPACE.]CLASS]] [-ts [CLASS]] [-o PATH]`
+
+If the input is empty, LUISGen will get the export file from stdin.
+
+At least one of `-cs` or `-ts` must be supplied:
+
+1) Generate C# class file including namespace.  Default is Luis.APPNAME if no class name is specified.
+`cs [[NAMESPACE.][CLASS]]`
+
+2) Generate Typescript interface descriptions.  Default is APPNAME if no class name is specified.
+`-ts [CLASS]`
+
+`-o PATH` specifies the output path to the generated files. Default value is the directory where the export file is located.
+
+## Using the generated class in C#
+1) Add the `.cs` file to your project.
+2) Call your `LuisRecognizer` instance supplying the type to `.Recognize`:
+
+    `var result = recognizer.Recognize<APPNAME>("hi", CancellationToken.None);`
+
+The variable will be strongly typed LUIS result.
+
+## Using the generated class in Typescript
+1) Add the `.ts` file to your project.
+2) Call your `LuisRecognizer` instance and type the returned result with your class.
+
+    `recognizer.recognize(context).then(app : APPNAME => {});`
+
+The callback value app will be a strongly typed LUIS result.
+
+## Nightly builds
+
+Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
+
+You can get the latest nightly build of LUISGen from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+
+```shell
+npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+```
+
+Install using npm:
+```shell
+npm i -g luisgen
+```
+
+To reset registry:
+```shell
+npm config set registry https://registry.npmjs.org/
+```

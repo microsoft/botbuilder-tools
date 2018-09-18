@@ -9,8 +9,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LUISGenTest", "LUISGenTest\
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "LUISGenTestJS", "LUISGenTestJS\LUISGenTestJS.njsproj", "{B6C37F07-7C55-4274-8246-8F816CF460DC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{25672085-33AB-44CE-942D-48548A3A88A4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NodeTool", "NodeTool", "{AC774592-29EA-4DF3-A9A5-A6908693F037}"
 	ProjectSection(SolutionItems) = preProject
+		..\package-lock.json = ..\package-lock.json
+		..\package.json = ..\package.json
+		..\readme.md = ..\readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bin", "bin", "{4DF6FCBE-21EE-4C77-B8AE-12AF0252B597}"
+	ProjectSection(SolutionItems) = preProject
+		..\bin\luisgen.js = ..\bin\luisgen.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{974918B0-7554-475C-9CAA-6735F8022940}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.Config = NuGet.Config
 		readme.md = readme.md
 	EndProjectSection
 EndProject
@@ -35,6 +48,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4DF6FCBE-21EE-4C77-B8AE-12AF0252B597} = {AC774592-29EA-4DF3-A9A5-A6908693F037}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {778642B4-1A6B-4C38-B33C-B44DC77B419B}

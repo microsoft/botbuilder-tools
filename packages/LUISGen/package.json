@@ -17,5 +17,9 @@
   },
   "dependencies": {
     "dotnet-2.1": "^2.1.0"
-  }
+  },
+  "files":[
+    "readme.md",
+    "bin"
+  ]
 }

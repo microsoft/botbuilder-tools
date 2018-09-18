@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="rd /s /q $(ProjectDir)NodeTool\bin\netcoreapp2.1\&#xD;&#xA;mkdir $(ProjectDir)NodeTool\bin\netcoreapp2.1\&#xD;&#xA;copy $(OutDir)* $(ProjectDir)NodeTool\bin\netcoreapp2.1\&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" />
+	  <Exec Command="echo copy to $(ProjectDir)..\..\bin\netcoreapp2.1\&#xD;&#xA;rd /s /q $(ProjectDir)..\..\bin\netcoreapp2.1\&#xD;&#xA;mkdir $(ProjectDir)..\..\bin\netcoreapp2.1\&#xD;&#xA;copy $(OutDir)* $(ProjectDir)..\..\bin\netcoreapp2.1\&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" />
 	</Target>
 
 </Project>
