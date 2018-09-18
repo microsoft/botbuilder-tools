@@ -191,17 +191,9 @@
             "program": "${workspaceFolder}/bin/msbot-connect-dispatch.js",
             "args": [
                 "-b",
-                "test/bot.txt",
-                "-n",
-                "LUIS",
-                "-a",
-                "00000000-0000-0000-0000-00000000000a",
-                "--authoringKey",
-                "00000000-0000-0000-0000-00000000000a",
-                "--subscriptionKey",
-                "00000000-0000-0000-0000-00000000000b",
-                "--version",
-                "1.0"
+                "foo.bot",
+                "--input",
+                "dispatch.txt"
             ]
         },
         {
