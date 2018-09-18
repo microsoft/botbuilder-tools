@@ -45,8 +45,6 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
-program.parse(process.argv);
-
 const command: program.Command = program.parse(process.argv);
 const args: IQnaArgs = <IQnaArgs>{};
 Object.assign(args, command);

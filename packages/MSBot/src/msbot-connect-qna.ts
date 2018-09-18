@@ -10,9 +10,8 @@ import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
-import { uuidValidate } from './utils';
+import { showMessage, uuidValidate } from './utils';
 
-import { showMessage } from './utils';
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -45,8 +44,6 @@ program
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd: program.Command, actions: program.Command) => undefined);
-
-program.parse(process.argv);
 
 const command: program.Command = program.parse(process.argv);
 const args: IConnectQnaArgs = <IConnectQnaArgs>{};

@@ -8,8 +8,8 @@ import { BotConfiguration, BotRecipe, IConnectedService } from 'botframework-con
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
-
 import { showMessage } from './utils';
+
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -35,11 +35,11 @@ program
     .option('-q, --quiet', 'disable output')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .action((cmd: program.Command, actions: program.Command) => undefined);
-program.parse(process.argv);
 
 const command: program.Command = program.parse(process.argv);
 const args: IExportArgs = <IExportArgs>{};
 Object.assign(args, command);
+args.verbose = process.env.VERBOSE === 'verbose';
 
 if (!args.bot) {
     BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
