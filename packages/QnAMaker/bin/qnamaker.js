@@ -116,6 +116,20 @@ async function runProgram() {
                         requestBody.name = answer.trim();
                 }
             }
+            // hack to map incorrect export property from expected import.  Export uses qnaDocuments, create/update/replace qnaList :(
+            if (requestBody.qnaDocuments && !requestBody.qnaList) {
+                requestBody.qnaList = requestBody.qnaDocuments;
+                delete requestBody.qnaDocuments;
+            }
+            break;
+
+        case "replace":
+        case "update":
+            // hack to map incorrect export property from expected.  Export uses qnaDocuments, create/update/replace qnaList :(
+            if (requestBody.qnaDocuments && !requestBody.qnaList) {
+                requestBody.qnaList = requestBody.qnaDocuments;
+                delete requestBody.qnaDocuments;
+            }
             break;
     }
 
