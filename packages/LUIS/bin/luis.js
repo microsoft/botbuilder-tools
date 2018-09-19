@@ -79,7 +79,6 @@ async function runProgram() {
     args.appId = args.appId || args.applicationId || args.a || serviceIn.appId || config.appId;
     args.versionId = args.versionId || args.version || serviceIn.versionId || config.versionId || serviceIn.version;
     args.region = args.region || serviceIn.region || config.region || "westus";
-    // args.endpointBasePath = (args.region) ? `https://${args.region}.api.cognitive.microsoft.com/luis/api/v2.0` : config.endpointBasePath;
     args.customHeaders = { "accept-language": "en-US" };
 
     validateConfig(args);
