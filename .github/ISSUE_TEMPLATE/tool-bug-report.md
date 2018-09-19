@@ -1,6 +1,6 @@
 ---
-name: Bug report
-about: Create a bug report for a tool.
+name: Tool bug report
+about: Report a bug in a tool.
 
 ---
 
