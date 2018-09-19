@@ -5,9 +5,9 @@ about: Suggest an idea for a tool
 ---
 
 # Tool
-[ ] Msbot [ ] Ludown [ ] LUIS [ ] QnAMaker [ ] Chatdown [ ] Dispatch [ ] LuisGen
+Tool:[Msbot|Ludown|LUIS|QnAMaker|Chatdown|Dispatch|LuisGen]
 
-# Is your feature request related to a problem? Please describe.
+# Describe the problem
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
 # Describe the solution you'd like
