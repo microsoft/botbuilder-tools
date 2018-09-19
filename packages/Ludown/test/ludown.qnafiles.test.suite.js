@@ -32,7 +32,7 @@ describe('With parse file function', function() {
         let fileContent = `[Valid PDF](https://download.microsoft.com/download/2/9/B/29B20383-302C-4517-A006-B0186F04BE28/surface-pro-4-user-guide-EN.pdf)`;
         let Blob1 = await parseFile(fileContent, false, null);
         let Blob2 = await parseFile(fileContent, false, null);
-        collateFiles([Blob1.qnaJsonStructure, Blob2.qnaJsonStructure])
+        collateFiles([Blob1, Blob2])
             .then(res => {
                 assert.equal(res.files[0].fileUri, 'https://download.microsoft.com/download/2/9/B/29B20383-302C-4517-A006-B0186F04BE28/surface-pro-4-user-guide-EN.pdf');
             })
