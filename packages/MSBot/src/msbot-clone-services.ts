@@ -13,7 +13,7 @@ import * as txtfile from 'read-text-file';
 import * as url from 'url';
 import * as util from 'util';
 import { spawnAsync } from './processUtils';
-import { showMessage } from './utils';
+import { luisRegions, regionToAuthoringRegionMap, showMessage } from './utils';
 let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
@@ -36,10 +36,11 @@ interface ICloneArgs {
     secret: string;
     quiet: boolean;
     verbose: boolean;
+    luisAuthoringRegion: string;
     luisAuthoringKey: string;
+    luisPublishRegion: string | undefined;
     luisSubscriptionKey: string;
     qnaSubscriptionKey: string;
-    luisRegion: string;
     sdkVersion: string;
     sdkLanguage: string;
     args: string[];
@@ -50,7 +51,9 @@ program
     .option('-n, --name <name>', 'name of new bot')
     .option('-f, --folder <folder>', 'path to folder containing exported resources')
     .option('-l, --location <location>', 'location to create the bot service in (westus, ...)')
-    .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key for creating luis resources')
+    .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key from the appropriate luisAuthoringRegion for luis resources')
+    .option('--luisAuthoringRegion <luisAuthoringRegion>', '(OPTIONAL) [westus|westeurope|australiaeast] authoring region to put LUIS models into (default is based on location)')
+    .option('--luisPublishRegion <luisRegion>', '(OPTIONAL) region to publish LUIS models to (default fallback is based location || luisAuthoringRegion)')
     .option('--subscriptionId <subscriptionId>', '(OPTIONAL) Azure subscriptionId to clone bot to, if not passed then current az account will be used')
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
@@ -73,6 +76,7 @@ if (args.name.length < 4 || args.name.length > 42) {
     console.error(chalk.default.redBright('name has to be between 4 and 42 characters long'));
     showErrorHelp();
 }
+
 
 let config = new BotConfiguration();
 config.name = args.name;
@@ -139,8 +143,6 @@ async function processConfiguration(): Promise<void> {
 
         // create group if not created yet
         azGroup = await createGroup();
-
-        // make sure we have args for services and provisioned LUIS and QnA cognitive services
 
         // pass 1 - create bot if we are going to need one.  This will create 
         // * group
@@ -211,7 +213,7 @@ async function processConfiguration(): Promise<void> {
             }
         }
 
-        // pass 2 - create LUIS and QNA subscriptions
+        // pass 2 - create LUIS and QNA cognitive service subscriptions (and hosting services)
         for (let resource of recipe.resources) {
             switch (resource.type) {
                 case ServiceTypes.Luis:
@@ -219,19 +221,30 @@ async function processConfiguration(): Promise<void> {
                     if (!args.luisAuthoringKey) {
                         throw new Error('missing --luisAuthoringKey argument');
                     }
-
                     if (!azLuisSubscription) {
+                        if (!args.luisAuthoringRegion) {
+                            if (regionToAuthoringRegionMap.hasOwnProperty(args.location))
+                                args.luisAuthoringRegion = regionToAuthoringRegionMap[args.location];
+                            else
+                                throw Error(`${args.location} does not have a valid luisAuthoringRegion.  Pass --luisAuthoringRegion to tell us which region you are in`);
+                        }
+
+                        if (!args.luisPublishRegion) {
+                            args.luisPublishRegion = luisRegions.find((value) => value == args.location);
+                            if (!args.luisPublishRegion) {
+                                args.luisPublishRegion = args.luisAuthoringRegion;
+                            }
+                        }
 
                         // create luis subscription
                         let luisCogsName = `${args.name}-LUIS`;
-                        azLuisSubscription = await runCommand(`az cognitiveservices account create -g ${azGroup.name} --kind LUIS -n "${luisCogsName}" --location ${args.location} --sku S0 --yes`,
+                        azLuisSubscription = await runCommand(`az cognitiveservices account create -g ${azGroup.name} --kind LUIS -n "${luisCogsName}" --location ${args.luisPublishRegion} --sku S0 --yes`,
                             `Creating LUIS Cognitive Service [${luisCogsName}]`);
 
                         // get keys
                         let luisKeys = await runCommand(`az cognitiveservices account keys list -g ${azGroup.name} -n "${luisCogsName}"`,
                             `Fetching LUIS Keys [${luisCogsName}]`);
                         args.luisSubscriptionKey = luisKeys.key1;
-                        args.luisRegion = args.location;
                     }
                     break;
 
@@ -276,7 +289,8 @@ async function processConfiguration(): Promise<void> {
                         // create qnamaker account
                         let qnaAccountName = args.name + '-QnAMaker';
                         command = `az cognitiveservices account create -g ${azGroup.name} --kind QnAMaker -n "${qnaAccountName}" --sku S0 `;
-                        command += `--location ${azGroup.location} --yes `;
+                        // NOTE: currently qnamaker is only available in westus
+                        command += `--location westus --yes `;
                         command += `--api-properties qnaRuntimeEndpoint=https://${qnaHostName}.azurewebsites.net`;
                         azQnaSubscription = await runCommand(command, `Creating QnA Maker Cognitive Service [${qnaAccountName}]`);
 
@@ -658,25 +672,27 @@ To do this run:
     return { command, p };
 }
 
+
 async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisService> {
     let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
     let luisService: LuisService;
+    const luisAuthoringRegion = regionToAuthoringRegionMap[args.location];
 
     let luisAppName = `${args.name}_${luisResource.name}`;
-    let svcOut = <ILuisService>await runCommand(`luis import application --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
+    let svcOut = <ILuisService>await runCommand(`luis import application --region ${luisAuthoringRegion} --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
         `Creating and importing LUIS application [${luisAppName}]`);
     luisService = new LuisService(svcOut);
 
-    let command = `luis train version --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --wait `;
+    let command = `luis train version --region ${luisAuthoringRegion} --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --wait `;
     logCommand(args, `Training LUIS application [${luisService.name}]`, command);
     await spawnAsync(command);
 
     // publish application
-    await runCommand(`luis publish version --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --region ${luisService.region} `,
-        `Publishing LUIS application [${luisService.name}]`);
+    await runCommand(`luis publish version --region ${luisAuthoringRegion} --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --publishRegion ${args.luisPublishRegion} `,
+        `Publishing LUIS application [${luisService.name}] to ${args.luisPublishRegion}`);
 
     // mark application as public (TEMPORARY, THIS SHOULD BE REMOVED ONCE LUIS PROVIDES KEY ASSIGN API)
-    await runCommand(`luis update settings --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --public true`,
+    await runCommand(`luis update settings --region ${luisAuthoringRegion} --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --public true`,
         `Updating LUIS settings [${luisService.name}]`);
 
     return luisService;
@@ -696,12 +712,12 @@ async function createBot(): Promise<IBotService> {
 
     let stdout = await spawnAsync(command, undefined, (stderr) => {
         if (stderr.indexOf('https://microsoft.com/devicelogin') > 0) {
-            console.warn(`[az bot] ${stderr.replace('WARNING: ', '')}`);
+            console.log(`[az bot] ${stderr.replace('WARNING: ', '')}`);
             opn('https://microsoft.com/devicelogin');
         }
         else if (stderr.indexOf('Provisioning') > 0) {
             // we need to show warning to user so we can get instructions on logging in
-            console.warn(`[az bot] ${stderr.replace('WARNING: ', '')} ${chalk.default.italic.yellow(`(Please be patient, this may take several minutes)`)}`);
+            console.log(`[az bot] ${stderr.replace('WARNING: ', '')} ${chalk.default.italic.yellow(`(Please be patient, this may take several minutes)`)}`);
         }
     });
     let botService = <IBotService>JSON.parse(stdout);
