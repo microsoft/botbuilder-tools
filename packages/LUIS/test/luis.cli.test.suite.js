@@ -16,7 +16,7 @@ describe('The LUIS cli tool', () => {
         
         describe('with query command', () => {
             it('and no question', done =>{
-                exec(`node ${luis} --authoringKey dummy-key --endpointBasePath dummy-path query`, (error, stdout, stderr) => {
+                exec(`node ${luis} --authoringKey dummy-key --region westeurope query`, (error, stdout, stderr) => {
                     assert.equal(stdout, '');
                     assert(stderr.includes('missing -q'));
                     done();
@@ -24,7 +24,7 @@ describe('The LUIS cli tool', () => {
             });
 
             it('and no appid', done =>{
-                exec(`node ${luis} --authoringKey dummy-key --endpointBasePath dummy-path query --q "message to send"`, (error, stdout, stderr) => {
+                exec(`node ${luis} --authoringKey dummy-key --region westeurope query --q "message to send"`, (error, stdout, stderr) => {
                     assert.equal(stdout, '');
                     assert(stderr.includes('missing --appid'));
                     done();
@@ -32,7 +32,7 @@ describe('The LUIS cli tool', () => {
             });
 
             it('and all other args', done =>{
-                exec(`node ${luis} --authoringKey dummy-key --endpointBasePath dummy-path query --q "message to send" --appId dummy-app`, (error, stdout, stderr) => {
+                exec(`node ${luis} --authoringKey dummy-key --region westeurope query --q "message to send" --appId dummy-app`, (error, stdout, stderr) => {
                     assert.equal(stdout, '');
                     assert(stderr.includes('401'), stderr);
                     done();

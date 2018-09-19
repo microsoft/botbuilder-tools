@@ -25,20 +25,20 @@ The json format for the `.luisrc` file is:
   "appId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
   "authoringKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "versionId": "x.x.xx",
-  "endpointBasePath": "https://xxxxxx.api.cognitive.microsoft.com/luis/api/v2.0"
+  "region": "xxxxxxx"
 }
 ```
 The CLI has a utility command that walks through the creation of this file:
 `luis init`,
 or it can be created manually.
 
-2. As arguments to the CLI: `luis <verb> <resource> --appId <string> --versionId <string> --authoringKey <string> --endpointBasePath <string>`
+2. As arguments to the CLI: `luis <verb> <resource> --appId <string> --versionId <string> --authoringKey <string> --region <string>`
 
-3. As environment variables: `LUIS_APP_ID`, `LUIS_VERSION_ID`, `LUIS_AUTHORING_KEY`, `LUIS_ENDPOINT_BASE_PATH`
+3. As environment variables: `LUIS_APP_ID`, `LUIS_VERSION_ID`, `LUIS_AUTHORING_KEY`, `LUIS_REGION`
 
 You need a [LUIS](https://www.luis.ai) account to get an authoring key. Refer to [Keys in LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-keys) for more information. 
 If you have already built a LUIS application and would like to work on it using the LUIS CLI, you can determine the appId, versionId by following instructions in this [Readme](https://github.com/Microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-LUIS). 
-See [Publishing regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) for help with endpointBasePath. 
+See [Publishing regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) for help with authoring regions. 
 
 The CLI will first look for these named configuration variables in the arguments list, then inside the `.luisrc` file, 
 then fallback to the environment variables. 
