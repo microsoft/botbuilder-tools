@@ -611,12 +611,15 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
                 })
             }
             utterance = utterance.slice(1).trim();
-            // see if this utterance has a reference to LU section
-            let linkExp = (utterance || '').trim().match(new RegExp(/\(.*?\)/g));
-            if(linkExp && linkExp.length !== 0) {
-                let parsedLinkUriInUtterance = helpers.parseLinkURI(utterance);
-                // examine and add these to filestoparse list.
-                parsedContent.additionalFilesToParse.push(new fileToParse(parsedLinkUriInUtterance.luFile, false));
+            // see if this utterance has a reference to LU section. 
+            // Deep references must have [link name](link-value) notation
+            if (utterance.indexOf('[') == 0) {
+                let linkExp = (utterance || '').trim().match(new RegExp(/\(.*?\)/g));
+                if(linkExp && linkExp.length !== 0) {
+                    let parsedLinkUriInUtterance = helpers.parseLinkURI(utterance);
+                    // examine and add these to filestoparse list.
+                    parsedContent.additionalFilesToParse.push(new fileToParse(parsedLinkUriInUtterance.luFile, false));
+                }
             }
             // handle entities in the utterance
             if(utterance.includes("{")) {

@@ -84,4 +84,16 @@ describe('LU files...', function() {
             
         });
     });
+
+    if ('[LUIS] utterances with () without deep link references are parsed correctly', function(done){
+        exec (`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/root3.lu -o ${TEST_ROOT}/output --out root3.lu -n root3.lu`, () => {
+            try {
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/root3.lu'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/root3.lu'))));    
+                done();
+            } catch (err) {
+                done(err);
+            }
+            
+        });
+    });
 });

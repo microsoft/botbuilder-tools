@@ -343,6 +343,8 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
         let newUtterancesToAdd = [];
         let spliceList = [];
         (luisModel.LUISJsonStructure.utterances || []).forEach((utterance,idx) => {
+            // Deep references must have [link name](link-value) notation
+            if (utterance.text.indexOf('[') !== 0) return;
             // does this utterance have a deep link uri? 
             let linkExp = (utterance.text || '').trim().match(new RegExp(/\(.*?\)/g));
             if (linkExp && linkExp.length !== 0) {
