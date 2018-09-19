@@ -4,7 +4,7 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import { BotConfiguration, IDispatchService, ILuisService, ServiceTypes } from 'botframework-config';
+import { BotConfiguration, IDispatchService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
@@ -19,12 +19,12 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     showErrorHelp();
 };
 
-interface IDispatchArgs extends ILuisService {
+interface IDispatchArgs extends IDispatchService {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
-    serviceIds?: string;
+    ids?: string;
 }
 
 program
@@ -37,7 +37,7 @@ program
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating the dispatch model via the LUIS authoring API\n')
     .option('r, --region <region>', 'region to use (defaults to westus)')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
-    .option('--serviceIds <serviceIds>',
+    .option('--ids <ids>',
         '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
@@ -91,6 +91,10 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
         args.version = args.version.toString();
     }
 
+    if (args.ids && args.ids.length > 0) {
+        args.serviceIds = args.ids.split(',');
+    }
+
     for (const service of config.services) {
         if (service.type === ServiceTypes.Dispatch) {
             const dispatchService = <IDispatchService>service;
@@ -106,7 +110,7 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
                 if (args.region)
                     dispatchService.region = args.region;
                 if (args.serviceIds)
-                    dispatchService.serviceIds = args.serviceIds.split(',');
+                    dispatchService.serviceIds = args.serviceIds;
                 await config.save(args.secret);
                 process.stdout.write(JSON.stringify(dispatchService, null, 2));
                 return config;

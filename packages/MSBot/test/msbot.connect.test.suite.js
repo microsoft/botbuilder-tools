@@ -124,7 +124,7 @@ describe("msbot connection tests", () => {
 
         let p = await exec(`node ${msbot} connect luis -b save.bot --secret ${secret} -n LUIS -a 2f510b5e-10fe-4f53-9159-b134539ac594 --authoringKey 2f510b5e-10fe-4f53-9159-b134539ac594 --subscriptionKey 2f510b5e-10fe-4f53-9159-b134539ac594 --version 1.0`);
         let result = JSON.parse(p.stdout);
-        p = await exec(`node ${msbot} connect dispatch -b save.bot --secret ${secret} -n Dispatch -a e06e3198-45fd-494a-8086-028d260a484b --authoringKey e06e3198-45fd-494a-8086-028d260a484b --subscriptionKey e06e3198-45fd-494a-8086-028d260a484b --version 1.0 --serviceIds ${result.id}`);
+        p = await exec(`node ${msbot} connect dispatch -b save.bot --secret ${secret} -n Dispatch -a e06e3198-45fd-494a-8086-028d260a484b --authoringKey e06e3198-45fd-494a-8086-028d260a484b --subscriptionKey e06e3198-45fd-494a-8086-028d260a484b --version 1.0 --ids ${result.id}`);
 
         let config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
