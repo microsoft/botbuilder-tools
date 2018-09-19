@@ -10,7 +10,7 @@ import * as program from 'commander';
 import * as fsx from 'fs-extra';
 import * as process from 'process';
 import { spawnAsync } from './processUtils';
-import { showMessage } from './utils';
+import { regionToAuthoringRegionMap, showMessage } from './utils';
 
 export interface ExportOptions {
     // should resources be downloaded info folder
@@ -114,23 +114,7 @@ async function exportBot(config: BotConfiguration, folder: string, exportOptions
         switch (service.type) {
             case ServiceTypes.Dispatch:
                 {
-                    let luisService = <ILuisService>service;
-                    if (options.download) {
-                        let command = `luis export version --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}"`;
-                        if (options.progress) {
-                            options.progress(service, command, index, config.services.length);
-                        }
-                        let json = '';
-                        await spawnAsync(command, (stdout) => json += stdout, (stderr) => console.error(stderr));
-                        // make sure it's json
-                        JSON.parse(json);
-                        await fsx.writeFile(folder + `/${luisService.id}.luis`, json, { encoding: 'utf8' });
-                    }
-                    else {
-                        if (options.progress) {
-                            options.progress(service, '', index, config.services.length);
-                        }
-                    }
+                    await exportLuisService(service);
 
                     let dispatchResource: IDispatchResource = {
                         type: service.type,
@@ -143,23 +127,7 @@ async function exportBot(config: BotConfiguration, folder: string, exportOptions
                 break;
             case ServiceTypes.Luis:
                 {
-                    let luisService = <ILuisService>service;
-                    if (options.download) {
-                        let command = `luis export version --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}"`;
-                        if (options.progress) {
-                            options.progress(service, command, index, config.services.length);
-                        }
-                        let json = '';
-                        await spawnAsync(command, (stdout) => json += stdout, (stderr) => console.error(stderr));
-                        // make sure it's json
-                        JSON.parse(json);
-                        await fsx.writeFile(folder + `/${luisService.id}.luis`, json, { encoding: 'utf8' });
-                    }
-                    else {
-                        if (options.progress) {
-                            options.progress(service, '', index, config.services.length);
-                        }
-                    }
+                    await exportLuisService(service);
 
                     let resource: IResource = {
                         type: service.type,
@@ -317,6 +285,27 @@ async function exportBot(config: BotConfiguration, folder: string, exportOptions
     }
     await fsx.writeFile(folder + `/bot.recipe`, JSON.stringify(recipe, null, 2), { encoding: 'utf8' });
     return recipe;
+
+    async function exportLuisService(service: IConnectedService) {
+        let luisService = <ILuisService>service;
+        if (options.download) {
+            const luisAuthoringRegion = regionToAuthoringRegionMap[luisService.region];
+            let command = `luis export version --region ${luisAuthoringRegion} --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}"`;
+            if (options.progress) {
+                options.progress(service, command, index, config.services.length);
+            }
+            let json = '';
+            await spawnAsync(command, (stdout) => json += stdout, (stderr) => console.error(stderr));
+            // make sure it's json
+            JSON.parse(json);
+            await fsx.writeFile(folder + `/${luisService.id}.luis`, json, { encoding: 'utf8' });
+        }
+        else {
+            if (options.progress) {
+                options.progress(service, '', index, config.services.length);
+            }
+        }
+    }
 }
 
 

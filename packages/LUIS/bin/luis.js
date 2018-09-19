@@ -79,7 +79,7 @@ async function runProgram() {
     args.appId = args.appId || args.applicationId || args.a || serviceIn.appId || config.appId;
     args.versionId = args.versionId || args.version || serviceIn.versionId || config.versionId || serviceIn.version;
     args.region = args.region || serviceIn.region || config.region || "westus";
-    args.endpointBasePath = (args.region) ? `https://${args.region}.api.cognitive.microsoft.com/luis/api/v2.0` : config.endpointBasePath;
+    // args.endpointBasePath = (args.region) ? `https://${args.region}.api.cognitive.microsoft.com/luis/api/v2.0` : config.endpointBasePath;
     args.customHeaders = { "accept-language": "en-US" };
 
     validateConfig(args);
@@ -378,7 +378,7 @@ async function runProgram() {
                         let version = result.version;
                         result = await client.apps.get(args.region, args.appId || args.applicationId || config.applicationId, args);
                         result.version = version;
-                        
+
                         // Write output to console and return
                         writeAppToConsole(config, args, requestBody, result);
                     }
@@ -672,12 +672,12 @@ async function initializeConfig() {
         answers.push(answer.trim());
     }
 
-    const [authoringKey, location, appId, versionId] = answers;
+    const [authoringKey, region, appId, versionId] = answers;
     const config = Object.assign({}, {
         appId,
         authoringKey,
         versionId,
-        endpointBasePath: `https://${location}.api.cognitive.microsoft.com/luis/api/v2.0`,
+        region: region,
     });
     try {
         await new Promise((resolve, reject) => {
@@ -728,13 +728,13 @@ async function getFileInput(args) {
  * @returns {Promise<*>}
  */
 async function composeConfig() {
-    const { LUIS_APP_ID, LUIS_AUTHORING_KEY, LUIS_VERSION_ID, LUIS_ENDPOINT_BASE_PATH } = process.env;
+    const { LUIS_APP_ID, LUIS_AUTHORING_KEY, LUIS_VERSION_ID, LUIS_REGION } = process.env;
 
     const {
         appId: args_appId,
         authoringKey: args_authoringKey,
         versionId: args_versionId,
-        endpointBasePath: args_endpointBasePath
+        region: args_region
     } = args;
 
     let luisrcJson = {};
@@ -749,7 +749,7 @@ async function composeConfig() {
             appId: (args_appId || luisrcJson.appId || LUIS_APP_ID),
             authoringKey: (args_authoringKey || luisrcJson.authoringKey || LUIS_AUTHORING_KEY),
             versionId: (args_versionId || luisrcJson.versionId || LUIS_VERSION_ID),
-            endpointBasePath: (args_endpointBasePath || luisrcJson.endpointBasePath || LUIS_ENDPOINT_BASE_PATH)
+            region: (args_region || luisrcJson.region || LUIS_REGION)
         };
     }
     return config;
@@ -766,11 +766,12 @@ function validateConfig(config) {
     // not all operations require these to be present.
     // Validation of specific params are done in the
     // ServiceBase.js
-    const { authoringKey, endpointBasePath } = config;
+    const { authoringKey, region} = config;
     const messageTail = `is missing from the configuration.\n\nDid you run ${chalk.cyan.bold('luis init')} yet?`;
 
     assert(typeof authoringKey === 'string', `The authoringKey  ${messageTail}`);
-    assert(typeof endpointBasePath === 'string', `The endpointBasePath ${messageTail}`);
+    assert(typeof region === 'string', `The region ${messageTail}`);
+    assert(args.region == "westus" || args.region == 'westeurope' || args.region == 'australiaeast', `${args.region} is not a valid authoring region.  Valid values are [westus|westeuerope|australiaest]`);
 }
 
 /**
@@ -811,7 +812,7 @@ async function validateArguments(args, operation) {
                                 body = {
                                     versionId: `${args.versionId}`,
                                     isStaging: args.staging === 'true',
-                                    region: args.region
+                                    region: args.publishRegion
                                 };
                             }
                             break;
@@ -905,11 +906,11 @@ async function handleQueryCommand(args, config) {
 }
 
 async function handleSetCommand(args, config, client) {
-    if (args.length == 1 && !(args.a || args.e || args.appId || args.applicationId || args.versionId || args.authoringKey || args.endpoint || args.endpointBasePath || args.versionId)) {
-        process.stderr.write(chalk.red.bold(`missing .luisrc argument name: [-appId|--applicationId|--versionId|--endpoint|--authoringKey]\n`));
+    if (args.length == 1 && !(args.a || args.appId || args.applicationId || args.versionId || args.authoringKey || args.region  || args.versionId)) {
+        process.stderr.write(chalk.red.bold(`missing .luisrc argument name: [-appId|--applicationId|--versionId|--region|--authoringKey]\n`));
         return help(args);
     }
-    config.endpointBasePath = args.e || args.endpoint || args.endpointBasePath || config.endpointBasePath;
+    config.region = args.region  || config.region;
     config.authoringKey = args.authoringKey || config.authoringKey;
     config.versionId = args.versionId || config.versionId;
     config.appId = args.appId || args.applicationId || config.appId;
