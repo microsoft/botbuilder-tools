@@ -44,6 +44,7 @@ program
     .option('--verbose', 'show verbose export information')
     .option('-q, --quiet', 'disable output')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
+    .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
