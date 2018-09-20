@@ -298,7 +298,11 @@ async function exportBot(config: BotConfiguration, folder: string, exportOptions
             let json = '';
             await spawnAsync(command, (stdout) => json += stdout, (stderr) => console.error(stderr));
             // make sure it's json
-            JSON.parse(json);
+            try {
+                JSON.parse(json);
+            } catch(err) {
+                throw new Error(`${err.message || err}\n${json}`);
+            }
             await fsx.writeFile(folder + `/${luisService.id}.luis`, json, { encoding: 'utf8' });
         }
         else {

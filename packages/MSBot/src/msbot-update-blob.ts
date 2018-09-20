@@ -9,8 +9,8 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
-
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -103,7 +103,7 @@ async function processUpdateArgs(config: BotConfiguration): Promise<BotConfigura
                 if (args.connectionString)
                     blobService.connectionString = args.connectionString;
                 await config.save(args.secret);
-                process.stdout.write(JSON.stringify(blobService, null, 2));
+                await stdoutAsync(JSON.stringify(blobService, null, 2));
                 return config;
             }
         }
