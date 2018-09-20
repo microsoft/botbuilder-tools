@@ -130,8 +130,8 @@ function findEntity(swaggerOperation) {
  * @param {string} path The endpoint path to parse
  * @returns {{root:string, node:string}} The object containing the root and node
  */
-// TODO: check root
-function findRootAndNodeFromPath(path) {
+
+ function findRootAndNodeFromPath(path) {
     const parts = path.split('/');
     let i = parts.length;
     const info = {};
