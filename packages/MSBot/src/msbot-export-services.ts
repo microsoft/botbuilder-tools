@@ -10,7 +10,7 @@ import * as program from 'commander';
 import * as fsx from 'fs-extra';
 import * as process from 'process';
 import { spawnAsync } from './processUtils';
-import { regionToAuthoringRegionMap, showMessage } from './utils';
+import { regionToLuisAuthoringRegionMap, showMessage } from './utils';
 
 export interface ExportOptions {
     // should resources be downloaded info folder
@@ -289,7 +289,7 @@ async function exportBot(config: BotConfiguration, folder: string, exportOptions
     async function exportLuisService(service: IConnectedService) {
         let luisService = <ILuisService>service;
         if (options.download) {
-            const luisAuthoringRegion = regionToAuthoringRegionMap[luisService.region];
+            const luisAuthoringRegion = regionToLuisAuthoringRegionMap[luisService.region];
             let command = `luis export version --region ${luisAuthoringRegion} --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}"`;
             if (options.progress) {
                 options.progress(service, command, index, config.services.length);

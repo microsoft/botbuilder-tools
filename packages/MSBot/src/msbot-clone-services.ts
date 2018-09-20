@@ -13,7 +13,7 @@ import * as txtfile from 'read-text-file';
 import * as url from 'url';
 import * as util from 'util';
 import { spawnAsync } from './processUtils';
-import { luisRegions, regionToAuthoringRegionMap, showMessage } from './utils';
+import { luisRegions, regionToAppInsightRegionMap, regionToLuisAuthoringRegionMap, showMessage } from './utils';
 let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
@@ -40,6 +40,7 @@ interface ICloneArgs {
     luisAuthoringKey: string;
     luisPublishRegion: string | undefined;
     luisSubscriptionKey: string;
+    insightsRegion: string;
     qnaSubscriptionKey: string;
     sdkVersion: string;
     sdkLanguage: string;
@@ -55,6 +56,7 @@ program
     .option('--luisAuthoringRegion <luisAuthoringRegion>', '(OPTIONAL) [westus|westeurope|australiaeast] authoring region to put LUIS models into (default is based on location)')
     .option('--luisPublishRegion <luisRegion>', '(OPTIONAL) region to publish LUIS models to (default fallback is based location || luisAuthoringRegion)')
     .option('--subscriptionId <subscriptionId>', '(OPTIONAL) Azure subscriptionId to clone bot to, if not passed then current az account will be used')
+    .option('--insightsRegion <insightsRegion>', '(OPTIONAL) region to create appInsights account in (default is based on location)')    
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
     .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
@@ -134,10 +136,10 @@ async function processConfiguration(): Promise<void> {
         let azGroup: any;
         let azBot: IBotService | undefined;
         let azSitePlan: any;
-        let appInsightInfo;
         let storageInfo;
         let azQnaSubscription: any;
         let azLuisSubscription: any;
+        let azAppInsights: any;
         let azBotExtended: any;
         let azBotEndpoint: IEndpointService | undefined;
 
@@ -164,16 +166,21 @@ async function processConfiguration(): Promise<void> {
                         `Fetching co-created resources [${args.name}]`);
                     let botWebSite;
                     for (let resource of azGroupResources) {
-                        if (resource.type == "microsoft.insights/components") {
-                            appInsightInfo = resource;
-                        } else if (resource.type == "Microsoft.Storage/storageAccounts") {
-                            storageInfo = resource;
-                        } else if (resource.type == "Microsoft.Web/serverfarms") {
-                            azSitePlan = resource;
-                        } else if (resource.type == "Microsoft.Web/sites") {
-                            // the website for the bot does have the bot name in it (qna host does)
-                            if (resource.name.indexOf('-qnahost') < 0)
-                                botWebSite = resource;
+                        switch (resource.type) {
+                            case "microsoft.insights/components":
+                                azAppInsights = resource;
+                                break;
+                            case "Microsoft.Storage/storageAccounts":
+                                storageInfo = resource;
+                                break;
+                            case "Microsoft.Web/serverfarms":
+                                azSitePlan = resource;
+                                break;
+                            case "Microsoft.Web/sites":
+                                // the website for the bot does have the bot name in it (qna host does)
+                                if (resource.name.indexOf('-qnahost') < 0)
+                                    botWebSite = resource;
+                                break;
                         }
                     }
                     // get appSettings from botAppSite (specifically to get secret)
@@ -223,8 +230,8 @@ async function processConfiguration(): Promise<void> {
                     }
                     if (!azLuisSubscription) {
                         if (!args.luisAuthoringRegion) {
-                            if (regionToAuthoringRegionMap.hasOwnProperty(args.location))
-                                args.luisAuthoringRegion = regionToAuthoringRegionMap[args.location];
+                            if (regionToLuisAuthoringRegionMap.hasOwnProperty(args.location))
+                                args.luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
                             else
                                 throw Error(`${args.location} does not have a valid luisAuthoringRegion.  Pass --luisAuthoringRegion to tell us which region you are in`);
                         }
@@ -311,24 +318,16 @@ async function processConfiguration(): Promise<void> {
 
         // pass 3- create the actual services
         for (let resource of recipe.resources) {
+
             switch (resource.type) {
 
                 case ServiceTypes.AppInsights:
                     {
                         // this was created via az bot create, hook it up
-                        if (azBotExtended) {
-                            config.services.push(new AppInsightsService({
-                                type: ServiceTypes.AppInsights,
-                                id: resource.id,
-                                tenantId: args.tenantId,
-                                subscriptionId: args.subscriptionId,
-                                resourceGroup: args.groupName,
-                                name: appInsightInfo.name,
-                                serviceName: appInsightInfo.name,
-                                instrumentationKey: azBotExtended.properties.developerAppInsightKey,
-                                applicationId: azBotExtended.properties.developerAppInsightsApplicationId,
-                                apiKeys: azBotExtended.properties.developerAppInsightsApiKey
-                            }));
+                        if (azAppInsights && resource.id) {
+                            let appInsights = await getAppInsightsService(azAppInsights);
+                            appInsights.id = resource.id; // keep original id
+                            config.services.push(appInsights);
                         } else {
                             console.warn("WARNING: No bot appInsights plan was created because no bot was created");
                         }
@@ -576,18 +575,13 @@ async function processConfiguration(): Promise<void> {
                 await config.save();
             }
 
-            if (!hasAppInsights && azBotExtended) {
-                // this was created via az bot create, hook it up
-                config.connectService(new AppInsightsService({
-                    tenantId: args.tenantId,
-                    subscriptionId: args.subscriptionId,
-                    resourceGroup: args.groupName,
-                    name: appInsightInfo.name,
-                    serviceName: appInsightInfo.name,
-                    instrumentationKey: azBotExtended.properties.developerAppInsightKey,
-                    applicationId: azBotExtended.properties.developerAppInsightsApplicationId,
-                    apiKeys: azBotExtended.properties.developerAppInsightsApiKey
-                }));
+            if (!hasAppInsights) {
+                if (azAppInsights) {
+                    let appInsights = await getAppInsightsService(azAppInsights);
+                    config.connectService(appInsights);
+                } else {
+                    console.warn("WARNING: No bot appInsights plan was created because no bot was created");
+                }
                 await config.save();
             }
 
@@ -636,6 +630,21 @@ async function processConfiguration(): Promise<void> {
 
 
 
+async function getAppInsightsService(azAppInsights: any): Promise<AppInsightsService> {
+    let appInsights = await runCommand(`az resource show -g ${args.groupName} -n ${azAppInsights.name}  --resource-type microsoft.insights/components`, `Fetching Azure AppInsights information [${azAppInsights.name}]`);
+    return new AppInsightsService({
+        type: ServiceTypes.AppInsights,
+        tenantId: args.tenantId,
+        subscriptionId: args.subscriptionId,
+        resourceGroup: args.groupName,
+        name: azAppInsights.name,
+        serviceName: azAppInsights.name,
+        instrumentationKey: appInsights.properties.InstrumentationKey,
+        applicationId: appInsights.properties.AppId,
+        apiKeys: {}
+    });
+}
+
 async function runCommand(command: string, description: string): Promise<any> {
     logCommand(args, description, command);
     let p = await exec(command);
@@ -676,7 +685,7 @@ To do this run:
 async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisService> {
     let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
     let luisService: LuisService;
-    const luisAuthoringRegion = regionToAuthoringRegionMap[args.location];
+    const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
 
     let luisAppName = `${args.name}_${luisResource.name}`;
     let svcOut = <ILuisService>await runCommand(`luis import application --region ${luisAuthoringRegion} --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
@@ -699,7 +708,9 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
 }
 
 async function createBot(): Promise<IBotService> {
-    let command = `az bot create -g ${args.groupName} --name ${args.name} --kind webapp --location ${args.location}`;
+    args.insightsRegion = args.insightsRegion || regionToAppInsightRegionMap[args.location];
+
+    let command = `az bot create -g ${args.groupName} --name ${args.name} --kind webapp --location ${args.location} --insights-location "${args.insightsRegion}" `;
     if (args.sdkVersion) {
         command += ` --version ${args.sdkVersion}`;
     }
