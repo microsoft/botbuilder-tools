@@ -1,0 +1,17 @@
+# wPhrase
+    - CASE: {condition1}
+        - A tts
+        - Hey {name}
+    - DEFAULT:
+        - E tts
+
+# HelloWorld
+    - CASE: {condition2}
+        - C tts
+        - D tts
+    - DEFAULT:
+        - F tts
+		
+$condition1 : Boolean
+$condition2 : Boolean
+$name : String

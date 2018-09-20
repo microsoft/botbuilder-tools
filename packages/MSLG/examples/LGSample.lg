@@ -1,0 +1,28 @@
+# welcomeMessage
+    - [wPhrase3] I'm the Café bot. I can help  book a table, find café locations and more. [offerHelp]
+
+# wPhrase3
+    - Hi,
+    - Hello,
+
+# offerHelp
+    - How can I be of help today?
+    - What do you need today?
+    
+> LG for book table
+
+# AskForLocation
+    - CASE: {knowCurUserLocation} = true
+        - In {curUserLocation}, right? 
+        - You wan to come in to our {curUserLocation} store, right? 
+    - DEFAULT:
+        - Did you have a location in mind? 
+        - What city? 
+
+# AskForDateTime
+    - CASE: {haveDate} =  true && {haveTime} = true
+        - For {date} at {time} right? 
+    - CASE: {haveDate} = true
+        - What time? 
+    - CASE: {haveTime} = true
+        - What date? 

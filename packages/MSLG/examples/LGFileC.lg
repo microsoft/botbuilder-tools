@@ -1,0 +1,5 @@
+# wPhrase
+    - CASE: {condition1} = true
+        - A tts
+    - DEFAULT:
+        - E tts

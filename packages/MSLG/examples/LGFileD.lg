@@ -1,0 +1,13 @@
+$DateIsInFuture : Boolean
+$DateIsToday : Boolean
+
+# CheckDayOfWeekTemplate
+- CASE: {DateIsInFuture} = false && {DateIsToday} = false
+>    - That was a {DayOfWeek(Day)}.
+    - That was a {DayOfWeek(Day)}.
+- CASE: {DateIsToday} = true
+>    - Today is a {DayOfWeek(Day)}.
+    - Today is a {DayOfWeek(Day)}.
+- DEFAULT:
+>    - That will be a {DayOfWeek(Day)}.
+    - That will be a {DayOfWeek(Day)}.

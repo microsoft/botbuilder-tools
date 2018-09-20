@@ -1,0 +1,10 @@
+{
+    "models": [
+        { 
+            "id": "29cdbf34-0d60-42ab-8308-6f4a6d5aaf70" 
+        }
+    ],
+    "locale": "en-US",
+    "name": "LG Test endpoint",
+    "description": "Example for lg endpoint definition"
+}

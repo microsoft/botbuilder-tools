@@ -1,0 +1,9 @@
+{
+    "name": "LG Model Definition",
+    "description": "Example of an Incomplete LG Model Definition",
+    "locale": "en-US",
+    "properties": {
+        "Domain": "LGTest",
+        "Version": "default"      
+    }
+}

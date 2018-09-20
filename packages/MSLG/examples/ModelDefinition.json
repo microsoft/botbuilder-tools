@@ -1,0 +1,10 @@
+{
+    "modelKind": "LanguageGeneration",
+    "name": "LG Model Definition",
+    "description": "Example of LG Model Definition",
+    "properties": {
+        "Domain": "CafeBot",
+        "Version": "default"      
+    },
+    "locale": "en-US"
+}
