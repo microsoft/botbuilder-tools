@@ -33,6 +33,7 @@ const Operations = require('../lib/api/operations');
 const Delay = require('await-delay');
 const { ServiceBase } = require('../lib/api/serviceBase');
 const latestVersion = require('latest-version');
+const intercept = require("intercept-stdout");
 
 function stdoutAsync(output) { return new Promise((done) => process.stdout.write(output, "utf-8", () => done())); }
 
@@ -62,6 +63,12 @@ async function runProgram() {
     }
 
     args = minimist(argvFragment);
+
+    if (args.prefix) {
+        const unhook_intercept = intercept(function(txt) {
+            return `[${pkg.name}]\n${txt}`;
+        });
+    }
 
     if (args['!'] ||
         args.help ||
