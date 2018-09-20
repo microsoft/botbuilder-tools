@@ -11,6 +11,7 @@ const helperClasses = require('./classes/hclasses');
 const exception = require('./classes/exception');
 const helpers = require('./helpers');
 const NEWLINE = require('os').EOL;
+const utils = require('./utils');
 const translateHelpers = {
     /**
      * Helper function to parseAndTranslate lu file content

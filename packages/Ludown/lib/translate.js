@@ -11,6 +11,7 @@ const txtfile = require('read-text-file');
 const helpers = require('./helpers');
 const translateHelpers = require('./translate-helpers');
 const exception = require('./classes/exception');
+const utils = require('./utils');
 const translateModule = {
     /**
      * Helper function to parse, translate and write out localized lu files
