@@ -339,7 +339,7 @@ async function processConfiguration(): Promise<void> {
                     {
                         // this was created via az bot create, get the connection string and then hook it up
                         if (!storageInfo) {
-                            let storageName: string = `${storageInfo.name.toLowerCase().replace(' ', '')}storage`;
+                            let storageName: string = `${azGroup.name.toLowerCase() + generateShortId()}storage`;
                             storageInfo = await runCommand(`az storage account create -g ${azGroup.name} -n "${storageName}" --location ${args.location} --sku Standard_LRS`,
                                 `Creating Azure Blob Storage  [${storageName}]`);
                         }
@@ -768,6 +768,11 @@ function logCommand(args: ICloneArgs, message: string, command: string) {
             console.log(chalk.default.italic(command));
         }
     }
+}
+
+function generateShortId() {
+    // Generate pseudo-random 6-character UID
+    return Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
 }
 
 class AzBotServiceVersion {
