@@ -22,9 +22,10 @@ export function spawnAsync(command: string, stdout?: (data: string) => void, std
         });
 
         p.stdout.on('data', (data: Buffer) => {
-            out += data;
+            let str = data.toString('utf8');
+            out += str;
             if (stdout) {
-                stdout(data.toString('utf8'));
+                stdout(str);
             }
         });
 

@@ -849,18 +849,6 @@ async function validateArguments(args, operation) {
     // Note that the ServiceBase will validate params that may be required.
 }
 
-/**
- * Exits with a non-zero status and prints
- * the error if present or displays the help
- *
- * @param error
- */
-async function handleError(error) {
-    process.stderr.write('\n' + chalk.red.bold(error.message + '\n\n'));
-    await help(args);
-    return 1;
-}
-
 async function handleQueryCommand(args, config) {
     let query = args.q || args.question;
     if (!query) {
@@ -940,6 +928,9 @@ async function handleSetCommand(args, config, client) {
 }
 
 runProgram()
-    .then(process.exit)
-    .catch(handleError)
-    .then(process.exit);
+    .then(() => process.exitCode = 0)
+    .catch(async (error) => {
+        process.stderr.write('\n' + chalk.red.bold(error.message + '\n\n'));
+        await help(args);
+        process.exitCode = 1;
+    });
