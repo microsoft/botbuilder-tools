@@ -4,6 +4,7 @@ const qnamaker = require.resolve('../bin/qnamaker');
 const createKbNoName = require.resolve('../examples/CreateKbNoNameDTO.json');
 const createKb = require.resolve('../examples/CreateKbDTO.json');
 const updateKbOperation = require.resolve('../examples/UpdateKbOperationDTO.json');
+const pkg = require('../package.json');
 
 const subscriptionKey = process.env.QNA_SUBSCRIPTION_KEY;
 
@@ -28,6 +29,27 @@ describe('The QnA Maker cli bin', () => {
         exec(`node ${qnamaker} query`, (error, stdout, stderr) => {
             assert.equal(stdout, '');
             assert(stderr.includes('The --question argument is missing and required'));
+            done();
+        });
+    });
+
+    it('should not prefix [qna] to stdout when --prefix is not passed as an argument', done => {
+        exec(`node ${qnamaker} -h`, (error, stdout) => {
+            assert.notEqual(stdout.startsWith(`[${pkg.name}]`), `It should not show the tag '[${pkg.name}]' when not using the argument --prefix`);
+            done();
+        });
+    });
+
+    it('should prefix [qna] to stdout when --prefix is passed as an argument', done => {
+        exec(`node ${qnamaker} -h --prefix`, (error, stdout) => {
+            assert(stdout.startsWith(`[${pkg.name}]`), `It should show the tag '[${pkg.name}]' when using the argument --prefix`);
+            done();
+        });
+    });
+
+    it('should prefix [qna] to stderr when --prefix is passed as an argument', done => {
+        exec(`node ${qnamaker} foo --prefix`, (error, stdout, stderr) => {
+            assert(stderr.startsWith(`[${pkg.name}]`), `It should show the tag '[${pkg.name}]' when using the argument --prefix`);
             done();
         });
     });
