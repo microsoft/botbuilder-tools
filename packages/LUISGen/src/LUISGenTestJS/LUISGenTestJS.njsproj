@@ -1,11 +1,11 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>LUISGenTestJS</Name>
     <RootNamespace>LUISGenTestJS</RootNamespace>
-    <ToolsVersionPromptShown>2.6</ToolsVersionPromptShown>
-    <ScriptArguments>./lib/*.js</ScriptArguments>
+    <ToolsVersionPromptShown>2.8</ToolsVersionPromptShown>
+    <ScriptArguments>./src/*.js</ScriptArguments>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
     <JavaScriptTestFramework>mocha</JavaScriptTestFramework>
   </PropertyGroup>
@@ -25,7 +25,7 @@
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
-    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
     <EnableTypeScript>true</EnableTypeScript>
     <StartWebBrowser>False</StartWebBrowser>
   </PropertyGroup>

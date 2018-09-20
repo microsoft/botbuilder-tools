@@ -21,5 +21,11 @@
   "files": [
     "readme.md",
     "bin"
-  ]
+  ],
+  "comments": "There is a bug in handling .njsproj in dotnet so we need to expand into each project rather than just using the solution.",
+  "scripts":{
+    "build": "dotnet.exe build src/luisgen/luisgen.csproj && dotnet.exe build src/luisgentest/luisgentest.csproj && cd src/luisgentestjs/ && npm run-script build",
+    "test": "dotnet.exe test src/luisgentest/luisgentest.csproj && cd src/luisgentestjs/ && npm run test",
+    "clean": "dotnet.exe clean src/luisgen/luisgen.csproj && dotnet.exe clean src/luisgentest/luisgentest.csproj && cd src/luisgentestjs/ && npm run clean"
+  }
 }

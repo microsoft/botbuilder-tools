@@ -17,6 +17,8 @@
     "nock": "^9.6.1"
   },
   "scripts": {
-    "test": "mocha lib/tests.js"
+    "build": "tsc",
+    "test": "mocha src/tests.js",
+    "clean": "del src\\*.js && del src\\*.map && del src\\*.d.ts"
   }
 }
