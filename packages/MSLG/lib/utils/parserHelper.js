@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 const txtfile = require('read-text-file');
-const exception = require('./exception');
+const Exception = require('./exception');
 const retCode = require('../enums/errorCodes');
 const parserConsts = require('../enums/parserConsts');
 
@@ -41,7 +41,7 @@ const parserHelper = {
      * @param {string} fileContent string content of current file being parsed
      * @param {boolean} log indicates if this function should write verbose messages to process.stdout
      * @returns {string[]} List of parsed LUIS/ QnA sections in current file
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     splitFileBySections : function(fileContent, log) {
         const linesInFile = fileContent.split(/\n|\r\n/);
@@ -71,7 +71,7 @@ const parserHelper = {
                 middleOfSection = false;
             } else if((currentLine.indexOf(parserConsts.INTENT) === 0)) {
                 if(currentLine.indexOf(' ') === -1) {
-                    throw new exception(retCode.INVALID_TEMPLATE, `Error: Line # ${lineIndex+1}. "${currentLine}" does not have valid template definition`);
+                    throw new Exception(retCode.INVALID_TEMPLATE, `Error: Line # ${lineIndex+1}. "${currentLine}" does not have valid template definition`);
                 }
                 // handle anything in currentSection buffer
                 if(currentSection !== null) {
@@ -91,13 +91,13 @@ const parserHelper = {
                     currentSectionType = parserConsts.ENTITY;
                     currentSection = currentLine + NEWLINE;
                 } else {
-                    throw new exception(retCode.INVALID_ENTITY_DEFINITION, 'Error: Line #' + lineIndex+1 + ' does not have a valid entity definition. "' + currentLine + '"');
+                    throw new Exception(retCode.INVALID_ENTITY_DEFINITION, 'Error: Line #' + lineIndex+1 + ' does not have a valid entity definition. "' + currentLine + '"');
                 }
             } else {
                 if(middleOfSection) {
                     currentSection += currentLine + NEWLINE;
                 } else {
-                    throw new exception(retCode.INVALID_INPUT,'Error: Line #' + lineIndex+1 + ' is not part of a Template or entity definition');
+                    throw new Exception(retCode.INVALID_INPUT,'Error: Line #' + lineIndex+1 + ' is not part of a Template or entity definition');
                 }
             }
         }
@@ -116,15 +116,15 @@ const parserHelper = {
      * @param {string} filePath Output file path
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
      * @returns {void} Nothing
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     writeToDisk : function(fileContent, fileName, filePath, verboseLog) {
         try
         {
             fs.mkdirSync(filePath);
-        } catch(exception) {
-            if(exception.code != 'EEXIST') {
-                throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to create folder - ' + exception));
+        } catch(Exception) {
+            if(Exception.code != 'EEXIST') {
+                throw(new Exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to create folder - ' + Exception));
             }
         }
 
@@ -134,7 +134,7 @@ const parserHelper = {
         try {
             fs.writeFileSync(outFile, fileContent, 'utf-8');
         } catch (err) {
-            throw new exception(retCode.UNABLE_TO_WRITE_FILE, 'Unable to write LG file - ' + outFile);
+            throw new Exception(retCode.UNABLE_TO_WRITE_FILE, 'Unable to write LG file - ' + outFile);
         }
 
         if(verboseLog) 
@@ -144,14 +144,14 @@ const parserHelper = {
      * Helper function to get output folder
      * @param {object} program Parsed program object from commander
      * @returns {string} Output folder
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     getOutputFolder : function(outFolderPath) {
         let outFolder = process.cwd();
         if(outFolderPath) {
             outFolder = path.isAbsolute(outFolderPath) ? outFolderPath:path.resolve('', outFolderPath);
             if(!fs.existsSync(outFolder)) 
-                throw new exception(retCode.NO_LG_FILES_FOUND, 'Output folder ' + outFolder + ' does not exist');     
+                throw new Exception(retCode.NO_LG_FILES_FOUND, 'Output folder ' + outFolder + ' does not exist');     
         }
         return outFolder;
     },
@@ -159,14 +159,14 @@ const parserHelper = {
      * Helper function to get file content
      * @param {string} file File path
      * @returns {string} file content
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     getFileContent : function(file) {
         if(!fs.existsSync(path.resolve(file))) 
-            throw new exception(retCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']');     
+            throw new Exception(retCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']');     
         let fileContent = txtfile.readSync(file);
         if (!fileContent) 
-            throw new exception(retCode.FILE_OPEN_ERROR,'Sorry, error reading file:' + file);
+            throw new Exception(retCode.FILE_OPEN_ERROR,'Sorry, error reading file:' + file);
         return fileContent;
     }
 };
@@ -182,14 +182,14 @@ module.exports = parserHelper;
  * @param {int} lineIndex current line index being parsed
  * @param {boolean} log indicates if this function should write verbose messages to process.stdout
  * @returns {string[]} updated sections in current file being parsed.
- * @throws {exception} Throws on errors. exception object includes errCode and text. 
+ * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
  */
 const validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, currentSectionType, lineIndex, log) {
     switch(currentSectionType) {
         case parserConsts.INTENT:
             // warn if there isnt at least one utterance in an intent
             if(previousSection.split(/\r\n/).length === 1)  
-                throw new exception(retCode.INVALID_INPUT, 'Line #' + lineIndex+1 + ': [ERR] No variations or conditions found for template: ' + previousSection.split(/\r\n/)[0]);  
+                throw new Exception(retCode.INVALID_INPUT, 'Line #' + lineIndex+1 + ': [ERR] No variations or conditions found for template: ' + previousSection.split(/\r\n/)[0]);  
             sectionsInFile.push(previousSection);
             break;
         case parserConsts.ENTITY:

@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-const exception = require('./exception');
+const Exception = require('./exception');
 const validationHelpers = require('./validationHelpers');
 const errCode = require('../enums/errorCodes');
 const VALIDATION_PASS = true;
@@ -12,7 +12,7 @@ const validators = {
      * 
      * @param {string} item variation text field
      * @returns {boolean} true if validation succeeds
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     validateVariationItem: function(item) {
         // For each function in the variationValidatorsList, ensure the validation succeeds without throwing and returns true
@@ -36,7 +36,7 @@ const validators = {
      * 
      * @param {string} item variation text field
      * @returns {boolean} true if validation succeeds
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     validateTemplateName: function (item) {
         // For each function in the TemplateNameValidatorsList, ensure the validation succeeds without throwing and returns true
@@ -57,7 +57,7 @@ const validators = {
      * 
      * @param {string} item variation text field
      * @returns {boolean} true if validation succeeds
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     validateCondition: function (item, includeNullCheck) {
         // For each function in the conditionValidatorsList, ensure the validation succeeds without throwing and returns true
@@ -66,7 +66,7 @@ const validators = {
  
         // cannot have any condition
         if(!includeNullCheck && item !== 'Else') 
-            throw new exception(errCode.DEFAULT_CONDITION_MUST_BE_EMPTY, 'Default condition in "- DEFAULT:' + item + '" cannot have any expression');
+            throw new Exception(errCode.DEFAULT_CONDITION_MUST_BE_EMPTY, 'Default condition in "- DEFAULT:' + item + '" cannot have any expression');
         return VALIDATION_PASS;
     },
     /**
@@ -82,7 +82,7 @@ const validators = {
      * 
      * @param {LGObject} item LGObject
      * @returns {boolean} true if validation succeeds
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     validateTemplate: function (item) {
         // For each function in the conditionValidatorsList, ensure the validation succeeds without throwing and returns true

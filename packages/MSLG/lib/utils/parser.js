@@ -8,7 +8,7 @@ const chalk = require('chalk');
 const deepEqual = require('deep-equal');
 
 const validate = require('./validation');
-const exception = require('./exception')
+const Exception = require('./exception')
 const parserHelpers = require('./parserHelper');
 
 const retCode = require('../enums/errorCodes');
@@ -28,7 +28,7 @@ const parser = {
      * @param {string} lgAppName Application name for the output .lg file
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
      * @returns {string} final collated lg content
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     parseCollateAndWriteOut: async function(args, writeOut = true) {
         const folderWithLGFiles = (args["l"] || args["lgFolder"] || args["lg"]);
@@ -41,9 +41,9 @@ const parser = {
         try {
             const folderStat = fs.statSync(folderWithLGFiles);
             if(!folderStat.isDirectory()) 
-                throw new exception(retCode.INVALID_INPUT, `Sorry, ${folderWithLGFiles} is not a folder or does not exist`);
+                throw new Exception(retCode.INVALID_INPUT, `Sorry, ${folderWithLGFiles} is not a folder or does not exist`);
         } catch (err) {
-            throw new exception(retCode.INVALID_INPUT, `Sorry, ${folderWithLGFiles} is not a folder or does not exist`);
+            throw new Exception(retCode.INVALID_INPUT, `Sorry, ${folderWithLGFiles} is not a folder or does not exist`);
         }
         
         // get files from folder
@@ -67,7 +67,7 @@ const parser = {
      * @param {string[]} lgFiles path of .lg file 
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
      * @returns {string} final markdown lg content
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     parseFile: async function(lgFilePath, verboseLog){
         const allParsedContent = await parser.parseFiles([lgFilePath], verboseLog);
@@ -79,11 +79,11 @@ const parser = {
      * @param {string[]} lgFiles List containing paths of .lg files
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
      * @returns {LGObject[]} Parsed LGObjects
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     parseFiles: async function(lgFiles, verboseLog){
         if(lgFiles && lgFiles.length === 0) {
-            throw (new exception('No .lg files in specified folder', retCode.INVALID_INPUT));
+            throw (new Exception('No .lg files in specified folder', retCode.INVALID_INPUT));
         }
         const allParsedContent = [];
         // loop through lgFiles, parse each one
@@ -122,7 +122,7 @@ const parser = {
      * @param {LGObject[]} allParsedContent Parsed LG Objects
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
      * @returns {string} final markdown lg content
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     collateParsedContentToMd: async function(allParsedContent, verboseLog){
         try{
@@ -140,7 +140,7 @@ const parser = {
      * @param {string} fileContent file content to parse
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
      * @returns {LGParsedObj} Object containing parsed LG file content and any additional files to parse
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     parse: async function(fileContent, verboseLog) {
         return LGObject.toLG(parserHelpers.splitFileBySections(fileContent, verboseLog));
@@ -150,7 +150,7 @@ const parser = {
      * 
      * @param {LGParsedObj []} parsedContent List of parsed content as LGParsedObj 
      * @returns {LGParsedObj} Collated object containing parsed file contents
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     collate: async function(parsedContent) {
         let collatedContent = parsedContent[0], retObj;
@@ -164,7 +164,7 @@ const parser = {
                         matchingCollatedTemplateItem = matchingCollatedTemplateItem[0]
                         // collate variations and conditional responses for this item
                         if((template.variations.length !== 0 && matchingCollatedTemplateItem.variations.length === 0) || (template.conditionalResponses.length !== 0 && matchingCollatedTemplateItem.conditionalResponses.length === 0)) {
-                            throw new exception(retCode.INVALID_TEMPLATE, `Template ${template.name} has both conditional response definition as well as variations. A template cannot be both!`);
+                            throw new Exception(retCode.INVALID_TEMPLATE, `Template ${template.name} has both conditional response definition as well as variations. A template cannot be both!`);
                         }
 
                         if(template.variations.length !== 0) {
@@ -205,7 +205,7 @@ const parser = {
                         if((matchingCollatedEntity[0].entityType === entityTypes.String.name) && (entity.entityType !== entityTypes.String.name)) {
                             matchingCollatedEntity[0].entityType = entity.entityType;
                         } else if(!deepEqual(matchingCollatedEntity[0], entity)) {
-                            throw new exception(retCode.DUPLICATE_INCOMPATIBE_ENTITY_DEF, `Duplicate and incompatible entity definitions found for entity: " ${entity.name}"`);
+                            throw new Exception(retCode.DUPLICATE_INCOMPATIBE_ENTITY_DEF, `Duplicate and incompatible entity definitions found for entity: " ${entity.name}"`);
                         }
                     }
                 });
@@ -224,7 +224,7 @@ const parser = {
      * @param {LGParsedObj} parsedContent Parsed and collated parser object
      * @param {boolean} verboseLog If true, write verbose log messages to console.log
      * @returns {string} text content of collated LG parser object in markdown format
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     genMdFromParserObj: async function(parsedContent, verboseLog) {
         let fileContent = '';

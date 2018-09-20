@@ -8,7 +8,7 @@ const chalk = require('chalk');
 const fetch = require('node-fetch');
 
 const retCode = require('../enums/errorCodes');
-const exception = require('./exception')
+const Exception = require('./exception')
 const parserHelper = require('./parserHelper');
 const parserConsts = require('../enums/parserconsts');
 const translate = {
@@ -27,7 +27,7 @@ const translate = {
      * @param {boolean} translateLinkText If true, link description text for .lg files will be localized
      * @param {boolean} verbose If true, write verbose log messages to console.log
      * @returns {void} Nothing
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     translateContent: async function(args) {
         const inputLGFileName = args["in"];
@@ -55,10 +55,10 @@ const translate = {
             try {
                 let folderStat = fs.statSync(lgFolder);
                 if(!folderStat.isDirectory()) {
-                    throw (new exception(retCode.INVALID_INPUT, 'Sorry, ' + lgFolder + ' is not a folder or does not exist'));
+                    throw (new Exception(retCode.INVALID_INPUT, 'Sorry, ' + lgFolder + ' is not a folder or does not exist'));
                 }
             } catch (err) {
-                throw (new exception(retCode.INVALID_INPUT, 'Sorry, ' + lgFolder + ' is not a folder or does not exist'));
+                throw (new Exception(retCode.INVALID_INPUT, 'Sorry, ' + lgFolder + ' is not a folder or does not exist'));
             }
             
             // get files from folder
@@ -66,7 +66,7 @@ const translate = {
         }
         
         if(lgFiles && lgFiles.length === 0) {
-            throw (new exception(retCode.INVALID_INPUT, 'No .lg files specified or none found in specified folder'));
+            throw (new Exception(retCode.INVALID_INPUT, 'No .lg files specified or none found in specified folder'));
         }
         // loop through lgFiles, parse each one
         while(lgFiles.length > 0) {
@@ -96,7 +96,7 @@ const translate = {
      * @param {boolean} translateLinkText If true, link description text for .lg files will be localized
      * @param {boolean} log If true, write verbose log messages to console.log
      * @returns {string} Translated content
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     translateFile: async function(inputFileContent, toLang, translateKey, srcLang, translateComments, translateLinkText, log) {
         let linesInFile = inputFileContent.split(/\n|\r\n/);
@@ -170,7 +170,7 @@ const translate = {
                 if(log) 
                     process.stdout.write(chalk.default.gray(NL));
             } else {
-                throw new exception(retCode.INVALID_INPUT, `Invalid line detected: "${currentLine}"`);
+                throw new Exception(retCode.INVALID_INPUT, `Invalid line detected: "${currentLine}"`);
             }
         }
         return localizedContent;
@@ -183,7 +183,7 @@ const translate = {
      * @param {string} translateKey Microsoft text translation API translation key
      * @param {string} srcLang Source content language
      * @returns {void} Nothing
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     translateText: async function(content, toLang, translateKey, srcLang) {
         let tUri = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=' + toLang + '&includeAlignment=true';
@@ -199,7 +199,7 @@ const translate = {
         };
         const res = await fetch(tUri, options);
         if (!res.ok) {
-            throw new exception(retCode.TRANSLATE_SERVICE_FAIL,`Text translator service call failed with [${res.status}] : ${res.statusText}.\nPlease check key & language code validity`);
+            throw new Exception(retCode.TRANSLATE_SERVICE_FAIL,`Text translator service call failed with [${res.status}] : ${res.statusText}.\nPlease check key & language code validity`);
         }
         let data = await res.json();
         return data;
@@ -225,7 +225,7 @@ const get_guid = function () {
  * @param {string} lOutputFolder output folder path
  * @param {string} toLang Target language to translate to
  * @returns {object} object.lgFileName contains the output file name and object.lOutputFolder contains the output folder path
- * @throws {exception} Throws on errors. exception object includes errCode and text. 
+ * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
  */
 const getOutputFileNameAndFolder = async function(inputFileName, outputFileName, lOutputFolder, toLang) {
     let fileName = path.basename(inputFileName);

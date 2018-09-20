@@ -27,7 +27,7 @@ const mslg = require('../lib');
 const help = require('../lib/help');
 const parser = require('../lib/utils/parser')
 const translator = require('../lib/utils/translate')
-const exception = require('../lib/utils/exception');
+const Exception = require('../lib/utils/exception');
 const { getServiceManifest } = require('../lib/utils/argsUtil');
 const { ServiceBase } = require('../lib/api/serviceBase');
 const retCode = require('../lib/enums/errorCodes');
@@ -68,9 +68,6 @@ async function runProgram() {
     let body = null;
     const config = await composeConfig(args);
     ServiceBase.config = config;
-
-    if(!args.id)
-        args.id = config.lgAppId;
 
     // special non-operation commands
     switch(args._[0]){
@@ -127,7 +124,7 @@ async function runProgram() {
     if(response.ok){
         process.stdout.write(chalk.green.bold("\nOperation Succeeded\n\n"));
     }else if (response.result.error) {
-        throw new exception(retCode.LG_SERVICE_FAIL, JSON.stringify(result.error, null, 4));
+        throw new Exception(retCode.LG_SERVICE_FAIL, JSON.stringify(result.error, null, 4));
     }
 
     // special case response (for msbot)
@@ -221,7 +218,7 @@ async function initializeConfig() {
  */
 async function getFileInput(filepath, toJSON = true) {
     if (typeof filepath !== 'string' || !fs.existsSync(filepath)) {
-        throw new exception(retCode.INVALID_INPUT, `${filepath} is not a valid file path or file does not exist`);
+        throw new Exception(retCode.INVALID_INPUT, `${filepath} is not a valid file path or file does not exist`);
     }
     // Let any errors fall through to the runProgram() promise
     const contents = await txtfile.read(path.resolve(filepath))
@@ -275,7 +272,7 @@ function validateConfig(config) {
     const { authoringKey } = config;
     const messageTail = `is missing from the configuration.\n\nDid you run ${chalk.cyan.bold('mslg init')} yet?`;
     if(!(typeof authoringKey === 'string'))
-        throw new exception(retCode.INVALID_INPUT, `The authoringKey ${messageTail}`);
+        throw new Exception(retCode.INVALID_INPUT, `The authoringKey ${messageTail}`);
 }
 
 /**
@@ -287,19 +284,19 @@ async function validateArguments(serviceManifest, requestBody) {
     let body = undefined;
 
     if (!serviceManifest) {
-        throw new exception(retCode.INVALID_INPUT, "The operation does not exist.");
+        throw new Exception(retCode.INVALID_INPUT, "The operation does not exist.");
     }
 
     const { operation } = serviceManifest;
     if (!operation) {
-        throw new exception(retCode.INVALID_INPUT, "The operation does not exist.");
+        throw new Exception(retCode.INVALID_INPUT, "The operation does not exist.");
     }
 
     const entitySpecified = (args.in && typeof args.in === 'string') || (requestBody != undefined);
     const entityRequired = !!operation.entityName;
 
     if (!entityRequired && entitySpecified) {
-        throw new exception(retCode.INVALID_INPUT, `The ${operation.name} operation does not accept an input`);
+        throw new Exception(retCode.INVALID_INPUT, `The ${operation.name} operation does not accept an input`);
     }
 
     if (entityRequired) {
@@ -307,7 +304,7 @@ async function validateArguments(serviceManifest, requestBody) {
             body = requestBody ? requestBody:(await getFileInput(args.in));
         }
         else {
-            throw new exception(retCode.INVALID_INPUT, `The ${operation.name} requires an input of type: ${operation.entityType}`);
+            throw new Exception(retCode.INVALID_INPUT, `The ${operation.name} requires an input of type: ${operation.entityType}`);
         }
     }
 
@@ -315,7 +312,7 @@ async function validateArguments(serviceManifest, requestBody) {
         for (let param of serviceManifest.operation.params) {
             if (param.required) {
                 if (!args[param.name] && !args[param.alias || param.name]) {
-                    throw new exception(retCode.INVALID_INPUT, `The --${param.name} argument is missing and required`);
+                    throw new Exception(retCode.INVALID_INPUT, `The --${param.name} argument is missing and required`);
                 }
             }
         }
@@ -339,18 +336,18 @@ async function handleError(error) {
 
 async function handleParseCommand(args){
     if (!(args["l"] || args["lgFolder"] || args["lg"])) 
-        throw new exception(retCode.INVALID_INPUT, "No input folder specified");
+        throw new Exception(retCode.INVALID_INPUT, "No input folder specified");
     await parser.parseCollateAndWriteOut(args, true);
     return true;
 }
 
 async function handleTranslateCommand(args){
     if (!(args["in"] || (args["lgFolder"] || args["l"] || args["lg"]))) 
-        throw new exception(retCode.INVALID_INPUT, "No .lg file or folder specified.");
+        throw new Exception(retCode.INVALID_INPUT, "No .lg file or folder specified.");
     if(!(args["k"] || args["translateKey"])) 
-        throw new exception(retCode.INVALID_INPUT, "No translate key provided.");
+        throw new Exception(retCode.INVALID_INPUT, "No translate key provided.");
     if(!(args["t"] || args["toLang"])) 
-        throw new exception(retCode.INVALID_INPUT, "No target language provided.");
+        throw new Exception(retCode.INVALID_INPUT, "No target language provided.");
 
     await translator.translateContent(args);
     return true;
@@ -359,7 +356,7 @@ async function handleTranslateCommand(args){
 async function handleCreateModelCommand(args, config){
     const lgInput = (args.l || args.lg || args.lgFolder);
     if(!lgInput)
-        throw(new exception(retCode.INVALID_INPUT, "No .lg file or folder specified."));
+        throw(new Exception(retCode.INVALID_INPUT, "No .lg file or folder specified."));
     
     const { lgAppName, lgAppLocale, lgAppDomain, lgAppVersion } = config;
 
@@ -374,7 +371,7 @@ async function handleCreateModelCommand(args, config){
     };
 
     if(!(model.modelKind && model.name && model.locale && model.properties.Domain && model.properties.Version) && !args.in)
-        throw new exception(retCode.INVALID_INPUT, "One or more argument is missing for creating an LG model.\n\nDid you run ${chalk.cyan.bold('mslg init')} yet? You can also pass a definition file for the missing arguments.");
+        throw new Exception(retCode.INVALID_INPUT, "One or more argument is missing for creating an LG model.\n\nDid you run ${chalk.cyan.bold('mslg init')} yet? You can also pass a definition file for the missing arguments.");
 
     // read lg file/folder
     if(lgInput.endsWith(lgFileExt))
@@ -408,7 +405,7 @@ async function handleCreateEndpointCommand(args, config){
 async function handleReplaceCommand(args, config){
     const lgInput = (args.l || args.lg || args.lgFolder);
     if(!lgInput)
-        throw(new exception(retCode.INVALID_INPUT, "No .lg file or folder specified."));
+        throw(new Exception(retCode.INVALID_INPUT, "No .lg file or folder specified."));
 
     try{
         // get model with id

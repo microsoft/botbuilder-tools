@@ -10,7 +10,7 @@ const LGConditionalResponseTemplate = require('./LGConditionalResponse');
 
 const helpers = require('../utils/helpers');
 const validators = require('../utils/validation');
-const exception = require('../utils/exception')
+const Exception = require('../utils/exception')
 
 const errCode = require('../enums/errorCodes');
 const parserConsts = require('../enums/parserconsts');
@@ -164,20 +164,20 @@ LGObject.toLG = function (parsedFileContent) {
             if(cLGTemplate.name !== '' && pushAtEnd) 
                 retParserObj.LGObject.LGTemplates.push(cLGTemplate);
             if(cLGTemplate.variations.length === 0 && cLGTemplate.conditionalResponses.length === 0) {
-                throw new exception(errCode.INVALID_TEMPLATE, 'Template "' + cLGTemplate.name + '" does not have any variations or conditional response definition');
+                throw new Exception(errCode.INVALID_TEMPLATE, 'Template "' + cLGTemplate.name + '" does not have any variations or conditional response definition');
             }
         } else if(chunk.indexOf(parserConsts.FILEREF) === 0) { 
             let linkValueRegEx = new RegExp(/\(.*?\)/g);
             let linkValueList = chunkSplitByLine[0].trim().match(linkValueRegEx);
             let linkValue = linkValueList[0].replace('(','').replace(')','');
             if(linkValue === '') {
-                throw(new exception(errCode.INVALID_LG_FILE_REF, '[ERROR]: ' + 'Invalid LU File Ref: ' + chunkSplitByLine[0]));
+                throw(new Exception(errCode.INVALID_LG_FILE_REF, '[ERROR]: ' + 'Invalid LU File Ref: ' + chunkSplitByLine[0]));
             }
             retParserObj.additionalFilesToParse.push(linkValue);
         } else if(chunk.indexOf(parserConsts.ENTITY) === 0) {
             let entityDef = chunkSplitByLine[0].replace(parserConsts.ENTITY, '').split(':');
             if(entityDef.length !== 2) 
-                throw new exception(errCode.INVALID_ENTITY_DEFINITION, 'Invalid entity definition for "' + chunkSplitByLine[0] + '"');
+                throw new Exception(errCode.INVALID_ENTITY_DEFINITION, 'Invalid entity definition for "' + chunkSplitByLine[0] + '"');
             let entityName = entityDef[0].trim();
             let entityTypeAndAttributes = entityDef[1].trim().split(' ');
             let entityType = entityTypeAndAttributes[0].trim();
@@ -196,7 +196,7 @@ LGObject.toLG = function (parsedFileContent) {
                 retParserObj.LGObject.entities.push(newEntity);
             }
         } else {
-            throw new exception(errCode.INVALID_INPUT, 'Unidentified template definition. Template definition must start with # <Template Name> :: \n' + chunk);
+            throw new Exception(errCode.INVALID_INPUT, 'Unidentified template definition. Template definition must start with # <Template Name> :: \n' + chunk);
         }
         
     });
