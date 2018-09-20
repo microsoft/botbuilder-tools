@@ -12,6 +12,8 @@ const msRest = require("ms-rest-js");
 const { LuisAuthoring } = require('../lib/luisAuthoring');
 const getOperation = require('./getOperation');
 
+function stdoutAsync(output) { return new Promise((done) => process.stdout.write(output, "utf-8", () => done())); }
+
 let requiredVersion = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
     console.log(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
@@ -111,7 +113,7 @@ async function runProgram() {
                     result = await client.apps.get(args.region, result, args);
 
                     // Write output to console and return
-                    writeAppToConsole(config, args, requestBody, result);
+                    await writeAppToConsole(config, args, requestBody, result);
                     return;
                 case "closedlist":
                     result = await client.model.addClosedList(args.region, args.appId, args.versionId, requestBody, args);
@@ -281,7 +283,7 @@ async function runProgram() {
                     result = await client.apps.get(args.region, args.appId, args);
 
                     // Write output to console and return
-                    writeAppToConsole(config, args, requestBody, result);
+                    await writeAppToConsole(config, args, requestBody, result);
                     return;
 
                 case "closedlist":
@@ -368,7 +370,7 @@ async function runProgram() {
                     result = await client.apps.get(args.region, result, args);
 
                     // Write output to console and return
-                    writeAppToConsole(config, args, requestBody, result);
+                    await writeAppToConsole(config, args, requestBody, result);
                     return;
 
                 case "version":
@@ -379,7 +381,7 @@ async function runProgram() {
                         result.version = version;
 
                         // Write output to console and return
-                        writeAppToConsole(config, args, requestBody, result);
+                        await writeAppToConsole(config, args, requestBody, result);
                     }
                     return;
 
@@ -602,15 +604,15 @@ async function runProgram() {
         throw new Error(result.error.message);
     }
 
-    process.stdout.write((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
+    await stdoutAsync((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
 }
 
-function writeAppToConsole(config, args, requestBody, result) {
+async function writeAppToConsole(config, args, requestBody, result) {
     if (result.error) {
         throw new Error(result.error.message);
     }
     if (args.msbot) {
-        process.stdout.write(JSON.stringify({
+        await stdoutAsync(JSON.stringify({
             type: "luis",
             name: result.name,
             appId: result.id || result.appId,
@@ -621,7 +623,7 @@ function writeAppToConsole(config, args, requestBody, result) {
         }, null, 2) + "\n");
     }
     else {
-        process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+        await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
     }
 }
 
@@ -765,7 +767,7 @@ function validateConfig(config) {
     // not all operations require these to be present.
     // Validation of specific params are done in the
     // ServiceBase.js
-    const { authoringKey, region} = config;
+    const { authoringKey, region } = config;
     const messageTail = `is missing from the configuration.\n\nDid you run ${chalk.cyan.bold('luis init')} yet?`;
 
     assert(typeof authoringKey === 'string', `The authoringKey  ${messageTail}`);
@@ -886,18 +888,18 @@ async function handleQueryCommand(args, config) {
         }
 
         let result = await request(options);
-        process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+        await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
         return;
     }
     return help(args);
 }
 
 async function handleSetCommand(args, config, client) {
-    if (args.length == 1 && !(args.a || args.appId || args.applicationId || args.versionId || args.authoringKey || args.region  || args.versionId)) {
+    if (args.length == 1 && !(args.a || args.appId || args.applicationId || args.versionId || args.authoringKey || args.region || args.versionId)) {
         process.stderr.write(chalk.red.bold(`missing .luisrc argument name: [-appId|--applicationId|--versionId|--region|--authoringKey]\n`));
         return help(args);
     }
-    config.region = args.region  || config.region;
+    config.region = args.region || config.region;
     config.authoringKey = args.authoringKey || config.authoringKey;
     config.versionId = args.versionId || config.versionId;
     config.appId = args.appId || args.applicationId || config.appId;
@@ -923,12 +925,12 @@ async function handleSetCommand(args, config, client) {
         }
     }
     await fs.writeJson(path.join(process.cwd(), '.luisrc'), config, { spaces: 2 });
-    process.stdout.write(JSON.stringify(config, null, 4) + "\n");
+    await stdoutasync(JSON.stringify(config, null, 4) + "\n");
     return true;
 }
 
 runProgram()
-    .then(() => process.exitCode = 0)
+    .then(() => process.exit())
     .catch(async (error) => {
         process.stderr.write('\n' + chalk.red.bold(error.message + '\n\n'));
         await help(args);
