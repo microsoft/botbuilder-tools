@@ -65,6 +65,7 @@ and add each of the services it can dispatch to .dispatch file.  Currently, a ma
 ```shell
 dispatch add -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n TestLuisApp -v 0.1 -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dispatch add -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n TestLuisApp --intentName foo -v 0.1 -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+dispatch add -t luis -n TestLuisApp --intentName foo -v 0.1 -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -r westus
 dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dispatch add -t file -n TestModule -f c:\src\testmodule.tsv
 dispatch add -t file -n TestModule2 -f c:\src\testmodule2.txt
@@ -80,6 +81,7 @@ Arguments
 | -i, --id     | (required only if type is luis/qna) LUIS app id or QnA kb id from application settings page|
 | -n, --name   | LUIS app name or QnA name (from application settings page) or module/file name for file type |
 | -k, --key    | (required only if type is luis/qna) LUIS authoring key (from https://www.luis.ai/user/settings, see https://aka.ms/luiskeys for more information on LUIS keys) or QnA maker subscription key (from https://ms.portal.azure.com, see https://aka.ms/qnamakerkeys for more information about QnA Maker keys) |
+| -r, --region | (optional) LUIS authoring region |
 | -v, --version| (Required only if type is luis) LUIS app version |
 | -f, --filePath| (Required only if type is file) Path to tsv file containing tab delimited intent and utterance fields or .txt file with an utterance on each line |
 | --intentName  | (optional) Dispatch intent name for this source, name param value will be used otherwise |
