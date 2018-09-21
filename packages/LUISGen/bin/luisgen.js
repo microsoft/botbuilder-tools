@@ -5,17 +5,21 @@
  */
 const pkg = require('../package.json');
 let args = '';
+
 process.argv.forEach((val, index) => {
-  if (index > 1) {
-    args = args + ' "' + val + '"';
-  }
+    if (index > 1) {
+        args = args + ' ' + val;
+    }
 });
+
 args = args.trim();
-if (args == '"-v"' || args == '"--version"') {
+
+if (args == '-v' || args == '--version') {
     return process.stdout.write(pkg.version);
 }
-try {
-  require('child_process').execSync('dotnet ' + __dirname + '/netcoreapp2.1/LUISGen.dll ' + args, { stdio: [0, 1, 2] });
-}
-catch (err) {
-}
+
+// set the cmdline
+process.argv = [process.argv[0], process.argv[1], __dirname + '/netcoreapp2.1/LUISGen.dll', ...process.argv.slice(2)]
+
+// use the loader via require
+require("dotnet-2.1")
