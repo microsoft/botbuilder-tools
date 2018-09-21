@@ -9,6 +9,7 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
 
 require('log-prefix')(() => showMessage('%s'));
@@ -112,7 +113,7 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
                 if (args.serviceIds)
                     dispatchService.serviceIds = args.serviceIds;
                 await config.save(args.secret);
-                process.stdout.write(JSON.stringify(dispatchService, null, 2));
+                await stdoutAsync(JSON.stringify(dispatchService, null, 2));
                 return config;
             }
         }

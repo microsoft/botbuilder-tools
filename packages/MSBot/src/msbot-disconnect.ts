@@ -7,8 +7,9 @@
 import { BotConfiguration, IConnectedService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
+
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -66,7 +67,7 @@ async function processDisconnectArgs(config: BotConfiguration): Promise<BotConfi
     const removedService: IConnectedService = config.disconnectServiceByNameOrId(args.idOrName);
     if (removedService != null) {
         await config.save(args.secret);
-        process.stdout.write(`Disconnected ${removedService.type}:${removedService.name} ${removedService.id}`);
+        await stdoutAsync(`Disconnected ${removedService.type}:${removedService.name} ${removedService.id}`);
     }
 
     return config;
