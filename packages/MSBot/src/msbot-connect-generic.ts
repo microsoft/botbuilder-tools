@@ -7,6 +7,7 @@
 import { BotConfiguration, GenericService, IGenericService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
 
 require('log-prefix')(() => showMessage('%s'));
@@ -86,7 +87,7 @@ async function processConnectFile(config: BotConfiguration): Promise<BotConfigur
     });
     const id: string = config.connectService(newService);
     await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+    await stdoutAsync(JSON.stringify(config.findService(id), null, 2));
 
     return config;
 }

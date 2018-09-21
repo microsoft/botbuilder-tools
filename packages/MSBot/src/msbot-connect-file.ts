@@ -8,7 +8,7 @@ import { BotConfiguration, FileService, IFileService } from 'botframework-config
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as path from 'path';
-
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
@@ -73,7 +73,7 @@ async function processConnectFile(config: BotConfiguration): Promise<BotConfigur
     } as IFileService);
     const id: string = config.connectService(newService);
     await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+    await stdoutAsync(JSON.stringify(config.findService(id), null, 2));
 
     return config;
 }

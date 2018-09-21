@@ -10,6 +10,7 @@ import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
+import { stdoutAsync } from './stdioAsync';
 import { showMessage, uuidValidate } from './utils';
 
 require('log-prefix')(() => showMessage('%s'));
@@ -112,7 +113,7 @@ async function processConnectQnaArgs(config: BotConfiguration): Promise<BotConfi
     const id: string = config.connectService(newService);
 
     await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+    await stdoutAsync(JSON.stringify(config.findService(id), null, 2));
 
     return config;
 }

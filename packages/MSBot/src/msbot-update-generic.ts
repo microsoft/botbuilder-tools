@@ -7,8 +7,8 @@
 import { BotConfiguration, GenericService, IGenericService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
-
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -85,7 +85,7 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
                     genericService.configuration = JSON.parse(args.keys);
                 }
                 await config.save(args.secret);
-                process.stdout.write(JSON.stringify(genericService, null, 2));
+                await stdoutAsync(JSON.stringify(genericService, null, 2));
                 return config;
             }
         }
