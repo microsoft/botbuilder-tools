@@ -386,11 +386,8 @@ async function runProgram() {
                         await writeAppToConsole(config, args, requestBody, result);
                     }
                     return;
-
-                default:
-                    throw new Error(`Unknown resource: ${target}`);
             }
-            break;
+            throw new Error(`Unknown resource: ${target}`);
 
         // ------------------ INIT ------------------
         case "init":
@@ -962,7 +959,7 @@ async function handleSetCommand(args, config, client) {
         }
     }
     await fs.writeJson(path.join(process.cwd(), '.luisrc'), config, { spaces: 2 });
-    await stdoutasync(JSON.stringify(config, null, 4) + "\n");
+    await stdoutAsync(JSON.stringify(config, null, 4) + "\n");
     return true;
 }
 
