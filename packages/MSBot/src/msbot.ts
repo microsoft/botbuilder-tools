@@ -10,14 +10,14 @@ import * as program from 'commander';
 import * as process from 'process';
 import * as semver from 'semver';
 
-import { showMessage } from './utils';
-require('log-prefix')(() => showMessage('%s'));
 program
-    .option('--verbose', 'Add [msbot] prefix to all messages')
-    .on('option:verbose', () => process.env.VERBOSE = 'verbose');
+    .option('--prefix', 'Append [msbot] prefix to all messages')
+    .on('option:prefix', () => process.env.PREFIX = 'prefix');
 
 // tslint:disable-next-line:no-var-requires no-require-imports
 const pkg: IPackage = require('../package.json');
+// tslint:disable-next-line:no-var-requires no-require-imports
+require('./utils');
 const requiredVersion: string = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
     console.error(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);

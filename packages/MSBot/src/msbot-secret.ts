@@ -7,13 +7,9 @@
 import { BotConfiguration } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import { showMessage } from './utils';
-
-require('log-prefix')(() => showMessage('%s'));
-program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(showMessage(`Unknown arguments: ${flag}`)));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -31,6 +27,7 @@ program
     .option('--secret <secret>', 'secret used to confirm you can do secret operations')
     .option('-c, --clear', 'clear the secret and store keys unencrypted')
     .option('-n, --new', 'generate a new secret and store keys encrypted')
+    .option('--prefix', 'Append [msbot] prefix to all messages')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);

@@ -5,6 +5,7 @@ let fs = require('fs');
 let exec = util.promisify(require('child_process').exec);
 const msbot = require.resolve('../bin/msbot.js');
 const botConfig = require.resolve('./bot.txt');
+const pkg = require('../package.json');
 
 describe("msbot commands", () => {
     it("msbot init", async () => {
@@ -92,4 +93,38 @@ describe("msbot commands", () => {
         config = await bf.BotConfiguration.load("save.bot");
         fs.unlinkSync("save.bot");
     });
+
+    it('should not prefix [msbot] to stdout when --prefix is not passed as an argument', function(done) {
+        exec(`node ${msbot}`, (error, stdout, stderr) => {
+            try {
+                assert.notEqual(stdout.startsWith(`[${pkg.name}]`), true);
+                done(); 
+            } catch (err) {
+                done(err);
+            }                
+        });
+    });
+
+    it('should prefix [msbot] to stdout when --prefix is passed as an argument', function(done) {
+        exec(`node ${msbot} --prefix`, (error, stdout, stderr) => {
+            try {
+                assert.equal(stdout.startsWith(`[${pkg.name}]`), true);
+                done(); 
+            } catch (err) {
+                done(err);
+            }                
+        });
+    });
+
+    it('should prefix [msbot] to stderr when --prefix is passed as an argument', function(done) {
+        exec(`node ${msbot} parse -x --prefix`, (error, stdout, stderr) => {
+            try {
+                assert.equal(stderr.startsWith(`[${pkg.name}]`), true);
+                done(); 
+            } catch (err) {
+                done(err);
+            }                
+        });
+    });
+
 });

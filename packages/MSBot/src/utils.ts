@@ -2,13 +2,18 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const pkg = require('../package.json');
+const intercept = require("intercept-stdout");
+
 export function uuidValidate(value: string): boolean {
     return /^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}$/.test(value);
 }
 
-export function showMessage(value: string): string {
-    return `${process.env.VERBOSE === 'verbose' ? '[msbot] ' : ''}${value}`;
-}
+// tslint:disable-next-line:typedef
+const unhookIntercept = intercept((txt: string) => {
+    return `${process.env.PREFIX === 'prefix' ? `[${pkg.name}] ` : ''}${txt}`;
+});
+exports.unhook_intercept = unhookIntercept;
 
 export const RegionCodes = {
     AUSTRALIAEAST: 'australiaeast',
@@ -280,3 +285,4 @@ const appInsightRegions = [
     RegionCodes.WESTEUROPE,
     RegionCodes.NORTHEUROPE,
 ];
+
