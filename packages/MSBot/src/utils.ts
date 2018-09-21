@@ -10,39 +10,75 @@ export function showMessage(value: string): string {
     return `${process.env.VERBOSE === 'verbose' ? '[msbot] ' : ''}${value}`;
 }
 
+export const RegionCodes = {
+    AUSTRALIAEAST: 'australiaeast',
+    AUSTRALIACENTRAL: 'australiacentral',
+    AUSTRALIACENTRAL2: 'australiacentral2',
+    AUSTRALIASOUTHEAST: 'australiasoutheast',
+    EASTASIA: 'eastasia',
+    SOUTHEASTASIA: 'southeastasia',
+    EASTUS: 'eastus',
+    EASTUS2: 'eastus2',
+    SOUTHCENTRALUS: 'southcentralus',
+    WESTCENTRALUS: 'westcentralus',
+    WESTUS: 'westus',
+    WESTUS2: 'westus2',
+    BRAZILSOUTH: 'brazilsouth',
+    CENTRALUS: 'centralus',
+    NORTHCENTRALUS: 'northcentralus',
+    JAPANWEST: 'japanwest',
+    JAPANEAST: 'japaneast',
+    SOUTHINDIA: 'southindia',
+    CENTRALINDIA: 'centralindia',
+    WESTINDIA: 'westindia',
+    CANADACENTRAL: 'canadacentral',
+    CANADAEAST: 'canadaeast',
+    KOREACENTRAL: 'koreacentral',
+    KOREASOUTH: 'koreasouth',
+    GERMANYCENTRAL: 'germanycentral',
+    GERMANYNORTHEAST: 'germanynortheast',
+    NORTHEUROPE: 'northeurope',
+    WESTEUROPE: 'westeurope',
+    UKSOUTH: 'uksouth',
+    UKWEST: 'ukwest',
+    FRANCECENTRAL: 'francecentral',
+    FRANCESOUTH: 'francesouth'
+};
 
-export class RegionCodes {
-    static AUSTRALIAEAST = 'australiaeast';
-    static AUSTRALIACENTRAL = 'australiacentral';
-    static AUSTRALIACENTRAL2 = 'australiacentral2';
-    static AUSTRALIASOUTHEAST = 'australiasoutheast';
-    static EASTASIA = 'eastasia';
-    static SOUTHEASTASIA = 'southeastasia';
-    static EASTUS = 'eastus';
-    static EASTUS2 = 'eastus2';
-    static SOUTHCENTRALUS = 'southcentralus';
-    static WESTCENTRALUS = 'westcentralus';
-    static WESTUS = 'westus';
-    static WESTUS2 = 'westus2';
-    static BRAZILSOUTH = 'brazilsouth';
-    static CENTRALUS = 'centralus';
-    static NORTHCENTRALUS = 'northcentralus';
-    static JAPANWEST = 'japanwest';
-    static JAPANEAST = 'japaneast';
-    static SOUTHINDIA = 'southindia';
-    static CENTRALINDIA = 'centralindia';
-    static WESTINDIA = 'westindia';
-    static CANADACENTRAL = 'canadacentral';
-    static CANADAEAST = 'canadaeast';
-    static KOREACENTRAL = 'koreacentral';
-    static KOREASOUTH = 'koreasouth';
-    static NORTHEUROPE = 'northeurope';
-    static WESTEUROPE = 'westeurope';
-    static UKSOUTH = 'uksouth';
-    static UKWEST = 'ukwest';
-    static FRANCECENTRAL = 'francecentral';
-    static FRANCESOUTH = 'francesouth';
-}
+export const RegionNames = {
+    AUSTRALIAEAST: 'Australia East',
+    AUSTRALIACENTRAL: 'Australia Central',
+    AUSTRALIACENTRAL2: 'Australia Central 2',
+    AUSTRALIASOUTHEAST: 'Australia Southeast',
+    EASTASIA: 'East Asia',
+    SOUTHEASTASIA: 'Southeast Asia',
+    EASTUS: 'East US',
+    EASTUS2: 'East US 2',
+    SOUTHCENTRALUS: 'South Central US',
+    WESTCENTRALUS: 'West Central US',
+    WESTUS: 'West US',
+    WESTUS2: 'West US 2',
+    BRAZILSOUTH: 'Brazil South',
+    CENTRALUS: 'Central US',
+    NORTHCENTRALUS: 'North Central US',
+    JAPANWEST: 'Japan West',
+    JAPANEAST: 'Japan East',
+    SOUTHINDIA: 'South India',
+    CENTRALINDIA: 'Central India',
+    WESTINDIA: 'West India',
+    CANADACENTRAL: 'Canada Central',
+    CANADAEAST: 'Canada East',
+    KOREACENTRAL: 'Korea Central',
+    KOREASOUTH: 'Korea South',
+    GERMANYCENTRAL: 'Germany Central',
+    GERMANYNORTHEAST: 'Germany Northeast',
+    NORTHEUROPE: 'North Europe',
+    WESTEUROPE: 'West Europe',
+    UKSOUTH: 'UK South',
+    UKWEST: 'UK West',
+    FRANCECENTRAL: 'France Central',
+    FRANCESOUTH: 'France South'
+};
 
 export const regionToLuisAuthoringRegionMap: { [region: string]: string } = {
     australiaeast: RegionCodes.AUSTRALIAEAST,
@@ -75,6 +111,8 @@ export const regionToLuisAuthoringRegionMap: { [region: string]: string } = {
     ukwest: RegionCodes.WESTEUROPE,
     francecentral: RegionCodes.WESTEUROPE,
     francesouth: RegionCodes.WESTEUROPE,
+    germanycentral: RegionCodes.WESTEUROPE,
+    germanynortheast: RegionCodes.WESTEUROPE
 }
 
 export const regionToLuisPublishRegionMap: { [region: string]: string } = {
@@ -98,65 +136,107 @@ export const regionToLuisPublishRegionMap: { [region: string]: string } = {
     southindia: RegionCodes.SOUTHEASTASIA,
     centralindia: RegionCodes.SOUTHEASTASIA,
     westindia: RegionCodes.SOUTHEASTASIA,
-    canadacentral: RegionCodes.NORTHCENTRALUS,
+    canadacentral: RegionCodes.WESTCENTRALUS,
     canadaeast: RegionCodes.EASTUS,
     koreacentral: RegionCodes.SOUTHEASTASIA,
     koreasouth: RegionCodes.SOUTHEASTASIA,
-    northeurope: RegionCodes.NORTHCENTRALUS,
+    northeurope: RegionCodes.NORTHEUROPE,
     westeurope: RegionCodes.WESTEUROPE,
     uksouth: RegionCodes.WESTEUROPE,
     ukwest: RegionCodes.WESTEUROPE,
     francecentral: RegionCodes.NORTHEUROPE,
     francesouth: RegionCodes.WESTEUROPE,
+    germanycentral: RegionCodes.WESTEUROPE,
+    germanynortheast: RegionCodes.NORTHEUROPE
 }
 
-const LONG_EASTUS = 'East US';
-const LONG_NORTHEUROPE = 'North Europe';
-const LONG_SOUTHCENTRALUS = 'South Central US';
-const LONG_SOUTHEASTASIA = 'Southeast Asia';
-const LONG_WESTEUROPE = 'West Europe';
-const LONG_WESTUS2 = 'West US 2';
+export const regionToAppInsightRegionNameMap: { [region: string]: string } = {
+    australiaeast: RegionNames.SOUTHEASTASIA,
+    australiacentral: RegionNames.SOUTHEASTASIA,
+    australiacentral2: RegionNames.SOUTHEASTASIA,
+    australiasoutheast: RegionNames.SOUTHEASTASIA,
+    eastasia: RegionNames.SOUTHEASTASIA,
+    southeastasia: RegionNames.SOUTHEASTASIA,
+    japanwest: RegionNames.SOUTHEASTASIA,
+    japaneast: RegionNames.SOUTHEASTASIA,
+    southindia: RegionNames.SOUTHEASTASIA,
+    centralindia: RegionNames.SOUTHEASTASIA,
+    westindia: RegionNames.SOUTHEASTASIA,
+    koreacentral: RegionNames.SOUTHEASTASIA,
+    koreasouth: RegionNames.SOUTHEASTASIA,
 
+    eastus: RegionNames.EASTUS,
+    eastus2: RegionNames.EASTUS,
+    canadaeast: RegionNames.EASTUS,
 
-export const regionToAppInsightLongRegionMap: { [region: string]: string } = {
-    australiaeast: LONG_SOUTHEASTASIA,
-    australiacentral: LONG_SOUTHEASTASIA,
-    australiacentral2: LONG_SOUTHEASTASIA,
-    australiasoutheast: LONG_SOUTHEASTASIA,
-    eastasia: LONG_SOUTHEASTASIA,
-    southeastasia: LONG_SOUTHEASTASIA,
-    japanwest: LONG_SOUTHEASTASIA,
-    japaneast: LONG_SOUTHEASTASIA,
-    southindia: LONG_SOUTHEASTASIA,
-    centralindia: LONG_SOUTHEASTASIA,
-    westindia: LONG_SOUTHEASTASIA,
-    koreacentral: LONG_SOUTHEASTASIA,
-    koreasouth: LONG_SOUTHEASTASIA,
+    southcentralus: RegionNames.SOUTHCENTRALUS,
+    brazilsouth: RegionNames.SOUTHCENTRALUS,
+    centralus: RegionNames.SOUTHCENTRALUS,
+    northcentralus: RegionNames.SOUTHCENTRALUS,
+    canadacentral: RegionNames.SOUTHCENTRALUS,
 
-    eastus: LONG_EASTUS,
-    eastus2: LONG_EASTUS,
-    canadaeast: LONG_EASTUS,
+    westcentralus: RegionNames.WESTUS2,
+    westus: RegionNames.WESTUS2,
+    westus2: RegionNames.WESTUS2,
 
-    southcentralus: LONG_SOUTHCENTRALUS,
-    brazilsouth: LONG_SOUTHCENTRALUS,
-    centralus: LONG_SOUTHCENTRALUS,
-    northcentralus: LONG_SOUTHCENTRALUS,
-    canadacentral: LONG_SOUTHCENTRALUS,
+    northeurope: RegionNames.NORTHEUROPE,
 
-    westcentralus: LONG_WESTUS2,
-    westus: LONG_WESTUS2,
-    westus2: LONG_WESTUS2,
-
-    northeurope: LONG_NORTHEUROPE,
-
-    westeurope: LONG_WESTEUROPE,
-    uksouth: LONG_WESTEUROPE,
-    ukwest: LONG_WESTEUROPE,
-    francecentral: LONG_WESTEUROPE,
-    francesouth: LONG_WESTEUROPE
+    westeurope: RegionNames.WESTEUROPE,
+    uksouth: RegionNames.WESTEUROPE,
+    ukwest: RegionNames.WESTEUROPE,
+    francecentral: RegionNames.WESTEUROPE,
+    francesouth: RegionNames.WESTEUROPE,
+    germanycentral: RegionNames.WESTEUROPE,
+    germanynortheast: RegionNames.WESTEUROPE
 }
 
-export const luisRegions = [
+export const regionToSearchRegionMap: { [region: string]: string } = {
+    australiaeast: RegionCodes.SOUTHEASTASIA,
+    australiacentral: RegionCodes.SOUTHEASTASIA,
+    australiacentral2: RegionCodes.SOUTHEASTASIA,
+    australiasoutheast: RegionCodes.SOUTHEASTASIA,
+    eastasia: RegionCodes.SOUTHEASTASIA,
+    southeastasia: RegionCodes.SOUTHEASTASIA,
+
+    eastus: RegionCodes.EASTUS,
+    eastus2: RegionCodes.EASTUS2,
+    southcentralus: RegionCodes.SOUTHCENTRALUS,
+    westcentralus: RegionCodes.WESTCENTRALUS,
+    westus: RegionCodes.WESTUS,
+    westus2: RegionCodes.WESTUS2,
+    centralus: RegionCodes.WESTCENTRALUS,
+    northcentralus: RegionCodes.SOUTHCENTRALUS,
+    canadacentral: RegionCodes.SOUTHCENTRALUS,
+    canadaeast: RegionCodes.EASTUS,
+
+    brazilsouth: RegionCodes.BRAZILSOUTH,
+
+    japanwest: RegionCodes.JAPANEAST,
+    japaneast: RegionCodes.JAPANEAST,
+    southindia: RegionCodes.CENTRALINDIA,
+    centralindia: RegionCodes.CENTRALINDIA,
+    westindia: RegionCodes.CENTRALINDIA,
+    koreacentral: RegionCodes.EASTASIA,
+    koreasouth: RegionCodes.EASTASIA,
+
+    northeurope: RegionCodes.NORTHEUROPE,
+    westeurope: RegionCodes.WESTEUROPE,
+    uksouth: RegionCodes.UKSOUTH,
+    ukwest: RegionCodes.UKSOUTH,
+    francecentral: RegionCodes.WESTEUROPE,
+    francesouth: RegionCodes.WESTEUROPE,
+    germanycentral: RegionCodes.WESTEUROPE,
+    germanynortheast: RegionCodes.NORTHEUROPE
+}
+
+export const luisAuthoringRegions = [
+    RegionCodes.AUSTRALIAEAST,
+    RegionCodes.WESTEUROPE,
+    RegionCodes.WESTUS
+];
+
+
+export const luisPublishRegions = [
     RegionCodes.AUSTRALIAEAST,
     RegionCodes.NORTHEUROPE,
     RegionCodes.WESTEUROPE,
@@ -193,39 +273,10 @@ export const searchRegions = [
     RegionCodes.CANADACENTRAL
 ];
 
-export const regionToSearchRegionMap: { [region: string]: string } = {
-    australiaeast: RegionCodes.SOUTHEASTASIA,
-    australiacentral: RegionCodes.SOUTHEASTASIA,
-    australiacentral2: RegionCodes.SOUTHEASTASIA,
-    australiasoutheast: RegionCodes.SOUTHEASTASIA,
-    eastasia: RegionCodes.SOUTHEASTASIA,
-    southeastasia: RegionCodes.SOUTHEASTASIA,
-
-    eastus: RegionCodes.EASTUS,
-    eastus2: RegionCodes.EASTUS2,
-    southcentralus: RegionCodes.SOUTHCENTRALUS,
-    westcentralus: RegionCodes.WESTCENTRALUS,
-    westus: RegionCodes.WESTUS,
-    westus2: RegionCodes.WESTUS2,
-    centralus: RegionCodes.WESTCENTRALUS,
-    northcentralus: RegionCodes.NORTHCENTRALUS,
-    canadacentral: RegionCodes.NORTHCENTRALUS,
-    canadaeast: RegionCodes.EASTUS,
-    
-    brazilsouth: RegionCodes.BRAZILSOUTH,
-
-    japanwest: RegionCodes.JAPANEAST,
-    japaneast: RegionCodes.JAPANEAST,
-    southindia: RegionCodes.CENTRALINDIA,
-    centralindia: RegionCodes.CENTRALINDIA,
-    westindia: RegionCodes.CENTRALINDIA,
-    koreacentral: RegionCodes.EASTASIA,
-    koreasouth: RegionCodes.EASTASIA,
-
-    northeurope: RegionCodes.NORTHEUROPE,
-    westeurope: RegionCodes.WESTEUROPE,
-    uksouth: RegionCodes.UKSOUTH,
-    ukwest: RegionCodes.UKSOUTH,
-    francecentral: RegionCodes.WESTEUROPE,
-    francesouth: RegionCodes.WESTEUROPE,
-}
+const appInsightRegions = [
+    RegionCodes.SOUTHEASTASIA,
+    RegionCodes.WESTUS2,
+    RegionCodes.SOUTHCENTRALUS,
+    RegionCodes.WESTEUROPE,
+    RegionCodes.NORTHEUROPE,
+];
