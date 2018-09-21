@@ -261,8 +261,8 @@ __pycache__/
 *.pyc
 
 # Output
-netcoreapp2.0/
-LUISGenTestJS/src/*.js
-LUISGenTestJS/src/*.map
-LUISGenTestJS/src/*.d.ts
+**/netcoreapp2.1/
+*.d.ts
+*.js.map
+**/LUISGenTestJS/**/*.js
 
