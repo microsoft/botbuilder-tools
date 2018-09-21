@@ -707,25 +707,28 @@ async function waitForTrainingToComplete(client, args) {
     do {
         let result = await client.train.getStatus(args.region, args.appId, args.versionId, args);
 
-        const table = new Table({
-            // don't use lines for table
-            chars: {
-                'top': '', 'top-mid': '', 'top-left': '', 'top-right': '',
-                'bottom': '', 'bottom-mid': '', 'bottom-left': '', 'bottom-right': '',
-                'left': '', 'left-mid': '', 'right': '', 'right-mid': '',
-                'mid': '', 'mid-mid': '', 'middle': ''
-            },
-            head: [chalk.default.bold('Model'), chalk.default.bold('Type'), chalk.default.bold('StatusId'), chalk.default.bold('Status'), ''],
-            colWidths: [35, 20, 10, 10, 10],
-            style: { 'padding-left': 1, 'padding-right': 1 },
-            wordWrap: true
-        });
+        if (!(args.q || args.quiet)) {
 
-        for (let item of result) {
-            table.push([modelMap[item.modelId].name, modelMap[item.modelId].type, item.details.statusId, item.details.status, item.details.failureReason]);
+            const table = new Table({
+                // don't use lines for table
+                chars: {
+                    'top': '', 'top-mid': '', 'top-left': '', 'top-right': '',
+                    'bottom': '', 'bottom-mid': '', 'bottom-left': '', 'bottom-right': '',
+                    'left': '', 'left-mid': '', 'right': '', 'right-mid': '',
+                    'mid': '', 'mid-mid': '', 'middle': ''
+                },
+                head: [chalk.default.bold('Model'), chalk.default.bold('Type'), chalk.default.bold('StatusId'), chalk.default.bold('Status'), ''],
+                colWidths: [35, 20, 10, 10, 10],
+                style: { 'padding-left': 1, 'padding-right': 1 },
+                wordWrap: true
+            });
+
+            for (let item of result) {
+                table.push([modelMap[item.modelId].name, modelMap[item.modelId].type, item.details.statusId, item.details.status, item.details.failureReason]);
+            }
+
+            process.stderr.write(table.toString() + "\n");
         }
-
-        process.stderr.write(table.toString() + "\n");
 
         // get completed or up to date items
         let completedItems = result.filter(item => { return (item.details.status == "Success") || (item.details.status == "UpToDate") || (item.details.status == 'Fail') });
@@ -735,7 +738,9 @@ async function waitForTrainingToComplete(client, args) {
         await Delay(2000);
 
         // move back to top of table...
-        pos.moveUp(result.length + 1);
+        if (!(args.q || args.quiet)) {
+            pos.moveUp(result.length + 1);
+        }
     } while (true);
 }
 
