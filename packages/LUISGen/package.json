@@ -24,8 +24,8 @@
   ],
   "comments": "There is a bug in handling .njsproj in dotnet so we need to expand into each project rather than just using the solution.",
   "scripts":{
-    "build": "dotnet.exe build src/luisgen/luisgen.csproj",
-    "test": "dotnet.exe test src/luisgentest/luisgentest.csproj && cd src/luisgentestjs/ && npm run-script build && npm run-script test",
-    "clean": "dotnet.exe clean src/luisgen/luisgen.csproj && dotnet.exe clean src/luisgentest/luisgentest.csproj && cd src/luisgentestjs/ && npm run clean"
+    "build": "dotnet build src/luisgen/luisgen.csproj",
+    "test": "dotnet test src/luisgentest/luisgentest.csproj && cd src/luisgentestjs/ && npm run-script build && npm run-script test",
+    "clean": "dotnet clean src/luisgen/luisgen.csproj && dotnet clean src/luisgentest/luisgentest.csproj && cd src/luisgentestjs/ && npm run clean"
   }
 }
