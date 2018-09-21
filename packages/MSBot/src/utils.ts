@@ -171,3 +171,61 @@ export const luisRegions = [
     RegionCodes.BRAZILSOUTH
 ];
 
+export const searchRegions = [
+    RegionCodes.NORTHEUROPE,
+    RegionCodes.WESTEUROPE,
+    RegionCodes.UKSOUTH,
+
+    RegionCodes.CENTRALINDIA,
+    RegionCodes.SOUTHEASTASIA,
+    RegionCodes.EASTASIA,
+    RegionCodes.JAPANEAST,
+    RegionCodes.AUSTRALIAEAST,
+
+    RegionCodes.BRAZILSOUTH,
+
+    RegionCodes.WESTUS,
+    RegionCodes.WESTUS2,
+    RegionCodes.EASTUS,
+    RegionCodes.EASTUS2,
+    RegionCodes.WESTCENTRALUS,
+    RegionCodes.SOUTHCENTRALUS,
+    RegionCodes.CANADACENTRAL
+];
+
+export const regionToSearchRegionMap: { [region: string]: string } = {
+    australiaeast: RegionCodes.SOUTHEASTASIA,
+    australiacentral: RegionCodes.SOUTHEASTASIA,
+    australiacentral2: RegionCodes.SOUTHEASTASIA,
+    australiasoutheast: RegionCodes.SOUTHEASTASIA,
+    eastasia: RegionCodes.SOUTHEASTASIA,
+    southeastasia: RegionCodes.SOUTHEASTASIA,
+
+    eastus: RegionCodes.EASTUS,
+    eastus2: RegionCodes.EASTUS2,
+    southcentralus: RegionCodes.SOUTHCENTRALUS,
+    westcentralus: RegionCodes.WESTCENTRALUS,
+    westus: RegionCodes.WESTUS,
+    westus2: RegionCodes.WESTUS2,
+    centralus: RegionCodes.WESTCENTRALUS,
+    northcentralus: RegionCodes.NORTHCENTRALUS,
+    canadacentral: RegionCodes.NORTHCENTRALUS,
+    canadaeast: RegionCodes.EASTUS,
+    
+    brazilsouth: RegionCodes.BRAZILSOUTH,
+
+    japanwest: RegionCodes.JAPANEAST,
+    japaneast: RegionCodes.JAPANEAST,
+    southindia: RegionCodes.CENTRALINDIA,
+    centralindia: RegionCodes.CENTRALINDIA,
+    westindia: RegionCodes.CENTRALINDIA,
+    koreacentral: RegionCodes.EASTASIA,
+    koreasouth: RegionCodes.EASTASIA,
+
+    northeurope: RegionCodes.NORTHEUROPE,
+    westeurope: RegionCodes.WESTEUROPE,
+    uksouth: RegionCodes.UKSOUTH,
+    ukwest: RegionCodes.UKSOUTH,
+    francecentral: RegionCodes.WESTEUROPE,
+    francesouth: RegionCodes.WESTEUROPE,
+}

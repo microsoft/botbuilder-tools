@@ -11,6 +11,8 @@ const stdin = require('get-stdin');
 const msRest = require("ms-rest-js");
 const { LuisAuthoring } = require('../lib/luisAuthoring');
 const getOperation = require('./getOperation');
+var pos = require("cli-position");
+const Table = require('cli-table3');
 
 function stdoutAsync(output) { return new Promise((done) => process.stdout.write(output, "utf-8", () => done())); }
 
@@ -695,15 +697,45 @@ async function initializeConfig() {
 }
 
 async function waitForTrainingToComplete(client, args) {
+
+    const models = await client.model.listModels(args.region, args.appId, args.versionId, args);
+    const modelMap = {};
+    for (let model of models) {
+        modelMap[model.id] = { name: model.name, type: model.readableType };
+    }
+
     do {
         let result = await client.train.getStatus(args.region, args.appId, args.versionId, args);
+
+        const table = new Table({
+            // don't use lines for table
+            chars: {
+                'top': '', 'top-mid': '', 'top-left': '', 'top-right': '',
+                'bottom': '', 'bottom-mid': '', 'bottom-left': '', 'bottom-right': '',
+                'left': '', 'left-mid': '', 'right': '', 'right-mid': '',
+                'mid': '', 'mid-mid': '', 'middle': ''
+            },
+            head: [chalk.default.bold('Model'), chalk.default.bold('Type'), chalk.default.bold('StatusId'), chalk.default.bold('Status'), ''],
+            colWidths: [35, 20, 10, 10, 10],
+            style: { 'padding-left': 1, 'padding-right': 1 },
+            wordWrap: true
+        });
+
+        for (let item of result) {
+            table.push([modelMap[item.modelId].name, modelMap[item.modelId].type, item.details.statusId, item.details.status, item.details.failureReason]);
+        }
+
+        process.stderr.write(table.toString() + "\n");
+
         // get completed or up to date items
-        let completedItems = result.filter(item => { return (item.details.status == "Success") || (item.details.status == "UpToDate") });
-        if (completedItems.length == result.length) return result;
-        let failedItems = result.filter(item => { return item.details.status == "Fail" });
-        if (failedItems.length !== 0) throw new Error(`Training failed for ${failedItems[0].modelId}: ${failedItems[0].details.failureReason}`);
-        process.stderr.write(`${completedItems.length}/${result.length} complete.\r`);
-        await Delay(1000);
+        let completedItems = result.filter(item => { return (item.details.status == "Success") || (item.details.status == "UpToDate") || (item.details.status == 'Fail') });
+        if (completedItems.length == result.length)
+            return result;
+
+        await Delay(2000);
+
+        // move back to top of table...
+        pos.moveUp(result.length + 1);
     } while (true);
 }
 

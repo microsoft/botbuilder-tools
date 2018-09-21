@@ -14,10 +14,11 @@ import * as readline from 'readline-sync';
 import * as url from 'url';
 import * as util from 'util';
 import { spawnAsync } from './processUtils';
-import { luisRegions, regionToAppInsightLongRegionMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, showMessage } from './utils';
-let Table = require('cli-table3');
-let opn = require('opn');
-let exec = util.promisify(child_process.exec);
+import { logAsync } from './stdioAsync';
+import { luisRegions, regionToAppInsightLongRegionMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap, showMessage } from './utils';
+const Table = require('cli-table3');
+const opn = require('opn');
+const exec = util.promisify(child_process.exec);
 
 const AZMINVERSION = '(0.4.1)';
 
@@ -132,34 +133,35 @@ async function processConfiguration(): Promise<void> {
                     'left': '', 'left-mid': '', 'right': '', 'right-mid': '',
                     'mid': '', 'mid-mid': '', 'middle': ''
                 },
-                head: [chalk.default.bold('Service'), chalk.default.bold('Location'), chalk.default.bold('SKU')],
-                colWidths: [40, 20, 20],
+                head: [chalk.default.bold('Service'), chalk.default.bold('Location'), chalk.default.bold('SKU'), chalk.default.bold("Resource Group")],
+                colWidths: [40, 20, 20, 20],
                 style: { 'padding-left': 1, 'padding-right': 1 },
                 wordWrap: true
             });
 
             let hasSitePlan = false;
+            let rows = [];
             for (let resource of recipe.resources) {
                 switch (resource.type) {
                     case ServiceTypes.AppInsights:
-                        table.push([`Azure AppInsights`, `${regionToAppInsightLongRegionMap[args.location]}`, `F0`]);
+                        rows.push([`Azure AppInsights Service`, `${regionToAppInsightLongRegionMap[args.location]}`, `F0`, args.groupName]);
                         break;
 
                     case ServiceTypes.BlobStorage:
-                        table.push(['Azure Blob Storage Service', `${args.location}`, 'Standard_LRS']);
+                        rows.push(['Azure Blob Storage Service', `${args.location}`, 'Standard_LRS', args.groupName]);
                         break;
 
                     case ServiceTypes.Bot:
-                        table.push([`Azure Bot Service`, `Global`, ``]);
+                        rows.push([`Azure Bot Service Registration`, `Global`, ``, args.groupName]);
                         if (!hasSitePlan) {
-                            table.push([`Azure App Site Plan`, `${args.location}`, `S1`]);
+                            rows.push([`Azure App Site Plan`, `${args.location}`, `S1`, args.groupName]);
                             hasSitePlan = true;
                         }
-                        table.push([`Azure WebApp Service (Bot)`, `${args.location}`, `Standard`]);
+                        rows.push([`Azure WebApp Service (Bot)`, `${args.location}`, ``, args.groupName]);
                         break;
 
                     case ServiceTypes.CosmosDB:
-                        table.push([`Azure CosmosDB Service`, `${args.location}`, `1 write region`]);
+                        rows.push([`Azure CosmosDB Service`, `${args.location}`, `1 write region`, args.groupName]);
                         break;
 
                     case ServiceTypes.Endpoint:
@@ -173,6 +175,10 @@ async function processConfiguration(): Promise<void> {
 
                     case ServiceTypes.Dispatch:
                     case ServiceTypes.Luis:
+                        if (!args.luisAuthoringKey) {
+                            throw new Error('missing --luisAuthoringKey argument');
+                        }
+
                         if (!args.luisPublishRegion) {
                             args.luisPublishRegion = luisRegions.find((value) => value == args.location);
                             if (!args.luisPublishRegion) {
@@ -181,28 +187,31 @@ async function processConfiguration(): Promise<void> {
                         }
 
                         if (resource.type == ServiceTypes.Dispatch)
-                            table.push([`Azure LUIS Cognitive Service (Dispatch)`, `${args.luisPublishRegion}`, `S0`]);
+                            rows.push([`Azure LUIS Cognitive Service (Dispatch)`, `${args.luisPublishRegion}`, `S0`, args.groupName]);
                         else
-                            table.push([`Azure LUIS Cognitive Service`, `${args.luisPublishRegion}`, `S0`]);
+                            rows.push([`Azure LUIS Cognitive Service`, `${args.luisPublishRegion}`, `S0`, args.groupName]);
                         break;
 
                     case ServiceTypes.QnA:
-                        table.push([`Azure QnA Maker Service`, `westus`, `S0`]);
+                        rows.push([`Azure QnA Maker Service`, `westus`, `S0`, args.groupName]);
                         if (!hasSitePlan) {
-                            table.push([`Azure App Site Plan`, `${args.location}`, `S1`]);
+                            rows.push([`Azure App Site Plan`, `${args.location}`, `S1`, args.groupName]);
                             hasSitePlan = true;
                         }
-                        table.push([`Azure WebApp Service (QnA)`, `${args.location}`, ``]);
-                        table.push([`Azure Search Service`, `${args.location}`, `Standard`]);
+                        rows.push([`Azure WebApp Service (QnA)`, `${args.location}`, ``, args.groupName]);
+                        rows.push([`Azure Search Service`, `${regionToSearchRegionMap[args.location]}`, `Standard`, args.groupName]);
                         break;
 
                     default:
                         break;
                 }
             }
-            console.log(table.toString());
+            rows.sort((a, b) => a[0].localeCompare(b[0]));
+            for (let row of rows)
+                table.push(row);
+            await logAsync(table.toString());
 
-            const answer = readline.question(`\nWould you like to perform this operation? [y/n]`);
+            const answer = readline.question(`Would you like to perform this operation? [y/n]`);
             if (answer == "no" || answer == "n") {
                 console.log("Canceling the operation");
                 process.exit(1);
@@ -321,9 +330,6 @@ async function processConfiguration(): Promise<void> {
             switch (resource.type) {
                 case ServiceTypes.Luis:
                 case ServiceTypes.Dispatch:
-                    if (!args.luisAuthoringKey) {
-                        throw new Error('missing --luisAuthoringKey argument');
-                    }
                     if (!azLuisSubscription) {
                         if (!args.luisAuthoringRegion) {
                             if (regionToLuisAuthoringRegionMap.hasOwnProperty(args.location))
@@ -364,7 +370,7 @@ async function processConfiguration(): Promise<void> {
 
                         // provision search instance
                         let searchName = args.name.toLowerCase() + '-search';
-                        let searchResult = await runCommand(`az search service create -g ${azGroup.name} -n "${searchName}" --sku standard`,
+                        let searchResult = await runCommand(`az search service create -g ${azGroup.name} -n "${searchName}" --location ${regionToSearchRegionMap[args.location]} --sku standard`,
                             `Creating Azure Search Service [${searchName}]`);
 
                         // get search keys
@@ -788,17 +794,21 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
         `Creating and importing LUIS application [${luisAppName}]`);
     luisService = new LuisService(svcOut);
 
-    let command = `luis train version --region ${luisAuthoringRegion} --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --wait `;
-    logCommand(args, `Training LUIS application [${luisService.name}]`, command);
-    await spawnAsync(command);
-
-    // publish application
-    await runCommand(`luis publish version --region ${luisAuthoringRegion} --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --publishRegion ${args.luisPublishRegion} `,
-        `Publishing LUIS application [${luisService.name}] to ${args.luisPublishRegion}`);
-
     // mark application as public (TEMPORARY, THIS SHOULD BE REMOVED ONCE LUIS PROVIDES KEY ASSIGN API)
     await runCommand(`luis update settings --region ${luisAuthoringRegion} --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --public true`,
         `Updating LUIS settings [${luisService.name}]`);
+
+    try {
+        let command = `luis train version --region ${luisAuthoringRegion} --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --wait `;
+        logCommand(args, `Training LUIS application [${luisService.name}]`, command);
+        await spawnAsync(command, (out) => process.stdout.write(out), (err) => process.stderr.write(err));
+
+        // publish application
+        await runCommand(`luis publish version --region ${luisAuthoringRegion} --appId ${luisService.appId} --authoringKey ${luisService.authoringKey} --versionId "${luisService.version}" --publishRegion ${args.luisPublishRegion} `,
+            `Publishing LUIS application [${luisService.name}] to ${args.luisPublishRegion}`);
+    } catch (err) {
+        console.warn(`WARNING: Failed to train or publish the LUIS application.\n${err.message || err}`);
+    }
 
     return luisService;
 }
