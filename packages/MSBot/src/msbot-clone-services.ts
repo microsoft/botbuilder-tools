@@ -48,6 +48,7 @@ interface ICloneArgs {
     sdkVersion: string;
     sdkLanguage: string;
     args: string[];
+    force: boolean;
 }
 
 program
@@ -63,7 +64,8 @@ program
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
     .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
-    .option('-q, --quiet', 'disable questions')
+    .option('-q, --quiet', 'minimize output')
+    .option('-f, --force', 'do not prompt for confirmation')
     .description('allows you to clone all of the services a bot into a new azure resource group')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
@@ -118,7 +120,7 @@ async function processConfiguration(): Promise<void> {
 
     try {
         // pass 0 - tell the user what are going to create
-        if (!args.quiet) {
+        if (!args.force) {
             let bot = 0;
             let appInsights = 0;
             let storage = 0;
@@ -773,7 +775,7 @@ async function checkAzBotServiceVersion() {
     }
     let neededVersion = new AzBotServiceVersion(AZMINVERSION);
     if (version.isOlder(neededVersion)) {
-        console.error(chalk.default.redBright(`[msbot] You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
+        console.error(chalk.default.redBright(`You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
 To do this run:
    az extension remove -n botservice
    az extension add -n botservice
