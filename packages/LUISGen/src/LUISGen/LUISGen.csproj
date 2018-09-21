@@ -1,32 +1,36 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<OutputType>Exe</OutputType>
-		<TargetFramework>netcoreapp2.1</TargetFramework>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<Authors>Microsoft</Authors>
-		<Company>Microsoft</Company>
-		<Description>Generate strongly typed files for consuming LUIS intents and entities.</Description>
-	</PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <Authors>Microsoft</Authors>
+        <Company>Microsoft</Company>
+        <Description>Generate strongly typed files for consuming LUIS intents and entities.</Description>
+    </PropertyGroup>
 
-	<ItemGroup>
-	  <Compile Remove="NodeTool\node_modules\**" />
-	  <EmbeddedResource Remove="NodeTool\node_modules\**" />
-	  <None Remove="NodeTool\node_modules\**" />
-	</ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <OutputPath>..\..\bin\</OutputPath>
+    </PropertyGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-	</ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <OutputPath>..\..\bin\</OutputPath>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<Reference Include="System">
-			<HintPath>System</HintPath>
-		</Reference>
-	</ItemGroup>
+    <ItemGroup>
+        <Compile Remove="NodeTool\node_modules\**" />
+        <EmbeddedResource Remove="NodeTool\node_modules\**" />
+        <None Remove="NodeTool\node_modules\**" />
+    </ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="echo copy to $(ProjectDir)..\..\bin\netcoreapp2.1\&#xD;&#xA;rd /s /q $(ProjectDir)..\..\bin\netcoreapp2.1\&#xD;&#xA;mkdir $(ProjectDir)..\..\bin\netcoreapp2.1\&#xD;&#xA;copy $(OutDir)* $(ProjectDir)..\..\bin\netcoreapp2.1\&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" />
-	</Target>
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="System">
+            <HintPath>System</HintPath>
+        </Reference>
+    </ItemGroup>
 
 </Project>

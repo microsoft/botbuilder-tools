@@ -18,14 +18,17 @@
   "dependencies": {
     "dotnet-2.1": "^2.1.0"
   },
+  "devDependencies": {
+    "dotnet-sdk-2.1": "^2.1.0"
+  },
   "files": [
     "readme.md",
     "bin"
   ],
   "comments": "There is a bug in handling .njsproj in dotnet so we need to expand into each project rather than just using the solution.",
-  "scripts":{
-    "build": "dotnet build src/luisgen/luisgen.csproj",
-    "test": "dotnet test src/luisgentest/luisgentest.csproj && cd src/luisgentestjs/ && npm run-script build && npm run-script test",
-    "clean": "dotnet clean src/luisgen/luisgen.csproj && dotnet clean src/luisgentest/luisgentest.csproj && cd src/luisgentestjs/ && npm run clean"
+  "scripts": {
+    "build": "dotnet build src/LUISGen/LUISGen.csproj",
+    "test": "dotnet test src/LUISGenTest/LUISGenTest.csproj && cd src/LUISGenTestJS/ && npm run-script build && npm run-script test",
+    "clean": "dotnet clean src/LUISGen/LUISGen.csproj && dotnet clean src/LUISGenTest/LUISGenTest.csproj && cd src/LUISGenTestJS/ && npm run clean"
   }
 }
