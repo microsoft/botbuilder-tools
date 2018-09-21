@@ -10,10 +10,12 @@ import * as program from 'commander';
 import * as path from 'path';
 import * as process from 'process';
 import * as txtfile from 'read-text-file';
+import * as readline from 'readline-sync';
 import * as url from 'url';
 import * as util from 'util';
 import { spawnAsync } from './processUtils';
-import { luisRegions, regionToAppInsightRegionMap, regionToLuisAuthoringRegionMap, showMessage } from './utils';
+import { luisRegions, regionToAppInsightLongRegionMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, showMessage } from './utils';
+let Table = require('cli-table3');
 let opn = require('opn');
 let exec = util.promisify(child_process.exec);
 
@@ -56,11 +58,11 @@ program
     .option('--luisAuthoringRegion <luisAuthoringRegion>', '(OPTIONAL) [westus|westeurope|australiaeast] authoring region to put LUIS models into (default is based on location)')
     .option('--luisPublishRegion <luisRegion>', '(OPTIONAL) region to publish LUIS models to (default fallback is based location || luisAuthoringRegion)')
     .option('--subscriptionId <subscriptionId>', '(OPTIONAL) Azure subscriptionId to clone bot to, if not passed then current az account will be used')
-    .option('--insightsRegion <insightsRegion>', '(OPTIONAL) region to create appInsights account in (default is based on location)')    
+    .option('--insightsRegion <insightsRegion>', '(OPTIONAL) region to create appInsights account in (default is based on location)')
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
     .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
-    .option('-q, --quiet', 'disable output')
+    .option('-q, --quiet', 'disable questions')
     .description('allows you to clone all of the services a bot into a new azure resource group')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
@@ -114,12 +116,122 @@ async function processConfiguration(): Promise<void> {
     let recipe = <BotRecipe>JSON.parse(recipeJson);
 
     try {
+        // pass 0 - tell the user what are going to create
+        if (!args.quiet) {
+            let bot = 0;
+            let appInsights = 0;
+            let storage = 0;
+            let sitePlan = 0;
+            console.log("The following services will be created by this operation:");
+
+            const table = new Table({
+                // don't use lines for table
+                chars: {
+                    'top': '', 'top-mid': '', 'top-left': '', 'top-right': '',
+                    'bottom': '', 'bottom-mid': '', 'bottom-left': '', 'bottom-right': '',
+                    'left': '', 'left-mid': '', 'right': '', 'right-mid': '',
+                    'mid': '', 'mid-mid': '', 'middle': ''
+                },
+                head: [chalk.default.bold('Service'), chalk.default.bold('Location'), chalk.default.bold('SKU')],
+                colWidths: [40, 20, 20],
+                style: { 'padding-left': 1, 'padding-right': 1 },
+                wordWrap: true
+            });
+
+            let hasSitePlan = false;
+            for (let resource of recipe.resources) {
+                switch (resource.type) {
+                    case ServiceTypes.AppInsights:
+                        table.push([`Azure AppInsights`, `${regionToAppInsightLongRegionMap[args.location]}`, `F0`]);
+                        break;
+
+                    case ServiceTypes.BlobStorage:
+                        table.push(['Azure Blob Storage Service', `${args.location}`, 'Standard_LRS']);
+                        break;
+
+                    case ServiceTypes.Bot:
+                        table.push([`Azure Bot Service`, `Global`, ``]);
+                        if (!hasSitePlan) {
+                            table.push([`Azure App Site Plan`, `${args.location}`, `S1`]);
+                            hasSitePlan = true;
+                        }
+                        table.push([`Azure WebApp Service (Bot)`, `${args.location}`, `Standard`]);
+                        break;
+
+                    case ServiceTypes.CosmosDB:
+                        table.push([`Azure CosmosDB Service`, `${args.location}`, `1 write region`]);
+                        break;
+
+                    case ServiceTypes.Endpoint:
+                        break;
+
+                    case ServiceTypes.File:
+                        break;
+
+                    case ServiceTypes.Generic:
+                        break;
+
+                    case ServiceTypes.Dispatch:
+                    case ServiceTypes.Luis:
+                        if (!args.luisPublishRegion) {
+                            args.luisPublishRegion = luisRegions.find((value) => value == args.location);
+                            if (!args.luisPublishRegion) {
+                                args.luisPublishRegion = regionToLuisPublishRegionMap[args.location];
+                            }
+                        }
+
+                        if (resource.type == ServiceTypes.Dispatch)
+                            table.push([`Azure LUIS Cognitive Service (Dispatch)`, `${args.luisPublishRegion}`, `S0`]);
+                        else
+                            table.push([`Azure LUIS Cognitive Service`, `${args.luisPublishRegion}`, `S0`]);
+                        break;
+
+                    case ServiceTypes.QnA:
+                        table.push([`Azure QnA Maker Service`, `westus`, `S0`]);
+                        if (!hasSitePlan) {
+                            table.push([`Azure App Site Plan`, `${args.location}`, `S1`]);
+                            hasSitePlan = true;
+                        }
+                        table.push([`Azure WebApp Service (QnA)`, `${args.location}`, ``]);
+                        table.push([`Azure Search Service`, `${args.location}`, `Standard`]);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            console.log(table.toString());
+
+            const answer = readline.question(`\nWould you like to perform this operation? [y/n]`);
+            if (answer == "no" || answer == "n") {
+                console.log("Canceling the operation");
+                process.exit(1);
+            }
+        }
+
+        // pass 1 - create bot if we are going to need one.  This will create 
+        // * group
+        // * sitePlan
+        // * site
+        // * appInsights
+        // * storage
+        // create group
+        let azGroup: any;
+        let azBot: IBotService | undefined;
+        let azSitePlan: any;
+        let storageInfo;
+        let azQnaSubscription: any;
+        let azLuisSubscription: any;
+        let azAppInsights: any;
+        let azBotExtended: any;
+        let azBotEndpoint: IEndpointService | undefined;
+
+        // get subscription account data
         let command: string;
 
         // verify az command exists and is correct version
         await checkAzBotServiceVersion();
 
-        // get subscription account data
         command = `az account show`;
         if (args.subscriptionId) {
             command += `--subscription ${args.subscriptionId}`;
@@ -132,26 +244,10 @@ async function processConfiguration(): Promise<void> {
             console.log(`Creating resources in subscription: ${azAccount.name} ${azAccount.id}`);
         }
 
-        // create group
-        let azGroup: any;
-        let azBot: IBotService | undefined;
-        let azSitePlan: any;
-        let storageInfo;
-        let azQnaSubscription: any;
-        let azLuisSubscription: any;
-        let azAppInsights: any;
-        let azBotExtended: any;
-        let azBotEndpoint: IEndpointService | undefined;
 
         // create group if not created yet
         azGroup = await createGroup();
 
-        // pass 1 - create bot if we are going to need one.  This will create 
-        // * group
-        // * sitePlan
-        // * site
-        // * appInsights
-        // * storage
         for (let resource of recipe.resources) {
             if (resource.type == ServiceTypes.Bot) {
                 if (!azBot) {
@@ -239,7 +335,7 @@ async function processConfiguration(): Promise<void> {
                         if (!args.luisPublishRegion) {
                             args.luisPublishRegion = luisRegions.find((value) => value == args.location);
                             if (!args.luisPublishRegion) {
-                                args.luisPublishRegion = args.luisAuthoringRegion;
+                                args.luisPublishRegion = regionToLuisAuthoringRegionMap[args.location];
                             }
                         }
 
@@ -708,7 +804,7 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
 }
 
 async function createBot(): Promise<IBotService> {
-    args.insightsRegion = args.insightsRegion || regionToAppInsightRegionMap[args.location];
+    args.insightsRegion = args.insightsRegion || regionToAppInsightLongRegionMap[args.location];
 
     let command = `az bot create -g ${args.groupName} --name ${args.name} --kind webapp --location ${args.location} --insights-location "${args.insightsRegion}" `;
     if (args.sdkVersion) {
