@@ -69,7 +69,8 @@ function getInput(args) {
  */
 async function writeOut(activities, args) {
     const { out } = args; //Is this used? Doesn't seem to be...
-    process.stdout.write(JSON.stringify(activities, null, 2));
+    const  output =JSON.stringify(activities, null, 2);
+    await new Promise((done, reject) => process.stdout.write(output, "utf-8", () => done())); 
     return true;
 }
 
