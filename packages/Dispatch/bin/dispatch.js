@@ -11,15 +11,10 @@ process.argv.forEach((val, index) => {
         args = args + ' ' + val;
     }
 });
-
 args = args.trim();
-
 if (args == '-v' || args == '--version') {
     return process.stdout.write(pkg.version);
 }
 
-try {
-    require('child_process').execSync('dotnet "' + __dirname + '/netcoreapp2.1/Dispatch.dll" ' + args, { stdio: [0, 1, 2] });
-} catch (err) {
-    return 0;
-}
+process.argv= [process.argv[0], process.argv[1], __dirname + '/netcoreapp2.1/Dispatch.dll', ...process.argv.slice(2)]
+require("dotnet-2.1")
