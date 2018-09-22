@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -7,30 +7,14 @@
         <Authors>Microsoft</Authors>
         <Company>Microsoft</Company>
         <Description>Generate strongly typed files for consuming LUIS intents and entities.</Description>
+        
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>LUISGen</ToolCommandName>
+        <Version>2.0.0</Version>
     </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-      <OutputPath>..\..\bin\</OutputPath>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <OutputPath>..\..\bin\</OutputPath>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <Compile Remove="NodeTool\node_modules\**" />
-        <EmbeddedResource Remove="NodeTool\node_modules\**" />
-        <None Remove="NodeTool\node_modules\**" />
-    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Reference Include="System">
-            <HintPath>System</HintPath>
-        </Reference>
     </ItemGroup>
 
 </Project>
