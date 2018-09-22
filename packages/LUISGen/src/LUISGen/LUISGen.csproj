@@ -1,12 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<Version Condition=" '$(PackageVersion)' == '' ">2.0.0-local</Version>
-		<Version Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</Version>
-		<PackageVersion Condition=" '$(PackageVersion)' == '' ">2.0.0-local</PackageVersion>
-		<PackageVersion Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</PackageVersion>
-	</PropertyGroup>
-
     <PropertyGroup>
+        <Version>2.0.0</Version>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp2.1</TargetFramework>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
