@@ -35,10 +35,18 @@ msbot clone services --folder folderName --name NewBot --luisAuthoringKey 000000
 > secrets you should do that via the **msbot secret** command after it has been created.
 
 
-| Option                    | Description                                                          |
-|---------------------------|----------------------------------------------------------------------|
-| -f, --folder <folder>     | folder to put the bot recipe into                                    |
-| -n, --name <name>         | name of the bot to register in Azure Bot Service and the .bot file   |
-| --luisAuthoringKey <key>  | LUIS.ai authoring key for creating LUIS subscription                 |
-| -l, --location <location> | The azure region location to create the Azure Group and resources in |
-| -h, --help                | output usage information                                             |
+| Option                                      | Description                                                                                                          |
+|---------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| -n, --name <name>                           | name of new bot                                                                                                      |
+| -f, --folder <folder>                       | path to folder containing exported resources                                                                         |
+| -l, --location <location>                   | location to create the bot service in (westus, ...)                                                                  |
+| --luisAuthoringKey <luisAuthoringKey>       | authoring key from the appropriate luisAuthoringRegion for luis resources                                            |
+| --luisAuthoringRegion <luisAuthoringRegion> | (OPTIONAL) [westus,westeurope,australiaeast] authoring region to put LUIS models into (default is based on location) |
+| --luisPublishRegion <luisRegion>            | (OPTIONAL) region to publish LUIS models to (default fallback is based location luisAuthoringRegion)                 |
+| --subscriptionId <subscriptionId>           | (OPTIONAL) Azure subscriptionId to clone bot to, if not passed then current az account will be used                  |
+| --insightsRegion <insightsRegion>           | (OPTIONAL) region to create appInsights account in (default is based on location)                                    |
+| --groupName <groupName>                     | (OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group                  |
+| --sdkLanguage <sdkLanguage>                 | (OPTIONAL) language for bot [Csharp,Node] (Default:CSharp)                                                           |
+| --sdkVersion <sdkVersion>                   | (OPTIONAL) SDK version for bot [v3,v4] (Default:v4)                                                                  |
+| -q, --quiet                                 | disable output                                                                                                       |
+| -h, --help                                  | output usage information                                                                                             |
