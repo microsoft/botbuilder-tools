@@ -1,5 +1,5 @@
 ## Updating Service
-To update a service with new information you can use the msbot update set of commands
+To update a service with new information you can use msbot update commands. Example updates including changing the LUIS application version information in the .bot file or keys etc. 
 
 ```shell
 msbot update [serviceType] --[requiredArg] [value]
@@ -21,9 +21,6 @@ This allows you to rename a service, update keys, etc.
 These commands take the same args as the msbot connect <servicetype> commands, but only some properties can be updated.
 For example, you can change the name of a Azure service, but you can't change the serviceName, tenantId or subscriptionId
 as those values are immutable.
-
-The update commands can be used with switches.  Unlike with connect where you are required to pass all switches in only need
-to pass in the unique id for the service and any changed values.
 
 Here is an example with cosmosdb, where the unique required argument is serviceName and we are changing the property collection to "newCollection":
 ```shell

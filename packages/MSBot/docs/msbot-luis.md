@@ -1,17 +1,17 @@
 # MSBot and LUIS CLI
-Several of the [BotBuilder tools](../../../README.md) are designed to work together. This topic illustrates how MSBot CLI can work in conjunction with the [LUIS CLI](../../LUIS).
+Several of the [BotBuilder tools](../../../README.md) are designed to work together. This topic shows how MSBot CLI can work in conjunction with the [LUIS CLI](../../LUIS).
 
 ### Create and add a new LUIS application to .bot file
 ```bash
 luis add application --in <application_description.json> --msbot | msbot connect luis --stdin [--secret <YOUR-SECRET>]
 ```
 
-### Create a new LUIS application by importing a model file and add it to .bot file
+### Create a new LUIS application by importing a model file and adding it to .bot file
 ```bash
 luis import application --in <application.json> --msbot | msbot connect luis --stdin [--secret <YOUR-SECRET>]
 ```
 
-**Note:** You either do luis add application followed by luis import version .OR. luis import application. luis import application combines add application and import version into one command.  
+**Note:** There are two ways to create a LUIS application - luis add application followed by luis import version .OR. luis import application. luis import application combines add application and import version into one command.  
 
 ### Get LUIS configuration from bot file to drive LUIS CLI
 ```bash
@@ -31,7 +31,7 @@ msbot get <LUIS-SERVICE-NAME-OR-ID> [--secret <YOUR-SECRET>] | luis import versi
 ```
 
 ### Create a new LUIS application version and update .bot file
-This is a complex chaining to pull the current LUIS configuration from .bot file, create a new LUIS application version 0.2 using the existing LUIS keys from .bot file and updating the .bot file with the new 0.2 version information.
+You can chain multiple commands to pull the current LUIS configuration from .bot file, create a new LUIS application version 0.2 using the existing LUIS keys from .bot file and updating the .bot file with the new 0.2 version information.
 
 ```bash
 msbot get <LUIS-SERVICE-NAME-OR-ID> [--secret <YOUR-SECRET>] | luis import version --in <new_application.json> --versionId 0.2 --stdin --msbot | msbot update luis --stdin

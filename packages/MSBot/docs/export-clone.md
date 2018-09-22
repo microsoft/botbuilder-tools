@@ -1,10 +1,7 @@
 ## Exporting Services
 
 You can export all of the resources necessary for someone to recreate in their own
-subscription by using the **msbot export services** command.  This is useful for you to
-be able to check-in resources without the keys. 
-
-The result of the command is a folder with all of the QnAMaker, and LUIS models exported 
+subscription by using the **msbot export services** command.  The result of the command is a folder with QnAMaker and LUIS models exported  
 and a .bot.recipe file which are the instructions for **msbot clone services** to recreate.
 
 ```shell

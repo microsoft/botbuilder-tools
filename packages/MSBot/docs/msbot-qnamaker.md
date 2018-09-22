@@ -1,5 +1,5 @@
 # MSBot and QnAMaker CLI
-Several of the [BotBuilder tools](../../../README.md) are designed to work together. This topic illustrates how MSBot CLI can work in conjunction with the [QnAMaker CLI](../../QnAMaker).
+Several of the [BotBuilder tools](../../../README.md) are designed to work together. This topic shows how MSBot CLI can work in conjunction with the [QnAMaker CLI](../../QnAMaker).
 
 ### Create and add a new QnA Maker KB to .bot file
 ```bash

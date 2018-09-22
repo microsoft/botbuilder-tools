@@ -2,11 +2,11 @@
 
 It is useful for tools like the emulator to have secure access to keys it needs to work with the services that are connected to the bot.  The MSBot tool supports encrypting keys in your .bot file. When you request the .bot file be encrypted, a secret is generated using AES256 and provided to you. 
 
-Any command which accepts the `--secret` option has data which needs to be encrypted with the secret. 
+MSBot commands like add \<service\> and others that accepts the `--secret` option has data which needs to be encrypted with the secret. 
 This allows you to check in a .bot file into a public repo safely and only need the secret to unlock all of the keys your bot uses.
 
-**CAUTION::**
-- There are no retrieval mechanisms in place for retrieving a lost secret key. You should use best practices to secure your secret.  **It is strongly encouraged that you DO NOT check it into your source repo or code directly and instead rely on technologies such as Azure Key Vault to securely store it.**
+**WARNING::**
+- There are no retrieval mechanisms in place for retrieving a lost secret key. You should use best practices (e.g. secure your keys in [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/)) to secure your secret.  **It is strongly encouraged that you DO NOT check it into your source control and instead rely on technologies such as [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) to securely store it.**
 - You should make sure that you use the same secret when adding all services.
 
 ## Encryption life-cycle
