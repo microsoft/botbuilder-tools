@@ -4,11 +4,11 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import { BotConfiguration, IGenericService, ServiceTypes } from 'botframework-config';
+import { BotConfiguration, GenericService, IGenericService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
-
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -27,7 +27,8 @@ interface IGenericArgs extends IGenericService {
 
 program
     .name('msbot connect generic')
-    .description('Connect a generic service to the bot')
+    .description('Connect a generic service to the bot (--id or --url is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'name of the service')
     .option('-u, --url <url>', 'deep link url for the service\n')
     .option('--keys <keys>', 'serialized json key/value configuration for the service')
@@ -68,23 +69,24 @@ if (process.argv.length < 3) {
 }
 
 async function processArgs(config: BotConfiguration): Promise<BotConfiguration> {
-    if (!args.url) {
-        throw new Error('mising --url');
+    if (!args.id && !args.url) {
+        throw new Error('requires --id or --url');
     }
 
     for (const service of config.services) {
         if (service.type === ServiceTypes.Generic) {
             const genericService = <IGenericService>service;
-            if (genericService.url === args.url) {
-                if (args.hasOwnProperty('name')) {
-                    genericService.name = args.name;
-                }
+            if (genericService.id === args.id || genericService.url === args.url) {
+                const id = service.id;
+                const newService = new GenericService(args);
+                Object.assign(service, newService);
+                service.id = id;
                 if (args.keys) {
                     genericService.configuration = JSON.parse(args.keys);
-                    await config.save(args.secret);
-                    process.stdout.write(JSON.stringify(genericService, null, 2));
-                    return config;
                 }
+                await config.save(args.secret);
+                await stdoutAsync(JSON.stringify(genericService, null, 2));
+                return config;
             }
         }
     }

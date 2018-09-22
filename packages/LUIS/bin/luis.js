@@ -11,6 +11,10 @@ const stdin = require('get-stdin');
 const msRest = require("ms-rest-js");
 const { LuisAuthoring } = require('../lib/luisAuthoring');
 const getOperation = require('./getOperation');
+var pos = require("cli-position");
+const Table = require('cli-table3');
+
+function stdoutAsync(output) { return new Promise((done) => process.stdout.write(output, "utf-8", () => done())); }
 
 let requiredVersion = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -77,9 +81,8 @@ async function runProgram() {
     args.authoringKey = args.authoringKey || serviceIn.authoringKey || config.authoringKey;
     args.subscriptionKey = args.subscriptionKey || args.s || serviceIn.subscriptionKey || config.subscriptionKey;
     args.appId = args.appId || args.applicationId || args.a || serviceIn.appId || config.appId;
-    args.versionId = args.versionId || args.version || serviceIn.versionId || config.versionId;
+    args.versionId = args.versionId || args.version || serviceIn.versionId || config.versionId || serviceIn.version;
     args.region = args.region || serviceIn.region || config.region || "westus";
-    args.endpointBasePath = (args.region) ? `https://${args.region}.api.cognitive.microsoft.com/luis/api/v2.0` : config.endpointBasePath;
     args.customHeaders = { "accept-language": "en-US" };
 
     validateConfig(args);
@@ -112,7 +115,7 @@ async function runProgram() {
                     result = await client.apps.get(args.region, result, args);
 
                     // Write output to console and return
-                    writeAppToConsole(config, args, requestBody, result);
+                    await writeAppToConsole(config, args, requestBody, result);
                     return;
                 case "closedlist":
                     result = await client.model.addClosedList(args.region, args.appId, args.versionId, requestBody, args);
@@ -282,7 +285,7 @@ async function runProgram() {
                     result = await client.apps.get(args.region, args.appId, args);
 
                     // Write output to console and return
-                    writeAppToConsole(config, args, requestBody, result);
+                    await writeAppToConsole(config, args, requestBody, result);
                     return;
 
                 case "closedlist":
@@ -369,7 +372,7 @@ async function runProgram() {
                     result = await client.apps.get(args.region, result, args);
 
                     // Write output to console and return
-                    writeAppToConsole(config, args, requestBody, result);
+                    await writeAppToConsole(config, args, requestBody, result);
                     return;
 
                 case "version":
@@ -378,16 +381,13 @@ async function runProgram() {
                         let version = result.version;
                         result = await client.apps.get(args.region, args.appId || args.applicationId || config.applicationId, args);
                         result.version = version;
-                        
+
                         // Write output to console and return
-                        writeAppToConsole(config, args, requestBody, result);
+                        await writeAppToConsole(config, args, requestBody, result);
                     }
                     return;
-
-                default:
-                    throw new Error(`Unknown resource: ${target}`);
             }
-            break;
+            throw new Error(`Unknown resource: ${target}`);
 
         // ------------------ INIT ------------------
         case "init":
@@ -603,15 +603,15 @@ async function runProgram() {
         throw new Error(result.error.message);
     }
 
-    process.stdout.write((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
+    await stdoutAsync((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
 }
 
-function writeAppToConsole(config, args, requestBody, result) {
+async function writeAppToConsole(config, args, requestBody, result) {
     if (result.error) {
         throw new Error(result.error.message);
     }
     if (args.msbot) {
-        process.stdout.write(JSON.stringify({
+        await stdoutAsync(JSON.stringify({
             type: "luis",
             name: result.name,
             appId: result.id || result.appId,
@@ -622,7 +622,7 @@ function writeAppToConsole(config, args, requestBody, result) {
         }, null, 2) + "\n");
     }
     else {
-        process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+        await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
     }
 }
 
@@ -672,12 +672,12 @@ async function initializeConfig() {
         answers.push(answer.trim());
     }
 
-    const [authoringKey, location, appId, versionId] = answers;
+    const [authoringKey, region, appId, versionId] = answers;
     const config = Object.assign({}, {
         appId,
         authoringKey,
         versionId,
-        endpointBasePath: `https://${location}.api.cognitive.microsoft.com/luis/api/v2.0`,
+        region: region,
     });
     try {
         await new Promise((resolve, reject) => {
@@ -694,15 +694,50 @@ async function initializeConfig() {
 }
 
 async function waitForTrainingToComplete(client, args) {
+
+    const models = await client.model.listModels(args.region, args.appId, args.versionId, args);
+    const modelMap = {};
+    for (let model of models) {
+        modelMap[model.id] = { name: model.name, type: model.readableType };
+    }
+
     do {
         let result = await client.train.getStatus(args.region, args.appId, args.versionId, args);
+
+        if (!(args.q || args.quiet)) {
+
+            const table = new Table({
+                // don't use lines for table
+                chars: {
+                    'top': '', 'top-mid': '', 'top-left': '', 'top-right': '',
+                    'bottom': '', 'bottom-mid': '', 'bottom-left': '', 'bottom-right': '',
+                    'left': '', 'left-mid': '', 'right': '', 'right-mid': '',
+                    'mid': '', 'mid-mid': '', 'middle': ''
+                },
+                head: [chalk.default.bold('Model'), chalk.default.bold('Type'), chalk.default.bold('StatusId'), chalk.default.bold('Status'), ''],
+                colWidths: [35, 20, 10, 10, 10],
+                style: { 'padding-left': 1, 'padding-right': 1 },
+                wordWrap: true
+            });
+
+            for (let item of result) {
+                table.push([modelMap[item.modelId].name, modelMap[item.modelId].type, item.details.statusId, item.details.status, item.details.failureReason]);
+            }
+
+            process.stderr.write(table.toString() + "\n");
+        }
+
         // get completed or up to date items
-        let completedItems = result.filter(item => { return (item.details.status == "Success") || (item.details.status == "UpToDate") });
-        if (completedItems.length == result.length) return result;
-        let failedItems = result.filter(item => { return item.details.status == "Fail" });
-        if (failedItems.length !== 0) throw new Error(`Training failed for ${failedItems[0].modelId}: ${failedItems[0].details.failureReason}`);
-        process.stderr.write(`${completedItems.length}/${result.length} complete.\r`);
-        await Delay(1000);
+        let completedItems = result.filter(item => { return (item.details.status == "Success") || (item.details.status == "UpToDate") || (item.details.status == 'Fail') });
+        if (completedItems.length == result.length)
+            return result;
+
+        await Delay(2000);
+
+        // move back to top of table...
+        if (!(args.q || args.quiet)) {
+            pos.moveUp(result.length + 1);
+        }
     } while (true);
 }
 
@@ -728,13 +763,13 @@ async function getFileInput(args) {
  * @returns {Promise<*>}
  */
 async function composeConfig() {
-    const { LUIS_APP_ID, LUIS_AUTHORING_KEY, LUIS_VERSION_ID, LUIS_ENDPOINT_BASE_PATH } = process.env;
+    const { LUIS_APP_ID, LUIS_AUTHORING_KEY, LUIS_VERSION_ID, LUIS_REGION } = process.env;
 
     const {
         appId: args_appId,
         authoringKey: args_authoringKey,
         versionId: args_versionId,
-        endpointBasePath: args_endpointBasePath
+        region: args_region
     } = args;
 
     let luisrcJson = {};
@@ -749,7 +784,7 @@ async function composeConfig() {
             appId: (args_appId || luisrcJson.appId || LUIS_APP_ID),
             authoringKey: (args_authoringKey || luisrcJson.authoringKey || LUIS_AUTHORING_KEY),
             versionId: (args_versionId || luisrcJson.versionId || LUIS_VERSION_ID),
-            endpointBasePath: (args_endpointBasePath || luisrcJson.endpointBasePath || LUIS_ENDPOINT_BASE_PATH)
+            region: (args_region || luisrcJson.region || LUIS_REGION)
         };
     }
     return config;
@@ -766,11 +801,12 @@ function validateConfig(config) {
     // not all operations require these to be present.
     // Validation of specific params are done in the
     // ServiceBase.js
-    const { authoringKey, endpointBasePath } = config;
+    const { authoringKey, region } = config;
     const messageTail = `is missing from the configuration.\n\nDid you run ${chalk.cyan.bold('luis init')} yet?`;
 
     assert(typeof authoringKey === 'string', `The authoringKey  ${messageTail}`);
-    assert(typeof endpointBasePath === 'string', `The endpointBasePath ${messageTail}`);
+    assert(typeof region === 'string', `The region ${messageTail}`);
+    assert(args.region == "westus" || args.region == 'westeurope' || args.region == 'australiaeast', `${args.region} is not a valid authoring region.  Valid values are [westus|westeuerope|australiaest]`);
 }
 
 /**
@@ -811,7 +847,7 @@ async function validateArguments(args, operation) {
                                 body = {
                                     versionId: `${args.versionId}`,
                                     isStaging: args.staging === 'true',
-                                    region: args.region
+                                    region: args.publishRegion
                                 };
                             }
                             break;
@@ -847,18 +883,6 @@ async function validateArguments(args, operation) {
     }
     return body;
     // Note that the ServiceBase will validate params that may be required.
-}
-
-/**
- * Exits with a non-zero status and prints
- * the error if present or displays the help
- *
- * @param error
- */
-async function handleError(error) {
-    process.stderr.write('\n' + chalk.red.bold(error.message + '\n\n'));
-    await help(args);
-    return 1;
 }
 
 async function handleQueryCommand(args, config) {
@@ -898,18 +922,18 @@ async function handleQueryCommand(args, config) {
         }
 
         let result = await request(options);
-        process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+        await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
         return;
     }
     return help(args);
 }
 
 async function handleSetCommand(args, config, client) {
-    if (args.length == 1 && !(args.a || args.e || args.appId || args.applicationId || args.versionId || args.authoringKey || args.endpoint || args.endpointBasePath || args.versionId)) {
-        process.stderr.write(chalk.red.bold(`missing .luisrc argument name: [-appId|--applicationId|--versionId|--endpoint|--authoringKey]\n`));
+    if (args.length == 1 && !(args.a || args.appId || args.applicationId || args.versionId || args.authoringKey || args.region || args.versionId)) {
+        process.stderr.write(chalk.red.bold(`missing .luisrc argument name: [-appId|--applicationId|--versionId|--region|--authoringKey]\n`));
         return help(args);
     }
-    config.endpointBasePath = args.e || args.endpoint || args.endpointBasePath || config.endpointBasePath;
+    config.region = args.region || config.region;
     config.authoringKey = args.authoringKey || config.authoringKey;
     config.versionId = args.versionId || config.versionId;
     config.appId = args.appId || args.applicationId || config.appId;
@@ -935,11 +959,14 @@ async function handleSetCommand(args, config, client) {
         }
     }
     await fs.writeJson(path.join(process.cwd(), '.luisrc'), config, { spaces: 2 });
-    process.stdout.write(JSON.stringify(config, null, 4) + "\n");
+    await stdoutAsync(JSON.stringify(config, null, 4) + "\n");
     return true;
 }
 
 runProgram()
-    .then(process.exit)
-    .catch(handleError)
-    .then(process.exit);
+    .then(() => process.exit())
+    .catch(async (error) => {
+        process.stderr.write('\n' + chalk.red.bold(error.message + '\n\n'));
+        await help(args);
+        process.exitCode = 1;
+    });

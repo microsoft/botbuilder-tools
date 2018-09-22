@@ -1,0 +1,28 @@
+{
+  "intents": [
+    {
+      "name": "intent"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "test utterances with (test braces)",
+      "intent": "intent",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "root3",
+  "desc": "",
+  "culture": "en-us"
+}

@@ -9,7 +9,7 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
@@ -28,8 +28,12 @@ interface IBlobArgs extends IBlobStorageService {
 
 program
     .name('msbot update blob')
-    .description('update the bot to Azure Blob Storage Service')
+    .description('update the bot to Azure Blob Storage Service (--id or --serviceName is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'friendly name (defaults to serviceName)')
+    .option('-t, --tenantId <tenantId>', 'Azure Tenant id (either GUID or xxx.onmicrosoft.com)')
+    .option('-s, --subscriptionId <subscriptionId>', 'Azure Subscription Id')
+    .option('-r, --resourceGroup <resourceGroup>', 'Azure resource group name')
     .option('--serviceName <serviceName>', 'Azure service name')
     .option('--connectionString <connectionString>', 'Blob storage connection string')
     .option('-c, --container <container>', 'blob container name')
@@ -76,25 +80,30 @@ async function processUpdateArgs(config: BotConfiguration): Promise<BotConfigura
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.serviceName || args.serviceName.length === 0) {
-        throw new Error('Bad or missing --serviceName');
+    if (!args.id && !args.serviceName) {
+        throw new Error('requires --id or --serviceName');
     }
 
     for (const service of config.services) {
         if (service.type === ServiceTypes.BlobStorage) {
             const blobService = <IBlobStorageService>service;
-            if (blobService.serviceName === args.serviceName) {
-                if (args.connectionString) {
-                    blobService.connectionString = args.connectionString;
-                }
-                if (args.hasOwnProperty('name')) {
+            if (blobService.id === args.id || blobService.serviceName === args.serviceName) {
+                if (args.hasOwnProperty('name'))
                     blobService.name = args.name;
-                }
-                if (args.container) {
+                if (args.tenantId)
+                    blobService.tenantId = args.tenantId;
+                if (args.subscriptionId)
+                    blobService.subscriptionId = args.subscriptionId;
+                if (args.resourceGroup)
+                    blobService.resourceGroup = args.resourceGroup;
+                if (args.serviceName)
+                    blobService.serviceName = args.serviceName;
+                if (args.container)
                     blobService.container = args.container;
-                }
+                if (args.connectionString)
+                    blobService.connectionString = args.connectionString;
                 await config.save(args.secret);
-                process.stdout.write(JSON.stringify(blobService, null, 2));
+                await stdoutAsync(JSON.stringify(blobService, null, 2));
                 return config;
             }
         }

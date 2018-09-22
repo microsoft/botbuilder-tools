@@ -4,14 +4,14 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import { BotConfiguration, IDispatchService, ILuisService, ServiceTypes } from 'botframework-config';
+import { BotConfiguration, IDispatchService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { uuidValidate } from './utils';
-
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
+
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -20,24 +20,26 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     showErrorHelp();
 };
 
-interface IDispatchArgs extends ILuisService {
+interface IDispatchArgs extends IDispatchService {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
-    serviceIds?: string;
+    ids?: string;
 }
 
 program
     .name('msbot update dispatch')
-    .description('update the bot to a dispatch model')
+    .description('update the bot to a dispatch model (--id or --appId is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'name for the dispatch')
     .option('-a, --appId <appid>', 'LUID AppId for the dispatch app')
     .option('--version <version>', 'version for the dispatch app, (example: 0.1)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating the dispatch model via the LUIS authoring API\n')
     .option('r, --region <region>', 'region to use (defaults to westus)')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
-    .option('--serviceIds <serviceIds>', '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
+    .option('--ids <ids>',
+        '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
@@ -82,32 +84,36 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.appId || !uuidValidate(args.appId)) {
-        throw new Error('bad or missing --appId');
+    if (!args.id && !args.appId) {
+        throw new Error('requires --id or --appId');
     }
 
     if (args.version) {
         args.version = args.version.toString();
     }
 
+    if (args.ids && args.ids.length > 0) {
+        args.serviceIds = args.ids.split(',');
+    }
+
     for (const service of config.services) {
         if (service.type === ServiceTypes.Dispatch) {
             const dispatchService = <IDispatchService>service;
-            if (dispatchService.appId === args.appId) {
-                if (args.hasOwnProperty('name')) {
+            if (dispatchService.id === args.id || dispatchService.appId === args.appId) {
+                if (args.hasOwnProperty('name'))
                     dispatchService.name = args.name;
-                }
-                if (args.version) {
-                    dispatchService.version = args.version;
-                }
-                if (args.subscriptionKey) {
+                if (args.appId)
+                    dispatchService.appId = args.appId;
+                if (args.subscriptionKey)
                     dispatchService.subscriptionKey = args.subscriptionKey;
-                }
-                if (args.serviceIds) {
-                    dispatchService.serviceIds =  args.serviceIds.split(',');
-                }
+                if (args.authoringKey)
+                    dispatchService.authoringKey = args.authoringKey;
+                if (args.region)
+                    dispatchService.region = args.region;
+                if (args.serviceIds)
+                    dispatchService.serviceIds = args.serviceIds;
                 await config.save(args.secret);
-                process.stdout.write(JSON.stringify(dispatchService, null, 2));
+                await stdoutAsync(JSON.stringify(dispatchService, null, 2));
                 return config;
             }
         }
