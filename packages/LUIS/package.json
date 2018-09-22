@@ -42,7 +42,8 @@
   "dependencies": {
     "await-delay": "^1.0.0",
     "chalk": "^2.4.1",
-    "cli-table3": "^0.5.0",
+    "cli-position": "^1.0.1",
+    "cli-table3": "^0.5.1",
     "fs-extra": "^5.0.0",
     "get-stdin": "^6.0.0",
     "minimist": "^1.2.0",
