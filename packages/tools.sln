@@ -3,23 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LUISGen", "src\LUISGen\LUISGen.csproj", "{47E12828-A513-4FA5-82C1-17A12896C50E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LUISGen", "LUISGen\src\LUISGen\LUISGen.csproj", "{47E12828-A513-4FA5-82C1-17A12896C50E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LUISGenTest", "tests\LUISGenTest\LUISGenTest.csproj", "{A7289872-EF1F-452E-A3EE-7BE35EF2C0D6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NodeTool", "NodeTool", "{AC774592-29EA-4DF3-A9A5-A6908693F037}"
-	ProjectSection(SolutionItems) = preProject
-		package-lock.json = package-lock.json
-		package.json = package.json
-		readme.md = readme.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{974918B0-7554-475C-9CAA-6735F8022940}"
-	ProjectSection(SolutionItems) = preProject
-		src\NuGet.Config = src\NuGet.Config
-		src\readme.md = src\readme.md
-		src\LUISGen\readme.md = src\LUISGen\readme.md
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LUISGenTest", "LUISGen\tests\LUISGenTest\LUISGenTest.csproj", "{A7289872-EF1F-452E-A3EE-7BE35EF2C0D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
