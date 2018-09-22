@@ -1,16 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Version Condition=" '$(PackageVersion)' == '' ">2.0.0-local</Version>
+		<Version Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</Version>
+		<PackageVersion Condition=" '$(PackageVersion)' == '' ">2.0.0-local</PackageVersion>
+		<PackageVersion Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</PackageVersion>
+	</PropertyGroup>
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp2.1</TargetFramework>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <Authors>Microsoft</Authors>
+        <Authors>microsoft,BotFramework,nugetbotbuilder</Authors>
         <Company>Microsoft</Company>
         <Description>Generate strongly typed files for consuming LUIS intents and entities.</Description>
+        <Product>Microsoft Bot Framework</Product>
+        <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+        <PackageProjectUrl>https://github.com/Microsoft/botbuilder-dotnet</PackageProjectUrl>
+        <PackageIconUrl>http://docs.botframework.com/images/bot_icon.png</PackageIconUrl>
+        <PackageLicenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/Microsoft/botbuilder-tools</RepositoryUrl>
+        <LicenseUrl>https://github.com/Microsoft/BotBuilder-tools/blob/master/LICENSE</LicenseUrl>
+        <RepositoryType />
+        <PackageTags>bots;ai;botframework;botbuilder</PackageTags>
+        <NeutralLanguage />
         
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>LUISGen</ToolCommandName>
-        <Version>2.0.0</Version>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+      <SignAssembly>true</SignAssembly>
+      <DelaySign>true</DelaySign>
+      <AssemblyOriginatorKeyFile>..\..\..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
