@@ -9,11 +9,10 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { uuidValidate } from './utils';
+import { stdoutAsync } from './stdioAsync';
+import { showMessage, uuidValidate } from './utils';
 
-import { showMessage } from './utils';
 require('log-prefix')(() => showMessage('%s'));
-program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -81,22 +80,28 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
     }
 
     if (!args.serviceName || args.serviceName.length === 0) {
-        throw new Error('Bad or missing --serviceName'); }
+        throw new Error('Bad or missing --serviceName');
+    }
 
     if (!args.tenantId || args.tenantId.length === 0) {
-        throw new Error('Bad or missing --tenantId'); }
+        throw new Error('Bad or missing --tenantId');
+    }
 
     if (!args.subscriptionId || !uuidValidate(args.subscriptionId)) {
-        throw new Error('Bad or missing --subscriptionId'); }
+        throw new Error('Bad or missing --subscriptionId');
+    }
 
     if (!args.resourceGroup || args.resourceGroup.length === 0) {
-        throw new Error('Bad or missing --resourceGroup'); }
+        throw new Error('Bad or missing --resourceGroup');
+    }
 
     if (!args.connectionString || args.connectionString.length === 0) {
-        throw new Error('Bad or missing --connectionString'); }
+        throw new Error('Bad or missing --connectionString');
+    }
 
     if (!args.container || args.container.length === 0) {
-        throw new Error('Bad or missing --container'); }
+        throw new Error('Bad or missing --container');
+    }
 
     const service: BlobStorageService = new BlobStorageService({
         name: args.hasOwnProperty('name') ? args.name : args.serviceName,
@@ -109,7 +114,7 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
     });
     const id: string = config.connectService(service);
     await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+    await stdoutAsync(JSON.stringify(config.findService(id), null, 2));
 
     return config;
 }

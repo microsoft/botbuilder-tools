@@ -9,7 +9,7 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
@@ -28,9 +28,14 @@ interface IupdateCosmosDbArgs extends ICosmosDBService {
 
 program
     .name('msbot update cosmosdb')
-    .description('update the bot to Azure CosmosDb Service')
-    .option('--serviceName <serviceName>', 'Azure service name')
+    .description('update the bot to Azure CosmosDb Service (--id or --serviceName is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'friendly name (defaults to serviceName)')
+    .option('-t, --tenantId <tenantId>', 'Azure Tenant id (either GUID or xxx.onmicrosoft.com)')
+    .option('-s, --subscriptionId <subscriptionId>', 'Azure Subscription Id')
+    .option('-r, --resourceGroup <resourceGroup>', 'Azure resource group name')
+    .option('--serviceName <serviceName>', 'Azure service name')
+    .option('-e, --endpoint <endpoint>', 'CosmosDB endpoint url')
     .option('-k, --key <key>', 'CosmosDB auth key')
     .option('-d, --database <database>', 'database name')
     .option('-c, --collection <collection>', 'collection name')
@@ -77,28 +82,30 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.serviceName || args.serviceName.length === 0) {
-        throw new Error('Bad or missing --serviceName');
+    if (!args.id && !args.serviceName) {
+        throw new Error('requires --id or --serviceName');
     }
-    
+
     for (const service of config.services) {
         if (service.type === ServiceTypes.CosmosDB) {
             const cosmosService = <ICosmosDBService>service;
-            if (cosmosService.serviceName === args.serviceName) {
-                if (args.hasOwnProperty('name')) {
+            if (cosmosService.id === args.id || cosmosService.serviceName === args.serviceName) {
+                if (args.hasOwnProperty('name'))
                     cosmosService.name = args.name;
-                }
-                if (args.key) {
-                    cosmosService.key = args.key;
-                }
-                if (args.database) {
+                if (args.tenantId)
+                    cosmosService.tenantId = args.tenantId;
+                if (args.subscriptionId)
+                    cosmosService.subscriptionId = args.subscriptionId;
+                if (args.resourceGroup)
+                    cosmosService.resourceGroup = args.resourceGroup;
+                if (args.serviceName)
+                    cosmosService.serviceName = args.serviceName;
+                if (args.database)
                     cosmosService.database = args.database;
-                }
-                if (args.collection) {
+                if (args.collection)
                     cosmosService.collection = args.collection;
-                }
                 await config.save(args.secret);
-                process.stdout.write(JSON.stringify(cosmosService, null, 2));
+                await stdoutAsync(JSON.stringify(cosmosService, null, 2));
                 return config;
             }
         }

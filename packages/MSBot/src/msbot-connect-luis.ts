@@ -9,9 +9,8 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { uuidValidate } from './utils';
-
-import { showMessage } from './utils';
+import { stdoutAsync } from './stdioAsync';
+import { showMessage, uuidValidate } from './utils';
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
 
@@ -117,7 +116,7 @@ async function processConnectLuisArgs(config: BotConfiguration): Promise<BotConf
     });
     const id: string = config.connectService(newService);
     await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+    await stdoutAsync(JSON.stringify(config.findService(id), null, 2));
 
     return config;
 }

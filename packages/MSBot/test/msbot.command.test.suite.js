@@ -65,7 +65,7 @@ describe("msbot commands", () => {
         assert.equal(buf.length, 32, "secret should be 32 bytes");
         config = await bf.BotConfiguration.load("save.bot", secret);
         fs.unlinkSync("save.bot");
-        assert.ok(config.secretKey.length > 0, "secretKey should be set");
+        assert.ok(config.padlock.length > 0, "padlock should be set");
     });
 
     it("msbot secret --new replace", async () => {

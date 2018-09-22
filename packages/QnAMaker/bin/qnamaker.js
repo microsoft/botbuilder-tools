@@ -32,6 +32,9 @@ const Endpointkeys = require('../lib/api/endpointkeys');
 const Operations = require('../lib/api/operations');
 const Delay = require('await-delay');
 const { ServiceBase } = require('../lib/api/serviceBase');
+
+function stdoutAsync(output) { return new Promise((done) => process.stdout.write(output, "utf-8", () => done())); }
+
 let args;
 
 /**
@@ -57,13 +60,13 @@ async function runProgram() {
     if (args._.length == 1 && args._[0] == "init") {
         const result = await initializeConfig();
         if (result) {
-            process.stdout.write(`Successfully wrote ${process.cwd()}/.qnamakerrc\n`);
+            await stdoutAsync(`Successfully wrote ${process.cwd()}/.qnamakerrc\n`);
         }
         return;
     }
 
     if (args.version || args.v) {
-        return process.stdout.write(require(path.join(__dirname, '../package.json')).version + "\n");
+        await stdoutAsync(require(path.join(__dirname, '../package.json')).version + "\n");
     }
 
     let serviceIn = {};
@@ -116,6 +119,20 @@ async function runProgram() {
                         requestBody.name = answer.trim();
                 }
             }
+            // hack to map incorrect export property from expected import.  Export uses qnaDocuments, create/update/replace qnaList :(
+            if (requestBody.qnaDocuments && !requestBody.qnaList) {
+                requestBody.qnaList = requestBody.qnaDocuments;
+                delete requestBody.qnaDocuments;
+            }
+            break;
+
+        case "replace":
+        case "update":
+            // hack to map incorrect export property from expected.  Export uses qnaDocuments, create/update/replace qnaList :(
+            if (requestBody.qnaDocuments && !requestBody.qnaList) {
+                requestBody.qnaList = requestBody.qnaDocuments;
+                delete requestBody.qnaDocuments;
+            }
             break;
     }
 
@@ -130,7 +147,7 @@ async function runProgram() {
             config.kbId = result.id;
             let kb = await updateKbId(config);
             if (args.msbot) {
-                process.stdout.write(JSON.stringify({
+                await stdoutAsync(JSON.stringify({
                     type: "qna",
                     name: kb.name,
                     id: kb.id,
@@ -140,7 +157,7 @@ async function runProgram() {
                     hostname: kb.hostName
                 }, null, 2) + "\n");
             } else {
-                process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+                await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
             }
             break;
         }
@@ -152,7 +169,7 @@ async function runProgram() {
                 config.kbId = kbId;
                 let kb = await updateKbId(config);
                 if (args.msbot) {
-                    process.stdout.write(JSON.stringify({
+                    await stdoutAsync(JSON.stringify({
                         type: "qna",
                         name: kb.name,
                         id: kb.id,
@@ -163,17 +180,17 @@ async function runProgram() {
                     }, null, 2) + "\n");
 
                 } else {
-                    process.stdout.write(JSON.stringify(result, null, 2));
+                    await stdoutAsync(JSON.stringify(result, null, 2));
                 }
                 if (args.wait && !(args.q || args.quiet) && !args.msbot) {
                     let answer = readlineSync.question(`Would you like to save ${kb.name} ${kb.id} in your .qnamakerrc so that future commands will be with this KB? [yes] `, { defaultInput: 'yes' });
                     if (answer[0] == 'y') {
                         await fs.writeJson(path.join(process.cwd(), '.qnamakerrc'), config, { spaces: 2 });
-                        process.stdout.write('.qnamakerrc updated' + "\n");
+                        await stdoutAsync('.qnamakerrc updated' + "\n");
                     }
                 }
             } else {
-                process.stdout.write(JSON.stringify(result, null, 2));
+                await stdoutAsync(JSON.stringify(result, null, 2));
             }
             break;
 
@@ -181,15 +198,15 @@ async function runProgram() {
             if (args.wait || args.msbot) {
                 result = await waitForOperationSucceeded(config, result);
             }
-            process.stdout.write(JSON.stringify(result, null, 2));
+            await stdoutAsync(JSON.stringify(result, null, 2));
             break;
 
         default: {
             // dump json as json stringified
             if (typeof result == 'string')
-                process.stdout.write(result + "\n");
+                await stdoutAsync(result + "\n");
             else
-                process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+                await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
             break;
         }
     }
@@ -204,7 +221,7 @@ async function runProgram() {
  * @returns {Promise<*>}
  */
 async function initializeConfig() {
-    process.stdout.write(chalk.cyan.bold('\nThis util will walk you through creating a .qnamakerrc file\n\nPress ^C at any time to quit.\n\n'));
+    await stdoutAsync(chalk.cyan.bold('\nThis util will walk you through creating a .qnamakerrc file\n\nPress ^C at any time to quit.\n\n'));
     const questions = [
         'What is your QnAMaker access/subscription key? (found on the Cognitive Services Azure portal page under "access keys") ',
         'What would you like to use as your active knowledgebase ID? [none] '
@@ -432,7 +449,7 @@ async function handleSetCommand(args, config) {
         }
     }
     await fs.writeJson(path.join(process.cwd(), '.qnamakerrc'), config, { spaces: 2 });
-    process.stdout.write(JSON.stringify(config, null, 4) + "\n");
+    await stdoutAsync(JSON.stringify(config, null, 4) + "\n");
     return true;
 }
 /*eslint no-constant-condition: ["off"] */

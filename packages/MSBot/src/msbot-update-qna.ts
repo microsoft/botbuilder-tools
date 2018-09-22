@@ -9,8 +9,7 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { uuidValidate } from './utils';
-
+import { stdoutAsync } from './stdioAsync';
 import { showMessage } from './utils';
 require('log-prefix')(() => showMessage('%s'));
 program.option('--verbose', 'Add [msbot] prefix to all messages');
@@ -30,7 +29,8 @@ interface IQnaArgs extends IQnAService {
 
 program
     .name('msbot update qna')
-    .description('update the bot to a QnA knowledgebase')
+    .description('update the bot to a QnA knowledgebase (--id or --kbId is required)')
+    .option('--id <id>', 'service id')
     .option('-n, --name <name>', 'name for the QNA knowledgebase')
     .option('-k, --kbId <kbId>', 'QnA Knowledgebase Id ')
     .option('--subscriptionKey <subscriptionKey>',
@@ -44,8 +44,6 @@ program
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd: program.Command, actions: program.Command) => undefined);
-
-program.parse(process.argv);
 
 const command: program.Command = program.parse(process.argv);
 const args: IQnaArgs = <IQnaArgs>{};
@@ -83,28 +81,26 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
         Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
     }
 
-    if (!args.kbId || !uuidValidate(args.kbId)) {
-        throw new Error('bad or missing --kbId');
+    if (!args.id && !args.kbId) {
+        throw new Error('requires --id or --kbId');
     }
 
     for (const service of config.services) {
         if (service.type === ServiceTypes.QnA) {
             const qnaService = <IQnAService>service;
-            if (qnaService.kbId === args.kbId) {
-                if (args.hasOwnProperty('name')) {
+            if (qnaService.id === args.id || qnaService.kbId === args.kbId) {
+                if (args.hasOwnProperty('name'))
                     qnaService.name = args.name;
-                }
-                if (args.endpointKey && uuidValidate(args.endpointKey)) {
-                    qnaService.endpointKey = args.endpointKey;
-                }
-                if (args.hostname) {
-                    qnaService.hostname = args.hostname;
-                }
-                if (args.subscriptionKey && uuidValidate(args.subscriptionKey)) {
+                if (args.kbId)
+                    qnaService.kbId = args.kbId;
+                if (args.subscriptionKey)
                     qnaService.subscriptionKey = args.subscriptionKey;
-                }
+                if (args.endpointKey)
+                    qnaService.endpointKey = args.endpointKey;
+                if (args.hostname)
+                    qnaService.hostname = args.hostname;
                 await config.save(args.secret);
-                process.stdout.write(JSON.stringify(qnaService, null, 2));
+                await stdoutAsync(JSON.stringify(qnaService, null, 2));
                 return config;
             }
         }

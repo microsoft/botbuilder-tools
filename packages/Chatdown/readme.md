@@ -163,7 +163,7 @@ The properties that are supported are
 | subtitle| a subtitle for the card with less emphasis|
 | text | a generic text property which can contain longer text describing the card|
 | image | image url to use for the card |
-| buttons | a set of button labels seperated by `|`|
+| buttons | a set of button labels separated by `|`|
 
 
 ####  Message Attachments
@@ -228,7 +228,7 @@ chatdown sample.chat
 ```
 or 
 ```bash
-chatdown sameple.chat > joe.transcript
+chatdown sample.chat > joe.transcript
 ```
 The transcript will be piped to stdout.
 
@@ -282,3 +282,23 @@ chokidar "**/*.chat" -c "chatdown {path} > {path}.transcript"
 ```
 
 Now, any time a .chat file is created or saved, chatdown will automatically create the transcript file beside it.
+
+## Nightly builds
+
+Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
+
+You can get the latest nightly build of MSBot from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+
+```shell
+npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+```
+
+Install using npm:
+```shell
+npm i -g chatdown
+```
+
+To reset registry:
+```shell
+npm config set registry https://registry.npmjs.org/
+```

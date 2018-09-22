@@ -6,7 +6,9 @@
     ],
     "linterOptions": {
       "exclude": [
-        "packages/LUIS/src/**"
+        "packages/LUIS/src/**",
+        "packages/Dispatch/**",
+        "packages/LUISGen/**"
       ]
     },
     "jsRules": {},

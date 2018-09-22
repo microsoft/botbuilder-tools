@@ -29,7 +29,7 @@ describe('The LUIS cli init argument', () => {
         const appId = Math.floor(Math.random() * 9999999);
         const versionId = Math.floor(Math.random() * 111111);
         const luisKey = 'dummy-key';
-        const location = 'westus';
+        const region = 'westus';
 
         await new Promise(resolve => {
             luisProcess.stdout.on('data', data => {
@@ -47,7 +47,7 @@ describe('The LUIS cli init argument', () => {
 
                 case 3:
                     assert.equal('what is your region? [westus, westeurope, australiaeast] ', message);
-                    luisProcess.stdin.write(`${location}\r`);
+                    luisProcess.stdin.write(`${region}\r`);
                     break;
 
                 case 4:
@@ -76,6 +76,6 @@ describe('The LUIS cli init argument', () => {
         const rc = JSON.parse(await txtfile.read(rcPath));
         assert.equal(rc.appId, appId);
         assert.equal(rc.versionId, versionId);
-        assert.equal(rc.endpointBasePath, `https://${location}.api.cognitive.microsoft.com/luis/api/v2.0`);
+        assert.equal(rc.region, region);
     });
 });
