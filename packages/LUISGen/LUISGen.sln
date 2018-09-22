@@ -3,22 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LUISGen", "LUISGen\LUISGen.csproj", "{47E12828-A513-4FA5-82C1-17A12896C50E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LUISGen", "src\LUISGen\LUISGen.csproj", "{47E12828-A513-4FA5-82C1-17A12896C50E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LUISGenTest", "LUISGenTest\LUISGenTest.csproj", "{A7289872-EF1F-452E-A3EE-7BE35EF2C0D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LUISGenTest", "tests\LUISGenTest\LUISGenTest.csproj", "{A7289872-EF1F-452E-A3EE-7BE35EF2C0D6}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "LUISGenTestJS", "LUISGenTestJS\LUISGenTestJS.njsproj", "{B6C37F07-7C55-4274-8246-8F816CF460DC}"
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "LUISGenTestJS", "tests\LUISGenTestJS\LUISGenTestJS.njsproj", "{B6C37F07-7C55-4274-8246-8F816CF460DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NodeTool", "NodeTool", "{AC774592-29EA-4DF3-A9A5-A6908693F037}"
 	ProjectSection(SolutionItems) = preProject
-		..\package-lock.json = ..\package-lock.json
-		..\package.json = ..\package.json
-		..\readme.md = ..\readme.md
+		package-lock.json = package-lock.json
+		package.json = package.json
+		readme.md = readme.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bin", "bin", "{4DF6FCBE-21EE-4C77-B8AE-12AF0252B597}"
 	ProjectSection(SolutionItems) = preProject
-		..\bin\luisgen.js = ..\bin\luisgen.js
+		bin\luisgen.js = bin\luisgen.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{974918B0-7554-475C-9CAA-6735F8022940}"
