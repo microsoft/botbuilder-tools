@@ -2,7 +2,7 @@
 
 [Bot Builder tools](./README.md) is a collection of cross-platform command line tools designed to cover end-to-end bot development workflow.
 
-A typical end to end development workflow includes planning, building, testing, publishing, connecting and evaluation. Bot Builder tools are designed to work at each of those phases of development. See how Bot Builder tools can help with each of the typical development phases: 
+A typical end-to-end development workflow includes planning, building, testing, publishing, connecting and evaluation. Bot Builder tools are designed to work at each of those phases of development. See how Bot Builder tools can help with each of the typical development phases: 
 
 - [**Plan**](#plan)
     - Review bot [design guidelines](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-principles) for best practices
@@ -14,9 +14,9 @@ A typical end to end development workflow includes planning, building, testing, 
     - Create QnA Maker KB using [QnA Maker CLI](#create-qna-maker-kb-using-qna-maker-cli)
     - Create dipsatch model using [Dispatch CLI](#create-dipsatch-model-using-dispatch-cli)
 - [**Test**](#test)
-    - Test your bot using [Bot Framework Emulator V4](https://github.com/microsoft/botframework-emulator)
+    - Test your bot using [Bot Framework Emulator V4](https://github.com/Microsoft/BotFramework-Emulator/releases)
 - [**Publish**](#publish)
-    - Create, download, publish bots to Azure Bot Service using [Azure CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/AzureCli)
+    - Create, download and publish bots to Azure Bot Service using [Azure CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/AzureCli)
 - [**Connect**](#configure-channels)
     - Connect your bot to Azure Bot Service channels using [Azure CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/AzureCli)
 
@@ -26,11 +26,11 @@ A typical end to end development workflow includes planning, building, testing, 
 
 Chatdown is a transcript generator which consumes a .chat file to generate mock transcripts. Generated mock transcript files are output to stdout.
 
-A good bot, just like any successful application or a website, starts with clarity on supported scenarios. Creating mockups of conversations between bot and user is useful for:
+A good bot, just like any successful application or a website, starts with clearly defined scenarios. Creating mockups of conversations between bot and user is useful for:
 
 - Framing the scenarios supported by the bot.
 - Business decision makers to review, provide feedback.
-- Defining a "happy path" (as well as other paths) through conversational flows between a user and a bot
+- Defining conversation flow between the user and the bot using scenarios.
 .chat file format helps you create mockups of conversations between a user and a bot. Chatdown CLI tool converts .chat files into conversation transcripts (.transcript files) that can be viewed in the [Bot Framework Emulator V4](https://github.com/microsoft/botframework-emulator).
 
 Here's an example `.chat` file:
@@ -77,7 +77,7 @@ You can get the latest Bot Framework Emulator from [here](https://github.com/Mic
 # Build
 
 ## Bootstrap Language Understanding with Ludown
-[LUDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown) allows you to describe and create powerful language components for bots using **.lu** files. The new .lu file is a type of markdown format which the LUDown tool consumes and outputs .json files specific to the target service. Currently, you can use .lu files to create a new [LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-get-started-create-app) application or [QnA](https://qnamaker.ai/Documentation/CreateKb) knowledge base, using different formats for each. LUDown is available as an npm module, and can be used by installing globally to your machine:
+[LUDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown) allows you to describe and create powerful language components for bots using **.lu** files. The .lu file extends the markdown format. Ludown is a tool that can consume .lu file(s) outputs .json files specific to the target service. Currently, you can use .lu files to create a new [LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-get-started-create-app) application or [QnA](https://qnamaker.ai/Documentation/CreateKb) knowledge base, using different formats for each. LUDown is available as an npm module, and can be used by installing globally to your machine:
 
 ```shell
 npm install -g ludown
@@ -89,7 +89,7 @@ The LUDown tool can be used to create new .json models for both LUIS and QnA.
 
 You can define [intents](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/add-intents) and [entities](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/add-entities) for a LUIS application just like you would from the LUIS portal. 
 
-'#\<intent-name\>' describes a new intent definition section. Each line afterwards lists the [utterances](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/add-example-utterances) which describe that intent.
+'#\<intent-name\>' describes a new intent definition section. Each line afterwards lists the [utterances](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/add-example-utterances) that describe the intent.
 
 For example, you can create multiple LUIS intents in a single .lu file as follows: 
 
@@ -126,7 +126,7 @@ The LUDown tool will automatically separate question and answers into a qnamaker
   See [this link](https://docs.botframework.com/en-us/azure-bot-service/templates/qnamaker/#navtitle) for details. 
   ```
 
-You can also add multiple questions to the same answer by simply adding new lines of variations of questions for a single answer. 
+You can also add multiple questions for the same answer by adding new variations of the question.
 
 ```LUDown
 ### ? What is your name?
@@ -137,9 +137,7 @@ You can also add multiple questions to the same answer by simply adding new line
 
 ### Generating .json models with LUDown
 
-After you've defined LUIS or QnA language components in the .lu format, you can publish out to a LUIS .json, QnA .json, or QnA .tsv file. When run, the LUDown tool will look for any .lu files within the same working directory to parse. Since the LUDown tool can target both LUIS or QnA with .lu files, we simply need to specify which language service to generate for, using the general command **ludown parse <Service> -- in <luFile>**. 
-
-In our sample working directory, we have two .lu files to parse, '1.lu' to create LUIS model, and 'qna1.lu' to create a QnA knowledge base.
+After you've defined LUIS or QnA language components in the .lu format, you can create a LUIS .json, QnA .json, or QnA .tsv file. When run, the LUDown tool will look for any .lu files within the same working directory to parse. Since the LUDown tool can target both LUIS or QnA with .lu files, we simply need to specify which language service to generate for, using the general command **ludown parse <Service> -- in <luFile>**. 
 
 ### Generate LUIS .json models
 
@@ -163,7 +161,7 @@ See [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Lu
 
 ## Keep track of service references using bot file
 
-The new [MSBot](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot) tool allows you to create a **.bot** file, which stores metadata about different services your bot consumes, all in one location. This file also enables your bot to connect to these services from the CLI. The tool is available as an npm module, to install it run:
+You can create a .bot file using the [MSBot](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot) tool. The .bot file stores metadata about services your bot consumes. The bot can connect to services stored in the .bot file using CLI tools.
 
 ```shell
 npm install -g msbot 
@@ -197,7 +195,7 @@ See [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MS
 
 ## Create and manage LUIS applications using LUIS CLI
 
-Included in the new tool set is a [LUIS extension](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS) which allows you to independently manage your LUIS resources. It is available as an npm module which you can download:
+Included in the new tool set is a [LUIS extension](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS) that allows you to independently manage your LUIS resources. It is available as an npm module which you can download:
 
 ```shell
 npm install -g luis-apis
@@ -207,14 +205,14 @@ The basic command usage for the LUIS tool from the CLI is:
 ```shell
 luis <action> <resource> <args...>
 ```
-To connect your bot to LUIS, you will need to create a **.luisrc** file. This is a configuration file which provisions your LUIS appID and password to the service endpoint when your application makes outbound calls. You can create this file by running **luis init** as follows:
+To connect your bot to LUIS, you will need to create a **.luisrc** file. This configuration file provisions your LUIS appID and password to the service endpoint when your application makes outbound calls. You can create this file by running **luis init** as follows:
 
 ```shell
 luis init
 ```
-You will be prompted in the terminal to enter your LUIS authoring key, region, and appID before the tool will generate the file.  
+Enter your LUIS authoring key, region, and appID to generate the file.
 
-Once this file is generated, your application will be able to consume the LUIS .json file (generated from LUDown) using the following command from the CLI.
+After this file is generated, your application will be able to consume the LUIS .json file (generated from LUDown) using the following command from the CLI.
 
 ```shell
 luis import application --in luis-app.json | msbot connect luis --stdin
@@ -223,7 +221,7 @@ See [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LU
 
 ## Create QnA Maker KB using QnA Maker CLI
 
-Included in the new tool set is a [QnA extension](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) which allows you to independently manage your LUIS resources. It is available as an npm module which you can download.
+You can manage your LUIS resources using the [QnA Maker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) tool.
 
 ```shell
 npm install -g qnamaker
@@ -238,15 +236,15 @@ See [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Qn
 
 ## Create dipsatch model using Dispatch CLI
 
-Dispatch is a tool to create and evaluate LUIS models used to dispatch intent across multiple bot modules such as LUIS models, QnA knowledge bases and others (added to dispatch as a file type).
+The Dispatch tool is used to create, evaluate, and dispatch intent across multiple LUIS models and QnA knowledge bases.
 
 Use the Dispatch model in cases when:
 
-- Your bot consists of multiple modules and you need assistance in routing user's utterances to these modules and evaluate the bot integration.
+- Your bot consists of multiple modules (e.g. HR, Payroll, Finance as separate modules) and you need assistance in routing user's utterances to these modules and evaluate the bot integration.
 - Evaluate quality of intents classification of a single LUIS model.
 - Create a text classification model from text files.
 
-Once you have assembled your .bot file with the [LUIS applications](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot/docs/msbot-luis.md) and [QnA Maker knowledge bases](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot/docs/msbot-qnamaker.md) your bot relies on, you can simply build a dispatch model using: 
+After you have added LUIS and QnA services to the .bot file, you can build the dispatch model using:
 
 ```shell
 dispatch create -b <YOUR-BOT-FILE> | msbot connect dispatch --stdin
@@ -260,7 +258,6 @@ The Bot Framework Emulator is a desktop application that allows bot developers t
 ## Download
 
 * From the [GitHub releases](https://github.com/Microsoft/BotFramework-Emulator/releases) page
-* From the [Bot Framework](https://emulator.botframework.com) site
 
 ## Supported platforms
 
@@ -270,7 +267,7 @@ The Bot Framework Emulator is a desktop application that allows bot developers t
 
 # Publish
 
-You can use the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to [create](#create-azure-bot-service-bot), [download](#download-azure-bot-service-bot) and [publish](#publish-azure-bot-service-bot) your bot to Azure Bot Service.
+You can use the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) tool to [create](#create-azure-bot-service-bot), [download](#download-azure-bot-service-bot) and [publish](#publish-azure-bot-service-bot) your bot to Azure Bot Service.
 
 ## Installation
 - Install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to [create](#create-azure-bot-service-bot)
@@ -286,7 +283,7 @@ Login to your azure account via
 az login
 ```
 
-Once you are loged in, you can create a new Azure Bot Service bot using: 
+Once you are logged in, you can create a new Azure Bot Service bot using: 
 ```shell
 az bot create [options]
 ```
