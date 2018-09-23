@@ -1,40 +1,68 @@
-# Bot Builder tools (PREVIEW)
-Bot Builder tools are designed to cover end-to-end bot development workflow and include the following tools - 
+# Bot Builder tools [![Build Status](https://travis-ci.org/Microsoft/botbuilder-tools.svg?branch=master)](https://travis-ci.org/Microsoft/botbuilder-tools) [![Coverage Status](https://coveralls.io/repos/github/Microsoft/botbuilder-tools/badge.svg?branch=master)](https://coveralls.io/github/Microsoft/botbuilder-tools?branch=master) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
+Bot Builder tools is a collection of cross-platform command line tools designed to cover end-to-end bot development workflow.
 
 |   | Tool | Description |
 |---|------|--------------|
-| [![npm version](https://badge.fury.io/js/chatdown.svg)](https://badge.fury.io/js/chatdown) | [Chatdown](https://github.com/Microsoft/botbuilder-tools/tree/master/Chatdown) | Prototype mock conversations in markdown and convert the markdown to transcripts you can load and view in the new V4 Bot Framework Emulator |
-| [![npm version](https://badge.fury.io/js/msbot.svg)](https://badge.fury.io/js/msbot) |[MSBot](https://github.com/Microsoft/botbuilder-tools/tree/master/MSBot)| Create and manage connected services in your bot configuration file|
-| [![npm version](https://badge.fury.io/js/ludown.svg)](https://badge.fury.io/js/ludown) |[LUDown](https://github.com/Microsoft/botbuilder-tools/tree/master/Ludown)| Build LUIS language understanding models using markdown files|
-| [![npm version](https://badge.fury.io/js/luis-apis.svg)](https://badge.fury.io/js/luis-apis) |[LUIS](https://github.com/Microsoft/botbuilder-tools/tree/master/LUIS)| Create and manage your [LUIS.ai](http://luis.ai) applications |
-| [![npm version](https://badge.fury.io/js/qnamaker.svg)](https://badge.fury.io/js/qnamaker) |[QnAMaker](https://github.com/Microsoft/botbuilder-tools/tree/master/QnAMaker) | Create and manage [QnAMaker.ai](http://qnamaker.ai) Knowledge Bases. |
-| [![npm version](https://badge.fury.io/js/botdispatch.svg)](https://badge.fury.io/js/botdispatch) | [Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/Dispatch) | Build language models allowing you to dispatch between disparate components (such as QnA, LUIS and custom code)|
-| [![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)| [LUISGen](https://github.com/Microsoft/botbuilder-tools/tree/master/LUISGen) | Autogenerate backing C#/Typescript classesfor your LUIS intents and entities.|
+| [![npm version](https://badge.fury.io/js/chatdown.svg)](https://badge.fury.io/js/chatdown) | [Chatdown](packages/Chatdown) | Prototype mock conversations in markdown and convert the markdown to transcripts you can load and view in the new V4 Bot Framework Emulator |
+| [![npm version](https://badge.fury.io/js/msbot.svg)](https://badge.fury.io/js/msbot) |[MSBot](packages/MSBot)| Create and manage connected services in your bot configuration file|
+| [![npm version](https://badge.fury.io/js/ludown.svg)](https://badge.fury.io/js/ludown) |[LUDown](packages/Ludown)| Build LUIS language understanding models using markdown files|
+| [![npm version](https://badge.fury.io/js/luis-apis.svg)](https://badge.fury.io/js/luis-apis) |[LUIS](packages/LUIS)| Create and manage your [LUIS.ai](http://luis.ai) applications |
+| [![npm version](https://badge.fury.io/js/qnamaker.svg)](https://badge.fury.io/js/qnamaker) |[QnAMaker](packages/QnAMaker) | Create and manage [QnAMaker.ai](http://qnamaker.ai) Knowledge Bases. |
+| [![npm version](https://badge.fury.io/js/botdispatch.svg)](https://badge.fury.io/js/botdispatch) | [Dispatch](packages/Dispatch) | Build language models allowing you to dispatch between disparate components (such as QnA, LUIS and custom code)|
+| [![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)| [LUISGen](packages/LUISGen) | Auto generate backing C#/Typescript classes for your LUIS intents and entities.|
 
-To install all CLI tools:
+## Install CLI tools:
+Pre-requisite: [Node.js](https://nodejs.org/) version 8.5 or higher
 
 ```
 npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
 ```
 
+## Overview
+
 - Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-to-end bot development workflow. 
 - Please see [here](https://aka.ms/BotBuilderLocalDev) for an example end to end bot development workflow using Bot Builder tools.
+- Please see [here](./tools-overview.md) for an overview of using Bot Builder tools throughout various phases of bot development. 
 
 Bot Builder tools are designed to work with
-- [Bot Builder V3 SDK](https://github.com/microsoft/botbuilder)
-- Bot Builder V4 SDK PREVIEW - [dotnet](https://github.com/microsoft/botbuilder-dotnet), [JS](https://github.com/microsoft/botbuilder-js), [Java](https://github.com/microsoft/botbuilder-java) and [Python](https://github.com/microsoft/botbuilder-python)
+- Bot Builder V4 SDK - [C# SDK](https://github.com/microsoft/botbuilder-dotnet), [JS SDK](https://github.com/microsoft/botbuilder-js)
+- [Bot Builder V3 SDK](https://github.com/microsoft/botbuilder-v3)
+- [Bot Framework Emulator V4](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
-Before writing code, review the [bot design guidelines](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-principles) for best practices and identify the needs for your bot: will a basic bot be enough or whether it should have more sophisticated capabilities, such as speech, language understanding, QnA, or the ability to extract knowledge from different sources and provide intelligent answers. This is also the phase where you might want to create mockup of conversations between the user and the bot for the specific scenarios your bot will support. [Chatdown](https://github.com/Microsoft/botbuilder-tools/tree/master/Chatdown) is the tool built for this purpose. You can author .chat files that mockup the conversations and then use chatdown CLI to convert them into rich transcripts. 
+Before writing code, review the [bot design guidelines](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-principles) for best practices and identify the needs for your bot: will a basic bot be enough or whether it should have more sophisticated capabilities, such as speech, language understanding, QnA, or the ability to extract knowledge from different sources and provide intelligent answers. This is also the phase where you might want to create mockup of conversations between the user and the bot for the specific scenarios your bot will support. [Chatdown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown) is the tool built for this purpose. You can author .chat files that mockup the conversations and then use chatdown CLI to convert them into rich transcripts. 
 
-As you build your bot, you may also need to integrate AI services like [LUIS.ai](http://luis.ai) for language understanding, [QnAMaker.ai](http://qnamaker.ai) for your bot to respond to simple questions in a Q&A format, and more. You can bootstrap language understanding for your bot using [LUDown](https://github.com/Microsoft/botbuilder-tools/tree/master/ludown). 
+As you build your bot, you may also need to integrate AI services like [LUIS.ai](http://luis.ai) for language understanding, [QnAMaker.ai](http://qnamaker.ai) for your bot to respond to simple questions in a Q&A format, and more. You can bootstrap language understanding for your bot using [LUDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown). 
 
-The tools are designed to work together. You can then use [LUIS](https://github.com/Microsoft/botbuilder-tools/tree/master/LUIS) CLI and / or the [QnAMaker](https://github.com/Microsoft/botbuilder-tools/tree/master/QnAMaker) CLI tools to create your LUIS.ai models and QnAMaker knowledge base. 
+The tools are designed to work together. You can then use [LUIS](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS) CLI and/or the [QnAMaker](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) CLI tools to create your LUIS.ai models and QnAMaker knowledge base. 
 
-As your bot grows in sophistication, [Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/Dispatch) CLI can help create and evaluate LUIS models used to dispatch intent across multiple bot modules such as LUIS models, QnA knowledge bases and others (added to dispatch as a file type).
+As your bot grows in sophistication, [Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) CLI can help create and evaluate LUIS models used to dispatch intent across multiple bot modules such as LUIS models, QnA knowledge bases and others (added to dispatch as a file type).
 
-Throughout the Build phase, you can use [MSBot](https://github.com/Microsoft/botbuilder-tools/tree/master/MSBot) CLI to create and keep your bot configuration file updated with all relevant service references.
+Throughout the Build phase, you can use [MSBot](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot) CLI to create and keep your bot configuration file updated with all relevant service references.
 
-To test and refine your bot, you can use the new [V4 Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/releases). The Bot Framework Emulator is a cross-platform electron application that enables you to test and debug your bots on  local machine or in the cloud. The new emulator includes features like faster load times, an improved dynamic layout model, support for multiple bot configurations, simple bot components management, and the ability to inspect responses from connected services such as LUIS and QnA. The Bot Framework Emulator also deep links to different parts used by the bot. The Bot Framework Emulator new functionality enables you to debug bots based on transcript logs and to view previous chat in presentation mode. The Bot Framework Emulator is available as open source on [Github](https://github.com/Microsoft/BotFramework-Emulator). 
+To test and refine your bot, you can use the new [V4 Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/releases). The Bot Framework Emulator is a cross-platform [electron](https://electronjs.org/) application that enables you to test and debug your bots on  local machine or in the cloud. The new emulator includes features like faster load times, an improved dynamic layout model, support for multiple bot configurations, simple bot components management, and the ability to inspect responses from connected services such as LUIS and QnA. The Bot Framework Emulator also deep links to different parts used by the bot. The Bot Framework Emulator new functionality enables you to debug bots based on transcript logs and to view previous chat in presentation mode. The Bot Framework Emulator is available as open source on [Github](https://github.com/Microsoft/BotFramework-Emulator). 
+
+With the [Azure CLI Bot extension](./AzureCli), you can create, download, publish, configure channels with the [Azure Bot Serice](https://azure.microsoft.com/en-us/services/bot-service/). Azure CLI Bot extension requires [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) (version 2.0.45 or higher]
+
+## Building the tools
+
+In order to build the SDK, ensure that you have [Git](https://git-scm.com/downloads) and [Node.js](https://nodejs.org/en/) installed.
+
+Run the following commands to build all tools.
+
+```
+npm install
+npm run build
+```
+
+Run the following command to verify your installation.
+
+```
+npm run test
+```
+
+This repository uses [lerna](https://github.com/lerna/lerna) to manage the packages included. This allows you to execute scripts for all packages or only for some packages. For instance, `lerna run test` will run all tests in each package, but `lerna run test --scope chatdown` will run the tests of chatdown.
+
+To use lerna, install it as a global package with `npm install lerna --global`.
 
 ## Contributing
 
@@ -57,4 +85,24 @@ Security issues and bugs should be reported privately, via email, to the Microso
 
 Copyright (c) Microsoft Corporation. All rights reserved.
 
-Licensed under the [MIT](https://github.com/Microsoft/vscode/blob/master/LICENSE.txt) License.
+Licensed under the [MIT](LICENSE) License.
+
+## Nightly builds
+
+Nightly builds are generated using the latest code. Therefore, they may not be stable, and most likely lack up to date documentation. These builds are better suited for more experienced users, although everyone is welcome to use them and provide feedback.
+
+You can get the latest nightly build of MSBot from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+
+```shell
+npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+```
+
+Install using npm:
+```shell
+npm i -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
+```
+
+To reset registry:
+```shell
+npm config set registry https://registry.npmjs.org/
+```

@@ -1,0 +1,19 @@
+{
+    "defaultSeverity": "warning",
+    "extends": [
+        "tslint:recommended",
+        "tslint-microsoft-contrib"
+    ],
+    "linterOptions": {
+      "exclude": [
+        "packages/LUIS/src/**",
+        "packages/Dispatch/**",
+        "packages/LUISGen/**"
+      ]
+    },
+    "jsRules": {},
+    "rules": {},
+    "rulesDirectory": [
+        "node_modules/tslint-microsoft-contrib"
+    ]
+}

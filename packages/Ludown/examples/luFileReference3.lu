@@ -1,0 +1,7 @@
+> You can include deep references to intents defined in a .lu file in utterances
+# None
+- [None uttearnces](./all.lu#Help)
+
+> With the above statement, the parser will parse all.lu and extract out all utterances associated with the 'Help' intent and add them under 'None' intent as defined in this file.
+
+> NOTE: This **only** works for utterances as entities that are referenced by the uttearnces in the 'Help' intent will not be brought forward to this .lu file.

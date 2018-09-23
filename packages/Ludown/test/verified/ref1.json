@@ -1,0 +1,38 @@
+{
+  "intents": [
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "help",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "please help",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "ref1",
+  "desc": "",
+  "culture": "en-us"
+}

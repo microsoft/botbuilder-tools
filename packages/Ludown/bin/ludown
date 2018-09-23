@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+let args = '';
+process.argv.forEach((val, index) => {
+  if (index > 1) {
+    args = args + ' "' + val + '"';
+  }
+});
+args = args.trim();
+try {
+  require('child_process').execSync('node ' + __dirname + '/../lib/ludown.js ' + args, { stdio: [0, 1, 2] });
+}
+catch (err) {
+}

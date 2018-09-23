@@ -158,18 +158,6 @@ publish/
 # in these scripts will be unencrypted
 PublishScripts/
 
-# NuGet Packages
-*.nupkg
-# The packages folder can be ignored because of Package Restore
-**/packages/*
-# except build/, which is used as an MSBuild target.
-!**/packages/build/
-# Uncomment if necessary however generally it will be regenerated when needed
-#!**/packages/repositories.config
-# NuGet v3's project.json files produces more ignorable files
-*.nuget.props
-*.nuget.targets
-
 # Microsoft Azure Build Output
 csx/
 *.build.csdef
@@ -236,8 +224,7 @@ FakesAssemblies/
 .ntvs_analysis.dat
 node_modules/
 
-# Typescript v1 declaration files
-typings/
+# Typescript v1 declaration files 
 
 # Visual Studio 6 build log
 *.plg
@@ -300,3 +287,8 @@ AzureCli/azext_bot/build/
 
 # macOS stuff
 .DS_Store
+.nyc_output
+coverage
+
+# Chatdown test transcripts
+test/*.transcript

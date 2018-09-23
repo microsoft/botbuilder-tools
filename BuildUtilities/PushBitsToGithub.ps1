@@ -10,8 +10,8 @@ param
 )
 
 # Set default identity
-git config --global user.email "v-brhale@micrsoft.com"
-git config --global user.name "BruceHaley"
+git config --global user.email "tiens@microsoft.com"
+git config --global user.name "Tien Suwandy"
 
 git checkout master
 git pull origin master
