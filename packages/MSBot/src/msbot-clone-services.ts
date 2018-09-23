@@ -120,7 +120,7 @@ async function processConfiguration(): Promise<void> {
 
     try {
         // pass 0 - tell the user what are going to create
-        if (!args.force) {
+        if (!args.quiet) {
             let bot = 0;
             let appInsights = 0;
             let storage = 0;
@@ -213,10 +213,12 @@ async function processConfiguration(): Promise<void> {
                 table.push(row);
             await logAsync(table.toString());
 
-            const answer = readline.question(`Would you like to perform this operation? [y/n]`);
-            if (answer == "no" || answer == "n") {
-                console.log("Canceling the operation");
-                process.exit(1);
+            if (!args.force) {
+                const answer = readline.question(`Would you like to perform this operation? [y/n]`);
+                if (answer == "no" || answer == "n") {
+                    console.log("Canceling the operation");
+                    process.exit(1);
+                }
             }
         }
 
