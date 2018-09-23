@@ -1,12 +1,29 @@
 # LUISGen Command Line Tool
 [![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)
 
-LUISGen is a tool for generating a strongly typed C# class to make consuming LUIS output easier.
+LUISGen is a tool for generating a strongly typed C# class or typescript interface to make consuming LUIS output easier.  This enables build-time error checking and intellisense.
 
 ## Prerequisite
 
-- [Node.js](https://nodejs.org/) version 8.5 or higher
+[Node.js](https://nodejs.org/) version 8.5 or higher.
 
+To use C# generated files you may require the latest unpubplished NuGet Bot Builder packages.  They should be downloaded from the private nuget feed
+https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json
+
+To use Typescript generated files you may require the latest unpublished npm Bot Builder pakages. To install from the daily feed follow these instructions in the LUISGenTestJS 
+diretory.
+- Point to the myget feed 
+    ```bash
+    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
+    ```
+- Install modules
+    ```bash
+    npm install
+    ```
+- To reset registry, you can do
+    ```bash
+    npm config set registry https://registry.npmjs.org/
+    ```
 
 ## Installation
 To install LUISGen into the global path:
@@ -52,7 +69,7 @@ The callback value app will be a strongly typed LUIS result.
 
 Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
 
-You can get the latest nightly build of MSBot from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+You can get the latest nightly build of LUISGen from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
 
 ```shell
 npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
