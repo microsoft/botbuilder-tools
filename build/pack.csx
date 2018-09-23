@@ -1,14 +1,20 @@
 #! "netcoreapp2.0"
 
-if (Args.Count != 2) {
-  Console.WriteLine("dotnet pack.csx <folder> <zipfile>");
-  return;
+if (Args.Count != 1)
+{
+    Console.WriteLine("dotnet pack.csx <folder>");
+    Console.WriteLine("Will pack all sub-folders as nupkgs");
+    return;
 }
 
-Console.WriteLine($"Packing {Args[0]} folder into {Args[1]}");
+foreach (var folder in Directory.GetDirectories(Args[0]))
+{
+    var nupkg = $"{folder}.nupkg";
+    Console.WriteLine($"Packing {folder} folder into {nupkg}");
 
-if (File.Exists(Args[1]))
-   File.Delete(Args[1]);
-   
-System.IO.Compression.ZipFile.CreateFromDirectory(Args[0], Args[1]);
+    if (File.Exists(nupkg))
+        File.Delete(nupkg);
+
+    System.IO.Compression.ZipFile.CreateFromDirectory(folder, nupkg);
+}
 

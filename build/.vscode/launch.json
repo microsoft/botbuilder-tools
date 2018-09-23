@@ -9,7 +9,8 @@
             "args": [
               "exec", 
               "C:/Users/tomlm/.dotnet/tools/.store/dotnet-script/0.26.1/dotnet-script/0.26.1/tools/netcoreapp2.1/any/dotnet-script.dll", 
-              "${file}"
+              "${file}",
+              "c:\\scratch\\test"
             ],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": true
