@@ -15,7 +15,7 @@ import * as url from 'url';
 import * as util from 'util';
 import { spawnAsync } from './processUtils';
 import { logAsync } from './stdioAsync';
-import { luisRegions, regionToAppInsightLongRegionMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap, showMessage } from './utils';
+import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap, showMessage } from './utils';
 const Table = require('cli-table3');
 const opn = require('opn');
 const exec = util.promisify(child_process.exec);
@@ -107,6 +107,10 @@ async function processConfiguration(): Promise<void> {
         throw new Error('missing --location argument');
     }
 
+    if (!Object.values(RegionCodes).find((r) => args.location == r)) {
+        throw new Error(`${args.location} is not a valid region code.  Supported Regions are:\n${Object.values(RegionCodes).join(',\n')}`);
+    }
+
     if (!args.sdkVersion) {
         args.sdkVersion = "v4";
     }
@@ -146,7 +150,7 @@ async function processConfiguration(): Promise<void> {
             for (let resource of recipe.resources) {
                 switch (resource.type) {
                     case ServiceTypes.AppInsights:
-                        rows.push([`Azure AppInsights Service`, `${regionToAppInsightLongRegionMap[args.location]}`, `F0`, args.groupName]);
+                        rows.push([`Azure AppInsights Service`, `${regionToAppInsightRegionNameMap[args.location]}`, `F0`, args.groupName]);
                         break;
 
                     case ServiceTypes.BlobStorage:
@@ -182,7 +186,7 @@ async function processConfiguration(): Promise<void> {
                         }
 
                         if (!args.luisPublishRegion) {
-                            args.luisPublishRegion = luisRegions.find((value) => value == args.location);
+                            args.luisPublishRegion = luisPublishRegions.find((value) => value == args.location);
                             if (!args.luisPublishRegion) {
                                 args.luisPublishRegion = regionToLuisPublishRegionMap[args.location];
                             }
@@ -343,7 +347,7 @@ async function processConfiguration(): Promise<void> {
                         }
 
                         if (!args.luisPublishRegion) {
-                            args.luisPublishRegion = luisRegions.find((value) => value == args.location);
+                            args.luisPublishRegion = luisPublishRegions.find((value) => value == args.location);
                             if (!args.luisPublishRegion) {
                                 args.luisPublishRegion = regionToLuisAuthoringRegionMap[args.location];
                             }
@@ -818,7 +822,7 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
 }
 
 async function createBot(): Promise<IBotService> {
-    args.insightsRegion = args.insightsRegion || regionToAppInsightLongRegionMap[args.location];
+    args.insightsRegion = args.insightsRegion || regionToAppInsightRegionNameMap[args.location];
 
     let command = `az bot create -g ${args.groupName} --name ${args.name} --kind webapp --location ${args.location} --insights-location "${args.insightsRegion}" `;
     if (args.sdkVersion) {
