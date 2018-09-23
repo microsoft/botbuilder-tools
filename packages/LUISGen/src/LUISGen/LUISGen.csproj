@@ -19,7 +19,7 @@
         <NeutralLanguage />
 
         <PackAsTool>true</PackAsTool>
-        <ToolCommandName>LUISGen</ToolCommandName>
+        <ToolCommandName>luisgen</ToolCommandName>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
