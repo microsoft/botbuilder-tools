@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <VersionPrefix>2.0.0</VersionPrefix>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <Authors>microsoft,BotFramework,nugetbotbuilder</Authors>
+        <Company>Microsoft</Company>
+        <Description>Generate strongly typed files for consuming LUIS intents and entities.</Description>
+        <Product>Microsoft Bot Framework</Product>
+        <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+        <PackageProjectUrl>https://github.com/Microsoft/botbuilder-dotnet</PackageProjectUrl>
+        <PackageIconUrl>http://docs.botframework.com/images/bot_icon.png</PackageIconUrl>
+        <PackageLicenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/Microsoft/botbuilder-tools</RepositoryUrl>
+        <LicenseUrl>https://github.com/Microsoft/BotBuilder-tools/blob/master/LICENSE</LicenseUrl>
+        <RepositoryType />
+        <PackageTags>bots;ai;botframework;botbuilder</PackageTags>
+        <NeutralLanguage />
+
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>luisgen</ToolCommandName>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <SignAssembly>true</SignAssembly>
+        <DelaySign>true</DelaySign>
+        <AssemblyOriginatorKeyFile>..\..\..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    </ItemGroup>
+
+</Project>

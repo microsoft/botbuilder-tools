@@ -1,0 +1,24 @@
+{
+  "name": "luisgen-test-js",
+  "version": "0.0.0",
+  "description": "LUISGenTestJS",
+  "main": "app.js",
+  "author": {
+    "name": "chrimc"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^6.0.117",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "botbuilder-ai": "^4.0.5-1500",
+    "fs-extra": "^5.0.0",
+    "nock": "^9.6.1"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha src/tests.js",
+    "clean": "del src\\*.js && del src\\*.map && del src\\*.d.ts"
+  }
+}
