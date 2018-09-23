@@ -65,6 +65,7 @@ program
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
     .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
     .option('-q, --quiet', 'minimize output')
+    .option('--verbose', 'show commands')
     .option('-f, --force', 'do not prompt for confirmation')
     .description('allows you to clone all of the services a bot into a new azure resource group')
     .action((cmd: program.Command, actions: program.Command) => undefined);
@@ -301,7 +302,7 @@ async function processConfiguration(): Promise<void> {
                         let botAppSettings = await runCommand(`az webapp config appsettings list -g ${args.groupName} -n ${botWebSite.name}`,
                             `Fetching bot website appsettings [${args.name}]`);
                         for (let setting of botAppSettings) {
-                            if (setting.name == "BotSecret") {
+                            if (setting.name == "botFileSecret") {
                                 args.secret = setting.value;
                                 break;
                             }
@@ -310,7 +311,7 @@ async function processConfiguration(): Promise<void> {
                         if (!args.secret) {
                             args.secret = BotConfiguration.generateKey();
                             // set the appsetting
-                            await runCommand(`az webapp config appsettings set -g ${args.groupName} -n ${botWebSite.name} --settings BotSecret="${args.secret}" `,
+                            await runCommand(`az webapp config appsettings set -g ${args.groupName} -n ${botWebSite.name} --settings botFileSecret="${args.secret}" `,
                                 `Setting bot website appsettings secret [${args.name}]`);
                         }
 
