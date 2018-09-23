@@ -1,8 +1,6 @@
 #!/bin/bash
 
 main() {
-  npm config set registry=https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
-  
   if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]] || [[ $1 = "publish" ]]; then
         npm install
         npm run build
@@ -40,11 +38,14 @@ EOF
 }
 
 function update_version() {
+  oldregistry=npm config get registry
+  npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
   pname=$(cat package.json | jq -r '.name' | cut -d- -f1)
   pversion=$(cat package.json | jq -r '.version' | cut -d- -f1)
   ppatch=$(npm view $pname version | cut -d- -f2 | rev | cut -d. -f1 | rev)
   npm version --allow-same-version $pversion-$ppatch
   npm version prerelease
+  npm config set registry $oldregistry
 }
 
 function publish() {
