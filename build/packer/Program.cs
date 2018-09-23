@@ -31,6 +31,7 @@ namespace packer
                         ZipFile.CreateFromDirectory(folder, nupkg);
                     }
                     break;
+                    
                 case "unpack":
                     foreach (var nupkg in Directory.GetFiles(args[1], "*.nupkg"))
                     {

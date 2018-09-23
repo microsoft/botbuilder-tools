@@ -12,13 +12,11 @@
     "url": "https://github.com/Microsoft/botbuilder-tools/issues"
   },
   "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
-  "dependencies": {
-    "dotnet-sdk-2.1": "^2.1.0"
-  },
   "files": [
     "readme.md"
   ],
   "scripts": {
+    "preinstall": "node -e \"require('child_process').exec('dotnet tool -h', (error, out,err) => { if (error) { require('opn')('https://www.microsoft.com/net/download').then(()=>{ console.error('You need to install Dotnet SDK 2.1 from https://www.microsoft.com/net/download'); process.exit(1);}); }});\" ",
     "install": "dotnet tool install -g LUISGen",
     "uninstall": "dotnet tool uninstall -g LUISGen"
   }
