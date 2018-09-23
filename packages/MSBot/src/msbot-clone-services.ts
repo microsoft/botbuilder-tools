@@ -48,6 +48,7 @@ interface ICloneArgs {
     sdkVersion: string;
     sdkLanguage: string;
     args: string[];
+    force: boolean;
 }
 
 program
@@ -63,7 +64,8 @@ program
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
     .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
-    .option('-q, --quiet', 'disable questions')
+    .option('-q, --quiet', 'minimize output')
+    .option('-f, --force', 'do not prompt for confirmation')
     .description('allows you to clone all of the services a bot into a new azure resource group')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
@@ -215,10 +217,12 @@ async function processConfiguration(): Promise<void> {
                 table.push(row);
             await logAsync(table.toString());
 
-            const answer = readline.question(`Would you like to perform this operation? [y/n]`);
-            if (answer == "no" || answer == "n") {
-                console.log("Canceling the operation");
-                process.exit(1);
+            if (!args.force) {
+                const answer = readline.question(`Would you like to perform this operation? [y/n]`);
+                if (answer == "no" || answer == "n") {
+                    console.log("Canceling the operation");
+                    process.exit(1);
+                }
             }
         }
 
@@ -777,7 +781,7 @@ async function checkAzBotServiceVersion() {
     }
     let neededVersion = new AzBotServiceVersion(AZMINVERSION);
     if (version.isOlder(neededVersion)) {
-        console.error(chalk.default.redBright(`[msbot] You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
+        console.error(chalk.default.redBright(`You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
 To do this run:
    az extension remove -n botservice
    az extension add -n botservice
