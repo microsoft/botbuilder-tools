@@ -1,0 +1,9 @@
+# CheckDurationTemplate
+- CASE: {UnitCount} > 1
+    - There isn't a full {TimeUnitSingular} between those.
+- CASE: {UnitCount} = 1
+    - There's just one {TimeUnitSingular} between those.
+- DEFAULT: 
+    - There are {UnitCount} {TimeUnit} between those.
+
+$UnitCount:Integer

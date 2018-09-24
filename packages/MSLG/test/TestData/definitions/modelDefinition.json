@@ -1,0 +1,11 @@
+{
+    "text": "# wPhrase\n- CASE: {condition1} = true\n\t- A tts\n- DEFAULT:\n\t- E tts",
+    "modelKind": "LanguageGeneration",
+    "name": "LG Model Definition",
+    "description": "Example of LG Model Definition",
+    "properties": {
+        "Domain": "CafeBot",
+        "Version": "default"      
+    },
+    "locale": "en-US"
+}

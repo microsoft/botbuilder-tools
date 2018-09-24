@@ -277,9 +277,11 @@ __pycache__/
 #bot stuff
 **/.luisrc
 **/.qnamakerrc
+**/.lgrc
 *.bot
 /MSBot/bin/Microsoft.NodejsTools.WebRole.dll
 /LUISGen/.vscode/launch.json
+packages/MSLG/.vscode/launch.json
 
 #Azure Cli
 AzureCli/azext_bot/dist/

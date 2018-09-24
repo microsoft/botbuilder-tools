@@ -1,0 +1,6 @@
+# AskForLocation
+   - CASE: 5 = 5
+       - In {curUserLocation}, right? 
+       - You want to come in to our {curUserLocation} store, right? 
+   - DEFAULT:
+       - Did you have a location in mind?

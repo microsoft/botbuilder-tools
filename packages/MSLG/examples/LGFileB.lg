@@ -1,0 +1,5 @@
+# wPhrase
+    - CASE: {a}
+        - A tts
+     - DEFAULT:
+        - E tts

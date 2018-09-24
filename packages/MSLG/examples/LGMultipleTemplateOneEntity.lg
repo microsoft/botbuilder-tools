@@ -1,0 +1,15 @@
+# wPhrase
+    - CASE: {condition1}
+        - A tts
+        - B tts
+    - DEFAULT:
+        - E tts
+
+# HelloWorld
+    - CASE: {condition1}
+        - C tts
+        - D tts
+    - DEFAULT:
+        - N tts
+		
+$condition1 : Boolean

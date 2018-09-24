@@ -1,0 +1,254 @@
+{
+    "Endpoints": {
+        "className": "Endpoints",
+        "url": "/api/languagegeneration/v2.0-beta2/Endpoints",
+        "operations": {
+            "createEndpoint": {
+                "name": "createEndpoint",
+                "method": "POST",
+                "methodAlias": "create",
+                "target": [
+                    "endpoint"
+                ],
+                "command": "mslg create endpoint --in endpointDefinition.json",
+                "pathFragment": "",
+                "description": "Creates a new language generation endpoint.",
+                "entityName": "endpointDefinition",
+                "entityType": "EndpointDefinition"
+            },
+            "getEndpoints": {
+                "name": "getEndpoints",
+                "method": "GET",
+                "methodAlias": "get",
+                "target": [
+                    "endpoints"
+                ],
+                "command": "mslg get endpoints",
+                "pathFragment": "",
+                "description": "Gets all language generation endpoint of a subscription."
+            },
+            "updateEndpoint": {
+                "name": "updateEndpoint",
+                "method": "PATCH",
+                "methodAlias": "update",
+                "target": [
+                    "endpoint"
+                ],
+                "command": "mslg update endpoint --in endpointUpdate.json --id <string>",
+                "pathFragment": "/{id}",
+                "params": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The identifier of the language generation model endpoint.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "description": "Updates the mutable details of the language generation endpoint identified by its id.",
+                "entityName": "endpointUpdate",
+                "entityType": "EndpointUpdate"
+            },
+            "deleteEndpoint": {
+                "name": "deleteEndpoint",
+                "method": "DELETE",
+                "methodAlias": "delete",
+                "target": [
+                    "endpoint"
+                ],
+                "command": "mslg delete endpoint --id <string>",
+                "pathFragment": "/{id}",
+                "params": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The identifier of the language generation model endpoint.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "description": "Deletes the language generation model endpoint with the given id."
+            },
+            "getEndpoint": {
+                "name": "getEndpoint",
+                "method": "GET",
+                "methodAlias": "get",
+                "target": [
+                    "endpoint"
+                ],
+                "command": "mslg get endpoint --id <string>",
+                "pathFragment": "/{id}",
+                "params": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "description": "Gets the specified deployed language generation endpoint."
+            }
+        }
+    },
+    "locales": {
+        "className": "Locales",
+        "url": "/api/languagegeneration/v2.0-beta2/Endpoints/locales",
+        "operations": {
+            "getSupportedLocalesForEndpoints": {
+                "name": "getSupportedLocalesForEndpoints",
+                "method": "GET",
+                "methodAlias": "get",
+                "target": [
+                    "supportedlocalesforendpoints"
+                ],
+                "command": "mslg get supportedlocalesforendpoints",
+                "pathFragment": "",
+                "description": "Gets a list of supported locales for language generation endpoint creations."
+            },
+            "getSupportedLocalesForModels": {
+                "name": "getSupportedLocalesForModels",
+                "method": "GET",
+                "methodAlias": "get",
+                "target": [
+                    "supportedlocalesformodels"
+                ],
+                "command": "`mslg get supportedlocalesformodels`",
+                "pathFragment": "",
+                "description": "Gets a list of supported locales for language generation model creations."
+            }
+        }
+    },
+    "Models": {
+        "className": "Models",
+        "url": "/api/languagegeneration/v2.0-beta2/Models",
+        "operations": {
+            "createModel": {
+                "name": "createModel",
+                "method": "POST",
+                "methodAlias": "create",
+                "target": [
+                    "model"
+                ],
+                "params": [
+                    {
+                        "name": "lg",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "Path to lg file or folder containing lg files"
+                    }
+                ],
+                "command": "mslg create model --lg <string> --in modelDefinition.json",
+                "pathFragment": "",
+                "description": "Creates a new language generation model.",
+                "entityName": "modelDefinition",
+                "entityType": "ModelDefinition"
+            },
+            "getModels": {
+                "name": "getModels",
+                "method": "GET",
+                "methodAlias": "get",
+                "target": [
+                    "models"
+                ],
+                "command": "mslg get models",
+                "pathFragment": "",
+                "description": "Gets all language generation model of a subscription."
+            },
+            "updateModel": {
+                "name": "updateModel",
+                "method": "PATCH",
+                "methodAlias": "update",
+                "target": [
+                    "model"
+                ],
+                "command": "mslg update model --in modelUpdate.json --id <string>",
+                "pathFragment": "/{id}",
+                "params": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The route parameter identifies the language generation model to change.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "description": "Updates the mutable details of the language generation model identified by its id.",
+                "entityName": "modelUpdate",
+                "entityType": "ModelUpdate"
+            },
+            "deleteModel": {
+                "name": "deleteModel",
+                "method": "DELETE",
+                "methodAlias": "delete",
+                "target": [
+                    "model"
+                ],
+                "command": "mslg delete model --id <string>",
+                "pathFragment": "/{id}",
+                "params": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The identifier of the language generation model.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "description": "Deletes the language generation model with the given id."
+            },
+            "getModel": {
+                "name": "getModel",
+                "method": "GET",
+                "methodAlias": "get",
+                "target": [
+                    "model"
+                ],
+                "command": "mslg get model --id <string>",
+                "pathFragment": "/{id}",
+                "params": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "description": "Gets the specified language generation model."
+            },
+            "replaceModel": {
+                "name": "createModel",
+                "method": "POST",
+                "methodAlias": "replace",
+                "target": [
+                    "model"
+                ],
+                "command": "mslg replace model --id <string> --lg <string>",
+                "pathFragment": "",
+                "params": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "lg",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "Path to lg file or folder containing lg files"
+                    }
+                ],
+                "description": "Creates a new language generation model with same properties as existing model with specified id"
+            }
+        }
+    }
+}
