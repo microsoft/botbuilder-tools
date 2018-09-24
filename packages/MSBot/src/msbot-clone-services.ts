@@ -15,7 +15,7 @@ import * as url from 'url';
 import * as util from 'util';
 import { spawnAsync } from './processUtils';
 import { logAsync } from './stdioAsync';
-import { luisRegions, regionToAppInsightLongRegionMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap, showMessage } from './utils';
+import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap, showMessage } from './utils';
 const Table = require('cli-table3');
 const opn = require('opn');
 const exec = util.promisify(child_process.exec);
@@ -48,6 +48,7 @@ interface ICloneArgs {
     sdkVersion: string;
     sdkLanguage: string;
     args: string[];
+    force: boolean;
 }
 
 program
@@ -63,7 +64,9 @@ program
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
     .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
-    .option('-q, --quiet', 'disable questions')
+    .option('-q, --quiet', 'minimize output')
+    .option('--verbose', 'show commands')
+    .option('-f, --force', 'do not prompt for confirmation')
     .description('allows you to clone all of the services a bot into a new azure resource group')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
@@ -105,6 +108,10 @@ async function processConfiguration(): Promise<void> {
         throw new Error('missing --location argument');
     }
 
+    if (!Object.values(RegionCodes).find((r) => args.location == r)) {
+        throw new Error(`${args.location} is not a valid region code.  Supported Regions are:\n${Object.values(RegionCodes).join(',\n')}`);
+    }
+
     if (!args.sdkVersion) {
         args.sdkVersion = "v4";
     }
@@ -144,7 +151,7 @@ async function processConfiguration(): Promise<void> {
             for (let resource of recipe.resources) {
                 switch (resource.type) {
                     case ServiceTypes.AppInsights:
-                        rows.push([`Azure AppInsights Service`, `${regionToAppInsightLongRegionMap[args.location]}`, `F0`, args.groupName]);
+                        rows.push([`Azure AppInsights Service`, `${regionToAppInsightRegionNameMap[args.location]}`, `F0`, args.groupName]);
                         break;
 
                     case ServiceTypes.BlobStorage:
@@ -180,7 +187,7 @@ async function processConfiguration(): Promise<void> {
                         }
 
                         if (!args.luisPublishRegion) {
-                            args.luisPublishRegion = luisRegions.find((value) => value == args.location);
+                            args.luisPublishRegion = luisPublishRegions.find((value) => value == args.location);
                             if (!args.luisPublishRegion) {
                                 args.luisPublishRegion = regionToLuisPublishRegionMap[args.location];
                             }
@@ -211,10 +218,12 @@ async function processConfiguration(): Promise<void> {
                 table.push(row);
             await logAsync(table.toString());
 
-            const answer = readline.question(`Would you like to perform this operation? [y/n]`);
-            if (answer == "no" || answer == "n") {
-                console.log("Canceling the operation");
-                process.exit(1);
+            if (!args.force) {
+                const answer = readline.question(`Would you like to perform this operation? [y/n]`);
+                if (answer == "no" || answer == "n") {
+                    console.log("Canceling the operation");
+                    process.exit(1);
+                }
             }
         }
 
@@ -293,7 +302,7 @@ async function processConfiguration(): Promise<void> {
                         let botAppSettings = await runCommand(`az webapp config appsettings list -g ${args.groupName} -n ${botWebSite.name}`,
                             `Fetching bot website appsettings [${args.name}]`);
                         for (let setting of botAppSettings) {
-                            if (setting.name == "BotSecret") {
+                            if (setting.name == "botFileSecret") {
                                 args.secret = setting.value;
                                 break;
                             }
@@ -302,7 +311,7 @@ async function processConfiguration(): Promise<void> {
                         if (!args.secret) {
                             args.secret = BotConfiguration.generateKey();
                             // set the appsetting
-                            await runCommand(`az webapp config appsettings set -g ${args.groupName} -n ${botWebSite.name} --settings BotSecret="${args.secret}" `,
+                            await runCommand(`az webapp config appsettings set -g ${args.groupName} -n ${botWebSite.name} --settings botFileSecret="${args.secret}" `,
                                 `Setting bot website appsettings secret [${args.name}]`);
                         }
 
@@ -339,7 +348,7 @@ async function processConfiguration(): Promise<void> {
                         }
 
                         if (!args.luisPublishRegion) {
-                            args.luisPublishRegion = luisRegions.find((value) => value == args.location);
+                            args.luisPublishRegion = luisPublishRegions.find((value) => value == args.location);
                             if (!args.luisPublishRegion) {
                                 args.luisPublishRegion = regionToLuisAuthoringRegionMap[args.location];
                             }
@@ -773,7 +782,7 @@ async function checkAzBotServiceVersion() {
     }
     let neededVersion = new AzBotServiceVersion(AZMINVERSION);
     if (version.isOlder(neededVersion)) {
-        console.error(chalk.default.redBright(`[msbot] You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
+        console.error(chalk.default.redBright(`You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
 To do this run:
    az extension remove -n botservice
    az extension add -n botservice
@@ -814,7 +823,7 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
 }
 
 async function createBot(): Promise<IBotService> {
-    args.insightsRegion = args.insightsRegion || regionToAppInsightLongRegionMap[args.location];
+    args.insightsRegion = args.insightsRegion || regionToAppInsightRegionNameMap[args.location];
 
     let command = `az bot create -g ${args.groupName} --name ${args.name} --kind webapp --location ${args.location} --insights-location "${args.insightsRegion}" `;
     if (args.sdkVersion) {
