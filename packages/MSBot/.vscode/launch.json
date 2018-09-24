@@ -4,7 +4,21 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Region tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/test/msbot.regions.test.suite.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
         {
             "type": "node",
             "request": "launch",
@@ -32,6 +46,22 @@
                 "999999",
                 "--colors",
                 "${workspaceFolder}/test/msbot.connect.test.suite.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Update Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "cwd":"${workspaceFolder}/test",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/test/msbot.update.test.suite.js"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -70,12 +100,17 @@
             "type": "node",
             "request": "launch",
             "name": "msbot clone",
-            "program": "${workspaceFolder}/bin/msbot-clone.js",
+            "program": "${workspaceFolder}/bin/msbot-clone-services.js",
             "args": [
-                "--name",
-                "CloneBot40",
                 "--folder",
-                "xxx",
+                "darren",
+                "--luisAuthoringKey",
+                "xxxxx",
+                "--location",
+                "westus",
+                "--name",
+                "DarrenBot5",
+                "--verbose"
             ]
         },
         {
@@ -90,10 +125,19 @@
                 "-e",
                 "http://foo.com/api/messages",
                 "--appId",
-                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "00000000-0000-0000-0000-00000000000f",
                 "--appPassword",
                 "appPassword",
                 "-q"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "msbot secret",
+            "program": "${workspaceFolder}/bin/msbot-secret.js",
+            "args": [
+                "testQna"
             ]
         },
         {
@@ -119,11 +163,11 @@
                 "--hostname",
                 "https://foo.com/qnamaker",
                 "-k",
-                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "00000000-0000-0000-0000-00000000000f",
                 "--subscriptionKey",
-                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "00000000-0000-0000-0000-00000000000f",
                 "--endpointKey",
-                "2f510b5e-10fe-4f53-9159-b134539ac594"
+                "00000000-0000-0000-0000-00000000000f"
             ]
         },
         {
@@ -147,7 +191,7 @@
                 "--secret",
                 "cDSM45Tw769TWAxaYcASMRdAMAjp36g12kGW5a6NFjc=",
                 "-s",
-                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "00000000-0000-0000-0000-00000000000f",
                 "--tenantId",
                 "microsoft.onmicrosoft.com",
                 "--resourceGroup",
@@ -161,17 +205,9 @@
             "program": "${workspaceFolder}/bin/msbot-connect-dispatch.js",
             "args": [
                 "-b",
-                "test/bot.txt",
-                "-n",
-                "LUIS",
-                "-a",
-                "2f510b5e-10fe-4f53-9159-b134539ac594",
-                "--authoringKey",
-                "2f510b5e-10fe-4f53-9159-b134539ac594",
-                "--subscriptionKey",
-                "2f510b5e-10fe-4f53-9159-b134539ac594",
-                "--version",
-                "1.0"
+                "foo.bot",
+                "--input",
+                "dispatch.txt"
             ]
         },
         {
@@ -188,11 +224,11 @@
                 "--hostname",
                 "https://foo.com/qnamaker",
                 "-k",
-                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "00000000-0000-0000-0000-00000000000f",
                 "--subscriptionKey",
-                "2f510b5e-10fe-4f53-9159-b134539ac594",
+                "00000000-0000-0000-0000-00000000000f",
                 "--endpointKey",
-                "2f510b5e-10fe-4f53-9159-b134539ac594"
+                "00000000-0000-0000-0000-00000000000f"
             ]
         }
     ]

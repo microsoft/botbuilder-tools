@@ -7,9 +7,14 @@
 import { BotConfiguration, IConnectedService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
+import { stdoutAsync } from './stdioAsync';
+import { showMessage } from './utils';
+
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -41,14 +46,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processDisconnectArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processDisconnectArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     }
@@ -62,7 +67,7 @@ async function processDisconnectArgs(config: BotConfiguration): Promise<BotConfi
     const removedService: IConnectedService = config.disconnectServiceByNameOrId(args.idOrName);
     if (removedService != null) {
         await config.save(args.secret);
-        process.stdout.write(`Disconnected ${removedService.type}:${removedService.name} ${removedService.id}`);
+        await stdoutAsync(`Disconnected ${removedService.type}:${removedService.name} ${removedService.id}`);
     }
 
     return config;
@@ -70,7 +75,7 @@ async function processDisconnectArgs(config: BotConfiguration): Promise<BotConfi
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(`[msbot] ${str}`);
+        console.error(str);
 
         return '';
     });

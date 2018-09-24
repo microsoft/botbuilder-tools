@@ -12,22 +12,26 @@ export function spawnAsync(command: string, stdout?: (data: string) => void, std
             shell: true, stdio: ['inherit', 'pipe', 'pipe']
         });
         let out: string = '';
+        let err: string = '';
         p.stderr.on('data', (data: Buffer) => {
+            let str = data.toString('utf8');
+            err += str;
             if (stderr) {
-                stderr(data.toString('utf8'));
+                stderr(str);
             }
         });
 
         p.stdout.on('data', (data: Buffer) => {
-            out += data;
+            let str = data.toString('utf8');
+            out += str;
             if (stdout) {
-                stdout(data.toString('utf8'));
+                stdout(str);
             }
         });
 
         p.on('close', (code: number) => {
             if (code > 0) {
-                reject(` ${code}`);
+                reject(`${command} exit code: ${code}\n${err}`);
             } else {
                 resolve(out);
             }

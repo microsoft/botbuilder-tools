@@ -7,9 +7,14 @@
 import { BotConfiguration, GenericService, IGenericService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
+import { stdoutAsync } from './stdioAsync';
+import { showMessage } from './utils';
+
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -32,11 +37,7 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .action((filePath: program.Command, actions: program.Command) => {
-        if (filePath) {
-            actions.filePath = filePath;
-        }
-    });
+    .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
 const args: IConnectGenericArgs = <IConnectGenericArgs>{};
@@ -49,14 +50,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectFile)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectFile)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     }
@@ -86,14 +87,14 @@ async function processConnectFile(config: BotConfiguration): Promise<BotConfigur
     });
     const id: string = config.connectService(newService);
     await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+    await stdoutAsync(JSON.stringify(config.findService(id), null, 2));
 
     return config;
 }
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(`[msbot] ${str}`);
+        console.error(str);
 
         return '';
     });

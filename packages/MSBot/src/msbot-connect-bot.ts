@@ -10,10 +10,14 @@ import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import * as url from 'url';
-import { uuidValidate } from './utils';
+import { stdoutAsync } from './stdioAsync';
+import { showMessage, uuidValidate } from './utils';
+
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -49,6 +53,11 @@ const command: program.Command = program.parse(process.argv);
 const args: IConnectAzureArgs = <IConnectAzureArgs>{};
 Object.assign(args, command);
 
+if (args.stdin) {
+    //force verbosity output if args are passed via stdin
+    process.env.VERBOSE = 'verbose';
+}
+
 if (process.argv.length < 3) {
     program.help();
 } else {
@@ -56,14 +65,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectAzureArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectAzureArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     }
@@ -77,7 +86,7 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
     }
 
     args.serviceName = args.serviceName || args.name || args.id || '';
-    
+
     if (!args.serviceName || args.serviceName.length === 0) {
         throw new Error('Bad or missing --serviceName');
     }
@@ -128,14 +137,14 @@ async function processConnectAzureArgs(config: BotConfiguration): Promise<BotCon
     config.connectService(endpointService);
     services.push(endpointService);
     await config.save(args.secret);
-    process.stdout.write(JSON.stringify(services, null, 2));
+    await stdoutAsync(JSON.stringify(services, null, 2));
 
     return config;
 }
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(`[msbot] ${str}`);
+        console.error(str);
 
         return '';
     });

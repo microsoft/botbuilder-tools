@@ -21,7 +21,7 @@ You can use the new LUIS JSON file to create a new LUIS application using this c
 ```bash
 luis import application --in _LUISApp.json --authoringKey "" --endpointBasePath ""
 ```
-Note: You can install LUIS CLI from [here](../../LUIS). If you are using LUIS CLI, you might see the option to provide a versionId, application name directly in the LUIS CLI. You can also provide this information to the Ludown tool to generate your LUIS JSON model as well. Information explicitly spcified in the LUIS CLI will override any information captured by Ludown tool. 
+Note: You can install LUIS CLI from [here](../../LUIS). If you are using LUIS CLI, you might see the option to provide a versionId, application name directly in the LUIS CLI. You can also provide this information to the Ludown tool to generate your LUIS JSON model as well. Information explicitly specified in the LUIS CLI will override any information captured by Ludown tool. 
 
 ## using [LUIS](http://luis.ai) portal
 - Navigate to [LUIS](http://luis.ai)

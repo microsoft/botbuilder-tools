@@ -4,24 +4,28 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import { BotConfiguration, DispatchService, IConnectedService, IDispatchService, ILuisService, ServiceTypes } from 'botframework-config';
+import { BotConfiguration, DispatchService, IConnectedService, IDispatchService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
-import { uuidValidate } from './utils';
+import { stdoutAsync } from './stdioAsync';
+import { showMessage, uuidValidate } from './utils';
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
-interface IConnectDispatchArgs extends ILuisService {
+interface IConnectDispatchArgs extends IDispatchService {
     bot: string;
     secret: string;
     stdin: boolean;
     input?: string;
-    serviceIds?: string;
+    ids?: string;
+    services: IConnectedService[];
 }
 
 program
@@ -33,8 +37,7 @@ program
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating the dispatch model via the LUIS authoring API\n')
     .option('r, --region <region>', 'region to use (defaults to westus)')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
-    .option('--serviceIds <serviceIds>',
-            '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
+    .option('--ids <ids>', '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
@@ -46,6 +49,11 @@ const command: program.Command = program.parse(process.argv);
 const args: IConnectDispatchArgs = <IConnectDispatchArgs>{};
 Object.assign(args, command);
 
+if (args.stdin) {
+    //force verbosity output if args are passed via stdin
+    process.env.VERBOSE = 'verbose';
+}
+
 if (process.argv.length < 3) {
     program.help();
 } else {
@@ -53,14 +61,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectDispatch)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectDispatch)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     }
@@ -96,37 +104,42 @@ async function processConnectDispatch(config: BotConfiguration): Promise<BotConf
         throw new Error('bad --subscriptionKey');
     }
 
-    const dispatchService: ITempDispatchService = <ITempDispatchService>{};
-    Object.assign(dispatchService, args);
-    const newService: IDispatchService = new DispatchService(dispatchService);
+    if (args.ids && args.ids.length > 0) {
+        args.serviceIds = args.ids.split(',');
+    }
 
-    if (!args.serviceIds) {
-        // default to all services as appropriate
-        // tslint:disable-next-line:no-any
-        const dispatchServices: IConnectedService[] = <IConnectedService[]>(<any>args).services;
+    if (args.services) {
+        let botConfig2 = BotConfiguration.fromJSON({ services: args.services });
 
-        if (<IConnectedService[]>dispatchServices) {
-            for (const service of dispatchServices) {
-                if (service.type === ServiceTypes.File || service.type === ServiceTypes.Luis || service.type === ServiceTypes.QnA) {
-                    newService.serviceIds.push(service.id || '');
+        for (let service of botConfig2.services) {
+            if (service.id) {
+                if (!config.findService(service.id)) {
+                    config.services.push(service);
                 }
             }
         }
-    } else {
-        newService.serviceIds = args.serviceIds.split(',');
     }
+
+    const newService = new DispatchService({
+        name: args.name,
+        appId: args.appId,
+        authoringKey: args.authoringKey,
+        subscriptionKey: args.subscriptionKey,
+        version: args.version,
+        region: args.region,
+        serviceIds: args.serviceIds
+    });
 
     // add the service
     const id: string = config.connectService(newService);
     await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
-
+    await stdoutAsync(JSON.stringify(config.findService(id), null, 2));
     return config;
 }
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(`[msbot] ${str}`);
+        console.error(str);
 
         return '';
     });

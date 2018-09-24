@@ -10,10 +10,14 @@ import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
-import { uuidValidate } from './utils';
+import { stdoutAsync } from './stdioAsync';
+import { showMessage, uuidValidate } from './utils';
+
+require('log-prefix')(() => showMessage('%s'));
+program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    console.error(chalk.default.redBright(`[msbot] Unknown arguments: ${flag}`));
+    console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     showErrorHelp();
 };
 
@@ -42,11 +46,14 @@ program
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
-program.parse(process.argv);
-
 const command: program.Command = program.parse(process.argv);
 const args: IConnectQnaArgs = <IConnectQnaArgs>{};
 Object.assign(args, command);
+
+if (args.stdin) {
+    //force verbosity output if args are passed via stdin
+    process.env.VERBOSE = 'verbose';
+}
 
 if (process.argv.length < 3) {
     program.help();
@@ -55,14 +62,14 @@ if (process.argv.length < 3) {
         BotConfiguration.loadBotFromFolder(process.cwd(), args.secret)
             .then(processConnectQnaArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     } else {
         BotConfiguration.load(args.bot, args.secret)
             .then(processConnectQnaArgs)
             .catch((reason: Error) => {
-                console.error(chalk.default.redBright(`[msbot] ${reason.toString().split('\n')[0]}`));
+                console.error(chalk.default.redBright(reason.toString().split('\n')[0]));
                 showErrorHelp();
             });
     }
@@ -106,14 +113,14 @@ async function processConnectQnaArgs(config: BotConfiguration): Promise<BotConfi
     const id: string = config.connectService(newService);
 
     await config.save(args.secret);
-    process.stdout.write(JSON.stringify(config.findService(id), null, 2));
+    await stdoutAsync(JSON.stringify(config.findService(id), null, 2));
 
     return config;
 }
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
-        console.error(`[msbot] ${str}`);
+        console.error(str);
 
         return '';
     });
