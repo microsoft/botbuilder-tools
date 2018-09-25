@@ -250,7 +250,7 @@ async function processConfiguration(): Promise<void> {
         // verify az command exists and is correct version
         await checkAzBotServiceVersion();
 
-        command = `az account show`;
+        command = `az account show `;
         if (args.subscriptionId) {
             command += `--subscription ${args.subscriptionId}`;
         }
