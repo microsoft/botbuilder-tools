@@ -10,8 +10,11 @@
   },
   "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
   "scripts": {
-    "build" : "dotnet build src/LUISGen.csproj",
+    "build": "dotnet build src/LUISGen.csproj",
     "test": "dotnet test tests/LUISGenTest/LUISGenTest.csproj && cd tests/LUISGenTestJS/ && npm run build && npm run test",
     "clean": "dotnet clean src/LUISGen.csproj && dotnet clean tests/LUISGenTest/LUISGenTest.csproj && cd tests/LUISGenTestJS/ && npm run clean"
+  },
+  "devDependencies": {
+    "dotnet-sdk-2.1": "^2.1"
   }
 }
