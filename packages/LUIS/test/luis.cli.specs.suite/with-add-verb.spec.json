@@ -1,0 +1,213 @@
+{
+	"describe": "with 'add' verb",
+	"tests": [{
+			"title": "and 'application'",
+			"args": "add app --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "Access denied due to invalid subscription key.",
+			"resource": ["ApplicationCreateObject.json"]
+		},
+		{
+			"title": "and 'closedlist'",
+			"args": "add closedlist --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["ClosedListModelCreateObject.json"]
+		},
+		{
+			"title": "and 'closedlistentityrole'",
+			"args": "add closedlistentityrole --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["ClosedListModelCreateObject.json"]
+		},
+		{
+			"title": "and 'compositeentity'",
+			"args": "add compositeentity --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["CompositeEntityModel.json"]
+		},
+		{
+			"title": "and 'compositeentitychild'",
+			"args": "add compositeentitychild --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["CompositeEntityModel.json"]
+		},
+		{
+			"title": "and 'compositeentityrole'",
+			"args": "add compositeentityrole --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["CompositeEntityModel.json"]
+		},
+		{
+			"title": "and 'customprebuiltdomain'",
+			"args": "add customprebuiltdomain --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["PrebuiltDomainCreateObject.json"]
+		},
+		{
+			"title": "and 'customprebuiltentity'",
+			"args": "add customprebuiltentity --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["CompositeEntityModel.json"]
+		},
+		{
+			"title": "and 'customprebuiltentityrole'",
+			"args": "add customprebuiltentityrole --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["CompositeEntityModel.json"]
+		},
+		{
+			"title": "and 'customprebuiltintent'",
+			"args": "add customprebuiltintent --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["PrebuiltDomainModelCreateObject.json"]
+		},
+		{
+			"title": "and 'entity'",
+			"args": "add entity --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["ModelCreateObject.json"]
+		},
+		{
+			"title": "and 'entityrole'",
+			"args": "add entityrole --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["EntityRole.json"]
+		},
+		{
+			"title": "and 'examples'",
+			"args": "add examples --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["ExampleLabelObject.json"]
+		},
+		{
+			"title": "and 'example'",
+			"args": "add example --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["ExampleLabelObject.json"]
+		},
+		{
+			"title": "and 'explicitlistitem'",
+			"args": "add explicitlistitem --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["ExplicitListItemCreateObject.json"]
+		},
+		{
+			"title": "and 'hierarchicalentity'",
+			"args": "add hierarchicalentity --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["HierarchicalEntityModel.json"]
+		},
+		{
+			"title": "and 'hierarchicalentitychild'",
+			"args": "add hierarchicalentitychild --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["HierarchicalEntityModel.json"]
+		},
+		{
+			"title": "and 'hierarchicalentityrole'",
+			"args": "add hierarchicalentityrole --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["HierarchicalEntityModel.json"]
+		},
+		{
+			"title": "and 'intent'",
+			"args": "add intent --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["ModelCreateObject.json"]
+		},
+		{
+			"title": "and 'pattern'",
+			"args": "add pattern --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["PatternAnyModelCreateObject.json"]
+		},
+		{
+			"title": "and 'patternentityrole'",
+			"args": "add patternentityrole --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["PatternAnyModelCreateObject.json"]
+		},
+		{
+			"title": "and 'patterns'",
+			"args": "add patterns --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["PatternAnyModelCreateObject.json"]
+		},
+		{
+			"title": "and 'permissions'",
+			"args": "add permissions --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["UserCollaborator.json"]
+		},
+		{
+			"title": "and 'phraselist'",
+			"args": "add phraselist --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["PhraselistCreateObject.json"]
+		},
+		{
+			"title": "and 'prebuilt'",
+			"args": "add prebuilt --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["PrebuiltExtractorNames.json"]
+		},
+		{
+			"title": "and 'prebuiltentityrole'",
+			"args": "add prebuiltentityrole --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["PrebuiltExtractorNames.json"]
+		},
+		{
+			"title": "and 'regexentity'",
+			"args": "add regexentity --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["RegexModelCreateObject.json"]
+		},
+		{
+			"title": "and 'regexentityrole'",
+			"args": "add regexentityrole --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["RegexModelCreateObject.json"]
+		},
+		{
+			"title": "and 'sublist'",
+			"args": "add sublist --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["WordListObject.json"]
+		},
+		{
+			"title": "and invalid resource",
+			"args": "add invalidResource --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "'invalidResource' is not a valid resource"
+		}
+	]
+}
