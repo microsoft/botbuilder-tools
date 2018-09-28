@@ -5,4 +5,10 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.11.0" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.11.0" />
+    <PackageReference Include="NJsonSchema.Yaml" Version="9.11.0" />
+  </ItemGroup>
+
 </Project>
