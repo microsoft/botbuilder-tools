@@ -15,6 +15,10 @@ main() {
         (
             set -e
             npm install
+            npm install -g typescript
+            cd packages/LUISGen/tests/LUISGenTestJS/
+            npm install
+            cd ../../../../
             npm run build
             npm run coveralls
             npm run tslint
