@@ -9,9 +9,9 @@
     "url": "https://github.com/Microsoft/botbuilder-tools/issues"
   },
   "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
-  "scripts": {
+  "scripts.bad": {
     "build": "dotnet build src/LUISGen.csproj",
-    "test": "dotnet test tests/LUISGenTest/LUISGenTest.csproj && cd tests/LUISGenTestJS/ && npm run build && npm run test",
+    "test": "dotnet test tests/LuisGenTest.csproj && cd tests/LUISGenTestJS/ && npm run build && npm run test",
     "clean": "dotnet clean src/LUISGen.csproj && dotnet clean tests/LUISGenTest/LUISGenTest.csproj && cd tests/LUISGenTestJS/ && npm run clean"
   },
   "devDependencies": {
