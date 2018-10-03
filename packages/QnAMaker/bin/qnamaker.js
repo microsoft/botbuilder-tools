@@ -303,7 +303,7 @@ async function getFileInput(args) {
  * @returns {Promise<*>}
  */
 async function composeConfig() {
-    const { QNA_MAKER_SUBSCRIPTION_KEY, QNAMAKER_HOSTNAME, QNAMAKER_ENDPOINTKEY, QNA_MAKER_KBID } = process.env;
+    const { QNAMAKER_SUBSCRIPTION_KEY, QNAMAKER_HOSTNAME, QNAMAKER_ENDPOINTKEY, QNAMAKER_KBID } = process.env;
     const { subscriptionKey, hostname, endpointKey, kbId } = args;
 
     let qnamakerrcJson = {};
@@ -315,10 +315,10 @@ async function composeConfig() {
         // Do nothing
     } finally {
         config = {
-            subscriptionKey: (subscriptionKey || qnamakerrcJson.subscriptionKey || QNA_MAKER_SUBSCRIPTION_KEY),
+            subscriptionKey: (subscriptionKey || qnamakerrcJson.subscriptionKey || QNAMAKER_SUBSCRIPTION_KEY),
             hostname: (hostname || qnamakerrcJson.hostname || QNAMAKER_HOSTNAME),
             endpointKey: (endpointKey || qnamakerrcJson.endpointKey || QNAMAKER_ENDPOINTKEY),
-            kbId: (kbId || qnamakerrcJson.kbId || QNA_MAKER_KBID)
+            kbId: (kbId || qnamakerrcJson.kbId || QNAMAKER_KBID)
         };
     }
     return config;

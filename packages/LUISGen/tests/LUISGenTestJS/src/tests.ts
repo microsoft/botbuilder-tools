@@ -12,7 +12,7 @@ const endpointKey = process.env.LUISAPPKEY || "MockedKey";
 // If this is true the http response comes from the oracle file.
 const mockLuis = true;
 import 'mocha'
-import { Contoso_App } from './Contoso_app';
+import { Contoso_App } from './Contoso_App';
 
 class TestContext extends (TurnContext as { new(a: any, b: any): any }) {
     constructor(request) {
