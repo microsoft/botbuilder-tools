@@ -2,7 +2,7 @@
 
 MSLG is a command line tool and a library for interacting with Microsoft Language Generation service using the LG REST API.
 
-## Prerequisite
+## Prerequisite 
 
 - [Node.js](https://nodejs.org/) version 8.0 or higher
 
