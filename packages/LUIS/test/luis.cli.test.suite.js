@@ -1,6 +1,7 @@
 const assert = require('assert');
 const { exec } = require('child_process');
 const luis = require.resolve('../bin/luis');
+const pkg = require('../package.json');
 
 describe('The LUIS cli tool', () => {
 
@@ -10,6 +11,27 @@ describe('The LUIS cli tool', () => {
             exec(`node ${luis} luis list apps`, (error, stdout, stderr) => {
                 assert.equal(stdout, '');
                 assert(stderr.includes('luis list apps --skip <integer> --take <integer>'));
+                done();
+            });
+        });
+        
+        it('should not prefix [luis-apis] to stdout when --prefix is not passed as an argument', done => {
+            exec(`echo bot=LuliBot=joe | node ${luis} --prefix`, (error, stdout, stderr) => {
+                assert.notEqual(stdout.startsWith(`[${pkg.name}]`), `It should not show the tag '[${pkg.name}]' when not using the argument --prefix`);
+                done();
+            });
+        });
+        
+        it('should prefix [luis-apis] to stdout when --prefix is passed as an argument', done => {
+            exec(`node ${luis} --version --prefix`, (error, stdout, stderr) => {
+                assert(stdout.startsWith(`[${pkg.name}]`), `It should show the tag '[${pkg.name}]' when using the argument --prefix`);
+                done();
+            });
+        });
+    
+        it('should prefix [luis-apis] to stderr when --prefix is passed as an argument', done => {
+            exec(`echo bot=LuliBot=joe | node ${luis} --prefix`, (error, stdout, stderr) => {
+                assert(stderr.startsWith(`[${pkg.name}]`), `It should show the tag '[${pkg.name}]' when using the argument --prefix`);
                 done();
             });
         });
@@ -39,6 +61,6 @@ describe('The LUIS cli tool', () => {
                 });
             });
         });
-        
+
     });
 });
