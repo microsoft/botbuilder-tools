@@ -12,7 +12,7 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
-    "botbuilder-ai": "^4.0.5-1500",
+    "botbuilder-ai": "^4.0.6",
     "fs-extra": "^5.0.0",
     "nock": "^9.6.1"
   },
