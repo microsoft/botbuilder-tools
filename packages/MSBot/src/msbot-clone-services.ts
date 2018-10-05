@@ -252,7 +252,7 @@ async function processConfiguration(): Promise<void> {
 
         command = `az account show `;
         if (args.subscriptionId) {
-            command += `--subscription ${args.subscriptionId}`;
+            command += ` --subscription ${args.subscriptionId}`;
         }
 
         let azAccount = await runCommand(command, `Fetching subscription account`);
