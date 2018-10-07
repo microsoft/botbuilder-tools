@@ -92,6 +92,8 @@ const translateHelpers = {
                             entity = entitiesFound[entityIdx];
                             let lEntity = entity.replace('{', '').replace('}', '');
                             let labelledValue = '';
+                            let updatedUtteranceLeft = content.substring(0, content.indexOf(entity));
+                            let updatedUtteranceRight = content.substring(content.indexOf(entity) + entity.length);
                             // is this a labelled value? 
                             if (lEntity.includes('=')) {
                                 let entitySplit = lEntity.split('=');
@@ -100,16 +102,16 @@ const translateHelpers = {
                                 }
                                 lEntity = entitySplit[0].trim();
                                 labelledValue = entitySplit[1].trim();
-                                let updatedUtteranceLeft = content.substring(0, content.indexOf(entity));
-                                let updatedUtteranceRight = content.substring(content.indexOf(entity) + entity.length);
                                 eStartIndex = content.indexOf(entity);
                                 eEndIndex = eStartIndex + labelledValue.length - 1;
                                 content = updatedUtteranceLeft + labelledValue + updatedUtteranceRight;
                                 entitiesList.push(new helperClasses.entity(lEntity, labelledValue, eStartIndex, eEndIndex));
                             } else {
-                                eStartIndex = content.indexOf(lEntity);
+                                // This is a pattern entity without a labelled value. Do not localize this.
+                                eStartIndex = content.indexOf(lEntity) - 1;
                                 eEndIndex = eStartIndex + lEntity.length - 1;
-                                entitiesList.push(new helperClasses.entity(lEntity, labelledValue, eStartIndex, eEndIndex));
+                                content = updatedUtteranceLeft + lEntity + updatedUtteranceRight;
+                                entitiesList.push(new helperClasses.entity(lEntity, null, eStartIndex, eEndIndex));
                             }
                         }
                     }
@@ -119,6 +121,7 @@ const translateHelpers = {
                     // Tokenize the input utterance.
                     for (var idx in entitiesList) {
                         let entity = entitiesList[idx];
+                        if (entity.start < 0) entity.start = 0;
                         if (entity.start !== offset) {
                             candidateText = content.substring(offset, entity.start);
                             if (candidateText.trim() !== '') {
@@ -133,11 +136,17 @@ const translateHelpers = {
                             }
                         }
                         try {
-                            data = await translateHelpers.translateText(content.substring(entity.start, entity.end + 1), subscriptionKey, to_lang, src_lang);
+                            if (entity.value !== '') {
+                                data = await translateHelpers.translateText(content.substring(entity.start, entity.end + 1), subscriptionKey, to_lang, src_lang);
+                            }
                         } catch (err) {
                             throw (err);
                         }
-                        localizedUtterance += '{' + entity.entity + '=' + data[0].translations[0].text + '}';
+                        if (entity.value !== '') {
+                            localizedUtterance += '{' + entity.entity + '=' + data[0].translations[0].text + '}';
+                        } else {
+                            localizedUtterance += '{' + entity.entity + '}';
+                        }
                         offset = entity.end + 1;
                     }
                     if (offset !== content.length) {

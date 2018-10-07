@@ -28,7 +28,7 @@ When translating .lu file,
   Options:
 
     --in <luFile>                    .lu file to parse
-    -t, --to_lang <tgtLang>          Target language to translate to. See https://aka.ms/translate-langs for list of supported langauges and codes.
+    -t, --to_lang <tgtLang>          Target language to translate to. See https://aka.ms/translate-langs for list of supported langauges and codes. You can also specify comma or space delimited list of target languages.
     -k, --translate_key <trKey>      Your translation key. See https://aka.ms/translate-key to get your key
     -l, --lu_folder <inputFolder>    [Optional] Folder that has the .lu file. By default ludown will only look at the current folder. To look at all subfolders, include -s
     -o, --out_folder <outputFolder>  [Optional] Output folder for all files the tool will generate

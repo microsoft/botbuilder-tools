@@ -10,12 +10,12 @@
 - Bitte helfen
 
 # AskForUserName
-- vishwac
-- I 'm VISHWAC
-- Call Me vishwac
-- Mein Name ist vishwac
-- vishwac ist mein Name
-- Sie können mich vishwac anrufen
+- {userName=vishwac}
+- Ich bin {userName=vishwac}
+- Ruf mich an {userName=vishwac}
+- Mein Name ist {userName=vishwac}
+- {userName=vishwac} ist mein Name
+- Sie können mich anrufen {userName=vishwac}
 
 > # Entity Definitionen
 $userName:simple
@@ -34,8 +34,8 @@ $PREBUILT:datetimeV2
 # DeleteAlarm
 > Diese Äußerung wird als Muster hinzugefügt, da es keinen gekennzeichneten Wert für die alarmTime-Entität gibt.
 
-- Löschen Sie die {alarmTime} Alarm
-- Entfernen Sie die {alarmTime} Alarm
+- Löschen die {alarmTime} Alarm
+- entfernen die {alarmTime} Alarm
 
 > Da es eine List-Entity-Definition gibt, werden alle Synonyme in dieser Liste als Listen Entity-Typ abgeholt und sollten nicht gekennzeichnet werden.
 # CommunicationPreference
