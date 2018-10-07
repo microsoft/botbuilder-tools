@@ -80,7 +80,6 @@ const translateHelpers = {
                     listSeparator = currentLine.charAt(0);
                     content = currentLine.slice(1).trim();
                     let entitiesList = [];
-                    //let multiWordLabelledValueInEntity = false;
                     // strip line off labelled entity values,mark pattern any entities as not to localize
                     if (content.includes('{')) {
                         const entityRegex = new RegExp(/\{(.*?)\}/g);
