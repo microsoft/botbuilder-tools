@@ -17,6 +17,8 @@ const exception = require('./classes/exception');
 const filesToParseClass = require('./classes/filesToParse');
 const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
+const utils = require('./utils');
+
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
