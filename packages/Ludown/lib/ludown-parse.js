@@ -5,6 +5,7 @@
  */
 const program = require('commander');
 const chalk = require('chalk');
+const utils = require('./utils');
 program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();

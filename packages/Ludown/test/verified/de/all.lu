@@ -10,32 +10,32 @@
 - Bitte helfen
 
 # AskForUserName
-- vishwac
-- I 'm vishwac
-- Call Me vishwac
-- Mein Name ist vishwac
-- vishwac ist mein Name
-- Sie können mich vishwac anrufen
+- {userName=vishwac}
+- Ich bin {userName=vishwac}
+- Ruf mich an {userName=vishwac}
+- Mein Name ist {userName=vishwac}
+- {userName=vishwac} ist mein Name
+- Sie können mich anrufen {userName=vishwac}
 
 > # Entity Definitionen
 $userName:simple
 
-> Vorgebaute Entitäten sind Global. Luis wird immer Ergebnisse für diese liefern, wenn jemals eine Vorgebaute Entität in irgendeiner Äußerung gefunden wird.
+> VORGEBAUTE Entitäten sind Global. LUIS wird immer Ergebnisse für diese liefern, wenn jemals eine Vorgebaute Entität in irgendeiner Äußerung gefunden wird.
 
 $PREBUILT:datetimeV2
 
 # CreateAlarm
 - einen Alarm schaffen
 - Alarm für 7 Uhr
-- Alarm für 7 Uhr am kommenden Donnerstag
+- Alarm für 7 Uhr AM kommenden Donnerstag
 
 > diese als Muster hinzufügen
 
 # DeleteAlarm
-> Diese Äußerung wird als Muster hinzugefügt, da es keinen gekennzeichneten Wert für die AlarmTime-Entität gibt.
+> Diese Äußerung wird als Muster hinzugefügt, da es keinen gekennzeichneten Wert für die alarmTime-Entität gibt.
 
-- Löschen Sie die {AlarmTime} Alarm
-- Entfernen Sie die {AlarmTime} Alarm
+- Löschen die {alarmTime} Alarm
+- entfernen die {alarmTime} Alarm
 
 > Da es eine List-Entity-Definition gibt, werden alle Synonyme in dieser Liste als Listen Entity-Typ abgeholt und sollten nicht gekennzeichnet werden.
 # CommunicationPreference
@@ -79,13 +79,13 @@ $commPreference:fax=
 > Sie können URLs für QnA Maker hinzufügen, um Sie mit dem #URL Referenz Schema zu verzehren
 ### ? Wie ändere ich die Standardmeldung
 ```markdown
-Sie können die Standardmeldung ändern, wenn Sie den qnamakerdialog verwenden.
+Sie können die Standardmeldung ändern, wenn Sie den QnAMakerDialog verwenden.
 Siehe [diesen Link] (https://docs.botframework.com/en-US/Azure-bot-Service/Templates/qnamaker/#navtitle) für Details.
 ```
 
 ### ? Wie kann ich meine KB programmatisch aktualisieren?
 ```markdown
-Sie können unsere Rest-APIs verwenden, um Ihre KB zu verwalten.
+Sie können unsere REST-APIs verwenden, um Ihre KB zu verwalten.
 \ #1. Weitere Informationen finden Sie hier: https://westus.dev.Cognitive.Microsoft.com/docs/Services/58994a073d9e04097c7ba6fe/Operations/58994a073d9e041ad42d9baa
 ```
 

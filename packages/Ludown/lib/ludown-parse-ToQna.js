@@ -8,6 +8,7 @@ const fParser = require('../lib/parser');
 const chalk = require('chalk');
 const retCode = require('../lib/enums/CLI-errors');
 const cmdEnum = require('../lib/enums/parsecommands');
+const utils = require('./utils');
 program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();

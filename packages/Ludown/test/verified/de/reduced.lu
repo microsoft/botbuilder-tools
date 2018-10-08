@@ -1,0 +1,9 @@
+
+## ChangeCalendarEntry
+- Ändern {Subject=mittagstermin} Von {OriginalStartTime=11} - {OriginalEndTime=12} An {StartTime=12} - {EndTime=1 30}
+- Bewege meine {OriginalStartTime=10 letzten 10} {Subject=Arzttermin} An {StartTime=10}
+- Ändern {Subject=Kino} {SlotAttribute=Lage}
+- Ändern {Subject=delevelopmentale Agenda für das Mittagessen} {StartDate=Morgen}
+- Ändern {Subject=Zahnarzttermin}
+- Ändern {Subject=Zahnarzt APPT} An {MoveLaterTimeSpan=eine Stunde} Später
+
