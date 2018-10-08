@@ -47,6 +47,8 @@ interface ICloneArgs {
     qnaSubscriptionKey: string;
     sdkVersion: string;
     sdkLanguage: string;
+    appId: string;
+    appSecret: string;
     args: string[];
     force: boolean;
 }
@@ -64,6 +66,8 @@ program
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
     .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
+    .option('--appId <appId>', '(OPTIONAL) Application ID for an existing application, if not passed then a new Application will be created')
+    .option('--appSecret <appSecret>', '(OPTIONAL) Application Secret for an existing application, if not passed then a new Application will be created')
     .option('-q, --quiet', 'minimize output')
     .option('--verbose', 'show commands')
     .option('-f, --force', 'do not prompt for confirmation')
@@ -832,6 +836,13 @@ async function createBot(): Promise<IBotService> {
 
     if (args.sdkLanguage) {
         command += ` --lang ${args.sdkLanguage}`;
+    }
+
+    // If we have an ApplicationID and Secret then we use this rather than auto-provision which can sometimes fail
+    if (args.appId && args.appSecret) {
+        console.log(`Using the provided ApplicationId and Secret rather than auto-provisioning`);
+        command += ` --appid ${args.appId}`;
+        command += ` -p "${args.appSecret}"`;
     }
 
     logCommand(args, `Creating Azure Bot Service [${args.name}]`, command);
