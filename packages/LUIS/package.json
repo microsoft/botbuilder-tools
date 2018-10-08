@@ -46,6 +46,7 @@
     "cli-table3": "^0.5.1",
     "fs-extra": "^5.0.0",
     "get-stdin": "^6.0.0",
+    "intercept-stdout": "^0.1.2",
     "minimist": "^1.2.0",
     "ms-rest-js": "^0.17.375",
     "node-fetch": "^2.0.0",

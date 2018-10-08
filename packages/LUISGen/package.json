@@ -1,7 +1,4 @@
 {
-  "name": "luisgen",
-  "version": "2.0.0",
-  "description": "LUISGen is a tool for generating C# class or Typescript interface for a LUIS app to make consuming LUIS output easier.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
@@ -12,15 +9,12 @@
     "url": "https://github.com/Microsoft/botbuilder-tools/issues"
   },
   "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
-  "files": [
-    "readme.md",
-    "dotnetpreinstall.js"
-  ],
   "scripts": {
-    "preinstall" : "node dotnetpreinstall.js",
-    "install": "dotnet tool install -g LUISGen",
-    "uninstall": "dotnet tool uninstall -g LUISGen"
+    "build": "dotnet build src/LUISGen.csproj",
+    "test": "cd tests/LUISGenTestJS/ && npm run build && npm run test",
+    "clean": "dotnet clean src/LUISGen.csproj && dotnet clean tests/LUISGenTest/LUISGenTest.csproj && cd tests/LUISGenTestJS/ && npm run clean"
   },
-  "dependencies": {
+  "devDependencies": {
+    "dotnet-sdk-2.1": "^2.1"
   }
 }
