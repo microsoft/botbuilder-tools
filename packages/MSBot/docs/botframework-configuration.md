@@ -1,7 +1,7 @@
 # Using .bot file in your [Bot Builder SDK](https://github.com/microsoft/botbuilder) bot
 Apart from the [Bot Builder CLI tools](../../../README.md) and the [Bot Framework Emulator V4](https://github.com/microsoft/botframework-emulator) working well with the .bot file, you can also use the .bot file to get service configuration information in your bot's code. 
 
-The BotFramework-Configuration library available for [C#](https://www.nuget.org/packages/Microsoft.Bot.Configuration) and [JS](https://www.npmjs.com/package/botframework-configuration) helps you load a bot file and supports several methods to query and get the appropriate service configuration information. 
+The BotFramework-Configuration library available for [C#](https://www.nuget.org/packages/Microsoft.Bot.Configuration) and [JS](https://www.npmjs.com/package/botframework-config) helps you load a bot file and supports several methods to query and get the appropriate service configuration information. 
 
 You can refer to the [samples](https://github.com/microsoft/botbuilder-samples) to see how the .bot file can be used in your bot's code to retrieve connected service configurations from the .bot file. 
 
