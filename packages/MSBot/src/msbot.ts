@@ -9,8 +9,9 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
 import * as semver from 'semver';
-
 import { showMessage } from './utils';
+
+const latestVersion = require('latest-version');
 require('log-prefix')(() => showMessage('%s'));
 program
     .option('--verbose', 'Add [msbot] prefix to all messages')
@@ -65,22 +66,27 @@ program
 program
     .command('update <service>', 'update a service record (Luis/Qna/Azure/...) used by the bot');
 
+(async () => {
+    const latest: string = await latestVersion(pkg.name);
+    if (semver.gt(latest, pkg.version)) {
+        process.stderr.write(chalk.default.yellowBright(`\nNew version ${latest} is available to install.\n\n`))
+    }
 
-const args: program.Command = program.parse(process.argv);
-
-// args should be undefined is subcommand is executed
-if (args) {
-    const unknownArgs: string[] = process.argv.slice(2);
-    console.error(chalk.default.redBright(`Unknown arguments: ${unknownArgs.join(' ')}`));
-    program.outputHelp((str: string) => {
-        console.error(str);
-
-        return '';
-    });
-    process.exit(1);
-}
+    const args: program.Command = program.parse(process.argv);
+    // args should be undefined is subcommand is executed
+    if (args) {
+        const unknownArgs: string[] = process.argv.slice(2);
+        console.error(chalk.default.redBright(`Unknown arguments: ${unknownArgs.join(' ')}`));
+        program.outputHelp((str: string) => {
+            console.error(str);
+            return '';
+        });
+        process.exit(1);
+    }
+})();
 
 interface IPackage {
+    name: string;
     version: string;
     engines: { node: string };
 }

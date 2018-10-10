@@ -19,6 +19,8 @@ const help = require('../lib/help');
 const chatdown = require('../lib/index');
 const txtfile = require('read-text-file');
 const glob = require('glob');
+const latestVersion = require('latest-version');
+const package = require(path.join(__dirname, '../package.json'));
 
 /**
  * Retrieves the content to be parsed from a file if
@@ -110,9 +112,15 @@ async function processFiles(inputDir, outputDir) {
  */
 async function runProgram() {
     const args = minimist(process.argv.slice(2));
+    
+    let latest = await latestVersion(package.name);
+    if (semver.gt(latest, package.version)) {
+      process.stderr.write(chalk.default.yellowBright(`\nNew version ${latest} is available to install.\n\n`));
+    }
 
     if (args.version || args.v) {
-        return process.stdout.write(require(path.join(__dirname, '../package.json')).version);
+        process.stdout.write(package.version);
+        return 0;
     }
 
     if (args.h || args.help) {

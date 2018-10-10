@@ -7,27 +7,36 @@ const program = require('commander');
 const chalk = require('chalk');
 const pjson = require('../package.json');
 const utils = require('./utils');
-program
-    .option('--prefix', 'Add [ludown] prefix to all messages')
-    .on('option:prefix', () => process.env.PREFIX = 'prefix');
-program.Command.prototype.unknownOption = function () {
-    process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
-    program.help();
-};
+const semver = require('semver');
+const getLatestVersion = require('latest-version');
+getLatestVersion(pjson.name).then((latest) => {
+    if (semver.gt(latest, pjson.version)) {
+        process.stderr.write(chalk.default.yellowBright(`\nNew version ${latest} is available to install.\n\n`));
+    }
 
-program
-    .version(pjson.version, '-v, --Version')
-    .description(`Ludown is a command line tool to bootstrap language understanding models from .lu files`)
-    .command('parse', 'Convert .lu file(s) into LUIS JSON OR QnA Maker JSON files.')
-    .alias('p')
-    .command('refresh', 'Convert LUIS JSON and/ or QnAMaker JSON file into .lu file')
-    .alias('d')
-    .command('translate', 'Translate .lu files')
-    .alias('t')
-    .parse(process.argv);
-const commands = ['parse', 'p', 'refresh', 'd', 'translate', 't'];
+    program
+        .option('--prefix', 'Add [ludown] prefix to all messages')
+        .on('option:prefix', () => process.env.PREFIX = 'prefix');
+    program.Command.prototype.unknownOption = function () {
+        process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
+        program.help();
+    };
 
-if (!commands.includes(process.argv[2].toLowerCase())) {
-    process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
-    program.help();
-}
+    program
+        .version(pjson.version, '-v, --Version')
+        .description(`Ludown is a command line tool to bootstrap language understanding models from .lu files`)
+        .command('parse', 'Convert .lu file(s) into LUIS JSON OR QnA Maker JSON files.')
+        .alias('p')
+        .command('refresh', 'Convert LUIS JSON and/ or QnAMaker JSON file into .lu file')
+        .alias('d')
+        .command('translate', 'Translate .lu files')
+        .alias('t')
+        .parse(process.argv);
+    const commands = ['parse', 'p', 'refresh', 'd', 'translate', 't'];
+
+    if (!commands.includes(process.argv[2].toLowerCase())) {
+        process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
+        program.help();
+    }
+});
+

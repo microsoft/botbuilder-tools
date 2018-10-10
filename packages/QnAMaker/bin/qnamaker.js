@@ -32,6 +32,7 @@ const Endpointkeys = require('../lib/api/endpointkeys');
 const Operations = require('../lib/api/operations');
 const Delay = require('await-delay');
 const { ServiceBase } = require('../lib/api/serviceBase');
+const latestVersion = require('latest-version');
 
 function stdoutAsync(output) { return new Promise((done) => process.stdout.write(output, "utf-8", () => done())); }
 
@@ -47,6 +48,12 @@ async function runProgram() {
     if (argvFragment.length === 0) {
         argvFragment = ['-h'];
     }
+
+    const latest = await latestVersion(pkg.name);
+    if (semver.gt(latest, pkg.version)) {
+        process.stderr.write(chalk.default.yellowBright(`\nNew version ${latest} is available to install.\n\n`))
+    }
+
     args = minimist(argvFragment);
 
     if (args['!'] ||

@@ -49,6 +49,12 @@ async function runProgram() {
     if (argvFragment.length === 0) {
         argvFragment = ['-h'];
     }
+
+    let latest = await require('latest-version')(pkg.name);
+    if (semver.gt(latest, pkg.version)) {
+        process.stderr.write(chalk.default.yellowBright(`\nNew version ${latest} is available to install.\n\n`))
+    }
+
     args = minimist(argvFragment, { string: ['versionId'] });
     if (args._[0] == "luis")
         args._ = args._.slice(1);
