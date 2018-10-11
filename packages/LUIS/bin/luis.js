@@ -416,9 +416,6 @@ async function runProgram() {
                 case "features":
                     result = await client.features.list(args.region, args.appId, args.versionId, args);
                     break;
-                case "patterns":
-                    result = await client.pattern.list(args.region, args.appId, args.versionId, args);
-                    break;
                 case "permissions":
                     result = await client.permissions.list(args.region, args.appId, args);
                     break;
