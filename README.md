@@ -21,7 +21,6 @@ npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
 ## Overview
 
 - Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-to-end bot development workflow. 
-- Please see [here](https://aka.ms/BotBuilderLocalDev) for an example end to end bot development workflow using Bot Builder tools.
 - Please see [here](./tools-overview.md) for an overview of using Bot Builder tools throughout various phases of bot development. 
 
 Bot Builder tools are designed to work with
