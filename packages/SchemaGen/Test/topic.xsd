@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="Microsoft.Bot.Builder"
+           xmlns:bl="http://botframework.com/botloader"
+           xmlns:bb="Microsoft.Bot.Builder"
+           >
+    <!-- Pick up botloader definitions. -->
+    <xs:include schemaLocation="component.xsd"/>
+    <xs:include schemaLocation="IRecognizer.xsd"/>
+    <xs:element name="topic" bl:implements="bb:IDialog,bb:IComponent">
+        <xs:complexType>
+            <xs:complexContent>
+                <!-- Extend the base component definition. -->
+                <xs:extension base="bb:component">
+                    <xs:sequence>
+                        <xs:element name="recognizer" type="bb:IRecognizer"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
