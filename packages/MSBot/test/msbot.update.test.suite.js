@@ -193,11 +193,13 @@ describe("msbot update tests", () => {
         command = `node ${msbot} update luis `;
         command += `-b save.bot `;
         command += `--id ${config.services[0].id}  `;
-        command += `--subscriptionKey 0000000f-1000-0000-0000-000000000003        `;
+        command += `--subscriptionKey 0000000f-1000-0000-0000-000000000003 `;
+        command += `--version 0.2        `;
         p = await exec(command);
 
         config = await bf.BotConfiguration.load("save.bot");
         assert.equal(config.services[0].subscriptionKey, "0000000f-1000-0000-0000-000000000003", "subscriptionKey is wrong")
+        assert.equal(config.services[0].version, "0.2", "version is wrong")
     });
 
     it("msbot update endpoint", async () => {

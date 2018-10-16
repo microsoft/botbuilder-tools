@@ -12,7 +12,9 @@ Bot Builder tools is a collection of cross-platform command line tools designed 
 | [![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)| [LUISGen](packages/LUISGen) | Auto generate backing C#/Typescript classes for your LUIS intents and entities.|
 
 ## Install CLI tools:
-Pre-requisite: [Node.js](https://nodejs.org/) version 8.5 or higher
+Pre-requisite: 
+- [Node.js](https://nodejs.org/) version 8.5 or higher
+- [.NET Core SDK](https://www.microsoft.com/net/download) version 2.1.403 or higher
 
 ```
 npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
@@ -21,7 +23,6 @@ npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
 ## Overview
 
 - Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-to-end bot development workflow. 
-- Please see [here](https://aka.ms/BotBuilderLocalDev) for an example end to end bot development workflow using Bot Builder tools.
 - Please see [here](./tools-overview.md) for an overview of using Bot Builder tools throughout various phases of bot development. 
 
 Bot Builder tools are designed to work with
