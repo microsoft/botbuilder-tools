@@ -98,6 +98,8 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
                     luisService.authoringKey = args.authoringKey;
                 if (args.region)
                     luisService.region = args.region;
+                if (args.version)
+                    luisService.version = args.version;
                 await config.save(args.secret);
                 await stdoutAsync(JSON.stringify(luisService, null, 2));
                 return config;
