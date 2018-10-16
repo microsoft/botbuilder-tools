@@ -407,9 +407,6 @@ async function runProgram() {
                 case "applications":
                     result = await client.apps.list(args.region, args);
                     break;
-                case "credentials":
-                    result = await client.credentials.list(args.region, args.appId, args.versionId, args);
-                    break;
                 case "examples":
                     result = await client.examples.list(args.region, args.appId, args.versionId, args);
                     break;
@@ -418,9 +415,6 @@ async function runProgram() {
                     break;
                 case "permissions":
                     result = await client.permissions.list(args.region, args.appId, args);
-                    break;
-                case "train":
-                    result = await client.train.list(args.region, args.appId, args.versionId, args);
                     break;
                 case "versions":
                     result = await client.versions.list(args.region, args.appId, args);
@@ -589,10 +583,6 @@ async function runProgram() {
                 case "sublist":
                     result = await client.model.updateSubList(args.region, args.appId, args.versionId, args.clEntityId, args.subListId, requestBody, args);
                     break;
-                case "version":
-                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
-                    break;
-
                 default:
                     throw new Error(`Unknown resource: ${target}`);
             }
