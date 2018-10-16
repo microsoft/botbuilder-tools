@@ -20,7 +20,7 @@ const chatdown = require('../lib/index');
 const txtfile = require('read-text-file');
 const glob = require('glob');
 const latestVersion = require('latest-version');
-const package = require(path.join(__dirname, '../package.json'));
+const pkg = require(path.join(__dirname, '../package.json'));
 
 /**
  * Retrieves the content to be parsed from a file if
@@ -71,8 +71,8 @@ function getInput(args) {
  */
 async function writeOut(activities, args) {
     const { out } = args; //Is this used? Doesn't seem to be...
-    const  output =JSON.stringify(activities, null, 2);
-    await new Promise((done, reject) => process.stdout.write(output, "utf-8", () => done())); 
+    const output = JSON.stringify(activities, null, 2);
+    await new Promise((done, reject) => process.stdout.write(output, "utf-8", () => done()));
     return true;
 }
 
@@ -86,10 +86,10 @@ async function writeOut(activities, args) {
 async function processFiles(inputDir, outputDir) {
     return new Promise(async (resolve, reject) => {
         let files = glob.sync(inputDir, { "ignore": ["**/node_modules/**"] });
-        for(let i = 0; i < files.length; i++) {
+        for (let i = 0; i < files.length; i++) {
             try {
                 let fileName = files[i];
-                if(files[i].lastIndexOf("/") != -1) {
+                if (files[i].lastIndexOf("/") != -1) {
                     fileName = files[i].substr(files[i].lastIndexOf("/"))
                 }
                 fileName = fileName.split(".")[0];
@@ -98,7 +98,7 @@ async function processFiles(inputDir, outputDir) {
                 await fs.ensureFile(writeFile);
                 await fs.writeJson(writeFile, activities, { spaces: 2 });
             }
-            catch(e) {
+            catch (e) {
                 reject(e);
             }
         }
@@ -112,14 +112,21 @@ async function processFiles(inputDir, outputDir) {
  */
 async function runProgram() {
     const args = minimist(process.argv.slice(2));
-    
-    let latest = await latestVersion(package.name);
-    if (semver.gt(latest, package.version)) {
-      process.stderr.write(chalk.default.yellowBright(`\nNew version ${latest} is available to install.\n\n`));
+
+    let latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
+                        .catch(error => pkg.version);
+    if (semver.gt(latest, pkg.version)) {
+        process.stderr.write(chalk.default.white(`\n     Update available `));
+        process.stderr.write(chalk.default.grey(`${pkg.version}`));
+        process.stderr.write(chalk.default.white(` -> `));
+        process.stderr.write(chalk.default.greenBright(`${latest}\n`));
+        process.stderr.write(chalk.default.white(`     Run `));
+        process.stderr.write(chalk.default.blueBright(`npm i -g ${pkg.name} `));
+        process.stderr.write(chalk.default.white(`to update.\n`));
     }
 
     if (args.version || args.v) {
-        process.stdout.write(package.version);
+        process.stdout.write(pkg.version);
         return 0;
     }
 
@@ -128,15 +135,15 @@ async function runProgram() {
         return 0;
     }
 
-    if(args.f || args.folder) {
+    if (args.f || args.folder) {
         let inputDir = args.f.trim();
-        let outputDir = (args.o || args.out_folder) ?  args.o.trim() : "./";
+        let outputDir = (args.o || args.out_folder) ? args.o.trim() : "./";
         if (outputDir.substr(0, 2) === "./") {
             outputDir = path.resolve(process.cwd(), outputDir.substr(2))
         }
-            const len = await processFiles(inputDir, outputDir);
-            process.stdout.write(chalk`{green Successfully wrote ${len} files}\n`);
-            return len;
+        const len = await processFiles(inputDir, outputDir);
+        process.stdout.write(chalk`{green Successfully wrote ${len} files}\n`);
+        return len;
     }
     else {
         const fileContents = await getInput(args);

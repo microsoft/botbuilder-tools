@@ -36,7 +36,7 @@ const txtfile = require('read-text-file');
 const help = require('./help');
 const Delay = require('await-delay');
 const intercept = require("intercept-stdout");
-
+const latestVersion = require('latest-version');
 let args;
 
 /**
@@ -50,9 +50,16 @@ async function runProgram() {
         argvFragment = ['-h'];
     }
 
-    let latest = await require('latest-version')(pkg.name);
+    let latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
+        .catch(error => pkg.version);
     if (semver.gt(latest, pkg.version)) {
-        process.stderr.write(chalk.default.yellowBright(`\nNew version ${latest} is available to install.\n\n`))
+        process.stderr.write(chalk.default.white(`\n     Update available `));
+        process.stderr.write(chalk.default.grey(`${pkg.version}`));
+        process.stderr.write(chalk.default.white(` -> `));
+        process.stderr.write(chalk.default.greenBright(`${latest}\n`));
+        process.stderr.write(chalk.default.white(`     Run `));
+        process.stderr.write(chalk.default.blueBright(`npm i -g ${pkg.name} `));
+        process.stderr.write(chalk.default.white(`to update.\n\n`));
     }
 
     args = minimist(argvFragment, { string: ['versionId'] });
@@ -66,7 +73,7 @@ async function runProgram() {
         return help(args, process.stdout);
     }
     if (args.prefix) {
-        const unhook_intercept = intercept(function(txt) {
+        const unhook_intercept = intercept(function (txt) {
             return `[${pkg.name}]\n${txt}`;
         });
     }

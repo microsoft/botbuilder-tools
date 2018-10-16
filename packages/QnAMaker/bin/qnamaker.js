@@ -49,9 +49,16 @@ async function runProgram() {
         argvFragment = ['-h'];
     }
 
-    const latest = await latestVersion(pkg.name);
+    const latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
+        .catch(() => pkg.version);
     if (semver.gt(latest, pkg.version)) {
-        process.stderr.write(chalk.default.yellowBright(`\nNew version ${latest} is available to install.\n\n`))
+        process.stderr.write(chalk.default.white(`\n     Update available `));
+        process.stderr.write(chalk.default.grey(`${pkg.version}`));
+        process.stderr.write(chalk.default.white(` -> `));
+        process.stderr.write(chalk.default.greenBright(`${latest}\n`));
+        process.stderr.write(chalk.default.white(`     Run `));
+        process.stderr.write(chalk.default.blueBright(`npm i -g ${pkg.name} `));
+        process.stderr.write(chalk.default.white(`to update.\n\n`));
     }
 
     args = minimist(argvFragment);
