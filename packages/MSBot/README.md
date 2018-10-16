@@ -39,7 +39,7 @@ npm uninstall -g msbot
     - [MSBot and AZ CLI](./docs/msbot-az.md)
 - [Exporting and cloning](./docs/export-clone.md) a bot
 
-See [here](./docs/botframework-configuration.md) to learn about consuming the .bot file in your bots built with the [Bot Builder SDK](microsoft/botbuilder). This will enable a seamless end-to-end creating, management and consumption of connected services your bot relies on.
+See [here](./docs/botframework-configuration.md) to learn about consuming the .bot file in your bots built with the [Bot Builder SDK](https://github.com/microsoft/botbuilder). This will enable a seamless end-to-end creating, management and consumption of connected services your bot relies on.
 
 See [here](https://github.com/microsoft/botframework-emulator) to learn more about Bot Framework Emulator V4. Emulator also relies on .bot file and provides rich UI based experience to connect and manage connected services your bot relies on. 
 
