@@ -65,7 +65,7 @@ async function runProgram() {
     args = minimist(argvFragment);
 
     if (args.prefix) {
-        const unhook_intercept = intercept(function(txt) {
+        intercept(function(txt) {
             return `[${pkg.name}]\n${txt}`;
         });
     }
