@@ -1,4 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Version Condition=" '$(PackageVersion)' == '' ">2.0.1-local</Version>
+		<Version Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</Version>
+		<PackageVersion Condition=" '$(PackageVersion)' == '' ">2.0.1-local</PackageVersion>
+		<PackageVersion Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</PackageVersion>
+	</PropertyGroup>
+
     <PropertyGroup>
         <VersionPrefix>2.0.0</VersionPrefix>
         <OutputType>Exe</OutputType>
@@ -20,7 +27,6 @@
 
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>luisgen</ToolCommandName>
-        <Version>2.0.1</Version>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     </PropertyGroup>
@@ -28,7 +34,7 @@
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <SignAssembly>true</SignAssembly>
         <DelaySign>true</DelaySign>
-        <AssemblyOriginatorKeyFile>..\..\..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>..\..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
 
