@@ -3,7 +3,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-const pkg = require('../package.json');
+const fs = require('fs-extra');
+const path = require('path');
+const pkg = require(path.join(__dirname, '../package.json'));
 const semver = require('semver');
 let requiredVersion = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -11,8 +13,6 @@ if (!semver.satisfies(process.version, requiredVersion)) {
     process.exit(1);
 }
 
-const fs = require('fs-extra');
-const path = require('path');
 const chalk = require('chalk');
 const minimist = require('minimist');
 const help = require('../lib/help');
@@ -20,7 +20,6 @@ const chatdown = require('../lib/index');
 const txtfile = require('read-text-file');
 const glob = require('glob');
 const latestVersion = require('latest-version');
-const pkg = require(path.join(__dirname, '../package.json'));
 
 /**
  * Retrieves the content to be parsed from a file if
