@@ -13,6 +13,7 @@ const LUISBuiltInTypes = require('./enums/luisbuiltintypes').consolidatedList;
 const NEWLINE = require('os').EOL;
 const ANY_NEWLINE = /\r\n|\r|\n/g;
 const url = require('url');
+const utils = require('./utils');
 const helpers = {
 
     /**

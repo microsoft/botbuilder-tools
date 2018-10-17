@@ -7,6 +7,7 @@ const program = require('commander');
 const chalk = require('chalk');
 const translate = require('../lib/translate');
 const retCode = require('../lib/enums/CLI-errors');
+const utils = require('./utils');
 program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
@@ -16,7 +17,7 @@ program
     .description(`Translate .lu files from one language to another. Uses the Microsoft translator text API.`)
     .usage('-k <translate_key> --in <luFile> | -k <translate_key> --lu_folder <inputFolder> [-s]')
     .option('--in <luFile>', '.lu file to parse')
-    .option('-t, --to_lang <tgtLang>', 'Target language to translate to. See https://aka.ms/translate-langs for list of supported langauges and codes.')
+    .option('-t, --to_lang <tgtLang>', 'Target language to translate to. See https://aka.ms/translate-langs for list of supported languages and codes. You can also specify comma or space delimited list of target languages.')
     .option('-k, --translate_key <trKey>', 'Your translation key. See https://aka.ms/translate-key to get your key')
     .option('-l, --lu_folder <inputFolder>', '[Optional] Folder that has the .lu file. By default ludown will only look at the current folder. To look at all subfolders, include -s')
     .option('-o, --out_folder <outputFolder>', '[Optional] Output folder for all files the tool will generate')

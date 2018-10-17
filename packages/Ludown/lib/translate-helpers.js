@@ -11,6 +11,7 @@ const helperClasses = require('./classes/hclasses');
 const exception = require('./classes/exception');
 const helpers = require('./helpers');
 const NEWLINE = require('os').EOL;
+const utils = require('./utils');
 const translateHelpers = {
     /**
      * Helper function to parseAndTranslate lu file content
@@ -80,16 +81,19 @@ const translateHelpers = {
                     listSeparator = currentLine.charAt(0);
                     content = currentLine.slice(1).trim();
                     let entitiesList = [];
-
                     // strip line off labelled entity values,mark pattern any entities as not to localize
                     if (content.includes('{')) {
                         const entityRegex = new RegExp(/\{(.*?)\}/g);
                         let entitiesFound = content.match(entityRegex);
                         let eStartIndex = -1;
                         let eEndIndex = -1;
-                        entitiesFound.forEach(function (entity) {
+                        let entity;
+                        for (var entityIdx in entitiesFound) {
+                            entity = entitiesFound[entityIdx];
                             let lEntity = entity.replace('{', '').replace('}', '');
                             let labelledValue = '';
+                            let updatedUtteranceLeft = content.substring(0, content.indexOf(entity));
+                            let updatedUtteranceRight = content.substring(content.indexOf(entity) + entity.length);
                             // is this a labelled value? 
                             if (lEntity.includes('=')) {
                                 let entitySplit = lEntity.split('=');
@@ -98,68 +102,70 @@ const translateHelpers = {
                                 }
                                 lEntity = entitySplit[0].trim();
                                 labelledValue = entitySplit[1].trim();
-                                if (!labelledValue.includes(' ')) {
-                                    let updatedUtteranceLeft = content.substring(0, content.indexOf(entity));
-                                    let updatedUtteranceRight = content.substring(content.indexOf(entity) + entity.length);
-                                    content = updatedUtteranceLeft + labelledValue + updatedUtteranceRight;
-                                    eStartIndex = content.indexOf(labelledValue);
-                                    eEndIndex = eStartIndex + labelledValue.length - 1;
-                                    entitiesList.push(new helperClasses.entity(lEntity, labelledValue, eStartIndex, eEndIndex));
-                                }
-                            } else {
-                                eStartIndex = content.indexOf(lEntity);
-                                eEndIndex = eStartIndex + lEntity.length - 1;
+                                eStartIndex = content.indexOf(entity);
+                                eEndIndex = eStartIndex + labelledValue.length - 1;
+                                content = updatedUtteranceLeft + labelledValue + updatedUtteranceRight;
                                 entitiesList.push(new helperClasses.entity(lEntity, labelledValue, eStartIndex, eEndIndex));
+                            } else {
+                                // This is a pattern entity without a labelled value. Do not localize this.
+                                eStartIndex = content.indexOf(lEntity) - 1;
+                                eEndIndex = eStartIndex + lEntity.length - 1;
+                                content = updatedUtteranceLeft + lEntity + updatedUtteranceRight;
+                                entitiesList.push(new helperClasses.entity(lEntity, null, eStartIndex, eEndIndex));
                             }
-                        });
+                        }
                     }
-                    try {
-                        data = await translateHelpers.translateText(content, subscriptionKey, to_lang, src_lang);
-                    } catch (err) {
-                        throw (err);
-                    }
-                    if (entitiesList.length === 0) {
-                        localizedContent += listSeparator + ' ' + data[0].translations[0].text + NEWLINE;
-                        if (log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + data[0].translations[0].text + NEWLINE));
-                    } else {
-                        // handle alignment
-                        lText = data[0].translations[0].text;
-                        if (data[0].translations[0].alignment) {
-                            let alData = data[0].translations[0].alignment.proj.split(' ');
-                            entitiesList.forEach(function (entity) {
-                                let testIndex = entity.start + ':' + entity.end;
-                                let alDataMap = alData.filter(val => {
-                                    let p = val.split('-');
-                                    if (p[0] === testIndex) return p[1];
-                                });
-                                if (alDataMap.length !== 0) {
-                                    let seIndex = alDataMap[0].split('-')[1].split(':');
-                                    let leftText = lText.substring(0, seIndex[0]);
-                                    let rightText = lText.substring(parseInt(seIndex[1]) + 1);
-                                    if (entity.value === '') {
-                                        // we have a pattern any entity
-                                        lText = leftText + entity.entity + rightText;
-                                    } else {
-                                        let locLabelledValue = lText.substring(seIndex[0], parseInt(seIndex[1]) + 1);
-                                        lText = leftText + '{' + entity.entity + '=' + locLabelledValue + '}' + rightText
-                                    }
+                    let offset = 0;
+                    let localizedUtterance = '';
+                    let candidateText = '';
+                    // Tokenize the input utterance.
+                    for (var idx in entitiesList) {
+                        let entity = entitiesList[idx];
+                        if (entity.start < 0) entity.start = 0;
+                        if (entity.start !== offset) {
+                            candidateText = content.substring(offset, entity.start);
+                            if (candidateText.trim() !== '') {
+                                try {
+                                    data = await translateHelpers.translateText(candidateText, subscriptionKey, to_lang, src_lang);
+                                } catch (err) {
+                                    throw (err);
                                 }
-                            });
+                                localizedUtterance += data[0].translations[0].text;
+                            } else {
+                                localizedUtterance += candidateText;
+                            }
+                        }
+                        try {
+                            if (entity.value !== '') {
+                                data = await translateHelpers.translateText(content.substring(entity.start, entity.end + 1), subscriptionKey, to_lang, src_lang);
+                            }
+                        } catch (err) {
+                            throw (err);
+                        }
+                        if (entity.value !== '') {
+                            localizedUtterance += '{' + entity.entity + '=' + data[0].translations[0].text + '}';
                         } else {
+                            localizedUtterance += '{' + entity.entity + '}';
+                        }
+                        offset = entity.end + 1;
+                    }
+                    if (offset !== content.length) {
+                        candidateText = content.substring(offset);
+                        if (candidateText.trim() !== '') {
                             try {
-                                data = await translateHelpers.translateText(content, subscriptionKey, to_lang, src_lang);
+                                data = await translateHelpers.translateText(candidateText, subscriptionKey, to_lang, src_lang);
                             } catch (err) {
                                 throw (err);
                             }
-                            lText = data[0].translations[0].text;
+                            localizedUtterance += data[0].translations[0].text;
+                        } else {
+                            localizedUtterance += candidateText;
                         }
-
-                        localizedContent += listSeparator + ' ' + lText + NEWLINE;
-                        if (log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + lText + NEWLINE));
-
                     }
-                    break;
+                    localizedContent += listSeparator + ' ' + localizedUtterance + NEWLINE;
+                    if (log) process.stdout.write(chalk.default.gray(listSeparator + ' ' + localizedUtterance + NEWLINE));
                 }
+                break;
                 case PARSERCONSTS.ENTITY:
                     // strip line of the list separator
                     listSeparator = currentLine.charAt(0);

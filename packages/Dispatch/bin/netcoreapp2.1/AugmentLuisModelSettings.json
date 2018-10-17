@@ -1,6 +1,7 @@
 ﻿{
   "LuisApi": {
     "IsLocal": false,
+    "BatchTest":  true,
     "AuthoringBaseUrl": "https://{0}.api.cognitive.microsoft.com/luis/api/v2.0/apps",
     "EndpointBaseUrl": "https://{0}.api.cognitive.microsoft.com/luis/v2.0/apps"
   }

@@ -15,6 +15,10 @@ main() {
         (
             set -e
             npm install
+            npm install -g typescript
+            cd packages/LUISGen/tests/LUISGenTestJS/
+            npm install
+            cd ../../../../
             npm run build
             npm run coveralls
             npm run tslint
@@ -38,7 +42,7 @@ EOF
 }
 
 function update_version() {
-  oldregistry=npm config get registry
+  oldregistry=$(npm config get registry)
   npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
   pname=$(cat package.json | jq -r '.name' | cut -d- -f1)
   pversion=$(cat package.json | jq -r '.version' | cut -d- -f1)

@@ -1,0 +1,75 @@
+{
+    "intents": [
+      {
+        "name": "Greeting"
+      }
+    ],
+    "entities": [
+      {
+        "name": "ContactName",
+        "roles": []
+      },
+      {
+        "name": "EmailAddress",
+        "roles": []
+      },
+      {
+        "name": "Key",
+        "roles": []
+      },
+      {
+        "name": "PhoneNumber",
+        "roles": []
+      },
+      {
+        "name": "Date",
+        "roles": []
+      }
+    ],
+    "composites": [],
+    "closedLists": [],
+    "regex_entities": [],
+    "model_features": [],
+    "regex_features": [],
+    "utterances": [
+      {
+        "text": "call george louise at four oh seven six six six nineteen ninety three on december first",
+        "intent": "Greeting",
+        "entities": [
+          {
+            "entity": "ContactName",
+            "startPos": 5,
+            "endPos": 17
+          },
+          {
+            "entity": "EmailAddress",
+            "startPos": 19,
+            "endPos": 86
+          },
+          {
+            "entity": "Key",
+            "startPos": 22,
+            "endPos": 62
+          },
+          {
+            "entity": "PhoneNumber",
+            "startPos": 22,
+            "endPos": 68
+          },
+          {
+            "entity": "Date",
+            "startPos": 73,
+            "endPos": 86
+          }
+        ]
+      }
+    ],
+    "patterns": [],
+    "patternAnyEntities": [],
+    "prebuiltEntities": [],
+    "luis_schema_version": "3.0.0",
+    "versionId": "0.1",
+    "name": "test",
+    "desc": "",
+    "culture": "en-us"
+  }
