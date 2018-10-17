@@ -18,6 +18,7 @@ Arguments:
 | -e, --endpoint <endpoint>    | local endpoint for the bot                            |
 | --secret                     | generate a secret and encrypt service keys with it    |
 | -q, --quiet                  | do not prompt                                         |
+| --prefix                     | Append [msbot] prefix to all messages                 |
 | -h, --help                   | output usage information                              |
 
 Example:
