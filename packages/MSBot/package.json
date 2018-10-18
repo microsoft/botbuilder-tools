@@ -1,6 +1,6 @@
 {
   "name": "msbot",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "description": "MSBot command line tool for manipulating Microsoft Bot Framework .bot files",
   "main": "bin/BotConfig.js",
   "scripts": {
@@ -56,12 +56,13 @@
     "commander": "^2.15.1",
     "fs-extra": "^5.0.0",
     "get-stdin": "^6.0.0",
-    "linq-collections": "^1.0.251",
-    "log-prefix": "^0.1.1",
+    "latest-version": "^4.0.0",
+    "linq-collections": "^1.0.254",
+    "intercept-stdout": "^0.1.2",
     "opn": "^5.3.0",
     "read-text-file": "^1.1.0",
     "readline-sync": "^1.4.9",
-    "semver": "^5.5.0",
+    "semver": "^5.5.1",
     "uuid": "^3.2.1",
     "valid-url": "^1.0.9",
     "validator": "^9.4.1"

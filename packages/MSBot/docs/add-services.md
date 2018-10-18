@@ -46,6 +46,7 @@ With the following options
 | --input <jsonfile>                            | path to arguments in JSON format { id:'',name:'', ... }   |
 | --secret <secret>                             | bot file secret password for encrypting service secrets   |
 | --stdin                                       | arguments are passed in as JSON object via stdin          |
+| --prefix                                      | Append [msbot] prefix to all messages                     |
 | -h, --help                                    | output usage information                                  |
 
 ### Connecting to Azure Blob Service 
@@ -71,6 +72,7 @@ With the following options
 | --input <jsonfile>                    | path to arguments in JSON format { id:'',name:'', ... } |
 | --secret <secret>                     | bot file secret password for encrypting service secrets |
 | --stdin                               | arguments are passed in as JSON object via stdin        |
+| --prefix                              | Append [msbot] prefix to all messages                   |
 | -h, --help                            | output usage information                                |
 
 ### Connecting to Azure Bot Service  
@@ -97,6 +99,7 @@ Options:
 | --input <jsonfile>                    | path to arguments in JSON format { id:'',name:'', ... }                     |
 | --secret <secret>                     | bot file secret password for encrypting service secrets                     |
 | --stdin                               | arguments are passed in as JSON object via stdin                            |
+| --prefix                              | Append [msbot] prefix to all messages                                       |
 | -h, --help                            | output usage information                                                    |
 
 An example:
@@ -128,6 +131,7 @@ With the following options
 | --input <jsonfile>                    | path to arguments in JSON format { id:'',name:'', ... } |
 | --secret <secret>                     | bot file secret password for encrypting service secrets |
 | --stdin                               | arguments are passed in as JSON object via stdin        |
+| --prefix                              | Append [msbot] prefix to all messages                   |
 | -h, --help                            | output usage information                                |
 
 ### Connecting to a Endpoint Service  
@@ -150,6 +154,7 @@ With the following options
 | -b, --bot <path>             | path to bot file.  If omitted, local folder will look for a .bot file. |
 | --input <jsonfile>           | path to arguments in JSON format                                       |
 | --stdin                      | arguments are passed in as a JSON object via stdin                     |
+| --prefix                     | Append [msbot] prefix to all messages                                  |
 | -h, --help                   | output usage information                                               |
 
 An example:
@@ -178,6 +183,7 @@ With the following options:
 | --stdin                             | arguments are passed in as a JSON object via stdin                    |
 | -b, --bot <path>                    | path to bot file.  If omitted, local folder will look for a .bot file |
 | --secret <secret>                   | bot file secret password for encrypting service secrets               |
+| --prefix                            | Append [msbot] prefix to all messages                                 |
 | -h, --help                          | output usage information                                              |
 
 Here is an example invocation:
@@ -207,6 +213,7 @@ With the following options:
 | --input <jsonfile>                  | path to arguments in JSON format                                      |
 | --stdin                             | arguments are passed in as a JSON object via stdin                    |
 | --secret <secret>                   | bot file secret password for encrypting service secrets               |
+| --prefix                            | Append [msbot] prefix to all messages                                 |
 | -h, --help                          | output usage information                                              |
 
 Here is an example invocation:
@@ -235,6 +242,7 @@ Options:
 | -b, --bot <path>                    | path to bot file.  If omitted, local folder will look for a .bot file              |
 | --secret <secret>                   | bot file secret password for encrypting service secrets                            |
 | --stdin                             | arguments are passed in as JSON object via stdin                                   |
+| --prefix                            | Append [msbot] prefix to all messages                                              |
 | --input <dispatchfile>              | arguments passed in as path to arguments in JSON format                            |
 
 Here is an example invocation:
@@ -259,6 +267,7 @@ Options:
 | -p, --path <path>                   | path to file to connect to                                                         |
 | -b, --bot <bot>                     | path to bot file.  If omitted, local folder will look for a .bot file              |
 | --secret <secret>                   | bot file secret password for encrypting service secrets                            |
+| --prefix                            | Append [msbot] prefix to all messages                                              |
 | -h, --help                          | output usage information                                                           |
 
 
@@ -281,4 +290,5 @@ Options:
 | --input <jsonfile>                  | path to arguments in JSON format { id:'',name:'', ... }                            |
 | --stdin                             | arguments are passed in as JSON object via stdin                                   |
 | --secret <secret>                   | bot file secret password for encrypting service secrets                            |
+| --prefix                            | Append [msbot] prefix to all messages                                              |
 | -h, --help                          | output usage information                                                           |

@@ -14,6 +14,7 @@ msbot export services --folder folderName --bot your.bot
 | -b, --bot <path>      | path to bot file.  If omitted, local folder will look for a .bot file |
 | --secret <secret>     | bot file secret password for encrypting service secrets               |
 | -f, --folder <folder> | folder to put the bot recipe into                                     |
+| --prefix              | Append [msbot] prefix to all messages                                 |
 | -h, --help            | output usage information                                              |
 
 ## Cloning Services
@@ -46,4 +47,5 @@ msbot clone services --folder folderName --name NewBot --luisAuthoringKey 000000
 | --sdkLanguage <sdkLanguage>                 | (OPTIONAL) language for bot [Csharp,Node] (Default:CSharp)                                                           |
 | --sdkVersion <sdkVersion>                   | (OPTIONAL) SDK version for bot [v3,v4] (Default:v4)                                                                  |
 | -q, --quiet                                 | disable output                                                                                                       |
+| --prefix                                    | Append [msbot] prefix to all messages                                                                                |
 | -h, --help                                  | output usage information                                                                                             |
