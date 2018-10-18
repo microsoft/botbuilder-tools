@@ -49,11 +49,13 @@ interface ICloneArgs {
     appSecret: string;
     args: string[];
     force: boolean;
+    noDecorate: boolean;
 }
 
 program
     .name('msbot clone services')
     .option('-n, --name <name>', 'name of new bot')
+    .option('--noDecorate', 'do not prepend name of bot for names')
     .option('-f, --folder <folder>', 'path to folder containing exported resources')
     .option('-l, --location <location>', 'location to create the bot service in (westus, ...)')
     .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key from the appropriate luisAuthoringRegion for luis resources')
@@ -800,7 +802,7 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
     let luisService: LuisService;
     const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
 
-    let luisAppName = `${args.name}_${luisResource.name}`;
+    let luisAppName = args.noDecorate ? `${luisResource.name}` : `${args.name}_${luisResource.name}`;
     let svcOut = <ILuisService>await runCommand(`luis import application --region ${luisAuthoringRegion} --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
         `Creating and importing LUIS application [${luisAppName}]`);
     luisService = new LuisService(svcOut);
