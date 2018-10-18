@@ -1,6 +1,6 @@
 {
   "name": "qnamaker",
-  "version": "1.0.32",
+  "version": "1.0.33",
   "description": "Tooling for connectivity with the QnA Maker APIs",
   "main": "lib/api/index.js",
   "bin": {
@@ -36,6 +36,7 @@
     "fs-extra": "^5.0.0",
     "get-stdin": "^6.0.0",
     "hoek": "^5.0.3",
+    "latest-version": "^4.0.0",
     "md5": "^2.2.1",
     "minimist": "^1.2.0",
     "node-fetch": "^2.0.0",
@@ -45,7 +46,7 @@
     "readline-sync": "^1.4.9",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
-    "semver": "^5.5.0",
+    "semver": "^5.5.1",
     "window-size": "^1.1.0"
   },
   "devDependencies": {

@@ -9,9 +9,6 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as path from 'path';
 import { stdoutAsync } from './stdioAsync';
-import { showMessage } from './utils';
-require('log-prefix')(() => showMessage('%s'));
-program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -32,6 +29,7 @@ program
     .option('-p, --path <path>', 'path to file to connect to')
     .option('-b, --bot <bot>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
+    .option('--prefix', 'Append [msbot] prefix to all messages')
     .action((filePath: program.Command, actions: program.Command) => {
         if (filePath) {
             actions.filePath = filePath;

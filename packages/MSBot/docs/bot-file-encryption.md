@@ -22,6 +22,7 @@ Options:
   --secret <secret>  secret used to confirm you can do secret operations
   -c, --clear        clear the secret and store keys unencrypted
   -n, --new          generate a new secret and store keys encrypted
+  --prefix           append [msbot] prefix to all messages
   -h, --help         output usage information
 ```
 
