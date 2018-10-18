@@ -32,6 +32,7 @@ const Endpointkeys = require('../lib/api/endpointkeys');
 const Operations = require('../lib/api/operations');
 const Delay = require('await-delay');
 const { ServiceBase } = require('../lib/api/serviceBase');
+const latestVersion = require('latest-version');
 
 function stdoutAsync(output) { return new Promise((done) => process.stdout.write(output, "utf-8", () => done())); }
 
@@ -47,6 +48,19 @@ async function runProgram() {
     if (argvFragment.length === 0) {
         argvFragment = ['-h'];
     }
+
+    const latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
+        .catch(() => pkg.version);
+    if (semver.gt(latest, pkg.version)) {
+        process.stderr.write(chalk.default.white(`\n     Update available `));
+        process.stderr.write(chalk.default.grey(`${pkg.version}`));
+        process.stderr.write(chalk.default.white(` -> `));
+        process.stderr.write(chalk.default.greenBright(`${latest}\n`));
+        process.stderr.write(chalk.default.white(`     Run `));
+        process.stderr.write(chalk.default.blueBright(`npm i -g ${pkg.name} `));
+        process.stderr.write(chalk.default.white(`to update.\n\n`));
+    }
+
     args = minimist(argvFragment);
 
     if (args['!'] ||

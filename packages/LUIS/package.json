@@ -47,6 +47,7 @@
     "fs-extra": "^5.0.0",
     "get-stdin": "^6.0.0",
     "intercept-stdout": "^0.1.2",
+    "latest-version": "^4.0.0",
     "minimist": "^1.2.0",
     "ms-rest-js": "^0.17.375",
     "node-fetch": "^2.0.0",
@@ -54,7 +55,7 @@
     "readline-sync": "^1.4.9",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "semver": "^5.5.0",
+    "semver": "^5.5.1",
     "window-size": "^1.1.0"
   },
   "devDependencies": {
