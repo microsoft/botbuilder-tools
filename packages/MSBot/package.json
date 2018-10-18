@@ -58,7 +58,7 @@
     "get-stdin": "^6.0.0",
     "latest-version": "^4.0.0",
     "linq-collections": "^1.0.254",
-    "log-prefix": "^0.1.1",
+    "intercept-stdout": "^0.1.2",
     "opn": "^5.3.0",
     "read-text-file": "^1.1.0",
     "readline-sync": "^1.4.9",

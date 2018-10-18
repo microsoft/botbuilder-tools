@@ -6,9 +6,7 @@
 import * as chalk from 'chalk';
 import * as program from 'commander';
 
-import { showMessage } from './utils';
-require('log-prefix')(() => showMessage('%s'));
-program.option('--verbose', 'Add [msbot] prefix to all messages');
+program.option('--prefix', 'Append [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
