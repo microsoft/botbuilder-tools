@@ -105,10 +105,11 @@ let configSection = {
     table: [
         [chalk.cyan.bold('--appId'), 'Specifies the public LUIS application id. Overrides the .luisrc value and the LUIS_APP_ID environment variable.'],
         [chalk.cyan.bold('--authoringKey'), 'Specifies the LUIS authoring  key (from luis.ai portal user settings page). Overrides the .luisrc value and the LUIS_AUTHORING_KEY environment variable.'],
+        [chalk.cyan.bold('--subscriptionKey'), 'Specifies the LUIS subscriptionKey. Overrides the .luisrc value and the LUIS_SUBSCRIPTION_KEY environment variable.'],
         [chalk.cyan.bold('--versionId'), 'Specifies the version id. Overrides the .luisrc value and the LUIS_VERSION_ID environment variable.'],
         [chalk.cyan.bold('--region'), 'Specifies the authoring region for all requests. [westus|westeurope|australiaeast] Overrides the .luisrc value and the LUIS_REGION environment variable.'],
         [chalk.cyan.bold('--stdin'), 'Pull in service keys from stdin in the format of that is the output of: msbot get service'],
-        [chalk.cyan.bold('--prefix'), 'Appends [luis-apis] prefix to all messages'],
+        [chalk.cyan.bold('--prefix'), 'Appends [luis-apis] prefix to all messages']
     ]
 };
 
