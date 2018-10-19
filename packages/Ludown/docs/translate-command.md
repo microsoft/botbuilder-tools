@@ -38,6 +38,7 @@ When translating .lu file,
     -c, --transate_comments          [Optional] Translate comments in .lu files
     -u, --translate_link_text        [Optional] Translate URL or .lu file reference link text
     --verbose                        [Optional] Get verbose messages from parser
+    --prefix                         [Optional] append [ludown] prefix to all messages
     -h, --help                       output usage information
 ```
 
