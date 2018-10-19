@@ -15,14 +15,12 @@ import * as url from 'url';
 import * as util from 'util';
 import { spawnAsync } from './processUtils';
 import { logAsync } from './stdioAsync';
-import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap, showMessage } from './utils';
+import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap } from './utils';
 const Table = require('cli-table3');
 const opn = require('opn');
 const exec = util.promisify(child_process.exec);
 
 const AZMINVERSION = '(0.4.1)';
-
-require('log-prefix')(() => showMessage('%s'));
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -51,11 +49,13 @@ interface ICloneArgs {
     appSecret: string;
     args: string[];
     force: boolean;
+    noDecorate: boolean;
 }
 
 program
     .name('msbot clone services')
     .option('-n, --name <name>', 'name of new bot')
+    .option('--noDecorate', 'do not prepend name of bot for names')
     .option('-f, --folder <folder>', 'path to folder containing exported resources')
     .option('-l, --location <location>', 'location to create the bot service in (westus, ...)')
     .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key from the appropriate luisAuthoringRegion for luis resources')
@@ -66,6 +66,7 @@ program
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
     .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
+    .option('--prefix', 'Append [msbot] prefix to all messages')    
     .option('--appId <appId>', '(OPTIONAL) Application ID for an existing application, if not passed then a new Application will be created')
     .option('--appSecret <appSecret>', '(OPTIONAL) Application Secret for an existing application, if not passed then a new Application will be created')
     .option('-q, --quiet', 'minimize output')
@@ -77,7 +78,6 @@ program
 const cmd: program.Command = program.parse(process.argv);
 const args = <ICloneArgs>{};
 Object.assign(args, cmd);
-args.verbose = process.env.VERBOSE === 'verbose';
 
 if (typeof (args.name) != 'string') {
     console.error(chalk.default.redBright('missing --name argument'));
@@ -802,7 +802,7 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
     let luisService: LuisService;
     const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
 
-    let luisAppName = `${args.name}_${luisResource.name}`;
+    let luisAppName = args.noDecorate ? `${luisResource.name}` : `${args.name}_${luisResource.name}`;
     let svcOut = <ILuisService>await runCommand(`luis import application --region ${luisAuthoringRegion} --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
         `Creating and importing LUIS application [${luisAppName}]`);
     luisService = new LuisService(svcOut);

@@ -7,13 +7,13 @@
 	</PropertyGroup>
 
     <PropertyGroup>
-        <VersionPrefix>2.0.0</VersionPrefix>
+        <VersionPrefix>2.0.1</VersionPrefix>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp2.1</TargetFramework>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <Authors>microsoft,BotFramework,nugetbotbuilder</Authors>
         <Company>Microsoft</Company>
-        <Description>LUISGen is a tool for generating a strongly typed C# class or typescript interface to make consuming LUIS output easier in the Microsoft Bot Builder SDK.  This enables build-time error checking and intellisense.</Description>
+        <Description>LUISGen is a tool for generating a strongly typed C# class or typescript interface to make consuming LUIS output easier in the Microsoft Bot Builder SDK.  This enables build-time error checking and intellisense against the intents and entities of your LUIS application model.</Description>
         <Product>Microsoft Bot Framework</Product>
         <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
         <PackageProjectUrl>https://github.com/Microsoft/botbuilder-tools/packages/LUISGen</PackageProjectUrl>
