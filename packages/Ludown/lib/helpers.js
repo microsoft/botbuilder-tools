@@ -3,6 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const fs = require('fs');
 const path = require('path');
 const PARSERCONSTS = require('./enums/parserconsts');
@@ -13,7 +14,6 @@ const LUISBuiltInTypes = require('./enums/luisbuiltintypes').consolidatedList;
 const NEWLINE = require('os').EOL;
 const ANY_NEWLINE = /\r\n|\r|\n/g;
 const url = require('url');
-const utils = require('./utils');
 const helpers = {
 
     /**

@@ -3,10 +3,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const program = require('commander');
 const chalk = require('chalk');
 const pkg = require('../package.json');
-const utils = require('./utils');
 const semver = require('semver');
 const getLatestVersion = require('latest-version');
 getLatestVersion(pkg.name, { version: `>${pkg.version}` })

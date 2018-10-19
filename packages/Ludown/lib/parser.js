@@ -4,6 +4,7 @@
  * Licensed under the MIT License.
  */
 /*eslint no-console: ["error", { allow: ["log"] }] */
+require('./utils');
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
@@ -17,7 +18,6 @@ const exception = require('./classes/exception');
 const filesToParseClass = require('./classes/filesToParse');
 const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
-const utils = require('./utils');
 
 const parser = {
     /**

@@ -3,6 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const fetch = require('node-fetch');
 const PARSERCONSTS = require('./enums/parserconsts');
 const retCode = require('./enums/CLI-errors');
@@ -11,7 +12,6 @@ const helperClasses = require('./classes/hclasses');
 const exception = require('./classes/exception');
 const helpers = require('./helpers');
 const NEWLINE = require('os').EOL;
-const utils = require('./utils');
 const translateHelpers = {
     /**
      * Helper function to parseAndTranslate lu file content
