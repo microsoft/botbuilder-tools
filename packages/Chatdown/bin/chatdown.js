@@ -114,7 +114,7 @@ async function runProgram() {
     const args = minimist(process.argv.slice(2));
 
     if (args.prefix) {
-        const unhook_intercept = intercept(function(txt) {
+        intercept(function(txt) {
             return `[${pkg.name}]\n${txt}`;
         });
     }
