@@ -97,6 +97,10 @@ async function processConnectLuisArgs(config: BotConfiguration): Promise<BotConf
         throw new Error('bad or missing --authoringKey');
     }
 
+    if (!args.region || args.region === 'usgovvirginia') {
+        args.region = 'virginia';
+    }
+    
     if (!args.region || args.region.length === 0) {
         args.region = 'westus';
     }

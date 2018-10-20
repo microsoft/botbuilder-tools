@@ -47,7 +47,9 @@ export const RegionCodes = {
     UKSOUTH: 'uksouth',
     UKWEST: 'ukwest',
     FRANCECENTRAL: 'francecentral',
-    FRANCESOUTH: 'francesouth'
+    FRANCESOUTH: 'francesouth',
+    USGOVVIRGINIA: 'usgovvirginia',
+    VIRGINIA: 'virginia'
 };
 
 export const RegionNames = {
@@ -82,7 +84,9 @@ export const RegionNames = {
     UKSOUTH: 'UK South',
     UKWEST: 'UK West',
     FRANCECENTRAL: 'France Central',
-    FRANCESOUTH: 'France South'
+    FRANCESOUTH: 'France South',
+    USGOVVIRGINIA: 'USGov Virginia',
+    VIRGINIA: 'Virginia',
 };
 
 export const regionToLuisAuthoringRegionMap: { [region: string]: string } = {
@@ -117,7 +121,9 @@ export const regionToLuisAuthoringRegionMap: { [region: string]: string } = {
     francecentral: RegionCodes.WESTEUROPE,
     francesouth: RegionCodes.WESTEUROPE,
     germanycentral: RegionCodes.WESTEUROPE,
-    germanynortheast: RegionCodes.WESTEUROPE
+    germanynortheast: RegionCodes.WESTEUROPE,
+    usgovvirginia: RegionCodes.VIRGINIA,
+    virginia: RegionCodes.VIRGINIA
 }
 
 export const regionToLuisPublishRegionMap: { [region: string]: string } = {
@@ -152,7 +158,9 @@ export const regionToLuisPublishRegionMap: { [region: string]: string } = {
     francecentral: RegionCodes.NORTHEUROPE,
     francesouth: RegionCodes.WESTEUROPE,
     germanycentral: RegionCodes.WESTEUROPE,
-    germanynortheast: RegionCodes.NORTHEUROPE
+    germanynortheast: RegionCodes.NORTHEUROPE,
+    usgovvirginia: RegionCodes.VIRGINIA,
+    virginia: RegionCodes.VIRGINIA
 }
 
 export const regionToAppInsightRegionNameMap: { [region: string]: string } = {
@@ -193,6 +201,7 @@ export const regionToAppInsightRegionNameMap: { [region: string]: string } = {
     francesouth: RegionNames.WESTEUROPE,
     germanycentral: RegionNames.WESTEUROPE,
     germanynortheast: RegionNames.WESTEUROPE
+    
 }
 
 export const regionToSearchRegionMap: { [region: string]: string } = {
@@ -231,13 +240,18 @@ export const regionToSearchRegionMap: { [region: string]: string } = {
     francecentral: RegionCodes.WESTEUROPE,
     francesouth: RegionCodes.WESTEUROPE,
     germanycentral: RegionCodes.WESTEUROPE,
-    germanynortheast: RegionCodes.NORTHEUROPE
+    germanynortheast: RegionCodes.NORTHEUROPE,
+    
+    usgovvirginia: RegionCodes.USGOVVIRGINIA,
+    virginia: RegionCodes.VIRGINIA
 }
 
 export const luisAuthoringRegions = [
     RegionCodes.AUSTRALIAEAST,
     RegionCodes.WESTEUROPE,
-    RegionCodes.WESTUS
+    RegionCodes.WESTUS,
+    RegionCodes.VIRGINIA
+
 ];
 
 
@@ -253,7 +267,9 @@ export const luisPublishRegions = [
     RegionCodes.WESTCENTRALUS,
     RegionCodes.WESTUS,
     RegionCodes.WESTUS2,
-    RegionCodes.BRAZILSOUTH
+    RegionCodes.BRAZILSOUTH,
+    RegionCodes.USGOVVIRGINIA
+    
 ];
 
 export const searchRegions = [
@@ -275,7 +291,11 @@ export const searchRegions = [
     RegionCodes.EASTUS2,
     RegionCodes.WESTCENTRALUS,
     RegionCodes.SOUTHCENTRALUS,
-    RegionCodes.CANADACENTRAL
+    RegionCodes.CANADACENTRAL,
+    
+    RegionCodes.USGOVVIRGINIA,
+    RegionCodes.VIRGINIA
+
 ];
 
 const appInsightRegions = [
