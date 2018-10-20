@@ -676,7 +676,7 @@
     "SourceLink.Create.CommandLine/2.8.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-TpAeoz13+NxLJZ+xo5ZIRWc0UksmSdHmJCtZpAJWOtdzmFzD47oaYf76FwTsHXWd2OnJXQrKGJEPDdTs1pcgDg==",
+      "sha512": "sha512-LPkIm6cwiLfkEiRcQ5hnx6NsPjqGmysbtqC16kxkB2ZzbRF39IFcWXua/nGRKgROKTkXEssJqjFnTo80xrmK3Q==",
       "path": "sourcelink.create.commandline/2.8.1",
       "hashPath": "sourcelink.create.commandline.2.8.1.nupkg.sha512"
     },
@@ -690,7 +690,7 @@
     "System.CodeDom/4.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-2sCCb7doXEwtYAbqzbF/8UAeDRMNmPaQbU2q50Psg1J9KzumyVVCgKQY8s53WIPTufNT0DpSe9QRvVjOzfDWBA==",
+      "sha512": "sha512-E/lvSfMFPtNflAgdM6AuPU8JbZdqdSoGpU66G7SrduCqdrFyPflaqqV4gN2d0hrCBpu92HaoqpUP5d+g9Itcxw==",
       "path": "system.codedom/4.4.0",
       "hashPath": "system.codedom.4.4.0.nupkg.sha512"
     },
@@ -753,7 +753,7 @@
     "System.IO.Packaging/4.4.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-uiRKktqEGYKnAfxsgrgzKdf6ljDIN4oMyS1htnlN1q7VPGUtf7e+FpUo7+W28uGWVu+G2oWN5dz3y7GlJ82rJA==",
+      "sha512": "sha512-cw1lEF8t1kKwD9CBCBvKUatqZBH+NFsPachBfHLYe+YuiGc/mBzPXuN9MRrCSjTp0E1ucm5vuQs+3Za8J94O3w==",
       "path": "system.io.packaging/4.4.1",
       "hashPath": "system.io.packaging.4.4.1.nupkg.sha512"
     },
@@ -830,7 +830,7 @@
     "System.Security.Permissions/4.4.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-l8IxQ9mEAkKv85uoEcjcYhrh+yTLZtLgNqb2T7QChTdKXh45EUnmKd+Ckdt1D+VYW2dk2Pb5MT+0zwQ74Jd2Xg==",
+      "sha512": "sha512-tXBMO8OJEuw9c4KjLj4fwxJusely90azF24Uktz/evgvowAtU963HYl+G93gaRZr6pvYvsSPrjkN4+2pdVUbgw==",
       "path": "system.security.permissions/4.4.1",
       "hashPath": "system.security.permissions.4.4.1.nupkg.sha512"
     },
