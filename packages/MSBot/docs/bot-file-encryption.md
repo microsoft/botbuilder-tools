@@ -54,6 +54,13 @@ msbot secret -b my.bot --secret OLDSECRET --new
 ```
 This will encrypt all sensitive data and give you a new secret key which you can use with --secret switch.
 
+**NOTE** You can (re)set your bot file secret for Azure Bot Service by updating the botFileSecret application settings for your bot in the Azure portal. To do this, 
+- Navigate to https://portal.azure.com, sign in with your azure account
+- Locate and open the settings blade for your bot
+- Click on application settings under **App Service Settings** in the left nav
+- Locate the 'botFileSecret' application settings and update the value to the new secret
+- Click on 'Save'
+
 ## Clearing the secret
 
 You can stop using encryption by passing in the secret with a --clear flag.
@@ -62,4 +69,3 @@ You can stop using encryption by passing in the secret with a --clear flag.
 msbot secret -b my.bot --secret OLDSECRET --clear
 ```
 This will leave your file decrypted and the old secret will not be used anymore.
-
