@@ -22,6 +22,7 @@ const NEWLINE = require('os').EOL;
 const fetch = require('node-fetch');
 const qnaFile = require('../lib/classes/qnaFiles');
 const fileToParse = require('../lib/classes/filesToParse');
+const utils = require('./utils');
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob

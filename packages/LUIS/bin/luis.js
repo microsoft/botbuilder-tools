@@ -35,6 +35,7 @@ const txtfile = require('read-text-file');
 
 const help = require('./help');
 const Delay = require('await-delay');
+const intercept = require("intercept-stdout");
 
 let args;
 
@@ -58,6 +59,11 @@ async function runProgram() {
         args._.includes('help')) {
         return help(args, process.stdout);
     }
+    if (args.prefix) {
+        const unhook_intercept = intercept(function(txt) {
+            return `[${pkg.name}]\n${txt}`;
+        });
+    }
     if (args.version || args.v) {
         return process.stdout.write(require(path.join(__dirname, '../package.json')).version + "\n");
     }
@@ -74,6 +80,7 @@ async function runProgram() {
     const config = await composeConfig();
     let serviceIn = {};
     if (args.stdin) {
+        process.env.PREFIX = 'prefix';
         let json = await stdin();
         serviceIn = JSON.parse(json);
     }
@@ -400,23 +407,14 @@ async function runProgram() {
                 case "applications":
                     result = await client.apps.list(args.region, args);
                     break;
-                case "credentials":
-                    result = await client.credentials.list(args.region, args.appId, args.versionId, args);
-                    break;
                 case "examples":
                     result = await client.examples.list(args.region, args.appId, args.versionId, args);
                     break;
                 case "features":
                     result = await client.features.list(args.region, args.appId, args.versionId, args);
                     break;
-                case "patterns":
-                    result = await client.pattern.list(args.region, args.appId, args.versionId, args);
-                    break;
                 case "permissions":
                     result = await client.permissions.list(args.region, args.appId, args);
-                    break;
-                case "train":
-                    result = await client.train.list(args.region, args.appId, args.versionId, args);
                     break;
                 case "versions":
                     result = await client.versions.list(args.region, args.appId, args);
@@ -585,10 +583,6 @@ async function runProgram() {
                 case "sublist":
                     result = await client.model.updateSubList(args.region, args.appId, args.versionId, args.clEntityId, args.subListId, requestBody, args);
                     break;
-                case "version":
-                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
-                    break;
-
                 default:
                     throw new Error(`Unknown resource: ${target}`);
             }

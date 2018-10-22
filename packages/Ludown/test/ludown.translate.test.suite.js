@@ -63,6 +63,39 @@ describe('With translate module', function() {
         });
     });
 
+    it('correctly localize the file content', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let luFilePath = resolvePath('test/testcases/reduced.lu');
+        exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t zh-Hans -o ${LUDOWN_ROOT}/test/output --verbose --in ` + luFilePath, (error, stdout) => {
+            try {
+                compareFiles(LUDOWN_ROOT + '/test/output/zh-Hans/reduced.lu', LUDOWN_ROOT + '/test/verified/zh-Hans/reduced.lu');
+                console.log(stdout);
+                done();
+            } catch(err){
+                done(err);
+            }
+        });
+    });
+
+    it('correctly localizes the file content when multiple target languages are specified', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let luFilePath = resolvePath('test/testcases/reduced.lu');
+        exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t "zh-Hans, de" -o ${LUDOWN_ROOT}/test/output --verbose --in ` + luFilePath, (error, stdout) => {
+            try {
+                compareFiles(LUDOWN_ROOT + '/test/output/zh-Hans/reduced.lu', LUDOWN_ROOT + '/test/verified/zh-Hans/reduced.lu');
+                compareFiles(LUDOWN_ROOT + '/test/output/de/reduced.lu', LUDOWN_ROOT + '/test/verified/de/reduced.lu');
+                console.log(stdout);
+                done();
+            } catch(err){
+                done(err);
+            }
+        });
+    });
+
     it('correctly throws when an invalid translate key is provided', function(done) {
         let luFile = `$entityName:foo=
         - one`;

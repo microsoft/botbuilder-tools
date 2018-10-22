@@ -6,11 +6,15 @@
 const program = require('commander');
 const chalk = require('chalk');
 const pjson = require('../package.json');
-
+const utils = require('./utils');
+program
+    .option('--prefix', 'Add [ludown] prefix to all messages')
+    .on('option:prefix', () => process.env.PREFIX = 'prefix');
 program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
 };
+
 program
     .version(pjson.version, '-v, --Version')
     .description(`Ludown is a command line tool to bootstrap language understanding models from .lu files`)
@@ -22,6 +26,7 @@ program
     .alias('t')
     .parse(process.argv);
 const commands = ['parse', 'p', 'refresh', 'd', 'translate', 't'];
+
 if (!commands.includes(process.argv[2].toLowerCase())) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
