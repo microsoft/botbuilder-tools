@@ -16,6 +16,7 @@ After you have bootstrapped and created your LUIS model and / or QnAMaker knowle
     -n, --lu_File <LU_File>                     [Optional] Output .lu file name
     --verbose                                   [Optional] Get verbose messages from parser
     -s, --skip_header                           [Optional] Generate .lu file without the header comment
+    --prefix                                    [Optional] append [ludown] prefix to all messages
     -h, --help                                  output usage information
 ```
 
