@@ -64,9 +64,9 @@ $commPreference:call=
         'langCode': 'fr',
         'translatedContent':`> Faire tout comme un modèle
 # AskForUserName
-- {userName}
-- Je ne suis {userName}
-- Appelle-moi {userName}
+-  {userName} 
+- Je ne suis  {userName} 
+- Appelle-moi  {userName} 
 `
     },
     'intentsAndUtterancesNC': {
@@ -108,7 +108,7 @@ $commPreference:call=
         `,
         'langCode': 'de',
         'translatedContent': `# Greeting
-- Es gibt {time=Morgen}
+- Es gibt  {time=Morgen} 
 
 `
     }

@@ -3,6 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const helperClasses = require('./classes/hclasses');
 const helpers = require('./helpers');
 const NEWLINE = require('os').EOL;

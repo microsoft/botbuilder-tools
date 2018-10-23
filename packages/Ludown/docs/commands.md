@@ -32,7 +32,7 @@ Convert .lu file(s) into LUIS JSON OR QnA Maker JSON files.
   Convert .lu file(s) into LUIS JSON, QnA Maker JSON files.
 
   Options:
-
+    --prefix       append [ludown] prefix to all messages
     -h, --help     output usage information
 
   Commands:
@@ -66,6 +66,7 @@ Convert .lu file(s) into LUIS JSON file. Optionally you can also generate a LUIS
     -t, --write_luis_batch_tests                     [Optional] Write out LUIS batch test json file
     --out <output_file_name>                         [Optional] Output file name for the LUIS model
     --verbose                                        [Optional] Get verbose messages from parser
+    --prefix                                         [Optional] append [ludown] prefix to all messages
     -h, --help                                       output usage information
 ```
 
@@ -89,6 +90,7 @@ Convert .lu file(s) into QnA Maker JSON file.
     -n, --qna_name <QnA_KB_Name>     [Optional] QnA KB name
     -a, --write_qna_alterations      [Optional] QnA Maker alterations
     --verbose                        [Optional] Get verbose messages from parser
+    --prefix                         [Optional] append [ludown] prefix to all messages
     -h, --help                       output usage information
 
 ```
@@ -112,6 +114,7 @@ After you have bootstrapped and created your LUIS model and / or QnAMaker knowle
     -n, --lu_File <LU_File>                     [Optional] Output .lu file name
     --verbose                                   [Optional] Get verbose messages from parser
     -s, --skip_header                           [Optional] Generate .lu file without the header comment
+    --prefix                                    [Optional] append [ludown] prefix to all messages
     -h, --help                                  output usage information
 
 ```
@@ -139,5 +142,6 @@ To bootstrap translations of the language understanding content for your bot, yo
     -c, --transate_comments          [Optional] Translate comments in .lu files
     -u, --translate_link_text        [Optional] Translate URL or .lu file reference link text
     --verbose                        [Optional] Get verbose messages from parser
+    --prefix                         [Optional] append [ludown] prefix to all messages
     -h, --help                       output usage information
 ```

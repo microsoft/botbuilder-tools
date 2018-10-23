@@ -3,6 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
@@ -11,7 +12,6 @@ const txtfile = require('read-text-file');
 const helpers = require('./helpers');
 const translateHelpers = require('./translate-helpers');
 const exception = require('./classes/exception');
-const utils = require('./utils');
 const translateModule = {
     /**
      * Helper function to parse, translate and write out localized lu files

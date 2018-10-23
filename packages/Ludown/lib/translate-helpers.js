@@ -3,6 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const fetch = require('node-fetch');
 const PARSERCONSTS = require('./enums/parserconsts');
 const retCode = require('./enums/CLI-errors');
@@ -11,7 +12,6 @@ const helperClasses = require('./classes/hclasses');
 const exception = require('./classes/exception');
 const helpers = require('./helpers');
 const NEWLINE = require('os').EOL;
-const utils = require('./utils');
 const translateHelpers = {
     /**
      * Helper function to parseAndTranslate lu file content
@@ -137,15 +137,15 @@ const translateHelpers = {
                         }
                         try {
                             if (entity.value !== '') {
-                                data = await translateHelpers.translateText(content.substring(entity.start, entity.end + 1), subscriptionKey, to_lang, src_lang);
+                                data = await translateHelpers.translateText(content.substring(entity.start, entity.end + 1).trim(), subscriptionKey, to_lang, src_lang);
                             }
                         } catch (err) {
                             throw (err);
                         }
                         if (entity.value !== '') {
-                            localizedUtterance += '{' + entity.entity + '=' + data[0].translations[0].text + '}';
+                            localizedUtterance += ' {' + entity.entity + '=' + data[0].translations[0].text + '} ';
                         } else {
-                            localizedUtterance += '{' + entity.entity + '}';
+                            localizedUtterance += ' {' + entity.entity + '} ';
                         }
                         offset = entity.end + 1;
                     }
@@ -153,7 +153,7 @@ const translateHelpers = {
                         candidateText = content.substring(offset);
                         if (candidateText.trim() !== '') {
                             try {
-                                data = await translateHelpers.translateText(candidateText, subscriptionKey, to_lang, src_lang);
+                                data = await translateHelpers.translateText(candidateText.trim(), subscriptionKey, to_lang, src_lang);
                             } catch (err) {
                                 throw (err);
                             }

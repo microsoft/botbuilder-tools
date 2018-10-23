@@ -1,12 +1,12 @@
- # LUISGen Command Line Tool 
- [![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)
+# LUISGen Command Line Tool 
+[![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)
 
- LUISGen is a tool for generating a strongly typed C# class or typescript
- interface to make consuming LUIS output easier. This enables build-time error
- checking and intellisense against the entities which are defined in your LUIS 
- application model.
+LUISGen is a tool for generating a strongly typed C# class or typescript
+interface to make consuming LUIS output easier. This enables build-time error
+checking and intellisense against the entities which are defined in your LUIS 
+application model.
 
- ## Prerequisite
+## Prerequisite
 
 This tool depends on having [DotNet Core SDK 2.1](https://www.microsoft.com/net/download) installed 
 on your system. 

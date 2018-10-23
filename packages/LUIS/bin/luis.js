@@ -65,17 +65,16 @@ async function runProgram() {
     args = minimist(argvFragment, { string: ['versionId'] });
     if (args._[0] == "luis")
         args._ = args._.slice(1);
-
+    if (args.prefix) {
+        intercept(function (txt) {
+            return `[${pkg.name}]\n${txt}`;
+        });
+    }
     if (args.help ||
         args.h ||
         args['!'] ||
         args._.includes('help')) {
         return help(args, process.stdout);
-    }
-    if (args.prefix) {
-        const unhook_intercept = intercept(function (txt) {
-            return `[${pkg.name}]\n${txt}`;
-        });
     }
     if (args.version || args.v) {
         return process.stdout.write(require(path.join(__dirname, '../package.json')).version + "\n");
