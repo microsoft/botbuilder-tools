@@ -42,10 +42,10 @@
     "read-line": "^0.1.2",
     "read-text-file": "^1.1.0",
     "semver": "^5.5.1",
+    "fetch-mock": "^7.0.0-alpha.6",
     "window-size": "^1.1.1"
   },
   "devDependencies": {
-    "fetch-mock": "^7.0.0-alpha.6",
     "mocha": "^5.2.0"
   }
 }
