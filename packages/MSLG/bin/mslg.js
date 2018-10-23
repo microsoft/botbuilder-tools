@@ -374,10 +374,14 @@ async function handleCreateModelCommand(args, config){
         throw new Exception(retCode.INVALID_INPUT, "One or more argument is missing for creating an LG model.\n\nDid you run ${chalk.cyan.bold('mslg init')} yet? You can also pass a definition file for the missing arguments.");
 
     // read lg file/folder
-    if(lgInput.endsWith(lgFileExt))
-        model.text = await parser.parseFile(lgInput, args.verbose);
-    else
-        model.text = await parser.parseCollateAndWriteOut(args, false);
+    try {
+        if(lgInput.endsWith(lgFileExt))
+            model.text = await parser.parseFile(lgInput, args.verbose);
+        else
+            model.text = await parser.parseCollateAndWriteOut(args, false);
+    } catch (err) {
+        throw (err);
+    }
 
     // read model metadata if definition file exist and overwrite existing model
     if(args.in)
@@ -431,8 +435,8 @@ async function handleReplaceCommand(args, config){
         else
             model.text = await parser.parseCollateAndWriteOut(args, false);
         return model;
-    }catch(err){
-        return null;
+    }catch (err){
+        throw (err);
     }
 }
 
