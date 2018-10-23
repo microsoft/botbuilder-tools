@@ -45,21 +45,25 @@ const parser = {
         } catch (err) {
             throw new Exception(retCode.INVALID_INPUT, `Sorry, ${folderWithLGFiles} is not a folder or does not exist`);
         }
-        
-        // get files from folder
-        const lgFiles = parserHelpers.findFiles(folderWithLGFiles, includeSubFolder, lgFileExt);
-        const allParsedContent = await parser.parseFiles(lgFiles, verboseLog);
-        // write out to disk
-        const finalMdContent = await parser.collateParsedContentToMd(allParsedContent, verboseLog);
-        if(writeOut){
-            if(!lgAppName) 
-                lgAppName = path.basename(folderWithLGFiles) + lgFileExt;
-            if(!lgAppName.includes(lgFileExt)) 
-                lgAppName += lgFileExt;
-            parserHelpers.writeToDisk(finalMdContent, lgAppName, lOutputFolder, verboseLog);
-        }else{
-            return finalMdContent;
+        try {
+            // get files from folder
+            const lgFiles = parserHelpers.findFiles(folderWithLGFiles, includeSubFolder, lgFileExt);
+            const allParsedContent = await parser.parseFiles(lgFiles, verboseLog);
+            // write out to disk
+            const finalMdContent = await parser.collateParsedContentToMd(allParsedContent, verboseLog);
+            if(writeOut){
+                if(!lgAppName) 
+                    lgAppName = path.basename(folderWithLGFiles) + lgFileExt;
+                if(!lgAppName.includes(lgFileExt)) 
+                    lgAppName += lgFileExt;
+                parserHelpers.writeToDisk(finalMdContent, lgAppName, lOutputFolder, verboseLog);
+            }else{
+                return finalMdContent;
+            }
         }
+        catch (err) {
+            throw (err);
+        }        
     },
     /**
      * Async function to parse input .lg file, validate it and return content
@@ -130,8 +134,8 @@ const parser = {
             const collatedLGContent = await parser.collate(allParsedContent);
             // generate output file content
             return await parser.genMdFromParserObj(collatedLGContent);
-        }catch(err){
-            return null;
+        }catch (err){
+            throw (err);
         }
     },
     /**
