@@ -149,16 +149,13 @@ async function runProgram() {
  */
 async function initializeConfig() {
     process.stdout.write(chalk.cyan.bold('\nThis util will walk you through creating a .lgrc file\n\nPress ^C at any time to quit.\n\n'));
-    const validRegions = 'develop ev2test eastasia northeurope'.split(' ');
+    const validRegions = 'westus develop ev2test eastasia northeurope'.split(' ');
 
     const questions = [
         'What is your LG authoring/subscription key? (found on the Cognitive Services Azure portal page under "access keys") ',
         `What is your region? [${validRegions.join(', ')}] `,
-        'What is your LG EndpointKey? ',
-        'What would you like to use as your active LG App ID? [none] ',
         'What would you like to use as your active LG App Name? [none] ',
         'What would you like to use as your active LG App Locale? [en-US] ',
-        'What would you like to use as your active LG App Domain? [none] ',
         'What would you like to use as your active LG App Version? [default] ',
     ];
 
@@ -183,14 +180,11 @@ async function initializeConfig() {
         answers.push(answer.trim());
     }
 
-    const [authoringKey, region, endpointKey, lgAppId, lgAppName, lgAppLocale, lgAppDomain, lgAppVersion] = answers;
+    const [authoringKey, region, lgAppName, lgAppLocale, lgAppVersion] = answers;
     const config = Object.assign({}, {
         authoringKey,
-        endpointKey,
         endpointBasePath: `https://${region}.cris.ai`,
-        lgAppId,
         lgAppName,
-        lgAppDomain,
         lgAppLocale: lgAppLocale == "" ? "en-US":lgAppLocale,
         lgAppVersion: lgAppVersion == "" ? "default":lgAppVersion
     });
@@ -233,7 +227,7 @@ async function getFileInput(filepath, toJSON = true) {
  */
 async function composeConfig(args) {
     const { LG_AUTHORING_KEY, LG_ENDPOINT_KEY, LG_ENDPOINT_BASE_PATH, LG_APP_ID, LG_APP_NAME, LG_APP_LOCALE, LG_APP_DOMAIN, LG_APP_VERSION} = process.env;
-    const { authoringKey, endpointKey, endpointBasePath, id, lgAppId, lgAppName, lgAppLocale, lgAppDomain, lgAppVersion } = args;
+    const { authoringKey, endpointKey, endpointBasePath, id, lgAppId, appName, lgAppLocale, lgAppDomain, lgAppVersion } = args;
 
     let lgrcJson = {};
     let config;
@@ -248,7 +242,7 @@ async function composeConfig(args) {
             endpointKey: (endpointKey || lgrcJson.endpointKey || LG_ENDPOINT_KEY),
             endpointBasePath: (endpointBasePath || lgrcJson.endpointBasePath || LG_ENDPOINT_BASE_PATH),
             lgAppId: (id || lgAppId || lgrcJson.lgAppId || LG_APP_ID),
-            lgAppName: (lgAppName || lgrcJson.lgAppName || LG_APP_NAME),
+            lgAppName: (appName || lgrcJson.lgAppName || LG_APP_NAME),
             lgAppLocale: (lgAppLocale || lgrcJson.lgAppLocale || LG_APP_LOCALE),
             lgAppDomain: (lgAppDomain || lgrcJson.lgAppDomain || LG_APP_DOMAIN),
             lgAppVersion: (lgAppVersion || lgrcJson.lgAppVersion || LG_APP_VERSION)
@@ -292,7 +286,7 @@ async function validateArguments(serviceManifest, requestBody) {
         throw new Exception(retCode.INVALID_INPUT, "The operation does not exist.");
     }
 
-    const entitySpecified = (args.in && typeof args.in === 'string') || (requestBody != undefined);
+    const entitySpecified = (args.config && typeof args.config === 'string') || (requestBody != undefined);
     const entityRequired = !!operation.entityName;
 
     if (!entityRequired && entitySpecified) {
@@ -301,7 +295,7 @@ async function validateArguments(serviceManifest, requestBody) {
 
     if (entityRequired) {
         if (entitySpecified) {
-            body = requestBody ? requestBody:(await getFileInput(args.in));
+            body = requestBody ? requestBody:(await getFileInput(args.config));
         }
         else {
             throw new Exception(retCode.INVALID_INPUT, `The ${operation.name} requires an input of type: ${operation.entityType}`);
@@ -335,7 +329,7 @@ async function handleError(error) {
 }
 
 async function handleParseCommand(args){
-    if (!(args["l"] || args["lgFolder"] || args["lg"])) 
+    if (!(args["l"] || args["lgFolder"] || args["lg"] || args["in"])) 
         throw new Exception(retCode.INVALID_INPUT, "No input folder specified");
     await parser.parseCollateAndWriteOut(args, true);
     return true;
@@ -354,7 +348,7 @@ async function handleTranslateCommand(args){
 }
 
 async function handleCreateModelCommand(args, config){
-    const lgInput = (args.l || args.lg || args.lgFolder);
+    const lgInput = (args.l || args.lg || args.lgFolder || args.in);
     if(!lgInput)
         throw(new Exception(retCode.INVALID_INPUT, "No .lg file or folder specified."));
     
@@ -370,8 +364,11 @@ async function handleCreateModelCommand(args, config){
         }
     };
 
-    if(!(model.modelKind && model.name && model.locale && model.properties.Domain && model.properties.Version) && !args.in)
-        throw new Exception(retCode.INVALID_INPUT, "One or more argument is missing for creating an LG model.\n\nDid you run ${chalk.cyan.bold('mslg init')} yet? You can also pass a definition file for the missing arguments.");
+    if(!(model.modelKind && model.name && model.locale && model.properties.Version) && !args.config)
+        throw new Exception(retCode.INVALID_INPUT, "One or more argument is missing for creating an LG model.\n\nDid you run 'mslg init' yet? You can also pass a definition file for the missing arguments.");
+
+    // Assume domain = app name
+    if(model.properties.Domain === undefined) model.properties.Domain = model.name;
 
     // read lg file/folder
     try {
@@ -384,8 +381,8 @@ async function handleCreateModelCommand(args, config){
     }
 
     // read model metadata if definition file exist and overwrite existing model
-    if(args.in)
-        model = Object.assign(model, await getFileInput(args.in, true));
+    if(args.config)
+        model = Object.assign(model, await getFileInput(args.config, true));
    
     return model;
 }
@@ -399,8 +396,8 @@ async function handleCreateEndpointCommand(args, config){
         name: lgAppName
     };
 
-    if(args.in){
-        model = Object.assign(model, await getFileInput(args.in, true));
+    if(args.config){
+        model = Object.assign(model, await getFileInput(args.config, true));
     }
 
     return model;
@@ -441,8 +438,8 @@ async function handleReplaceCommand(args, config){
 }
 
 async function handleSetCommand(args, config) {
-    if (args._.length == 1 && !( args.authoringKey || args.endpointKey || args.endpointBasePath || args.lgAppId || args.lgAppName || args.lgAppLocale || args.lgAppDomain || args.lgAppVersion )) {
-        process.stderr.write(chalk.red.bold(`missing .lgrc argument name: [--authoringKey|--endpointKey|--endpointBasePath|--lgAppId|--lgAppName|--lgAppLocale|--lgAppDomain|--lgAppVersion]\n`));
+    if (args._.length == 1 && !( args.authoringKey || args.endpointKey || args.endpointBasePath || args.lgAppId || args.appName || args.appLocale || args.lgAppDomain || args.LG_APP_VERSION )) {
+        process.stderr.write(chalk.red.bold(`missing .lgrc argument name: [--authoringKey|--endpointKey|--endpointBasePath|--lgAppId|--appName|--appLocale|--lgAppDomain|--appVersion]\n`));
         return help(args);
     }
 
@@ -450,10 +447,10 @@ async function handleSetCommand(args, config) {
     config.endpointKey = args.endpointKey || config.endpointKey;
     config.endpointBasePath = args.endpointBasePath || config.endpointBasePath;
     config.lgAppId = args.id || args.lgAppId || config.lgAppId;
-    config.lgAppName = args.lgAppName || config.lgAppName;
-    config.lgAppLocale = args.lgAppLocale || config.lgAppLocale;
+    config.lgAppName = args.appName || config.lgAppName;
+    config.lgAppLocale = args.appLocale || config.lgAppLocale;
     config.lgAppDomain = args.lgAppDomain || config.lgAppDomain;
-    config.lgAppVersion = args.lgAppVersion || config.lgAppVersion;
+    config.lgAppVersion = args.appVersion || config.lgAppVersion;
 
     await fs.writeJson(path.join(process.cwd(), '.lgrc'), config, { spaces: 2 });
     process.stdout.write(JSON.stringify(config, null, 4) + "\n");

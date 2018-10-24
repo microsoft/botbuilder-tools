@@ -134,14 +134,14 @@
                 ],
                 "params": [
                     {
-                        "name": "lg",
+                        "name": "in",
                         "in": "path",
                         "required": true,
                         "type": "string",
                         "description": "Path to lg file or folder containing lg files"
                     }
                 ],
-                "command": "mslg create model --lg <string> --in modelDefinition.json",
+                "command": "mslg create model --in <string> [--config modelDefinition.json]",
                 "pathFragment": "",
                 "description": "Creates a new language generation model.",
                 "entityName": "modelDefinition",

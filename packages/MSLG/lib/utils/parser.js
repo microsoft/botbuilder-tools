@@ -31,7 +31,7 @@ const parser = {
      * @throws {Exception} Throws on errors. Exception object includes errCode and text. 
      */
     parseCollateAndWriteOut: async function(args, writeOut = true) {
-        const folderWithLGFiles = (args["l"] || args["lgFolder"] || args["lg"]);
+        const folderWithLGFiles = (args["l"] || args["lgFolder"] || args["lg"] || args["in"]);
         const includeSubFolder = (args["s"] || args["subfolder"]);
         const outputFolder =  (args["o"] || args["outFolder"]);
         const verboseLog = (args["verbose"]);   
@@ -75,7 +75,8 @@ const parser = {
      */
     parseFile: async function(lgFilePath, verboseLog){
         const allParsedContent = await parser.parseFiles([lgFilePath], verboseLog);
-        return await parser.collateParsedContentToMd(allParsedContent, verboseLog);
+        if (allParsedContent.length !== 0) return await parser.collateParsedContentToMd(allParsedContent, verboseLog);
+        throw new Exception(retCode.INVALID_INPUT, `Sorry, ${lgFilePath} does not have any valid LG content`);
     },
     /**
      * Async function to parse input .lg files and returns parsed content
@@ -240,7 +241,7 @@ const parser = {
             } 
             if(template.conditionalResponses.length !== 0) {
                 template.conditionalResponses.forEach(function(conditionalResponse) {
-                    let conditionName = (conditionalResponse.condition === parserConsts.ELSE)?parserConsts.DEFAULT + ' ':conditionalResponse.condition;
+                    let conditionName = (conditionalResponse.condition === parserConsts.ELSE)?parserConsts.DEFAULT + ':':'CASE: ' + conditionalResponse.condition;
                     fileContent += '    - ' + conditionName + NEWLINE;
                     conditionalResponse.variations.forEach(variation => {fileContent += '        - ' + variation + NEWLINE;})
                 })

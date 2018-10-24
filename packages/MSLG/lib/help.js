@@ -110,13 +110,13 @@ let configSection = {
     head: 'Configuration and Overrides:',
     table: [
         [chalk.cyan.bold('--authoringKey <key>'), 'Specifies the LG authoring key. Overrides the .lgrc value and the LG_AUTHORING_KEY environment variable.'],
-        [chalk.cyan.bold('--endpointKey <key>'), 'Specifies the endpoint key for your LG service. Overrides the .lgrc value and the LG_ENDPOINT_KEY environment variable.'],
         [chalk.cyan.bold('--endpointBasePath <path>'), 'Specifies the base URI for all requests. Overrides the .lgrc value and the LG_ENDPOINT_BASE_PATH environment variable.'],
         [chalk.cyan.bold('--lgAppId <appId>'), 'Specifies the public LG application id. Overrides the .lgrc value and the LG_APP_ID environment variable.'],
-        [chalk.cyan.bold('--lgAppName <name>'), 'Specifies the public LG application name. Overrides the .lgrc value and the LG_APP_NAME environment variable.'],
-        [chalk.cyan.bold('--lgAppLocale <locale>'), 'Specifies the public LG application locale. Overrides the .lgrc value and the LG_APP_LOCALE environment variable.'],
-        [chalk.cyan.bold('--lgAppDomain <domain>'), 'Specifies the public LG application domain. Overrides the .lgrc value and the LG_APP_DOMAIN environment variable.'],
-        [chalk.cyan.bold('--lgAppVersion <version>'), 'Specifies the public LG application version. Overrides the .lgrc value and the LG_APP_VERSION environment variable.'],
+        [chalk.cyan.bold('--appName <name>'), 'Specifies the public LG application name. Overrides the .lgrc value and the LG_APP_NAME environment variable.'],
+        [chalk.cyan.bold('--appLocale <locale>'), 'Specifies the public LG application locale. Overrides the .lgrc value and the LG_APP_LOCALE environment variable.'],
+        [chalk.cyan.bold('--appVersion <version>'), 'Specifies the public LG application version. Overrides the .lgrc value and the LG_APP_VERSION environment variable.'],
+
+
     ]
 };
 
@@ -294,14 +294,14 @@ function getHelpContentsForService(serviceManifest) {
                 table: params.map(param => [chalk.cyan.bold(`--${param.alias || param.name} <${param.type}>${param.required ? ' (required)' : ''}`), param.description])
             };
             if (operation.entityName) {
-                paramsHelp.table.unshift([chalk.cyan.bold(`--in ${operation.entityType}.json`), `The ${operation.entityType} object to send in the body of the request. This overrides the values in .lgrc`],
+                paramsHelp.table.unshift([chalk.cyan.bold(`--config ${operation.entityType}.json`), `The ${operation.entityType} object to send in the body of the request. This overrides the values in .lgrc`],
                     ['', chalk.dim(getEntityTypeExample(operation.entityType))]);
             }
         } else if (operation.entityName) {
             paramsHelp = {
                 head: `Command arguments are:`,
                 table: [
-                    [chalk.cyan.bold(`--in ${operation.entityType}.json`), `The ${operation.entityType} object to send in the body of the request`],
+                    [chalk.cyan.bold(`--config ${operation.entityType}.json`), `The ${operation.entityType} object to send in the body of the request`],
                     ['', chalk.dim(getEntityTypeExample(operation.entityType))]
                 ]
             };
