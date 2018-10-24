@@ -149,7 +149,7 @@ async function runProgram() {
  */
 async function initializeConfig() {
     process.stdout.write(chalk.cyan.bold('\nThis util will walk you through creating a .lgrc file\n\nPress ^C at any time to quit.\n\n'));
-    const validRegions = 'westus develop ev2test eastasia northeurope'.split(' ');
+    const validRegions = 'westus northeurope eastasia northcentralus eastus develop'.split(' ');
 
     const questions = [
         'What is your LG authoring/subscription key? (found on the Cognitive Services Azure portal page under "access keys") ',
