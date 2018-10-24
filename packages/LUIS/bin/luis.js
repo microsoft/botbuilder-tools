@@ -431,6 +431,9 @@ async function runProgram() {
                 case "versions":
                     result = await client.versions.list(args.region, args.appId, args);
                     break;
+                case "querylogs":
+                    result = await client.apps.downloadQueryLogsWithHttpOperationResponse(args.region, args.appId);
+                    break;
                 // --- model methods---
                 case "closedlists":
                     result = await client.model.listClosedLists(args.region, args.appId, args.versionId, args);
@@ -609,7 +612,19 @@ async function runProgram() {
         throw new Error(result.error.message);
     }
 
-    await stdoutAsync((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
+    if (result.readableStreamBody) {
+        result = await new Promise((resolve, reject) => {
+            var body = '';
+            var stream = result.readableStreamBody;
+            stream.on('readable', () => body += stream.read());
+            stream.on('end', () => {
+                resolve(body);
+            });
+        });
+        await stdoutAsync(result);
+    } else {
+        await stdoutAsync((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
+    }
 }
 
 async function writeAppToConsole(config, args, requestBody, result) {
