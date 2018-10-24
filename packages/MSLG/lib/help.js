@@ -173,7 +173,7 @@ function getVerbHelp(verb, output) {
     switch (verb) {
     case "parse":
         output.write(chalk.cyan.bold("mslg parse <args>\n\n"));
-        options.table.push([chalk.cyan.bold('-l, --lgFolder <inputFolder>'), '[Optional] Folder that has the .lg file. By default ludown will only look at the current folder. To look at all subfolders, include -s']);
+        options.table.push([chalk.cyan.bold('-l, --lgFolder <inputFolder>'), 'Folder that has the .lg file. By default mslg will only look at the current folder. To look at all subfolders, include -s']);
         options.table.push([chalk.cyan.bold('-s, --subfolder'), '[Optional] Include sub-folders as well when looking for .lg files']);
         options.table.push([chalk.cyan.bold('-o, --outFolder <outputFolder>'), '[Optional] Output folder for all files the tool will generate']);
         options.table.push([chalk.cyan.bold('-n, --lgAppName <name>'), '[Optional] Output LG app name']);

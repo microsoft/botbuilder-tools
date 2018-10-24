@@ -39,21 +39,17 @@ Prerequisites :
     ```
 - Enter [YOUR_SUBSCRIPTION_KEY]
 - Enter region
-- When asked about endpointkey just leave it blank and hit enter to stay with the default
 - Type any GUID id for lg app, or leave blank to be auto-generated for this tutorial
 - Type any name for lg app
 - Type locale or use the default "en-US"
-- Type domain for your lg app (for this tutorial you might use your app name as the domain)
 - Type app version (for this tutorial use defaul, ie : just hit enter)
 - The tool will confirm that your configuration file woule look like this : 
     ```sh
         {
           "authoringKey": "[YOUR_SUBSCRIPTION_KEY]",
-          "endpointKey": "",
           "endpointBasePath": "https://develop.cris.ai",
           "lgAppId": "[YOUR_ENTERED_APP_ID]",
           "lgAppName": "[YOUR_ENTERED_APP_NAME]",
-          "lgAppDomain": "[YOUR_ENTERED_APP_DOMAIN]",
           "lgAppLocale": "[YOUR_LOCALE]",
           "lgAppVersion": "default"
         }
@@ -63,7 +59,7 @@ Prerequisites :
 ### Create model
 - Type 
     ```bash
-    node mslg create model --lg  [YOUR_MODEL_FILE_PATH]
+    node mslg create model --in  [YOUR_MODEL_FILE_PATH]
     ```
 If the model created successfully the tool should print "Operation Succeeded" to cmd.
 - Type 

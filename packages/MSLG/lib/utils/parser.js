@@ -241,7 +241,7 @@ const parser = {
             } 
             if(template.conditionalResponses.length !== 0) {
                 template.conditionalResponses.forEach(function(conditionalResponse) {
-                    let conditionName = (conditionalResponse.condition === parserConsts.ELSE)?parserConsts.DEFAULT + ':':'CASE: ' + conditionalResponse.condition;
+                    let conditionName = (conditionalResponse.condition === parserConsts.ELSE)?parserConsts.DEFAULT + ' ':'CASE: ' + conditionalResponse.condition;
                     fileContent += '    - ' + conditionName + NEWLINE;
                     conditionalResponse.variations.forEach(variation => {fileContent += '        - ' + variation + NEWLINE;})
                 })
