@@ -46,10 +46,13 @@ module.exports = async function mslg(config, serviceManifest, args, requestBody)
         const service = new api[identifier]();
         const response = await service[operation.name](args, (requestBodyDataModel || requestBody));
         const text = await response.text();
+        let appId;
+        if(response.headers.get('location') !== null) 
+        appId = response.headers.get('location').replace(response.url + '/','');
         try{
-            return { ok: response.ok, result: JSON.parse(text) };
+            return { ok: response.ok, result: JSON.parse(text), resId: appId };
         }catch(e){
-            return { ok: response.ok, result: text };
+            return { ok: response.ok, result: text, resId: appId };
         }
     }
     catch (e) {

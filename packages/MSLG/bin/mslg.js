@@ -123,6 +123,7 @@ async function runProgram() {
 
     if(response.ok){
         process.stdout.write(chalk.green.bold("\nOperation Succeeded\n\n"));
+        if(response.resId) process.stdout.write(chalk.default.white(`${args._[1]} ID: ${response.resId}\n\n`));
     }else if (response.result.error) {
         throw new Exception(retCode.LG_SERVICE_FAIL, JSON.stringify(result.error, null, 4));
     }
@@ -247,7 +248,7 @@ async function composeConfig(args) {
             lgAppDomain: (lgAppDomain || lgrcJson.lgAppDomain || LG_APP_DOMAIN),
             lgAppVersion: (lgAppVersion || lgrcJson.lgAppVersion || LG_APP_VERSION)
         };
-        validateConfig(config);
+        if(args._[0] !== "parse" && args._[0] !== "translate") validateConfig(config);
     }
     return config;
 }
@@ -259,14 +260,16 @@ async function composeConfig(args) {
  * @param {*} config The config object to validate
  */
 function validateConfig(config) {
-    // appId, endpointKey and endpointBasePath are not validated here since
+    // appId, endpointKey are not validated here since
     // not all operations require these to be present.
     // Validation of specific params are done in the
     // ServiceBase.js
-    const { authoringKey } = config;
+    const { authoringKey, endpointBasePath } = config;
     const messageTail = `is missing from the configuration.\n\nDid you run ${chalk.cyan.bold('mslg init')} yet?`;
     if(!(typeof authoringKey === 'string'))
         throw new Exception(retCode.INVALID_INPUT, `The authoringKey ${messageTail}`);
+    if(!(typeof endpointBasePath === 'string'))
+        throw new Exception(retCode.INVALID_INPUT, `The endpointBasePath ${messageTail}`);
 }
 
 /**

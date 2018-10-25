@@ -36,7 +36,7 @@ class EndpointDefinition {
     */
 
     
-    constructor({models /* ModelIdentity[] */,concurrentRecognitions /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */} = {}) {
+    constructor({models /* ModelIdentity[] */,concurrentRecognitions /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */} = {concurrentRecognitions: 1}) {
         Object.assign(this, {models /* ModelIdentity[] */,concurrentRecognitions /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */});
     }
 }
@@ -50,7 +50,7 @@ EndpointDefinition.fromJSON = function(src) {
     
     src.models = ModelIdentity.fromJSON(src.models) || undefined;
 
-    const {models /* ModelIdentity[] */,concurrentRecognitions /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */} = src;
+    const {models /* ModelIdentity[] */,concurrentRecognitions = 1/* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */} = src;
     return new EndpointDefinition({models /* ModelIdentity[] */,concurrentRecognitions /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */});
 };
 

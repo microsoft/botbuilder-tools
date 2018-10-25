@@ -60,7 +60,7 @@ class Endpoint {
     */
 
     
-    constructor({id /* string */,endpointKind /* string */,endpointUrls /* object */,createdDateTime /* string */,lastActionDateTime /* string */,status /* string */,models /* Model[] */,concurrentRecognitions /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */} = {}) {
+    constructor({id /* string */,endpointKind /* string */,endpointUrls /* object */,createdDateTime /* string */,lastActionDateTime /* string */,status /* string */,models /* Model[] */,concurrentRecognitions /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */} = {concurrentRecognitions: 1}) {
         Object.assign(this, {id /* string */,endpointKind /* string */,endpointUrls /* object */,createdDateTime /* string */,lastActionDateTime /* string */,status /* string */,models /* Model[] */,concurrentRecognitions /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */});
     }
 }
@@ -74,7 +74,7 @@ Endpoint.fromJSON = function(src) {
     
     src.models = Model.fromJSON(src.models) || undefined;
 
-    const {id /* string */,endpointKind /* string */,endpointUrls /* object */,createdDateTime /* string */,lastActionDateTime /* string */,status /* string */,models /* Model[] */,concurrentRecognitions /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */} = src;
+    const {id /* string */,endpointKind /* string */,endpointUrls /* object */,createdDateTime /* string */,lastActionDateTime /* string */,status /* string */,models /* Model[] */,concurrentRecognitions = 1 /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */} = src;
     return new Endpoint({id /* string */,endpointKind /* string */,endpointUrls /* object */,createdDateTime /* string */,lastActionDateTime /* string */,status /* string */,models /* Model[] */,concurrentRecognitions /* integer */,contentLoggingEnabled /* boolean */,name /* string */,description /* string */,properties /* object */,locale /* string */});
 };
 
