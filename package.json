@@ -22,6 +22,7 @@
         "eslint-plugin-standard": "^3.1.0",
         "lerna": "^3.2.1",
         "mocha": "^5.2.0",
+        "nock": "^10.0.0",
         "nyc": "^12.0.2",
         "targz": "^1.0.1",
         "ts-loader": "^2.3.7",

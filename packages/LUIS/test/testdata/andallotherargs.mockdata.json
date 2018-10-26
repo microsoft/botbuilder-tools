@@ -1,10 +1,35 @@
-[{
-	"url": "https://westeurope.api.cognitive.microsoft.com",
-	"method": "GET",
-	"uri": "\/luis.+",
-	"responseCode": 401,
-	"response": {
-		"statusCode":401,
-		"message":"Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+[
+	{
+		"scope": "https://westeurope.api.cognitive.microsoft.com:443",
+		"method": "GET",
+		"path": "/luis/v2.0/apps/dummy-app?subscription-key=dummy-key&verbose=true&timezoneOffset=0&q=message%20to%20send",
+		"body": "",
+		"status": 401,
+		"response": {
+			"statusCode": 401,
+			"message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+		},
+		"rawHeaders": [
+			"Content-Length",
+			"143",
+			"Content-Type",
+			"application/json",
+			"apim-request-id",
+			"74ea39ee-925e-4bbd-830f-50f578520db9",
+			"Strict-Transport-Security",
+			"max-age=31536000; includeSubDomains; preload",
+			"x-content-type-options",
+			"nosniff",
+			"WWW-Authenticate",
+			"AzureApiManagementKey realm=\"https://westeurope.api.cognitive.microsoft.com/luis/v2.0/apps\",name=\"subscription-key\",type=\"query\"",
+			"Date",
+			"Fri, 26 Oct 2018 19:21:00 GMT",
+			"Connection",
+			"close"
+		],
+		"reqheaders": {
+			"host": "westeurope.api.cognitive.microsoft.com",
+			"accept": "application/json"
+		}
 	}
-}]
+]
