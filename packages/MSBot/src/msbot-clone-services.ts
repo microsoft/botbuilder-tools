@@ -72,7 +72,7 @@ program
     .option('-q, --quiet', 'minimize output')
     .option('--verbose', 'show commands')
     .option('-f, --force', 'do not prompt for confirmation')
-    .description('allows you to clone all of the services a bot into a new azure resource group')
+    .description('allows you to clone all of the services a bot uses into a new azure resource group')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const cmd: program.Command = program.parse(process.argv);
