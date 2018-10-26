@@ -50,6 +50,7 @@
     "latest-version": "^4.0.0",
     "minimist": "^1.2.0",
     "ms-rest-js": "^0.17.375",
+    "nock": "^10.0.0",
     "node-fetch": "^2.0.0",
     "read-text-file": "^1.1.0",
     "readline-sync": "^1.4.9",

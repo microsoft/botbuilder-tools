@@ -1,0 +1,10 @@
+[{
+	"url": "https://westeurope.api.cognitive.microsoft.com",
+	"method": "GET",
+	"uri": "\/luis.+",
+	"responseCode": 401,
+	"response": {
+		"statusCode":401,
+		"message":"Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+	}
+}]
