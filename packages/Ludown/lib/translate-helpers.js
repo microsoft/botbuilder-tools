@@ -36,12 +36,12 @@ const translateHelpers = {
         let inAnswer = false;
         for(let lineIndex in linesInFile) {
             let currentLine = linesInFile[lineIndex].trim();
-            if (inAnswer) {
-                answerData += currentLine + NEWLINE;
-                continue;
-            }
             // is current line a comment? 
             if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) {
+                if (inAnswer) {
+                    answerData += currentLine + NEWLINE;
+                    continue;
+                }
                 if(translate_comments) {
                     try {
                         data = await translateHelpers.translateText(currentLine, subscriptionKey, to_lang, src_lang);
@@ -55,6 +55,10 @@ const translateHelpers = {
                     if(log) process.stdout.write(chalk.default.gray(currentLine + NEWLINE));
                 }
             } else if (currentLine.indexOf(PARSERCONSTS.INTENT) === 0) {
+                if (inAnswer) {
+                    answerData += currentLine + NEWLINE;
+                    continue;
+                }
                 let intentName = currentLine.substring(currentLine.indexOf(' ') + 1).trim();
                 //is this a QnA? 
                 if(intentName.indexOf(PARSERCONSTS.QNA) === 0) {
@@ -79,6 +83,10 @@ const translateHelpers = {
             } else if(currentLine.indexOf('-') === 0 || 
                     currentLine.indexOf('*') === 0 || 
                     currentLine.indexOf('+') === 0 ) {
+                if (inAnswer) {
+                    answerData += currentLine + NEWLINE;
+                    continue;
+                }
                 let listSeparator = '';
                 let content = '';
                 switch (currentSectionType) {
@@ -201,6 +209,10 @@ const translateHelpers = {
                     break;
                 }
             } else if(currentLine.indexOf(PARSERCONSTS.ENTITY) === 0) {
+                if (inAnswer) {
+                    answerData += currentLine + NEWLINE;
+                    continue;
+                }
                 // we need to localize qna alterations if specified.
                 let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
                 let entityName = entityDef[0];
@@ -223,8 +235,7 @@ const translateHelpers = {
                     if(log) process.stdout.write(chalk.default.gray(currentLine + NEWLINE));
                 }
             } else if(currentLine.indexOf(PARSERCONSTS.ANSWER) === 0) {
-                //localizedContent += currentLine + NEWLINE;
-                answerData += currentLine + NEWLINE;
+                //answerData += currentLine + NEWLINE;
                 if (inAnswer) {
                     try {
                         data = await translateHelpers.translateText(answerData, subscriptionKey, to_lang, src_lang);
@@ -236,9 +247,14 @@ const translateHelpers = {
                     if(log) process.stdout.write(chalk.default.gray(lText + NEWLINE));
                     answerData = '';
                 }
+                localizedContent += currentLine + NEWLINE;
                 inAnswer = !inAnswer;
                 currentSectionType = PARSERCONSTS.ANSWER;
             } else if (currentLine.indexOf(PARSERCONSTS.URLORFILEREF) ===0) {
+                if (inAnswer) {
+                    answerData += currentLine + NEWLINE;
+                    continue;
+                }
                 currentSectionType = PARSERCONSTS.URLORFILEREF;
                 if(translate_link_text) {
                     const linkValueRegEx = new RegExp(/\(.*?\)/g);
@@ -260,18 +276,16 @@ const translateHelpers = {
                     if(log) process.stdout.write(chalk.default.gray(currentLine + NEWLINE));
                 }
             } else if(currentLine === '') {
+                if (inAnswer) {
+                    answerData += NEWLINE;
+                    continue;
+                }
                 localizedContent += NEWLINE;
                 if(log) process.stdout.write(chalk.default.gray(NEWLINE));
             } else {
-                if(currentSectionType === PARSERCONSTS.ANSWER) {
-                    try {
-                        data = await translateHelpers.translateText(currentLine, subscriptionKey, to_lang, src_lang);
-                    } catch (err) {
-                        throw(err);
-                    }
-                    lText = data[0].translations[0].text;
-                    localizedContent += lText + NEWLINE;
-                    if(log) process.stdout.write(chalk.default.gray(lText + NEWLINE));
+                if (inAnswer) {
+                    answerData += currentLine + NEWLINE;
+                    continue;
                 } else {
                     throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Error: Unexpected line encountered when parsing \n' + '[' + lineIndex + ']:' + currentLine));
                 }
