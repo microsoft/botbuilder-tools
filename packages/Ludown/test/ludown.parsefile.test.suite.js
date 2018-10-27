@@ -3,7 +3,8 @@
  * Licensed under the MIT License.
  */
 const parseFile = require('../lib/parseFileContents');
-
+var chai = require('chai');
+var assert = chai.assert;
 describe('With helper functions', function() {
     it('validateLUISBlob throw when duplicate entity definitions are found', function(done) {
         let luFile = `# Greeting
@@ -109,5 +110,18 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
         parseFile.parseFile(luFile, false, 'en-us')
             .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
             .catch(() => done())
+    });
+
+    it('parseFile correctly de-dupes patterns', function(done) {
+        let luFile = `# test
+        - this is {one}
+        - this is {one}
+`;
+        parseFile.parseFile(luFile, false, 'en-us')
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.patterns.length, 1);
+                done();
+            })
+            .catch(() => done('Test fail. parseFile threw when it was not expected!'))
     });
 });
