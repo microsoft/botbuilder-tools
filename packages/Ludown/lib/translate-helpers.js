@@ -32,8 +32,14 @@ const translateHelpers = {
         let currentSectionType = '';
         let data = '';
         let lText = '';
+        let answerData = '';
+        let inAnswer = false;
         for(let lineIndex in linesInFile) {
             let currentLine = linesInFile[lineIndex].trim();
+            if (inAnswer) {
+                answerData += currentLine + NEWLINE;
+                continue;
+            }
             // is current line a comment? 
             if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) {
                 if(translate_comments) {
@@ -217,8 +223,20 @@ const translateHelpers = {
                     if(log) process.stdout.write(chalk.default.gray(currentLine + NEWLINE));
                 }
             } else if(currentLine.indexOf(PARSERCONSTS.ANSWER) === 0) {
-                localizedContent += currentLine + NEWLINE;
-                if(log) process.stdout.write(chalk.default.gray(currentLine + NEWLINE));
+                //localizedContent += currentLine + NEWLINE;
+                answerData += currentLine + NEWLINE;
+                if (inAnswer) {
+                    try {
+                        data = await translateHelpers.translateText(answerData, subscriptionKey, to_lang, src_lang);
+                    } catch (err) {
+                        throw(err);
+                    }
+                    lText = data[0].translations[0].text;
+                    localizedContent += lText + NEWLINE;
+                    if(log) process.stdout.write(chalk.default.gray(lText + NEWLINE));
+                    answerData = '';
+                }
+                inAnswer = !inAnswer;
                 currentSectionType = PARSERCONSTS.ANSWER;
             } else if (currentLine.indexOf(PARSERCONSTS.URLORFILEREF) ===0) {
                 currentSectionType = PARSERCONSTS.URLORFILEREF;
