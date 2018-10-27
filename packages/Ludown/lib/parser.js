@@ -221,6 +221,10 @@ const getOutputFolder = function(program) {
 const getFilesToParse = async function(program) {
     let filesToParse = [];
     if(program.in) {
+        // --in cannot be a folder
+        if(fs.lstatSync(program.in).isDirectory()) {
+            throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Sorry, ' + program.in + ' is a folder. Use -l to pass in a folder.'));
+        }
         filesToParse.push(program.in);
     }
     if(program.lu_folder) {

@@ -706,7 +706,13 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
                 }
 
                 if(havePatternAnyEntitiesInUtterance) {
-                    parsedContent.LUISJsonStructure.patterns.push(new helperClass.pattern(utterance, intentName));
+                    // push to patterns if it does not exist
+                    let newPattern = new helperClass.pattern(utterance, intentName);
+                    let patternExists = parsedContent.LUISJsonStructure.patterns.find(item => {
+                        return deepEqual(item, newPattern);
+                    })
+                    if (!patternExists) 
+                        parsedContent.LUISJsonStructure.patterns.push(new helperClass.pattern(utterance, intentName));
                 }
                 
             } else {
