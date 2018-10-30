@@ -2,7 +2,6 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-// tslint:disable:no-console
 import { AppInsightsService, BlobStorageService, BotConfiguration, BotRecipe, BotService, CosmosDbService, DispatchService, EndpointService, FileService, GenericService, IBlobResource, IBotService, ICosmosDBResource, IDispatchResource, IDispatchService, IEndpointService, IFileResource, IGenericResource, ILuisService, IResource, IUrlResource, LuisService, QnaMakerService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as child_process from 'child_process';
@@ -155,7 +154,10 @@ async function processConfiguration(): Promise<void> {
             for (let resource of recipe.resources) {
                 switch (resource.type) {
                     case ServiceTypes.AppInsights:
-                        rows.push([`Azure AppInsights Service`, `${regionToAppInsightRegionNameMap[args.location]}`, `F0`, args.groupName]);
+                        let appInsightsRegion = regionToAppInsightRegionNameMap[args.location];
+                        if (appInsightsRegion) {
+                            rows.push([`Azure AppInsights Service`, `${appInsightsRegion}`, `F0`, args.groupName]);
+                        }
                         break;
 
                     case ServiceTypes.BlobStorage:

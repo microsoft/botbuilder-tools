@@ -40,13 +40,20 @@ const AllNames = [
     `West Central US`,
     `West US`,
     `West US 2`,
+    'Virginia',
+    'USGov Virginia',
+    "USGov Iowa",
+    "USDoD East",
+    "USDoD Central",
+    "USGov Texas",
+    "USGov Arizona"
 ];
 const AllRegions = [];
 for (const name of AllNames)
     AllRegions.push(name.toLowerCase().replace(/ /g, ''));
 
 describe("region tests", () => {
-    
+
     it("test region codes all there", async () => {
         for (let region of AllRegions) {
             assert.ok(Object.values(utils.RegionCodes).find((r) => r == region), `missing ${region}`);

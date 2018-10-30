@@ -1,6 +1,6 @@
 {
   "name": "luis-apis",
-  "version": "2.0.13",
+  "version": "2.1.0",
   "description": "Tooling for connectivity with LUIS APIs",
   "main": "./lib/luisAuthoring.js",
   "types": "./typing/lib/luisAuthoring.d.ts",
@@ -49,7 +49,8 @@
     "intercept-stdout": "^0.1.2",
     "latest-version": "^4.0.0",
     "minimist": "^1.2.0",
-    "ms-rest-js": "^0.17.375",
+    "ms-rest-js": "^1.0.455",
+    "tslib": "^1.9.3",
     "node-fetch": "^2.0.0",
     "read-text-file": "^1.1.0",
     "readline-sync": "^1.4.9",

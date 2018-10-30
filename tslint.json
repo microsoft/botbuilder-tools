@@ -1,5 +1,5 @@
 {
-    "defaultSeverity": "warning",
+    "defaultSeverity": "none",
     "extends": [
         "tslint:recommended",
         "tslint-microsoft-contrib"
@@ -8,7 +8,8 @@
       "exclude": [
         "packages/LUIS/src/**",
         "packages/Dispatch/**",
-        "packages/LUISGen/**"
+        "packages/LUISGen/**",
+        "packages/msbot/**"
       ]
     },
     "jsRules": {},
