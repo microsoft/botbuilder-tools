@@ -81,12 +81,14 @@ $commPreference:fax=
 ```markdown
 Sie können die Standardmeldung ändern, wenn Sie den QnAMakerDialog verwenden.
 Siehe [diesen Link] (https://docs.botframework.com/en-US/Azure-bot-Service/Templates/qnamaker/#navtitle) für Details.
+
 ```
 
 ### ? Wie kann ich meine KB programmatisch aktualisieren?
 ```markdown
 Sie können unsere REST-APIs verwenden, um Ihre KB zu verwalten.
 \ #1. Weitere Informationen finden Sie hier: https://westus.dev.Cognitive.Microsoft.com/docs/Services/58994a073d9e04097c7ba6fe/Operations/58994a073d9e041ad42d9baa
+
 ```
 
 > Sie können URLs für QnA Maker hinzufügen, um Sie mit dem #URL Referenz Schema zu verzehren
@@ -99,6 +101,7 @@ Sie können unsere REST-APIs verwenden, um Ihre KB zu verwalten.
 - Holen Sie sich mir Ihre CEO-Info
 ```markdown
 Vishwac
+
 ```
 
 > Sie können Filter für QnA mit den \ * *-Filtern definieren: * * \ < namensliste = wertepaare \ > Format
@@ -109,6 +112,7 @@ Vishwac
 - Location = Seattle
 ```markdown
 Sie können Kaffee in unserem Seattle Store bei 1 Pike Place, Seattle, WA bekommen
+
 ```
 
 ### ? Wo bekomme ich Kaffee?
@@ -118,6 +122,7 @@ Sie können Kaffee in unserem Seattle Store bei 1 Pike Place, Seattle, WA bekomm
 - Location = Portland
 ```markdown
 Sie können Kaffee in unserem Portland Store bei 52 Marine Drive, Portland, oder
+
 ```
 
 > FAQ URLs für QnA Maker zu Ingest.
