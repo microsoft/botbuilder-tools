@@ -254,6 +254,17 @@ describe('The ludown cli tool', function() {
     });
     
     describe('With parse toluis command', function() {
+        it('should print a warning when an incorrect locale is specified', function(done) {
+            exec(`node ${ludown} parse toluis -c de-dex`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.includes('Unrecognized LUIS locale'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+
         it('should print an error when an invalid argument is passed', function(done) {
             exec(`node ${ludown} parse toluis -x`, (error, stdout, stderr) => {
                 try {
