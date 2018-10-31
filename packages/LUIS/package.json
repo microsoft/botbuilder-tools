@@ -60,7 +60,10 @@
     "window-size": "^1.1.0"
   },
   "devDependencies": {
+    "typescript": "^3.1.1",
     "enum-files": "^1.1.0",
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
     "mocha": "^5.2.0",
     "targz": "^1.0.1"
   }
