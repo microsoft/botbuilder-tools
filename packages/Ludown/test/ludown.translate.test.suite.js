@@ -79,6 +79,22 @@ describe('With translate module', function() {
         });
     });
 
+    it('correctly localize QnA segments with full markdown support in answers', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let luFilePath = resolvePath('test/testcases/faq.lu');
+        exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ${LUDOWN_ROOT}/test/output --verbose --in ` + luFilePath, (error, stdout) => {
+            try {
+                compareFiles(LUDOWN_ROOT + '/test/output/de/faq.lu', LUDOWN_ROOT + '/test/verified/de/faq.lu');
+                console.log(stdout);
+                done();
+            } catch(err){
+                done(err);
+            }
+        });
+    });
+
     it('correctly localizes the file content when multiple target languages are specified', function(done) {
         if (!TRANSLATE_KEY) {
             this.skip();
@@ -182,19 +198,6 @@ describe('With translate module', function() {
             })
             .catch (err => done(err));
     });
-
-    it('Link text can be left untranslated', function(done) {
-        if (!TRANSLATE_KEY) {
-            this.skip();
-        }
-        let fileContent = `\`\`\`markdown
-        test 123`;
-        trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', 'esx', false, true, SHOW_LOGS)
-            .then(function() {
-                done('Test fail! Did not throw when expected');
-            })
-            .catch (() => done());
-    }); 
 
     it('Alterations are translated correctly', function(done) {
         if (!TRANSLATE_KEY) {
