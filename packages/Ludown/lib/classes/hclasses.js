@@ -68,6 +68,13 @@ const readerObj = {
             this.subLists = subLists?subLists:[];
             this.roles = roles?roles:[];
         }
+    },
+    translateLine: class {
+        constructor(text, localize, idx) {
+            this.text = text ? text: '';
+            this.localize = localize ? localize : false;
+            this.idx = idx ? idx : -1;
+        }
     }
 };
 

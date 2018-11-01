@@ -141,6 +141,7 @@ To bootstrap translations of the language understanding content for your bot, yo
     -n, --lu_File <LU_File>          [Optional] Output .lu file name
     -c, --transate_comments          [Optional] Translate comments in .lu files
     -u, --translate_link_text        [Optional] Translate URL or .lu file reference link text
+    -x, --batch_translate <linesToBatch>  [Optional] Batch up <x> (1-25) number of lines before calling translation API. Helps effectively translate large .lu files. Defaults to 25.
     --verbose                        [Optional] Get verbose messages from parser
     --prefix                         [Optional] append [ludown] prefix to all messages
     -h, --help                       output usage information
