@@ -1,4 +1,3 @@
-Object.defineProperty(exports, "__esModule", { value: true });
 const assert = require('assert');
 const util = require( "util" );
 const {exec} = require('child_process');
