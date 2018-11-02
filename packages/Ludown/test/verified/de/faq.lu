@@ -4,70 +4,94 @@
 ```markdown
 Wir haben einen erheblichen Bedarf von unseren Kunden und Partnern gesehen, um einen auf Ihre Marke zugeschnittenen Gesprächs Assistenten zu liefern, der auf Ihre Kunden zugeschnitten ist und über eine breite Palette von Konversations Leinwänden und Geräten zur Verfügung gestellt wird. Die Open-Source-BenutzerDefinierte persönliche Assistenz Lösung, die den Microsoft Open-Sourcing-Ansatz in Bezug auf bot Framework SDK fortsetzt, bietet die volle Kontrolle über die endverbrauchererfahrung, die auf einer Reihe von grundlegenden Fähigkeiten basiert. Darüber hinaus kann die Erfahrung mit Intelligenz über den Endverbraucher und alle Geräte/ökosysteminformationen für eine wirklich integrierte und intelligente Erfahrung durchdrungen werden.
 Erfahren Sie mehr [hier] (https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md).
-
 ```
 
 ## ? Was ist eine Fähigkeit?
 ```markdown
 Es gibt eine breite Reihe gemeinsamer Fähigkeiten, die heute von jedem Entwickler verlangt werden, sich selbst zu bauen. Unsere virtuelle Assistenz Lösung beinhaltet eine neue Fähigkeit, die es ermöglicht, neue Fähigkeiten nur durch Konfiguration in einen virtuellen Assistenten zu stecken und einen Authentifizierungsmechanismus für Fähigkeiten zur Verfügung zu stellen, um Token für Down-Stream-Aktivitäten anzufordern.
 Erfahren Sie mehr [hier] (https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md).
-
 ```
 
 ## ? Was kann die Fähigkeit des Kalenders tun?
 ```markdown
-# # Übersicht die Kalender Fähigkeit bietet einem virtuellen Assistenten Kalender bezogene Fähigkeiten. Die gängigsten Szenarien wurden in dieser ersten Veröffentlichung mit zusätzlichen Szenarien in der Entwicklung implementiert.
-# # UnterStützte Szenarien die folgenden Szenarien werden derzeit durch die Geschicklichkeit unterstützt:-Show-Meeting-Zusammenfassung-z.b. "Was ist in meinem Kalender"-Nächstes Treffen-z.b. "Was ist mein nächstes treffen"-ein Meeting erstellen-z.b. ein Meeting buchen-ein Meeting aktualisieren-z.b. Update-Meeting-delet e ein Meeting-z.b. ein Meeting löschen
-
+# # Übersicht
+Die Kalender Fähigkeit bietet einem virtuellen Assistenten Kalender bezogene Fähigkeiten. Die gängigsten Szenarien wurden in dieser ersten Veröffentlichung mit zusätzlichen Szenarien in der Entwicklung implementiert.
+# # UnterStützte Szenarien
+Die folgenden Szenarien werden derzeit durch die Geschicklichkeit unterstützt:
+-Show Meeting-Zusammenfassung-z.b. "Was ist in meinem Kalender"
+-Nächstes Treffen-z.b. "Was ist mein nächstes treffen"
+-Ein Meeting erstellen-z.b. ein Meeting buchen
+-Update eines Treffens-z.b. Update-Meeting
+-Ein Meeting löschen-z.b. ein Meeting löschen
 ```
 
 ## ? Was kann die e-Mail-Fähigkeit tun?
 ```markdown
-# Übersicht die e-Mail-Fähigkeit bietet e-Mail-bezogene Fähigkeiten an einen virtuellen Assistenten. Die gängigsten Szenarien wurden in dieser ersten Veröffentlichung mit zusätzlichen Szenarien in der Entwicklung implementiert.
+# Übersicht
+Die e-Mail-Fähigkeit bietet e-Mail-bezogenen Fähigkeiten an einen virtuellen Assistenten Die gängigsten Szenarien wurden in dieser ersten Veröffentlichung mit zusätzlichen Szenarien in der Entwicklung implementiert.
 
-# # UnterStützte Szenarien die folgenden Szenarien werden derzeit von der Fähigkeit unterstützt:-senden Sie eine e-Mail-senden Sie eine e-Mail an John Smith-senden Sie eine e-Mail-finden Sie E-Mail-finden Sie e-Mail von John Smith-welche e-Mail habe ich
+# # UnterStützte Szenarien
+Die folgenden Szenarien werden derzeit durch die Geschicklichkeit unterstützt:
 
+-Senden Sie eine E-Mail
+-Senden Sie eine e-Mail an John Smith
+-Senden Sie eine e-Mail
+-E-Mail finden
+-E-Mail von John Smith finden
+-Welche e-Mail habe ich
 ```
 ## ? Was kann der Sinn von Interessenskompetenz tun?
 ```markdown
-# # Übersicht der Point of Interest Skills bietet PoI-bezogenen Fähigkeiten für einen virtuellen Assistenten. Die gängigsten Szenarien wurden in dieser ersten Veröffentlichung mit zusätzlichen Szenarien in der Entwicklung implementiert.
+# # Übersicht
+Die Point of Interest-Fähigkeit bietet PoI-bezogenen Fähigkeiten für einen virtuellen Assistenten. Die gängigsten Szenarien wurden in dieser ersten Veröffentlichung mit zusätzlichen Szenarien in der Entwicklung implementiert.
 
-# # UnterStützte Szenarien die folgenden Szenarien werden derzeit von der Fähigkeit unterstützt:-NAVIGATION_ROUTE_FROM_X_TO_Y-Was ist der schnellste Weg, um an 221B Baker Street zu gelangen?
+# # UnterStützte Szenarien
+Die folgenden Szenarien werden derzeit durch die Geschicklichkeit unterstützt:
+
+-NAVIGATION_ROUTE_FROM_X_TO_Y
+-Was ist der schnellste Weg, um 221B Baker Street zu erreichen?
 -Wie komme ich zum Lebensmittelgeschäft?
--Ich brauche eine Anfahrt zu einem Café-NAVIGATION_FIND_POINTOFINTEREST-Was ist in der Nähe?
+-Ich brauche eine Anfahrt zu einem Café
+-NAVIGATION_FIND_POINTOFINTEREST
+-Was ist in der Nähe?
 -Gibt es Apotheken in der Stadt?
 -Können Sie ein erschwingliches Restaurant in Seattle empfehlen?
--NAVIGATION_CANCEL_ROUTE-ich möchte nicht mehr in den Laden gehen-würdest du meine Route stornieren?
+-NAVIGATION_CANCEL_ROUTE
+-Ich möchte nicht mehr in den Laden gehen
+-Würden Sie meine Route stornieren?
 -Auf den zweiten Gedanken vergessen, zum Flughafen zu gehen
-
 ```
 
 ## ? Was kann die ToDo-Fähigkeit tun?
 ```markdown
-# # Übersicht die Task-Skill bietet einem virtuellen Assistenten aufgabenbezogene Fähigkeiten. Die gängigsten Szenarien wurden in dieser ersten Veröffentlichung mit zusätzlichen Szenarien in der Entwicklung implementiert.
+# # Übersicht
+Die Task Skills bietet einem virtuellen Assistenten aufgabenbezogene Fähigkeiten. Die gängigsten Szenarien wurden in dieser ersten Veröffentlichung mit zusätzlichen Szenarien in der Entwicklung implementiert.
 
-# # UnterStützte Szenarien die folgenden Szenarien werden derzeit von der Fähigkeit unterstützt:-Fügen Sie eine Aufgabe hinzu-erinnern Sie mich an die Abholung von Milch-Add Task-finden Sie Aufgaben-welche Aufgaben habe ich
+# # UnterStützte Szenarien
+Die folgenden Szenarien werden derzeit durch die Geschicklichkeit unterstützt:
 
+-Eine Aufgabe HinzuFügen
+-Erinnern Sie mich an Pickup-Milch
+-Add Task
+-Aufgaben finden
+-Welche Aufgaben habe ich
 ```
 
 ## ? What es New
 ```markdown
 Der virtuelle Assistent hat vor kurzem eine neue Lokalisierung für den virtuellen Assistenten und Fertigkeiten veröffentlicht, die die Verwendung in Englisch, Französisch, Italienisch, Deutsch, Spanisch und Chinesisch vereinfachen.
-
 ```
 
 > Source:
 ## ? Was ist das gelbe Licht?
 ```markdown
 Wenn die Reifendruck-Monitor Lampe in gelb auftaucht, dann ist der Reifendruck etwa 10% oder mehr
-
 ```
 
 > Source:
 ## ? Wie kann ich einen Bug anheben?
 ```markdown
 Werfen Sie ein Problem auf dem [GitHub Repo] auf (https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md)
-
 ```
 
 
