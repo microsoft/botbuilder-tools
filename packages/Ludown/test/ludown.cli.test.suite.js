@@ -122,7 +122,7 @@ describe('The ludown cli tool', function() {
 
     describe('with translate command', function(){
         it('should print an error when an invalid argument is passed', function(done) {
-            exec(`node ${ludown} translate -x`, (error, stdout, stderr) => {
+            exec(`node ${ludown} translate -d`, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('Unknown arguments'), true);
                     done();

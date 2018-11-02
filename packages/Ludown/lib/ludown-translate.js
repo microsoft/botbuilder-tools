@@ -26,7 +26,7 @@ program
     .option('-n, --lu_File <LU_File>', '[Optional] Output .lu file name')
     .option('-c, --translate_comments', '[Optional] Translate comments in .lu files')
     .option('-u, --translate_link_text', '[Optional] Translate URL or .lu file reference link text')
-    .option('-x, --batch_translate <linesToBatch>', '[Optional] Batch up <x> (1-25) number of lines before calling translation API. Defaults to 25.')
+    .option('-b, --batch_translate <linesToBatch>', '[Optional] Batch up <x> (1-25) number of lines before calling translation API. Defaults to 25.')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
 
