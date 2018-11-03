@@ -393,7 +393,7 @@ async function runProgram() {
                         requestBody.name = args.appName;
                     }
                     result = await client.apps.importMethod(args.region, args.cloud, requestBody, args);
-                    result = await client.apps.get(args.region, args.cloud, result, args);
+                    result = await client.apps.get(args.region, args.cloud, result.body, args);
 
                     // Write output to console and return
                     await writeAppToConsole(config, args, requestBody, result);
