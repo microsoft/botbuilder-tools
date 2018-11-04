@@ -15,6 +15,10 @@ msbot export services --folder folderName --bot your.bot
 | --secret <secret>     | bot file secret password for encrypting service secrets               |
 | -f, --folder <folder> | folder to put the bot recipe into                                     |
 | --prefix              | Append [msbot] prefix to all messages                                 |
+| --appId               | (OPTIONAL) Application ID for an existing application, if not passed  |
+|                       | then a new Application will be created                                |
+| --appSecret           | (OPTIONAL) Application Secret for an existing application, if not     |
+|                       | passed then a new Application will be created                         |
 | -h, --help            | output usage information                                              |
 
 ## Cloning Services
@@ -46,6 +50,10 @@ msbot clone services --folder folderName --name NewBot --luisAuthoringKey 000000
 | --groupName <groupName>                     | (OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group                  |
 | --sdkLanguage <sdkLanguage>                 | (OPTIONAL) language for bot [Csharp,Node] (Default:CSharp)                                                           |
 | --sdkVersion <sdkVersion>                   | (OPTIONAL) SDK version for bot [v3,v4] (Default:v4)                                                                  |
+| --appId                                     | (OPTIONAL) Application ID for an existing application, if not passed                                                 |
+|                                             | then a new Application will be created                                                                               |
+| --appSecret                                 | (OPTIONAL) Application Secret for an existing application, if not                                                    |
+|                                             | passed then a new Application will be created                                                                        |
 | -q, --quiet                                 | disable output                                                                                                       |
 | --prefix                                    | Append [msbot] prefix to all messages                                                                                |
 | -h, --help                                  | output usage information                                                                                             |
