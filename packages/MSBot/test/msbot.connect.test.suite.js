@@ -16,7 +16,7 @@ describe("msbot connection tests", () => {
         let command = `node ${msbot} connect appinsights `;
         command += `-b save.bot `;
         command += `-n TestInsights `;
-        command += `--serviceName testInsights `;
+        command += `-S testInsightsService `;
         command += `--instrumentationKey testInstrumentationKey `;
         command += `--applicationId 2f510b5e-10fe-4f53-9159-b134539ac123 `;
         command += `--keys "{\\"key1\\":\\"value1\\"}" `;
@@ -32,7 +32,7 @@ describe("msbot connection tests", () => {
         assert.equal(config.services.length, 1, "service is not saved");
         assert.equal(config.services[0].type, "appInsights", "type is wrong");
         assert.equal(config.services[0].name, "TestInsights", "name is wrong");
-        assert.equal(config.services[0].serviceName, "testInsights", "servicename is wrong");
+        assert.equal(config.services[0].serviceName, "testInsightsService", "servicename is wrong");
         assert.ok(config.services[0].id.length > 0, "id is wrong");
         assert.equal(config.services[0].subscriptionId, "2f510b5e-10fe-4f53-9159-b134539ac594", "subscriptionId is wrong")
         assert.equal(config.services[0].tenantId, "microsoft.onmicrosoft.com", " tenantid is wrong")
