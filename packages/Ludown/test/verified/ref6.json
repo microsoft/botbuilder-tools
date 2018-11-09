@@ -75,6 +75,31 @@
       "text": "you can call me vishwac",
       "intent": "All",
       "entities": []
+    },
+    {
+      "text": "create an alarm",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "create an alarm for 7AM",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "set an alarm for 7AM next thursday",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "delete the {alarmTime} alarm",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "set {commPreference} as my communication preference",
+      "intent": "All",
+      "entities": []
     }
   ],
   "patterns": [],
