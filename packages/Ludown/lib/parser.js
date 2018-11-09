@@ -370,9 +370,15 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                     // find the parsed file
                     let parsedLUISBlob = (allParsedContent.LUISContent || []).find(item => item.srcFile == parsedUtterance.luFile);
                     if(parsedLUISBlob === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
-                    // get utterance list from reference intent and update list
-                    let referenceIntent = parsedUtterance.ref.replace(/-/g, ' ').trim();
-                    let utterances = parsedLUISBlob.LUISJsonStructure.utterances.filter(item => item.intent == referenceIntent);
+                    let utterances;
+                    if (parsedUtterance.ref.endsWith('utterances')) {
+                        // get all utterances and add them
+                        utterances = parsedLUISBlob.LUISJsonStructure.utterances;
+                    } else {
+                        // get utterance list from reference intent and update list
+                        let referenceIntent = parsedUtterance.ref.replace(/-/g, ' ').trim();
+                        utterances = parsedLUISBlob.LUISJsonStructure.utterances.filter(item => item.intent == referenceIntent);
+                    }
                     (utterances || []).forEach(item => newUtterancesToAdd.push(new hClasses.uttereances(item.text, utterance.intent)));
                     // find and add any patterns for this intent
                     let patterns = parsedLUISBlob.LUISJsonStructure.patterns.filter(item => item.intent == referenceIntent);

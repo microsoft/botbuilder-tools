@@ -1,0 +1,3 @@
+# All utterances
+> you can use the *utterances* wild card to include all utterances from a lu file. This includes utterances across all intents defined in that .lu file. 
+- [all.lu](./all.lu#*utterances*)
