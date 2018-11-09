@@ -4,7 +4,6 @@
  * Licensed under the MIT License.
  */
 /*eslint no-console: ["error", { allow: ["log"] }] */
-require('./utils');
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
@@ -18,7 +17,6 @@ const exception = require('./classes/exception');
 const filesToParseClass = require('./classes/filesToParse');
 const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
-
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -221,10 +219,6 @@ const getOutputFolder = function(program) {
 const getFilesToParse = async function(program) {
     let filesToParse = [];
     if(program.in) {
-        // --in cannot be a folder
-        if(fs.lstatSync(program.in).isDirectory()) {
-            throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Sorry, ' + program.in + ' is a folder. Use -l to pass in a folder.'));
-        }
         filesToParse.push(program.in);
     }
     if(program.lu_folder) {
@@ -239,9 +233,9 @@ const getFilesToParse = async function(program) {
             throw(new exception(retCode.errorCode.OUTPUT_FOLDER_INVALID, 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
         }
         if(program.subfolder) {
-            filesToParse = helpers.findLUFiles(program.lu_folder, true); 
+            filesToParse = helpers.findFiles(program.lu_folder, true); 
         } else {
-            filesToParse = helpers.findLUFiles(program.lu_folder, false); 
+            filesToParse = helpers.findFiles(program.lu_folder, false); 
         }
         if(filesToParse.length === 0) {
             throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Sorry, no .lu files found in the specified folder.'));                
@@ -347,6 +341,7 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
     (allParsedContent.LUISContent || []).forEach(luisModel => {
         if (!luisModel.includeInCollate) return;
         let newUtterancesToAdd = [];
+        let newPatternsToAdd = [];
         let spliceList = [];
         (luisModel.LUISJsonStructure.utterances || []).forEach((utterance,idx) => {
             // Deep references must have [link name](link-value) notation
@@ -379,6 +374,9 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                     let referenceIntent = parsedUtterance.ref.replace(/-/g, ' ').trim();
                     let utterances = parsedLUISBlob.LUISJsonStructure.utterances.filter(item => item.intent == referenceIntent);
                     (utterances || []).forEach(item => newUtterancesToAdd.push(new hClasses.uttereances(item.text, utterance.intent)));
+                    // find and add any patterns for this intent
+                    let patterns = parsedLUISBlob.LUISJsonStructure.patterns.filter(item => item.intent == referenceIntent);
+                    (patterns || []).forEach(item => newPatternsToAdd.push(new hClasses.pattern(item.pattern, utterance.intent)))
                     // remove this reference utterance from the list
                     spliceList.push(idx);
                 }
@@ -388,6 +386,8 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
         spliceList.sort((a,b) => a-b).forEach((item, idx) => luisModel.LUISJsonStructure.utterances.splice((item - idx), 1));
         // add new utterances to the list
         newUtterancesToAdd.forEach(item => luisModel.LUISJsonStructure.utterances.push(item));
+        // add new patterns to the list
+        newPatternsToAdd.forEach(item => luisModel.LUISJsonStructure.patterns.push(item));
     });
 }
 /**
