@@ -233,9 +233,9 @@ const getFilesToParse = async function(program) {
             throw(new exception(retCode.errorCode.OUTPUT_FOLDER_INVALID, 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
         }
         if(program.subfolder) {
-            filesToParse = helpers.findFiles(program.lu_folder, true); 
+            filesToParse = helpers.findLUFiles(program.lu_folder, true); 
         } else {
-            filesToParse = helpers.findFiles(program.lu_folder, false); 
+            filesToParse = helpers.findLUFiles(program.lu_folder, false); 
         }
         if(filesToParse.length === 0) {
             throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Sorry, no .lu files found in the specified folder.'));                
@@ -376,7 +376,7 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                     (utterances || []).forEach(item => newUtterancesToAdd.push(new hClasses.uttereances(item.text, utterance.intent)));
                     // find and add any patterns for this intent
                     let patterns = parsedLUISBlob.LUISJsonStructure.patterns.filter(item => item.intent == referenceIntent);
-                    (patterns || []).forEach(item => newPatternsToAdd.push(new hClasses.pattern(item.pattern, utterance.intent)))
+                    (patterns || []).forEach(item => newPatternsToAdd.push(new hClasses.pattern(item.pattern, utterance.intent)));
                     // remove this reference utterance from the list
                     spliceList.push(idx);
                 }
