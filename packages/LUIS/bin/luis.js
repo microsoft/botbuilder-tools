@@ -330,6 +330,9 @@ async function runProgram() {
                 case "explicitlistitem":
                     result = await client.model.getExplicitListItem(args.region, args.appId, args.versionId, args.entityId, args.itemId, args);
                     break;
+                case "explicitlistitems":
+                    result = await client.model.getExplicitList(args.region, args.appId, args.versionId, args.entityId, args);
+                    break;
                 case "hierarchicalentity":
                     result = await client.model.getHierarchicalEntity(args.region, args.appId, args.versionId, args.hEntityId, args);
                     break;
