@@ -28,6 +28,22 @@ export const appName: msRest.OperationQueryParameter = {
     }
   }
 };
+export const azureCloud: msRest.OperationURLParameter = {
+  parameterPath: "azureCloud",
+  mapper: {
+    required: true,
+    serializedName: "AzureCloud",
+    defaultValue: 'com',
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "com",
+        "us"
+      ]
+    }
+  },
+  skipEncoding: true
+};
 export const azureRegion: msRest.OperationURLParameter = {
   parameterPath: "azureRegion",
   mapper: {
@@ -48,7 +64,8 @@ export const azureRegion: msRest.OperationURLParameter = {
         "northeurope",
         "eastasia",
         "australiaeast",
-        "brazilsouth"
+        "brazilsouth",
+        "virginia"
       ]
     }
   },

@@ -47,7 +47,14 @@ export const RegionCodes = {
     UKSOUTH: 'uksouth',
     UKWEST: 'ukwest',
     FRANCECENTRAL: 'francecentral',
-    FRANCESOUTH: 'francesouth'
+    FRANCESOUTH: 'francesouth',
+    VIRGINIA: 'virginia',
+    USGOVVIRGINIA: 'usgovvirginia',
+    USGOVIOWA: 'usgoviowa',
+    USDODEAST: 'usdodeast',
+    USDODCENTRAL: 'usdodcentral',
+    USGOVTEXAS: 'usgovtexas',
+    USGOVARIZONA: 'usgovarizona'
 };
 
 export const RegionNames = {
@@ -82,42 +89,63 @@ export const RegionNames = {
     UKSOUTH: 'UK South',
     UKWEST: 'UK West',
     FRANCECENTRAL: 'France Central',
-    FRANCESOUTH: 'France South'
+    FRANCESOUTH: 'France South',
+    VIRGINIA: 'Virginia',
+    USGOVVIRGINIA: 'USGov Virginia',
+    USGOVIOWA: "USGov Iowa",
+    USDODEAST: "USDoD East",
+    USDODCENTRAL: "USDoD Central",
+    USGOVTEXAS: "USGov Texas",
+    USGOVARIZONA: "USGov Arizona"
+};
+
+export const LuisAuthoringRegionCodes = {
+    AUSTRALIAEAST: RegionCodes.AUSTRALIAEAST,
+    WESTEUROPE: RegionCodes.WESTEUROPE,
+    WESTUS: RegionCodes.WESTUS,
+    VIRGINIA: RegionCodes.VIRGINIA
 };
 
 export const regionToLuisAuthoringRegionMap: { [region: string]: string } = {
-    australiaeast: RegionCodes.AUSTRALIAEAST,
-    australiacentral: RegionCodes.AUSTRALIAEAST,
-    australiacentral2: RegionCodes.AUSTRALIAEAST,
-    australiasoutheast: RegionCodes.AUSTRALIAEAST,
-    eastasia: RegionCodes.WESTUS,
-    southeastasia: RegionCodes.WESTUS,
-    eastus: RegionCodes.WESTUS,
-    eastus2: RegionCodes.WESTUS,
-    southcentralus: RegionCodes.WESTUS,
-    westcentralus: RegionCodes.WESTUS,
-    westus: RegionCodes.WESTUS,
-    westus2: RegionCodes.WESTUS,
-    brazilsouth: RegionCodes.WESTUS,
-    centralus: RegionCodes.WESTUS,
-    northcentralus: RegionCodes.WESTUS,
-    japanwest: RegionCodes.WESTUS,
-    japaneast: RegionCodes.WESTUS,
-    southindia: RegionCodes.WESTUS,
-    centralindia: RegionCodes.WESTUS,
-    westindia: RegionCodes.WESTUS,
-    canadacentral: RegionCodes.WESTUS,
-    canadaeast: RegionCodes.WESTUS,
-    koreacentral: RegionCodes.WESTUS,
-    koreasouth: RegionCodes.WESTUS,
-    northeurope: RegionCodes.WESTEUROPE,
-    westeurope: RegionCodes.WESTEUROPE,
-    uksouth: RegionCodes.WESTEUROPE,
-    ukwest: RegionCodes.WESTEUROPE,
-    francecentral: RegionCodes.WESTEUROPE,
-    francesouth: RegionCodes.WESTEUROPE,
-    germanycentral: RegionCodes.WESTEUROPE,
-    germanynortheast: RegionCodes.WESTEUROPE
+    australiaeast: LuisAuthoringRegionCodes.AUSTRALIAEAST,
+    australiacentral: LuisAuthoringRegionCodes.AUSTRALIAEAST,
+    australiacentral2: LuisAuthoringRegionCodes.AUSTRALIAEAST,
+    australiasoutheast: LuisAuthoringRegionCodes.AUSTRALIAEAST,
+    eastasia: LuisAuthoringRegionCodes.WESTUS,
+    southeastasia: LuisAuthoringRegionCodes.WESTUS,
+    eastus: LuisAuthoringRegionCodes.WESTUS,
+    eastus2: LuisAuthoringRegionCodes.WESTUS,
+    southcentralus: LuisAuthoringRegionCodes.WESTUS,
+    westcentralus: LuisAuthoringRegionCodes.WESTUS,
+    westus: LuisAuthoringRegionCodes.WESTUS,
+    westus2: LuisAuthoringRegionCodes.WESTUS,
+    brazilsouth: LuisAuthoringRegionCodes.WESTUS,
+    centralus: LuisAuthoringRegionCodes.WESTUS,
+    northcentralus: LuisAuthoringRegionCodes.WESTUS,
+    japanwest: LuisAuthoringRegionCodes.WESTUS,
+    japaneast: LuisAuthoringRegionCodes.WESTUS,
+    southindia: LuisAuthoringRegionCodes.WESTUS,
+    centralindia: LuisAuthoringRegionCodes.WESTUS,
+    westindia: LuisAuthoringRegionCodes.WESTUS,
+    canadacentral: LuisAuthoringRegionCodes.WESTUS,
+    canadaeast: LuisAuthoringRegionCodes.WESTUS,
+    koreacentral: LuisAuthoringRegionCodes.WESTUS,
+    koreasouth: LuisAuthoringRegionCodes.WESTUS,
+    northeurope: LuisAuthoringRegionCodes.WESTEUROPE,
+    westeurope: LuisAuthoringRegionCodes.WESTEUROPE,
+    uksouth: LuisAuthoringRegionCodes.WESTEUROPE,
+    ukwest: LuisAuthoringRegionCodes.WESTEUROPE,
+    francecentral: LuisAuthoringRegionCodes.WESTEUROPE,
+    francesouth: LuisAuthoringRegionCodes.WESTEUROPE,
+    germanycentral: LuisAuthoringRegionCodes.WESTEUROPE,
+    germanynortheast: LuisAuthoringRegionCodes.WESTEUROPE,
+    virginia: LuisAuthoringRegionCodes.VIRGINIA,
+    usgovvirginia: LuisAuthoringRegionCodes.VIRGINIA,
+    usgoviowa: LuisAuthoringRegionCodes.VIRGINIA,
+    usdodeast: LuisAuthoringRegionCodes.VIRGINIA,
+    usdodcentral: LuisAuthoringRegionCodes.VIRGINIA,
+    usgovtexas: LuisAuthoringRegionCodes.VIRGINIA,
+    usgovarizona: LuisAuthoringRegionCodes.VIRGINIA
 }
 
 export const regionToLuisPublishRegionMap: { [region: string]: string } = {
@@ -152,7 +180,14 @@ export const regionToLuisPublishRegionMap: { [region: string]: string } = {
     francecentral: RegionCodes.NORTHEUROPE,
     francesouth: RegionCodes.WESTEUROPE,
     germanycentral: RegionCodes.WESTEUROPE,
-    germanynortheast: RegionCodes.NORTHEUROPE
+    germanynortheast: RegionCodes.NORTHEUROPE,
+    virginia: RegionCodes.VIRGINIA,
+    usgovvirginia: RegionCodes.VIRGINIA,
+    usgoviowa: RegionCodes.VIRGINIA,
+    usdodeast: RegionCodes.VIRGINIA,
+    usdodcentral: RegionCodes.VIRGINIA,
+    usgovtexas: RegionCodes.VIRGINIA,
+    usgovarizona: RegionCodes.VIRGINIA,
 }
 
 export const regionToAppInsightRegionNameMap: { [region: string]: string } = {
@@ -192,7 +227,14 @@ export const regionToAppInsightRegionNameMap: { [region: string]: string } = {
     francecentral: RegionNames.WESTEUROPE,
     francesouth: RegionNames.WESTEUROPE,
     germanycentral: RegionNames.WESTEUROPE,
-    germanynortheast: RegionNames.WESTEUROPE
+    germanynortheast: RegionNames.WESTEUROPE,
+
+    // usgovvirginia: RegionNames.USGOVVIRGINIA,
+    // usgoviowa: RegionNames.USGOVVIRGINIA,
+    // usdodeast: RegionNames.USGOVVIRGINIA,
+    // usdodcentral: RegionNames.USGOVVIRGINIA,
+    // usgovtexas: RegionNames.USGOVVIRGINIA,
+    // usgovarizona: RegionNames.USGOVVIRGINIA
 }
 
 export const regionToSearchRegionMap: { [region: string]: string } = {
@@ -231,15 +273,23 @@ export const regionToSearchRegionMap: { [region: string]: string } = {
     francecentral: RegionCodes.WESTEUROPE,
     francesouth: RegionCodes.WESTEUROPE,
     germanycentral: RegionCodes.WESTEUROPE,
-    germanynortheast: RegionCodes.NORTHEUROPE
+    germanynortheast: RegionCodes.NORTHEUROPE,
+
+    // usgovvirginia: RegionNames.USGOVVIRGINIA,
+    // usgoviowa: RegionNames.USGOVVIRGINIA,
+    // usdodeast: RegionNames.USGOVVIRGINIA,
+    // usdodcentral: RegionNames.USGOVVIRGINIA,
+    // usgovtexas: RegionNames.USGOVVIRGINIA,
+    // usgovarizona: RegionNames.USGOVVIRGINIA
 }
+
 
 export const luisAuthoringRegions = [
     RegionCodes.AUSTRALIAEAST,
     RegionCodes.WESTEUROPE,
-    RegionCodes.WESTUS
+    RegionCodes.WESTUS,
+    RegionCodes.VIRGINIA
 ];
-
 
 export const luisPublishRegions = [
     RegionCodes.AUSTRALIAEAST,
@@ -253,7 +303,8 @@ export const luisPublishRegions = [
     RegionCodes.WESTCENTRALUS,
     RegionCodes.WESTUS,
     RegionCodes.WESTUS2,
-    RegionCodes.BRAZILSOUTH
+    RegionCodes.BRAZILSOUTH,
+    RegionCodes.VIRGINIA
 ];
 
 export const searchRegions = [
