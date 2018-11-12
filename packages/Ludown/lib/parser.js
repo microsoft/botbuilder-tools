@@ -4,7 +4,6 @@
  * Licensed under the MIT License.
  */
 /*eslint no-console: ["error", { allow: ["log"] }] */
-require('./utils');
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
@@ -18,7 +17,6 @@ const exception = require('./classes/exception');
 const filesToParseClass = require('./classes/filesToParse');
 const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
-
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -221,10 +219,6 @@ const getOutputFolder = function(program) {
 const getFilesToParse = async function(program) {
     let filesToParse = [];
     if(program.in) {
-        // --in cannot be a folder
-        if(fs.lstatSync(program.in).isDirectory()) {
-            throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Sorry, ' + program.in + ' is a folder. Use -l to pass in a folder.'));
-        }
         filesToParse.push(program.in);
     }
     if(program.lu_folder) {
@@ -347,6 +341,7 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
     (allParsedContent.LUISContent || []).forEach(luisModel => {
         if (!luisModel.includeInCollate) return;
         let newUtterancesToAdd = [];
+        let newPatternsToAdd = [];
         let spliceList = [];
         (luisModel.LUISJsonStructure.utterances || []).forEach((utterance,idx) => {
             // Deep references must have [link name](link-value) notation
@@ -375,10 +370,19 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                     // find the parsed file
                     let parsedLUISBlob = (allParsedContent.LUISContent || []).find(item => item.srcFile == parsedUtterance.luFile);
                     if(parsedLUISBlob === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
-                    // get utterance list from reference intent and update list
-                    let referenceIntent = parsedUtterance.ref.replace(/-/g, ' ').trim();
-                    let utterances = parsedLUISBlob.LUISJsonStructure.utterances.filter(item => item.intent == referenceIntent);
+                    let utterances, patterns;
+                    if (parsedUtterance.ref.endsWith('utterances')) {
+                        // get all utterances and add them
+                        utterances = parsedLUISBlob.LUISJsonStructure.utterances;
+                    } else {
+                        // get utterance list from reference intent and update list
+                        let referenceIntent = parsedUtterance.ref.replace(/-/g, ' ').trim();
+                        utterances = parsedLUISBlob.LUISJsonStructure.utterances.filter(item => item.intent == referenceIntent);
+                        // find and add any patterns for this intent
+                        patterns = parsedLUISBlob.LUISJsonStructure.patterns.filter(item => item.intent == referenceIntent);
+                    }
                     (utterances || []).forEach(item => newUtterancesToAdd.push(new hClasses.uttereances(item.text, utterance.intent)));
+                    (patterns || []).forEach(item => newPatternsToAdd.push(new hClasses.pattern(item.pattern, utterance.intent)));
                     // remove this reference utterance from the list
                     spliceList.push(idx);
                 }
@@ -388,6 +392,8 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
         spliceList.sort((a,b) => a-b).forEach((item, idx) => luisModel.LUISJsonStructure.utterances.splice((item - idx), 1));
         // add new utterances to the list
         newUtterancesToAdd.forEach(item => luisModel.LUISJsonStructure.utterances.push(item));
+        // add new patterns to the list
+        newPatternsToAdd.forEach(item => luisModel.LUISJsonStructure.patterns.push(item));
     });
 }
 /**

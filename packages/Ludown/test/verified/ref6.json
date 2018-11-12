@@ -1,0 +1,113 @@
+{
+  "intents": [
+    {
+      "name": "All"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Hi",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "Hello",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "Good morning",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "Good evening",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "please help",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "vishwac",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "I'm vishwac",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "call me vishwac",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "my name is vishwac",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "vishwac is my name",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "you can call me vishwac",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "create an alarm",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "create an alarm for 7AM",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "set an alarm for 7AM next thursday",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "delete the {alarmTime} alarm",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "set {commPreference} as my communication preference",
+      "intent": "All",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "ref6",
+  "desc": "",
+  "culture": "en-us"
+}

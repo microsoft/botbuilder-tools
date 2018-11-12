@@ -427,6 +427,17 @@ describe('The example lu files', function() {
         });
     });
 
+    it('Deep references in lu files - *utterances* wild card is handled corectly', function (done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/ref6.lu --out ref6.json -o ${TEST_ROOT}/output`, () => {
+            try {
+                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/ref6.json')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/ref6.json')));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
 
     it('Nested entity references in LUIS JSON models are skipped correctly', function (done) {
         exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/nested-luis-json.json -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
