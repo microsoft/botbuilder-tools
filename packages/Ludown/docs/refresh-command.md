@@ -43,6 +43,7 @@ qnamaker export kb --kbid "" --environment <string>
 You can pipe output of luis or qnamaker commands to generate a .lu file. Here are few examples
 ```
 > luis export version --appId <YOUR-LUIS-APP-ID> --versionId <YOUR-LUIS-APP-VERSION> | ludown refresh --stdin -o c:\test -n app1.lu
+
 > qnamaker export kb --kbId <YOUR-KB-ID> --environemnt <TEST-OR-PROD> --hostname <YOUR-HOST-NAME> --endpointKey <YOUR-ENDPOINT-KEY> --subscriptionKey <YOUR-SUBSCRIPTION-KEY> | ludown refresh --stdin -o c:\test -n kb1.lu
 ```
 

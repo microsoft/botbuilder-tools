@@ -37,7 +37,7 @@ describe('The example lu files', function() {
         }
     });
 
-    it('refresh command successfully reconstructs a markdown file from a QnA input file with qnaDocuments section', function(done) {
+   it('refresh command successfully reconstructs a markdown file from a QnA input file with qnaDocuments section', function(done) {
         exec(`node ${ludown} refresh -q ${TEST_ROOT}/testcases/qnaDocuments.json -o ${TEST_ROOT}/output -n qnaDocuments`, () => {
             try {
                 done();
@@ -106,9 +106,9 @@ describe('The example lu files', function() {
 
     it('refresh command successfully generate an .lu file reading a LUIS model from stdin', function(done) {
         let testLUISJson = require(`${TEST_ROOT}/verified/all.json`);
-        exec(`echo ${JSON.stringify(testLUISJson)} | node ${ludown} refresh --stdin -o ${TEST_ROOT}/output -n stdin.lu -s`, (error, stdout, stderr) => {
+        exec(`echo ${JSON.stringify(testLUISJson)} | node ${ludown} refresh --stdin -s --stdout`, (error, stdout, stderr) => {
             try {
-                compareFiles(TEST_ROOT + '/output/stdin.lu', TEST_ROOT + '/verified/stdin.lu');
+                assert(stdout.includes('# Intent definitions'));
                 done();
             } catch (err) {
                 done(err);
@@ -118,9 +118,9 @@ describe('The example lu files', function() {
 
     it('refresh command successfully generate an .lu file reading a qna maker model from stdin', function(done) {
         let testLUISJson = require(`${TEST_ROOT}/verified/all-qna.json`);
-        exec(`echo ${JSON.stringify(testLUISJson)} | node ${ludown} refresh --stdin -o ${TEST_ROOT}/output -n stdin-qna.lu -s`, (error, stdout, stderr) => {
+        exec(`echo ${JSON.stringify(testLUISJson)} | node ${ludown} refresh --stdin -s --stdout`, (error, stdout, stderr) => {
             try {
-                compareFiles(TEST_ROOT + '/output/stdin-qna.lu', TEST_ROOT + '/verified/stdin-qna.lu');
+                assert(stdout.includes('# QnA pairs'));
                 done();
             } catch (err) {
                 done(err);

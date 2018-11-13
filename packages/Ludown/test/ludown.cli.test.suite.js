@@ -516,6 +516,7 @@ describe('The ludown cli tool', function() {
         it('should print an error when an invalid json is passed in with stdin option set', function(done) {
             exec(`echo {"one":"two"} | node ${ludown} refresh --stdin`, (error, stdout, stderr) => {
                 try {
+                    console.log(stderr);
                     assert(stderr.includes('unable to parse stdin as LUIS or QnA Maker model!'));
                     done();
                 } catch (err) {
