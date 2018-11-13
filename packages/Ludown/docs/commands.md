@@ -115,6 +115,8 @@ After you have bootstrapped and created your LUIS model and / or QnAMaker knowle
     --verbose                                   [Optional] Get verbose messages from parser
     -s, --skip_header                           [Optional] Generate .lu file without the header comment
     --prefix                                    [Optional] append [ludown] prefix to all messages
+    --stdin                                     [Optional] Read input from stdin
+    --stdout                                    [Optional] Write output to stdout only. Specifying this option will not write any generated content to disk
     -h, --help                                  output usage information
 
 ```
