@@ -104,6 +104,30 @@ describe('The example lu files', function() {
         });
     })
 
+    it('refresh command successfully generate an .lu file reading a LUIS model from stdin', function(done) {
+        let testLUISJson = require(`${TEST_ROOT}/verified/all.json`);
+        exec(`echo ${JSON.stringify(testLUISJson)} | node ${ludown} refresh --stdin -o ${TEST_ROOT}/output -n stdin.lu -s`, (error, stdout, stderr) => {
+            try {
+                compareFiles(TEST_ROOT + '/output/stdin.lu', TEST_ROOT + '/verified/stdin.lu');
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('refresh command successfully generate an .lu file reading a qna maker model from stdin', function(done) {
+        let testLUISJson = require(`${TEST_ROOT}/verified/all-qna.json`);
+        exec(`echo ${JSON.stringify(testLUISJson)} | node ${ludown} refresh --stdin -o ${TEST_ROOT}/output -n stdin-qna.lu -s`, (error, stdout, stderr) => {
+            try {
+                compareFiles(TEST_ROOT + '/output/stdin-qna.lu', TEST_ROOT + '/verified/stdin-qna.lu');
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
     it('Simple intent and utterances are parsed correctly', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/../examples/1.lu -o ${TEST_ROOT}/output`, () => {
             try {
@@ -449,4 +473,5 @@ describe('The example lu files', function() {
             }
         });
     });
+    
 });

@@ -513,6 +513,17 @@ describe('The ludown cli tool', function() {
     });
 
     describe('With refresh command', function() {
+        it('should print an error when an invalid json is passed in with stdin option set', function(done) {
+            exec(`echo {"one":"two"} | node ${ludown} refresh --stdin`, (error, stdout, stderr) => {
+                try {
+                    assert(stderr.includes('unable to parse stdin as LUIS or QnA Maker model!'));
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+        
         it('should print an error when an invalid argument is passed', function(done) {
             exec(`node ${ludown} refresh -x`, (error, stdout, stderr) => {
                 try {
