@@ -106,7 +106,7 @@ describe('The example lu files', function() {
 
     it('refresh command successfully generate an .lu file reading a LUIS model from stdin', function(done) {
         let testLUISJson = require(`${TEST_ROOT}/verified/all.json`);
-        exec(`echo ${JSON.stringify(testLUISJson)} | node ${ludown} refresh --stdin -s --stdout`, (error, stdout, stderr) => {
+        exec(`echo ${JSON.stringify(testLUISJson).replace('"', '\"')} | node ${ludown} refresh --stdin -s --stdout`, (error, stdout, stderr) => {
             try {
                 assert(stdout.includes('# Intent definitions'));
                 done();
@@ -118,7 +118,7 @@ describe('The example lu files', function() {
 
     it('refresh command successfully generate an .lu file reading a qna maker model from stdin', function(done) {
         let testLUISJson = require(`${TEST_ROOT}/verified/all-qna.json`);
-        exec(`echo ${JSON.stringify(testLUISJson)} | node ${ludown} refresh --stdin -s --stdout`, (error, stdout, stderr) => {
+        exec(`echo ${JSON.stringify(testLUISJson).replace('"', '\"')} | node ${ludown} refresh --stdin -s --stdout`, (error, stdout, stderr) => {
             try {
                 assert(stdout.includes('# QnA pairs'));
                 done();
