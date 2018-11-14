@@ -1,0 +1,92 @@
+
+> # Intent definitions
+
+## Greeting
+- Hi
+- Hello
+- Good morning
+- Good evening
+
+
+## Help
+- help
+- I need help
+- please help
+- can you help
+
+
+## AskForUserName
+- {userName=vishwac}
+- I'm {userName=vishwac}
+- call me {userName=vishwac}
+- my name is {userName=vishwac}
+- {userName=vishwac} is my name
+- you can call me {userName=vishwac}
+
+
+## CreateAlarm
+- create an alarm
+- create an alarm for 7AM
+- set an alarm for 7AM next thursday
+
+
+## DeleteAlarm
+- delete the {alarmTime} alarm
+- remove the {alarmTime} alarm
+
+
+## CommunicationPreference
+- set phone call as my communication preference
+- I prefer to receive text message
+
+
+## None
+- who is your ceo?
+- santa wants a blue ribbon
+
+
+## Buy chocolate
+- can I get some m&m
+- I want some twix
+- I would like to buy some kit kat
+
+
+> # Entity definitions
+
+$userName:simple
+
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:datetimeV2
+
+
+> # Phrase list definitions
+
+$ChocolateType:phraseList
+- m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
+$question:phraseList
+- are you,you are
+
+> # List entities
+
+$commPreference:call=
+- phone call
+- give me a ring
+- ring
+- call
+- cell phone
+- phone
+
+$commPreference:text=
+- message
+- text
+- sms
+- text message
+
+$commPreference:fax=
+- fax
+- fascimile
+
+
+

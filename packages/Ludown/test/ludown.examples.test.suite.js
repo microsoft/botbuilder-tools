@@ -37,7 +37,7 @@ describe('The example lu files', function() {
         }
     });
 
-    it('refresh command successfully reconstructs a markdown file from a QnA input file with qnaDocuments section', function(done) {
+   it('refresh command successfully reconstructs a markdown file from a QnA input file with qnaDocuments section', function(done) {
         exec(`node ${ludown} refresh -q ${TEST_ROOT}/testcases/qnaDocuments.json -o ${TEST_ROOT}/output -n qnaDocuments`, () => {
             try {
                 done();
@@ -449,4 +449,5 @@ describe('The example lu files', function() {
             }
         });
     });
+    
 });

@@ -24,6 +24,7 @@
     "chalk": "^2.3.2",
     "commander": "^2.15.1",
     "deep-equal": "^1.0.1",
+    "get-stdin": "^6.0.0",
     "intercept-stdout": "^0.1.2",
     "latest-version": "^4.0.0",
     "node-fetch": "^2.1.2",
