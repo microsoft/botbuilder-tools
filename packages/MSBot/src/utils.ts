@@ -48,8 +48,18 @@ export const RegionCodes = {
     UKWEST: 'ukwest',
     FRANCECENTRAL: 'francecentral',
     FRANCESOUTH: 'francesouth',
+<<<<<<< HEAD
     USGOVVIRGINIA: 'usgovvirginia',
     VIRGINIA: 'virginia'
+=======
+    VIRGINIA: 'virginia',
+    USGOVVIRGINIA: 'usgovvirginia',
+    USGOVIOWA: 'usgoviowa',
+    USDODEAST: 'usdodeast',
+    USDODCENTRAL: 'usdodcentral',
+    USGOVTEXAS: 'usgovtexas',
+    USGOVARIZONA: 'usgovarizona'
+>>>>>>> upstream/master
 };
 
 export const RegionNames = {
@@ -85,6 +95,7 @@ export const RegionNames = {
     UKWEST: 'UK West',
     FRANCECENTRAL: 'France Central',
     FRANCESOUTH: 'France South',
+<<<<<<< HEAD
     USGOVVIRGINIA: 'USGov Virginia',
     VIRGINIA: 'Virginia',
 };
@@ -124,6 +135,64 @@ export const regionToLuisAuthoringRegionMap: { [region: string]: string } = {
     germanynortheast: RegionCodes.WESTEUROPE,
     usgovvirginia: RegionCodes.VIRGINIA,
     virginia: RegionCodes.VIRGINIA
+=======
+    VIRGINIA: 'Virginia',
+    USGOVVIRGINIA: 'USGov Virginia',
+    USGOVIOWA: "USGov Iowa",
+    USDODEAST: "USDoD East",
+    USDODCENTRAL: "USDoD Central",
+    USGOVTEXAS: "USGov Texas",
+    USGOVARIZONA: "USGov Arizona"
+};
+
+export const LuisAuthoringRegionCodes = {
+    AUSTRALIAEAST: RegionCodes.AUSTRALIAEAST,
+    WESTEUROPE: RegionCodes.WESTEUROPE,
+    WESTUS: RegionCodes.WESTUS,
+    VIRGINIA: RegionCodes.VIRGINIA
+};
+
+export const regionToLuisAuthoringRegionMap: { [region: string]: string } = {
+    australiaeast: LuisAuthoringRegionCodes.AUSTRALIAEAST,
+    australiacentral: LuisAuthoringRegionCodes.AUSTRALIAEAST,
+    australiacentral2: LuisAuthoringRegionCodes.AUSTRALIAEAST,
+    australiasoutheast: LuisAuthoringRegionCodes.AUSTRALIAEAST,
+    eastasia: LuisAuthoringRegionCodes.WESTUS,
+    southeastasia: LuisAuthoringRegionCodes.WESTUS,
+    eastus: LuisAuthoringRegionCodes.WESTUS,
+    eastus2: LuisAuthoringRegionCodes.WESTUS,
+    southcentralus: LuisAuthoringRegionCodes.WESTUS,
+    westcentralus: LuisAuthoringRegionCodes.WESTUS,
+    westus: LuisAuthoringRegionCodes.WESTUS,
+    westus2: LuisAuthoringRegionCodes.WESTUS,
+    brazilsouth: LuisAuthoringRegionCodes.WESTUS,
+    centralus: LuisAuthoringRegionCodes.WESTUS,
+    northcentralus: LuisAuthoringRegionCodes.WESTUS,
+    japanwest: LuisAuthoringRegionCodes.WESTUS,
+    japaneast: LuisAuthoringRegionCodes.WESTUS,
+    southindia: LuisAuthoringRegionCodes.WESTUS,
+    centralindia: LuisAuthoringRegionCodes.WESTUS,
+    westindia: LuisAuthoringRegionCodes.WESTUS,
+    canadacentral: LuisAuthoringRegionCodes.WESTUS,
+    canadaeast: LuisAuthoringRegionCodes.WESTUS,
+    koreacentral: LuisAuthoringRegionCodes.WESTUS,
+    koreasouth: LuisAuthoringRegionCodes.WESTUS,
+    northeurope: LuisAuthoringRegionCodes.WESTEUROPE,
+    westeurope: LuisAuthoringRegionCodes.WESTEUROPE,
+    uksouth: LuisAuthoringRegionCodes.WESTEUROPE,
+    ukwest: LuisAuthoringRegionCodes.WESTEUROPE,
+    francecentral: LuisAuthoringRegionCodes.WESTEUROPE,
+    francesouth: LuisAuthoringRegionCodes.WESTEUROPE,
+    germanycentral: LuisAuthoringRegionCodes.WESTEUROPE,
+    germanynortheast: LuisAuthoringRegionCodes.WESTEUROPE,
+    virginia: LuisAuthoringRegionCodes.VIRGINIA,
+    usgovvirginia: LuisAuthoringRegionCodes.VIRGINIA,
+    usgoviowa: LuisAuthoringRegionCodes.VIRGINIA,
+    usdodeast: LuisAuthoringRegionCodes.VIRGINIA,
+    usdodcentral: LuisAuthoringRegionCodes.VIRGINIA,
+    usgovtexas: LuisAuthoringRegionCodes.VIRGINIA,
+    usgovarizona: LuisAuthoringRegionCodes.VIRGINIA
+>>>>>>> upstream/master
 }
 
 export const regionToLuisPublishRegionMap: { [region: string]: string } = {
@@ -159,8 +228,18 @@ export const regionToLuisPublishRegionMap: { [region: string]: string } = {
     francesouth: RegionCodes.WESTEUROPE,
     germanycentral: RegionCodes.WESTEUROPE,
     germanynortheast: RegionCodes.NORTHEUROPE,
+<<<<<<< HEAD
     usgovvirginia: RegionCodes.VIRGINIA,
     virginia: RegionCodes.VIRGINIA
+=======
+    virginia: RegionCodes.VIRGINIA,
+    usgovvirginia: RegionCodes.VIRGINIA,
+    usgoviowa: RegionCodes.VIRGINIA,
+    usdodeast: RegionCodes.VIRGINIA,
+    usdodcentral: RegionCodes.VIRGINIA,
+    usgovtexas: RegionCodes.VIRGINIA,
+    usgovarizona: RegionCodes.VIRGINIA,
+>>>>>>> upstream/master
 }
 
 export const regionToAppInsightRegionNameMap: { [region: string]: string } = {
@@ -200,8 +279,19 @@ export const regionToAppInsightRegionNameMap: { [region: string]: string } = {
     francecentral: RegionNames.WESTEUROPE,
     francesouth: RegionNames.WESTEUROPE,
     germanycentral: RegionNames.WESTEUROPE,
+<<<<<<< HEAD
     germanynortheast: RegionNames.WESTEUROPE
     
+=======
+    germanynortheast: RegionNames.WESTEUROPE,
+
+    // usgovvirginia: RegionNames.USGOVVIRGINIA,
+    // usgoviowa: RegionNames.USGOVVIRGINIA,
+    // usdodeast: RegionNames.USGOVVIRGINIA,
+    // usdodcentral: RegionNames.USGOVVIRGINIA,
+    // usgovtexas: RegionNames.USGOVVIRGINIA,
+    // usgovarizona: RegionNames.USGOVVIRGINIA
+>>>>>>> upstream/master
 }
 
 export const regionToSearchRegionMap: { [region: string]: string } = {
@@ -241,19 +331,32 @@ export const regionToSearchRegionMap: { [region: string]: string } = {
     francesouth: RegionCodes.WESTEUROPE,
     germanycentral: RegionCodes.WESTEUROPE,
     germanynortheast: RegionCodes.NORTHEUROPE,
+<<<<<<< HEAD
     
     usgovvirginia: RegionCodes.USGOVVIRGINIA,
     virginia: RegionCodes.VIRGINIA
+=======
+
+    // usgovvirginia: RegionNames.USGOVVIRGINIA,
+    // usgoviowa: RegionNames.USGOVVIRGINIA,
+    // usdodeast: RegionNames.USGOVVIRGINIA,
+    // usdodcentral: RegionNames.USGOVVIRGINIA,
+    // usgovtexas: RegionNames.USGOVVIRGINIA,
+    // usgovarizona: RegionNames.USGOVVIRGINIA
+>>>>>>> upstream/master
 }
+
 
 export const luisAuthoringRegions = [
     RegionCodes.AUSTRALIAEAST,
     RegionCodes.WESTEUROPE,
     RegionCodes.WESTUS,
     RegionCodes.VIRGINIA
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/master
 ];
-
 
 export const luisPublishRegions = [
     RegionCodes.AUSTRALIAEAST,
@@ -268,8 +371,12 @@ export const luisPublishRegions = [
     RegionCodes.WESTUS,
     RegionCodes.WESTUS2,
     RegionCodes.BRAZILSOUTH,
+<<<<<<< HEAD
     RegionCodes.USGOVVIRGINIA
     
+=======
+    RegionCodes.VIRGINIA
+>>>>>>> upstream/master
 ];
 
 export const searchRegions = [

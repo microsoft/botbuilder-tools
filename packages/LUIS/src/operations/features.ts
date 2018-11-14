@@ -24,723 +24,622 @@ export class Features {
 
   /**
    * [DEPRECATED NOTICE: This operation will soon be removed] Creates a new pattern feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PatternCreateObject} patternCreateObject The Name and Pattern of the feature.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternCreateObject The Name and Pattern of the feature.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesCreatePatternFeatureResponse>
    */
-  createPatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
+  createPatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesCreatePatternFeatureResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternCreateObject The Name and Pattern of the feature.
+   * @param callback The callback
+   */
+  createPatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, callback: msRest.ServiceCallback<number>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternCreateObject The Name and Pattern of the feature.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createPatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
+  createPatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): Promise<Models.FeaturesCreatePatternFeatureResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         patternCreateObject,
         options
       },
-      createPatternFeatureOperationSpec);
+      createPatternFeatureOperationSpec,
+      callback) as Promise<Models.FeaturesCreatePatternFeatureResponse>;
   }
 
   /**
    * [DEPRECATED NOTICE: This operation will soon be removed] Gets all the pattern features.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {FeaturesGetApplicationVersionPatternFeaturesOptionalParams} [options] Optional
-   * Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesGetApplicationVersionPatternFeaturesResponse>
    */
-  getApplicationVersionPatternFeaturesWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternFeatureInfo[]>> {
+  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams): Promise<Models.FeaturesGetApplicationVersionPatternFeaturesResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param callback The callback
+   */
+  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams, callback: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): void;
+  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): Promise<Models.FeaturesGetApplicationVersionPatternFeaturesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
       },
-      getApplicationVersionPatternFeaturesOperationSpec);
+      getApplicationVersionPatternFeaturesOperationSpec,
+      callback) as Promise<Models.FeaturesGetApplicationVersionPatternFeaturesResponse>;
   }
 
   /**
    * Creates a new phraselist feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PhraselistCreateObject} phraselistCreateObject A Phraselist object containing Name,
-   * comma-separated Phrases and the isExchangeable boolean. Default value for isExchangeable is
-   * true.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistCreateObject A Phraselist object containing Name, comma-separated Phrases and
+   * the isExchangeable boolean. Default value for isExchangeable is true.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesAddPhraseListResponse>
    */
-  addPhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<number>> {
+  addPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesAddPhraseListResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistCreateObject A Phraselist object containing Name, comma-separated Phrases and
+   * the isExchangeable boolean. Default value for isExchangeable is true.
+   * @param callback The callback
+   */
+  addPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, callback: msRest.ServiceCallback<number>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistCreateObject A Phraselist object containing Name, comma-separated Phrases and
+   * the isExchangeable boolean. Default value for isExchangeable is true.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  addPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
+  addPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): Promise<Models.FeaturesAddPhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         phraselistCreateObject,
         options
       },
-      addPhraseListOperationSpec);
+      addPhraseListOperationSpec,
+      callback) as Promise<Models.FeaturesAddPhraseListResponse>;
   }
 
   /**
    * Gets all the phraselist features.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {FeaturesListPhraseListsOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesListPhraseListsResponse>
    */
-  listPhraseListsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PhraseListFeatureInfo[]>> {
+  listPhraseLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams): Promise<Models.FeaturesListPhraseListsResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param callback The callback
+   */
+  listPhraseLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listPhraseLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.FeaturesListPhraseListsOptionalParams, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): void;
+  listPhraseLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): Promise<Models.FeaturesListPhraseListsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
       },
-      listPhraseListsOperationSpec);
+      listPhraseListsOperationSpec,
+      callback) as Promise<Models.FeaturesListPhraseListsResponse>;
   }
 
   /**
    * Gets all the extraction features for the specified application version.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {FeaturesListOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesListResponse>
    */
-  listWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams): Promise<msRest.HttpOperationResponse<Models.FeaturesResponseObject>> {
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams): Promise<Models.FeaturesListResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param callback The callback
+   */
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.FeaturesResponseObject>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.FeaturesListOptionalParams, callback: msRest.ServiceCallback<Models.FeaturesResponseObject>): void;
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams, callback?: msRest.ServiceCallback<Models.FeaturesResponseObject>): Promise<Models.FeaturesListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
       },
-      listOperationSpec);
+      listOperationSpec,
+      callback) as Promise<Models.FeaturesListResponse>;
   }
 
   /**
    * [DEPRECATED NOTICE: This operation will soon be removed] Gets the specified pattern feature's
    * info.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} patternId The pattern feature ID.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern feature ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesGetPatternFeatureInfoResponse>
    */
-  getPatternFeatureInfoWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternFeatureInfo>> {
+  getPatternFeatureInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesGetPatternFeatureInfoResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern feature ID.
+   * @param callback The callback
+   */
+  getPatternFeatureInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, callback: msRest.ServiceCallback<Models.PatternFeatureInfo>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern feature ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPatternFeatureInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternFeatureInfo>): void;
+  getPatternFeatureInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo>): Promise<Models.FeaturesGetPatternFeatureInfoResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         patternId,
         options
       },
-      getPatternFeatureInfoOperationSpec);
+      getPatternFeatureInfoOperationSpec,
+      callback) as Promise<Models.FeaturesGetPatternFeatureInfoResponse>;
   }
 
   /**
    * [DEPRECATED NOTICE: This operation will soon be removed] Updates the pattern, the name and the
    * state of the pattern feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} patternId The pattern feature ID.
-   *
-   * @param {PatternUpdateObject} patternUpdateObject The new values for: - Just a boolean called
-   * IsActive, in which case the status of the feature will be changed. - Name, Pattern and a boolean
-   * called IsActive to update the feature.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern feature ID.
+   * @param patternUpdateObject The new values for: - Just a boolean called IsActive, in which case
+   * the status of the feature will be changed. - Name, Pattern and a boolean called IsActive to
+   * update the feature.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesUpdatePatternFeatureResponse>
    */
-  updatePatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+  updatePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesUpdatePatternFeatureResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern feature ID.
+   * @param patternUpdateObject The new values for: - Just a boolean called IsActive, in which case
+   * the status of the feature will be changed. - Name, Pattern and a boolean called IsActive to
+   * update the feature.
+   * @param callback The callback
+   */
+  updatePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern feature ID.
+   * @param patternUpdateObject The new values for: - Just a boolean called IsActive, in which case
+   * the status of the feature will be changed. - Name, Pattern and a boolean called IsActive to
+   * update the feature.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updatePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesUpdatePatternFeatureResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         patternId,
         patternUpdateObject,
         options
       },
-      updatePatternFeatureOperationSpec);
+      updatePatternFeatureOperationSpec,
+      callback) as Promise<Models.FeaturesUpdatePatternFeatureResponse>;
   }
 
   /**
    * [DEPRECATED NOTICE: This operation will soon be removed] Deletes a pattern feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} patternId The pattern feature ID.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern feature ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesDeletePatternFeatureResponse>
    */
-  deletePatternFeatureWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+  deletePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesDeletePatternFeatureResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern feature ID.
+   * @param callback The callback
+   */
+  deletePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern feature ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deletePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesDeletePatternFeatureResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         patternId,
         options
       },
-      deletePatternFeatureOperationSpec);
+      deletePatternFeatureOperationSpec,
+      callback) as Promise<Models.FeaturesDeletePatternFeatureResponse>;
   }
 
   /**
    * Gets phraselist feature info.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} phraselistId The ID of the feature to be retrieved.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistId The ID of the feature to be retrieved.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesGetPhraseListResponse>
    */
-  getPhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PhraseListFeatureInfo>> {
+  getPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesGetPhraseListResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistId The ID of the feature to be retrieved.
+   * @param callback The callback
+   */
+  getPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistId The ID of the feature to be retrieved.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): void;
+  getPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): Promise<Models.FeaturesGetPhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         phraselistId,
         options
       },
-      getPhraseListOperationSpec);
+      getPhraseListOperationSpec,
+      callback) as Promise<Models.FeaturesGetPhraseListResponse>;
   }
 
   /**
    * Updates the phrases, the state and the name of the phraselist feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} phraselistId The ID of the feature to be updated.
-   *
-   * @param {FeaturesUpdatePhraseListOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistId The ID of the feature to be updated.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesUpdatePhraseListResponse>
    */
-  updatePhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+  updatePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams): Promise<Models.FeaturesUpdatePhraseListResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistId The ID of the feature to be updated.
+   * @param callback The callback
+   */
+  updatePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistId The ID of the feature to be updated.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updatePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options: Models.FeaturesUpdatePhraseListOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesUpdatePhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         phraselistId,
         options
       },
-      updatePhraseListOperationSpec);
+      updatePhraseListOperationSpec,
+      callback) as Promise<Models.FeaturesUpdatePhraseListResponse>;
   }
 
   /**
    * Deletes a phraselist feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} phraselistId The ID of the feature to be deleted.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistId The ID of the feature to be deleted.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesDeletePhraseListResponse>
    */
-  deletePhraseListWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+  deletePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesDeletePhraseListResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistId The ID of the feature to be deleted.
+   * @param callback The callback
+   */
+  deletePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param phraselistId The ID of the feature to be deleted.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deletePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesDeletePhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         phraselistId,
         options
       },
-      deletePhraseListOperationSpec);
+      deletePhraseListOperationSpec,
+      callback) as Promise<Models.FeaturesDeletePhraseListResponse>;
   }
-
-  /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Creates a new pattern feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PatternCreateObject} patternCreateObject The Name and Pattern of the feature.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {number} [result]   - The deserialized result object if an error did not occur.
-   *
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  createPatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject): Promise<number>;
-  createPatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options: msRest.RequestOptionsBase): Promise<number>;
-  createPatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, callback: msRest.ServiceCallback<number>): void;
-  createPatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  createPatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): any {
-    return msRest.responseToBody(this.createPatternFeatureWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternCreateObject, options, callback);
-  }
-
-  /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Gets all the pattern features.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {FeaturesGetApplicationVersionPatternFeaturesOptionalParams} [options] Optional
-   * Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.PatternFeatureInfo[]} [result]   - The deserialized result object if an error did not occur.
-   *
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<Models.PatternFeatureInfo[]>;
-  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams): Promise<Models.PatternFeatureInfo[]>;
-  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): void;
-  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams, callback: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): void;
-  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): any {
-    return msRest.responseToBody(this.getApplicationVersionPatternFeaturesWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
-  }
-
-  /**
-   * Creates a new phraselist feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PhraselistCreateObject} phraselistCreateObject A Phraselist object containing Name,
-   * comma-separated Phrases and the isExchangeable boolean. Default value for isExchangeable is
-   * true.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {number} [result]   - The deserialized result object if an error did not occur.
-   *
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  addPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject): Promise<number>;
-  addPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options: msRest.RequestOptionsBase): Promise<number>;
-  addPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, callback: msRest.ServiceCallback<number>): void;
-  addPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  addPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): any {
-    return msRest.responseToBody(this.addPhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistCreateObject, options, callback);
-  }
-
-  /**
-   * Gets all the phraselist features.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {FeaturesListPhraseListsOptionalParams} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.PhraseListFeatureInfo[]} [result]   - The deserialized result object if an error did not occur.
-   *
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  listPhraseLists(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<Models.PhraseListFeatureInfo[]>;
-  listPhraseLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesListPhraseListsOptionalParams): Promise<Models.PhraseListFeatureInfo[]>;
-  listPhraseLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): void;
-  listPhraseLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesListPhraseListsOptionalParams, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): void;
-  listPhraseLists(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): any {
-    return msRest.responseToBody(this.listPhraseListsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
-  }
-
-  /**
-   * Gets all the extraction features for the specified application version.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {FeaturesListOptionalParams} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.FeaturesResponseObject} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.FeaturesResponseObject} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  list(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<Models.FeaturesResponseObject>;
-  list(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesListOptionalParams): Promise<Models.FeaturesResponseObject>;
-  list(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.FeaturesResponseObject>): void;
-  list(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.FeaturesListOptionalParams, callback: msRest.ServiceCallback<Models.FeaturesResponseObject>): void;
-  list(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams, callback?: msRest.ServiceCallback<Models.FeaturesResponseObject>): any {
-    return msRest.responseToBody(this.listWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
-  }
-
-  /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Gets the specified pattern feature's
-   * info.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} patternId The pattern feature ID.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.PatternFeatureInfo} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.PatternFeatureInfo} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  getPatternFeatureInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number): Promise<Models.PatternFeatureInfo>;
-  getPatternFeatureInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase): Promise<Models.PatternFeatureInfo>;
-  getPatternFeatureInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, callback: msRest.ServiceCallback<Models.PatternFeatureInfo>): void;
-  getPatternFeatureInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternFeatureInfo>): void;
-  getPatternFeatureInfo(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo>): any {
-    return msRest.responseToBody(this.getPatternFeatureInfoWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, options, callback);
-  }
-
-  /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Updates the pattern, the name and the
-   * state of the pattern feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} patternId The pattern feature ID.
-   *
-   * @param {PatternUpdateObject} patternUpdateObject The new values for: - Just a boolean called
-   * IsActive, in which case the status of the feature will be changed. - Name, Pattern and a boolean
-   * called IsActive to update the feature.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  updatePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject): Promise<Models.OperationStatus>;
-  updatePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
-  updatePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    return msRest.responseToBody(this.updatePatternFeatureWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, patternUpdateObject, options, callback);
-  }
-
-  /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] Deletes a pattern feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} patternId The pattern feature ID.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  deletePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number): Promise<Models.OperationStatus>;
-  deletePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
-  deletePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatternFeature(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    return msRest.responseToBody(this.deletePatternFeatureWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, options, callback);
-  }
-
-  /**
-   * Gets phraselist feature info.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} phraselistId The ID of the feature to be retrieved.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.PhraseListFeatureInfo} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.PhraseListFeatureInfo} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  getPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number): Promise<Models.PhraseListFeatureInfo>;
-  getPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase): Promise<Models.PhraseListFeatureInfo>;
-  getPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): void;
-  getPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): void;
-  getPhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): any {
-    return msRest.responseToBody(this.getPhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistId, options, callback);
-  }
-
-  /**
-   * Updates the phrases, the state and the name of the phraselist feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} phraselistId The ID of the feature to be updated.
-   *
-   * @param {FeaturesUpdatePhraseListOptionalParams} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  updatePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number): Promise<Models.OperationStatus>;
-  updatePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: Models.FeaturesUpdatePhraseListOptionalParams): Promise<Models.OperationStatus>;
-  updatePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: Models.FeaturesUpdatePhraseListOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    return msRest.responseToBody(this.updatePhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistId, options, callback);
-  }
-
-  /**
-   * Deletes a phraselist feature.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {number} phraselistId The ID of the feature to be deleted.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  deletePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number): Promise<Models.OperationStatus>;
-  deletePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
-  deletePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePhraseList(azureRegion: Models.AzureRegions, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    return msRest.responseToBody(this.deletePhraseListWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, phraselistId, options, callback);
-  }
-
 }
 
 // Operation Specifications
@@ -750,6 +649,7 @@ const createPatternFeatureOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -781,6 +681,7 @@ const getApplicationVersionPatternFeaturesOperationSpec: msRest.OperationSpec = 
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -815,6 +716,7 @@ const addPhraseListOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -846,6 +748,7 @@ const listPhraseListsOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -880,6 +783,7 @@ const listOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/features",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -903,6 +807,7 @@ const getPatternFeatureInfoOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.patternId0
@@ -923,6 +828,7 @@ const updatePatternFeatureOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.patternId0
@@ -950,6 +856,7 @@ const deletePatternFeatureOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patterns/{patternId}",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.patternId0
@@ -970,6 +877,7 @@ const getPhraseListOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.phraselistId
@@ -990,6 +898,7 @@ const updatePhraseListOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.phraselistId
@@ -1017,6 +926,7 @@ const deletePhraseListOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.phraselistId

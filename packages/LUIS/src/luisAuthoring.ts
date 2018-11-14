@@ -22,19 +22,9 @@ class LuisAuthoring extends LuisAuthoringContext {
   pattern: operations.Pattern;
 
   /**
-   * @class
    * Initializes a new instance of the LuisAuthoring class.
-   * @constructor
-   *
-   * @param {object} [options] - The parameter options
-   *
-   * @param {Array} [options.filters] - Filters to be added to the request pipeline
-   *
-   * @param {object} [options.requestOptions] - The request options. Detailed info can be found at
-   * {@link https://github.github.io/fetch/#Request Options doc}
-   *
-   * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
-   *
+   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
     super(credentials, options);
@@ -51,4 +41,10 @@ class LuisAuthoring extends LuisAuthoringContext {
 
 // Operation Specifications
 
-export { LuisAuthoring, Models as LuisAuthoringModels, Mappers as LuisAuthoringMappers };
+export {
+  LuisAuthoring,
+  LuisAuthoringContext,
+  Models as LuisAuthoringModels,
+  Mappers as LuisAuthoringMappers
+};
+export * from "./operations";

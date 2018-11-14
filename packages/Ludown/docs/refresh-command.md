@@ -17,6 +17,8 @@ After you have bootstrapped and created your LUIS model and / or QnAMaker knowle
     --verbose                                   [Optional] Get verbose messages from parser
     -s, --skip_header                           [Optional] Generate .lu file without the header comment
     --prefix                                    [Optional] append [ludown] prefix to all messages
+    --stdin                                     [Optional] Read input from stdin
+    --stdout                                    [Optional] Write output to stdout only. Specifying this option will not write any generated content to disk
     -h, --help                                  output usage information
 ```
 
@@ -36,3 +38,12 @@ luis export version --appId <string> --versionId <string> --authoringKey <key>
 ```bash
 qnamaker export kb --kbid "" --environment <string>
 ```
+
+## Piping commands
+You can pipe output of luis or qnamaker commands to generate a .lu file. Here are few examples
+```
+> luis export version --appId <YOUR-LUIS-APP-ID> --versionId <YOUR-LUIS-APP-VERSION> | ludown refresh --stdin -o c:\test -n app1.lu
+
+> qnamaker export kb --kbId <YOUR-KB-ID> --environemnt <TEST-OR-PROD> --hostname <YOUR-HOST-NAME> --endpointKey <YOUR-ENDPOINT-KEY> --subscriptionKey <YOUR-SUBSCRIPTION-KEY> | ludown refresh --stdin -o c:\test -n kb1.lu
+```
+

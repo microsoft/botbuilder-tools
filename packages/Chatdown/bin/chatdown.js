@@ -20,6 +20,7 @@ const chatdown = require('../lib/index');
 const txtfile = require('read-text-file');
 const glob = require('glob');
 const latestVersion = require('latest-version');
+const intercept = require("intercept-stdout");
 
 /**
  * Retrieves the content to be parsed from a file if
@@ -111,6 +112,12 @@ async function processFiles(inputDir, outputDir) {
  */
 async function runProgram() {
     const args = minimist(process.argv.slice(2));
+
+    if (args.prefix) {
+        intercept(function(txt) {
+            return `[${pkg.name}]\n${txt}`;
+        });
+    }
 
     let latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
                         .catch(error => pkg.version);

@@ -1,6 +1,6 @@
 # Bot File
 
-Bots usually consume lots of different services, such as [LUIS.ai](https://luis.ai), or [QnaMaker.ai](https://qnamaker.ai). When you are developing a bot, there is no uniform place to store the the metadata about the services that are in use.  This prevents us from building tooling that looks at a bot as a whole.
+Bots usually consume lots of different services, such as [LUIS.ai](https://luis.ai), or [QnaMaker.ai](https://qnamaker.ai). When you are developing a bot, there is no uniform place to store the metadata about the services that are in use.  This prevents us from building tooling that looks at a bot as a whole.
 
 To address this problem, we have created a **.bot file** to act as the place to bring all service references together in one place to enable tooling.  For example, the [Bot Framework Emulator V4](https://github.com/Microsoft/BotFramework-Emulator/releases) uses a the .bot file to create a unified view over the connected services your bot consumes.  
 

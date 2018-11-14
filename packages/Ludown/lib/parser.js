@@ -4,7 +4,6 @@
  * Licensed under the MIT License.
  */
 /*eslint no-console: ["error", { allow: ["log"] }] */
-require('./utils');
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
@@ -18,7 +17,7 @@ const exception = require('./classes/exception');
 const filesToParseClass = require('./classes/filesToParse');
 const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
-
+const deepEqual = require('deep-equal');
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -343,6 +342,7 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
     (allParsedContent.LUISContent || []).forEach(luisModel => {
         if (!luisModel.includeInCollate) return;
         let newUtterancesToAdd = [];
+        let newPatternsToAdd = [];
         let spliceList = [];
         (luisModel.LUISJsonStructure.utterances || []).forEach((utterance,idx) => {
             // Deep references must have [link name](link-value) notation
@@ -371,10 +371,30 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                     // find the parsed file
                     let parsedLUISBlob = (allParsedContent.LUISContent || []).find(item => item.srcFile == parsedUtterance.luFile);
                     if(parsedLUISBlob === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
-                    // get utterance list from reference intent and update list
-                    let referenceIntent = parsedUtterance.ref.replace(/-/g, ' ').trim();
-                    let utterances = parsedLUISBlob.LUISJsonStructure.utterances.filter(item => item.intent == referenceIntent);
+                    let utterances = [], patterns = [];
+                    if (parsedUtterance.ref.toLowerCase().includes('utterancesandpatterns')) {
+                        // get all utterances and add them
+                        utterances = parsedLUISBlob.LUISJsonStructure.utterances;
+                        // Find all patterns and add them
+                        (parsedLUISBlob.LUISJsonStructure.patterns || []).forEach(item => {
+                            let newUtterance = new hClasses.uttereances(item.pattern, item.intent);
+                            if (utterances.find(match => deepEqual(newUtterance, match)) !== undefined) utterances.push(new hClasses.uttereances(item.pattern, item.intent)) 
+                        });
+                    } else if (parsedUtterance.ref.toLowerCase().includes('utterances')) {
+                        // get all utterances and add them
+                        utterances = parsedLUISBlob.LUISJsonStructure.utterances;
+                    } else if (parsedUtterance.ref.toLowerCase().includes('patterns')) {
+                        // Find all patterns and add them
+                        (parsedLUISBlob.LUISJsonStructure.patterns || []).forEach(item => utterances.push(new hClasses.uttereances(item.pattern, item.intent)));
+                    } else {
+                        // get utterance list from reference intent and update list
+                        let referenceIntent = parsedUtterance.ref.replace(/-/g, ' ').trim();
+                        utterances = parsedLUISBlob.LUISJsonStructure.utterances.filter(item => item.intent == referenceIntent);
+                        // find and add any patterns for this intent
+                        patterns = parsedLUISBlob.LUISJsonStructure.patterns.filter(item => item.intent == referenceIntent);
+                    }
                     (utterances || []).forEach(item => newUtterancesToAdd.push(new hClasses.uttereances(item.text, utterance.intent)));
+                    (patterns || []).forEach(item => newPatternsToAdd.push(new hClasses.pattern(item.pattern, utterance.intent)));
                     // remove this reference utterance from the list
                     spliceList.push(idx);
                 }
@@ -384,6 +404,8 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
         spliceList.sort((a,b) => a-b).forEach((item, idx) => luisModel.LUISJsonStructure.utterances.splice((item - idx), 1));
         // add new utterances to the list
         newUtterancesToAdd.forEach(item => luisModel.LUISJsonStructure.utterances.push(item));
+        // add new patterns to the list
+        newPatternsToAdd.forEach(item => luisModel.LUISJsonStructure.patterns.push(item));
     });
 }
 /**
