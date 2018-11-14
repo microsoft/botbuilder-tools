@@ -17,6 +17,7 @@ const exception = require('./classes/exception');
 const filesToParseClass = require('./classes/filesToParse');
 const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
+const deepEqual = require('deep-equal');
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -370,10 +371,21 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                     // find the parsed file
                     let parsedLUISBlob = (allParsedContent.LUISContent || []).find(item => item.srcFile == parsedUtterance.luFile);
                     if(parsedLUISBlob === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
-                    let utterances, patterns;
-                    if (parsedUtterance.ref.endsWith('utterances')) {
+                    let utterances = [], patterns = [];
+                    if (parsedUtterance.ref.toLowerCase().includes('utterancesandpatterns')) {
                         // get all utterances and add them
                         utterances = parsedLUISBlob.LUISJsonStructure.utterances;
+                        // Find all patterns and add them
+                        (parsedLUISBlob.LUISJsonStructure.patterns || []).forEach(item => {
+                            let newUtterance = new hClasses.uttereances(item.pattern, item.intent);
+                            if (utterances.find(match => deepEqual(newUtterance, match)) !== undefined) utterances.push(new hClasses.uttereances(item.pattern, item.intent)) 
+                        });
+                    } else if (parsedUtterance.ref.toLowerCase().includes('utterances')) {
+                        // get all utterances and add them
+                        utterances = parsedLUISBlob.LUISJsonStructure.utterances;
+                    } else if (parsedUtterance.ref.toLowerCase().includes('patterns')) {
+                        // Find all patterns and add them
+                        (parsedLUISBlob.LUISJsonStructure.patterns || []).forEach(item => utterances.push(new hClasses.uttereances(item.pattern, item.intent)));
                     } else {
                         // get utterance list from reference intent and update list
                         let referenceIntent = parsedUtterance.ref.replace(/-/g, ' ').trim();
