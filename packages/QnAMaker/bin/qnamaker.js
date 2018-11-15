@@ -262,7 +262,7 @@ async function runProgram() {
 async function initializeConfig() {
     await stdoutAsync(chalk.cyan.bold('\nThis util will walk you through creating a .qnamakerrc file\n\nPress ^C at any time to quit.\n\n'));
     const questions = [
-        'What is your QnAMaker access/subscription key? (found on the Cognitive Services Azure portal page under \'access keys\') ',
+        'What is your QnAMaker access/subscription key? (found on the Cognitive Services Azure portal page under "access keys") ',
         'What would you like to use as your active knowledgebase ID? [none] '
     ];
 
