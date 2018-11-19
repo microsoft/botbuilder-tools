@@ -38,7 +38,7 @@ With the following options
 | -t, --tenantId <tenantId>                     | Azure Tenant id (either GUID or xxx.onmicrosoft.com)      |
 | -s, --subscriptionId <subscriptionId>         | Azure Subscription Id                                     |
 | -r, --resourceGroup <resourceGroup>           | Azure resource group name                                 |
-| -S, --serviceName <serviceName>               | Azure service name                                        |
+| --serviceName <serviceName>                   | Azure service name                                        |
 | -i, --instrumentationKey <instrumentationKey> | App Insights InstrumentationKey                           |
 | -a, --applicationId <applicationId>           | (OPTIONAL) App Insights Application Id                    |
 | --keys <keys>                                 | Json app keys, example: {'key1':'value1','key2':'value2'} |
