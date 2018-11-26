@@ -133,6 +133,11 @@ With the following options
 | --prefix                              | Append [msbot] prefix to all messages                   |
 | -h, --help                            | output usage information                                |
 
+An example:
+```shell
+msbot connect cosmosdb -n <COSMOS-DB-NAME> -t <TENANT-ID> -s <SUBSCRIPTION-ID> -r <RESOURCE-GROUP-NAME> --serviceName <COSMOS-DB-NAME> -e <COSMOSDB-ENDPOINT> -d <DB-NAME> -c <COLLECTION-NAME>
+```
+
 ### Connecting to a Endpoint Service  
 
 To connect your bot to localhost server:
