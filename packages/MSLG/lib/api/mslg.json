@@ -247,7 +247,9 @@
                         "description": "Path to lg file or folder containing lg files"
                     }
                 ],
-                "description": "Creates a new language generation model with same properties as existing model with specified id"
+                "description": "Creates a new language generation model with same properties as existing model with specified id",
+                "entityName": "modelDefinition",
+                "entityType": "ModelDefinition"
             }
         }
     }
