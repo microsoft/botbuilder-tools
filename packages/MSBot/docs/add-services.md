@@ -123,8 +123,7 @@ With the following options
 | -t, --tenantId <tenantId>             | Azure Tenant id (either GUID or xxx.onmicrosoft.com)    |
 | -s, --subscriptionId <subscriptionId> | Azure Subscription Id                                   |
 | -r, --resourceGroup <resourceGroup>   | Azure resource group name                               |
-| --serviceName <serviceName>           | Azure service name                                      |
-| --connectionString <connectionString> | CosmosDB connection string                              |
+| --serviceName <serviceName>           | Azure service name                                      |                         
 | -d, --database <database>             | CosmosDB database name                                  |
 | -c, --collection <collection>         | CosmosDB collection name                                |
 | -b, --bot <path>                      | path to bot file.                                       |
@@ -133,6 +132,11 @@ With the following options
 | --stdin                               | arguments are passed in as JSON object via stdin        |
 | --prefix                              | Append [msbot] prefix to all messages                   |
 | -h, --help                            | output usage information                                |
+
+An example:
+```shell
+msbot connect cosmosdb -n <COSMOS-DB-NAME> -t <TENANT-ID> -s <SUBSCRIPTION-ID> -r <RESOURCE-GROUP-NAME> --serviceName <COSMOS-DB-NAME> -e <COSMOSDB-ENDPOINT> -d <DB-NAME> -c <COLLECTION-NAME>
+```
 
 ### Connecting to a Endpoint Service  
 
