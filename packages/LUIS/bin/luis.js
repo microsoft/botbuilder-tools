@@ -922,7 +922,7 @@ async function handleQueryCommand(args, config) {
         return help(args);
     }
     if (!args.appId) {
-        process.stderr.write(chalk.red.bold(`missing --appid\n`));
+        process.stderr.write(chalk.red.bold(`missing --appId\n`));
         return help(args);
     }
 
