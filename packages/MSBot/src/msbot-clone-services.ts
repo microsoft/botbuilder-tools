@@ -17,6 +17,7 @@ import { logAsync } from './stdioAsync';
 import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap } from './utils';
 const Table = require('cli-table3');
 const opn = require('opn');
+const commandExistsSync = require('command-exists').sync;
 const exec = util.promisify(child_process.exec);
 
 const AZMINVERSION = '(0.4.1)';
@@ -89,6 +90,11 @@ if (args.name.length < 4 || args.name.length > 42) {
     showErrorHelp();
 }
 
+// verify that the user has AZ CLI as well as the botservice extension
+if (!commandExistsSync('az')) {
+    console.error(chalk.default.redBright('AZ CLI is not installed or cannot be found. \n\nSee https://aka.ms/msbot-clone-services for pre-requisites.'));
+    showErrorHelp();
+}
 
 let config = new BotConfiguration();
 config.name = args.name;
@@ -612,6 +618,10 @@ async function processConfiguration(): Promise<void> {
 
                 case ServiceTypes.Luis:
                     {
+                        if (!commandExistsSync('luis')) {
+                            console.error(chalk.default.redBright(`Unable to find LUIS CLI. Please install via npm i -g luis-apis and try again. \n\nSee https://aka.ms/msbot-clone-services for pre-requisites.`))
+                            showErrorHelp();
+                        }
                         let luisService = await importAndTrainLuisApp(resource);
                         luisService.id = `${resource.id}`; // keep same resource id
                         config.services.push(luisService);
@@ -621,6 +631,10 @@ async function processConfiguration(): Promise<void> {
 
                 case ServiceTypes.QnA:
                     {
+                        if (!commandExistsSync('qnamaker')) {
+                            console.error(chalk.default.redBright(`Unable to find QnAMaker CLI. Please install via npm i -g qnamaker and try again. \n\nSee https://aka.ms/msbot-clone-services for pre-requisites.`))
+                            showErrorHelp();
+                        }
                         // qnamaker create kb --subscriptionKey c87eb99bfc274a4db6b671b43f867575  --name testtesttest --in qna.json --wait --msbot -q
                         let qnaPath = path.join(args.folder, `${resource.id}.qna`);
                         let kbName = resource.name;
@@ -799,8 +813,8 @@ To do this run:
 async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisService> {
     let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
     let luisService: LuisService;
-    const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
-
+    const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];    
+    
     let luisAppName = args.noDecorate ? `${luisResource.name}` : `${args.name}_${luisResource.name}`;
     let svcOut = <ILuisService>await runCommand(`luis import application --region ${luisAuthoringRegion} --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
         `Creating and importing LUIS application [${luisAppName}]`);
