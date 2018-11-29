@@ -4,7 +4,7 @@
       "id": "V5Yt3PKRFaB1R1/3MyhqY0vI/UI="
     },
     "id": "1",
-    "timestamp": "2018-11-15T20:05:30.100Z",
+    "timestamp": "2018-11-29T19:47:06.100Z",
     "type": "conversationUpdate",
     "channelId": "chatdown",
     "membersAdded": [
@@ -22,7 +22,7 @@
     },
     "id": "2",
     "text": "[ConversationUpdate:\n    membersadded=Joe,Susan]",
-    "timestamp": "2018-11-15T20:05:32.100Z",
+    "timestamp": "2018-11-29T19:47:08.100Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -42,7 +42,7 @@
       "role": "bot"
     },
     "text": "Hi Joe!\nLulaBot->Susan: Hi Susan!\n\n[ConversationUpdate:membersremoved=Susan]",
-    "timestamp": "2018-11-15T20:05:34.100Z",
+    "timestamp": "2018-11-29T19:47:10.100Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -62,7 +62,7 @@
       "role": "user"
     },
     "text": "Hi!",
-    "timestamp": "2018-11-15T20:05:36.100Z",
+    "timestamp": "2018-11-29T19:47:12.100Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -82,7 +82,7 @@
       "role": "bot"
     },
     "text": "Hello there!",
-    "timestamp": "2018-11-15T20:05:38.100Z",
+    "timestamp": "2018-11-29T19:47:14.100Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -101,7 +101,7 @@
       "name": "LulaBot",
       "role": "bot"
     },
-    "timestamp": "2018-11-15T20:05:38.200Z",
+    "timestamp": "2018-11-29T19:47:14.200Z",
     "type": "typing",
     "channelId": "chatdown"
   },
@@ -121,7 +121,7 @@
       "role": "bot"
     },
     "text": "# cheese choices\n1. cheese 1 \n2. cheese 2\n3. cheese 3",
-    "timestamp": "2018-11-15T20:05:45.200Z",
+    "timestamp": "2018-11-29T19:47:21.200Z",
     "type": "message",
     "channelId": "chatdown",
     "suggestedActions": {

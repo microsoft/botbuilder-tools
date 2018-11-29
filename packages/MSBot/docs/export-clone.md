@@ -57,3 +57,12 @@ msbot clone services --folder folderName --name NewBot --luisAuthoringKey 000000
 | -q, --quiet                                 | disable output                                                                                                       |
 | --prefix                                    | Append [msbot] prefix to all messages                                                                                |
 | -h, --help                                  | output usage information                                                                                             |
+
+
+> **NOTE:** If you are explicitly passing in appSecret as an argument you need to escape any special characters in the password that might be interpreted by the shell to be a command. 
+- For *Windows command prompt*, enclose the appSecret in double quotes. e.g. 
+msbot clone services --name xxxx --luisAuthoringKey xxxx --location xxxx --folder bot.recipt ***--appSecret "!|%gr%"***
+- For *Windows PowerShell, try passing in appSecret after the --% argument. e.g. 
+msbot clone services --name xxxx --luisAuthoringKey xxxx --location xxxx --folder bot.recipt ***--% --appSecret "!|%gr%"***
+- For *MacOS or Linux*, enclose the appSecret in single quotes. e.g. 
+msbot clone services --name xxxx --luisAuthoringKey xxxx --location xxxx --folder bot.recipt ***--appSecret '!|%gr%'***

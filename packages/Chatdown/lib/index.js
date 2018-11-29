@@ -406,7 +406,7 @@ function addCard(contentType, currentActivity, rest) {
     for (let line of lines) {
         let start = line.indexOf('=');
         let property = line.substr(0, start).trim().toLowerCase();
-        let value = line.substr(start + 1).trim().toLowerCase();
+        let value = line.substr(start + 1).trim();
         switch (property) {
         case 'title':
         case 'subtitle':

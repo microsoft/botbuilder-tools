@@ -15,6 +15,7 @@ import * as util from 'util';
 import { spawnAsync } from './processUtils';
 import { logAsync } from './stdioAsync';
 import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap } from './utils';
+import * as fs from 'fs';
 const Table = require('cli-table3');
 const opn = require('opn');
 const commandExistsSync = require('command-exists').sync;
@@ -93,6 +94,11 @@ if (args.name.length < 4 || args.name.length > 42) {
 // verify that the user has AZ CLI as well as the botservice extension
 if (!commandExistsSync('az')) {
     console.error(chalk.default.redBright('AZ CLI is not installed or cannot be found. \n\nSee https://aka.ms/msbot-clone-services for pre-requisites.'));
+    showErrorHelp();
+}
+
+if (fs.existsSync(args.name + '.bot')) {
+    console.error(chalk.default.redBright(`${args.name}.bot already exists. Please choose a different name or delete ${args.name}.bot and try again.`));
     showErrorHelp();
 }
 
@@ -246,6 +252,8 @@ async function processConfiguration(): Promise<void> {
             if (!args.force) {
                 const answer = readline.question(`Would you like to perform this operation? [y/n]`);
                 if (answer == "no" || answer == "n") {
+                    // remove orphaned bot file if it exists
+                    if (fs.existsSync(args.name + '.bot')) fs.unlinkSync(args.name + '.bot');
                     console.log("Canceling the operation");
                     process.exit(1);
                 }
