@@ -91,7 +91,7 @@ if (args.name.length < 4 || args.name.length > 42) {
     showErrorHelp();
 }
 
-// verify that the user has AZ CLI as well as the botservice extension
+// verify that the user has AZ CLI
 if (!commandExistsSync('az')) {
     console.error(chalk.default.redBright('AZ CLI is not installed or cannot be found. \n\nSee https://aka.ms/msbot-clone-services for pre-requisites.'));
     showErrorHelp();
