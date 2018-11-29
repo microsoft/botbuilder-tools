@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "504dd52cbe62b753bfde5d890728895367235b01"
+    "signature": "06d20e178b2a788d2f941d04773d7178b1d52cc9"
   },
   "compilationOptions": {},
   "targets": {
@@ -12,11 +12,11 @@
           "ClassificationEvaluator": "1.0.0",
           "ClassificationSummary": "1.0.0",
           "Fuse.Core": "1.0.0",
-          "Microsoft.Bot.Configuration": "4.0.7",
+          "Microsoft.Bot.Configuration": "4.1.5",
           "Microsoft.Extensions.Configuration": "2.1.1",
           "Microsoft.Extensions.Configuration.FileExtensions": "2.1.1",
           "Microsoft.Extensions.Configuration.Json": "2.1.1",
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "PrepareData": "1.0.0"
         },
         "runtime": {
@@ -60,16 +60,16 @@
           }
         }
       },
-      "Microsoft.Bot.Configuration/4.0.7": {
+      "Microsoft.Bot.Configuration/4.1.5": {
         "dependencies": {
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "SourceLink.Create.CommandLine": "2.8.1",
           "System.Threading.Tasks.Extensions": "4.4.0"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Bot.Configuration.dll": {
-            "assemblyVersion": "4.0.7.0",
-            "fileVersion": "4.0.7.0"
+            "assemblyVersion": "4.1.5.0",
+            "fileVersion": "4.1.5.0"
           }
         }
       },
@@ -111,7 +111,7 @@
         "dependencies": {
           "Microsoft.Extensions.Configuration": "2.1.1",
           "Microsoft.Extensions.Configuration.FileExtensions": "2.1.1",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.Configuration.Json.dll": {
@@ -216,11 +216,11 @@
           }
         }
       },
-      "Newtonsoft.Json/11.0.2": {
+      "Newtonsoft.Json/12.0.1": {
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
-            "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.2.21924"
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.1.22727"
           }
         }
       },
@@ -441,7 +441,7 @@
           "Microsoft.Extensions.Configuration": "2.1.1",
           "Microsoft.Extensions.Configuration.FileExtensions": "2.1.1",
           "Microsoft.Extensions.Configuration.Json": "2.1.1",
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "ReservoirSampler": "1.0.0",
           "Sampler": "1.0.0"
         },
@@ -481,7 +481,7 @@
           "Microsoft.AspNetCore.Http.Features": "2.0.2",
           "Microsoft.Extensions.Logging": "2.0.1",
           "Microsoft.Extensions.Logging.Abstractions": "2.0.1",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "runtime": {
           "Fuse.Core.dll": {}
@@ -512,7 +512,7 @@
       },
       "UtilityNetStandard/1.0.0": {
         "dependencies": {
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "System.CodeDom": "4.4.0",
           "System.IO": "4.3.0",
           "System.IO.Compression": "4.3.0",
@@ -554,12 +554,12 @@
       "path": "microsoft.aspnetcore.http.features/2.0.2",
       "hashPath": "microsoft.aspnetcore.http.features.2.0.2.nupkg.sha512"
     },
-    "Microsoft.Bot.Configuration/4.0.7": {
+    "Microsoft.Bot.Configuration/4.1.5": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-p2TBEvmGGymc2oYnUBl0mEptjzHxXInUjMSvOwlSy9aW/Tet4ihCKgjBKCI71V4Wrienzk6UNbuhUTDEN2Twqw==",
-      "path": "microsoft.bot.configuration/4.0.7",
-      "hashPath": "microsoft.bot.configuration.4.0.7.nupkg.sha512"
+      "sha512": "sha512-1THHZDBTDaMyJBibUFbg0ayGpE6S28xrrPpnGAk76hw5PArUoofySEq3mPXeM9buIhGBLVmp351fDi4/DDbMcQ==",
+      "path": "microsoft.bot.configuration/4.1.5",
+      "hashPath": "microsoft.bot.configuration.4.1.5.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/2.1.1": {
       "type": "package",
@@ -652,12 +652,12 @@
       "path": "microsoft.net.http.headers/2.0.2",
       "hashPath": "microsoft.net.http.headers.2.0.2.nupkg.sha512"
     },
-    "Newtonsoft.Json/11.0.2": {
+    "Newtonsoft.Json/12.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
-      "path": "newtonsoft.json/11.0.2",
-      "hashPath": "newtonsoft.json.11.0.2.nupkg.sha512"
+      "sha512": "sha512-jmVyoEyk0In8r+AObYQyFKVFm7uSRzE0XSHSbEtBJcZDMV6DqJoyB4FLcHwprPVhAh826so0db3DIKXVnpGoPA==",
+      "path": "newtonsoft.json/12.0.1",
+      "hashPath": "newtonsoft.json.12.0.1.nupkg.sha512"
     },
     "runtime.native.System/4.3.0": {
       "type": "package",
