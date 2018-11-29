@@ -4,7 +4,7 @@
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
     },
     "id": "9",
-    "timestamp": "2018-11-15T20:05:45.300Z",
+    "timestamp": "2018-11-29T19:47:21.300Z",
     "type": "conversationUpdate",
     "channelId": "chatdown",
     "membersAdded": [
@@ -32,7 +32,7 @@
       "role": "user"
     },
     "text": "Hi!",
-    "timestamp": "2018-11-15T20:05:47.300Z",
+    "timestamp": "2018-11-29T19:47:23.300Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -52,7 +52,7 @@
       "role": "bot"
     },
     "text": "Hello there!",
-    "timestamp": "2018-11-15T20:05:49.300Z",
+    "timestamp": "2018-11-29T19:47:25.300Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -63,24 +63,24 @@
         "content": {
           "buttons": [
             {
-              "title": "option 1",
+              "title": "Option 1",
               "type": "imBack",
-              "value": "option 1"
+              "value": "Option 1"
             },
             {
-              "title": "option 2",
+              "title": "Option 2",
               "type": "imBack",
-              "value": "option 2"
+              "value": "Option 2"
             },
             {
-              "title": "option 3",
+              "title": "Option 3",
               "type": "imBack",
-              "value": "option 3"
+              "value": "Option 3"
             }
           ],
-          "title": "cheese gromit!",
-          "subtitle": "hero card",
-          "text": "this is some text describing the card, it's cool because it's cool",
+          "title": "Cheese gromit!",
+          "subtitle": "Hero Card",
+          "text": "This is some text describing the card, it's cool because it's cool",
           "image": {
             "url": "https://memegenerator.net/img/instances/500x/73055378/cheese-gromit.jpg"
           }
@@ -91,24 +91,24 @@
         "content": {
           "buttons": [
             {
-              "title": "option 1",
+              "title": "Option 1",
               "type": "imBack",
-              "value": "option 1"
+              "value": "Option 1"
             },
             {
-              "title": "option 2",
+              "title": "Option 2",
               "type": "imBack",
-              "value": "option 2"
+              "value": "Option 2"
             },
             {
-              "title": "option 3",
+              "title": "Option 3",
               "type": "imBack",
-              "value": "option 3"
+              "value": "Option 3"
             }
           ],
-          "title": "cheese gromit!",
-          "subtitle": "thumbnail card",
-          "text": "this is some text describing the card, it's cool because it's cool",
+          "title": "Cheese gromit!",
+          "subtitle": "Thumbnail Card",
+          "text": "This is some text describing the card, it's cool because it's cool",
           "image": {
             "url": "https://memegenerator.net/img/instances/500x/73055378/cheese-gromit.jpg"
           }
@@ -130,7 +130,7 @@
       "role": "bot"
     },
     "text": "",
-    "timestamp": "2018-11-15T20:05:51.300Z",
+    "timestamp": "2018-11-29T19:47:27.300Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -149,7 +149,7 @@
       "name": "LulaBot",
       "role": "bot"
     },
-    "timestamp": "2018-11-15T20:05:51.400Z",
+    "timestamp": "2018-11-29T19:47:27.400Z",
     "type": "typing",
     "channelId": "chatdown"
   },
@@ -175,7 +175,7 @@
       "role": "bot"
     },
     "text": "web page attachment",
-    "timestamp": "2018-11-15T20:05:56.400Z",
+    "timestamp": "2018-11-29T19:47:32.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -213,7 +213,7 @@
       "role": "bot"
     },
     "text": "Here are some pictures",
-    "timestamp": "2018-11-15T20:05:58.400Z",
+    "timestamp": "2018-11-29T19:47:34.400Z",
     "type": "message",
     "channelId": "chatdown",
     "attachmentLayout": "carousel"
@@ -240,7 +240,7 @@
       "role": "bot"
     },
     "text": "Here's card1",
-    "timestamp": "2018-11-15T20:06:00.400Z",
+    "timestamp": "2018-11-29T19:47:36.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -266,7 +266,7 @@
       "role": "bot"
     },
     "text": "Here's card2",
-    "timestamp": "2018-11-15T20:06:02.400Z",
+    "timestamp": "2018-11-29T19:47:38.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -418,7 +418,7 @@
       "role": "bot"
     },
     "text": "Here's adaptive card from disk",
-    "timestamp": "2018-11-15T20:06:04.400Z",
+    "timestamp": "2018-11-29T19:47:40.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -570,7 +570,7 @@
       "role": "bot"
     },
     "text": "Here's json attachment from disk",
-    "timestamp": "2018-11-15T20:06:06.400Z",
+    "timestamp": "2018-11-29T19:47:42.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -590,7 +590,7 @@
       "role": "user"
     },
     "text": "I would like some cheese.",
-    "timestamp": "2018-11-15T20:06:08.400Z",
+    "timestamp": "2018-11-29T19:47:44.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -610,7 +610,7 @@
       "role": "bot"
     },
     "text": "# cheese choices\n1. cheese 1 \n2. cheese 2\n3. cheese 3",
-    "timestamp": "2018-11-15T20:06:10.400Z",
+    "timestamp": "2018-11-29T19:47:46.400Z",
     "type": "message",
     "channelId": "chatdown",
     "suggestedActions": {
