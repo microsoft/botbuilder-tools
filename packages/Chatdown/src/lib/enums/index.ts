@@ -37,14 +37,6 @@ export enum CardContentTypes {
   AdaptiveCard = 'application/vnd.microsoft.card.adaptive'
 }
 
-const cardContentTypeKeys = Object.keys(CardContentTypes);
-
-export function findCardContentTypeFrom(value: string): CardContentTypes {
-  const lowerCaseValue = value.toLowerCase();
-  const match = cardContentTypeKeys.find(key => key.toLowerCase() === lowerCaseValue || CardContentTypes[key].toLowerCase() === lowerCaseValue);
-  return CardContentTypes[match];
-}
-
 export const ActivityFieldToCardContentType = {
   [ActivityFields.BasicCard]: CardContentTypes.Hero,
   [ActivityFields.HeroCard]: CardContentTypes.Hero,
