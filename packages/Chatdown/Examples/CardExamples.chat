@@ -60,4 +60,4 @@ bot:The Video card is a card that is capable of playing videos.
 ]
 
 bot: An adaptive card is a flexible json layout that lets you build up your own card. See http://adaptivecards.io  
-[Attachment=cards\watchProfileCard.json adaptivecard]
+[Attachment=cards/watchProfileCard.json adaptivecard]

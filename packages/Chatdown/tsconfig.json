@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "build/dist",
-    "module": "esnext",
-    "target": "es2017",
+    "outDir": "./",
+    "target": "esnext",
+    "module": "none",
     "lib": ["es6", "es2015", "esnext"],
     "sourceMap": true,
     "allowJs": false,
@@ -14,11 +14,11 @@
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": false,
-    "resolveJsonModule": true
+    "noUnusedParameters": false
   },
   "include": [
-    "./src"
+    "./src/bin",
+    "./src/lib"
   ],
   "exclude": [
     "./test/**/*",

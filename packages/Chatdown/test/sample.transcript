@@ -1,12 +1,5 @@
 [
   {
-    "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
-    },
-    "id": "9",
-    "timestamp": "2018-11-15T20:05:45.300Z",
-    "type": "conversationUpdate",
-    "channelId": "chatdown",
     "membersAdded": [
       {
         "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
@@ -14,11 +7,27 @@
         "role": "bot"
       }
     ],
-    "membersRemoved": []
+    "membersRemoved": [],
+    "conversation": {
+      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+    },
+    "id": "9",
+    "recipient": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
+    "timestamp": "2018-11-30T18:52:08.300Z",
+    "type": "conversationUpdate"
   },
   {
     "conversation": {
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+    },
+    "from": {
+      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
+      "name": "Joe",
+      "role": "user"
     },
     "id": "10",
     "recipient": {
@@ -26,19 +35,18 @@
       "name": "LulaBot",
       "role": "bot"
     },
-    "from": {
-      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
-      "name": "Joe",
-      "role": "user"
-    },
     "text": "Hi!",
-    "timestamp": "2018-11-15T20:05:47.300Z",
-    "type": "message",
-    "channelId": "chatdown"
+    "timestamp": "2018-11-30T18:52:10.300Z",
+    "type": "message"
   },
   {
     "conversation": {
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+    },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
     },
     "id": "11",
     "recipient": {
@@ -46,77 +54,18 @@
       "name": "Joe",
       "role": "user"
     },
+    "text": "Hello there!",
+    "timestamp": "2018-11-30T18:52:12.300Z",
+    "type": "message"
+  },
+  {
+    "conversation": {
+      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+    },
     "from": {
       "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
       "name": "LulaBot",
       "role": "bot"
-    },
-    "text": "Hello there!",
-    "timestamp": "2018-11-15T20:05:49.300Z",
-    "type": "message",
-    "channelId": "chatdown"
-  },
-  {
-    "attachments": [
-      {
-        "contentType": "application/vnd.microsoft.card.hero",
-        "content": {
-          "buttons": [
-            {
-              "title": "option 1",
-              "type": "imBack",
-              "value": "option 1"
-            },
-            {
-              "title": "option 2",
-              "type": "imBack",
-              "value": "option 2"
-            },
-            {
-              "title": "option 3",
-              "type": "imBack",
-              "value": "option 3"
-            }
-          ],
-          "title": "cheese gromit!",
-          "subtitle": "hero card",
-          "text": "this is some text describing the card, it's cool because it's cool",
-          "image": {
-            "url": "https://memegenerator.net/img/instances/500x/73055378/cheese-gromit.jpg"
-          }
-        }
-      },
-      {
-        "contentType": "application/vnd.microsoft.card.thumbnail",
-        "content": {
-          "buttons": [
-            {
-              "title": "option 1",
-              "type": "imBack",
-              "value": "option 1"
-            },
-            {
-              "title": "option 2",
-              "type": "imBack",
-              "value": "option 2"
-            },
-            {
-              "title": "option 3",
-              "type": "imBack",
-              "value": "option 3"
-            }
-          ],
-          "title": "cheese gromit!",
-          "subtitle": "thumbnail card",
-          "text": "this is some text describing the card, it's cool because it's cool",
-          "image": {
-            "url": "https://memegenerator.net/img/instances/500x/73055378/cheese-gromit.jpg"
-          }
-        }
-      }
-    ],
-    "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
     },
     "id": "12",
     "recipient": {
@@ -124,19 +73,18 @@
       "name": "Joe",
       "role": "user"
     },
-    "from": {
-      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
-      "name": "LulaBot",
-      "role": "bot"
-    },
-    "text": "",
-    "timestamp": "2018-11-15T20:05:51.300Z",
-    "type": "message",
-    "channelId": "chatdown"
+    "text": "[Herocard\n    title=Cheese gromit!\n    subtitle=Hero Card\n    text=This is some text describing the card, it's cool because it's cool\n    image=https://memegenerator.net/img/instances/500x/73055378/cheese-gromit.jpg\n    buttons=Option 1| Option 2| Option 3]\n[ThumbnailCard\n    title=Cheese gromit!\n    subtitle=Thumbnail Card\n    text=This is some text describing the card, it's cool because it's cool\n    image=https://memegenerator.net/img/instances/500x/73055378/cheese-gromit.jpg\n    buttons=Option 1| Option 2| Option 3]",
+    "timestamp": "2018-11-30T18:52:14.300Z",
+    "type": "message"
   },
   {
     "conversation": {
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+    },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
     },
     "id": "14",
     "recipient": {
@@ -144,14 +92,8 @@
       "name": "Joe",
       "role": "user"
     },
-    "from": {
-      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
-      "name": "LulaBot",
-      "role": "bot"
-    },
-    "timestamp": "2018-11-15T20:05:51.400Z",
-    "type": "typing",
-    "channelId": "chatdown"
+    "timestamp": "2018-11-30T18:52:14.400Z",
+    "type": "typing"
   },
   {
     "attachments": [
@@ -163,23 +105,23 @@
     "conversation": {
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
     },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
     "id": "13",
     "recipient": {
       "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
       "name": "Joe",
       "role": "user"
     },
-    "from": {
-      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
-      "name": "LulaBot",
-      "role": "bot"
-    },
     "text": "web page attachment",
-    "timestamp": "2018-11-15T20:05:56.400Z",
-    "type": "message",
-    "channelId": "chatdown"
+    "timestamp": "2018-11-30T18:52:19.400Z",
+    "type": "message"
   },
   {
+    "attachmentLayout": "carousel",
     "attachments": [
       {
         "contentType": "image/jpeg",
@@ -201,22 +143,20 @@
     "conversation": {
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
     },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
     "id": "15",
     "recipient": {
       "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
       "name": "Joe",
       "role": "user"
     },
-    "from": {
-      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
-      "name": "LulaBot",
-      "role": "bot"
-    },
     "text": "Here are some pictures",
-    "timestamp": "2018-11-15T20:05:58.400Z",
-    "type": "message",
-    "channelId": "chatdown",
-    "attachmentLayout": "carousel"
+    "timestamp": "2018-11-30T18:52:21.400Z",
+    "type": "message"
   },
   {
     "attachments": [
@@ -228,31 +168,35 @@
     "conversation": {
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
     },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
     "id": "16",
     "recipient": {
       "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
       "name": "Joe",
       "role": "user"
     },
-    "from": {
-      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
-      "name": "LulaBot",
-      "role": "bot"
-    },
     "text": "Here's card1",
-    "timestamp": "2018-11-15T20:06:00.400Z",
-    "type": "message",
-    "channelId": "chatdown"
+    "timestamp": "2018-11-30T18:52:23.400Z",
+    "type": "message"
   },
   {
     "attachments": [
       {
-        "contentType": "application/vnd.microsoft.card.adaptive",
+        "contentType": "adaptivecard",
         "contentUrl": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/master/Chatdown/test/samplecard.json"
       }
     ],
     "conversation": {
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+    },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
     },
     "id": "17",
     "recipient": {
@@ -260,151 +204,24 @@
       "name": "Joe",
       "role": "user"
     },
-    "from": {
-      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
-      "name": "LulaBot",
-      "role": "bot"
-    },
     "text": "Here's card2",
-    "timestamp": "2018-11-15T20:06:02.400Z",
-    "type": "message",
-    "channelId": "chatdown"
+    "timestamp": "2018-11-30T18:52:25.400Z",
+    "type": "message"
   },
   {
     "attachments": [
       {
-        "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": {
-          "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-          "type": "AdaptiveCard",
-          "version": "1.0",
-          "body": [
-            {
-              "type": "Container",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "text": "Publish Adaptive Card schema",
-                  "weight": "bolder",
-                  "size": "medium"
-                },
-                {
-                  "type": "ColumnSet",
-                  "columns": [
-                    {
-                      "type": "Column",
-                      "width": "auto",
-                      "items": [
-                        {
-                          "type": "Image",
-                          "url": "https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg",
-                          "size": "small",
-                          "style": "person"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "Column",
-                      "width": "stretch",
-                      "items": [
-                        {
-                          "type": "TextBlock",
-                          "text": "Matt Hidinger",
-                          "weight": "bolder",
-                          "wrap": true
-                        },
-                        {
-                          "type": "TextBlock",
-                          "spacing": "none",
-                          "text": "Created {{DATE(2017-02-14T06:08:39Z, SHORT)}}",
-                          "isSubtle": true,
-                          "wrap": true
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "Container",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "text": "Now that we have defined the main rules and features of the format, we need to produce a schema and publish it to GitHub. The schema will be the starting point of our reference documentation.",
-                  "wrap": true
-                },
-                {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Board:",
-                      "value": "Adaptive Card"
-                    },
-                    {
-                      "title": "List:",
-                      "value": "Backlog"
-                    },
-                    {
-                      "title": "Assigned to:",
-                      "value": "Matt Hidinger"
-                    },
-                    {
-                      "title": "Due date:",
-                      "value": "Not set"
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": "Action.ShowCard",
-              "title": "Set due date",
-              "card": {
-                "type": "AdaptiveCard",
-                "body": [
-                  {
-                    "type": "Input.Date",
-                    "id": "dueDate"
-                  }
-                ],
-                "actions": [
-                  {
-                    "type": "Action.Submit",
-                    "title": "OK"
-                  }
-                ]
-              }
-            },
-            {
-              "type": "Action.ShowCard",
-              "title": "Comment",
-              "card": {
-                "type": "AdaptiveCard",
-                "body": [
-                  {
-                    "type": "Input.Text",
-                    "id": "comment",
-                    "isMultiline": true,
-                    "placeholder": "Enter your comment"
-                  }
-                ],
-                "actions": [
-                  {
-                    "type": "Action.Submit",
-                    "title": "OK"
-                  }
-                ]
-              }
-            }
-          ]
-        }
+        "contentType": "adaptivecard",
+        "contentUrl": "data:adaptivecard;base64,ewogICIkc2NoZW1hIjogImh0dHA6Ly9hZGFwdGl2ZWNhcmRzLmlvL3NjaGVtYXMvYWRhcHRpdmUtY2FyZC5qc29uIiwKICAidHlwZSI6ICJBZGFwdGl2ZUNhcmQiLAogICJ2ZXJzaW9uIjogIjEuMCIsCiAgImJvZHkiOiBbCiAgICB7CiAgICAgICJ0eXBlIjogIkNvbnRhaW5lciIsCiAgICAgICJpdGVtcyI6IFsKICAgICAgICB7CiAgICAgICAgICAidHlwZSI6ICJUZXh0QmxvY2siLAogICAgICAgICAgInRleHQiOiAiUHVibGlzaCBBZGFwdGl2ZSBDYXJkIHNjaGVtYSIsCiAgICAgICAgICAid2VpZ2h0IjogImJvbGRlciIsCiAgICAgICAgICAic2l6ZSI6ICJtZWRpdW0iCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAidHlwZSI6ICJDb2x1bW5TZXQiLAogICAgICAgICAgImNvbHVtbnMiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAidHlwZSI6ICJDb2x1bW4iLAogICAgICAgICAgICAgICJ3aWR0aCI6ICJhdXRvIiwKICAgICAgICAgICAgICAiaXRlbXMiOiBbCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICJ0eXBlIjogIkltYWdlIiwKICAgICAgICAgICAgICAgICAgInVybCI6ICJodHRwczovL3Bicy50d2ltZy5jb20vcHJvZmlsZV9pbWFnZXMvMzY0Nzk0MzIxNS9kN2YxMjgzMGIzYzE3YTVhOWU0YWZjYzM3MGUzYTM3ZV80MDB4NDAwLmpwZWciLAogICAgICAgICAgICAgICAgICAic2l6ZSI6ICJzbWFsbCIsCiAgICAgICAgICAgICAgICAgICJzdHlsZSI6ICJwZXJzb24iCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgXQogICAgICAgICAgICB9LAogICAgICAgICAgICB7CiAgICAgICAgICAgICAgInR5cGUiOiAiQ29sdW1uIiwKICAgICAgICAgICAgICAid2lkdGgiOiAic3RyZXRjaCIsCiAgICAgICAgICAgICAgIml0ZW1zIjogWwogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAidHlwZSI6ICJUZXh0QmxvY2siLAogICAgICAgICAgICAgICAgICAidGV4dCI6ICJNYXR0IEhpZGluZ2VyIiwKICAgICAgICAgICAgICAgICAgIndlaWdodCI6ICJib2xkZXIiLAogICAgICAgICAgICAgICAgICAid3JhcCI6IHRydWUKICAgICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICJ0eXBlIjogIlRleHRCbG9jayIsCiAgICAgICAgICAgICAgICAgICJzcGFjaW5nIjogIm5vbmUiLAogICAgICAgICAgICAgICAgICAidGV4dCI6ICJDcmVhdGVkIHt7REFURSgyMDE3LTAyLTE0VDA2OjA4OjM5WiwgU0hPUlQpfX0iLAogICAgICAgICAgICAgICAgICAiaXNTdWJ0bGUiOiB0cnVlLAogICAgICAgICAgICAgICAgICAid3JhcCI6IHRydWUKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICBdCiAgICAgICAgICAgIH0KICAgICAgICAgIF0KICAgICAgICB9CiAgICAgIF0KICAgIH0sCiAgICB7CiAgICAgICJ0eXBlIjogIkNvbnRhaW5lciIsCiAgICAgICJpdGVtcyI6IFsKICAgICAgICB7CiAgICAgICAgICAidHlwZSI6ICJUZXh0QmxvY2siLAogICAgICAgICAgInRleHQiOiAiTm93IHRoYXQgd2UgaGF2ZSBkZWZpbmVkIHRoZSBtYWluIHJ1bGVzIGFuZCBmZWF0dXJlcyBvZiB0aGUgZm9ybWF0LCB3ZSBuZWVkIHRvIHByb2R1Y2UgYSBzY2hlbWEgYW5kIHB1Ymxpc2ggaXQgdG8gR2l0SHViLiBUaGUgc2NoZW1hIHdpbGwgYmUgdGhlIHN0YXJ0aW5nIHBvaW50IG9mIG91ciByZWZlcmVuY2UgZG9jdW1lbnRhdGlvbi4iLAogICAgICAgICAgIndyYXAiOiB0cnVlCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAidHlwZSI6ICJGYWN0U2V0IiwKICAgICAgICAgICJmYWN0cyI6IFsKICAgICAgICAgICAgewogICAgICAgICAgICAgICJ0aXRsZSI6ICJCb2FyZDoiLAogICAgICAgICAgICAgICJ2YWx1ZSI6ICJBZGFwdGl2ZSBDYXJkIgogICAgICAgICAgICB9LAogICAgICAgICAgICB7CiAgICAgICAgICAgICAgInRpdGxlIjogIkxpc3Q6IiwKICAgICAgICAgICAgICAidmFsdWUiOiAiQmFja2xvZyIKICAgICAgICAgICAgfSwKICAgICAgICAgICAgewogICAgICAgICAgICAgICJ0aXRsZSI6ICJBc3NpZ25lZCB0bzoiLAogICAgICAgICAgICAgICJ2YWx1ZSI6ICJNYXR0IEhpZGluZ2VyIgogICAgICAgICAgICB9LAogICAgICAgICAgICB7CiAgICAgICAgICAgICAgInRpdGxlIjogIkR1ZSBkYXRlOiIsCiAgICAgICAgICAgICAgInZhbHVlIjogIk5vdCBzZXQiCiAgICAgICAgICAgIH0KICAgICAgICAgIF0KICAgICAgICB9CiAgICAgIF0KICAgIH0KICBdLAogICJhY3Rpb25zIjogWwogICAgewogICAgICAidHlwZSI6ICJBY3Rpb24uU2hvd0NhcmQiLAogICAgICAidGl0bGUiOiAiU2V0IGR1ZSBkYXRlIiwKICAgICAgImNhcmQiOiB7CiAgICAgICAgInR5cGUiOiAiQWRhcHRpdmVDYXJkIiwKICAgICAgICAiYm9keSI6IFsKICAgICAgICAgIHsKICAgICAgICAgICAgInR5cGUiOiAiSW5wdXQuRGF0ZSIsCiAgICAgICAgICAgICJpZCI6ICJkdWVEYXRlIgogICAgICAgICAgfQogICAgICAgIF0sCiAgICAgICAgImFjdGlvbnMiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJ0eXBlIjogIkFjdGlvbi5TdWJtaXQiLAogICAgICAgICAgICAidGl0bGUiOiAiT0siCiAgICAgICAgICB9CiAgICAgICAgXQogICAgICB9CiAgICB9LAogICAgewogICAgICAidHlwZSI6ICJBY3Rpb24uU2hvd0NhcmQiLAogICAgICAidGl0bGUiOiAiQ29tbWVudCIsCiAgICAgICJjYXJkIjogewogICAgICAgICJ0eXBlIjogIkFkYXB0aXZlQ2FyZCIsCiAgICAgICAgImJvZHkiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJ0eXBlIjogIklucHV0LlRleHQiLAogICAgICAgICAgICAiaWQiOiAiY29tbWVudCIsCiAgICAgICAgICAgICJpc011bHRpbGluZSI6IHRydWUsCiAgICAgICAgICAgICJwbGFjZWhvbGRlciI6ICJFbnRlciB5b3VyIGNvbW1lbnQiCiAgICAgICAgICB9CiAgICAgICAgXSwKICAgICAgICAiYWN0aW9ucyI6IFsKICAgICAgICAgIHsKICAgICAgICAgICAgInR5cGUiOiAiQWN0aW9uLlN1Ym1pdCIsCiAgICAgICAgICAgICJ0aXRsZSI6ICJPSyIKICAgICAgICAgIH0KICAgICAgICBdCiAgICAgIH0KICAgIH0KICBdCn0="
       }
     ],
     "conversation": {
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+    },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
     },
     "id": "18",
     "recipient": {
@@ -412,15 +229,9 @@
       "name": "Joe",
       "role": "user"
     },
-    "from": {
-      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
-      "name": "LulaBot",
-      "role": "bot"
-    },
     "text": "Here's adaptive card from disk",
-    "timestamp": "2018-11-15T20:06:04.400Z",
-    "type": "message",
-    "channelId": "chatdown"
+    "timestamp": "2018-11-30T18:52:27.400Z",
+    "type": "message"
   },
   {
     "attachments": [
@@ -558,25 +369,29 @@
     "conversation": {
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
     },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
     "id": "19",
     "recipient": {
       "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
       "name": "Joe",
       "role": "user"
     },
-    "from": {
-      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
-      "name": "LulaBot",
-      "role": "bot"
-    },
     "text": "Here's json attachment from disk",
-    "timestamp": "2018-11-15T20:06:06.400Z",
-    "type": "message",
-    "channelId": "chatdown"
+    "timestamp": "2018-11-30T18:52:29.400Z",
+    "type": "message"
   },
   {
     "conversation": {
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+    },
+    "from": {
+      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
+      "name": "Joe",
+      "role": "user"
     },
     "id": "20",
     "recipient": {
@@ -584,35 +399,11 @@
       "name": "LulaBot",
       "role": "bot"
     },
-    "from": {
-      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
-      "name": "Joe",
-      "role": "user"
-    },
     "text": "I would like some cheese.",
-    "timestamp": "2018-11-15T20:06:08.400Z",
-    "type": "message",
-    "channelId": "chatdown"
+    "timestamp": "2018-11-30T18:52:31.400Z",
+    "type": "message"
   },
   {
-    "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
-    },
-    "id": "21",
-    "recipient": {
-      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
-      "name": "Joe",
-      "role": "user"
-    },
-    "from": {
-      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
-      "name": "LulaBot",
-      "role": "bot"
-    },
-    "text": "# cheese choices\n1. cheese 1 \n2. cheese 2\n3. cheese 3",
-    "timestamp": "2018-11-15T20:06:10.400Z",
-    "type": "message",
-    "channelId": "chatdown",
     "suggestedActions": {
       "actions": [
         {
@@ -631,6 +422,23 @@
           "value": "option 3"
         }
       ]
-    }
+    },
+    "conversation": {
+      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+    },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
+    "id": "21",
+    "recipient": {
+      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
+      "name": "Joe",
+      "role": "user"
+    },
+    "text": "# cheese choices\n1. cheese 1 \n2. cheese 2\n3. cheese 3",
+    "timestamp": "2018-11-30T18:52:33.400Z",
+    "type": "message"
   }
 ]

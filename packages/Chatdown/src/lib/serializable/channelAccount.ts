@@ -5,11 +5,12 @@
 import { ChannelAccount as IChannelAccount, RoleTypes } from 'botframework-schema';
 
 export class ChannelAccount implements Partial<IChannelAccount> {
-    public id: string;
-    public name: string;
-    public role: RoleTypes | string;
+  public aadObjectId: string;
+  public id: string;
+  public name: string;
+  public role: RoleTypes | string;
 
-    constructor({ aadObjectId, id = 'joe@smith.com', name, role }: Partial<IChannelAccount> = {}) {
-        Object.assign(this, { aadObjectId, id, name, role });
-    }
+  constructor({ aadObjectId, id = 'joe@smith.com', name, role }: Partial<IChannelAccount> = {}) {
+    Object.assign(this, { aadObjectId, id, name, role });
+  }
 }

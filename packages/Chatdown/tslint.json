@@ -32,13 +32,13 @@
       ],
       "member-ordering": [
         true,
-        "public-before-private",
-        "static-before-instance",
-        "variables-before-functions"
+        {
+          "alphabetize": true,
+          "order": "fields-first"
+        }
       ],
       "no-any": false,
       "no-arg": true,
-      "no-bitwise": true,
       "no-console": [
         false,
         "log",

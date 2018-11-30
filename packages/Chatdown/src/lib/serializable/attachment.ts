@@ -5,11 +5,11 @@
 import { Attachment as IAttachment } from 'botframework-schema';
 
 export class Attachment implements Partial<IAttachment> {
-    public content: any;
-    public contentType: string;
-    public contentUrl: string;
+  public content: any;
+  public contentType: string;
+  public contentUrl: string;
 
-    constructor({ contentType = '', contentUrl = undefined, content = undefined }: Partial<IAttachment> = {}) {
-        Object.assign(this, { contentType, contentUrl, content });
-    }
+  constructor({ contentType = '', contentUrl = undefined, content = undefined }: Partial<IAttachment> = {}) {
+    Object.assign(this, { contentType, contentUrl, content });
+  }
 }
