@@ -180,7 +180,7 @@ With the following options:
 |-------------------------------------|-----------------------------------------------------------------------|
 | -n, --name <name>                   | name of the LUIS application                                          |
 | -a, --appId  <appid>                | application ID for the LUIS application                               |
-| --version <version>                 | version for the LUIS App, (example: v0.1)                             |
+| --version <version>                 | version for the LUIS App, (example: 0.1)                             |
 | --authoringKey <authoringkey>       | authoring key for authoring LUIS models via the authoring API         |
 | --subscriptionKey <subscriptionKey> |                                                                       |
 | --input <jsonfile>                  | path to arguments in JSON format                                      |
@@ -193,7 +193,7 @@ With the following options:
 Here is an example invocation:
 
 ```shell
-msbot connect luis --name "My Luis Model" --appId <APP-ID> --version v0.1 --authoringKey <AUTHORING-KEY>
+msbot connect luis --name "My Luis Model" --appId <APP-ID> --version 0.1 --authoringKey <AUTHORING-KEY>
 ```
 
 ### Connecting to QnA Maker Knowledge base
