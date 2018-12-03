@@ -50,13 +50,14 @@
     "latest-version": "^4.0.0",
     "minimist": "^1.2.0",
     "ms-rest-js": "^1.0.455",
-    "tslib": "^1.9.3",
     "node-fetch": "^2.0.0",
+    "perf_hooks": "0.0.1",
     "read-text-file": "^1.1.0",
     "readline-sync": "^1.4.9",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "semver": "^5.5.1",
+    "tslib": "^1.9.3",
     "window-size": "^1.1.0"
   },
   "devDependencies": {
