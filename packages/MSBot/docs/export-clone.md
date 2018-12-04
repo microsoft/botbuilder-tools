@@ -35,8 +35,8 @@ msbot clone services --folder folderName --name NewBot --luisAuthoringKey 000000
 
 ### Pre-requisites
 The **msbot clone services** command depends on and requires the following tools to be installed - 
-1. [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) version >= 2.0.46.
-2. [Azure Bot Service extension](https://github.com/Microsoft/botbuilder-tools/tree/master/AzureCli#installation) version >= 0.4.1
+1. [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) version >= 2.0.52.
+2. [Azure Bot Service extension](https://github.com/Microsoft/botbuilder-tools/tree/master/AzureCli#installation) version >= 0.4.2
 3. [LUIS CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS#installation) if the the clone operation includes LUIS or Dispatch resources.
 4. [QnA Maker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker#as-a-cli) if the clone operation includes QnA Maker resources.
 

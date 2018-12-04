@@ -104,6 +104,21 @@ if (fs.existsSync(args.name + '.bot')) {
     showErrorHelp();
 }
 
+if (!args.folder) {
+    console.error(chalk.default.redBright(`missing --folder argument`));
+    showErrorHelp();
+}
+
+if (!args.location) {
+    console.error(chalk.default.redBright(`missing --location argument`));
+    showErrorHelp();
+}
+
+if (!Object.values(RegionCodes).find((r) => args.location == r)) {
+    console.error(chalk.default.redBright(`${args.location} is not a valid region code.  Supported Regions are:\n${Object.values(RegionCodes).join(',\n')}`));
+    showErrorHelp();
+}
+
 let config = new BotConfiguration();
 config.name = args.name;
 config.saveAs(config.name + '.bot')
@@ -118,21 +133,6 @@ config.saveAs(config.name + '.bot')
     });
 
 async function processConfiguration(): Promise<void> {
-    if (!args.folder) {
-        throw new Error('missing --folder argument');
-    }
-
-    if (!args.location) {
-        throw new Error('missing --location argument');
-    }
-
-    if (!Object.values(RegionCodes).find((r) => args.location == r)) {
-        throw new Error(`${args.location} is not a valid region code.  Supported Regions are:\n${Object.values(RegionCodes).join(',\n')}`);
-    }
-
-    // verify az command exists and is correct version
-    await checkAzBotServiceVersion();
-
     if (!args.sdkVersion) {
         args.sdkVersion = "v4";
     }
@@ -140,6 +140,9 @@ async function processConfiguration(): Promise<void> {
     if (!args.groupName) {
         args.groupName = args.name;
     }
+
+    // verify az command exists and is correct version
+    await checkAzBotServiceVersion();
 
     let recipeJson = await txtfile.read(path.join(args.folder, `bot.recipe`));
     let recipe = <BotRecipe>JSON.parse(recipeJson);
@@ -282,7 +285,7 @@ async function processConfiguration(): Promise<void> {
         let azBotExtended: any;
         let azBotEndpoint: IEndpointService | undefined;
 
-       
+        
         // create group if not created yet
         azGroup = await createGroup();
 
@@ -364,7 +367,7 @@ async function processConfiguration(): Promise<void> {
                             if (regionToLuisAuthoringRegionMap.hasOwnProperty(args.location))
                                 args.luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
                             else
-                                throw Error(`${args.location} does not have a valid luisAuthoringRegion.  Pass --luisAuthoringRegion to tell us which region you are in`);
+                                throw new Error(`${args.location} does not have a valid luisAuthoringRegion.  Pass --luisAuthoringRegion to tell us which region you are in`);
                         }
 
                         if (!args.luisPublishRegion) {
@@ -798,30 +801,28 @@ async function checkAzBotServiceVersion() {
     let command = `az -v `;
     logCommand(args, `Checking az botservice version`, command);
     let p = await exec(command);
-    let version = new AzBotServiceVersion('(0.0.0)');
-    let azVersion = new AzBotServiceVersion('(0.0.0)');
-    let azVersionCount = 0;
+    let botServiceVersion = new AzBotServiceVersion('(0.0.0)');
+    let azCLIVersion = new AzBotServiceVersion('(0.0.0)');
     for (let line of p.stdout.split('\n')) {
         if (line.startsWith('botservice')) {
-            azVersionCount++;
             let newVersion = new AzBotServiceVersion(line);
-            if (version.isOlder(newVersion))
-                version = newVersion;
+            if (botServiceVersion.isOlder(newVersion))
+                botServiceVersion = newVersion;
         }
         if (line.startsWith('azure-cli')) {
             let newAZCLIVersion = new AzBotServiceVersion(line);
-            if (azVersion.isOlder(newAZCLIVersion)) 
-                azVersion = newAZCLIVersion;
+            if (azCLIVersion.isOlder(newAZCLIVersion)) 
+                azCLIVersion = newAZCLIVersion;
         }
     }
     let neededVersion = new AzBotServiceVersion(BOTSERVICEMINVERSION);
     let neededAZCLIVersion = new AzBotServiceVersion(AZCLIMINVERSION);
-    if (azVersion.isOlder(neededAZCLIVersion)) {
+    if (azCLIVersion.isOlder(neededAZCLIVersion)) {
         console.error(chalk.default.redBright(`You need to upgrade your AZ CLI version to >= ${neededAZCLIVersion.major}.${neededAZCLIVersion.minor}.${neededAZCLIVersion.patch}.
-You can install the latest AZ CLI from https://aka.ms/az-cli-download`));
+        You can install the latest AZ CLI from https://aka.ms/az-cli-download`));
         process.exit(1);
     }
-    if (version.isOlder(neededVersion)) {
+    if (botServiceVersion.isOlder(neededVersion)) {
         console.error(chalk.default.redBright(`You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
 To do this run:
    az extension remove -n botservice
