@@ -767,25 +767,24 @@ async function processConfiguration(): Promise<void> {
     }
 }
 
-
-
 async function publishBot(azBot: IBotService) : Promise<void> {
     let azPublishCmd = `az bot publish --resource-group ${args.groupName} -n ${azBot.name} --subscription ${args.subscriptionId} --sdk-version ${args.sdkVersion || 'v4'} `;
+    if (args.verbose) {
+        azPublishCmd += '--verbose ';
+    }
     if (args.codeDir) {
-        azPublishCmd += ` --code-dir "${args.codeDir}"`;
-        // UNCOMMENT THIS WHEN AZ BOT PUBLISH WORKS
-        // await runCommand(azPublishCmd, `Publishing the local folder ${args.codeDir} to ${args.name} service`);
+        azPublishCmd += `--code-dir "${args.codeDir} "`;
+        await runCommand(azPublishCmd, `Publishing the local folder ${args.codeDir} to ${args.name} service`);
     } else if (args.projFile) {
-        azPublishCmd += ` --proj-file "${args.projFile}"`;
-        // UNCOMMENT THIS WHEN AZ BOT PUBLISH WORKS
-        // await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
+        azPublishCmd += `--proj-file "${args.projFile} "`;
+        await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
+    }
+    else {
+        console.log(chalk.default.yellowBright('\nWARNING: Your code has NOT been published to the newly created cloud service. (see --code-dir and --proj-file switches)'));
     }
 
-    // REMOVE THIS WHEN AZ BOT PUBLISH WORKS
-    console.log(chalk.default.bgWhiteBright('\nNOTE: Your code has not been published to the newly created cloud service.'));
-
-    console.log('To publish your bot to the web use the az bot publish command:');
-    console.log(chalk.default.yellowBright('    ' + azPublishCmd));
+    console.log('To publish your bot to the web using the az bot publish command:');
+    console.log(chalk.default.cyanBright('    ' + azPublishCmd));
 }
 
 async function getAppInsightsService(azAppInsights: any): Promise<AppInsightsService> {
