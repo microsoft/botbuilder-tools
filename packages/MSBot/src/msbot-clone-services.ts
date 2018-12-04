@@ -767,7 +767,7 @@ async function processConfiguration(): Promise<void> {
     }
 }
 
-async function publishBot(azBot: IBotService) : Promise<void> {
+async function publishBot(azBot: IBotService): Promise<void> {
     let azPublishCmd = `az bot publish --resource-group ${args.groupName} -n ${azBot.name} --subscription ${args.subscriptionId} --sdk-version ${args.sdkVersion || 'v4'} `;
     if (args.verbose) {
         azPublishCmd += '--verbose ';
@@ -778,8 +778,7 @@ async function publishBot(azBot: IBotService) : Promise<void> {
     } else if (args.projFile) {
         azPublishCmd += `--proj-file "${args.projFile} "`;
         await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
-    }
-    else {
+    } else {
         console.log(chalk.default.yellowBright('\nWARNING: Your code has NOT been published to the newly created cloud service. (see --code-dir and --proj-file switches)'));
     }
 
