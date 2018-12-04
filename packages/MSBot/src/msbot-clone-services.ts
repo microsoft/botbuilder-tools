@@ -773,9 +773,11 @@ async function publishBot(azBot: IBotService) : Promise<void> {
     let azPublishCmd = `az bot publish --resource-group ${args.groupName} -n ${azBot.name} --subscription ${args.subscriptionId} --sdk-version ${args.sdkVersion || 'v4'} `;
     if (args.codeDir) {
         azPublishCmd += ` --code-dir "${args.codeDir}"`;
+        // UNCOMMENT THIS WHEN AZ BOT PUBLISH WORKS
         // await runCommand(azPublishCmd, `Publishing the local folder ${args.codeDir} to ${args.name} service`);
     } else if (args.projFile) {
         azPublishCmd += ` --proj-file "${args.projFile}"`;
+        // UNCOMMENT THIS WHEN AZ BOT PUBLISH WORKS
         // await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
     }
 
