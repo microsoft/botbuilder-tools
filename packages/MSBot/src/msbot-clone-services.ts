@@ -21,7 +21,9 @@ const opn = require('opn');
 const commandExistsSync = require('command-exists').sync;
 const exec = util.promisify(child_process.exec);
 
-const AZMINVERSION = '(0.4.1)';
+const BOTSERVICEMINVERSION = '(0.4.2)';
+const AZCLIMINVERSION = '(2.0.52)'; // This corresponds to the AZ CLI version that shipped in line with Bot Builder 4.2 release (December 2018).
+                                    // Bot service extension 0.4.2 requires AZ CLI version >= 2.0.46.
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -127,6 +129,9 @@ async function processConfiguration(): Promise<void> {
     if (!Object.values(RegionCodes).find((r) => args.location == r)) {
         throw new Error(`${args.location} is not a valid region code.  Supported Regions are:\n${Object.values(RegionCodes).join(',\n')}`);
     }
+
+    // verify az command exists and is correct version
+    await checkAzBotServiceVersion();
 
     if (!args.sdkVersion) {
         args.sdkVersion = "v4";
@@ -277,9 +282,7 @@ async function processConfiguration(): Promise<void> {
         let azBotExtended: any;
         let azBotEndpoint: IEndpointService | undefined;
 
-        // verify az command exists and is correct version
-        await checkAzBotServiceVersion();
-
+       
         // create group if not created yet
         azGroup = await createGroup();
 
@@ -796,6 +799,7 @@ async function checkAzBotServiceVersion() {
     logCommand(args, `Checking az botservice version`, command);
     let p = await exec(command);
     let version = new AzBotServiceVersion('(0.0.0)');
+    let azVersion = new AzBotServiceVersion('(0.0.0)');
     let azVersionCount = 0;
     for (let line of p.stdout.split('\n')) {
         if (line.startsWith('botservice')) {
@@ -804,8 +808,19 @@ async function checkAzBotServiceVersion() {
             if (version.isOlder(newVersion))
                 version = newVersion;
         }
+        if (line.startsWith('azure-cli')) {
+            let newAZCLIVersion = new AzBotServiceVersion(line);
+            if (azVersion.isOlder(newAZCLIVersion)) 
+                azVersion = newAZCLIVersion;
+        }
     }
-    let neededVersion = new AzBotServiceVersion(AZMINVERSION);
+    let neededVersion = new AzBotServiceVersion(BOTSERVICEMINVERSION);
+    let neededAZCLIVersion = new AzBotServiceVersion(AZCLIMINVERSION);
+    if (azVersion.isOlder(neededAZCLIVersion)) {
+        console.error(chalk.default.redBright(`You need to upgrade your AZ CLI version to >= ${neededAZCLIVersion.major}.${neededAZCLIVersion.minor}.${neededAZCLIVersion.patch}.
+You can install the latest AZ CLI from https://aka.ms/az-cli-download`));
+        process.exit(1);
+    }
     if (version.isOlder(neededVersion)) {
         console.error(chalk.default.redBright(`You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
 To do this run:
@@ -822,7 +837,6 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
     let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
     let luisService: LuisService;
     const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];    
-    
     let luisAppName = args.noDecorate ? `${luisResource.name}` : `${args.name}_${luisResource.name}`;
     let svcOut = <ILuisService>await runCommand(`luis import application --region ${luisAuthoringRegion} --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
         `Creating and importing LUIS application [${luisAppName}]`);
