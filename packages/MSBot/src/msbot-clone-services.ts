@@ -285,7 +285,7 @@ async function processConfiguration(): Promise<void> {
         let azBotExtended: any;
         let azBotEndpoint: IEndpointService | undefined;
 
-        
+
         // create group if not created yet
         azGroup = await createGroup();
 
@@ -820,6 +820,8 @@ async function checkAzBotServiceVersion() {
     if (azCLIVersion.isOlder(neededAZCLIVersion)) {
         console.error(chalk.default.redBright(`You need to upgrade your AZ CLI version to >= ${neededAZCLIVersion.major}.${neededAZCLIVersion.minor}.${neededAZCLIVersion.patch}.
         You can install the latest AZ CLI from https://aka.ms/az-cli-download`));
+        // remove orphaned bot file if it exists
+        if (fs.existsSync(args.name + '.bot')) fs.unlinkSync(args.name + '.bot');
         process.exit(1);
     }
     if (botServiceVersion.isOlder(neededVersion)) {
@@ -828,6 +830,8 @@ To do this run:
    az extension remove -n botservice
    az extension add -n botservice
 `));
+        // remove orphaned bot file if it exists
+        if (fs.existsSync(args.name + '.bot')) fs.unlinkSync(args.name + '.bot');
         process.exit(1);
     }
     return { command, p };
