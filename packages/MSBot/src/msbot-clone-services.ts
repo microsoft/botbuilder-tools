@@ -109,6 +109,11 @@ if (!args.folder) {
     showErrorHelp();
 }
 
+if (!fs.existsSync(path.join(args.folder, 'bot.recipe'))) {
+    console.error(chalk.default.redBright(`No bot.recipe file found under ${args.folder}. Please provide the folder that contains the recipe file`));
+    showErrorHelp();
+}
+
 if (!args.location) {
     console.error(chalk.default.redBright(`missing --location argument`));
     showErrorHelp();
