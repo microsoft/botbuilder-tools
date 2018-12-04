@@ -782,7 +782,7 @@ async function publishBot(azBot: IBotService): Promise<void> {
         console.log(chalk.default.yellowBright('\nWARNING: Your code has NOT been published to the newly created cloud service. (see --code-dir and --proj-file switches)'));
     }
 
-    console.log('To publish your bot to the web using the az bot publish command:');
+    console.log('You can publish your bot to the web using the az bot publish command:');
     console.log(chalk.default.cyanBright('    ' + azPublishCmd));
 }
 
