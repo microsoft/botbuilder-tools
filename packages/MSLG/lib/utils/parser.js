@@ -88,7 +88,7 @@ const parser = {
      */
     parseFiles: async function(lgFiles, verboseLog){
         if(lgFiles && lgFiles.length === 0) {
-            throw (new Exception('No .lg files in specified folder', retCode.INVALID_INPUT));
+            throw (new Exception(retCode.INVALID_INPUT, 'No .lg files in specified folder'));
         }
         const allParsedContent = [];
         // loop through lgFiles, parse each one
