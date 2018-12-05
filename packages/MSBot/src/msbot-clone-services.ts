@@ -133,11 +133,11 @@ async function processConfiguration(): Promise<void> {
     }
 
     if ((<any>args)['proj-file']) {
-        args.projFile = (<any>args)['proj-file'];
+        args.projFile = (<string>(<any>args)['proj-file']);
         console.log(args.projFile);
     }
     else if ((<any>args)['code-dir']) {
-        args.codeDir = (<any>args)['code-dir'];
+        args.codeDir = (<string>(<any>args)['code-dir']);
         console.log(args.codeDir);
     }
 
@@ -773,10 +773,10 @@ async function publishBot(azBot: IBotService): Promise<void> {
         azPublishCmd += '--verbose ';
     }
     if (args.codeDir) {
-        azPublishCmd += `--code-dir "${args.codeDir} "`;
+        azPublishCmd += `--code-dir "${args.codeDir}" `;
         await runCommand(azPublishCmd, `Publishing the local folder ${args.codeDir} to ${args.name} service`);
     } else if (args.projFile) {
-        azPublishCmd += `--proj-file "${args.projFile} "`;
+        azPublishCmd += `--proj-file "${args.projFile}" `;
         await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
     } else {
         console.log(chalk.default.yellowBright('\nWARNING: Your code has NOT been published to the newly created cloud service. (see --code-dir and --proj-file switches)'));
@@ -932,7 +932,7 @@ function logCommand(args: ICloneArgs, message: string, command: string) {
     if (!args.quiet) {
         console.log(chalk.default.bold(message));
         if (args.verbose) {
-            console.log(chalk.default.italic(command));
+            console.log(chalk.default.cyan(command));
         }
     }
 }
