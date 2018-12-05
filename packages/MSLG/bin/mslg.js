@@ -157,7 +157,7 @@ async function initializeConfig() {
         `What is your region? [${validRegions.join(', ')}] `,
         'What would you like to use as your active LG App Name? [none] ',
         'What would you like to use as your active LG App Locale? [en-US] ',
-        'What would you like to use as your active LG App Version? [default] ',
+        'What would you like to use as your active LG App Version? [0.1] ',
     ];
 
     const prompt = readline.createInterface({
@@ -184,10 +184,10 @@ async function initializeConfig() {
     const [authoringKey, region, lgAppName, lgAppLocale, lgAppVersion] = answers;
     const config = Object.assign({}, {
         authoringKey,
-        endpointBasePath: `https://${region}.cris.ai`,
+        endpointBasePath: `https://${region == "" ? 'westus' : region}.cris.ai`,
         lgAppName,
         lgAppLocale: lgAppLocale == "" ? "en-US":lgAppLocale,
-        lgAppVersion: lgAppVersion == "" ? "default":lgAppVersion
+        lgAppVersion: lgAppVersion == "" ? "0.1":lgAppVersion
     });
 
     try {

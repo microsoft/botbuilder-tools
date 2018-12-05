@@ -42,7 +42,7 @@ Prerequisites :
 - Type any GUID id for lg app, or leave blank to be auto-generated for this tutorial
 - Type any name for lg app
 - Type locale or use the default "en-US"
-- Type app version (for this tutorial use defaul, ie : just hit enter)
+- Type app version (for this tutorial use 0.1, ie : just hit enter)
 - The tool will confirm that your configuration file woule look like this : 
     ```sh
         {
@@ -51,7 +51,7 @@ Prerequisites :
           "lgAppId": "[YOUR_ENTERED_APP_ID]",
           "lgAppName": "[YOUR_ENTERED_APP_NAME]",
           "lgAppLocale": "[YOUR_LOCALE]",
-          "lgAppVersion": "default"
+          "lgAppVersion": "0.1"
         }
     ```
 - if you could see the above configuration, then you successfullly created your default config file, just type "Yes" or hit enter to confirm.

@@ -4,7 +4,7 @@
     "description": "Example of LG Model Definition",
     "properties": {
         "Domain": "CafeBot",
-        "Version": "default"      
+        "Version": "0.1"      
     },
     "locale": "en-US"
 }
