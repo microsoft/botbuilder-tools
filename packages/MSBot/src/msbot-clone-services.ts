@@ -754,13 +754,14 @@ async function processConfiguration(): Promise<void> {
             // publish local bot code to web service
             await publishBot(azBot);
 
-            // start emulator
-            if (args.secret)
-            {
+            // show emulator url with secret 
+            if (args.secret) {
                 let fullPath = path.resolve(process.cwd(), config.getPath());
                 let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}&secret=${encodeURIComponent(args.secret)}`;
                 console.log('To open this bot file in emulator:');
                 console.log(chalk.default.cyanBright(botFileUrl));
+
+                // auto launch emulator with url so it can memorize the secret so you don't need to remember it.  <whew!>
                 opn(botFileUrl);
             }
         }
