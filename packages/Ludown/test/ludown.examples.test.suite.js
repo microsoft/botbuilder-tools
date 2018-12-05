@@ -48,16 +48,6 @@ describe('The example lu files', function() {
     });
 
     it('refresh command successfully reconstructs a markdown file from a LUIS input file with out of order entity references', function(done) {
-        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/test269-d.json -o ${TEST_ROOT}/output -n test269-d2`, () => {
-            try {
-                done();
-            } catch(err) {
-                done(err);
-            }
-        });
-    });
-
-    it('refresh command successfully reconstructs a markdown file from a LUIS input file with out of order entity references', function(done) {
         exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/test269-d.json -o ${TEST_ROOT}/output --skip_header -n test269-d`, () => {
             try {
                 compareFiles(TEST_ROOT + '/output/test269-d.lu', TEST_ROOT + '/verified/test269-d.lu');
@@ -472,7 +462,7 @@ describe('The example lu files', function() {
     });
 
     it('Regex entity references in a model file can be refreshed correctly using ludown refresh', function (done) {
-        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/regexmodel.luis -s -o -n regexmodel.lu ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/regexmodel.luis -s -n regexmodel.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
                 assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/regexmodel.lu')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/regexmodel.lu')));
                 done();
