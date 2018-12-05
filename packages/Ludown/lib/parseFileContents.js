@@ -227,7 +227,31 @@ const parseFileContentsModule = {
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.UTTERANCE);
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.PATTERNS);
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.PATTERNANYENTITY);
-            mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.REGEX);
+            // mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.REGEX);
+
+            // do we have regex entities here?
+            if (blob.regex_entities.length > 0) {
+                blob.regex_entities.forEach(function(regexEntity){
+                    // do we have the same entity in final?
+                    let entityExistsInFinal = (FinalLUISJSON.regex_entities || []).find(item => item.name == regexEntity.name);
+                    if (entityExistsInFinal === undefined) {
+                        FinalLUISJSON.regex_entities.push(regexEntity);
+                    } else {
+                        // verify that the pattern is the same
+                        if (entityExistsInFinal.regexPattern !== regexEntity.regexPattern) {
+                            throw(new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity : ${regExEntity.name} has inconsistent pattern definitions. \n 1. ${regexEntity.regexPattern} \n 2. ${entityExistsInFinal.regexPattern}`)); 
+                        }
+                        // merge roles
+                        if (entityExistsInFinal.roles.length > 0) {
+                            (regexEntity.roles || []).forEach(function(role){
+                                if (!entityExistsInFinal.roles.includes(role))
+                                    entityExistsInFinal.roles.push(role);
+                            })
+                        }
+                    }
+                })
+            }
+
             // do we have prebuiltEntities here?
             if (blob.prebuiltEntities.length > 0) {
                 blob.prebuiltEntities.forEach(function(prebuiltEntity){
@@ -409,7 +433,7 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
             let regExEntity = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entityName);
             if (regExEntity === undefined) {
                 parsedContent.LUISJsonStructure.regex_entities.push(
-                    new helperClass.regExEntity(entityName, regex)
+                    new helperClass.regExEntity(entityName, regex, entityRoles)
                 )
             } else {
                 // throw an error if the pattern is different for the same entity

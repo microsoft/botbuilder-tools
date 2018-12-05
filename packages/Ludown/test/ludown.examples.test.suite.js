@@ -470,5 +470,16 @@ describe('The example lu files', function() {
             }
         });
     });
+
+    it('Regex entity references in a model file can be refreshed correctly using ludown refresh', function (done) {
+        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/regexmodel.luis -s -o -n regexmodel.lu ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/regexmodel.lu')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/regexmodel.lu')));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
     
 });

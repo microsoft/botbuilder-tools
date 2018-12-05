@@ -8,6 +8,16 @@ const parseFile = require('../lib/parseFileContents').parseFile;
 const retCode = require('../lib/enums/CLI-errors').errorCode;
 const hClasses = require('../lib/classes/hclasses');
 const collateLUISFiles = require('../lib/parseFileContents').collateLUISFiles;
+const translateHelpers = require('../lib/translate-helpers');
+const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
+const helpers = require('../lib/helpers');
+const NEWLINE = require('os').EOL;
+
+function sanitizeContent(fileContent) {
+    let escapedExampleNewLine = JSON.stringify('\r\n').replace(/"/g, '').replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+    let escapedNewLine = JSON.stringify(NEWLINE).replace(/"/g, '');
+    return fileContent.replace(new RegExp(escapedExampleNewLine, 'g'), escapedNewLine);
+}
 describe('Regex entities in .lu files', function() {
     it('are parsed correctly when a valid regex pattern is provided', function(done){
         let luFileContent = `$HRF-number:/hrf-[0-9]{6}/`;
@@ -96,14 +106,54 @@ $test:/hrf-[0-9]{6}/`;
             })
             .catch(err => done())
     });
+
+    it('correctly parses regex entity used in a pattern', function(done) {
+        let luFile = `# test
+- what is the email id for {hrf-number}
+
+$hrf-number:/hrf-[0-9]{6}/`;
+        let testPattern = new hClasses.pattern('what is the email id for {hrf-number}', 'test');
+        let regexEntity = new hClasses.regExEntity('hrf-number', 'hrf-[0-9]{6}');
+        parseFile(luFile, false)
+            .then(res => {
+                assert.deepEqual(res.LUISJsonStructure.regex_entities[0], regexEntity);
+                assert.deepEqual(res.LUISJsonStructure.patterns[0], testPattern);
+                assert.equal(res.LUISJsonStructure.intents[0].name, 'test');
+                done();
+            })
+            .catch(err => done(err))
+    });
+
+    it('correctly parses regex entity used in a pattern', function(done) {
+        let luFile = `# test
+- update {hrf-number:from} to {hrf-number:to}
+
+$hrf-number:/hrf-[0-9]{6}/`;
+        let testPattern = new hClasses.pattern('update {hrf-number:from} to {hrf-number:to}', 'test');
+        let regexEntity = new hClasses.regExEntity('hrf-number', 'hrf-[0-9]{6}', ['from', 'to']);
+        parseFile(luFile, false)
+            .then(res => {
+                assert.deepEqual(res.LUISJsonStructure.regex_entities[0], regexEntity);
+                assert.deepEqual(res.LUISJsonStructure.patterns[0], testPattern);
+                assert.equal(res.LUISJsonStructure.intents[0].name, 'test');
+                assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 0);
+                done();
+            })
+            .catch(err => done(err))
+    });
+
+    it('correctly localizes regex entity definitions', function(done) {
+        if(!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let luFile = helpers.sanitizeNewLines(`$hrf-number:/hrf-[0-9]{6}/`);
+        let expectedOutput = helpers.sanitizeNewLines(`$hrf-number:/hrf-[0-9]{6}/
+`);
+        translateHelpers.parseAndTranslate(luFile, TRANSLATE_KEY, 'de', null, false, false, false)
+            .then(res => {
+                assert.equal(res, expectedOutput);
+                done();
+            })
+            .catch(err => done(err))
+    });
 });
-
-
-// throws when duplicate regex entities with different patterns are found across lu files
-
-// correctly parses regex entitiy use in a pattern
-// correctly parses regex entitiy use with a role in patterns
-
-// correctly localizes regex entity
-
-// correctly refreshes luis model with regex entity
