@@ -736,7 +736,7 @@ async function processConfiguration(): Promise<void> {
             }
 
             // publish bot to web service
-            publishBot(azBot);
+            await publishBot(azBot);
         }
 
         console.log(`${config.getPath()} created.`);
@@ -768,7 +768,7 @@ async function processConfiguration(): Promise<void> {
 }
 
 async function publishBot(azBot: IBotService): Promise<void> {
-    let azPublishCmd = `az bot publish --resource-group ${args.groupName} -n ${azBot.name} --subscription ${args.subscriptionId} --sdk-version ${args.sdkVersion || 'v4'} `;
+    let azPublishCmd = `az bot publish --resource-group ${args.groupName} -n ${azBot.name} --subscription ${args.subscriptionId} -v ${args.sdkVersion || 'v4'} `;
     if (args.verbose) {
         azPublishCmd += '--verbose ';
     }
