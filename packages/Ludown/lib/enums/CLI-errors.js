@@ -26,6 +26,7 @@ module.exports = {
         PHRASELIST_NOT_A_LIST:      19,
         TRANSLATE_SERVICE_FAIL:     20,
         INVALID_URI:                21,
+        INVALID_REGEX_ENTITY:       22,
         UNKNOWN_ERROR:              99   
     }
 };

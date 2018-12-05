@@ -194,6 +194,11 @@ const helpers = {
                         } else {
                             throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR] Invalid list entity definition for ' + currentLine + '\n List entities follow $<entityName>:<normalizedValue>= notation'));
                         }
+                    } else if (entityType.startsWith('/') && entityType.endsWith('/')) {
+                        // this is a regex entity.
+                        sectionsInFile.push(currentLine);
+                        middleOfSection = false;
+                        currentSection = null;
                     } else {
                         throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR] Invalid entity definition for ' + currentLine));
                     }

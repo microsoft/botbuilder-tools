@@ -9,5 +9,6 @@ module.exports = {
     CLOSEDLISTS: "closedLists",
     PREBUILT: "prebuiltEntities",
     UTTERANCE: "utterances",
-    PATTERNS: "patterns"
+    PATTERNS: "patterns",
+    REGEX: "regex_entities"
 };

@@ -38,6 +38,7 @@ const parseFileContentsModule = {
             if(itemExists(LUISJSONBlob.closedLists, entity.name, entity.roles)) return false;
             if(itemExists(LUISJSONBlob.model_features, entity.name, entity.roles)) return false;
             if(itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
+            if(itemExists(LUISJSONBlob.regex_entities, entity.name, entity.roles)) return false; 
             return true;
         });
         
@@ -69,6 +70,17 @@ const parseFileContentsModule = {
                     entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name,['patternAny']));
                 } else {
                     entityFound[0].type.push('patternAny');
+                }
+            });
+        }
+        if(LUISJSONBlob.regex_entities.length > 0) {
+            LUISJSONBlob.regex_entities.forEach(function(entity) {
+                entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
+                if(entityFound.length === 0) {
+                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, [`regEx:/${entity.regexPattern}/`]));
+                } else {
+                    if (entityFound[0].regexPattern !== entity.regexPattern)
+                        entityFound[0].type.push(`regEx:/${entity.regexPattern}/`);
                 }
             });
         }
@@ -215,6 +227,7 @@ const parseFileContentsModule = {
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.UTTERANCE);
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.PATTERNS);
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.PATTERNANYENTITY);
+            mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.REGEX);
             // do we have prebuiltEntities here?
             if (blob.prebuiltEntities.length > 0) {
                 blob.prebuiltEntities.forEach(function(prebuiltEntity){
@@ -387,8 +400,22 @@ const parseAndHandleEntity = function(parsedContent, chunkSplitByLine, locale, l
             addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entityType, entityRoles);
         }
         
-    } else if(entityType.endsWith('=')) 
-    {
+    } else if (entityType.startsWith('/') && entityType.endsWith('/')) {
+        // handle regex entity 
+        let regex = entityType.slice(1).slice(0, entityType.length - 2); 
+        // add this as a regex entity if it does not exist
+        let regExEntity = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entityName);
+        if (regExEntity === undefined) {
+            parsedContent.LUISJsonStructure.regex_entities.push(
+                new helperClass.regExEntity(entityName, regex)
+            )
+        } else {
+            // throw an error if the pattern is different for the same entity
+            if (regExEntity.regexPattern !== regex) {
+                throw(new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} has multiple regex patterns defined. \n 1. /${regex}/\n 2. /${regExEntity.regexPattern}/`));
+            }
+        }
+    } else if(entityType.endsWith('=')) {
         // is this qna maker alterations list? 
         if(entityType.includes(PARSERCONSTS.QNAALTERATIONS)) {
             try {
