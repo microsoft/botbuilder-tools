@@ -734,9 +734,6 @@ async function processConfiguration(): Promise<void> {
                 }));
                 await config.save();
             }
-
-            // publish bot to web service
-            await publishBot(azBot);
         }
 
         console.log(`${config.getPath()} created.`);
@@ -744,9 +741,28 @@ async function processConfiguration(): Promise<void> {
         if (args.secret) {
             console.log(`\nThe secret used to decrypt ${config.getPath()} is:`);
             console.log(chalk.default.magentaBright(args.secret));
-            console.log(`NOTE: This secret is not recoverable and you should store this secret in a secure place according to best security practices.`);
-            console.log(`Your project may be configured to rely on this secret and you should update it as appropriate.`);
+
+            console.log(chalk.default.yellowBright(`\nNOTE: This secret is not recoverable and you should save it in a safe place according to best security practices.`));
+            console.log(chalk.default.yellowBright(`      Copy this secret and use it to open the ${config.getPath()} the first time.`));
             await config.save(args.secret);
+        }
+
+        if (azBot) {
+            // update local safe settings
+            await updateLocalSafeSettings(azBot);
+
+            // publish local bot code to web service
+            await publishBot(azBot);
+
+            // start emulator
+            if (args.secret)
+            {
+                let fullPath = path.resolve(process.cwd(), config.getPath());
+                let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}&secret=${encodeURIComponent(args.secret)}`;
+                console.log('To open this bot file in emulator:');
+                console.log(chalk.default.cyanBright(botFileUrl));
+                opn(botFileUrl);
+            }
         }
 
         console.log(`Done cloning.`);
@@ -767,17 +783,82 @@ async function processConfiguration(): Promise<void> {
     }
 }
 
+async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
+    if (azBot) {
+
+        // update local environment settings
+        if (fs.existsSync('appsettings.json')) {
+            console.log(`Updating appsettings.json with botFilePath=${config.getPath()}`);
+            let settings = JSON.parse(txtfile.readSync('appsettings.json'));
+            settings.botFilePath = config.getPath();
+            fs.writeFileSync('appsettings.json', JSON.stringify(settings, null, 4), { encoding: 'utf8' });
+
+            if (args.secret) {
+                // save secret
+                await runCommand(`dotnet user-secrets set botFileSecret ${args.secret}`, `Saving the botFileSecret with dotnet user-secrets`);
+
+                // make sure that startup.cs has configuration information
+                if (fs.existsSync('startup.cs')) {
+                    let startup = txtfile.readSync('startup.cs');
+                    // if it doesn't have .AddUserSecrets call
+                    if (startup.indexOf('.AddUserSecrets') < 0) {
+                        let i = startup.indexOf('Configuration = builder.Build();');
+                        if (i > 0) {
+                            let newStartup = startup.substring(0, i);
+                            console.log('Updating startup.cs to use user-secrets');
+                            newStartup += 'if (env.IsDevelopment()) \n                builder.AddUserSecrets<Startup>();\n\n                ' + startup.substring(i);
+                            fs.writeFileSync('startup.cs', newStartup, { encoding: 'utf8' });
+                        } else {
+                            console.log(chalk.default.yellow('You need to add following code to your dotnet configuration\n'));
+                            console.log('if (env.IsDevelopment()) builder.AddUserSecrets<Startup>();')
+                        }
+                    }
+                }
+            }
+        } else if (fs.existsSync('.env')) {
+            console.log(`Updating .env botFilePath=${config.getPath()}`);
+            let lines = txtfile.readSync('.env').split('\n');
+            let newEnv = '';
+            for (let line of lines) {
+                let i = line.indexOf('=');
+                if (i > 0) {
+                    let name = line.substring(0, i);
+                    let value = line.substring(i + 1);
+                    switch (name) {
+                        case 'botFilePath':
+                            newEnv += `botFilePath="${config.getPath()}"\n`;
+                            break;
+                        case "botFileSecret":
+                            newEnv += `botFileSecret="${args.secret}"\n`;
+                            break;
+                        default:
+                            newEnv += line + '\n';
+                            break;
+                    }
+                } else {
+                    // pass through
+                    newEnv += line + '\n';
+                }
+            }
+            fs.writeFileSync('.env', newEnv, { encoding: 'utf8' });
+        }
+    }
+}
+
 async function publishBot(azBot: IBotService): Promise<void> {
     let azPublishCmd = `az bot publish --resource-group ${args.groupName} -n ${azBot.name} --subscription ${args.subscriptionId} -v ${args.sdkVersion || 'v4'} `;
     if (args.verbose) {
         azPublishCmd += '--verbose ';
     }
+
+    let result: string | null = null;
+
     if (args.codeDir) {
         azPublishCmd += `--code-dir "${args.codeDir}" `;
-        await runCommand(azPublishCmd, `Publishing the local folder ${args.codeDir} to ${args.name} service`);
+        result = await runCommand(azPublishCmd, `Publishing the local folder ${args.codeDir} to ${args.name} service`);
     } else if (args.projFile) {
         azPublishCmd += `--proj-file "${args.projFile}" `;
-        await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
+        result = await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
     } else {
         console.log(chalk.default.yellowBright('\nWARNING: Your code has NOT been published to the newly created cloud service. (see --code-dir and --proj-file switches)'));
     }
