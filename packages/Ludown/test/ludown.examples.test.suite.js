@@ -61,7 +61,7 @@ describe('The example lu files', function() {
     it('refresh command successfully reconstructs a markdown file from a LUIS input file', function(done) {
         exec(`node ${ludown} refresh -i ${TEST_ROOT}/verified/all.json -o ${TEST_ROOT}/output --skip_header -n allGen`, () => {
             try {
-                compareFiles(TEST_ROOT + '/output/allGen.lu', TEST_ROOT + '/verified/allRefresh.lu');
+                compareFiles(TEST_ROOT + '/output/allGen.lu', TEST_ROOT + '/verified/allGen.lu');
                 done();
             } catch(err) {
                 done(err);
@@ -464,7 +464,7 @@ describe('The example lu files', function() {
     it('Regex entity references in a model file can be refreshed correctly using ludown refresh', function (done) {
         exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/regexmodel.luis -s -n regexmodel.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(JSON.parse(txtfile.readSync(TEST_ROOT + '/output/regexmodel.lu')), JSON.parse(txtfile.readSync(TEST_ROOT + '/verified/regexmodel.lu')));
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/regexmodel.lu'), txtfile.readSync(TEST_ROOT + '/verified/regexmodel.lu'));
                 done();
             } catch (err) {
                 done(err);
