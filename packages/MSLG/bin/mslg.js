@@ -28,6 +28,7 @@ const help = require('../lib/help');
 const parser = require('../lib/utils/parser')
 const translator = require('../lib/utils/translate')
 const Exception = require('../lib/utils/exception');
+const helpers = require('../lib/utils/helpers');
 const { getServiceManifest } = require('../lib/utils/argsUtil');
 const { ServiceBase } = require('../lib/api/serviceBase');
 const retCode = require('../lib/enums/errorCodes');
@@ -121,10 +122,19 @@ async function runProgram() {
 
     let response = await mslg(config, serviceManifest, args, requestBody);
 
-    if(response.ok){
+    if (response.ok) {
         process.stdout.write(chalk.green.bold("\nOperation Succeeded\n\n"));
-        if(response.resId) process.stdout.write(chalk.default.white(`${args._[1]} ID: ${response.resId}\n\n`));
-    }else if (response.result.error) {
+        if (response.resId) {
+            const region = helpers.extractRegion(config.endpointBasePath);
+            process.stdout.write(chalk.green.bold("\nResolver Application: \n"));
+            process.stdout.write(JSON.stringify({
+                applicationLocale: config.lgAppLocale,
+                applicationId: config.lgAppName,
+                applicationVersion: config.lgAppVersion,
+                applicationRegion: region,
+            }, null, 2) + "\n");
+        }
+    } else if (response.result.error) {
         throw new Exception(retCode.LG_SERVICE_FAIL, JSON.stringify(result.error, null, 4));
     }
 

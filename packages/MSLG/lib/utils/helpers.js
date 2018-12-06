@@ -135,6 +135,12 @@ const helpers = {
             }
         });
         return tokensInItem;
+    },
+    extractRegion(url) {
+        const regex = /https?:\/\/(?:www\.)?([-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b)*(\/[\/\d\w\.-]*)*(?:[\?])*(.+)*/gi;
+        const urlMatch = regex.exec(url)[1];
+        const matchesArr = urlMatch.split('.');
+        return matchesArr[0];
     }
 };
 
