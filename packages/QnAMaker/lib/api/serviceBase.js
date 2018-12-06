@@ -2,9 +2,10 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const os = require('os');
 const { insertParametersFromObject } = require('../utils/insertParametersFromObject');
 const deriveParamsFromPath = require('../utils/deriveParamsFromPath');
-const packageJSON = require('../../package');
+const pjson = require('../../package.json');
 
 /**
  * Base class for all services
@@ -54,6 +55,7 @@ class ServiceBase {
         // Order is important since we want to allow the user to
         // override their config with the data in the params object.
         params = Object.assign({}, (dataModel || {}), { kbId }, params);
+        
         ServiceBase.validateParams(tokenizedUrl, params);
 
         let URL = insertParametersFromObject(tokenizedUrl, params);
@@ -67,6 +69,7 @@ class ServiceBase {
                 URL += !isNaN(+skip) ? `&take=${~~take}` : `take=${~~take}`;
             }
         }
+        
         const body = dataModel ? JSON.stringify(dataModel) : undefined;
         if (params.debug) {
             console.log(`${method.toUpperCase()} ${URL}`);
@@ -75,6 +78,9 @@ class ServiceBase {
             if (body)
                 console.log(body);
         }
+
+        console.log(URL);
+
         return fetch(URL, { headers, method, body });
     }
 
@@ -86,9 +92,17 @@ class ServiceBase {
     get commonHeaders() {
         return {
             'Content-Type': 'application/json',
-            'User-Agent': `botbuilder/cli/qnamaker/${packageJSON.version}`
+            'User-Agent': this.getUserAgent()
         };
     }
+
+    getUserAgent() {
+        const packageUserAgent = `${pjson.name}/${pjson.version}`;
+        const platformUserAgent = `(${os.arch()}-${os.type()}-${os.release()}; Node.js,Version=${process.version})`;
+        const userAgent = `${packageUserAgent} ${platformUserAgent}`;
+        
+        return userAgent;
+      }
 }
 
 /**
