@@ -5,7 +5,7 @@
 const {ServiceBase} = require('./serviceBase');
 class Models extends ServiceBase {
     constructor() {
-        super('/api/languagegeneration/v2.0-beta2/Models');
+        super('/api/languagegeneration/v2.0/Models');
     }
 
     /**

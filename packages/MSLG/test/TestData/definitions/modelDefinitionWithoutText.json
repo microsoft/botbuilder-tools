@@ -4,6 +4,6 @@
     "locale": "en-US",
     "properties": {
         "Domain": "LGTest",
-        "Version": "default"      
+        "Version": "0.1"      
     }
 }

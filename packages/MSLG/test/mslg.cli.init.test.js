@@ -75,7 +75,7 @@ describe('The MSLG CLI --init argument', () => {
                     break;
 
                 case 9:
-                    assert.equal("What would you like to use as your active LG App Version? [default] ", message);
+                    assert.equal("What would you like to use as your active LG App Version? [0.1] ", message);
                     mslgProcess.stdin.write(`${lgAppVersion}\r`);
                     break;
                     
