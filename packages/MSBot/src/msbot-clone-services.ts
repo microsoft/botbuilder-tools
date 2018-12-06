@@ -6,6 +6,7 @@ import { AppInsightsService, BlobStorageService, BotConfiguration, BotRecipe, Bo
 import * as chalk from 'chalk';
 import * as child_process from 'child_process';
 import * as program from 'commander';
+import * as fs from 'fs';
 import * as path from 'path';
 import * as process from 'process';
 import * as txtfile from 'read-text-file';
@@ -15,13 +16,12 @@ import * as util from 'util';
 import { spawnAsync } from './processUtils';
 import { logAsync } from './stdioAsync';
 import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap } from './utils';
-import * as fs from 'fs';
 const Table = require('cli-table3');
 const opn = require('opn');
 const commandExistsSync = require('command-exists').sync;
 const exec = util.promisify(child_process.exec);
 
-const BOTSERVICEMINVERSION = '(0.4.2)';
+const BOTSERVICEMINVERSION = '(0.4.3)';
 const AZCLIMINVERSION = '(2.0.52)'; // This corresponds to the AZ CLI version that shipped in line with Bot Builder 4.2 release (December 2018).
                                     // Bot service extension 0.4.2 requires AZ CLI version >= 2.0.46.
 
@@ -54,12 +54,13 @@ interface ICloneArgs {
     args: string[];
     force: boolean;
     noDecorate: boolean;
+    codeDir: string;
+    projFile: string;
 }
 
 program
     .name('msbot clone services')
     .option('-n, --name <name>', 'name of new bot')
-    .option('--noDecorate', 'do not prepend name of bot for names')
     .option('-f, --folder <folder>', 'path to folder containing exported resources')
     .option('-l, --location <location>', 'location to create the bot service in (westus, ...)')
     .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key from the appropriate luisAuthoringRegion for luis resources')
@@ -73,6 +74,8 @@ program
     .option('--prefix', 'Append [msbot] prefix to all messages')
     .option('--appId <appId>', '(OPTIONAL) Application ID for an existing application, if not passed then a new Application will be created')
     .option('--appSecret <appSecret>', '(OPTIONAL) Application Secret for an existing application, if not passed then a new Application will be created')
+    .option('--proj-file <projfile>', '(OPTIONAL) auto publish the local project file to created bot service')
+    .option('--code-dir <path>', '(OPTIONAL) auto publish the folder path to created bot service')
     .option('-q, --quiet', 'minimize output')
     .option('--verbose', 'show commands')
     .option('-f, --force', 'do not prompt for confirmation')
@@ -142,10 +145,26 @@ async function processConfiguration(): Promise<void> {
         args.sdkVersion = "v4";
     }
 
+    if (!args.sdkLanguage) {
+        if (fs.existsSync("package.json")) {
+            args.sdkLanguage = "Node";
+        } else {
+            args.sdkLanguage = "CSharp";
+        }
+    }
+
     if (!args.groupName) {
         args.groupName = args.name;
     }
 
+    if ((<any>args)['proj-file']) {
+        args.projFile = (<string>(<any>args)['proj-file']);
+        console.log(args.projFile);
+    }
+    else if ((<any>args)['code-dir']) {
+        args.codeDir = (<string>(<any>args)['code-dir']);
+        console.log(args.codeDir);
+    }
     // verify az command exists and is correct version
     await checkAzBotServiceVersion();
 
@@ -165,7 +184,7 @@ async function processConfiguration(): Promise<void> {
 
     try {
         // pass 0 - tell the user what are going to create
-            if (!args.quiet) {
+        if (!args.quiet) {
             let bot = 0;
             let appInsights = 0;
             let storage = 0;
@@ -749,14 +768,38 @@ async function processConfiguration(): Promise<void> {
                 await config.save();
             }
         }
+
+        console.log(`${config.getPath()} created.`);
+
         if (args.secret) {
-            console.log(`The secret used to decrypt ${config.getPath()} is:`);
+            console.log(`\nThe secret used to decrypt ${config.getPath()} is:`);
             console.log(chalk.default.magentaBright(args.secret));
-            console.log(`NOTE: This secret is not recoverable and you should store this secret in a secure place according to best security practices.`);
-            console.log(`Your project may be configured to rely on this secret and you should update it as appropriate.`);
+
+            console.log(chalk.default.yellowBright(`\nNOTE: This secret is not recoverable and you should save it in a safe place according to best security practices.`));
+            console.log(chalk.default.yellowBright(`      Copy this secret and use it to open the ${config.getPath()} the first time.`));
             await config.save(args.secret);
         }
-        console.log(`${config.getPath()} created.`);
+
+        if (azBot) {
+            // update local safe settings
+            await updateLocalSafeSettings(azBot);
+
+            // publish local bot code to web service
+            await publishBot(azBot);
+
+            // show emulator url with secret 
+            if (args.secret) {
+                let fullPath = path.resolve(process.cwd(), config.getPath());
+                let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}&secret=${encodeURIComponent(args.secret)}`;
+                console.log('To open this bot file in emulator:');
+                console.log(chalk.default.cyanBright(botFileUrl));
+
+                // auto launch emulator with url so it can memorize the secret so you don't need to remember it.  <whew!>
+                process.env.ELECTRON_NO_ATTACH_CONSOLE = "true";
+                opn(botFileUrl, { wait: false });
+            }
+        }
+
         console.log(`Done cloning.`);
     } catch (error) {
         if (error.message) {
@@ -775,7 +818,89 @@ async function processConfiguration(): Promise<void> {
     }
 }
 
+async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
+    if (azBot) {
 
+        // update local environment settings
+        if (fs.existsSync('appsettings.json')) {
+            console.log(`Updating appsettings.json with botFilePath=${config.getPath()}`);
+            let settings = JSON.parse(txtfile.readSync('appsettings.json'));
+            settings.botFilePath = config.getPath();
+            fs.writeFileSync('appsettings.json', JSON.stringify(settings, null, 4), { encoding: 'utf8' });
+
+            if (args.secret) {
+                // save secret
+                await runCommand(`dotnet user-secrets set botFileSecret ${args.secret}`, `Saving the botFileSecret with dotnet user-secrets`);
+
+                // make sure that startup.cs has configuration information
+                if (fs.existsSync('startup.cs')) {
+                    let startup = txtfile.readSync('startup.cs');
+                    // if it doesn't have .AddUserSecrets call
+                    if (startup.indexOf('.AddUserSecrets') < 0) {
+                        let i = startup.indexOf('Configuration = builder.Build();');
+                        if (i > 0) {
+                            let newStartup = startup.substring(0, i);
+                            console.log('Updating startup.cs to use user-secrets');
+                            newStartup += 'if (env.IsDevelopment()) \n                builder.AddUserSecrets<Startup>();\n\n                ' + startup.substring(i);
+                            fs.writeFileSync('startup.cs', newStartup, { encoding: 'utf8' });
+                        } else {
+                            console.log(chalk.default.yellow('You need to add following code to your dotnet configuration\n'));
+                            console.log('if (env.IsDevelopment()) builder.AddUserSecrets<Startup>();')
+                        }
+                    }
+                }
+            }
+        } else if (fs.existsSync('.env')) {
+            console.log(`Updating .env with path and secret`);
+            let lines = txtfile.readSync('.env').split('\n');
+            let newEnv = '';
+            for (let line of lines) {
+                let i = line.indexOf('=');
+                if (i > 0) {
+                    let name = line.substring(0, i);
+                    let value = line.substring(i + 1);
+                    switch (name) {
+                        case 'botFilePath':
+                            newEnv += `botFilePath="${config.getPath()}"\n`;
+                            break;
+                        case "botFileSecret":
+                            newEnv += `botFileSecret="${args.secret}"\n`;
+                            break;
+                        default:
+                            newEnv += line + '\n';
+                            break;
+                    }
+                } else {
+                    // pass through
+                    newEnv += line + '\n';
+                }
+            }
+            fs.writeFileSync('.env', newEnv, { encoding: 'utf8' });
+        }
+    }
+}
+
+async function publishBot(azBot: IBotService): Promise<void> {
+    let azPublishCmd = `az bot publish --resource-group ${args.groupName} -n ${azBot.name} --subscription ${args.subscriptionId} -v ${args.sdkVersion || 'v4'} `;
+    if (args.verbose) {
+        azPublishCmd += '--verbose ';
+    }
+
+    let result: string | null = null;
+
+    if (args.codeDir) {
+        azPublishCmd += `--code-dir "${args.codeDir}" `;
+        result = await runCommand(azPublishCmd, `Publishing the local folder ${args.codeDir} to ${args.name} service`);
+    } else if (args.projFile) {
+        azPublishCmd += `--proj-file "${args.projFile}" `;
+        result = await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
+    } else {
+        console.log(chalk.default.yellowBright('\nWARNING: Your code has NOT been published to the newly created cloud service. (see --code-dir and --proj-file switches)'));
+    }
+
+    console.log('You can publish your bot to the web using the az bot publish command:');
+    console.log(chalk.default.cyanBright('    ' + azPublishCmd));
+}
 
 async function getAppInsightsService(azAppInsights: any): Promise<AppInsightsService> {
     let appInsights = await runCommand(`az resource show -g ${args.groupName} -n ${azAppInsights.name}  --resource-type microsoft.insights/components --subscription ${args.subscriptionId}`, `Fetching Azure AppInsights information [${azAppInsights.name}]`);
@@ -936,7 +1061,7 @@ function logCommand(args: ICloneArgs, message: string, command: string) {
     if (!args.quiet) {
         console.log(chalk.default.bold(message));
         if (args.verbose) {
-            console.log(chalk.default.italic(command));
+            console.log(chalk.default.cyan(command));
         }
     }
 }

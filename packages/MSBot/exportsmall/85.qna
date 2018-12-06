@@ -1,0 +1,43 @@
+{
+  "qnaDocuments": [
+    {
+      "id": 1,
+      "answer": "yes it is",
+      "source": "Editorial",
+      "questions": [
+        "this is a test",
+        "this is a test too",
+        "is this a test"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 2,
+      "answer": "every day, rain or shine",
+      "source": "Editorial",
+      "questions": [
+        "what are your hours of operation",
+        "when are you open?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 3,
+      "answer": "yes, dogs",
+      "source": "Editorial",
+      "questions": [
+        "do you allow pets"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 4,
+      "answer": "African or European?  \n\n",
+      "source": "Editorial",
+      "questions": [
+        "how fast is a swallow?"
+      ],
+      "metadata": []
+    }
+  ]
+}
