@@ -12,7 +12,7 @@ const translateHelpers = require('../lib/translate-helpers');
 const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
 const helpers = require('../lib/helpers');
 const NEWLINE = require('os').EOL;
-
+const validateLUISModel = require('../lib/parseFileContents').validateLUISBlob;
 function sanitizeContent(fileContent) {
     let escapedExampleNewLine = JSON.stringify('\r\n').replace(/"/g, '').replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
     let escapedNewLine = JSON.stringify(NEWLINE).replace(/"/g, '');
@@ -47,6 +47,15 @@ describe('Regex entities in .lu files', function() {
     it('throws correctly when multiple regex patterns have the same entity name', function(done){
         let luFileContent = `$test:/hrf-[0-9]{6}
 $test:/udf-[0-9]{6}/`;
+        parseFile(luFileContent, false) 
+            .then(res => done(`Test fail! Did not throw when expected`))
+            .catch(err => done())
+    });
+
+    it('throws correctly when regex entity name is not unique', function(done){
+        let luFileContent = `$test:/hrf-[0-9]{6}
+# test
+- this is a {test=one} utterance`;
         parseFile(luFileContent, false) 
             .then(res => done(`Test fail! Did not throw when expected`))
             .catch(err => done())
@@ -99,6 +108,30 @@ $test:/hrf-[0-9]{6}/`;
                             .then(res => {
                                 console.log(JSON.stringify(res,null, 2));
                                 done(`Test failed - did not throw when expected`);
+                            })
+                            .catch(err => done())
+                    })
+                    .catch(err => done())                
+            })
+            .catch(err => done())
+    });
+
+    it('throws when duplicate regex entities with different patterns are found across lu files', function(done) {
+        let luFile1 = `$test:/hrf-[0-9]{6}/`;
+        let luFile2 = `# test
+- this is a {test=one} utterance`;
+        parseFile(luFile1, false) 
+            .then(res1 => {
+                parseFile(luFile2, false)
+                    .then(res2 => {
+                        collateLUISFiles([res1, res2])
+                            .then(res => {
+                                validateLUISModel(res)
+                                    .then(validationRes => {
+                                        console.log(JSON.stringify(res,null, 2));
+                                        done(`Test failed - did not throw when expected`);
+                                    })
+                                    .catch(err => done())
                             })
                             .catch(err => done())
                     })

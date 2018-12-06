@@ -79,8 +79,12 @@ const parseFileContentsModule = {
                 if(entityFound.length === 0) {
                     entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, [`regEx:/${entity.regexPattern}/`]));
                 } else {
-                    if (entityFound[0].regexPattern !== entity.regexPattern)
+                    if (entityFound[0].regexPattern !== undefined) {
+                        if (entityFound[0].regexPattern !== entity.regexPattern)
+                            entityFound[0].type.push(`regEx:/${entity.regexPattern}/`);
+                    } else {
                         entityFound[0].type.push(`regEx:/${entity.regexPattern}/`);
+                    }
                 }
             });
         }
@@ -227,7 +231,6 @@ const parseFileContentsModule = {
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.UTTERANCE);
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.PATTERNS);
             mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.PATTERNANYENTITY);
-            // mergeResults(blob, FinalLUISJSON, LUISObjNameEnum.REGEX);
 
             // do we have regex entities here?
             if (blob.regex_entities.length > 0) {
