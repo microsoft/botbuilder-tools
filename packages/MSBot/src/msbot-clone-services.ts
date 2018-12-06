@@ -128,6 +128,14 @@ async function processConfiguration(): Promise<void> {
         args.sdkVersion = "v4";
     }
 
+    if (!args.sdkLanguage) {
+        if (fs.existsSync("package.json")) {
+            args.sdkLanguage = "Node";
+        } else {
+            args.sdkLanguage = "CSharp";
+        }
+    }
+
     if (!args.groupName) {
         args.groupName = args.name;
     }
@@ -762,7 +770,8 @@ async function processConfiguration(): Promise<void> {
                 console.log(chalk.default.cyanBright(botFileUrl));
 
                 // auto launch emulator with url so it can memorize the secret so you don't need to remember it.  <whew!>
-                opn(botFileUrl);
+                process.env.ELECTRON_NO_ATTACH_CONSOLE = "true";
+                opn(botFileUrl, { wait: false });
             }
         }
 
@@ -817,7 +826,7 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
                 }
             }
         } else if (fs.existsSync('.env')) {
-            console.log(`Updating .env botFilePath=${config.getPath()}`);
+            console.log(`Updating .env with path and secret`);
             let lines = txtfile.readSync('.env').split('\n');
             let newEnv = '';
             for (let line of lines) {
