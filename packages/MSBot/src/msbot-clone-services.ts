@@ -931,22 +931,22 @@ async function checkAzBotServiceVersion() {
     let command = `az -v `;
     logCommand(args, `Checking az botservice version`, command);
     let p = await exec(command);
-    let botServiceVersion = new AzBotServiceVersion('(0.0.0)');
-    let azCLIVersion = new AzBotServiceVersion('(0.0.0)');
+    let botServiceVersion = new ServiceVersion('(0.0.0)');
+    let azCLIVersion = new ServiceVersion('(0.0.0)');
     for (let line of p.stdout.split('\n')) {
         if (line.startsWith('botservice')) {
-            let newVersion = new AzBotServiceVersion(line);
+            let newVersion = new ServiceVersion(line);
             if (botServiceVersion.isOlder(newVersion))
                 botServiceVersion = newVersion;
         }
         if (line.startsWith('azure-cli')) {
-            let newAZCLIVersion = new AzBotServiceVersion(line);
+            let newAZCLIVersion = new ServiceVersion(line);
             if (azCLIVersion.isOlder(newAZCLIVersion)) 
                 azCLIVersion = newAZCLIVersion;
         }
     }
-    let neededVersion = new AzBotServiceVersion(BOTSERVICEMINVERSION);
-    let neededAZCLIVersion = new AzBotServiceVersion(AZCLIMINVERSION);
+    let neededVersion = new ServiceVersion(BOTSERVICEMINVERSION);
+    let neededAZCLIVersion = new ServiceVersion(AZCLIMINVERSION);
     if (azCLIVersion.isOlder(neededAZCLIVersion)) {
         console.error(chalk.default.redBright(`You need to upgrade your AZ CLI version to >= ${neededAZCLIVersion.major}.${neededAZCLIVersion.minor}.${neededAZCLIVersion.patch}.
         You can install the latest AZ CLI from https://aka.ms/az-cli-download`));
@@ -1071,7 +1071,7 @@ function generateShortId() {
     return Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
 }
 
-class AzBotServiceVersion {
+class ServiceVersion {
     constructor(version: string) {
         const versionPattern = /([0-9]+)\.([0-9]+)\.([0-9]+)\)/;
         const versions = versionPattern.exec(version) || ['0', '0', '0', '0'];
@@ -1084,7 +1084,7 @@ class AzBotServiceVersion {
     public minor: number;
     public patch: number;
 
-    public isOlder(version: AzBotServiceVersion): boolean {
+    public isOlder(version: ServiceVersion): boolean {
         if (version.major == this.major && version.minor == this.minor && version.patch == this.patch)
             return false;
 
