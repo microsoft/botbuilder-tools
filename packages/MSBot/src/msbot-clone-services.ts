@@ -20,7 +20,7 @@ const Table = require('cli-table3');
 const opn = require('opn');
 const exec = util.promisify(child_process.exec);
 
-const AZMINVERSION = '(0.4.1)';
+const AZMINVERSION = '(0.4.3)';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
