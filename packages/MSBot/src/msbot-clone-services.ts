@@ -18,9 +18,12 @@ import { logAsync } from './stdioAsync';
 import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap } from './utils';
 const Table = require('cli-table3');
 const opn = require('opn');
+const commandExistsSync = require('command-exists').sync;
 const exec = util.promisify(child_process.exec);
 
-const AZMINVERSION = '(0.4.3)';
+const BOTSERVICEMINVERSION = '(0.4.3)';
+const AZCLIMINVERSION = '(2.0.52)'; // This corresponds to the AZ CLI version that shipped in line with Bot Builder 4.2 release (December 2018).
+                                    // Bot service extension 0.4.2 requires AZ CLI version >= 2.0.46.
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -93,8 +96,34 @@ if (args.name.length < 4 || args.name.length > 42) {
     showErrorHelp();
 }
 
+// verify that the user has AZ CLI
+if (!commandExistsSync('az')) {
+    console.error(chalk.default.redBright('AZ CLI is not installed or cannot be found. \n\nSee https://aka.ms/msbot-clone-services for pre-requisites.'));
+    showErrorHelp();
+}
+
 if (fs.existsSync(args.name + '.bot')) {
     console.error(chalk.default.redBright(`${args.name}.bot already exists. Please choose a different name or delete ${args.name}.bot and try again.`));
+    showErrorHelp();
+}
+
+if (!args.folder) {
+    console.error(chalk.default.redBright(`missing --folder argument`));
+    showErrorHelp();
+}
+
+if (!fs.existsSync(path.join(args.folder, 'bot.recipe'))) {
+    console.error(chalk.default.redBright(`No bot.recipe file found under ${args.folder}. Please provide the folder that contains the recipe file`));
+    showErrorHelp();
+}
+
+if (!args.location) {
+    console.error(chalk.default.redBright(`missing --location argument`));
+    showErrorHelp();
+}
+
+if (!Object.values(RegionCodes).find((r) => args.location == r)) {
+    console.error(chalk.default.redBright(`${args.location} is not a valid region code.  Supported Regions are:\n${Object.values(RegionCodes).join(',\n')}`));
     showErrorHelp();
 }
 
@@ -112,18 +141,6 @@ config.saveAs(config.name + '.bot')
     });
 
 async function processConfiguration(): Promise<void> {
-    if (!args.folder) {
-        throw new Error('missing --folder argument');
-    }
-
-    if (!args.location) {
-        throw new Error('missing --location argument');
-    }
-
-    if (!Object.values(RegionCodes).find((r) => args.location == r)) {
-        throw new Error(`${args.location} is not a valid region code.  Supported Regions are:\n${Object.values(RegionCodes).join(',\n')}`);
-    }
-
     if (!args.sdkVersion) {
         args.sdkVersion = "v4";
     }
@@ -148,6 +165,8 @@ async function processConfiguration(): Promise<void> {
         args.codeDir = (<string>(<any>args)['code-dir']);
         console.log(args.codeDir);
     }
+    // verify az command exists and is correct version
+    await checkAzBotServiceVersion();
 
     let recipeJson = await txtfile.read(path.join(args.folder, `bot.recipe`));
     let recipe = <BotRecipe>JSON.parse(recipeJson);
@@ -290,8 +309,6 @@ async function processConfiguration(): Promise<void> {
         let azBotExtended: any;
         let azBotEndpoint: IEndpointService | undefined;
 
-        // verify az command exists and is correct version
-        await checkAzBotServiceVersion();
 
         // create group if not created yet
         azGroup = await createGroup();
@@ -374,7 +391,7 @@ async function processConfiguration(): Promise<void> {
                             if (regionToLuisAuthoringRegionMap.hasOwnProperty(args.location))
                                 args.luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
                             else
-                                throw Error(`${args.location} does not have a valid luisAuthoringRegion.  Pass --luisAuthoringRegion to tell us which region you are in`);
+                                throw new Error(`${args.location} does not have a valid luisAuthoringRegion.  Pass --luisAuthoringRegion to tell us which region you are in`);
                         }
 
                         if (!args.luisPublishRegion) {
@@ -639,6 +656,10 @@ async function processConfiguration(): Promise<void> {
 
                 case ServiceTypes.Luis:
                     {
+                        if (!commandExistsSync('luis')) {
+                            console.error(chalk.default.redBright(`Unable to find LUIS CLI. Please install via npm i -g luis-apis and try again. \n\nSee https://aka.ms/msbot-clone-services for pre-requisites.`))
+                            showErrorHelp();
+                        }
                         let luisService = await importAndTrainLuisApp(resource);
                         luisService.id = `${resource.id}`; // keep same resource id
                         config.services.push(luisService);
@@ -648,6 +669,10 @@ async function processConfiguration(): Promise<void> {
 
                 case ServiceTypes.QnA:
                     {
+                        if (!commandExistsSync('qnamaker')) {
+                            console.error(chalk.default.redBright(`Unable to find QnAMaker CLI. Please install via npm i -g qnamaker and try again. \n\nSee https://aka.ms/msbot-clone-services for pre-requisites.`))
+                            showErrorHelp();
+                        }
                         // qnamaker create kb --subscriptionKey c87eb99bfc274a4db6b671b43f867575  --name testtesttest --in qna.json --wait --msbot -q
                         let qnaPath = path.join(args.folder, `${resource.id}.qna`);
                         let kbName = resource.name;
@@ -906,23 +931,37 @@ async function checkAzBotServiceVersion() {
     let command = `az -v `;
     logCommand(args, `Checking az botservice version`, command);
     let p = await exec(command);
-    let version = new AzBotServiceVersion('(0.0.0)');
-    let azVersionCount = 0;
+    let botServiceVersion = new AzBotServiceVersion('(0.0.0)');
+    let azCLIVersion = new AzBotServiceVersion('(0.0.0)');
     for (let line of p.stdout.split('\n')) {
         if (line.startsWith('botservice')) {
-            azVersionCount++;
             let newVersion = new AzBotServiceVersion(line);
-            if (version.isOlder(newVersion))
-                version = newVersion;
+            if (botServiceVersion.isOlder(newVersion))
+                botServiceVersion = newVersion;
+        }
+        if (line.startsWith('azure-cli')) {
+            let newAZCLIVersion = new AzBotServiceVersion(line);
+            if (azCLIVersion.isOlder(newAZCLIVersion)) 
+                azCLIVersion = newAZCLIVersion;
         }
     }
-    let neededVersion = new AzBotServiceVersion(AZMINVERSION);
-    if (version.isOlder(neededVersion)) {
+    let neededVersion = new AzBotServiceVersion(BOTSERVICEMINVERSION);
+    let neededAZCLIVersion = new AzBotServiceVersion(AZCLIMINVERSION);
+    if (azCLIVersion.isOlder(neededAZCLIVersion)) {
+        console.error(chalk.default.redBright(`You need to upgrade your AZ CLI version to >= ${neededAZCLIVersion.major}.${neededAZCLIVersion.minor}.${neededAZCLIVersion.patch}.
+        You can install the latest AZ CLI from https://aka.ms/az-cli-download`));
+        // remove orphaned bot file if it exists
+        if (fs.existsSync(args.name + '.bot')) fs.unlinkSync(args.name + '.bot');
+        process.exit(1);
+    }
+    if (botServiceVersion.isOlder(neededVersion)) {
         console.error(chalk.default.redBright(`You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
 To do this run:
    az extension remove -n botservice
    az extension add -n botservice
 `));
+        // remove orphaned bot file if it exists
+        if (fs.existsSync(args.name + '.bot')) fs.unlinkSync(args.name + '.bot');
         process.exit(1);
     }
     return { command, p };
@@ -932,8 +971,7 @@ To do this run:
 async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisService> {
     let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
     let luisService: LuisService;
-    const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
-
+    const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];    
     let luisAppName = args.noDecorate ? `${luisResource.name}` : `${args.name}_${luisResource.name}`;
     let svcOut = <ILuisService>await runCommand(`luis import application --region ${luisAuthoringRegion} --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
         `Creating and importing LUIS application [${luisAppName}]`);
