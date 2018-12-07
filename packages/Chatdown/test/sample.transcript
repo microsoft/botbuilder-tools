@@ -4,7 +4,7 @@
       "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
     },
     "id": "9",
-    "timestamp": "2018-11-29T19:47:21.300Z",
+    "timestamp": "2018-12-07T18:14:54.300Z",
     "type": "conversationUpdate",
     "channelId": "chatdown",
     "membersAdded": [
@@ -32,7 +32,7 @@
       "role": "user"
     },
     "text": "Hi!",
-    "timestamp": "2018-11-29T19:47:23.300Z",
+    "timestamp": "2018-12-07T18:14:56.300Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -52,7 +52,7 @@
       "role": "bot"
     },
     "text": "Hello there!",
-    "timestamp": "2018-11-29T19:47:25.300Z",
+    "timestamp": "2018-12-07T18:14:58.300Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -130,7 +130,7 @@
       "role": "bot"
     },
     "text": "",
-    "timestamp": "2018-11-29T19:47:27.300Z",
+    "timestamp": "2018-12-07T18:15:00.300Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -149,7 +149,7 @@
       "name": "LulaBot",
       "role": "bot"
     },
-    "timestamp": "2018-11-29T19:47:27.400Z",
+    "timestamp": "2018-12-07T18:15:00.400Z",
     "type": "typing",
     "channelId": "chatdown"
   },
@@ -175,7 +175,7 @@
       "role": "bot"
     },
     "text": "web page attachment",
-    "timestamp": "2018-11-29T19:47:32.400Z",
+    "timestamp": "2018-12-07T18:15:05.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -213,7 +213,7 @@
       "role": "bot"
     },
     "text": "Here are some pictures",
-    "timestamp": "2018-11-29T19:47:34.400Z",
+    "timestamp": "2018-12-07T18:15:07.400Z",
     "type": "message",
     "channelId": "chatdown",
     "attachmentLayout": "carousel"
@@ -240,7 +240,7 @@
       "role": "bot"
     },
     "text": "Here's card1",
-    "timestamp": "2018-11-29T19:47:36.400Z",
+    "timestamp": "2018-12-07T18:15:09.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -266,7 +266,7 @@
       "role": "bot"
     },
     "text": "Here's card2",
-    "timestamp": "2018-11-29T19:47:38.400Z",
+    "timestamp": "2018-12-07T18:15:11.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -418,7 +418,7 @@
       "role": "bot"
     },
     "text": "Here's adaptive card from disk",
-    "timestamp": "2018-11-29T19:47:40.400Z",
+    "timestamp": "2018-12-07T18:15:13.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -570,7 +570,7 @@
       "role": "bot"
     },
     "text": "Here's json attachment from disk",
-    "timestamp": "2018-11-29T19:47:42.400Z",
+    "timestamp": "2018-12-07T18:15:15.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -590,7 +590,7 @@
       "role": "user"
     },
     "text": "I would like some cheese.",
-    "timestamp": "2018-11-29T19:47:44.400Z",
+    "timestamp": "2018-12-07T18:15:17.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -610,7 +610,7 @@
       "role": "bot"
     },
     "text": "# cheese choices\n1. cheese 1 \n2. cheese 2\n3. cheese 3",
-    "timestamp": "2018-11-29T19:47:46.400Z",
+    "timestamp": "2018-12-07T18:15:19.400Z",
     "type": "message",
     "channelId": "chatdown",
     "suggestedActions": {
