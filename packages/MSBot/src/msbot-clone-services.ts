@@ -13,6 +13,7 @@ import * as txtfile from 'read-text-file';
 import * as readline from 'readline-sync';
 import * as url from 'url';
 import * as util from 'util';
+import * as uuid from 'uuid';
 import { spawnAsync } from './processUtils';
 import { logAsync } from './stdioAsync';
 import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap } from './utils';
@@ -23,7 +24,7 @@ const exec = util.promisify(child_process.exec);
 
 const BOTSERVICEMINVERSION = '(0.4.3)';
 const AZCLIMINVERSION = '(2.0.52)'; // This corresponds to the AZ CLI version that shipped in line with Bot Builder 4.2 release (December 2018).
-                                    // Bot service extension 0.4.2 requires AZ CLI version >= 2.0.46.
+// Bot service extension 0.4.2 requires AZ CLI version >= 2.0.46.
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -829,6 +830,20 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
             fs.writeFileSync('appsettings.json', JSON.stringify(settings, null, 4), { encoding: 'utf8' });
 
             if (args.secret) {
+
+                // some projfiles won't have a userSecret set, check for it
+                if (args.projFile) {
+                    let proj = txtfile.readSync(args.projFile);
+                    if (proj.indexOf('<UserSecretsId>') < 0) {
+                        // doesn't have it, add one
+                        let end = proj.indexOf('</Project');
+                        let newProj = proj.substring(0, end);
+                        newProj += `<PropertyGroup><UserSecretsId>${uuid.v4()}</UserSecretsId></PropertyGroup>\n`;
+                        newProj += proj.substring(end);
+                        fs.writeFileSync(args.projFile, newProj, { encoding: 'utf8' });
+                    }
+                }
+
                 // save secret
                 await runCommand(`dotnet user-secrets set botFileSecret ${args.secret}`, `Saving the botFileSecret with dotnet user-secrets`);
 
@@ -854,6 +869,10 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
             console.log(`Updating .env with path and secret`);
             let lines = txtfile.readSync('.env').split('\n');
             let newEnv = '';
+            let pathLine = `botFilePath="${config.getPath()}"\n`;
+            let secretLine = `botFileSecret="${args.secret}"\n`;
+            let foundPath = false;
+            let foundSecret = false;
             for (let line of lines) {
                 let i = line.indexOf('=');
                 if (i > 0) {
@@ -861,10 +880,12 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
                     let value = line.substring(i + 1);
                     switch (name) {
                         case 'botFilePath':
-                            newEnv += `botFilePath="${config.getPath()}"\n`;
+                            newEnv += pathLine;
+                            foundPath = true;
                             break;
                         case "botFileSecret":
-                            newEnv += `botFileSecret="${args.secret}"\n`;
+                            newEnv += secretLine;
+                            foundSecret = true;
                             break;
                         default:
                             newEnv += line + '\n';
@@ -875,7 +896,14 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
                     newEnv += line + '\n';
                 }
             }
-            fs.writeFileSync('.env', newEnv, { encoding: 'utf8' });
+            if (!foundPath) {
+                newEnv += pathLine;
+            }
+            if (!foundSecret) {
+                newEnv += secretLine;
+            }
+
+            fs.writeFileSync('.env', newEnv.trimRight(), { encoding: 'utf8' });
         }
     }
 }
@@ -941,7 +969,7 @@ async function checkAzBotServiceVersion() {
         }
         if (line.startsWith('azure-cli')) {
             let newAZCLIVersion = new ServiceVersion(line);
-            if (azCLIVersion.isOlder(newAZCLIVersion)) 
+            if (azCLIVersion.isOlder(newAZCLIVersion))
                 azCLIVersion = newAZCLIVersion;
         }
     }
@@ -971,7 +999,7 @@ To do this run:
 async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisService> {
     let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
     let luisService: LuisService;
-    const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];    
+    const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
     let luisAppName = args.noDecorate ? `${luisResource.name}` : `${args.name}_${luisResource.name}`;
     let svcOut = <ILuisService>await runCommand(`luis import application --region ${luisAuthoringRegion} --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
         `Creating and importing LUIS application [${luisAppName}]`);
