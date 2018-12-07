@@ -926,8 +926,13 @@ async function publishBot(azBot: IBotService): Promise<void> {
         console.log(chalk.default.yellowBright('\nWARNING: Your code has NOT been published to the newly created cloud service. (see --code-dir and --proj-file switches)'));
     }
 
-    console.log('You can publish your bot to the web using the az bot publish command:');
+    console.log('You can publish your bot to the web using the following az bot publish command:');
     console.log(chalk.default.cyanBright('    ' + azPublishCmd));
+
+    console.log(`To make it easy to use that we have created ` + chalk.default.cyanBright('publish.cmd/sh') + ' batch file which you can use to publish any time to update your deployment.');
+    fs.writeFileSync('publish.cmd', azPublishCmd, { encoding: 'utf8' });
+    fs.writeFileSync('publish',  '#!/bin/bash\n' + azPublishCmd, { encoding: 'utf8' });
+    fs.chmodSync('publish', '755');
 }
 
 async function getAppInsightsService(azAppInsights: any): Promise<AppInsightsService> {
