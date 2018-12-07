@@ -5,9 +5,9 @@
  */
 
 import * as msRest from "ms-rest-js";
+import * as os from 'os';
 
-const packageName = "luis-apis";
-const packageVersion = "4.0.0";
+const pjson: any = require('../package.json');
 
 export class LuisAuthoringContext extends msRest.ServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -32,6 +32,14 @@ export class LuisAuthoringContext extends msRest.ServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
+    this.addUserAgentInfo(this.getUserAgent());
+  }
+
+  private getUserAgent() : string {
+    const packageUserAgent = `${pjson.name}/${pjson.version}`;
+    const platformUserAgent = `(${os.arch()}-${os.type()}-${os.release()}; Node.js,Version=${process.version})`;
+    const userAgent = `${packageUserAgent} ${platformUserAgent}`;
+    
+    return userAgent;
   }
 }
