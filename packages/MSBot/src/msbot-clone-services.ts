@@ -13,6 +13,7 @@ import * as txtfile from 'read-text-file';
 import * as readline from 'readline-sync';
 import * as url from 'url';
 import * as util from 'util';
+import * as uuid from 'uuid';
 import { spawnAsync } from './processUtils';
 import { logAsync } from './stdioAsync';
 import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap } from './utils';
@@ -23,7 +24,7 @@ const exec = util.promisify(child_process.exec);
 
 const BOTSERVICEMINVERSION = '(0.4.3)';
 const AZCLIMINVERSION = '(2.0.52)'; // This corresponds to the AZ CLI version that shipped in line with Bot Builder 4.2 release (December 2018).
-                                    // Bot service extension 0.4.2 requires AZ CLI version >= 2.0.46.
+// Bot service extension 0.4.2 requires AZ CLI version >= 2.0.46.
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -829,6 +830,20 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
             fs.writeFileSync('appsettings.json', JSON.stringify(settings, null, 4), { encoding: 'utf8' });
 
             if (args.secret) {
+
+                // some projfiles won't have a userSecret set, check for it
+                if (args.projFile) {
+                    let proj = txtfile.readSync(args.projFile);
+                    if (proj.indexOf('<UserSecretsId>') < 0) {
+                        // doesn't have it, add one
+                        let end = proj.indexOf('</Project');
+                        let newProj = proj.substring(0, end);
+                        newProj += `<PropertyGroup><UserSecretsId>${uuid.v4()}</UserSecretsId></PropertyGroup>\n`;
+                        newProj += proj.substring(end);
+                        fs.writeFileSync(args.projFile, newProj, { encoding: 'utf8' });
+                    }
+                }
+
                 // save secret
                 await runCommand(`dotnet user-secrets set botFileSecret ${args.secret}`, `Saving the botFileSecret with dotnet user-secrets`);
 
@@ -854,6 +869,10 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
             console.log(`Updating .env with path and secret`);
             let lines = txtfile.readSync('.env').split('\n');
             let newEnv = '';
+            let pathLine = `botFilePath="${config.getPath()}"\n`;
+            let secretLine = `botFileSecret="${args.secret}"\n`;
+            let foundPath = false;
+            let foundSecret = false;
             for (let line of lines) {
                 let i = line.indexOf('=');
                 if (i > 0) {
@@ -861,10 +880,12 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
                     let value = line.substring(i + 1);
                     switch (name) {
                         case 'botFilePath':
-                            newEnv += `botFilePath="${config.getPath()}"\n`;
+                            newEnv += pathLine;
+                            foundPath = true;
                             break;
                         case "botFileSecret":
-                            newEnv += `botFileSecret="${args.secret}"\n`;
+                            newEnv += secretLine;
+                            foundSecret = true;
                             break;
                         default:
                             newEnv += line + '\n';
@@ -875,7 +896,14 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
                     newEnv += line + '\n';
                 }
             }
-            fs.writeFileSync('.env', newEnv, { encoding: 'utf8' });
+            if (!foundPath) {
+                newEnv += pathLine;
+            }
+            if (!foundSecret) {
+                newEnv += secretLine;
+            }
+
+            fs.writeFileSync('.env', newEnv.trimRight(), { encoding: 'utf8' });
         }
     }
 }
@@ -898,8 +926,13 @@ async function publishBot(azBot: IBotService): Promise<void> {
         console.log(chalk.default.yellowBright('\nWARNING: Your code has NOT been published to the newly created cloud service. (see --code-dir and --proj-file switches)'));
     }
 
-    console.log('You can publish your bot to the web using the az bot publish command:');
+    console.log('You can publish your bot to the web using the following az bot publish command:');
     console.log(chalk.default.cyanBright('    ' + azPublishCmd));
+
+    console.log(`To make it easy to use that we have created ` + chalk.default.cyanBright('publish.cmd/sh') + ' batch file which you can use to publish any time to update your deployment.');
+    fs.writeFileSync('publish.cmd', azPublishCmd, { encoding: 'utf8' });
+    fs.writeFileSync('publish',  '#!/bin/bash\n' + azPublishCmd, { encoding: 'utf8' });
+    fs.chmodSync('publish', '755');
 }
 
 async function getAppInsightsService(azAppInsights: any): Promise<AppInsightsService> {
@@ -931,22 +964,22 @@ async function checkAzBotServiceVersion() {
     let command = `az -v `;
     logCommand(args, `Checking az botservice version`, command);
     let p = await exec(command);
-    let botServiceVersion = new AzBotServiceVersion('(0.0.0)');
-    let azCLIVersion = new AzBotServiceVersion('(0.0.0)');
+    let botServiceVersion = new ServiceVersion('(0.0.0)');
+    let azCLIVersion = new ServiceVersion('(0.0.0)');
     for (let line of p.stdout.split('\n')) {
         if (line.startsWith('botservice')) {
-            let newVersion = new AzBotServiceVersion(line);
+            let newVersion = new ServiceVersion(line);
             if (botServiceVersion.isOlder(newVersion))
                 botServiceVersion = newVersion;
         }
         if (line.startsWith('azure-cli')) {
-            let newAZCLIVersion = new AzBotServiceVersion(line);
-            if (azCLIVersion.isOlder(newAZCLIVersion)) 
+            let newAZCLIVersion = new ServiceVersion(line);
+            if (azCLIVersion.isOlder(newAZCLIVersion))
                 azCLIVersion = newAZCLIVersion;
         }
     }
-    let neededVersion = new AzBotServiceVersion(BOTSERVICEMINVERSION);
-    let neededAZCLIVersion = new AzBotServiceVersion(AZCLIMINVERSION);
+    let neededVersion = new ServiceVersion(BOTSERVICEMINVERSION);
+    let neededAZCLIVersion = new ServiceVersion(AZCLIMINVERSION);
     if (azCLIVersion.isOlder(neededAZCLIVersion)) {
         console.error(chalk.default.redBright(`You need to upgrade your AZ CLI version to >= ${neededAZCLIVersion.major}.${neededAZCLIVersion.minor}.${neededAZCLIVersion.patch}.
         You can install the latest AZ CLI from https://aka.ms/az-cli-download`));
@@ -1072,7 +1105,7 @@ function generateShortId() {
     return Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
 }
 
-class AzBotServiceVersion {
+class ServiceVersion {
     constructor(version: string) {
         const versionPattern = /([0-9]+)\.([0-9]+)\.([0-9]+)\)/;
         const versions = versionPattern.exec(version) || ['0', '0', '0', '0'];
@@ -1085,7 +1118,7 @@ class AzBotServiceVersion {
     public minor: number;
     public patch: number;
 
-    public isOlder(version: AzBotServiceVersion): boolean {
+    public isOlder(version: ServiceVersion): boolean {
         if (version.major == this.major && version.minor == this.minor && version.patch == this.patch)
             return false;
 
