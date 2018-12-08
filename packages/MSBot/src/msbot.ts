@@ -54,6 +54,9 @@ program
 program
     .command('export', 'export all connected services so that this bot can be cloned');
 
+    program
+    .command('create', 'create an Azure Bot Service. ');
+
 program
     .command('clone', 'create a new Azure Group and clone all of the .recipe services into it. ');
 
