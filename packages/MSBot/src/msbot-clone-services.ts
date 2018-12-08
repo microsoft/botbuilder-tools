@@ -791,7 +791,8 @@ async function processConfiguration(): Promise<void> {
             // show emulator url with secret 
             if (args.secret) {
                 let fullPath = path.resolve(process.cwd(), config.getPath());
-                let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}&secret=${encodeURIComponent(args.secret)}`;
+                let productionEndpointId = config.findServiceByNameOrId('production').id;
+                let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}&secret=${encodeURIComponent(args.secret)}&id=${productionEndpointId}`;
                 console.log('To open this bot file in emulator:');
                 console.log(chalk.default.cyanBright(botFileUrl));
 
@@ -1032,7 +1033,6 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
 
 async function createBot(): Promise<IBotService> {
     args.insightsRegion = args.insightsRegion || regionToAppInsightRegionNameMap[args.location];
-
     let command = `az bot create -g ${args.groupName} --name ${args.name} --kind webapp --location ${args.location} --insights-location "${args.insightsRegion}" --subscription ${args.subscriptionId}`;
     if (args.sdkVersion) {
         command += ` --version ${args.sdkVersion}`;
@@ -1047,6 +1047,10 @@ async function createBot(): Promise<IBotService> {
         console.log(`Using the provided ApplicationId and Secret rather than auto-provisioning`);
         command += ` --appid ${args.appId}`;
         command += ` -p "${args.appSecret}"`;
+    }
+
+    if (args.verbose) {
+        command += ` --verbose`;
     }
 
     logCommand(args, `Creating Azure Bot Service [${args.name}]`, command);
