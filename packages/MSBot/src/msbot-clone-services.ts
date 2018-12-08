@@ -166,6 +166,21 @@ async function processConfiguration(): Promise<void> {
         args.codeDir = (<string>(<any>args)['code-dir']);
         console.log(args.codeDir);
     }
+
+    if (!args.projFile && !args.codeDir) {
+        let files = fs.readdirSync('.');
+        for (let file of files) {
+            if (path.extname(file) == '.csproj') {
+                args.projFile = file;
+                break;
+            }
+        }
+    }
+
+    if (!args.projFile) {
+        args.codeDir = '.';
+    }
+
     // verify az command exists and is correct version
     await checkAzBotServiceVersion();
 
@@ -801,7 +816,7 @@ async function processConfiguration(): Promise<void> {
             }
         }
 
-        console.log(`Done cloning.`);
+        console.log(`Done.`);
     } catch (error) {
         if (error.message) {
 
@@ -916,14 +931,12 @@ async function publishBot(azBot: IBotService): Promise<void> {
 
     let result: string | null = null;
 
-    if (args.codeDir) {
-        azPublishCmd += `--code-dir "${args.codeDir}" `;
-        result = await runCommand(azPublishCmd, `Publishing the local folder ${args.codeDir} to ${args.name} service`);
-    } else if (args.projFile) {
+    if (args.projFile) {
         azPublishCmd += `--proj-file "${args.projFile}" `;
         result = await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
     } else {
-        console.log(chalk.default.yellowBright('\nWARNING: Your code has NOT been published to the newly created cloud service. (see --code-dir and --proj-file switches)'));
+        azPublishCmd += `--code-dir "${args.codeDir}" `;
+        result = await runCommand(azPublishCmd, `Publishing the local folder ${args.codeDir} to ${args.name} service`);
     }
 
     console.log('You can publish your bot to the web using the following az bot publish command:');
@@ -931,7 +944,7 @@ async function publishBot(azBot: IBotService): Promise<void> {
 
     console.log(`To make it easy to use that we have created ` + chalk.default.cyanBright('publish.cmd/sh') + ' batch file which you can use to publish any time to update your deployment.');
     fs.writeFileSync('publish.cmd', azPublishCmd, { encoding: 'utf8' });
-    fs.writeFileSync('publish',  '#!/bin/bash\n' + azPublishCmd, { encoding: 'utf8' });
+    fs.writeFileSync('publish', '#!/bin/bash\n' + azPublishCmd, { encoding: 'utf8' });
     fs.chmodSync('publish', '755');
 }
 
@@ -1004,9 +1017,9 @@ To do this run:
 async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisService> {
     let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
     let luisService: LuisService;
-    const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];    
+    const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
     // Keeping the undocumented --decorate option for testing purposes. This way, you dont have to delete the LUIS applications during testing.
-    let luisAppName = args.decorate ? `${args.name}_${luisResource.name}`: `${luisResource.name}`;
+    let luisAppName = args.decorate ? `${args.name}_${luisResource.name}` : `${luisResource.name}`;
     let svcOut = <ILuisService>await runCommand(`luis import application --region ${luisAuthoringRegion} --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
         `Creating and importing LUIS application [${luisAppName}]`);
     luisService = new LuisService(svcOut);
