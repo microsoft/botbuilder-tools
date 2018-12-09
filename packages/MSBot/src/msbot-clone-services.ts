@@ -838,7 +838,7 @@ async function processConfiguration(): Promise<void> {
 }
 
 async function checkDotNetRequirement(): Promise<void> {
-    let minVersion  = [2, 1, 500];
+    let minVersion = [2, 1, 500];
     if (!commandExistsSync('dotnet')) {
         ShowDotnetRequirementHelp(minVersion);
         process.exit(1);
@@ -846,17 +846,21 @@ async function checkDotNetRequirement(): Promise<void> {
     else {
         let dotnetVersion = <string>await runCommand('dotnet --version', 'checking dotnet requirement');
         let versions = dotnetVersion.split('.');
-        if (parseInt(versions[0]) < minVersion[0] || 
-            parseInt(versions[1]) < minVersion[1] || 
-            parseInt(versions[2]) < minVersion[2]) {
+        if (parseInt(versions[0]) < minVersion[0]) {
+            ShowDotnetRequirementHelp(minVersion);
+            process.exit(1);
+        } else if (parseInt(versions[0]) == minVersion[0] && parseInt(versions[1]) < minVersion[1]) {
+            ShowDotnetRequirementHelp(minVersion);
+            process.exit(1);
+        } else if (parseInt(versions[0]) == minVersion[0] && parseInt(versions[1]) == minVersion[1] && parseInt(versions[2]) < minVersion[2]) {
             ShowDotnetRequirementHelp(minVersion);
             process.exit(1);
         }
     }
 }
 
-function ShowDotnetRequirementHelp(minVersion : number[]) {
-    console.error(chalk.default.redBright(`This operation requires the Dotnet SDK ${minVersion.join('.')} to be installed.`));
+function ShowDotnetRequirementHelp(minVersion: number[]) {
+    console.error(chalk.default.redBright(`This operation requires Dotnet Core SDK ${minVersion.join('.')} or newer to be installed.`));
     console.error(chalk.default.redBright('Go to https://www.microsoft.com/net/download to install on your system.'));
 }
 
