@@ -83,9 +83,9 @@ processConfiguration()
     .catch((reason) => {
         fs.unlinkSync('bot.recipe');
         if (reason.message) {
-            console.error(chalk.default.redBright(reason.message));
+            console.error(chalk.default.redBright(reason.message.replace('clone services','create')));
         } else {
-            console.error(chalk.default.redBright(reason));
+            console.error(chalk.default.redBright(reason.replace('clone services','create')));
         }
         showErrorHelp();
     });
@@ -157,7 +157,7 @@ async function processConfiguration(): Promise<void> {
         command += ` --appId ${args.appId}`;
 
     if (args.appSecret)
-        command += ` --appId ${args.appSecret}`;
+        command += ` --appSecret ${args.appSecret}`;
 
     if (args.subscriptionId)
         command += ` --subscriptionId ${args.subscriptionId}`;
@@ -171,7 +171,7 @@ async function processConfiguration(): Promise<void> {
     if (args.sdkLanguage)
         command += ` --sdkLanguage ${args.sdkLanguage}`;
 
-    await spawnAsync(command, (out) => process.stdout.write(out), (err) => process.stderr.write(err));
+    await spawnAsync(command, (out) => process.stdout.write(out.replace("clone services", "create")), (err) => {}/* process.stderr.write(err)*/ );
 };
 
 async function runCommand(command: string, description: string): Promise<any> {
@@ -198,10 +198,5 @@ function showErrorHelp() {
         console.error(str);
         return '';
     });
-    console.log(chalk.default.bold(`NOTE: You did not complete create process.`));
-    if (typeof (args.name) == 'string') {
-        console.log('To delete the group and resources run:');
-        console.log(chalk.default.italic(`az group delete -g ${args.groupName} --no-wait --subscription ${args.subscriptionId}`));
-    }
     process.exit(1);
 }

@@ -179,6 +179,12 @@ async function processConfiguration(): Promise<void> {
 
     if (!args.projFile) {
         args.codeDir = '.';
+    } else if (args.projFile) {
+        if (!commandExistsSync('dotnet')) {
+            console.error(chalk.default.redBright('This operation requires the Dotnet SDK 2.1 to be installed.'));
+            console.error(chalk.default.redBright('Go to https://www.microsoft.com/net/download to install on your system.'));
+            process.exit(1);
+        }
     }
 
     // verify az command exists and is correct version
@@ -1100,10 +1106,12 @@ function showErrorHelp() {
         console.error(str);
         return '';
     });
-    console.log(chalk.default.bold(`NOTE: You did not complete clone process.`));
+    console.log(chalk.default.bold(`NOTE: You did not complete the operation.`));
     if (typeof (args.name) == 'string') {
-        console.log('To delete the group and resources run:');
-        console.log(chalk.default.italic(`az group delete -g ${args.groupName} --no-wait --subscription ${args.subscriptionId}`));
+        if (args.groupName && args.subscriptionId) {
+            console.log('To delete the group and resources run:');
+            console.log(chalk.default.italic(`az group delete -g ${args.groupName} --no-wait --subscription ${args.subscriptionId}`));
+        }
     }
     process.exit(1);
 }
