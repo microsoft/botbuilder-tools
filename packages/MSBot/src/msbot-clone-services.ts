@@ -177,18 +177,14 @@ async function processConfiguration(): Promise<void> {
         }
     }
 
+    // verify az command exists and is correct version
+    await checkAzBotServiceVersion();
+
     if (!args.projFile) {
         args.codeDir = '.';
     } else if (args.projFile) {
-        if (!commandExistsSync('dotnet')) {
-            console.error(chalk.default.redBright('This operation requires the Dotnet SDK 2.1 to be installed.'));
-            console.error(chalk.default.redBright('Go to https://www.microsoft.com/net/download to install on your system.'));
-            process.exit(1);
-        }
+        await checkDotNetRequirement();
     }
-
-    // verify az command exists and is correct version
-    await checkAzBotServiceVersion();
 
     let recipeJson = await txtfile.read(path.join(args.folder, `bot.recipe`));
     let recipe = <BotRecipe>JSON.parse(recipeJson);
@@ -839,6 +835,29 @@ async function processConfiguration(): Promise<void> {
         }
         throw new Error(error);
     }
+}
+
+async function checkDotNetRequirement(): Promise<void> {
+    let minVersion  = [2, 1, 500];
+    if (!commandExistsSync('dotnet')) {
+        ShowDotnetRequirementHelp(minVersion);
+        process.exit(1);
+    }
+    else {
+        let dotnetVersion = <string>await runCommand('dotnet --version', 'checking dotnet requirement');
+        let versions = dotnetVersion.split('.');
+        if (parseInt(versions[0]) < minVersion[0] || 
+            parseInt(versions[1]) < minVersion[1] || 
+            parseInt(versions[2]) < minVersion[2]) {
+            ShowDotnetRequirementHelp(minVersion);
+            process.exit(1);
+        }
+    }
+}
+
+function ShowDotnetRequirementHelp(minVersion : number[]) {
+    console.error(chalk.default.redBright(`This operation requires the Dotnet SDK ${minVersion.join('.')} to be installed.`));
+    console.error(chalk.default.redBright('Go to https://www.microsoft.com/net/download to install on your system.'));
 }
 
 async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
