@@ -180,6 +180,7 @@ With the following options:
 |-------------------------------------|-----------------------------------------------------------------------|
 | -n, --name <name>                   | name of the LUIS application                                          |
 | -a, --appId  <appid>                | application ID for the LUIS application                               |
+| -r, --region <region>               | region for the LUIS app, (default: westus)                            |
 | --version <version>                 | version for the LUIS App, (example: v0.1)                             |
 | --authoringKey <authoringkey>       | authoring key for authoring LUIS models via the authoring API         |
 | --subscriptionKey <subscriptionKey> |                                                                       |
