@@ -736,7 +736,7 @@ async function processConfiguration(): Promise<void> {
                         break;
                 }
             }
-            if (!hasBot && azBotEndpoint) {
+            if (!hasBot) {
                 // created via az bot create, register the result
                 config.connectService(new BotService({
                     name: azBot.name,
@@ -746,11 +746,13 @@ async function processConfiguration(): Promise<void> {
                     serviceName: azBot.name,
                     appId: azBot.appId
                 }));
+            }
 
+            if (azBotEndpoint) {
                 // add endpoint
                 config.connectService(new EndpointService({
                     type: ServiceTypes.Endpoint,
-                    name: azBot.name,
+                    name: "production",
                     appId: azBotEndpoint.appId,
                     appPassword: azBotEndpoint.appPassword,
                     endpoint: azBotEndpoint.endpoint
@@ -808,8 +810,11 @@ async function processConfiguration(): Promise<void> {
             // show emulator url with secret 
             if (args.secret) {
                 let fullPath = path.resolve(process.cwd(), config.getPath());
-                let productionEndpointId = config.findServiceByNameOrId('production').id;
-                let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}&secret=${encodeURIComponent(args.secret)}&id=${productionEndpointId}`;
+                let productionEndpoint = config.findServiceByNameOrId('production');
+                let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}&secret=${encodeURIComponent(args.secret)}`;
+                if (productionEndpoint) {
+                    botFileUrl += `&id=${productionEndpoint.id}`;
+                }
                 console.log('To open this bot file in emulator:');
                 console.log(chalk.default.cyanBright(botFileUrl));
 
