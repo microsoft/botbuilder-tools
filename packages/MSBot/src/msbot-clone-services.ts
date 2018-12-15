@@ -1053,8 +1053,7 @@ async function importAndTrainLuisApp(luisResource: IResource): Promise<LuisServi
     let luisPath = path.join(args.folder, `${luisResource.id}.luis`);
     let luisService: LuisService;
     const luisAuthoringRegion = regionToLuisAuthoringRegionMap[args.location];
-    // Keeping the undocumented --decorate option for testing purposes. This way, you dont have to delete the LUIS applications during testing.
-    let luisAppName = args.decorate ? `${args.name}_${luisResource.name}` : `${luisResource.name}`;
+    let luisAppName = `${args.name}_${luisResource.name}`;
     let svcOut = <ILuisService>await runCommand(`luis import application --region ${luisAuthoringRegion} --appName "${luisAppName}" --in ${luisPath} --authoringKey ${args.luisAuthoringKey} --msbot`,
         `Creating and importing LUIS application [${luisAppName}]`);
     luisService = new LuisService(svcOut);
