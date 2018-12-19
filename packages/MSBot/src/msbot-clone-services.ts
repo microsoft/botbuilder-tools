@@ -22,8 +22,10 @@ const opn = require('opn');
 const commandExistsSync = require('command-exists').sync;
 const exec = util.promisify(child_process.exec);
 
-const BOTSERVICEMINVERSION = '(0.4.3)';
-const AZCLIMINVERSION = '(2.0.52)'; // This corresponds to the AZ CLI version that shipped in line with Bot Builder 4.2 release (December 2018).
+const BOTSERVICEMINVERSION = '(0.1.3)'; // This corresponds to the current botservice version with Azure-cli (2.0.53)
+                                        // TODO: Remove this as this vesion always corresponds with the AZ CLI version. 
+                                        // Otherwise this should instead be "BOTSERVICEEXTENSIONMINVERSION" and msbot should exec(`az extension list`) to find the current extension number.
+const AZCLIMINVERSION = '(2.0.53)'; // This corresponds to the AZ CLI version that shipped after the Bot Builder 4.2 release (December 2018).
 // Bot service extension 0.4.2 requires AZ CLI version >= 2.0.46.
 
 program.Command.prototype.unknownOption = (flag: string): void => {
