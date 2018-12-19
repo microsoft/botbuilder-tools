@@ -22,11 +22,7 @@ const opn = require('opn');
 const commandExistsSync = require('command-exists').sync;
 const exec = util.promisify(child_process.exec);
 
-const BOTSERVICEMINVERSION = '(0.1.3)'; // This corresponds to the current botservice version with Azure-cli (2.0.53)
-                                        // TODO: Remove this as this vesion always corresponds with the AZ CLI version. 
-                                        // Otherwise this should instead be "BOTSERVICEEXTENSIONMINVERSION" and msbot should exec(`az extension list`) to find the current extension number.
 const AZCLIMINVERSION = '(2.0.53)'; // This corresponds to the AZ CLI version that shipped after the Bot Builder 4.2 release (December 2018).
-// Bot service extension 0.4.2 requires AZ CLI version >= 2.0.46.
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -1012,37 +1008,22 @@ async function runCommand(command: string, description: string): Promise<any> {
 
 async function checkAzBotServiceVersion() {
     let command = `az -v `;
+    console.log(chalk.default.yellow(`With msbot 4.3.2 and later, the only AZ CLI prerequisite is having an AZ CLI version >= 2.0.53. If you have the botservice extension installed as well, please remove this via "az extension remove --name botservice".`));
     logCommand(args, `Checking az botservice version`, command);
     let p = await exec(command);
-    let botServiceVersion = new ServiceVersion('(0.0.0)');
     let azCLIVersion = new ServiceVersion('(0.0.0)');
     for (let line of p.stdout.split('\n')) {
-        if (line.startsWith('botservice')) {
-            let newVersion = new ServiceVersion(line);
-            if (botServiceVersion.isOlder(newVersion))
-                botServiceVersion = newVersion;
-        }
         if (line.startsWith('azure-cli')) {
             let newAZCLIVersion = new ServiceVersion(line);
             if (azCLIVersion.isOlder(newAZCLIVersion))
                 azCLIVersion = newAZCLIVersion;
+            break;
         }
     }
-    let neededVersion = new ServiceVersion(BOTSERVICEMINVERSION);
     let neededAZCLIVersion = new ServiceVersion(AZCLIMINVERSION);
     if (azCLIVersion.isOlder(neededAZCLIVersion)) {
         console.error(chalk.default.redBright(`You need to upgrade your AZ CLI version to >= ${neededAZCLIVersion.major}.${neededAZCLIVersion.minor}.${neededAZCLIVersion.patch}.
         You can install the latest AZ CLI from https://aka.ms/az-cli-download`));
-        // remove orphaned bot file if it exists
-        if (fs.existsSync(args.name + '.bot')) fs.unlinkSync(args.name + '.bot');
-        process.exit(1);
-    }
-    if (botServiceVersion.isOlder(neededVersion)) {
-        console.error(chalk.default.redBright(`You need to upgrade your az botservice version to >= ${neededVersion.major}.${neededVersion.minor}.${neededVersion.patch}.
-To do this run:
-   az extension remove -n botservice
-   az extension add -n botservice
-`));
         // remove orphaned bot file if it exists
         if (fs.existsSync(args.name + '.bot')) fs.unlinkSync(args.name + '.bot');
         process.exit(1);
