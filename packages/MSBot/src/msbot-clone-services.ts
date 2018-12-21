@@ -62,7 +62,7 @@ program
     .option('-n, --name <name>', 'name of new bot')
     .option('-f, --folder <folder>', 'path to folder containing exported resources')
     .option('-l, --location <location>', 'location to create the bot service in (westus, ...)')
-    .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key from the appropriate luisAuthoringRegion for luis resources')
+    .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key from the appropriate luisAuthoringRegion for LUIS resources')
     .option('--luisAuthoringRegion <luisAuthoringRegion>', '(OPTIONAL) [westus|westeurope|australiaeast] authoring region to put LUIS models into (default is based on location)')
     .option('--luisPublishRegion <luisRegion>', '(OPTIONAL) region to publish LUIS models to (default fallback is based location || luisAuthoringRegion)')
     .option('--subscriptionId <subscriptionId>', '(OPTIONAL) Azure subscriptionId to clone bot to, if not passed then current az account will be used')
@@ -77,8 +77,8 @@ program
     .option('--code-dir <path>', '(OPTIONAL) auto publish the folder path to created bot service')
     .option('-q, --quiet', 'minimize output')
     .option('--verbose', 'show commands')
-    .option('-f, --force', 'do not prompt for confirmation')
-    .description('allows you to clone all of the services a bot uses into a new azure resource group')
+    .option('--force', 'do not prompt for confirmation')
+    .description('allows you to clone all of the services a bot uses into a new Azure resource group')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const cmd: program.Command = program.parse(process.argv);
@@ -965,7 +965,7 @@ async function publishBot(azBot: IBotService): Promise<void> {
     let result: string | null = null;
 
     if (args.projFile) {
-        azPublishCmd += `--proj-file "${args.projFile}" `;
+        azPublishCmd += `--proj-name "${args.projFile}" `;
         result = await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
     } else {
         azPublishCmd += `--code-dir "${args.codeDir}" `;

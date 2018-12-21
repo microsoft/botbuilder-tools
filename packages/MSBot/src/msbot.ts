@@ -36,7 +36,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 };
 
 program
-    .version(pkg.version, '-v, --Version')
+    .version(pkg.version, '-v, --version')
     .description(`The msbot program makes it easy to manipulate .bot files for Microsoft Bot Framework tools.`);
 
 program
