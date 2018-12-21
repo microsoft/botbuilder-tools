@@ -189,7 +189,7 @@ describe('With the parseAndTranslate method', function() {
             .catch(err => done(err))
     });
 
-    it('Intents and utterances are translated correctly', function(done) {
+    xit('Intents and utterances are translated correctly', function(done) {
         if (!TRANSLATE_KEY) {
             this.skip();
         }
