@@ -965,7 +965,7 @@ async function publishBot(azBot: IBotService): Promise<void> {
     let result: string | null = null;
 
     if (args.projFile) {
-        azPublishCmd += `--proj-name "${args.projFile}" `;
+        azPublishCmd += `--proj-file "${args.projFile}" `;
         result = await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
     } else {
         azPublishCmd += `--code-dir "${args.codeDir}" `;
