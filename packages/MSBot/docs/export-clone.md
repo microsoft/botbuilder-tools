@@ -9,8 +9,7 @@ msbot export services --folder folderName --bot your.bot
 ```
 
 | Option                | Description                                                           |
-|-----------------------|-----------------------------------------------------------------------|
-| ----                  | ----                                                                  |
+|-----------------------|-----------------------------------------------------------------------|                                       
 | -b, --bot <path>      | path to bot file.  If omitted, local folder will look for a .bot file |
 | --secret <secret>     | bot file secret password for encrypting service secrets               |
 | -f, --folder <folder> | folder to put the bot recipe into                                     |
@@ -57,13 +56,17 @@ The **msbot clone services** command depends on and requires the following tools
 | --groupName <groupName>                     | (OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group                  |
 | --sdkLanguage <sdkLanguage>                 | (OPTIONAL) language for bot [Csharp,Node] (Default:CSharp)                                                           |
 | --sdkVersion <sdkVersion>                   | (OPTIONAL) SDK version for bot [v3,v4] (Default:v4)                                                                  |
-| --appId                                     | (OPTIONAL) Application ID for an existing application, if not passed                                                 |
-|                                             | then a new Application will be created                                                                               |
-| --appSecret                                 | (OPTIONAL) Application Secret for an existing application, if not                                                    |
-|                                             | passed then a new Application will be created                                                                        |
-| -q, --quiet                                 | disable output                                                                                                       |
-| --prefix                                    | Append [msbot] prefix to all messages                                                                                |
-| -h, --help                                  | output usage information                                                                                             |
+| --prefix                                    | Append [msbot] prefix to all messages                                  |
+| --appId                                     | (OPTIONAL) Application ID for an existing application, if not passed                   |
+|                                             | then a new Application will be created                                                 |
+| --appSecret                                 | (OPTIONAL) Application Secret for an existing application, if not                      |
+|                                             | passed then a new Application will be created                         |
+| --proj-file                                 | (OPTIONAL) auto publish the local project file to created bot service |
+| --code-dir <path>                           | (OPTIONAL) auto publish the folder path to created bot service        |
+| -q, --quiet                                 | disable output                                                         |
+| --verbose                                   | Show commands
+| --force                                     | Do not prompt for confirmation
+| -h, --help                                  | output usage information                                              |
 
 
 > **NOTE:** If you are explicitly passing in appSecret as an argument you need to escape any special characters in the password that might be interpreted by the shell to be a command. 
