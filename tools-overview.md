@@ -267,7 +267,7 @@ The Bot Framework Emulator is a desktop application that allows bot developers t
 
 # Publish
 
-You can use the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) tool to [create](#create-azure-bot-service-bot), [download](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0&tabs=csharp#publish-your-bot-to-azure) and [publish](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0&tabs=csharp#publish-your-bot-to-azure) your bot to Azure Bot Service.
+You can use the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) tool to [create](#create-azure-bot-service-bot), [download](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0&tabs=csharp#download-the-bot-from-azure) and [publish](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0&tabs=csharp#publish-your-bot-to-azure) your bot to Azure Bot Service.
 
 ## Installation
 - Install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to [create](#create-azure-bot-service-bot)
