@@ -42,7 +42,7 @@ Throughout the Build phase, you can use [MSBot](https://github.com/Microsoft/bot
 
 To test and refine your bot, you can use the new [V4 Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/releases). The Bot Framework Emulator is a cross-platform [Electron](https://electronjs.org/) application that enables you to test and debug your bots on local machine or in the cloud. The new emulator includes features like faster load times, an improved dynamic layout model, support for multiple bot configurations, simple bot components management, and the ability to inspect responses from connected services such as LUIS and QnA. The Bot Framework Emulator also deepens links to different parts used by the bot. The Bot Framework Emulator new functionality enables you to debug bots based on transcript logs and to view previous chat in presentation mode. The Bot Framework Emulator is available as open source on [Github](https://github.com/Microsoft/BotFramework-Emulator). 
 
-With the [Azure CLI Bot extension](./AzureCli), you can create, download, publish, configure channels with the [Azure Bot Serice](https://azure.microsoft.com/en-us/services/bot-service/). Azure CLI Bot extension requires [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) (version 2.0.45 or higher]
+With the [Azure CLI Bot extension](./AzureCli), you can create, download, publish, configure channels with the [Azure Bot Service](https://azure.microsoft.com/en-us/services/bot-service/). Azure CLI Bot extension requires [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) (version 2.0.45 or higher]
 
 ## Building the tools
 
