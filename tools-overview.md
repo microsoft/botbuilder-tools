@@ -267,44 +267,7 @@ The Bot Framework Emulator is a desktop application that allows bot developers t
 
 # Publish
 
-You can use the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) tool to [create](#create-azure-bot-service-bot), [download](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0&tabs=csharp#download-the-bot-from-azure) and [publish](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0&tabs=csharp#publish-your-bot-to-azure) your bot to Azure Bot Service.
-
-## Installation
-- Install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to [create](#create-azure-bot-service-bot)
-
-## Create Azure Bot Service bot
-
-Login to your azure account via 
-```shell
-az login
-```
-
-Once you are logged in, you can create a new Azure Bot Service bot using: 
-```shell
-az bot create [options]
-```
-
-To create a bot and update the .bot file with the bot configuration,  
-```shell
-az bot create [options] --msbot | msbot connect bot --stdin
-```
-
-If you have an existing bot,  
-```shell
-az bot show [options] --msbot | msbot connect bot --stdin
-```
-
-| Option                            | Description                                   |
-|-----------------------------------|-----------------------------------------------|
-| --kind -k [Required]              | The Kind of the Bot.  Allowed values: function, registration, webapp.|
-| --name -n [Required]              | The Resource Name of the bot. |
-| --appid                           | The msa account id to be used with the bot.   |
-| --location -l                     | Location. You can configure the default location using `az configure --defaults location=<location>`.  Default: westus.|
-| --msbot                           | Show the output as json compatible with a .bot file.  Allowed values: false, true.|
-| --password -p                     | The msa password for the bot from developer portal. |
-| --resource-group -g               | Name of resource group. You can configure the default group using `az configure --defaults group=<name>`.  Default: build2018. |
-| --tags                            | Set of tags to add to the bot. |
-
+You can [use the Azure CLI](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0) tool to [create](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0&tabs=csharp#create-a-web-app-bot), [download](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0&tabs=csharp#download-the-bot-from-azure) and [publish](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0&tabs=csharp#publish-your-bot-to-azure) your bot to Azure Bot Service.
 
 # Configure channels
 
