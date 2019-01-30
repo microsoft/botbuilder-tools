@@ -3,11 +3,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const program = require('commander');
 const chalk = require('chalk');
 const translate = require('../lib/translate');
 const retCode = require('../lib/enums/CLI-errors');
-const utils = require('./utils');
 program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
@@ -26,9 +26,16 @@ program
     .option('-n, --lu_File <LU_File>', '[Optional] Output .lu file name')
     .option('-c, --translate_comments', '[Optional] Translate comments in .lu files')
     .option('-u, --translate_link_text', '[Optional] Translate URL or .lu file reference link text')
+    .option('-b, --batch_translate <linesToBatch>', '[Optional] Batch up <x> (1-25) number of lines before calling translation API. Defaults to 25.')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
 
+if (program.batch_translate) {
+    if (parseInt(program.batch_translate) > 25 || parseInt(program.batch_translate) < 0) { 
+        process.stderr.write(chalk.default.redBright(`\n  Batch translate size needs to be a number between 1 - 25\n`));
+        program.help();
+    }
+}
 if (!program.in && !program.lu_folder) {
     process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
     program.help();

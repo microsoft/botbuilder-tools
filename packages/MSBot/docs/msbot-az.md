@@ -12,3 +12,6 @@ az bot show [options] --msbot | msbot connect bot --stdin
 ```
 
 
+Note: MSBot requires latest version of `az cli` otherwise, you will get the following error:
+
+*You need to upgrade your az botservice version to >= 0.4.0.*

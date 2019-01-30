@@ -3,6 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const LUISObjNameEnum = require('./enums/luisobjenum');
 const PARSERCONSTS = require('./enums/parserconsts');
 const builtInTypes = require('./enums/luisbuiltintypes');
@@ -22,7 +23,6 @@ const NEWLINE = require('os').EOL;
 const fetch = require('node-fetch');
 const qnaFile = require('../lib/classes/qnaFiles');
 const fileToParse = require('../lib/classes/filesToParse');
-const utils = require('./utils');
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
@@ -72,16 +72,7 @@ const parseFileContentsModule = {
                 }
             });
         }
-        if(LUISJSONBlob.model_features.length > 0) {
-            LUISJSONBlob.model_features.forEach(function(entity) {
-                entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
-                if(entityFound.length === 0) {
-                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name,['phraseList']));
-                } else {
-                    entityFound[0].type.push('phraseList');
-                }
-            });
-        }
+        
         // for each entityFound, see if there are duplicate definitions
         entitiesList.forEach(function(entity) {
             if(entity.type.length > 1) {
@@ -706,7 +697,13 @@ const parseAndHandleIntent = function(parsedContent, chunkSplitByLine) {
                 }
 
                 if(havePatternAnyEntitiesInUtterance) {
-                    parsedContent.LUISJsonStructure.patterns.push(new helperClass.pattern(utterance, intentName));
+                    // push to patterns if it does not exist
+                    let newPattern = new helperClass.pattern(utterance, intentName);
+                    let patternExists = parsedContent.LUISJsonStructure.patterns.find(item => {
+                        return deepEqual(item, newPattern);
+                    })
+                    if (!patternExists) 
+                        parsedContent.LUISJsonStructure.patterns.push(new helperClass.pattern(utterance, intentName));
                 }
                 
             } else {

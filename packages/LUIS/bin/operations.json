@@ -3953,7 +3953,7 @@
     },
     {
         "method": "get",
-        "methodAlias": "list",
+        "methodAlias": "get",
         "target": [
             "explicitListItems",
             "explicitlistitems"
