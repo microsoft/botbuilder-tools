@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Topic",
+    "description": "Try out enum constraints.",
+    "type": "object",
+    "properties": {
+        "type": {
+            "const": "Microsoft.Topic"
+        },
+        "recognizers": {
+            "type": "array",
+            "items": {
+                "$ref": "types.schema#definitions/IRecognizer"
+            }
+        },
+        "prompts": {
+            "type": "array",
+            "items": {
+                "$ref": "types.schema#definitions/IPrompt"
+            }
+        }
+    }
+}
