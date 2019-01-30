@@ -3,7 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-/*eslint no-console: ["error", { allow: ["log"] }] */
+/*eslint no-console: ['error', { allow: ['log'] }] */
 const pkg = require('../package.json');
 const semver = require('semver');
 
@@ -12,8 +12,24 @@ if (!semver.satisfies(process.version, requiredVersion)) {
     console.log(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
     process.exit(1);
 }
-
-global.fetch = require('node-fetch'); // Browser compatibility
+const fetch = require('node-fetch');
+global.fetch = function (...args) {
+    // No Proxy
+    if (!process.env.HTTPS_PROXY) {
+        return fetch(...args);
+    }
+    const [urlOrRequest, requestInit = {}, ...rest] = args;
+    // URL is first param attach the proxy
+    // to the RequestInit
+    const HttpsProxyAgent = require('https-proxy-agent');
+    const agent = new HttpsProxyAgent(process.env.HTTPS_PROXY);
+    if (typeof urlOrRequest === 'string') {
+        requestInit.agent = agent;
+    } else {
+        urlOrRequest.agent = agent;
+    }
+    return fetch(urlOrRequest, requestInit, ...rest);
+};
 const stdin = require('get-stdin');
 const assert = require('assert');
 const fs = require('fs-extra');
@@ -25,17 +41,19 @@ const chalk = require('chalk');
 const help = require('../lib/help');
 const qnamaker = require('../lib');
 const txtfile = require('read-text-file');
-const { getServiceManifest } = require('../lib/utils/argsUtil');
+const {getServiceManifest} = require('../lib/utils/argsUtil');
 const Knowledgebase = require('../lib/api/knowledgebase');
 const Knowledgebases = require('../lib/api/knowledgebases');
 const Endpointkeys = require('../lib/api/endpointkeys');
 const Operations = require('../lib/api/operations');
 const Delay = require('await-delay');
-const { ServiceBase } = require('../lib/api/serviceBase');
+const {ServiceBase} = require('../lib/api/serviceBase');
 const latestVersion = require('latest-version');
-const intercept = require("intercept-stdout");
+const intercept = require('intercept-stdout');
 
-function stdoutAsync(output) { return new Promise((done) => process.stdout.write(output, "utf-8", () => done())); }
+function stdoutAsync(output) {
+    return new Promise((done) => process.stdout.write(output, 'utf8', () => done()));
+}
 
 let args;
 
@@ -50,7 +68,7 @@ async function runProgram() {
         argvFragment = ['-h'];
     }
 
-    const latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
+    const latest = await latestVersion(pkg.name, {version: `>${pkg.version}`})
         .catch(() => pkg.version);
     if (semver.gt(latest, pkg.version)) {
         process.stderr.write(chalk.default.white(`\n     Update available `));
@@ -65,7 +83,7 @@ async function runProgram() {
     args = minimist(argvFragment);
 
     if (args.prefix) {
-        intercept(function(txt) {
+        intercept(function (txt) {
             return `[${pkg.name}]\n${txt}`;
         });
     }
@@ -78,7 +96,7 @@ async function runProgram() {
     }
 
 
-    if (args._.length == 1 && args._[0] == "init") {
+    if (args._.length === 1 && args._[0] === 'init') {
         const result = await initializeConfig();
         if (result) {
             await stdoutAsync(`Successfully wrote ${process.cwd()}/.qnamakerrc\n`);
@@ -87,7 +105,7 @@ async function runProgram() {
     }
 
     if (args.version || args.v) {
-        await stdoutAsync(require(path.join(__dirname, '../package.json')).version + "\n");
+        await stdoutAsync(require(path.join(__dirname, '../package.json')).version + '\n');
     }
 
     let serviceIn = {};
@@ -106,7 +124,7 @@ async function runProgram() {
 
     validateConfig(args);
 
-    if (args._[0] == "set")
+    if (args._[0] === 'set')
         return await handleSetCommand(args, config);
 
     const serviceManifest = getServiceManifest(args);
@@ -115,13 +133,13 @@ async function runProgram() {
 
     // special case operations
     switch (serviceManifest.operation.methodAlias) {
-        case "delete":
+        case 'delete':
             if (!args.f && !args.force) {
                 let kbResult = await new Knowledgebase().getKnowledgebaseDetails(config);
                 let kb = JSON.parse(await kbResult.text());
                 if (!args.force) {
-                    let answer = readlineSync.question(`Are you sure you would like to delete ${kb.name} [${kb.id}]? [no] `, { defaultInput: 'no' });
-                    if (answer.trim()[0] == 'n') {
+                    let answer = readlineSync.question(`Are you sure you would like to delete ${kb.name} [${kb.id}]? [no] `, {defaultInput: 'no'});
+                    if (answer.trim()[0] === 'n') {
                         process.stderr.write('operation canceled');
                         return;
                     }
@@ -129,7 +147,7 @@ async function runProgram() {
             }
             break;
 
-        case "create":
+        case 'create':
             if (args.name)
                 requestBody.name = args.name;
 
@@ -147,8 +165,8 @@ async function runProgram() {
             }
             break;
 
-        case "replace":
-        case "update":
+        case 'replace':
+        case 'update':
             // hack to map incorrect export property from expected.  Export uses qnaDocuments, create/update/replace qnaList :(
             if (requestBody.qnaDocuments && !requestBody.qnaList) {
                 requestBody.qnaList = requestBody.qnaDocuments;
@@ -164,25 +182,25 @@ async function runProgram() {
 
     // special case response
     switch (serviceManifest.operation.name) {
-        case "getKnowledgebaseDetails": {
+        case 'getKnowledgebaseDetails': {
             config.kbId = result.id;
             let kb = await updateKbId(config);
             if (args.msbot) {
                 await stdoutAsync(JSON.stringify({
-                    type: "qna",
+                    type: 'qna',
                     name: kb.name,
                     id: kb.id,
                     kbId: kb.id,
                     subscriptionKey: config.subscriptionKey,
                     endpointKey: config.endpointKey,
                     hostname: kb.hostName
-                }, null, 2) + "\n");
+                }, null, 2) + '\n');
             } else {
-                await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
+                await stdoutAsync(JSON.stringify(result, null, 2) + '\n');
             }
             break;
         }
-        case "createKnowledgebase":
+        case 'createKnowledgebase':
             if (args.wait || args.msbot) {
                 result = await waitForOperationSucceeded(config, result);
 
@@ -191,23 +209,23 @@ async function runProgram() {
                 let kb = await updateKbId(config);
                 if (args.msbot) {
                     await stdoutAsync(JSON.stringify({
-                        type: "qna",
+                        type: 'qna',
                         name: kb.name,
                         id: kb.id,
                         kbId: kb.id,
                         subscriptionKey: config.subscriptionKey,
                         endpointKey: config.endpointKey,
                         hostname: config.hostname
-                    }, null, 2) + "\n");
+                    }, null, 2) + '\n');
 
                 } else {
                     await stdoutAsync(JSON.stringify(result, null, 2));
                 }
                 if (args.wait && !(args.q || args.quiet) && !args.msbot) {
-                    let answer = readlineSync.question(`Would you like to save ${kb.name} ${kb.id} in your .qnamakerrc so that future commands will be with this KB? [yes] `, { defaultInput: 'yes' });
-                    if (answer[0] == 'y') {
-                        await fs.writeJson(path.join(process.cwd(), '.qnamakerrc'), config, { spaces: 2 });
-                        await stdoutAsync('.qnamakerrc updated' + "\n");
+                    let answer = readlineSync.question(`Would you like to save ${kb.name} ${kb.id} in your .qnamakerrc so that future commands will be with this KB? [yes] `, {defaultInput: 'yes'});
+                    if (answer[0] === 'y') {
+                        await fs.writeJson(path.join(process.cwd(), '.qnamakerrc'), config, {spaces: 2});
+                        await stdoutAsync('.qnamakerrc updated' + '\n');
                     }
                 }
             } else {
@@ -215,7 +233,7 @@ async function runProgram() {
             }
             break;
 
-        case "updateKnowledgebase":
+        case 'updateKnowledgebase':
             if (args.wait || args.msbot) {
                 result = await waitForOperationSucceeded(config, result);
             }
@@ -224,10 +242,10 @@ async function runProgram() {
 
         default: {
             // dump json as json stringified
-            if (typeof result == 'string')
-                await stdoutAsync(result + "\n");
+            if (typeof result === 'string')
+                await stdoutAsync(result + '\n');
             else
-                await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
+                await stdoutAsync(JSON.stringify(result, null, 2) + '\n');
             break;
         }
     }
@@ -271,7 +289,7 @@ async function initializeConfig() {
 
     let [subscriptionKey, kbId] = answers;
 
-    const config = Object.assign({}, { subscriptionKey, kbId });
+    const config = Object.assign({}, {subscriptionKey, kbId});
 
     if (subscriptionKey && kbId) {
         await updateKbId(config);
@@ -287,7 +305,7 @@ async function initializeConfig() {
     } catch (e) {
         return false;
     }
-    await fs.writeJson(path.join(process.cwd(), '.qnamakerrc'), config, { spaces: 2 });
+    await fs.writeJson(path.join(process.cwd(), '.qnamakerrc'), config, {spaces: 2});
     return true;
 }
 
@@ -324,8 +342,8 @@ async function getFileInput(args) {
  * @returns {Promise<*>}
  */
 async function composeConfig() {
-    const { QNAMAKER_SUBSCRIPTION_KEY, QNAMAKER_HOSTNAME, QNAMAKER_ENDPOINTKEY, QNAMAKER_KBID } = process.env;
-    const { subscriptionKey, hostname, endpointKey, kbId } = args;
+    const {QNAMAKER_SUBSCRIPTION_KEY, QNAMAKER_HOSTNAME, QNAMAKER_ENDPOINTKEY, QNAMAKER_KBID} = process.env;
+    const {subscriptionKey, hostname, endpointKey, kbId} = args;
 
     let qnamakerrcJson = {};
     let config;
@@ -356,7 +374,7 @@ function validateConfig(config) {
     // not all operations require these to be present.
     // Validation of specific params are done in the
     // ServiceBase.js
-    const { subscriptionKey } = config;
+    const {subscriptionKey} = config;
     const messageTail = `is missing from the configuration.\n\nDid you run ${chalk.cyan.bold('qnamaker init')} yet?`;
     assert(typeof subscriptionKey === 'string', `The subscriptionKey ${messageTail}`);
 }
@@ -375,7 +393,7 @@ async function validateArguments(serviceManifest) {
         throw error;
     }
 
-    const { operation } = serviceManifest;
+    const {operation} = serviceManifest;
     if (!operation) {
         error.message = 'The operation does not exist';
 
@@ -397,7 +415,7 @@ async function validateArguments(serviceManifest) {
         }
         else {
             switch (serviceManifest.operation.name) {
-                case "generateAnswer":
+                case 'generateAnswer':
                     body = {
                         question: args.question,
                         top: args.top
@@ -439,7 +457,7 @@ async function handleError(error) {
 }
 
 async function handleSetCommand(args, config) {
-    if (args.length == 1 && !(args.s || args.subscriptionKey || args.h || args.hostname || args.endpointKey || args.kbId || args.k)) {
+    if (args.length === 1 && !(args.s || args.subscriptionKey || args.h || args.hostname || args.endpointKey || args.kbId || args.k)) {
         process.stderr.write(chalk.red.bold(`missing .qnamakerrc argument name: [--subscriptionKey|--hostname|--endpointKey|--kbId]\n`));
         return help(args);
     }
@@ -450,7 +468,7 @@ async function handleSetCommand(args, config) {
     if (args._.length > 1) {
         let targetKbName = args._[1].toLowerCase();
         if (targetKbName) {
-            let query = await new Knowledgebases().getKnowledgebasesForUser({ authoringKey: args.authoringKey || config.authoringKey });
+            let query = await new Knowledgebases().getKnowledgebasesForUser({authoringKey: args.authoringKey || config.authoringKey});
             let results = await query.json();
 
             if (results.error) {
@@ -458,7 +476,7 @@ async function handleSetCommand(args, config) {
             }
             let found = false;
             for (let kb of results.knowledgebases) {
-                if (kb.name.toLowerCase() == targetKbName || kb.id.toLowerCase() == targetKbName) {
+                if (kb.name.toLowerCase() === targetKbName || kb.id.toLowerCase() === targetKbName) {
                     config.kbId = kb.id;
                     config.hostname = kb.hostName;
                     found = true;
@@ -469,15 +487,19 @@ async function handleSetCommand(args, config) {
                 throw new Error(`Did not find an application with id or name of '${targetKbName}'`);
         }
     }
-    await fs.writeJson(path.join(process.cwd(), '.qnamakerrc'), config, { spaces: 2 });
-    await stdoutAsync(JSON.stringify(config, null, 4) + "\n");
+    await fs.writeJson(path.join(process.cwd(), '.qnamakerrc'), config, {spaces: 2});
+    await stdoutAsync(JSON.stringify(config, null, 4) + '\n');
     return true;
 }
-/*eslint no-constant-condition: ["off"] */
+
+/*eslint no-constant-condition: ['off'] */
 async function waitForOperationSucceeded(config, result) {
     let count = 0;
     while (true) {
-        let opResult = await new Operations().getOperationDetails({ subscriptionKey: config.subscriptionKey, operationId: result.operationId });
+        let opResult = await new Operations().getOperationDetails({
+            subscriptionKey: config.subscriptionKey,
+            operationId: result.operationId
+        });
 
         if (opResult.error)
             throw new Error(JSON.stringify(opResult.error, null, 4));
@@ -489,10 +511,10 @@ async function waitForOperationSucceeded(config, result) {
             process.stderr.write(`.`);
         process.stderr.write('              ');
 
-        if (result.operationState == "Failed")
+        if (result.operationState === 'Failed')
             throw new Error(JSON.stringify(result, null, 4));
 
-        if (result.operationState == "Succeeded")
+        if (result.operationState === 'Succeeded')
             break;
         await Delay(1000);
     }

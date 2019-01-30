@@ -37,6 +37,7 @@ When translating .lu file,
     -n, --lu_File <LU_File>          [Optional] Output .lu file name
     -c, --transate_comments          [Optional] Translate comments in .lu files
     -u, --translate_link_text        [Optional] Translate URL or .lu file reference link text
+    -b, --batch_translate <linesToBatch>  [Optional] Batch up <x> (1-25) number of lines before calling translation API. Defaults to 25.
     --verbose                        [Optional] Get verbose messages from parser
     --prefix                         [Optional] append [ludown] prefix to all messages
     -h, --help                       output usage information

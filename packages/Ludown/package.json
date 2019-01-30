@@ -1,6 +1,6 @@
 {
   "name": "ludown",
-  "version": "1.0.36",
+  "version": "1.1.0",
   "description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
   "main": "lib/exports.js",
   "scripts": {
@@ -21,9 +21,10 @@
   "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
   "dependencies": {
     "chai": "^4.1.2",
-    "chalk": "^2.3.2",
+    "chalk": "2.4.1",
     "commander": "^2.15.1",
     "deep-equal": "^1.0.1",
+    "get-stdin": "^6.0.0",
     "intercept-stdout": "^0.1.2",
     "latest-version": "^4.0.0",
     "node-fetch": "^2.1.2",

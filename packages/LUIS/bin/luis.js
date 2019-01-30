@@ -13,6 +13,7 @@ const { LuisAuthoring } = require('../lib/luisAuthoring');
 const getOperation = require('./getOperation');
 var pos = require("cli-position");
 const Table = require('cli-table3');
+const { performance } = require('perf_hooks');
 
 function stdoutAsync(output) { return new Promise((done) => process.stdout.write(output, "utf-8", () => done())); }
 
@@ -102,9 +103,14 @@ async function runProgram() {
     args.appId = args.appId || args.applicationId || args.a || serviceIn.appId || config.appId;
     args.versionId = args.versionId || args.version || serviceIn.versionId || config.versionId || serviceIn.version;
     args.region = args.region || serviceIn.region || config.region || "westus";
+    args.cloud = args.cloud || serviceIn.cloud || config.cloud;
     args.customHeaders = { "accept-language": "en-US" };
 
     validateConfig(args);
+
+    if (args.region == "virginia") {
+        args.cloud = "us";
+    }
 
     let credentials = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": args.authoringKey } });
     const client = new LuisAuthoring(credentials);
@@ -130,95 +136,95 @@ async function runProgram() {
             switch (target) {
                 case "app":
                 case "application":
-                    result = await client.apps.add(args.region, requestBody, args);
-                    result = await client.apps.get(args.region, result, args);
+                    result = await client.apps.add(args.region, args.cloud, requestBody, args);
+                    result = await client.apps.get(args.region, args.cloud, result, args);
 
                     // Write output to console and return
                     await writeAppToConsole(config, args, requestBody, result);
                     return;
                 case "closedlist":
-                    result = await client.model.addClosedList(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.model.addClosedList(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "closedlistentityrole":
-                    result = await client.model.createClosedListEntityRole(args.region, args.appId, args.versionId, args.entityId, requestBody, args);
+                    result = await client.model.createClosedListEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, requestBody, args);
                     break;
                 case "compositeentity":
-                    result = await client.model.addCompositeEntity(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.model.addCompositeEntity(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "compositeentitychild":
-                    result = await client.model.addCompositeEntityChild(args.region, args.appId, args.versionId, args.cEntityId, requestBody, args);
+                    result = await client.model.addCompositeEntityChild(args.region, args.cloud, args.appId, args.versionId, args.cEntityId, requestBody, args);
                     break;
                 case "compositeentityrole":
-                    result = await client.model.createCompositeEntityRole(args.region, args.appId, args.versionId, args.cEntityId, requestBody, args);
+                    result = await client.model.createCompositeEntityRole(args.region, args.cloud, args.appId, args.versionId, args.cEntityId, requestBody, args);
                     break;
                 case "customprebuiltdomain":
-                    result = await client.model.addCustomPrebuiltDomain(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.model.addCustomPrebuiltDomain(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "customprebuiltentity":
-                    result = await client.model.addCustomPrebuiltEntity(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.model.addCustomPrebuiltEntity(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "customprebuiltentityrole":
-                    result = await client.model.createCustomPrebuiltEntityRole(args.region, args.appId, args.versionId, args.entityId, requestBody, args);
+                    result = await client.model.createCustomPrebuiltEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, requestBody, args);
                     break;
                 case "customprebuiltintent":
-                    result = await client.model.addCustomPrebuiltIntent(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.model.addCustomPrebuiltIntent(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "entity":
-                    result = await client.model.addEntity(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.model.addEntity(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "entityrole":
-                    result = await client.model.createEntityRole(args.region, args.appId, args.versionId, args.entityId, requestBody, args);
+                    result = await client.model.createEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, requestBody, args);
                     break;
                 case "example":
-                    result = await client.examples.add(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.examples.add(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "examples":
-                    result = await client.examples.batch(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.examples.batch(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "explicitlistitem":
-                    result = await client.model.addExplicitListItem(args.region, args.appId, args.versionId, args.entityId, requestBody, args);
+                    result = await client.model.addExplicitListItem(args.region, args.cloud, args.appId, args.versionId, args.entityId, requestBody, args);
                     break;
                 case "hierarchicalentity":
-                    result = await client.model.addHierarchicalEntity(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.model.addHierarchicalEntity(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "hierarchicalentitychild":
-                    result = await client.model.addHierarchicalEntityChild(args.region, args.appId, args.versionId, args.hEntityId, requestBody, args);
+                    result = await client.model.addHierarchicalEntityChild(args.region, args.cloud, args.appId, args.versionId, args.hEntityId, requestBody, args);
                     break;
                 case "hierarchicalentityrole":
-                    result = await client.model.createHierarchicalEntityRole(args.region, args.appId, args.versionId, args.hEntityId, requestBody, args);
+                    result = await client.model.createHierarchicalEntityRole(args.region, args.cloud, args.appId, args.versionId, args.hEntityId, requestBody, args);
                     break;
                 case "intent":
-                    result = await client.model.addIntent(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.model.addIntent(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "pattern":
-                    result = await client.pattern.addPattern(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.pattern.addPattern(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "patternentityrole":
-                    result = await client.model.createPatternAnyEntityRole(args.region, args.appId, args.versionId, args.entityId, requestBody, args);
+                    result = await client.model.createPatternAnyEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, requestBody, args);
                     break;
                 case "patterns":
-                    result = await client.pattern.batchAddPatterns(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.pattern.batchAddPatterns(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "permissions":
-                    result = await client.permissions.add(args.region, args.appId, requestBody, args);
+                    result = await client.permissions.add(args.region, args.cloud, args.appId, requestBody, args);
                     break;
                 case "phraselist":
-                    result = await client.features.addPhraseList(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.features.addPhraseList(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "prebuilt":
-                    result = await client.model.addPrebuilt(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.model.addPrebuilt(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "prebuiltentityrole":
-                    result = await client.model.createPrebuiltEntityRole(args.region, args.appId, args.versionId, args.entityId, requestBody, args);
+                    result = await client.model.createPrebuiltEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, requestBody, args);
                     break;
                 case "regexentity":
-                    result = await client.model.createRegexEntityModel(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.model.createRegexEntityModel(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "regexentityrole":
-                    result = await client.model.createRegexEntityRole(args.region, args.appId, args.versionId, args.entityId, requestBody, args);
+                    result = await client.model.createRegexEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, requestBody, args);
                     break;
                 case "sublist":
-                    result = await client.model.addSubList(args.region, args.appId, args.versionId, args.clEntityId, requestBody, args);
+                    result = await client.model.addSubList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, requestBody, args);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -228,7 +234,7 @@ async function runProgram() {
         case "clone":
             switch (target) {
                 case "version":
-                    result = await client.versions.clone(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.versions.clone(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
 
                 default:
@@ -241,7 +247,7 @@ async function runProgram() {
                 case "app":
                 case "application":
                     {
-                        let app = await client.apps.get(args.region, args.appId, args);
+                        let app = await client.apps.get(args.region, args.cloud, args.appId, args);
                         if (app.error) {
                             throw new Error(app.error);
                         }
@@ -254,13 +260,13 @@ async function runProgram() {
                                 return;
                             }
                         }
-                        result = await client.apps.deleteMethod(args.region, args.appId, args);
+                        result = await client.apps.deleteMethod(args.region, args.cloud, args.appId, args);
                     }
                     break;
 
                 case "version":
                     {
-                        let app = await client.apps.get(args.region, args.appId, args);
+                        let app = await client.apps.get(args.region, args.cloud, args.appId, args);
                         if (app.error) {
                             throw new Error(app.error);
                         }
@@ -272,7 +278,7 @@ async function runProgram() {
                                 return;
                             }
                         }
-                        result = await client.versions.deleteMethod(args.region, args.appId, args.versionId, args);
+                        result = await client.versions.deleteMethod(args.region, args.cloud, args.appId, args.versionId, args);
                     }
                     break;
 
@@ -284,13 +290,13 @@ async function runProgram() {
         case "export":
             switch (target) {
                 case "version":
-                    result = await client.versions.exportMethod(args.region, args.appId, args.versionId, args);
+                    result = await client.versions.exportMethod(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "closedlist":
-                    result = await client.model.getClosedList(args.region, args.appId, args.versionId, args.clEntityId, args);
+                    result = await client.model.getClosedList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, args);
                     break;
                 case "closedlistentityrole":
-                    result = await client.model.getClosedListEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, args);
+                    result = await client.model.getClosedListEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, args);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -301,79 +307,82 @@ async function runProgram() {
             switch (target) {
                 case "app":
                 case "application":
-                    result = await client.apps.get(args.region, args.appId, args);
+                    result = await client.apps.get(args.region, args.cloud, args.appId, args);
 
                     // Write output to console and return
                     await writeAppToConsole(config, args, requestBody, result);
                     return;
 
                 case "closedlist":
-                    result = await client.model.getClosedList(args.region, args.appId, args.versionId, args.clEntityId, args);
+                    result = await client.model.getClosedList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, args);
                     break;
                 case "closedlistentityrole":
-                    result = await client.model.getClosedListEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, args);
+                    result = await client.model.getClosedListEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, args);
                     break;
                 case "compositeentity":
-                    result = await client.model.getCompositeEntity(args.region, args.appId, args.versionId, args.cEntityId, args);
+                    result = await client.model.getCompositeEntity(args.region, args.cloud, args.appId, args.versionId, args.cEntityId, args);
                     break;
                 case "compositeentityrole":
-                    result = await client.model.getCompositeEntityRole(args.region, args.appId, args.versionId, args.cEntityId, args.roleId, args);
+                    result = await client.model.getCompositeEntityRole(args.region, args.cloud, args.appId, args.versionId, args.cEntityId, args.roleId, args);
                     break;
                 //case "customprebuiltdomain":
                 //case "customprebuiltentityrole":
                 case "entity":
-                    result = await client.model.getEntity(args.region, args.appId, args.versionId, args.entityId, args);
+                    result = await client.model.getEntity(args.region, args.cloud, args.appId, args.versionId, args.entityId, args);
                     break;
                 case "entityrole":
-                    result = await client.model.getEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, args);
+                    result = await client.model.getEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, args);
                     break;
                 case "explicitlistitem":
-                    result = await client.model.getExplicitListItem(args.region, args.appId, args.versionId, args.entityId, args.itemId, args);
+                    result = await client.model.getExplicitListItem(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.itemId, args);
+                    break;
+                case "explicitlistitems":
+                    result = await client.model.getExplicitList(args.region, args.appId, args.versionId, args.entityId, args);
                     break;
                 case "hierarchicalentity":
-                    result = await client.model.getHierarchicalEntity(args.region, args.appId, args.versionId, args.hEntityId, args);
+                    result = await client.model.getHierarchicalEntity(args.region, args.cloud, args.appId, args.versionId, args.hEntityId, args);
                     break;
                 case "hierarchicalentitychild":
-                    result = await client.model.getHierarchicalEntityChild(args.region, args.appId, args.versionId, args.hEntityId, args.hChildId, args);
+                    result = await client.model.getHierarchicalEntityChild(args.region, args.cloud, args.appId, args.versionId, args.hEntityId, args.hChildId, args);
                     break;
                 case "hierarchicalentityrole":
-                    result = await client.model.getHierarchicalEntityRole(args.region, args.appId, args.versionId, args.hEntityId, args.roleId, args);
+                    result = await client.model.getHierarchicalEntityRole(args.region, args.cloud, args.appId, args.versionId, args.hEntityId, args.roleId, args);
                     break;
                 case "intent":
-                    result = await client.model.getIntent(args.region, args.appId, args.versionId, args.intentId, args);
+                    result = await client.model.getIntent(args.region, args.cloud, args.appId, args.versionId, args.intentId, args);
                     break;
                 case "pattern":
-                    result = await client.features.getPatternFeatureInfo(args.region, args.appId, args.versionId, args.patternId, args);
+                    result = await client.features.getPatternFeatureInfo(args.region, args.cloud, args.appId, args.versionId, args.patternId, args);
                     break;
                 case "patternentityrole":
-                    result = await client.model.getPatternAnyEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, args);
+                    result = await client.model.getPatternAnyEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, args);
                     break;
                 case "phraselist":
-                    result = await client.features.getPhraseList(args.region, args.appId, args.versionId, args.phraselistId, args);
+                    result = await client.features.getPhraseList(args.region, args.cloud, args.appId, args.versionId, args.phraselistId, args);
                     break;
                 case "prebuilt":
-                    result = await client.model.getPrebuilt(args.region, args.appId, args.versionId, args.prebuiltId, args);
+                    result = await client.model.getPrebuilt(args.region, args.cloud, args.appId, args.versionId, args.prebuiltId, args);
                     break;
                 case "prebuiltentityrole":
-                    result = await client.model.getPrebuiltEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, args);
+                    result = await client.model.getPrebuiltEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, args);
                     break;
                 case "regexentity":
-                    result = await client.model.getRegexEntityEntityInfo(args.region, args.appId, args.versionId, args.regexEntityId, args);
+                    result = await client.model.getRegexEntityEntityInfo(args.region, args.cloud, args.appId, args.versionId, args.regexEntityId, args);
                     break;
                 case "regexentityrole":
-                    result = await client.model.getRegexEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, args);
+                    result = await client.model.getRegexEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, args);
                     break;
                 case "settings":
-                    result = await client.apps.getSettings(args.region, args.appId, requestBody, args);
+                    result = await client.apps.getSettings(args.region, args.cloud, args.appId, requestBody, args);
                     break;
                 case "status":
-                    result = await client.train.getStatus(args.region, args.appId, args.versionId, args);
+                    result = await client.train.getStatus(args.region, args.cloud, args.appId, args.versionId, args);
                     if (args.wait) {
                         result = await waitForTrainingToComplete(client, args);
                     }
                     break;
                 case "version":
-                    result = await client.versions.get(args.region, args.appId, args.versionId, args);
+                    result = await client.versions.get(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -387,18 +396,18 @@ async function runProgram() {
                     if (args.appName) {
                         requestBody.name = args.appName;
                     }
-                    result = await client.apps.importMethod(args.region, requestBody, args);
-                    result = await client.apps.get(args.region, result, args);
+                    result = await client.apps.importMethod(args.region, args.cloud, requestBody, args);
+                    result = await client.apps.get(args.region, args.cloud, result.body, args);
 
                     // Write output to console and return
                     await writeAppToConsole(config, args, requestBody, result);
                     return;
 
                 case "version":
-                    result = await client.versions.importMethod(args.region, args.appId, requestBody, args);
+                    result = await client.versions.importMethod(args.region, args.cloud, args.appId, requestBody, args);
                     if (args.msbot) {
                         let version = result.version;
-                        result = await client.apps.get(args.region, args.appId || args.applicationId || config.applicationId, args);
+                        result = await client.apps.get(args.region, args.cloud, args.appId || args.applicationId || config.applicationId, args);
                         result.version = version;
 
                         // Write output to console and return
@@ -417,56 +426,56 @@ async function runProgram() {
             switch (target) {
                 case "apps":
                 case "applications":
-                    result = await client.apps.list(args.region, args);
+                    result = await client.apps.list(args.region, args.cloud, args);
                     break;
                 case "examples":
-                    result = await client.examples.list(args.region, args.appId, args.versionId, args);
+                    result = await client.examples.list(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "features":
-                    result = await client.features.list(args.region, args.appId, args.versionId, args);
+                    result = await client.features.list(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "permissions":
-                    result = await client.permissions.list(args.region, args.appId, args);
+                    result = await client.permissions.list(args.region, args.cloud, args.appId, args);
                     break;
                 case "versions":
-                    result = await client.versions.list(args.region, args.appId, args);
+                    result = await client.versions.list(args.region, args.cloud, args.appId, args);
                     break;
                 case "querylogs":
-                    result = await client.apps.downloadQueryLogsWithHttpOperationResponse(args.region, args.appId);
+                    result = await client.apps.downloadQueryLogsWithHttpOperationResponse(args.region, args.cloud, args.appId);
                     break;
                 // --- model methods---
                 case "closedlists":
-                    result = await client.model.listClosedLists(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listClosedLists(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "compositeentities":
-                    result = await client.model.listCompositeEntities(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listCompositeEntities(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "customprebuiltentities":
-                    result = await client.model.listCustomPrebuiltEntities(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listCustomPrebuiltEntities(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "customprebuiltintents":
-                    result = await client.model.listCustomPrebuiltIntents(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listCustomPrebuiltIntents(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "customprebuiltmodels":
-                    result = await client.model.listCustomPrebuiltModels(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listCustomPrebuiltModels(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "entities":
-                    result = await client.model.listEntities(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listEntities(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "hierarchicalentities":
-                    result = await client.model.listHierarchicalEntities(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listHierarchicalEntities(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "intents":
-                    result = await client.model.listIntents(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listIntents(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "models":
-                    result = await client.model.listModels(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listModels(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "prebuiltentities":
-                    result = await client.model.listPrebuiltEntities(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listPrebuiltEntities(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 case "prebuilts":
-                    result = await client.model.listPrebuilts(args.region, args.appId, args.versionId, args);
+                    result = await client.model.listPrebuilts(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -476,7 +485,7 @@ async function runProgram() {
         case "publish":
             switch (target) {
                 case "version":
-                    result = await client.apps.publish(args.region, args.appId, requestBody, args);
+                    result = await client.apps.publish(args.region, args.cloud, args.appId, requestBody, args);
                     break;
 
                 default:
@@ -487,10 +496,10 @@ async function runProgram() {
         case "suggest":
             switch (target) {
                 case "intents":
-                    result = await client.apps.publish(args.region, args.appId, requestBody, args);
+                    result = await client.apps.publish(args.region, args.cloud, args.appId, requestBody, args);
                     break;
                 case "entities":
-                    result = await client.apps.publish(args.region, args.appId, requestBody, args);
+                    result = await client.apps.publish(args.region, args.cloud, args.appId, requestBody, args);
                     break;
 
                 default:
@@ -501,7 +510,7 @@ async function runProgram() {
         case "train":
             switch (target) {
                 case "version":
-                    result = await client.train.trainVersion(args.region, args.appId, args.versionId, args);
+                    result = await client.train.trainVersion(args.region, args.cloud, args.appId, args.versionId, args);
 
                     if (args.wait) {
                         result = await waitForTrainingToComplete(client, args);
@@ -518,7 +527,7 @@ async function runProgram() {
             switch (target) {
 
                 case "version":
-                    result = await client.versions.update(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.versions.update(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -530,73 +539,73 @@ async function runProgram() {
             switch (target) {
                 case "app":
                 case "application":
-                    result = await client.apps.update(args.region, args.appId, requestBody, args);
+                    result = await client.apps.update(args.region, args.cloud, args.appId, requestBody, args);
                     break;
                 case "closedlist":
-                    result = await client.model.updateClosedList(args.region, args.appId, args.versionId, args.clEntityId, requestBody, args);
+                    result = await client.model.updateClosedList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, requestBody, args);
                     break;
                 case "closedlistentityrole":
-                    result = await client.model.updateClosedListEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
+                    result = await client.model.updateClosedListEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
                     break;
                 case "compositeentity":
-                    result = await client.model.updateCompositeEntity(args.region, args.appId, args.versionId, args.cEntityId, requestBody, args);
+                    result = await client.model.updateCompositeEntity(args.region, args.cloud, args.appId, args.versionId, args.cEntityId, requestBody, args);
                     break;
                 case "compositeentityrole":
-                    result = await client.model.updateCompositeEntityRole(args.region, args.appId, args.versionId, args.cEntityId, args.roleId, requestBody, args);
+                    result = await client.model.updateCompositeEntityRole(args.region, args.cloud, args.appId, args.versionId, args.cEntityId, args.roleId, requestBody, args);
                     break;
                 case "customprebuiltentityrole":
-                    result = await client.model.updateCustomPrebuiltEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
+                    result = await client.model.updateCustomPrebuiltEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
                     break;
                 case "entity":
-                    result = await client.model.updateEntity(args.region, args.appId, args.versionId, args.entityId, requestBody, args);
+                    result = await client.model.updateEntity(args.region, args.cloud, args.appId, args.versionId, args.entityId, requestBody, args);
                     break;
                 case "entityrole":
-                    result = await client.model.updateEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
+                    result = await client.model.updateEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
                     break;
                 case "explicitlistitem":
-                    result = await client.model.updateExplicitListItem(args.region, args.appId, args.versionId, args.entityId, args.itemId, requestBody, args);
+                    result = await client.model.updateExplicitListItem(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.itemId, requestBody, args);
                     break;
                 case "hierarchicalentity":
-                    result = await client.model.updateHierarchicalEntity(args.region, args.appId, args.versionId, args.hEntityId, requestBody, args);
+                    result = await client.model.updateHierarchicalEntity(args.region, args.cloud, args.appId, args.versionId, args.hEntityId, requestBody, args);
                     break;
                 case "hierarchicalentitychild":
-                    result = await client.model.updateHierarchicalEntityChild(args.region, args.appId, args.versionId, args.hEntityId, args.hChildId, requestBody, args);
+                    result = await client.model.updateHierarchicalEntityChild(args.region, args.cloud, args.appId, args.versionId, args.hEntityId, args.hChildId, requestBody, args);
                     break;
                 case "hierarchicalentityrole":
-                    result = await client.model.updateHierarchicalEntityRole(args.region, args.appId, args.versionId, args.hEntityId, args.roleId, requestBody, args);
+                    result = await client.model.updateHierarchicalEntityRole(args.region, args.cloud, args.appId, args.versionId, args.hEntityId, args.roleId, requestBody, args);
                     break;
                 case "intent":
-                    result = await client.model.updateIntent(args.region, args.appId, args.versionId, args.intentId, requestBody, args);
+                    result = await client.model.updateIntent(args.region, args.cloud, args.appId, args.versionId, args.intentId, requestBody, args);
                     break;
                 case "pattern":
-                    result = await client.model.updatePatternAnyEntityModel(args.region, args.appId, args.versionId, args.entityId, requestBody, args);
+                    result = await client.model.updatePatternAnyEntityModel(args.region, args.cloud, args.appId, args.versionId, args.entityId, requestBody, args);
                     break;
                 case "patternentityrole":
-                    result = await client.model.updatePatternAnyEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
+                    result = await client.model.updatePatternAnyEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
                     break;
                 case "patterns":
-                    result = await client.pattern.updatePatterns(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.pattern.updatePatterns(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "permissions":
-                    result = await client.permissions.update(args.region, args.appId, requestBody, args);
+                    result = await client.permissions.update(args.region, args.cloud, args.appId, requestBody, args);
                     break;
                 case "phraselist":
-                    result = await client.features.updatePhraseList(args.region, args.appId, args.versionId, requestBody, args);
+                    result = await client.features.updatePhraseList(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
                     break;
                 case "prebuiltentityrole":
-                    result = await client.model.updatePrebuiltEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
+                    result = await client.model.updatePrebuiltEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
                     break;
                 case "regexentity":
-                    result = await client.model.updateRegexEntityModel(args.region, args.appId, args.versionId, args.regexEntityId, requestBody, args);
+                    result = await client.model.updateRegexEntityModel(args.region, args.cloud, args.appId, args.versionId, args.regexEntityId, requestBody, args);
                     break;
                 case "regexentityrole":
-                    result = await client.model.updateRegexEntityRole(args.region, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
+                    result = await client.model.updateRegexEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, requestBody, args);
                     break;
                 case "settings":
-                    result = await client.apps.updateSettings(args.region, args.appId, requestBody, args);
+                    result = await client.apps.updateSettings(args.region, args.cloud, args.appId, requestBody, args);
                     break;
                 case "sublist":
-                    result = await client.model.updateSubList(args.region, args.appId, args.versionId, args.clEntityId, args.subListId, requestBody, args);
+                    result = await client.model.updateSubList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, args.subListId, requestBody, args);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -716,14 +725,14 @@ async function initializeConfig() {
 
 async function waitForTrainingToComplete(client, args) {
 
-    const models = await client.model.listModels(args.region, args.appId, args.versionId, args);
+    const models = await client.model.listModels(args.region, args.cloud, args.appId, args.versionId, args);
     const modelMap = {};
     for (let model of models) {
         modelMap[model.id] = { name: model.name, type: model.readableType };
     }
 
     do {
-        let result = await client.train.getStatus(args.region, args.appId, args.versionId, args);
+        let result = await client.train.getStatus(args.region, args.cloud, args.appId, args.versionId, args);
 
         if (!(args.q || args.quiet)) {
 
@@ -827,7 +836,7 @@ function validateConfig(config) {
 
     assert(typeof authoringKey === 'string', `The authoringKey  ${messageTail}`);
     assert(typeof region === 'string', `The region ${messageTail}`);
-    assert(args.region == "westus" || args.region == 'westeurope' || args.region == 'australiaeast', `${args.region} is not a valid authoring region.  Valid values are [westus|westeuerope|australiaest]`);
+    assert(args.region == "westus" || args.region == 'westeurope' || args.region == 'australiaeast' || args.region == 'virginia', `${args.region} is not a valid authoring region.  Valid values are [westus|westeuerope|australiaest]`);
 }
 
 /**
@@ -907,14 +916,13 @@ async function validateArguments(args, operation) {
 }
 
 async function handleQueryCommand(args, config) {
-    let query = args.q || args.question;
+    let query = args.q || args.query;
     if (!query) {
         process.stderr.write(chalk.red.bold(`missing -q\n`));
         return help(args);
     }
-    let appId = args.appId || config.appId;
-    if (!appId) {
-        process.stderr.write(chalk.red.bold(`missing --appid\n`));
+    if (!args.appId) {
+        process.stderr.write(chalk.red.bold(`missing --appId\n`));
         return help(args);
     }
 
@@ -923,27 +931,71 @@ async function handleQueryCommand(args, config) {
         process.stderr.write(chalk.red.bold(`missing --subscriptionKey\n`));
         return help(args);
     }
-    let region = args.region || config.region;
-    if (!region) {
-        process.stderr.write(chalk.red.bold(`missing --region\n`));
-        return help(args);
+    let uri;
+    if (args.endpoint) {
+        uri = `${args.endpoint}/${args.appId}`;
+    } else {
+        let region = args.region || config.region;
+        if (region) {
+            uri = `https://${region}.api.cognitive.microsoft.com/luis/v2.0/apps/${args.appId}`;
+        }
+        else {
+            process.stderr.write(chalk.red.bold(`missing --region or --endpointBasePath\n`));
+            return help(args);
+        }
     }
 
-    if (query && appId && subscriptionKey && region) {
+    if (query && subscriptionKey && uri) {
+        var qargs = {
+            log: !args.nologging,
+            staging: args.staging,
+            "subscription-key": `${subscriptionKey}`,
+            verbose: args.verbose,
+            q: `${query}`
+        };
+        if (args.spellCheck) {
+            qargs.spellCheck = true;
+            qargs["bing-spell-check-subscription-key"] = args.spellCheck;
+        }
+        if (args.timezoneOffset) {
+            qargs.timezoneOffset = args.timezoneOffset;
+        }
         var options = {
-            uri: `https://${region}.api.cognitive.microsoft.com/luis/v2.0/apps/${appId}`,
+            uri: uri,
             method: "GET",
-            qs: {  // Query string like ?key=value&...
-                "subscription-key": `${subscriptionKey}`,
-                verbose: true,
-                timezoneOffset: 0,
-                q: `${query}`
-            },
+            qs: qargs,
             json: true
         }
-
-        let result = await request(options);
-        await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
+        let timings = args.t || args.timing;
+        if (args.timing) {
+            let samples = typeof timings === 'boolean' ? 5 : timings;
+            let total = 0.0;
+            let sq = 0.0;
+            let min = Number.MAX_VALUE;
+            let max = Number.MIN_VALUE;
+            let values = [];
+            for (i = 0; i <= samples; ++i) {
+                let start = performance.now();
+                let result = await request(options);
+                let elapsed = performance.now() - start;
+                console.log(`${i}: ${elapsed} ms`);
+                if (i > 0) {
+                    total += elapsed;
+                    sq += elapsed * elapsed;
+                    if (elapsed > max) max = elapsed;
+                    if (elapsed < min) min = elapsed;
+                    values.push(elapsed);
+                }
+            }
+            values.sort((a, b) => a - b);
+            let variance = (sq - (total * total / samples)) / (samples - 1);
+            let p95 = values[Math.floor((samples - 1) * 0.95)];
+            console.log(`Timing after 1st: [${min} ms, ${total / samples} ms, ${max} ms], stddev ${Math.sqrt(variance)} ms, P95 ${p95} ms`)
+        }
+        else {
+            let result = await request(options);
+            await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
+        }
         return;
     }
     return help(args);
@@ -961,7 +1013,7 @@ async function handleSetCommand(args, config, client) {
     if (args._.length > 1) {
         let targetAppName = args._[1].toLowerCase();
         if (targetAppName) {
-            let results = await client.apps.list(args.region, args);
+            let results = await client.apps.list(args.region, args.cloud, args);
 
             if (results.error) {
                 throw new Error(results.error);

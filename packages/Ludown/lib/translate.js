@@ -60,7 +60,7 @@ const translateModule = {
         while(filesToParse.length > 0) {
             let file = filesToParse[0];
             try {
-                await parseFile(file, outFolder, program.translate_key, program.to_lang, program.src_lang, program.translate_comments, program.translate_link_text, program.verbose);
+                await parseFile(file, outFolder, program.translate_key, program.to_lang, program.src_lang, program.translate_comments, program.translate_link_text, program.verbose, program.batch_translate);
             } catch (err) {
                 throw(err);
             }
@@ -79,10 +79,11 @@ const translateModule = {
  * @param {boolean} translate_comments translate comments in .lu files if this is set to true
  * @param {boolean} translate_link_text translate URL or LU reference link text in .lu files if this is set to true
  * @param {boolean} log indicates if this function should write verbose messages to process.stdout
+ * @param {number} batch_translate indicates number of input lines to batch up before calling translation API
  * @returns {void} nothing
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
-async function parseFile(file, outFolder, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log) {
+async function parseFile(file, outFolder, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log, batch_translate) {
     let fileName = path.basename(file);
     if(!fs.existsSync(path.resolve(file))) {
         throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));
@@ -101,7 +102,7 @@ async function parseFile(file, outFolder, translate_key, to_lang, src_lang, tran
         let tgt_lang = toLang[idx].trim();
         if (tgt_lang === '') continue;
         try {
-            parsedLocContent = await translateHelpers.parseAndTranslate(fileContent, translate_key, tgt_lang, src_lang, translate_comments, translate_link_text, log)
+            parsedLocContent = await translateHelpers.parseAndTranslate(fileContent, translate_key, tgt_lang, src_lang, translate_comments, translate_link_text, log, batch_translate)
         } catch (err) {
             throw(err);
         }

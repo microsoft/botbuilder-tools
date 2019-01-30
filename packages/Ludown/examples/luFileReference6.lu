@@ -1,0 +1,7 @@
+# All utterances
+> you can use the *utterances* wild card to include all utterances from a lu file. This includes utterances across all intents defined in that .lu file. 
+- [all.lu](./all.lu#*utterances*)
+> you can use the *patterns* wild card to include all patterns from a lu file. 
+> - [all.lu](./all.lu#*patterns*)
+> you can use the *utterancesAndPatterns* wild card to include all utterances and patterns from a lu file. 
+> - [all.lu](./all.lu#*utterancesAndPatterns*)

@@ -6,6 +6,7 @@ var chai = require('chai');
 var assert = chai.assert;
 var path = require('path');
 const { exec } = require('child_process');
+const { platform } = require('os')
 const ludown = require.resolve('../bin/ludown');
 const package = require('../package.json');
 
@@ -14,6 +15,10 @@ const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
 
 function resolvePath(relativePath) {
     return path.join(LUDOWN_ROOT, relativePath);
+}
+
+function shouldEscapeString() {
+    return platform() !== 'win32';
 }
 
 describe('The ludown cli tool', function() {
@@ -122,7 +127,7 @@ describe('The ludown cli tool', function() {
 
     describe('with translate command', function(){
         it('should print an error when an invalid argument is passed', function(done) {
-            exec(`node ${ludown} translate -x`, (error, stdout, stderr) => {
+            exec(`node ${ludown} translate -d`, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('Unknown arguments'), true);
                     done();
@@ -254,6 +259,17 @@ describe('The ludown cli tool', function() {
     });
     
     describe('With parse toluis command', function() {
+        it('should print a warning when an incorrect locale is specified', function(done) {
+            exec(`node ${ludown} parse toluis -c de-dex`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.includes('Unrecognized LUIS locale'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+
         it('should print an error when an invalid argument is passed', function(done) {
             exec(`node ${ludown} parse toluis -x`, (error, stdout, stderr) => {
                 try {
@@ -502,6 +518,34 @@ describe('The ludown cli tool', function() {
     });
 
     describe('With refresh command', function() {
+        it('should print an error when an invalid json is passed in with stdin option set', function(done) {
+            let testJsonString = JSON.stringify({"one": "two"});
+            testJsonString = shouldEscapeString() ? `'${testJsonString}'` : testJsonString;
+
+            exec(`echo ${testJsonString} | node ${ludown} refresh --stdin`, (error, stdout, stderr) => {
+                try {
+                    assert(stderr.includes('unable to parse stdin as LUIS or QnA Maker model!'));
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+
+        it('should parse a LUIS JSON correctly in with stdin option set', function(done) {
+            let testJsonString = JSON.stringify({"intents": [{"name":"Greeting"}]});
+            testJsonString = shouldEscapeString() ? `'${testJsonString}'` : testJsonString;
+
+            exec(`echo ${testJsonString} | node ${ludown} refresh --stdin --stdout -s`, (error, stdout, stderr) => {
+                try {
+                    assert(stdout.includes('# Intent definitions'));
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+        
         it('should print an error when an invalid argument is passed', function(done) {
             exec(`node ${ludown} refresh -x`, (error, stdout, stderr) => {
                 try {

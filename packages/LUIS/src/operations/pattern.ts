@@ -24,524 +24,451 @@ export class Pattern {
 
   /**
    * @summary Adds one pattern to the specified application.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PatternRuleCreateObject} pattern The input pattern.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param pattern The input pattern.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PatternAddPatternResponse>
    */
-  addPatternWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo>> {
+  addPattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.PatternAddPatternResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param pattern The input pattern.
+   * @param callback The callback
+   */
+  addPattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param pattern The input pattern.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  addPattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
+  addPattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): Promise<Models.PatternAddPatternResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         pattern,
         options
       },
-      addPatternOperationSpec);
+      addPatternOperationSpec,
+      callback) as Promise<Models.PatternAddPatternResponse>;
   }
 
   /**
    * @summary Returns an application version's patterns.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PatternGetPatternsOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PatternGetPatternsResponse>
    */
-  getPatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
+  getPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams): Promise<Models.PatternGetPatternsResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param callback The callback
+   */
+  getPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.PatternGetPatternsOptionalParams, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
+  getPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternGetPatternsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
       },
-      getPatternsOperationSpec);
+      getPatternsOperationSpec,
+      callback) as Promise<Models.PatternGetPatternsResponse>;
   }
 
   /**
    * @summary Updates patterns
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PatternRuleUpdateObject[]} patterns An array represents the patterns.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patterns An array represents the patterns.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PatternUpdatePatternsResponse>
    */
-  updatePatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
+  updatePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase): Promise<Models.PatternUpdatePatternsResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patterns An array represents the patterns.
+   * @param callback The callback
+   */
+  updatePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patterns An array represents the patterns.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updatePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
+  updatePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternUpdatePatternsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         patterns,
         options
       },
-      updatePatternsOperationSpec);
+      updatePatternsOperationSpec,
+      callback) as Promise<Models.PatternUpdatePatternsResponse>;
   }
 
   /**
    * @summary Adds a batch of patterns to the specified application.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PatternRuleCreateObject[]} patterns A JSON array containing patterns.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patterns A JSON array containing patterns.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PatternBatchAddPatternsResponse>
    */
-  batchAddPatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
+  batchAddPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase): Promise<Models.PatternBatchAddPatternsResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patterns A JSON array containing patterns.
+   * @param callback The callback
+   */
+  batchAddPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patterns A JSON array containing patterns.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  batchAddPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
+  batchAddPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternBatchAddPatternsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         patterns,
         options
       },
-      batchAddPatternsOperationSpec);
+      batchAddPatternsOperationSpec,
+      callback) as Promise<Models.PatternBatchAddPatternsResponse>;
   }
 
   /**
    * @summary Deletes the patterns with the specified IDs.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {string[]} patternIds The patterns IDs.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternIds The patterns IDs.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PatternDeletePatternsResponse>
    */
-  deletePatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+  deletePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase): Promise<Models.PatternDeletePatternsResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternIds The patterns IDs.
+   * @param callback The callback
+   */
+  deletePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternIds: string[], callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternIds The patterns IDs.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deletePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternIds: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PatternDeletePatternsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         patternIds,
         options
       },
-      deletePatternsOperationSpec);
+      deletePatternsOperationSpec,
+      callback) as Promise<Models.PatternDeletePatternsResponse>;
   }
 
   /**
    * @summary Updates a pattern
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {string} patternId The pattern ID.
-   *
-   * @param {PatternRuleUpdateObject} pattern An object representing a pattern.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern ID.
+   * @param pattern An object representing a pattern.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PatternUpdatePatternResponse>
    */
-  updatePatternWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo>> {
+  updatePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.PatternUpdatePatternResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern ID.
+   * @param pattern An object representing a pattern.
+   * @param callback The callback
+   */
+  updatePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern ID.
+   * @param pattern An object representing a pattern.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updatePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
+  updatePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): Promise<Models.PatternUpdatePatternResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         patternId,
         pattern,
         options
       },
-      updatePatternOperationSpec);
+      updatePatternOperationSpec,
+      callback) as Promise<Models.PatternUpdatePatternResponse>;
   }
 
   /**
    * @summary Deletes the pattern with the specified ID.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {string} patternId The pattern ID.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PatternDeletePatternResponse>
    */
-  deletePatternWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse<Models.OperationStatus>> {
+  deletePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase): Promise<Models.PatternDeletePatternResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern ID.
+   * @param callback The callback
+   */
+  deletePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param patternId The pattern ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deletePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PatternDeletePatternResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         patternId,
         options
       },
-      deletePatternOperationSpec);
+      deletePatternOperationSpec,
+      callback) as Promise<Models.PatternDeletePatternResponse>;
   }
 
   /**
    * @summary Returns patterns to be retrieved for the specific intent.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {string} intentId The intent classifier ID.
-   *
-   * @param {PatternGetIntentPatternsOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PatternGetIntentPatternsResponse>
    */
-  getIntentPatternsWithHttpOperationResponse(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams): Promise<msRest.HttpOperationResponse<Models.PatternRuleInfo[]>> {
+  getIntentPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams): Promise<Models.PatternGetIntentPatternsResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param callback The callback
+   */
+  getIntentPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getIntentPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options: Models.PatternGetIntentPatternsOptionalParams, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
+  getIntentPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternGetIntentPatternsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
+        azureCloud,
         appId,
         versionId,
         intentId,
         options
       },
-      getIntentPatternsOperationSpec);
+      getIntentPatternsOperationSpec,
+      callback) as Promise<Models.PatternGetIntentPatternsResponse>;
   }
-
-  /**
-   * @summary Adds one pattern to the specified application.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PatternRuleCreateObject} pattern The input pattern.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.PatternRuleInfo} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.PatternRuleInfo} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  addPattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject): Promise<Models.PatternRuleInfo>;
-  addPattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options: msRest.RequestOptionsBase): Promise<Models.PatternRuleInfo>;
-  addPattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
-  addPattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
-  addPattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): any {
-    return msRest.responseToBody(this.addPatternWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, pattern, options, callback);
-  }
-
-  /**
-   * @summary Returns an application version's patterns.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PatternGetPatternsOptionalParams} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.PatternRuleInfo[]} [result]   - The deserialized result object if an error did not occur.
-   *
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  getPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string): Promise<Models.PatternRuleInfo[]>;
-  getPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.PatternGetPatternsOptionalParams): Promise<Models.PatternRuleInfo[]>;
-  getPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  getPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, options: Models.PatternGetPatternsOptionalParams, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  getPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): any {
-    return msRest.responseToBody(this.getPatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, options, callback);
-  }
-
-  /**
-   * @summary Updates patterns
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PatternRuleUpdateObject[]} patterns An array represents the patterns.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.PatternRuleInfo[]} [result]   - The deserialized result object if an error did not occur.
-   *
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  updatePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[]): Promise<Models.PatternRuleInfo[]>;
-  updatePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options: msRest.RequestOptionsBase): Promise<Models.PatternRuleInfo[]>;
-  updatePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  updatePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  updatePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): any {
-    return msRest.responseToBody(this.updatePatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patterns, options, callback);
-  }
-
-  /**
-   * @summary Adds a batch of patterns to the specified application.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {PatternRuleCreateObject[]} patterns A JSON array containing patterns.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.PatternRuleInfo[]} [result]   - The deserialized result object if an error did not occur.
-   *
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  batchAddPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[]): Promise<Models.PatternRuleInfo[]>;
-  batchAddPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options: msRest.RequestOptionsBase): Promise<Models.PatternRuleInfo[]>;
-  batchAddPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  batchAddPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  batchAddPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): any {
-    return msRest.responseToBody(this.batchAddPatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patterns, options, callback);
-  }
-
-  /**
-   * @summary Deletes the patterns with the specified IDs.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {string[]} patternIds The patterns IDs.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  deletePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[]): Promise<Models.OperationStatus>;
-  deletePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[], options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
-  deletePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[], callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    return msRest.responseToBody(this.deletePatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternIds, options, callback);
-  }
-
-  /**
-   * @summary Updates a pattern
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {string} patternId The pattern ID.
-   *
-   * @param {PatternRuleUpdateObject} pattern An object representing a pattern.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.PatternRuleInfo} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.PatternRuleInfo} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  updatePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject): Promise<Models.PatternRuleInfo>;
-  updatePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options: msRest.RequestOptionsBase): Promise<Models.PatternRuleInfo>;
-  updatePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
-  updatePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
-  updatePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): any {
-    return msRest.responseToBody(this.updatePatternWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, pattern, options, callback);
-  }
-
-  /**
-   * @summary Deletes the pattern with the specified ID.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {string} patternId The pattern ID.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.OperationStatus} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link Models.OperationStatus} for more information.
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  deletePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string): Promise<Models.OperationStatus>;
-  deletePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, options: msRest.RequestOptionsBase): Promise<Models.OperationStatus>;
-  deletePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePattern(azureRegion: Models.AzureRegions, appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): any {
-    return msRest.responseToBody(this.deletePatternWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, patternId, options, callback);
-  }
-
-  /**
-   * @summary Returns patterns to be retrieved for the specific intent.
-   *
-   * @param {AzureRegions} azureRegion Supported Azure regions for Cognitive Services endpoints.
-   * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
-   * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth'
-   *
-   * @param {string} appId The application ID.
-   *
-   * @param {string} versionId The version ID.
-   *
-   * @param {string} intentId The intent classifier ID.
-   *
-   * @param {PatternGetIntentPatternsOptionalParams} [options] Optional Parameters.
-   *
-   * @param {ServiceCallback} callback The callback.
-   *
-   * @returns {ServiceCallback} callback(err, result, request, operationRes)
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *                      {Models.PatternRuleInfo[]} [result]   - The deserialized result object if an error did not occur.
-   *
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *                      {HttpOperationResponse} [response] - The HTTP Response stream if an error did not occur.
-   */
-  getIntentPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string): Promise<Models.PatternRuleInfo[]>;
-  getIntentPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options: Models.PatternGetIntentPatternsOptionalParams): Promise<Models.PatternRuleInfo[]>;
-  getIntentPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  getIntentPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options: Models.PatternGetIntentPatternsOptionalParams, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  getIntentPatterns(azureRegion: Models.AzureRegions, appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): any {
-    return msRest.responseToBody(this.getIntentPatternsWithHttpOperationResponse.bind(this), azureRegion, appId, versionId, intentId, options, callback);
-  }
-
 }
 
 // Operation Specifications
@@ -551,6 +478,7 @@ const addPatternOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrule",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -577,6 +505,7 @@ const getPatternsOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -611,6 +540,7 @@ const updatePatternsOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -657,6 +587,7 @@ const batchAddPatternsOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -703,6 +634,7 @@ const deletePatternsOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -737,6 +669,7 @@ const updatePatternOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules/{patternId}",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.patternId1
@@ -764,6 +697,7 @@ const deletePatternOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/patternrules/{patternId}",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.patternId1
@@ -784,6 +718,7 @@ const getIntentPatternsOperationSpec: msRest.OperationSpec = {
   path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/patternrules",
   urlParameters: [
     Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.intentId

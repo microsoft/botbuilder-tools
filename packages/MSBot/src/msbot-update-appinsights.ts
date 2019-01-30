@@ -32,7 +32,7 @@ program
     .option('-t, --tenantId <tenantId>', 'Azure Tenant id (either GUID or xxx.onmicrosoft.com)')
     .option('-s, --subscriptionId <subscriptionId>', 'Azure Subscription Id')
     .option('-r, --resourceGroup <resourceGroup>', 'Azure resource group name')
-    .option('-s, --serviceName <serviceName>', 'Azure service name')
+    .option('--serviceName <serviceName>', 'Azure service name')
     .option('-i, --instrumentationKey <instrumentationKey>', 'App Insights InstrumentationKey')
     .option('-a, --applicationId <applicationId>', '(OPTIONAL) App Insights Application Id')
     .option('--keys <keys>', `Json app keys, example: {'key1':'value1','key2':'value2'} `)

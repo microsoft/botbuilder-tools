@@ -177,10 +177,15 @@ function getVerbHelp(verb, output) {
 
     switch (verb) {
     case "query":
-        output.write(chalk.cyan.bold("luis query -q <querytext> --region <region>\n\n"))
-        options.table.push([chalk.cyan.bold("-q <query>"), "query to get a LUIS prediction for"]);
-        options.table.push([chalk.cyan.bold("--subscriptionKey"), "Specifies the LUIS subscriptionKey. Overrides the .luisrc value and the LUIS_SUBSCRIPTION_KEY environment variable."]);
-        options.table.push([chalk.cyan.bold("--region <region>"), "region to call"]);
+        output.write(chalk.cyan.bold("luis query --query <querytext> [--appId | --endpoint | --nologging | --region | --spellCheck | --staging | --subscriptionKey | --timezoneOffset | --timing |  --verbose]\n\n"))
+        options.table.push([chalk.cyan.bold("--query <query>"), "Query to analyze with LUIS prediction."]);
+        options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "Endpoint to use for query like https://westus.api.cognitive.microsoft.com/luis/v2.0/apps, overrides region."]);
+        options.table.push([chalk.cyan.bold("--nologging"), "Turn off query logging in LUIS."]);
+        options.table.push([chalk.cyan.bold("--spellCheck <key>"), "Check spelling using your Bing spelling key."]);
+        options.table.push([chalk.cyan.bold("--staging"), "Use the staging environtment rather than production."]);
+        options.table.push([chalk.cyan.bold("--timezoneOffset <minutes>"), "Specify the timezone offset in minutes used for resolving data time."]);
+        options.table.push([chalk.cyan.bold("--timing [iterations]"), "Perform timings on query, default is 5 iterations."]);
+        options.table.push([chalk.cyan.bold("--verbose"), "Include scores for all intents."]);
         sections.push(options);
         sections.push(configSection);
         sections.push(globalArgs);

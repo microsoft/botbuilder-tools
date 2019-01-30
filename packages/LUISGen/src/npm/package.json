@@ -18,8 +18,8 @@
   ],
   "scripts": {
     "preinstall": "node dotnetpreinstall.js",
-    "install": "dotnet tool install -g LUISGen",
-    "uninstall": "dotnet tool uninstall -g LUISGen"
+    "install": "dotnet tool install  --tool-path tools LUISGen",
+    "uninstall": "dotnet tool uninstall --tool-path tools LUISGen"
   },
   "dependencies": {}
 }

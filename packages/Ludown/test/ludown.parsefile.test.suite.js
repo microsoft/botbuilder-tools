@@ -10,11 +10,9 @@ describe('With helper functions', function() {
         let luFile = `# Greeting
 - hi {commPreference}
 
+$commPreference:simple
 $commPreference:call=
-- phone call
-
-$commPreference:phraseList
-- m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix`;
+- phone call`;
         parseFile.parseFile(luFile, false, 'en-us')
             .then(function(parsedContent) {
                 parseFile.validateLUISBlob(parsedContent.LUISJsonStructure)
@@ -22,6 +20,21 @@ $commPreference:phraseList
                     .catch(() => done())
             })
             .catch(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+    });
+
+    it('validateLUISBlob does not throw when phrase list names collide with other entity names', function(done) {
+        let luFile = `# Greeting
+- hi {commPreference}
+$commPreference:simple
+$commPreference:phraseList
+- m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix`;
+        parseFile.parseFile(luFile, false, 'en-us')
+            .then(function(parsedContent) {
+                parseFile.validateLUISBlob(parsedContent.LUISJsonStructure)
+                    .then(() => done())
+                    .catch(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            })
+            .catch((err) => done('Test fail. validateLUISBlob did not throw when expected!'))
     });
 
     it('parseFile throws on invalid file refs', function(done) {

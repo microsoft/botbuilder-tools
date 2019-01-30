@@ -5,29 +5,17 @@
  */
 
 import * as msRest from "ms-rest-js";
+import * as os from 'os';
 
-const packageName = "";
-const packageVersion = "";
+const pjson: any = require('../package.json');
 
 export class LuisAuthoringContext extends msRest.ServiceClient {
   credentials: msRest.ServiceClientCredentials;
 
   /**
-   * @class
    * Initializes a new instance of the LuisAuthoringContext class.
-   * @constructor
-   *
-   * @param {msRest.ServiceClientCredentials} credentials - Subscription credentials which uniquely identify client subscription.
-   *
-   * @param {object} [options] - The parameter options
-   *
-   * @param {Array} [options.filters] - Filters to be added to the request pipeline
-   *
-   * @param {object} [options.requestOptions] - The request options. Detailed info can be found at
-   * {@link https://github.github.io/fetch/#Request Options doc}
-   *
-   * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
-   *
+   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
     if (credentials === null || credentials === undefined) {
@@ -40,10 +28,18 @@ export class LuisAuthoringContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "https://{AzureRegion}.api.cognitive.microsoft.com";
+    this.baseUri = "https://{AzureRegion}.api.cognitive.microsoft.{AzureCloud}";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
+    this.addUserAgentInfo(this.getUserAgent());
+  }
+
+  private getUserAgent() : string {
+    const packageUserAgent = `${pjson.name}/${pjson.version}`;
+    const platformUserAgent = `(${os.arch()}-${os.type()}-${os.release()}; Node.js,Version=${process.version})`;
+    const userAgent = `${packageUserAgent} ${platformUserAgent}`;
+    
+    return userAgent;
   }
 }

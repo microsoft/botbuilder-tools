@@ -1,15 +1,51 @@
 const assert = require('assert');
-const { exec, spawn } = require('child_process');
+const {exec, spawn} = require('child_process');
 const qnamaker = require.resolve('../bin/qnamaker');
 const createKbNoName = require.resolve('../examples/CreateKbNoNameDTO.json');
 const createKb = require.resolve('../examples/CreateKbDTO.json');
 const updateKbOperation = require.resolve('../examples/UpdateKbOperationDTO.json');
 const pkg = require('../package.json');
+const fs = require('fs-extra');
+const path = require('path');
 
 const subscriptionKey = process.env.QNA_SUBSCRIPTION_KEY;
 
 describe('The QnA Maker cli bin', () => {
-    it('should fail when operation not found', function(done) {
+
+    it('should set an httpsProxy agent in the fetch operation when the HTTPS_PROXY env variable is set', async () => {
+        const mockNodeFetch = `(function() {
+            return function (...args) {
+                return new Promise(resolve => {
+                    const theseArgs = args;
+                    resolve({
+                        status: 200,
+                        ok: true,
+                        json: async () => {
+                            return theseArgs;
+                        },
+                        text: async () => {
+                            const argsString = JSON.stringify(theseArgs);
+                            return argsString;
+                        }
+                    })
+                })
+            }
+        })()`;
+
+        let qnamakerbin = await fs.readFile(qnamaker, 'utf8');
+        qnamakerbin = qnamakerbin.replace(`require('node-fetch');`, mockNodeFetch);
+        const testFilePath = path.join(__dirname, 'qnamakerbin');
+        await fs.writeFile(testFilePath, qnamakerbin);
+        await new Promise(resolve => {
+            exec(`node ${testFilePath} --subscriptionKey gfdsgs4534 list kbs`, {env: {HTTPS_PROXY: 'http://localhost:8080'}}, (error, stdout, stderr) => {
+                const args = JSON.parse(stdout);
+                resolve(assert('agent' in args[1]));
+            });
+        });
+        await fs.unlink(testFilePath);
+    });
+
+    it('should fail when operation not found', function (done) {
         exec(`node ${qnamaker} foo`, (error, stdout, stderr) => {
             assert.equal(stdout, '');
             assert(stderr.includes('The operation does not exist'));
@@ -17,7 +53,7 @@ describe('The QnA Maker cli bin', () => {
         });
     });
 
-    it('should fail when operation does not accept an input', function(done) {
+    it('should fail when operation does not accept an input', function (done) {
         exec(`node ${qnamaker} list kbs --in foo.json`, (error, stdout, stderr) => {
             assert.equal(stdout, '');
             assert(stderr.includes('The getKnowledgebasesForUser operation does not accept an input'));
@@ -25,7 +61,7 @@ describe('The QnA Maker cli bin', () => {
         });
     });
 
-    it('should fail when operation does not receive all args', function(done) {
+    it('should fail when operation does not receive all args', function (done) {
         exec(`node ${qnamaker} query`, (error, stdout, stderr) => {
             assert.equal(stdout, '');
             assert(stderr.includes('The --question argument is missing and required'));
@@ -55,7 +91,7 @@ describe('The QnA Maker cli bin', () => {
     });
 
     describe('using "set" operation', () => {
-        it('should print the help contents when --help is used', function(done) {
+        it('should print the help contents when --help is used', function (done) {
             exec(`node ${qnamaker} set --help`, (error, stdout) => {
                 assert(stdout.includes('qnamaker set <.qnamakerrcSetting> <value>'), stdout);
                 assert(stdout.includes('Available resources for'), stdout);
@@ -64,7 +100,7 @@ describe('The QnA Maker cli bin', () => {
             });
         });
 
-        it('should print the help contents when kbid not found', function(done) {
+        it('should print the help contents when kbid not found', function (done) {
             if (!subscriptionKey) this.skip('subscriptionKey not found');
             exec(`node ${qnamaker} --subscriptionKey ${subscriptionKey} set kbid dummy-key`, (error, stdout, stderr) => {
                 assert.equal(stdout, '');
@@ -73,7 +109,7 @@ describe('The QnA Maker cli bin', () => {
             });
         });
 
-        it('should update the key', function(done) {
+        it('should update the key', function (done) {
             if (!subscriptionKey) this.skip('subscriptionKey not found');
             exec(`node ${qnamaker} --subscriptionKey ${subscriptionKey} set`, (error, stdout, stderr) => {
                 let result = JSON.parse(stdout);
@@ -85,14 +121,14 @@ describe('The QnA Maker cli bin', () => {
     });
 
     describe('using "create" operation', () => {
-        it('should print the help contents when --help is used', function(done) {
+        it('should print the help contents when --help is used', function (done) {
             exec(`node ${qnamaker} create --help`, (error, stdout) => {
                 assert(stdout.includes('create'), stdout);
                 done();
             });
         });
 
-        it('should print the help contents when kb --help is used', function(done) {
+        it('should print the help contents when kb --help is used', function (done) {
             exec(`node ${qnamaker} create kb --help`, (error, stdout) => {
                 assert(stdout.includes('Create a new knowledgebase'), stdout);
                 assert(stdout.includes('qnamaker create kb --in createKbPayload.json --name <kbname> [--wait]'), stdout);
@@ -100,7 +136,7 @@ describe('The QnA Maker cli bin', () => {
             });
         });
 
-        it('should fail and print the help contents when kb is used without other args', function(done) {
+        it('should fail and print the help contents when kb is used without other args', function (done) {
             exec(`node ${qnamaker} --subscriptionKey dummy-key create kb `, (error, stdout) => {
                 assert.equal(stdout, '');
                 assert(error.message.includes('The createKnowledgebase requires an input of type: CreateKbDTO'), error.message);
@@ -108,7 +144,7 @@ describe('The QnA Maker cli bin', () => {
             });
         });
 
-        it('should create the kb when kb is used with all arguments', function(done) {
+        it('should create the kb when kb is used with all arguments', function (done) {
             if (!subscriptionKey) this.skip('subscriptionKey not found');
             exec(`node ${qnamaker} --subscriptionKey ${subscriptionKey} create kb --in ${createKb}`, (error, stdout) => {
                 let result = JSON.parse(stdout);
@@ -121,7 +157,7 @@ describe('The QnA Maker cli bin', () => {
             });
         });
 
-        it('should create the kb when --msbot is used', function(done) {
+        it('should create the kb when --msbot is used', function (done) {
             if (!subscriptionKey) this.skip('subscriptionKey not found');
             exec(`node ${qnamaker} --subscriptionKey ${subscriptionKey} create kb --in ${createKb} --msbot`, (error, stdout, stderr) => {
                 if (stdout) {
@@ -133,25 +169,25 @@ describe('The QnA Maker cli bin', () => {
             });
         });
 
-        it.skip('should create the kb with full ask', async function(done) {
+        it.skip('should create the kb with full ask', async function (done) {
             if (!subscriptionKey) this.skip('subscriptionKey not found');
-            const qnamakerProcess = spawn('node', [ qnamaker, '--subscriptionKey', subscriptionKey, 'create', 'kb', '--in', createKbNoName], {stdio: ['pipe', 'pipe', process.stderr]});
+            const qnamakerProcess = spawn('node', [qnamaker, '--subscriptionKey', subscriptionKey, 'create', 'kb', '--in', createKbNoName], {stdio: ['pipe', 'pipe', process.stderr]});
             let messageCount = 0;
             let result = await new Promise(resolve => {
                 qnamakerProcess.stdout.on('data', data => {
                     messageCount++;
                     const message = data.toString();
                     switch (messageCount) {
-                    case 1:
-                        assert.equal(message, 'What would you like to name your new knowledgebase? ');
-                        qnamakerProcess.stdin.write('sample-kb\r');
-                        break;
-                    case 2:
-                        resolve(message);
-                        break;
-                    default:
-                        done('More messages than expected');
-                        break;
+                        case 1:
+                            assert.equal(message, 'What would you like to name your new knowledgebase? ');
+                            qnamakerProcess.stdin.write('sample-kb\r');
+                            break;
+                        case 2:
+                            resolve(message);
+                            break;
+                        default:
+                            done('More messages than expected');
+                            break;
                     }
                 });
             });
@@ -168,7 +204,7 @@ describe('The QnA Maker cli bin', () => {
     });
 
     describe('using "list" operation', () => {
-        it('should list the knowledge bases when kbs is used', function(done) {
+        it('should list the knowledge bases when kbs is used', function (done) {
             if (!subscriptionKey) this.skip('subscriptionKey not found');
             exec(`node ${qnamaker} --subscriptionKey ${subscriptionKey} list kbs`, (error, stdout) => {
                 assert.notEqual(JSON.parse(stdout), null);
@@ -179,7 +215,7 @@ describe('The QnA Maker cli bin', () => {
     });
 
     describe('using "get" operation', () => {
-        it('should print an error when --kbId not found', function(done) {
+        it('should print an error when --kbId not found', function (done) {
             if (!subscriptionKey) this.skip('subscriptionKey not found');
             exec(`node ${qnamaker} --subscriptionKey ${subscriptionKey} get kb --kbId foo`, (error, stdout) => {
                 assert.equal(stdout, '');
@@ -191,7 +227,7 @@ describe('The QnA Maker cli bin', () => {
     });
 
     describe('using "update" operation', () => {
-        it('should print an error when --kbId not found', function(done) {
+        it('should print an error when --kbId not found', function (done) {
             if (!subscriptionKey) this.skip('subscriptionKey not found');
             exec(`node ${qnamaker} --subscriptionKey ${subscriptionKey} update kb --kbId foo --in ${updateKbOperation}`, (error, stdout) => {
                 assert.equal(stdout, '');

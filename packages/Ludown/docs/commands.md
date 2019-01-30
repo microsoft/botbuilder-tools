@@ -115,6 +115,8 @@ After you have bootstrapped and created your LUIS model and / or QnAMaker knowle
     --verbose                                   [Optional] Get verbose messages from parser
     -s, --skip_header                           [Optional] Generate .lu file without the header comment
     --prefix                                    [Optional] append [ludown] prefix to all messages
+    --stdin                                     [Optional] Read input from stdin
+    --stdout                                    [Optional] Write output to stdout only. Specifying this option will not write any generated content to disk
     -h, --help                                  output usage information
 
 ```
@@ -141,6 +143,7 @@ To bootstrap translations of the language understanding content for your bot, yo
     -n, --lu_File <LU_File>          [Optional] Output .lu file name
     -c, --transate_comments          [Optional] Translate comments in .lu files
     -u, --translate_link_text        [Optional] Translate URL or .lu file reference link text
+    -b, --batch_translate <linesToBatch>  [Optional] Batch up <x> (1-25) number of lines before calling translation API. Defaults to 25.
     --verbose                        [Optional] Get verbose messages from parser
     --prefix                         [Optional] append [ludown] prefix to all messages
     -h, --help                       output usage information

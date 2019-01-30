@@ -10,119 +10,119 @@
 - Bitte helfen
 
 # AskForUserName
--  {userName=vishwac} 
-- Ich bin  {userName=vishwac} 
-- Ruf mich an  {userName=vishwac} 
-- Mein Name ist  {userName=vishwac} 
--  {userName=vishwac} ist mein Name
-- Sie können mich anrufen  {userName=vishwac} 
+-  {userName=Vishwac} 
+- I ' m  {userName=Vishwac} 
+- Ruf mich an  {userName=Vishwac} 
+- Mein Name ist  {userName=Vishwac} 
+-  {userName=Vishwac} Mein Name
+- Du kannst mich anrufen  {userName=Vishwac} 
 
-> # Entity Definitionen
+> # Entity-Definitionen
 $userName:simple
 
-> VORGEBAUTE Entitäten sind Global. LUIS wird immer Ergebnisse für diese liefern, wenn jemals eine Vorgebaute Entität in irgendeiner Äußerung gefunden wird.
+> PREBUILT-Unternehmen sind global. LUIS wird immer Ergebnisse dafür liefern, wenn jemals ein vorgebautes Gebilde in einer Äußerung gefunden wird.
 
 $PREBUILT:datetimeV2
 
 # CreateAlarm
-- einen Alarm schaffen
+- Alarm schlagen
 - Alarm für 7 Uhr
-- Alarm für 7 Uhr AM kommenden Donnerstag
+- Alarmstufe für 7 Uhr am nächsten Donnerstag
 
-> diese als Muster hinzufügen
+> fügen Sie diese als Muster hinzu
 
 # DeleteAlarm
-> Diese Äußerung wird als Muster hinzugefügt, da es keinen gekennzeichneten Wert für die alarmTime-Entität gibt.
+> Diese Äußerung wird als Muster hinzugefügt, da es keinen markierten Wert für die Alarmzeiteinheit gibt.
 
-- Löschen die  {alarmTime} Alarm
-- entfernen die  {alarmTime} Alarm
+- Löschen der  {alarmTime} Alarm
+- Entfernen Sie die  {alarmTime} Alarm
 
-> Da es eine List-Entity-Definition gibt, werden alle Synonyme in dieser Liste als Listen Entity-Typ abgeholt und sollten nicht gekennzeichnet werden.
+> Da es eine Definition der Listeneinheit gibt, werden alle Synonyme in dieser Liste als Listengewürgertyp aufgegriffen und sollten nicht gekennzeichnet werden.
 # CommunicationPreference
-- Anruf als Kommunikations Präferenz
-- Ich ziehe es vor, SMS zu erhalten
+- Setzen Sie Anrufe als Kommunikationspräferenz
+- Ich ziehe es vor, eine SMS zu erhalten
 
-> Liste Entity Definition
+> Liste der Unternehmensdefinition
 
 $commPreference:call=
-- Telefonat
-- Gib mir einen Ring
+- Telefonruf
+- Geben Sie mir einen Ring
 - Ring
 - Aufrufen
 - Handy
 - Telefon
 
 # Help
-- können Sie helfen
+- Können Sie helfen
 
-> Sie können Listen-Entitäten-Definitionen in mehrere Stücke zerlegen, in einer. lu-Datei zwischendurch lassen oder sogar über. lu-Dateien verteilen.
+> Sie können Listendefinitionen der Entität in mehrere Stücke zerlegen, in eine .lu-Datei eingeteilt oder sogar über .lu-Dateien verteilt werden.
 
 $commPreference:text=
 - Nachricht
 - Text
 - Sms
-- Textnachricht
+- SMS
 
 $commPreference:fax=
 - Fax
-- fascimile
+- Faschimilden
 
-> Sie können Hinweise auf externe. lu-Dateien haben
+> Sie können Hinweise auf externe .lu-Dateien haben
 
-[Keine Vorsatz-Definition](./none.lu)
+[Keine Absicht definieren](./none.lu)
 
-[Schokoladen Definition kaufen](./buyChocolate.lu)
+[Schokoladen-Definition kaufen](./buyChocolate.lu)
 
 > # QnA Definitionen
-> Dies ist eine QnA-Definition. Folgt #? Frage: \ < liste der fragen \ > \ ' ' markdown \ <Answer> ' ' Format
+> Dies ist eine QnA-Definition. Folgt #? Frage: \ <Liste der Fragen \ > \ ' ' Markdown \ <Answer> ' ' ' Format
 
-> Sie können URLs für QnA Maker hinzufügen, um Sie mit dem #URL Referenz Schema zu verzehren
-### ? Wie ändere ich die Standardmeldung
+> Sie können URLs für QnA-Hersteller mit dem #URL Referenzschema in die Aufnahme einfügen.
+### ? Wie ändere ich die Standardnachricht?
 ```markdown
-Sie können die Standardmeldung ändern, wenn Sie den QnAMakerDialog verwenden.
-Siehe [diesen Link] (https://docs.botframework.com/en-US/Azure-bot-Service/Templates/qnamaker/#navtitle) für Details.
+Sie können die Standardnachricht ändern, wenn Sie den QnAMakerDialog verwenden.
+Siehe [diesen Link] (https://docs.botframework.com/en-us/azure-bot-service/templates/qnamaker/#navtitle) für Details.
 ```
 
 ### ? Wie kann ich meine KB programmatisch aktualisieren?
 ```markdown
-Sie können unsere REST-APIs verwenden, um Ihre KB zu verwalten.
-\ #1. Weitere Informationen finden Sie hier: https://westus.dev.Cognitive.Microsoft.com/docs/Services/58994a073d9e04097c7ba6fe/Operations/58994a073d9e041ad42d9baa
+Sie können mit unserem REST apis Ihre KB verwalten.
+\ #1. Weitere Informationen: https://westus.dev.cognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa
 ```
 
-> Sie können URLs für QnA Maker hinzufügen, um Sie mit dem #URL Referenz Schema zu verzehren
+> Sie können URLs für QnA-Hersteller mit dem #URL Referenzschema in die Aufnahme einfügen.
 
-[QnA URL-FAQs](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
+[QnA URL-faqs](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
 
 
-> Sie können auch Multilple-Fragen für eine einzelne Antwort definieren
-### ? Wer ist Ihr CEO?
-- Holen Sie sich mir Ihre CEO-Info
+> Sie können auch Mehrfachfragen für eine einzelne Antwort definieren
+### ? Wer ist Ihr ceo?
+- holt mich Ihre ceo info
 ```markdown
 Vishwac
 ```
 
-> Sie können Filter für QnA mit den \ * *-Filtern definieren: * * \ < namensliste = wertepaare \ > Format
+> Sie können Filter für QnA mit den \ * * Filtern: * * \ <Liste des Namens = Wertepaare \ > Format definieren.
 ### ? Wo bekomme ich Kaffee?
 - Ich brauche Kaffee
 
-* * Filter: * *
-- Location = Seattle
+**Filters:**
+- Standort = Seattle
 ```markdown
-Sie können Kaffee in unserem Seattle Store bei 1 Pike Place, Seattle, WA bekommen
+Kaffee bekommen Sie in unserem Geschäft in Seattle am 1 Pike Place, Seattle, WA
 ```
 
 ### ? Wo bekomme ich Kaffee?
 - Ich brauche Kaffee
 
-* * Filter: * *
-- Location = Portland
+**Filters:**
+- Lage = portland
 ```markdown
-Sie können Kaffee in unserem Portland Store bei 52 Marine Drive, Portland, oder
+Sie können Kaffee in unserem Portland Store bei 52 Marine-Antrieb, Portland, OR
 ```
 
-> FAQ URLs für QnA Maker zu Ingest.
+> FAQ URLs für QnA-Hersteller zu sich zu nehmen.
 
-[QnA Maker Reference](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
+[QnA-Hersteller-Bezug](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
 
-[QnA Reference](./qna7.lu)
+[QnA-Bezug](./qna7.lu)
 
