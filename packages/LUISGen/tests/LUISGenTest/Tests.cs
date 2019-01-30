@@ -161,6 +161,21 @@ namespace LUISGenTest
             Assert.AreEqual(Contoso_App.Intent.search, intent);
         }
 
+        [TestMethod]
+        public void TestStdinInput()
+        {
+            var jsonString = System.IO.File.ReadAllText(GetFilePath("TestApp.json"));
+
+            using (StringReader sr = new StringReader(jsonString))
+            using (StringWriter sw = new StringWriter())
+            {
+                Console.SetIn(sr);
+                Console.SetError(sw);
+                LUISGen.Program.Main(new string[] { "--stdin", "-cs" });
+                Assert.IsTrue(sw.ToString().Contains("Reading from stdin until EOF"));
+            }
+        }
+
         private static TurnContext GetContext(string utterance)
         {
             var b = new TestAdapter();

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace LUISGen
 {
-    class Program
+    public class Program
     {
         static void Usage()
         {
@@ -59,7 +59,7 @@ namespace LUISGen
             return arg?.Trim();
         }
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             string path = null;
             string outPath = null;
