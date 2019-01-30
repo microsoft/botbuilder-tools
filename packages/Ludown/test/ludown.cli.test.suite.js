@@ -6,6 +6,7 @@ var chai = require('chai');
 var assert = chai.assert;
 var path = require('path');
 const { exec } = require('child_process');
+const { platform } = require('os')
 const ludown = require.resolve('../bin/ludown');
 const package = require('../package.json');
 
@@ -14,6 +15,10 @@ const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
 
 function resolvePath(relativePath) {
     return path.join(LUDOWN_ROOT, relativePath);
+}
+
+function shouldEscapeString() {
+    return platform() !== 'win32';
 }
 
 describe('The ludown cli tool', function() {
@@ -514,8 +519,10 @@ describe('The ludown cli tool', function() {
 
     describe('With refresh command', function() {
         it('should print an error when an invalid json is passed in with stdin option set', function(done) {
-            let testJson = {"one": "two"};
-            exec(`echo ${JSON.stringify(testJson)} | node ${ludown} refresh --stdin`, (error, stdout, stderr) => {
+            let testJsonString = JSON.stringify({"one": "two"});
+            testJsonString = shouldEscapeString() ? `'${testJsonString}'` : testJsonString;
+
+            exec(`echo ${testJsonString} | node ${ludown} refresh --stdin`, (error, stdout, stderr) => {
                 try {
                     assert(stderr.includes('unable to parse stdin as LUIS or QnA Maker model!'));
                     done();
@@ -526,8 +533,10 @@ describe('The ludown cli tool', function() {
         });
 
         it('should parse a LUIS JSON correctly in with stdin option set', function(done) {
-            let testJson = {"intents": [{"name":"Greeting"}]};
-            exec(`echo ${JSON.stringify(testJson)} | node ${ludown} refresh --stdin --stdout -s`, (error, stdout, stderr) => {
+            let testJsonString = JSON.stringify({"intents": [{"name":"Greeting"}]});
+            testJsonString = shouldEscapeString() ? `'${testJsonString}'` : testJsonString;
+
+            exec(`echo ${testJsonString} | node ${ludown} refresh --stdin --stdout -s`, (error, stdout, stderr) => {
                 try {
                     assert(stdout.includes('# Intent definitions'));
                     done();
