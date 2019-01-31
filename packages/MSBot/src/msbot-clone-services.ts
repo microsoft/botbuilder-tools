@@ -55,6 +55,7 @@ interface ICloneArgs {
     decorate: boolean;
     codeDir: string;
     projFile: string;
+    searchSku: string;
 }
 
 program
@@ -73,6 +74,7 @@ program
     .option('--prefix', 'Append [msbot] prefix to all messages')
     .option('--appId <appId>', '(OPTIONAL) Application ID for an existing application, if not passed then a new Application will be created')
     .option('--appSecret <appSecret>', '(OPTIONAL) Application Secret for an existing application, if not passed then a new Application will be created')
+    .option('--searchSku <searchSku>', '(OPTIONAL) Set the Sku for provisioned azure search (free|basic|standard|standard2|standard3|...)')
     .option('--proj-file <projfile>', '(OPTIONAL) The local project file to created bot service')
     .option('--code-dir <path>', '(OPTIONAL) Passing in --code-dir will auto publish the folder path to created bot service')
     .option('-q, --quiet', 'Minimize output')
@@ -173,6 +175,10 @@ async function processConfiguration(): Promise<void> {
                 break;
             }
         }
+    }
+
+    if (!args.searchSku) {
+        args.searchSku = "basic";
     }
 
     // verify az command exists and is correct version
@@ -282,7 +288,7 @@ async function processConfiguration(): Promise<void> {
                             hasSitePlan = true;
                         }
                         rows.push([`Azure WebApp Service (QnA)`, `${args.location}`, ``, args.groupName]);
-                        rows.push([`Azure Search Service`, `${regionToSearchRegionMap[args.location]}`, `Standard`, args.groupName]);
+                        rows.push([`Azure Search Service`, `${regionToSearchRegionMap[args.location]}`, args.searchSku, args.groupName]);
                         break;
 
                     default:
@@ -440,7 +446,7 @@ async function processConfiguration(): Promise<void> {
 
                         // provision search instance
                         let searchName = args.name.toLowerCase() + '-search';
-                        let searchResult = await runCommand(`az search service create -g ${azGroup.name} -n "${searchName}" --location ${regionToSearchRegionMap[args.location]} --sku standard --subscription ${args.subscriptionId}`,
+                        let searchResult = await runCommand(`az search service create -g ${azGroup.name} -n "${searchName}" --location ${regionToSearchRegionMap[args.location]} --sku ${args.searchSku} --subscription ${args.subscriptionId}`,
                             `Creating Azure Search Service [${searchName}]`);
 
                         // get search keys
@@ -981,7 +987,7 @@ function createPublishCmds(azBot: IBotService): string {
     if (args.verbose) {
         azPublishCmd += '--verbose ';
     }
-    
+
     return azPublishCmd;
 }
 
