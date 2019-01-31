@@ -9,7 +9,8 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}\\lib\\schemaMerge.js",
-            "args": ["test/*.schema"],
+            "args": ["*.schema"],
+            "cwd": "${workspaceFolder}/test",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"

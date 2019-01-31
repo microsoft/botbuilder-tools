@@ -3,8 +3,14 @@
     "title": "LUIS Recognizer",
     "description": "The root definition for components.",
     "$implements": [
-        "IRecognizer"
+        "Microsoft.IRecognizer"
     ],
+    "definitions":{
+        "$comment": "Ensure namespaces work on local definitions.",
+        "local": {
+            "type": "string"
+        }
+    },
     "allOf": [
         {
             "$ref": "component.schema#"
@@ -33,6 +39,9 @@
                         "endpoint",
                         "endpointKey"
                     ]
+                },
+                "priority": {
+                    "$ref": "#definitions/local"
                 }
             }
         }

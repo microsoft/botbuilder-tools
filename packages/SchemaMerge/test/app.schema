@@ -1,0 +1,173 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "oneOf": [
+        {
+            "$ref": "#definitions/Microsoft.LUISRecognizer"
+        },
+        {
+            "$ref": "#definitions/Microsoft.Prompt"
+        },
+        {
+            "$ref": "#definitions/Microsoft.RegexRecognizer"
+        },
+        {
+            "$ref": "#definitions/Microsoft.Topic"
+        }
+    ],
+    "definitions": {
+        "Microsoft.IPrompt": {
+            "title": "Microsoft IPrompt",
+            "description": "Definition of Microsoft.IPrompt which will be expanded by components that $implements it.",
+            "$defines": "Microsoft.IPrompt",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#definitions/Microsoft.Prompt"
+                }
+            ]
+        },
+        "Microsoft.IRecognizer": {
+            "title": "Microsoft IRecognizer",
+            "description": "Definition of Microsoft.IRecognizer which will be expanded by components that $implements it.",
+            "$defines": "Microsoft.IRecognizer",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#definitions/Microsoft.LUISRecognizer"
+                },
+                {
+                    "$ref": "#definitions/Microsoft.RegexRecognizer"
+                }
+            ]
+        },
+        "Microsoft.LUISRecognizer": {
+            "title": "LUIS Recognizer",
+            "description": "The root definition for components.",
+            "$implements": [
+                "Microsoft.IRecognizer"
+            ],
+            "definitions": {
+                "$comment": {},
+                "local": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "$type": {
+                    "type": "string",
+                    "const": "Microsoft.LUISRecognizer"
+                },
+                "$id": {
+                    "type": "string"
+                },
+                "application": {
+                    "type": "object",
+                    "$comment": "We need a consistent way to handle keys.",
+                    "required": [
+                        "applicationId",
+                        "endpoint",
+                        "endpointKey"
+                    ],
+                    "properties": {
+                        "applicationId": {
+                            "type": "string"
+                        },
+                        "endpoint": {
+                            "type": "string"
+                        },
+                        "endpointKey": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "priority": {
+                    "$ref": "#definitions/Microsoft.LUISRecognizer/definitions/local"
+                }
+            }
+        },
+        "Microsoft.Prompt": {
+            "title": "Simple Prompt",
+            "description": "Example simple prompt.",
+            "$implements": [
+                "Microsoft.IPrompt"
+            ],
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "$type": {
+                    "type": "string",
+                    "const": "Microsoft.Prompt"
+                },
+                "$id": {
+                    "type": "string"
+                },
+                "prompt": {
+                    "type": "string"
+                }
+            }
+        },
+        "Microsoft.RegexRecognizer": {
+            "title": "Regular Expression Recognizer",
+            "description": "Example regular expression recognizer.",
+            "$implements": [
+                "Microsoft.IRecognizer"
+            ],
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "$type": {
+                    "type": "string",
+                    "const": "Microsoft.RegexRecognizer"
+                },
+                "$id": {
+                    "type": "string"
+                },
+                "pattern": {
+                    "type": "string"
+                }
+            }
+        },
+        "Microsoft.Topic": {
+            "title": "Topic",
+            "type": "object",
+            "definitions": {
+                "$comment": {},
+                "local": {
+                    "type": "integer"
+                }
+            },
+            "properties": {
+                "$type": {
+                    "const": "Microsoft.Topic"
+                },
+                "recognizers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#definitions/Microsoft.IRecognizer"
+                    }
+                },
+                "prompts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#definitions/Microsoft.IPrompt"
+                    }
+                },
+                "priority": {
+                    "$ref": "#definitions/Microsoft.Topic/definitions/local"
+                }
+            }
+        }
+    }
+}
