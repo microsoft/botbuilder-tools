@@ -291,6 +291,7 @@ async function runProgram() {
             switch (target) {
                 case "version":
                     result = await client.versions.exportMethod(args.region, args.cloud, args.appId, args.versionId, args);
+                    result = sortExportedApp(result);
                     break;
                 case "closedlist":
                     result = await client.model.getClosedList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, args);
@@ -634,6 +635,43 @@ async function runProgram() {
     } else {
         await stdoutAsync((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
     }
+}
+
+function sortExportedApp(result) {
+    result = sortExportedAppPatterns(result);
+    result = sortExportedAppPatternEntities(result);
+
+    return result;
+}
+
+function sortExportedAppPatterns(result) {
+    if (Array.isArray(result.patterns) && result.patterns.length) {
+        result.patterns = result.patterns.sort((a, b) => {
+            if (!a || !a.intent) return -1;
+            if (!b || !b.intent) return 1;
+
+            const diff = a.intent.localeCompare(b.intent);
+            if (diff) return diff;
+
+            if (!a.pattern) return -1;
+            if (!b.pattern) return 1;
+            return a.pattern.localeCompare(b.pattern);
+        });
+    }
+
+    return result;
+}
+
+function sortExportedAppPatternEntities(result) {
+    if (Array.isArray(result.patternAnyEntities) && result.patternAnyEntities.length) {
+        result.patternAnyEntities = result.patternAnyEntities.sort((a, b) => {
+            if (!a || !a.name) return -1;
+            if (!b || !b.name) return 1;
+            return a.name.localeCompare(b.name);
+        });
+    }
+
+    return result;
 }
 
 async function writeAppToConsole(config, args, requestBody, result) {
