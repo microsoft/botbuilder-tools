@@ -40,70 +40,123 @@ program
 
 mergeSchemas();
 
-// Read schema files, follow $ref and remove allOf
 async function mergeSchemas() {
     let schemaPaths = glob.sync(program.args);
-    let schemas: any = {};
     let implementations: any = {};
     let definitions: any = {};
     for (let path of schemaPaths) {
         var schema = allof(await parser.dereference(path));
-        schemas[typeName(schema)] = schema;
-        findImplements(schema, implementations);
-        findDefintions(schema, definitions);
+        var type = typeName(schema);
+        delete schema.$schema;
+        if (type) {
+            findImplements(schema, implementations);
+            // TODO: Check for compatibility?
+            fixDefinitionReferences(schema);
+            definitions[type] = schema;
+        } else if (schema.$defines) {
+            // Implementation definition like IRecognizer
+            definitions[schema.$defines] = schema;
+        } else {
+            console.log("Schema " + path + " is not a component schema.");
+        }
     }
-    let finalSchema = { schemas: schemas };
-    fs.writeFileSync("c:/tmp/all.schema", JSON.stringify(finalSchema, null, 4));
+    expandProviders(definitions, implementations);
+    contractProviderReferences(definitions, implementations);
+    let finalSchema = {
+        $schema: "http://json-schema.org/draft-07/schema#",
+        oneOf: Object.keys(definitions)
+            .filter((schemaName) => !definitions[schemaName].$defines)
+            .map((schemaName) => {
+                let ref = { $ref: "#definitions/" + schemaName };
+                return ref;
+            }),
+        definitions: definitions
+    };
+    fs.writeFileSync("app.schema", JSON.stringify(finalSchema, null, 4));
 }
 
-// Desired structure
-// Definitions
-// <each top-level definition from a file>
-// <each implements with $ref to defintions>
-// <union of all types>
-// type:object
-// $ref to all type
-
-function typeName(schema: any) {
-    return schema.properties.$type.const;
+function typeName(schema: any): string {
+    return (schema.properties && schema.properties.$type)
+        ? schema.properties.$type.const
+        : undefined;
 }
 
-function findImplements(schema: any, implementations: any) {
-    for (let name in schema) {
-        let val = schema[name];
-        if (name === "$implements") {
-            for (let iname of val) {
-                if (implementations.hasOwnProperty(iname)) {
-                    implementations[iname].push(typeName(schema));
+function findImplements(schema: any, definitions: any): void {
+    walkSchema(schema, (val: any) => {
+        let done: any = val.$implements;
+        if (done) {
+            for (let iname of val.$implements) {
+                if (definitions.hasOwnProperty(iname)) {
+                    definitions[iname].push(typeName(schema));
                 } else {
-                    implementations[iname] = [typeName(schema)];
+                    definitions[iname] = [typeName(schema)];
                 }
             }
         }
-        else if (typeof val === 'object') {
-            findImplements(val, implementations);
+        return done;
+    })
+}
+
+function walkSchema(schema: any, fun: (val: any, obj?: any, key?: string) => boolean, obj?: any, key?: any): boolean {
+    let done = fun(schema, obj, key);
+    if (!done) {
+        if (Array.isArray(schema)) {
+            for (let val of schema) {
+                done = walkSchema(val, fun);
+                if (done) break;
+            }
         }
+        else if (typeof schema === 'object') {
+            for (let val in schema) {
+                done = walkSchema(schema[val], fun, schema, val);
+                if (done) break;
+            }
+        }
+    }
+    return done;
+}
+
+function fixDefinitionReferences(schema: any): void {
+    let type = typeName(schema);
+    walkSchema(schema, (val: any) => {
+        if (val.$ref) {
+            let ref: string = val.$ref;
+            if (ref.startsWith("#definitions/")) {
+                val.$ref = "#definitions/" + type + "/definitions" + ref.substr(ref.indexOf('/'));
+            }
+        }
+        return false;
+    });
+}
+
+function expandProviders(definitions: any, implementations: any): void {
+    for (let type in implementations) {
+        let provider = definitions[type];
+        if (provider) {
+            let providerDefinitions = implementations[type];
+            for (let implementation of providerDefinitions) {
+                provider.oneOf.push({ $ref: "#definitions/" + implementation })
+            }
+        }
+        // Ignore if no provider since that means no one actually uses type
     }
 }
 
-function findSection(schema: any, key: string): any {
-    let section = null;
-    if (Array.isArray(schema)) {
-        for (let val of schema)
-        {
-            section = findSection(val, key);
-            if (section != null)
+function contractProviderReferences(definitions: any, 
+    _implementations: any): void {
+    walkSchema(definitions, (val) => {
+        let done = val.properties;
+        if (done) {
+            walkSchema(val, (inner, obj, key) => {
+                let done = inner.$defines;
+                if (done) {
+                    obj[<string>key] = {"$ref": "#definitions/" + done };
+                }
+                return false;
+            });
         }
-        for (let name in schema) {
-            let val = schema[name];
-            if (name === key) {
-                return val;
-            }
-            else if (typeof val === 'object') {
-                findSection(val, key);
-            }
-        }
-    } else if (typeof val === '')
+        return false;
+    });
 }
 
 interface IPackage {
