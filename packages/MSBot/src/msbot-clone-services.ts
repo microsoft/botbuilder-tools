@@ -59,25 +59,25 @@ interface ICloneArgs {
 
 program
     .name('msbot clone services')
-    .option('-n, --name <name>', 'name of new bot')
-    .option('-f, --folder <folder>', 'path to folder containing exported resources')
-    .option('-l, --location <location>', 'location to create the bot service in (westus, ...)')
-    .option('--luisAuthoringKey <luisAuthoringKey>', 'authoring key from the appropriate luisAuthoringRegion for LUIS resources')
+    .option('-n, --name <name>', 'Name of new bot')
+    .option('-f, --folder <folder>', 'Path to folder containing exported resources')
+    .option('-l, --location <location>', 'Location to create the bot service in (westus, ...)')
+    .option('--luisAuthoringKey <luisAuthoringKey>', 'Authoring key from the appropriate luisAuthoringRegion for LUIS resources')
     .option('--luisAuthoringRegion <luisAuthoringRegion>', '(OPTIONAL) [westus|westeurope|australiaeast] authoring region to put LUIS models into (default is based on location)')
-    .option('--luisPublishRegion <luisRegion>', '(OPTIONAL) region to publish LUIS models to (default fallback is based location || luisAuthoringRegion)')
+    .option('--luisPublishRegion <luisRegion>', '(OPTIONAL) Region to publish LUIS models to (default fallback is based location || luisAuthoringRegion)')
     .option('--subscriptionId <subscriptionId>', '(OPTIONAL) Azure subscriptionId to clone bot to, if not passed then current az account will be used')
-    .option('--insightsRegion <insightsRegion>', '(OPTIONAL) region to create appInsights account in (default is based on location)')
+    .option('--insightsRegion <insightsRegion>', '(OPTIONAL) Region to create appInsights account in (default is based on location)')
     .option('--groupName <groupName>', '(OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group')
     .option('--sdkLanguage <sdkLanguage>', '(OPTIONAL) language for bot [Csharp|Node] (Default:CSharp)')
     .option('--sdkVersion <sdkVersion>', '(OPTIONAL) SDK version for bot [v3|v4] (Default:v4)')
     .option('--prefix', 'Append [msbot] prefix to all messages')
     .option('--appId <appId>', '(OPTIONAL) Application ID for an existing application, if not passed then a new Application will be created')
     .option('--appSecret <appSecret>', '(OPTIONAL) Application Secret for an existing application, if not passed then a new Application will be created')
-    .option('--proj-file <projfile>', '(OPTIONAL) auto publish the local project file to created bot service')
-    .option('--code-dir <path>', '(OPTIONAL) auto publish the folder path to created bot service')
-    .option('-q, --quiet', 'minimize output')
-    .option('--verbose', 'show commands')
-    .option('--force', 'do not prompt for confirmation')
+    .option('--proj-file <projfile>', '(OPTIONAL) The local project file to created bot service')
+    .option('--code-dir <path>', '(OPTIONAL) Passing in --code-dir will auto publish the folder path to created bot service')
+    .option('-q, --quiet', 'Minimize output')
+    .option('--verbose', 'Show commands')
+    .option('--force', 'Do not prompt for confirmation')
     .description('allows you to clone all of the services a bot uses into a new Azure resource group')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
@@ -178,9 +178,7 @@ async function processConfiguration(): Promise<void> {
     // verify az command exists and is correct version
     await checkAzBotServiceVersion();
 
-    if (!args.projFile) {
-        args.codeDir = '.';
-    } else if (args.projFile) {
+    if (args.projFile) {
         await checkDotNetRequirement();
     }
 
@@ -867,6 +865,10 @@ function ShowDotnetRequirementHelp(minVersion: number[]) {
     console.error(chalk.default.redBright('Go to https://www.microsoft.com/net/download to install on your system.'));
 }
 
+/**
+ * Updates local appsettings.json and .env files with botFilePath and botFileSecret entries.
+ * @param {IBotService} azBot 
+ */
 async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
     if (azBot) {
 
@@ -956,28 +958,44 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
     }
 }
 
+/**
+ * Calls creates a publish command and potentially calls it if code-dir is passed in.
+ * Also creates local scripts to make it easier to publish local source code by already having the code formulated.
+ * @param azBot
+ */
 async function publishBot(azBot: IBotService): Promise<void> {
-    let azPublishCmd = `az bot publish --resource-group ${args.groupName} -n ${azBot.name} --subscription ${args.subscriptionId} -v ${args.sdkVersion || 'v4'} `;
-    if (args.verbose) {
-        azPublishCmd += '--verbose ';
-    }
-
+    let azPublishCmd: string = createPublishCmds(azBot);
     let result: string | null = null;
-
-    if (args.projFile) {
-        azPublishCmd += `--proj-name "${args.projFile}" `;
-        result = await runCommand(azPublishCmd, `Publishing the local project ${args.projFile} to ${args.name} service`);
-    } else {
+    if (args.codeDir) {
         azPublishCmd += `--code-dir "${args.codeDir}" `;
         result = await runCommand(azPublishCmd, `Publishing the local folder ${args.codeDir} to ${args.name} service`);
     }
+    await createLocalPublishCmds(azPublishCmd, !!result);
+}
 
+function createPublishCmds(azBot: IBotService): string {
+    let azPublishCmd = `az bot publish --resource-group ${args.groupName} -n ${azBot.name} --subscription ${args.subscriptionId} -v ${args.sdkVersion || 'v4'} `;
+    if (args.projFile) {
+        azPublishCmd += `--proj-name "${args.projFile}" `;
+    }
+    if (args.verbose) {
+        azPublishCmd += '--verbose ';
+    }
+    
+    return azPublishCmd;
+}
+
+async function createLocalPublishCmds(azCmd: string, didPublishOccur: boolean): Promise<void> {
+    if (!didPublishOccur) {
+        console.log(chalk.default.yellowBright(`Your local bot was not published to Azure.`));
+        console.log(chalk.default.yellowBright(`This was due to --code-dir not being passed in to \`msbot clone services\`.`));
+    }
     console.log('You can publish your bot to the web using the following az bot publish command:');
-    console.log(chalk.default.cyanBright('    ' + azPublishCmd));
+    console.log(chalk.default.cyanBright('    ' + azCmd));
 
     console.log(`To make it easy to use that we have created ` + chalk.default.cyanBright('publish.cmd/sh') + ' batch file which you can use to publish any time to update your deployment.');
-    fs.writeFileSync('publish.cmd', azPublishCmd, { encoding: 'utf8' });
-    fs.writeFileSync('publish', '#!/bin/bash\n' + azPublishCmd, { encoding: 'utf8' });
+    fs.writeFileSync('publish.cmd', azCmd, { encoding: 'utf8' });
+    fs.writeFileSync('publish', '#!/bin/bash\n' + azCmd, { encoding: 'utf8' });
     fs.chmodSync('publish', '755');
 }
 
