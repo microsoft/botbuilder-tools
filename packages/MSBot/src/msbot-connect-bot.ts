@@ -37,9 +37,8 @@ program
     .option('-s, --subscriptionId <subscriptionId>', 'GUID of the subscription for the Azure Service')
     .option('-r, --resourceGroup <resourceGroup>', 'name of the resourceGroup for the Azure Service')
     .option('-a, --appId  <appid>', 'Microsoft AppId for the Azure Bot Service\n')
-    .option('-e, --endpoint <endpoint>', '(OPTIONAL) Registered endpoint url for the Azure Bot Service')
-    .option('-p, --appPassword  <appPassword>', '(OPTIONAL) Microsoft AppPassword for the Azure Bot Service\n')
-
+    .option('-e, --endpoint <endpoint>', 'Registered endpoint url for the Azure Bot Service')
+    .option('-p, --appPassword  <appPassword>', 'Microsoft AppPassword for the Azure Bot Service\n')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')

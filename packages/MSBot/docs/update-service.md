@@ -15,7 +15,7 @@ This allows you to rename a service, update keys, etc.
 | dispatch    | update Dispatch model                | --applicationId   |
 | endpoint    | update endpoint                      | --endpoint        |
 | generic     | update generic service configuration | --url             |
-| luis        | update LUIS application              | --applicationId   |
+| luis        | update LUIS application              | --appId   |
 | qna         | update QNA service                   | --kbId            |
 
 These commands take the same args as the msbot connect <servicetype> commands, but only some properties can be updated.

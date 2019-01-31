@@ -3,11 +3,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const program = require('commander');
 const chalk = require('chalk');
 const toLU = require('../lib/toLU');
 const retCode = require('../lib/enums/CLI-errors');
-const utils = require('./utils');
 program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
@@ -23,12 +23,14 @@ program
     .option('-n, --lu_File <LU_File>', '[Optional] Output .lu file name')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .option('-s, --skip_header', '[Optional] Generate .lu file without the header comment')
+    .option('--stdin', '[Optional] Read input from stdin')
+    .option('--stdout', '[Optional] Write output to stdout only. Specifying this option will not write any generated content to disk')
     .parse(process.argv);
 
-if (process.argv.length < 4) {
+if (process.argv.length < 3) {
     program.help();
 } else {
-    if (!program.LUIS_File && !program.QNA_FILE && !program.QNA_ALTERATION_FILE) {
+    if (!program.LUIS_File && !program.QNA_FILE && !program.QNA_ALTERATION_FILE && !program.stdin) {
         process.stderr.write(chalk.default.redBright(`\n  No LUIS input file or QnA Maker JSON or QnA Alteration file specified.`));
         program.help();
     }

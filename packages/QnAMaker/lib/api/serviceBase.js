@@ -2,8 +2,10 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+const os = require('os');
 const { insertParametersFromObject } = require('../utils/insertParametersFromObject');
 const deriveParamsFromPath = require('../utils/deriveParamsFromPath');
+const packageJSON = require('../../package');
 
 /**
  * Base class for all services
@@ -36,7 +38,7 @@ class ServiceBase {
      */
     createRequest(pathFragment, params, method, dataModel = null) {
         const { commonHeaders: headers, relativeEndpoint } = this;
-        const { hostname, kbId } = ServiceBase.config;
+        const { kbId } = ServiceBase.config;
 
         if (this.useEndpoint)
             headers.Authorization = "EndpointKey " + ServiceBase.config.endpointKey || params.endpointKey;
@@ -85,8 +87,17 @@ class ServiceBase {
     get commonHeaders() {
         return {
             'Content-Type': 'application/json',
+            'User-Agent': this.getUserAgent()
         };
     }
+
+    getUserAgent() {
+        const packageUserAgent = `${packageJSON.name}/${packageJSON.version}`;
+        const platformUserAgent = `(${os.arch()}-${os.type()}-${os.release()}; Node.js,Version=${process.version})`;
+        const userAgent = `${packageUserAgent} ${platformUserAgent}`;
+        
+        return userAgent;
+    }    
 }
 
 /**

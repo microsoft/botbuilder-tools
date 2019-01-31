@@ -5,7 +5,7 @@
     "version": "v2.0 preview"
   },
   "x-ms-parameterized-host": {
-    "hostTemplate": "{AzureRegion}.api.cognitive.microsoft.com",
+    "hostTemplate": "{AzureRegion}.api.cognitive.microsoft.{AzureCloud}",
     "parameters": [
       {
         "name": "AzureRegion",
@@ -31,7 +31,25 @@
           "northeurope",
           "eastasia",
           "australiaeast",
-          "brazilsouth"
+          "brazilsouth",
+          "virginia"
+        ]
+      },
+      {
+        "name": "AzureCloud",
+        "description": "Supported Azure Clouds for Cognitive Services endpoints",
+        "x-ms-parameter-location": "client",
+        "required": true,
+        "type": "string",
+        "in": "path",
+        "x-ms-skip-url-encoding": true,
+        "x-ms-enum": {
+          "name": "AzureClouds",
+          "modelAsString": false
+        },
+        "enum": [
+          "com",
+          "us"
         ]
       }
     ]

@@ -15,6 +15,10 @@ msbot export services --folder folderName --bot your.bot
 | --secret <secret>     | bot file secret password for encrypting service secrets               |
 | -f, --folder <folder> | folder to put the bot recipe into                                     |
 | --prefix              | Append [msbot] prefix to all messages                                 |
+| --appId               | (OPTIONAL) Application ID for an existing application, if not passed  |
+|                       | then a new Application will be created                                |
+| --appSecret           | (OPTIONAL) Application Secret for an existing application, if not     |
+|                       | passed then a new Application will be created                         |
 | -h, --help            | output usage information                                              |
 
 ## Cloning Services
@@ -28,6 +32,13 @@ and emit a new .bot file with all of the service data and secrets stored.
 ```shell
 msbot clone services --folder folderName --name NewBot --luisAuthoringKey 000000000000000000 --location westus 
 ```
+
+### Pre-requisites
+The **msbot clone services** command depends on and requires the following tools to be installed - 
+1. [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) version >= 2.0.52.
+2. [Azure Bot Service extension](https://github.com/Microsoft/botbuilder-tools/tree/master/AzureCli#installation) version >= 0.4.2
+3. [LUIS CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS#installation) if the the clone operation includes LUIS or Dispatch resources.
+4. [QnA Maker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker#as-a-cli) if the clone operation includes QnA Maker resources.
 
 > **NOTE:** msbot clone services does NOT encrypt the .bot file with a secret.  If you want to secure your 
 > secrets you should do that via the **msbot secret** command after it has been created.
@@ -46,6 +57,19 @@ msbot clone services --folder folderName --name NewBot --luisAuthoringKey 000000
 | --groupName <groupName>                     | (OPTIONAL) groupName for cloned bot, if not passed then new bot name will be used for the new group                  |
 | --sdkLanguage <sdkLanguage>                 | (OPTIONAL) language for bot [Csharp,Node] (Default:CSharp)                                                           |
 | --sdkVersion <sdkVersion>                   | (OPTIONAL) SDK version for bot [v3,v4] (Default:v4)                                                                  |
+| --appId                                     | (OPTIONAL) Application ID for an existing application, if not passed                                                 |
+|                                             | then a new Application will be created                                                                               |
+| --appSecret                                 | (OPTIONAL) Application Secret for an existing application, if not                                                    |
+|                                             | passed then a new Application will be created                                                                        |
 | -q, --quiet                                 | disable output                                                                                                       |
 | --prefix                                    | Append [msbot] prefix to all messages                                                                                |
 | -h, --help                                  | output usage information                                                                                             |
+
+
+> **NOTE:** If you are explicitly passing in appSecret as an argument you need to escape any special characters in the password that might be interpreted by the shell to be a command. 
+- For *Windows command prompt*, enclose the appSecret in double quotes. e.g. 
+msbot clone services --name xxxx --luisAuthoringKey xxxx --location xxxx --folder bot.recipt ***--appSecret "!|%gr%"***
+- For *Windows PowerShell, try passing in appSecret after the --% argument. e.g. 
+msbot clone services --name xxxx --luisAuthoringKey xxxx --location xxxx --folder bot.recipt ***--% --appSecret "!|%gr%"***
+- For *MacOS or Linux*, enclose the appSecret in single quotes. e.g. 
+msbot clone services --name xxxx --luisAuthoringKey xxxx --location xxxx --folder bot.recipt ***--appSecret '!|%gr%'***

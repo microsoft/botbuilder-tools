@@ -299,9 +299,9 @@ dispatch test --testFilePath <text_file>
 The output, Summary.html, contains all the evaluation results. The file is located in the location of the test file.
 
 # Sample Code and Tutorial
-C# Sample: https://github.com/Microsoft/botbuilder-dotnet/tree/master/samples-final/9.AspNetCore-Luis-Dispatch-Bot
+C# Sample: https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/14.nlp-with-dispatch
 
-JS Sample: https://github.com/Microsoft/botbuilder-js/tree/master/samples/dispatch-es6 
+JS Sample: https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/14.nlp-with-dispatch 
 
 Tutorial: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch
 
