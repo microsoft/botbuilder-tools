@@ -1,0 +1,148 @@
+{
+	"describe": "with 'get' verb",
+	"tests": [{
+			"title": "with target app",
+			"args": "get app --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target closedlist",
+			"args": "get closedlist --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target closedlistentityrole",
+			"args": "get closedlistentityrole --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target compositeentity",
+			"args": "get compositeentity --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target compositeentitychild",
+			"args": "get compositeentitychild --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "'compositeentitychild' is not a valid resource"
+		},
+		{
+			"title": "with target compositeentityrole",
+			"args": "get compositeentityrole --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target entity",
+			"args": "get entity --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target entityrole",
+			"args": "get entityrole --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target explicitlistitem",
+			"args": "get explicitlistitem --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target hierarchicalentity",
+			"args": "get hierarchicalentity --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target hierarchicalentitychild",
+			"args": "get hierarchicalentitychild --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target hierarchicalentityrole",
+			"args": "get hierarchicalentityrole --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target intent",
+			"args": "get intent --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target pattern",
+			"args": "get pattern --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target patternentityrole",
+			"args": "get patternentityrole --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target phraselist",
+			"args": "get phraselist --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target prebuilt",
+			"args": "get prebuilt --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target prebuiltentityrole",
+			"args": "get prebuiltentityrole --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target regexentity",
+			"args": "get regexentity --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target regexentityrole",
+			"args": "get regexentityrole --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target settings",
+			"args": "get settings --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target status",
+			"args": "get status --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "with target version",
+			"args": "get version --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined."
+		},
+		{
+			"title": "and invalid resource",
+			"args": "add invalidResource --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "'invalidResource' is not a valid resource"
+		}
+	]
+}
