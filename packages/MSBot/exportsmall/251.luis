@@ -1,0 +1,4919 @@
+{
+  "name": "CloneBot33-testImport",
+  "versionId": "0.2",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "friend"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "parent"
+    },
+    {
+      "name": "spouse"
+    },
+    {
+      "name": "worksFor"
+    },
+    {
+      "name": "worksWith"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Manager",
+      "roles": []
+    },
+    {
+      "name": "Negation",
+      "roles": []
+    },
+    {
+      "name": "Parent",
+      "roles": []
+    },
+    {
+      "name": "Person",
+      "roles": []
+    },
+    {
+      "name": "Value",
+      "roles": []
+    },
+    {
+      "name": "verb",
+      "roles": []
+    }
+  ],
+  "closedLists": [],
+  "composites": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [],
+  "regex_features": [],
+  "model_features": [
+    {
+      "activated": true,
+      "name": "pronouns",
+      "words": "his,her,he,she,my,I",
+      "mode": true
+    }
+  ],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "alberto the great loves to walk the trapeze",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 6,
+          "entity": "Person"
+        },
+        {
+          "startPos": 8,
+          "endPos": 10,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 16,
+          "entity": "Person"
+        },
+        {
+          "startPos": 24,
+          "endPos": 25,
+          "entity": "Value"
+        },
+        {
+          "startPos": 27,
+          "endPos": 30,
+          "entity": "Value"
+        },
+        {
+          "startPos": 32,
+          "endPos": 34,
+          "entity": "Value"
+        },
+        {
+          "startPos": 36,
+          "endPos": 42,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "and i work with colleen",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 4,
+          "endPos": 4,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "asdf",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "asdfsdf",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "asdfsdfasdf",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "bob is friends with chuck",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 20,
+          "endPos": 24,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "bob loves susan",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 10,
+          "endPos": 14,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "craig and jim are colleagues",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 10,
+          "endPos": 12,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "dan likes to talk",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 10,
+          "endPos": 11,
+          "entity": "Value"
+        },
+        {
+          "startPos": 13,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "dan works for me",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 14,
+          "endPos": 15,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "dan works for me too",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 14,
+          "endPos": 15,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "display children for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 21,
+          "endPos": 21,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "display husband for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 20,
+          "endPos": 20,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "display people who are his friends",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 23,
+          "endPos": 25,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "display x's friends",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "display x's kids",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 8,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "dogs are loved by john",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Value"
+        },
+        {
+          "startPos": 18,
+          "endPos": 21,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "don works for me",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 14,
+          "endPos": 15,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "emad is married to judy",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 19,
+          "endPos": 22,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "emad works for me",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 15,
+          "endPos": 16,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "eric's spouse is yong",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 17,
+          "endPos": 20,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "find all friends for xyz",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 21,
+          "endPos": 23,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "find everyone who works for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 28,
+          "endPos": 28,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "find husband for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 17,
+          "endPos": 17,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "find me x's parent",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "find people who work for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 25,
+          "endPos": 25,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "find spouse for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 16,
+          "endPos": 16,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "find the parents of x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 20,
+          "endPos": 20,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "find x's dad",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 9,
+          "endPos": 11,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "find x's mom",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 9,
+          "endPos": 11,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "forget lili",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 7,
+          "endPos": 10,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "frank loves to talk",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 13,
+          "entity": "Value"
+        },
+        {
+          "startPos": 15,
+          "endPos": 18,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "fred likes to fish",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 9,
+          "entity": "verb"
+        },
+        {
+          "startPos": 11,
+          "endPos": 12,
+          "entity": "Value"
+        },
+        {
+          "startPos": 14,
+          "endPos": 17,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "fronk doesn't love to talk",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 6,
+          "endPos": 10,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 11,
+          "endPos": 11,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 12,
+          "endPos": 12,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 19,
+          "endPos": 20,
+          "entity": "Value"
+        },
+        {
+          "startPos": 22,
+          "endPos": 25,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "gerald manages geoff",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Manager"
+        },
+        {
+          "startPos": 15,
+          "endPos": 19,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "harry has direct report of lili",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Manager"
+        },
+        {
+          "startPos": 27,
+          "endPos": 30,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "harry works for satya",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 16,
+          "endPos": 20,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "he and i work together",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "he is leslie's friend",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 6,
+          "endPos": 11,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "he is my husband",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 6,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "he works for me",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 14,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "he works with me",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 14,
+          "endPos": 15,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "helens husband is charles",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 18,
+          "endPos": 24,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i am a pianist",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 13,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i am a piano player",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 11,
+          "entity": "Value"
+        },
+        {
+          "startPos": 13,
+          "endPos": 18,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i am a programmer",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i am a sailor",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 12,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i am cool",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 8,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i am friends with bob",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 18,
+          "endPos": 20,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i am friends with chris",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 18,
+          "endPos": 22,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i am friends with steve",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 18,
+          "endPos": 22,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i am married to her",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 16,
+          "endPos": 18,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i am married to leslie",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 16,
+          "endPos": 21,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i am not friends with susan",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 7,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 22,
+          "endPos": 26,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i am not married",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 7,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 7,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i am not married to lili",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 7,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 20,
+          "endPos": 23,
+          "entity": "Person"
+        },
+        {
+          "startPos": 20,
+          "endPos": 23,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i clean bathrooms",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 6,
+          "entity": "verb"
+        },
+        {
+          "startPos": 8,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i do not hate cheese",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 3,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 7,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 14,
+          "endPos": 19,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i do not like cheese",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 3,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 7,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 14,
+          "endPos": 19,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i do not love cheese",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 3,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 7,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 14,
+          "endPos": 19,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i do not own a boat",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 3,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 7,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 15,
+          "endPos": 18,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i don't hate john anymore",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 13,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i don't like chees",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 13,
+          "endPos": 17,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i don't like cheese",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 13,
+          "endPos": 18,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i don't like chow",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 13,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i don't like rain",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 13,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i don't like to sail",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 13,
+          "endPos": 14,
+          "entity": "Value"
+        },
+        {
+          "startPos": 16,
+          "endPos": 19,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i don't liketosail",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        }
+      ]
+    },
+    {
+      "text": "i don't love cheese",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 13,
+          "endPos": 18,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i don't own a boat",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Value"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 14,
+          "endPos": 17,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i don't own a car",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 14,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i don't work for lili anymore",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 17,
+          "endPos": 20,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i hate burnt toast",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 11,
+          "entity": "Value"
+        },
+        {
+          "startPos": 13,
+          "endPos": 17,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i hate the cowboys",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Value"
+        },
+        {
+          "startPos": 11,
+          "endPos": 17,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i have a computer",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 9,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i have a sailboat",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 9,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like airplanes",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 15,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like bacon and toast",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 11,
+          "entity": "Value"
+        },
+        {
+          "startPos": 13,
+          "endPos": 15,
+          "entity": "Value"
+        },
+        {
+          "startPos": 17,
+          "endPos": 21,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like boats",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 5,
+          "entity": "verb"
+        },
+        {
+          "startPos": 7,
+          "endPos": 11,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like chees",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 11,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like cheese",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 12,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like cowboys",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 13,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like john",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 10,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like leslie",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 12,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like the seahawks",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Value"
+        },
+        {
+          "startPos": 11,
+          "endPos": 18,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like the smell of coffee",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Value"
+        },
+        {
+          "startPos": 11,
+          "endPos": 15,
+          "entity": "Value"
+        },
+        {
+          "startPos": 17,
+          "endPos": 18,
+          "entity": "Value"
+        },
+        {
+          "startPos": 20,
+          "endPos": 25,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like the sound of thunder",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Value"
+        },
+        {
+          "startPos": 11,
+          "endPos": 15,
+          "entity": "Value"
+        },
+        {
+          "startPos": 17,
+          "endPos": 18,
+          "entity": "Value"
+        },
+        {
+          "startPos": 20,
+          "endPos": 26,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like to play accordion",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Value"
+        },
+        {
+          "startPos": 10,
+          "endPos": 13,
+          "entity": "Value"
+        },
+        {
+          "startPos": 15,
+          "endPos": 23,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like to roll in the grass",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Value"
+        },
+        {
+          "startPos": 10,
+          "endPos": 13,
+          "entity": "Value"
+        },
+        {
+          "startPos": 15,
+          "endPos": 16,
+          "entity": "Value"
+        },
+        {
+          "startPos": 18,
+          "endPos": 20,
+          "entity": "Value"
+        },
+        {
+          "startPos": 22,
+          "endPos": 26,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like to sail",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Value"
+        },
+        {
+          "startPos": 10,
+          "endPos": 13,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like to swim",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Value"
+        },
+        {
+          "startPos": 10,
+          "endPos": 13,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like to walk in the garden at night",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Value"
+        },
+        {
+          "startPos": 10,
+          "endPos": 13,
+          "entity": "Value"
+        },
+        {
+          "startPos": 15,
+          "endPos": 16,
+          "entity": "Value"
+        },
+        {
+          "startPos": 18,
+          "endPos": 20,
+          "entity": "Value"
+        },
+        {
+          "startPos": 22,
+          "endPos": 27,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like to walk on the beach in the morning",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Value"
+        },
+        {
+          "startPos": 10,
+          "endPos": 13,
+          "entity": "Value"
+        },
+        {
+          "startPos": 15,
+          "endPos": 16,
+          "entity": "Value"
+        },
+        {
+          "startPos": 18,
+          "endPos": 20,
+          "entity": "Value"
+        },
+        {
+          "startPos": 22,
+          "endPos": 26,
+          "entity": "Value"
+        },
+        {
+          "startPos": 28,
+          "endPos": 29,
+          "entity": "Value"
+        },
+        {
+          "startPos": 31,
+          "endPos": 33,
+          "entity": "Value"
+        },
+        {
+          "startPos": 35,
+          "endPos": 41,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i like toast",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 11,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i live bacon and toast",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i love cars",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 10,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i love cheese",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 12,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i love dogs",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 10,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i love leslie",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 12,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i love leslie laird-mcconnell",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 12,
+          "entity": "Value"
+        },
+        {
+          "startPos": 14,
+          "endPos": 18,
+          "entity": "Value"
+        },
+        {
+          "startPos": 19,
+          "endPos": 19,
+          "entity": "Value"
+        },
+        {
+          "startPos": 20,
+          "endPos": 28,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i love sushi",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 11,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i love the cascades",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Value"
+        },
+        {
+          "startPos": 11,
+          "endPos": 18,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i love to camp",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Value"
+        },
+        {
+          "startPos": 10,
+          "endPos": 13,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i love to crawl into bed",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Value"
+        },
+        {
+          "startPos": 10,
+          "endPos": 14,
+          "entity": "Value"
+        },
+        {
+          "startPos": 16,
+          "endPos": 19,
+          "entity": "Value"
+        },
+        {
+          "startPos": 21,
+          "endPos": 23,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i love to runoutside",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Value"
+        },
+        {
+          "startPos": 10,
+          "endPos": 19,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i love trees",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 11,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i lover her",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i no longer love boats",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 3,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 10,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 17,
+          "endPos": 21,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i own a car",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 8,
+          "endPos": 10,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i own an airplane",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 6,
+          "endPos": 7,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i run marathons",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 2,
+          "endPos": 4,
+          "entity": "verb"
+        },
+        {
+          "startPos": 6,
+          "endPos": 14,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i work for her",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 13,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "i work for liil",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 14,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "i work for lili",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 14,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i work for lili cheng",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 14,
+          "entity": "Manager"
+        },
+        {
+          "startPos": 16,
+          "endPos": 20,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "i work forr lili",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 15,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "i work with colleen",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 10,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "i work with craig",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 16,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i work with craig jensen",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 16,
+          "entity": "Person"
+        },
+        {
+          "startPos": 18,
+          "endPos": 23,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i work with dan",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 14,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i work with eanders",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 18,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i work with jim",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 14,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i work with joe",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 14,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i work with lili",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 15,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "i work with steve",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 16,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "idon't love cheese",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 4,
+          "endPos": 4,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 12,
+          "endPos": 17,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "jim is my friend",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "jim owns a car",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 13,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "jim works for lili",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 14,
+          "endPos": 17,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "joe's if is colleen",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "john does not hate joe",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 8,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 10,
+          "endPos": 12,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 19,
+          "endPos": 21,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "john does not work for me anymore",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 8,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 10,
+          "endPos": 12,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 23,
+          "endPos": 24,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "john doesn't like walking",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 9,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 10,
+          "endPos": 10,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 18,
+          "endPos": 24,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "john flies kites",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 9,
+          "entity": "verb"
+        },
+        {
+          "startPos": 11,
+          "endPos": 15,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "john is not a programmer",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 8,
+          "endPos": 10,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 14,
+          "endPos": 23,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "john likes salmon",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "john loves to camp outside",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 12,
+          "entity": "Value"
+        },
+        {
+          "startPos": 14,
+          "endPos": 17,
+          "entity": "Value"
+        },
+        {
+          "startPos": 19,
+          "endPos": 25,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "john loves to do things",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 12,
+          "entity": "Value"
+        },
+        {
+          "startPos": 14,
+          "endPos": 15,
+          "entity": "Value"
+        },
+        {
+          "startPos": 17,
+          "endPos": 22,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "john no longer owns a boat",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 8,
+          "endPos": 13,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 22,
+          "endPos": 25,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "jo's wife is pauleen",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 19,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "judy's husband is emad",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 18,
+          "endPos": 21,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "kjhawefkjhkjawefhkjhawefkjhawefkjhfewa",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "lanna talks on the phone",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 6,
+          "endPos": 10,
+          "entity": "verb"
+        },
+        {
+          "startPos": 12,
+          "endPos": 13,
+          "entity": "Value"
+        },
+        {
+          "startPos": 15,
+          "endPos": 17,
+          "entity": "Value"
+        },
+        {
+          "startPos": 19,
+          "endPos": 23,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "leslie hates the sound of music",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 15,
+          "entity": "Value"
+        },
+        {
+          "startPos": 17,
+          "endPos": 21,
+          "entity": "Value"
+        },
+        {
+          "startPos": 23,
+          "endPos": 24,
+          "entity": "Value"
+        },
+        {
+          "startPos": 26,
+          "endPos": 30,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "leslie hates to climb mountains",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 14,
+          "entity": "Value"
+        },
+        {
+          "startPos": 16,
+          "endPos": 20,
+          "entity": "Value"
+        },
+        {
+          "startPos": 22,
+          "endPos": 30,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "leslie is friends with bob",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 23,
+          "endPos": 25,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "leslie is loved by tom",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Value"
+        },
+        {
+          "startPos": 19,
+          "endPos": 21,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "leslie is my spouse",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 10,
+          "endPos": 11,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "leslie is my wife",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 10,
+          "endPos": 11,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "leslie likes to climb mountains",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 14,
+          "entity": "Value"
+        },
+        {
+          "startPos": 16,
+          "endPos": 20,
+          "entity": "Value"
+        },
+        {
+          "startPos": 22,
+          "endPos": 30,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "leslie likes to walk in a garden",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 14,
+          "entity": "Value"
+        },
+        {
+          "startPos": 16,
+          "endPos": 19,
+          "entity": "Value"
+        },
+        {
+          "startPos": 21,
+          "endPos": 22,
+          "entity": "Value"
+        },
+        {
+          "startPos": 24,
+          "endPos": 24,
+          "entity": "Value"
+        },
+        {
+          "startPos": 26,
+          "endPos": 31,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "leslie loves me",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 14,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "leslie loves to climb mountains",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 14,
+          "entity": "Value"
+        },
+        {
+          "startPos": 16,
+          "endPos": 20,
+          "entity": "Value"
+        },
+        {
+          "startPos": 22,
+          "endPos": 30,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "leslie loves to go out drinking",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 14,
+          "entity": "Value"
+        },
+        {
+          "startPos": 16,
+          "endPos": 17,
+          "entity": "Value"
+        },
+        {
+          "startPos": 19,
+          "endPos": 21,
+          "entity": "Value"
+        },
+        {
+          "startPos": 23,
+          "endPos": 30,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "lili does not work for me",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 10,
+          "endPos": 12,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 23,
+          "endPos": 24,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "lili does not work for me?",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 10,
+          "endPos": 12,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 23,
+          "endPos": 24,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "lili does not workfor me",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 10,
+          "endPos": 12,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 22,
+          "endPos": 23,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "lili is married to yarom",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 19,
+          "endPos": 23,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "lili is my friend",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 8,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "lili reports to for harry",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 20,
+          "endPos": 24,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "lili works for harry",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 15,
+          "endPos": 19,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "lili's husband is yarom",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 18,
+          "endPos": 22,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "me don't love x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 3,
+          "endPos": 5,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 6,
+          "endPos": 6,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Negation"
+        },
+        {
+          "startPos": 14,
+          "endPos": 14,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "my best friend is bob",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 18,
+          "endPos": 20,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "my dad is ken",
+      "intent": "parent",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 10,
+          "endPos": 12,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "my friend is john",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 16,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "my son is loren",
+      "intent": "parent",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Parent"
+        },
+        {
+          "startPos": 10,
+          "endPos": 14,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "my spouse is lili",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 16,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "my wife is leslie",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 1,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 16,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "pablo rides on trains",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 6,
+          "endPos": 10,
+          "entity": "verb"
+        },
+        {
+          "startPos": 12,
+          "endPos": 13,
+          "entity": "Value"
+        },
+        {
+          "startPos": 15,
+          "endPos": 20,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "pancho plays the ponies",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 11,
+          "entity": "verb"
+        },
+        {
+          "startPos": 13,
+          "endPos": 15,
+          "entity": "Value"
+        },
+        {
+          "startPos": 17,
+          "endPos": 22,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "papa loves to eat clownfish",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 12,
+          "entity": "Value"
+        },
+        {
+          "startPos": 14,
+          "endPos": 16,
+          "entity": "Value"
+        },
+        {
+          "startPos": 18,
+          "endPos": 26,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "people are loved by john",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "Value"
+        },
+        {
+          "startPos": 20,
+          "endPos": 23,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "sadfsdf",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "sdf",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "sdfsdf",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "sfsadfasdfsfaewfaewf",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "she is cool",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "she is my wife",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "she works for harry",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 14,
+          "endPos": 18,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "show children of x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 17,
+          "endPos": 17,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "show folks who work for x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 24,
+          "endPos": 24,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "show friends for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 17,
+          "endPos": 17,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "show his friends",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 5,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "show me people who work for x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 28,
+          "endPos": 28,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "show me who works for x",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "show me x's mom",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "show my friends",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 5,
+          "endPos": 6,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "show parents for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 17,
+          "endPos": 17,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "show the children of x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 21,
+          "endPos": 21,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "show the leader for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 20,
+          "endPos": 20,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "show the manager for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 21,
+          "endPos": 21,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "show the people who work for x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 29,
+          "endPos": 29,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "show the wife for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 18,
+          "endPos": 18,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "show x friends",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "show x's friends",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "show x's kids",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "show x's mom",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Person"
+        },
+        {
+          "startPos": 9,
+          "endPos": 11,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "show xyz's friends",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 5,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "skdfnkjawenf",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "steve is a programmer",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 20,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "steve likes boats",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 6,
+          "endPos": 10,
+          "entity": "verb"
+        }
+      ]
+    },
+    {
+      "text": "steve loves bmw",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 14,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "steve owns a boat",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 16,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "steve works with craig",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 17,
+          "endPos": 21,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "susan hates garlic",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 17,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "susan owns a business",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 13,
+          "endPos": 20,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "suzan is a small business owner",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 15,
+          "entity": "Value"
+        },
+        {
+          "startPos": 17,
+          "endPos": 24,
+          "entity": "Value"
+        },
+        {
+          "startPos": 26,
+          "endPos": 30,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "swjkrgawhrg",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "test",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "the wife of bob is isa",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 12,
+          "endPos": 14,
+          "entity": "Person"
+        },
+        {
+          "startPos": 19,
+          "endPos": 21,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "tom has a car",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 10,
+          "endPos": 12,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "tom reports to lili",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 15,
+          "endPos": 18,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "tom works for lili",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 14,
+          "endPos": 17,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "tom works with lili",
+      "intent": "worksWith",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "Person"
+        },
+        {
+          "startPos": 15,
+          "endPos": 18,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "what is the name of his manager?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 20,
+          "endPos": 22,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are abc's friends?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "who are bart's friends?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 11,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are colleagues of x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 22,
+          "endPos": 22,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are employees for x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 22,
+          "endPos": 22,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "who are friends with x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 21,
+          "endPos": 21,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are friends with y?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 21,
+          "endPos": 21,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are her friends?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "who are his friends?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 10,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are leslie's friends?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 13,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are my friends",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are my friends?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are the friends of z?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 23,
+          "endPos": 23,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are the people working for x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 31,
+          "endPos": 31,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are x friend?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 4,
+          "endPos": 6,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are x friends",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are x friends?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who are x's children?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 8,
+          "endPos": 8,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "who does x lead?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "who does x manage?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 9,
+          "endPos": 9,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "who does x work with?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 9,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who does y work with?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 9,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is does x manage?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 12,
+          "endPos": 12,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is her husband?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is her lead?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is her manager?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is her spouse?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is his leader?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is his manager?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is his wife?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 9,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is in x's org?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 10,
+          "endPos": 10,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "who is leslie",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 12,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is leslie's spouse?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 12,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is lili?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 10,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is managed by x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 18,
+          "endPos": 18,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is manager for x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 19,
+          "endPos": 19,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is married to x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 18,
+          "endPos": 18,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is my manager?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is my spouse",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is my wife",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is my wife?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 8,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is parent of x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 17,
+          "endPos": 17,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is suzanne's spouse?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 13,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is the an employee for x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 27,
+          "endPos": 27,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is the husband of x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 22,
+          "endPos": 22,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is the manager for x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 23,
+          "endPos": 23,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is the manger for x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 22,
+          "endPos": 22,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is the spouse of honooho",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 21,
+          "endPos": 27,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is x dad?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "who is x friend?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is x's dad?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 13,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "who is x's friends?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is x's maanger?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is x's manager?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is x's mom?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        },
+        {
+          "startPos": 11,
+          "endPos": 13,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "who is x's parents?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is x's partner",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is x's spouse?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who is x's wife",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 7,
+          "endPos": 7,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who manages x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 12,
+          "endPos": 12,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who reports to x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 15,
+          "endPos": 15,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who works for bart/",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 14,
+          "endPos": 17,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "who works for lili",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 14,
+          "endPos": 17,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who works for lili?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 14,
+          "endPos": 17,
+          "entity": "Manager"
+        },
+        {
+          "startPos": 14,
+          "endPos": 17,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who works for x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 14,
+          "endPos": 14,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "who works for x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 14,
+          "endPos": 14,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who works for y?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 14,
+          "endPos": 14,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "who works for z?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 14,
+          "endPos": 14,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "who works with x",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 15,
+          "endPos": 15,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who works with x?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 15,
+          "endPos": 15,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "who works with y?",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 15,
+          "endPos": 15,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "x hates y",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 8,
+          "endPos": 8,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "x is married to y",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 16,
+          "endPos": 16,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "x is my husband",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 6,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "x is my spouse",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 6,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "x is my wife",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 5,
+          "endPos": 6,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "x is y's manager",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Manager"
+        },
+        {
+          "startPos": 5,
+          "endPos": 5,
+          "entity": "Person"
+        }
+      ]
+    },
+    {
+      "text": "x likes to be smart",
+      "intent": "spouse",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 8,
+          "endPos": 9,
+          "entity": "Value"
+        },
+        {
+          "startPos": 11,
+          "endPos": 12,
+          "entity": "Value"
+        },
+        {
+          "startPos": 14,
+          "endPos": 18,
+          "entity": "Value"
+        }
+      ]
+    },
+    {
+      "text": "x works for y",
+      "intent": "worksFor",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Person"
+        },
+        {
+          "startPos": 12,
+          "endPos": 12,
+          "entity": "Manager"
+        }
+      ]
+    },
+    {
+      "text": "x's kids",
+      "intent": "None",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 0,
+          "entity": "Parent"
+        }
+      ]
+    },
+    {
+      "text": "yarom is my friend",
+      "intent": "friend",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "Person"
+        },
+        {
+          "startPos": 9,
+          "endPos": 10,
+          "entity": "Person"
+        }
+      ]
+    }
+  ]
+}
