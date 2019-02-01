@@ -1,0 +1,24 @@
+{
+  "intents": [],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [
+    {
+      "name": "HRF-number",
+      "regexPattern": "hrf-[0-9]{6}",
+      "roles": []
+    }
+  ],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "regexEntity",
+  "desc": "",
+  "culture": "en-us"
+}

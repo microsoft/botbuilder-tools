@@ -173,9 +173,6 @@ const validateLUISJSON = async function(LUISJSON) {
     if(LUISJSON.composites && LUISJSON.composites.length !== 0) {
         throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to composite entities. Cannot convert to .lu file.'));
     }
-    if(LUISJSON.regex_entities && LUISJSON.regex_entities.length !== 0) {
-        throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to regular expression entities. Cannot convert to .lu file.'));
-    }
     if(LUISJSON.regex_features && LUISJSON.regex_features.length !== 0) {
         throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to regex_features. Cannot convert to .lu file.'));
     }

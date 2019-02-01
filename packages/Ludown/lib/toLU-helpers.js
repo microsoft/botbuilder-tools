@@ -102,6 +102,14 @@ const toLUHelpers = {
                 fileContent += NEWLINE + NEWLINE;
             });
         }
+
+        if(LUISJSON.regex_entities && LUISJSON.regex_entities.length >= 0) {
+            fileContent += '> # RegEx entities' + NEWLINE + NEWLINE; 
+            LUISJSON.regex_entities.forEach(function(regExEntity) {
+                fileContent += '$' + regExEntity.name + ':/' + regExEntity.regexPattern + '/' + NEWLINE; 
+            });
+            fileContent += NEWLINE;
+        }
         return fileContent;
     },
     /**

@@ -438,6 +438,7 @@ const haveLUISContent = function(blob) {
     (blob.patterns.length > 0) ||
     (blob[LUISObjNameEnum.UTTERANCE].length > 0) ||
     (blob.prebuiltEntities.length > 0) ||
+    (blob[LUISObjNameEnum.REGEX].length > 0) ||
     (blob.model_features.length > 0));
 };
 
