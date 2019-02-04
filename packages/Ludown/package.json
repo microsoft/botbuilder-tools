@@ -1,34 +1,37 @@
 {
-  "name": "ludown",
-  "version": "1.1.0",
-  "description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
-  "main": "lib/exports.js",
-  "scripts": {
-    "test": "cd test/ && mocha --opts mocha.opts"
-  },
-  "bin": {
-    "ludown": "./bin/ludown"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
-  },
-  "author": "Microsoft",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Microsoft/botbuilder-tools/issues"
-  },
-  "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
-  "dependencies": {
-    "chai": "^4.1.2",
-    "chalk": "2.4.1",
-    "commander": "^2.15.1",
-    "deep-equal": "^1.0.1",
-    "get-stdin": "^6.0.0",
-    "intercept-stdout": "^0.1.2",
-    "latest-version": "^4.0.0",
-    "node-fetch": "^2.1.2",
-    "read-text-file": "^1.1.0",
-    "semver": "^5.5.1"
-  }
+    "name": "ludown",
+    "version": "1.1.0",
+    "description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
+    "main": "",
+    "scripts": {},
+    "bin": {
+        "ludown": ""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
+    },
+    "author": "Microsoft",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Microsoft/botbuilder-tools/issues"
+    },
+    "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
+    "dependencies": {
+        "chalk": "2.4.1",
+        "commander": "^2.15.1",
+        "deep-equal": "^1.0.1",
+        "get-stdin": "^6.0.0",
+        "intercept-stdout": "^0.1.2",
+        "latest-version": "^4.0.0",
+        "lodash": "^4.17.11",
+        "node-fetch": "^2.1.2",
+        "read-text-file": "^1.1.0",
+        "semver": "^5.5.1"
+    },
+    "devDependencies": {
+        "@types/jasmine": "^3.3.8",
+        "@types/lodash": "^4.14.120",
+        "jasmine": "^3.3.1"
+    }
 }
