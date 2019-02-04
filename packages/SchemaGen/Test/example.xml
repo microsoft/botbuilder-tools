@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<bb:Topic xmlns="Microsoft.Bot.Builder"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:ai="Microsoft.Bot.Builder.AI.Luis"
-       xmlns:bb="Microsoft.Bot.Builder"
-       xsi:schemaLocation="Microsoft.Bot.Builder file:///c:/tmp/schemas/Microsoft.Bot.Builder.xsd Microsoft.Bot.Builder.AI.Luis file:///c:/tmp/schemas/LUISRecognizer.xsd">
-</bb:Topic>
-    
