@@ -1,0 +1,73 @@
+{
+  "name": "transcripts",
+  "version": "4.3.2",
+  "description": "Transcripts command line tool for working with transcript stores",
+  "scripts": {
+    "build": "tsc",
+    "test": "cd test/ && mocha --opts mocha.opts",
+    "clean": "erase /Q /s .\\bin && erase /Q /s .\\typings",
+    "set-version": "npm version --allow-same-version ${Version}"
+  },
+  "bin": {
+    "msbot": "bin/transcripts.js"
+  },
+  "types": "bin/index.d.ts",
+  "directories": {
+    "bin": "bin",
+    "doc": "docs",
+    "typings": "typings"
+  },
+  "files": [
+    "bin/",
+    "docs/",
+    "typings/"
+  ],
+  "engines": {
+    "node": ">=8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Microsoft/botbuilder-tools/issues"
+  },
+  "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
+  "devDependencies": {
+    "@types/documentdb": "^1.10.5",
+    "@types/fs-extra": "^5.0.2",
+    "@types/get-stdin": "^5.0.1",
+    "@types/node": "^10.9.4",
+    "@types/opn": "^5.1.0",
+    "@types/readline-sync": "^1.4.3",
+    "@types/semver": "^5.5.0",
+    "@types/uuid": "^3.4.3",
+    "@types/valid-url": "^1.0.2",
+    "enum-files": "^1.1.0",
+    "mocha": "^5.2.0",
+    "targz": "^1.0.1"
+  },
+  "dependencies": {
+    "botbuilder": "^4.2.0",
+    "botbuilder-azure": "^4.2.0",
+    "botbuilder-config": "^0.5.1",
+    "chalk": "2.4.1",
+    "cli-table3": "^0.5.1",
+    "command-exists": "^1.2.8",
+    "commander": "^2.15.1",
+    "fs-extra": "^5.0.0",
+    "get-stdin": "^6.0.0",
+    "intercept-stdout": "^0.1.2",
+    "latest-version": "^4.0.0",
+    "linq-collections": "^1.0.254",
+    "opn": "^5.3.0",
+    "read-text-file": "^1.1.0",
+    "readline-sync": "^1.4.9",
+    "semver": "^5.5.1",
+    "uuid": "^3.2.1",
+    "valid-url": "^1.0.9",
+    "validator": "^9.4.1"
+  }
+}
