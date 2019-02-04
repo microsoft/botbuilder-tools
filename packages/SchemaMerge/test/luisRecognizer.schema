@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "LUIS Recognizer",
-    "description": "The root definition for components.",
+    "description": "LUIS recognizer.",
     "$implements": [
         "Microsoft.IRecognizer"
     ],
@@ -22,7 +22,6 @@
                 },
                 "application": {
                     "type": "object",
-                    "$comment": "We need a consistent way to handle keys.",
                     "properties": {
                         "applicationId": {
                             "type": "string"
@@ -41,9 +40,10 @@
                     ]
                 },
                 "priority": {
-                    "$ref": "#definitions/local"
+                    "$ref": "#/definitions/local"
                 }
-            }
+            },
+            "required": ["application"]
         }
     ]
 }

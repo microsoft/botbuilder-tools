@@ -1,6 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Topic",
+    "description": "Topic from DRuE.",
     "type": "object",
     "definitions": {
         "$comment": "Overlapping definition to ensure definitions are scoped by the type.",
@@ -25,7 +26,7 @@
             }
         },
         "priority": {
-            "$ref": "#definitions/local"
+            "$ref": "#/definitions/local"
         }
     }
 }

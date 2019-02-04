@@ -1,3 +1,8 @@
 {
     "$schema": "./app.schema",
-    "$type":
+    "$type":"Microsoft.Topic",
+    "prompts": [{
+        "$type":"Microsoft.Prompt",
+        "prompt": ""
+    }]
+}

@@ -34,7 +34,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
-    .option("-o, output <path>", "Output path for where to put unified schemas.")
+    .option("-o, output <path>", "Output path and filename for unified schema.")
     .description(`Take JSON Schema files that match a regex and merge into a single .schema file after following all $ref and allof.`)
     .parse(process.argv);
 
@@ -66,13 +66,19 @@ async function mergeSchemas() {
         $schema: "http://json-schema.org/draft-07/schema#",
         oneOf: Object.keys(definitions)
             .filter((schemaName) => !definitions[schemaName].$defines)
-            .map((schemaName) => {
-                let ref = { $ref: "#definitions/" + schemaName };
-                return ref;
-            }),
+            .map(
+                // (schemaName) => definitions[schemaName]),
+                (schemaName) => {
+                    let ref = { $ref: "#/definitions/" + schemaName };
+                    return ref;
+                }),
         definitions: definitions
     };
-    fs.writeFileSync("app.schema", JSON.stringify(finalSchema, null, 4));
+    if (!program.output)
+    {
+        program.output = "app.schema";
+    }
+    fs.writeFileSync(program.output, JSON.stringify(finalSchema, null, 4));
 }
 
 function typeName(schema: any): string {
@@ -121,8 +127,8 @@ function fixDefinitionReferences(schema: any): void {
     walkSchema(schema, (val: any) => {
         if (val.$ref) {
             let ref: string = val.$ref;
-            if (ref.startsWith("#definitions/")) {
-                val.$ref = "#definitions/" + type + "/definitions" + ref.substr(ref.indexOf('/'));
+            if (ref.startsWith("#/definitions/")) {
+                val.$ref = "#/definitions/" + type + "/definitions" + ref.substr(ref.indexOf('/'));
             }
         }
         return false;
@@ -135,14 +141,14 @@ function expandProviders(definitions: any, implementations: any): void {
         if (provider) {
             let providerDefinitions = implementations[type];
             for (let implementation of providerDefinitions) {
-                provider.oneOf.push({ $ref: "#definitions/" + implementation })
+                provider.oneOf.push({ $ref: "#/definitions/" + implementation })
             }
         }
         // Ignore if no provider since that means no one actually uses type
     }
 }
 
-function contractProviderReferences(definitions: any, 
+function contractProviderReferences(definitions: any,
     _implementations: any): void {
     walkSchema(definitions, (val) => {
         let done = val.properties;
@@ -150,7 +156,7 @@ function contractProviderReferences(definitions: any,
             walkSchema(val, (inner, obj, key) => {
                 let done = inner.$defines;
                 if (done) {
-                    obj[<string>key] = {"$ref": "#definitions/" + done };
+                    obj[<string>key] = { "$ref": "#/definitions/" + done };
                 }
                 return false;
             });

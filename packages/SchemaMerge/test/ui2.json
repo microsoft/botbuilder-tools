@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "simple": {
+            "type": "string"
+        },
+        "complex": {
+            "type": "object",
+            "properties": {
+                "a": {
+                    "type": "string"
+                },
+                "b": {
+                    "type": "number"
+                }
+            }
+        }
+    },
+    "oneOf": [
+        {
+            "$ref": "#definitions/simple"
+        },
+        {
+            "$ref": "#definitions/complex"
+        }
+    ]
+}
