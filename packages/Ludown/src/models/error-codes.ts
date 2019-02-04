@@ -1,0 +1,3 @@
+export enum ERROR_CODE {
+    MISSING_ARGUMENTS
+}
