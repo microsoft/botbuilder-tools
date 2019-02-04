@@ -35,50 +35,54 @@ program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
     .option("-o, output <path>", "Output path and filename for unified schema.")
-    .description(`Take JSON Schema files that match a regex and merge into a single .schema file after following all $ref and allof.`)
+    .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged.  Also supports component merging using $defines, $implements and $type, see readme.md for more information.`)
     .parse(process.argv);
 
 mergeSchemas();
 
 async function mergeSchemas() {
     let schemaPaths = glob.sync(program.args);
-    let implementations: any = {};
-    let definitions: any = {};
-    for (let path of schemaPaths) {
-        var schema = allof(await parser.dereference(path));
-        var type = typeName(schema);
-        delete schema.$schema;
-        if (type) {
-            findImplements(schema, implementations);
-            // TODO: Check for compatibility?
-            fixDefinitionReferences(schema);
-            definitions[type] = schema;
-        } else if (schema.$defines) {
-            // Implementation definition like IRecognizer
-            definitions[schema.$defines] = schema;
-        } else {
-            console.log("Schema " + path + " is not a component schema.");
+    if (schemaPaths.length == 0) {
+        program.help();
+    }
+    else {
+        let implementations: any = {};
+        let definitions: any = {};
+        for (let path of schemaPaths) {
+            var schema = allof(await parser.dereference(path));
+            var type = typeName(schema);
+            delete schema.$schema;
+            if (type) {
+                findImplements(schema, implementations);
+                // TODO: Check for compatibility?
+                fixDefinitionReferences(schema);
+                definitions[type] = schema;
+            } else if (schema.$defines) {
+                // Implementation definition like IRecognizer
+                definitions[schema.$defines] = schema;
+            } else {
+                console.log("Schema " + path + " is not a component schema.");
+            }
         }
+        expandProviders(definitions, implementations);
+        contractProviderReferences(definitions, implementations);
+        let finalSchema = {
+            $schema: "http://json-schema.org/draft-07/schema#",
+            oneOf: Object.keys(definitions)
+                .filter((schemaName) => !definitions[schemaName].$defines)
+                .map(
+                    // (schemaName) => definitions[schemaName]),
+                    (schemaName) => {
+                        let ref = { $ref: "#/definitions/" + schemaName };
+                        return ref;
+                    }),
+            definitions: definitions
+        };
+        if (!program.output) {
+            program.output = "app.schema";
+        }
+        fs.writeFileSync(program.output, JSON.stringify(finalSchema, null, 4));
     }
-    expandProviders(definitions, implementations);
-    contractProviderReferences(definitions, implementations);
-    let finalSchema = {
-        $schema: "http://json-schema.org/draft-07/schema#",
-        oneOf: Object.keys(definitions)
-            .filter((schemaName) => !definitions[schemaName].$defines)
-            .map(
-                // (schemaName) => definitions[schemaName]),
-                (schemaName) => {
-                    let ref = { $ref: "#/definitions/" + schemaName };
-                    return ref;
-                }),
-        definitions: definitions
-    };
-    if (!program.output)
-    {
-        program.output = "app.schema";
-    }
-    fs.writeFileSync(program.output, JSON.stringify(finalSchema, null, 4));
 }
 
 function typeName(schema: any): string {
