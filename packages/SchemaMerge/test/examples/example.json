@@ -1,8 +1,9 @@
 {
     "$schema": "./app.schema",
-    "$type":"Microsoft.Topic",
-    "primary":{"$type":"Microsoft.LUISRecognizer",
+    "$type":"Microsoft.LUISRecognizer",
     "application": {
-        ""
-    }}
-}
+        "applicationId": "12",
+        "endpoint": "3",
+        "endpointKey": "66"
+    }
+  }

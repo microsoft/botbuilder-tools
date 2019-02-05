@@ -1,0 +1,8 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$type": "Microsoft.SimplePrompt",
+    "title": "Really Prompt",
+    "$implements": [
+        "Microsoft.IPrompt"
+    ]
+}

@@ -51,7 +51,7 @@ async function mergeSchemas() {
         for (let path of schemaPaths) {
             console.log(chalk.default.grey(`parsing: ${path}`));
             var schema = allof(await parser.dereference(path));
-            var type = typeName(schema);
+            var type = schema.$type;
             delete schema.$schema;
             if (type) {
                 findImplements(schema, implementations);
@@ -65,6 +65,7 @@ async function mergeSchemas() {
         }
         extractDefines(definitions);
         expandProviders(definitions, implementations);
+        addStandardProperties(definitions);
         let finalSchema = {
             $schema: "http://json-schema.org/draft-07/schema#",
             oneOf: Object.keys(definitions)
@@ -84,21 +85,15 @@ async function mergeSchemas() {
     }
 }
 
-function typeName(schema: any): string {
-    return (schema.properties && schema.properties.$type)
-        ? schema.properties.$type.const
-        : undefined;
-}
-
 function findImplements(schema: any, definitions: any): void {
     walkSchema(schema, (val: any) => {
         let done: any = val.$implements;
         if (done) {
             for (let iname of val.$implements) {
                 if (definitions.hasOwnProperty(iname)) {
-                    definitions[iname].push(typeName(schema));
+                    definitions[iname].push(schema.$type);
                 } else {
-                    definitions[iname] = [typeName(schema)];
+                    definitions[iname] = [schema.$type];
                 }
             }
         }
@@ -126,30 +121,15 @@ function walkSchema(schema: any, fun: (val: any, obj?: any, key?: string) => boo
 }
 
 function fixDefinitionReferences(schema: any): void {
-    let type = typeName(schema);
     walkSchema(schema, (val: any) => {
         if (val.$ref) {
             let ref: string = val.$ref;
             if (ref.startsWith("#/definitions/")) {
-                val.$ref = "#/definitions/" + type + "/definitions" + ref.substr(ref.indexOf('/'));
+                val.$ref = "#/definitions/" + schema.$type + "/definitions" + ref.substr(ref.indexOf('/'));
             }
         }
         return false;
     });
-}
-
-// Expand provider definitions with implementations
-function expandProviders(definitions: any, implementations: any): void {
-    for (let type in implementations) {
-        let provider = definitions[type];
-        if (provider) {
-            let providerDefinitions = implementations[type];
-            for (let implementation of providerDefinitions) {
-                provider.oneOf.push({ $ref: "#/definitions/" + implementation })
-            }
-        }
-        // Ignore if no provider since that means no one actually uses type
-    }
 }
 
 function extractDefines(definitions: any): void {
@@ -172,6 +152,50 @@ function extractDefines(definitions: any): void {
         }
         return false;
     });
+}
+
+// Expand provider definitions with implementations
+function expandProviders(definitions: any, implementations: any): void {
+    for (let type in implementations) {
+        let provider = definitions[type];
+        if (provider) {
+            let providerDefinitions = implementations[type];
+            for (let implementation of providerDefinitions) {
+                provider.oneOf.push({ $ref: "#/definitions/" + implementation })
+            }
+        }
+        // Ignore if no provider since that means no one actually uses type
+    }
+}
+
+function addProp(obj: any, key: string, val: any): void {
+    if (!obj[key]) {
+        obj[key] = val;
+    }
+}
+
+function addStandardProperties(definitions: any): void {
+    for (let type in definitions) {
+        let definition = definitions[type];
+        if (definition.$type) {
+            let props = definition.properties;
+            if (!props) {
+                props = {};
+                definition.properties = props;
+            }
+            if (definition.$type) {
+                addProp(props, "$type", { type: "string", const: type });
+                addProp(props, "$id", { type: "string" });
+                addProp(definition, "patternProperties", { "^\$": {} });
+            }
+            if (!definition.required) {
+                definition.required = [];
+            }
+            if (!definition.required.includes("$type")) {
+                definition.required.push("$type");
+            }
+        }
+    }
 }
 
 interface IPackage {
