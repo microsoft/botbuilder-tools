@@ -70,7 +70,7 @@ program
     .command('update <service>', 'update a service record (Luis/Qna/Azure/...) used by the bot');
 
 (async () => {
-    const latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
+    const latest = await latestVersion(pkg.name, { version: `^${pkg.version}` })
         .catch(() => pkg.version);
     if (semver.gt(latest, pkg.version)) {
         process.stderr.write(chalk.default.white(`\n     Update available `));
