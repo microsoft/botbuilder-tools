@@ -5,7 +5,7 @@
   "main": "./lib/schemaMerge.js",
   "types": "./typing/lib/schemamerge.d.ts",
   "bin": {
-    "schemamerge": "./bin/schemamerge.js"
+    "schemamerge": "./lib/schemamerge.js"
   },
   "directories": {
     "bin": "bin",
