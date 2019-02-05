@@ -7,10 +7,10 @@
 // tslint:disable:no-object-literal-type-assertion
 import * as chalk from 'chalk';
 import * as program from 'commander';
+import * as fs from 'fs';
+import * as glob from 'globby';
 import * as process from 'process';
 import * as semver from 'semver';
-import * as  glob from 'globby';
-import * as fs from 'fs';
 let parser: any = require('json-schema-ref-parser');
 let allof: any = require('json-schema-merge-allof');
 
@@ -25,7 +25,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.outputHelp((str: string) => {
-        console.error(str);
+        console.error(chalk.default.redBright(str));
         return '';
     });
     process.exit(1);
@@ -49,6 +49,7 @@ async function mergeSchemas() {
         let implementations: any = {};
         let definitions: any = {};
         for (let path of schemaPaths) {
+            console.log(chalk.default.grey(`parsing: ${path}`));
             var schema = allof(await parser.dereference(path));
             var type = typeName(schema);
             delete schema.$schema;
@@ -61,7 +62,7 @@ async function mergeSchemas() {
                 // Implementation definition like IRecognizer
                 definitions[schema.$defines] = schema;
             } else {
-                console.log("Schema " + path + " is not a component schema.");
+                console.warn(chalk.default.yellowBright("WARNING: " + path + " does not have $type or $defines and so is not a component schema."));
             }
         }
         expandProviders(definitions, implementations);
