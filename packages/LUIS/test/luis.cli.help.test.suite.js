@@ -41,7 +41,7 @@ describe('The LUIS cli --help -h argument', () => {
 
     it('should print help contents for query (CLI special case)', done => {
         exec(`node ${luis} query --help`, (error, stdout) => {
-            assert(stdout.includes('luis query -q <querytext> --region <region>'));
+            assert(stdout.includes('luis query --query <querytext>'));
             done();
         });
     });

@@ -15,7 +15,7 @@ const pathToOutputFolder = path.resolve('./test/output');
 const fs = require('fs');
 const helpers = require('../lib/helpers');
 const NEWLINE = require('os').EOL;
-const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
+const TRANSLATE_KEY = null;
 const SHOW_LOGS = false;
 
 const LUDOWN_ROOT = path.join(__dirname, '../');

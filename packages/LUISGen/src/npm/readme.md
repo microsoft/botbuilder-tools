@@ -33,13 +33,13 @@ To generate from a saved model .JSON file you invoke from the CLI like this:
 LUISGen <AppNameLUISExport.json> [-cs|-ts] CLASSNAME -o PATH
 ```
 
-If a .JSON file is not passed in, LUISGen will assume that the JSON is being piped in via stdin. This
+If a .JSON file is not passed in, LUISGen can assume that the JSON is being piped in via stdin if you add an `--stdin` parameter. This
 allows you to use the [LUIS CLI tool](https://www.npmjs.com/package/luis-apis) to export your 
 application model and pipe it directly into the LUISGen tool like this:
 
 ```shell
 luis export version --appId {luisAppId} --versionId {versionId} --authoringKey {authoringKey} 
-    | luisgen [-cs|-ts] CLASSNAME -o PATH
+    | luisgen --stdin [-cs|-ts] CLASSNAME -o PATH
 ```
 
 > NOTE: The [LUIS CLI tool](https://www.npmjs.com/package/luis-apis) can be installed with the npm command: `npm install -g luis-apis`

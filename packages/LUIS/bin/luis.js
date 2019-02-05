@@ -13,6 +13,7 @@ const { LuisAuthoring } = require('../lib/luisAuthoring');
 const getOperation = require('./getOperation');
 var pos = require("cli-position");
 const Table = require('cli-table3');
+const { performance } = require('perf_hooks');
 
 function stdoutAsync(output) { return new Promise((done) => process.stdout.write(output, "utf-8", () => done())); }
 
@@ -104,13 +105,13 @@ async function runProgram() {
     args.region = args.region || serviceIn.region || config.region || "westus";
     args.cloud = args.cloud || serviceIn.cloud || config.cloud;
     args.customHeaders = { "accept-language": "en-US" };
-    
+
     validateConfig(args);
-    
+
     if (args.region == "virginia") {
         args.cloud = "us";
     }
-    
+
     let credentials = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": args.authoringKey } });
     const client = new LuisAuthoring(credentials);
 
@@ -290,6 +291,7 @@ async function runProgram() {
             switch (target) {
                 case "version":
                     result = await client.versions.exportMethod(args.region, args.cloud, args.appId, args.versionId, args);
+                    result = sortExportedApp(result);
                     break;
                 case "closedlist":
                     result = await client.model.getClosedList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, args);
@@ -635,6 +637,43 @@ async function runProgram() {
     }
 }
 
+function sortExportedApp(result) {
+    result = sortExportedAppPatterns(result);
+    result = sortExportedAppPatternEntities(result);
+
+    return result;
+}
+
+function sortExportedAppPatterns(result) {
+    if (Array.isArray(result.patterns) && result.patterns.length) {
+        result.patterns = result.patterns.sort((a, b) => {
+            if (!a || !a.intent) return -1;
+            if (!b || !b.intent) return 1;
+
+            const diff = a.intent.localeCompare(b.intent);
+            if (diff) return diff;
+
+            if (!a.pattern) return -1;
+            if (!b.pattern) return 1;
+            return a.pattern.localeCompare(b.pattern);
+        });
+    }
+
+    return result;
+}
+
+function sortExportedAppPatternEntities(result) {
+    if (Array.isArray(result.patternAnyEntities) && result.patternAnyEntities.length) {
+        result.patternAnyEntities = result.patternAnyEntities.sort((a, b) => {
+            if (!a || !a.name) return -1;
+            if (!b || !b.name) return 1;
+            return a.name.localeCompare(b.name);
+        });
+    }
+
+    return result;
+}
+
 async function writeAppToConsole(config, args, requestBody, result) {
     if (result.error) {
         throw new Error(result.error.message);
@@ -835,7 +874,7 @@ function validateConfig(config) {
 
     assert(typeof authoringKey === 'string', `The authoringKey  ${messageTail}`);
     assert(typeof region === 'string', `The region ${messageTail}`);
-    assert(args.region == "westus" || args.region == 'westeurope' || args.region == 'australiaeast' || args.region=='virginia', `${args.region} is not a valid authoring region.  Valid values are [westus|westeuerope|australiaest]`);
+    assert(args.region == "westus" || args.region == 'westeurope' || args.region == 'australiaeast' || args.region == 'virginia', `${args.region} is not a valid authoring region.  Valid values are [westus|westeuerope|australiaest]`);
 }
 
 /**
@@ -915,14 +954,13 @@ async function validateArguments(args, operation) {
 }
 
 async function handleQueryCommand(args, config) {
-    let query = args.q || args.question;
+    let query = args.q || args.query;
     if (!query) {
         process.stderr.write(chalk.red.bold(`missing -q\n`));
         return help(args);
     }
-    let appId = args.appId || config.appId;
-    if (!appId) {
-        process.stderr.write(chalk.red.bold(`missing --appid\n`));
+    if (!args.appId) {
+        process.stderr.write(chalk.red.bold(`missing --appId\n`));
         return help(args);
     }
 
@@ -931,27 +969,71 @@ async function handleQueryCommand(args, config) {
         process.stderr.write(chalk.red.bold(`missing --subscriptionKey\n`));
         return help(args);
     }
-    let region = args.region || config.region;
-    if (!region) {
-        process.stderr.write(chalk.red.bold(`missing --region\n`));
-        return help(args);
+    let uri;
+    if (args.endpoint) {
+        uri = `${args.endpoint}/${args.appId}`;
+    } else {
+        let region = args.region || config.region;
+        if (region) {
+            uri = `https://${region}.api.cognitive.microsoft.com/luis/v2.0/apps/${args.appId}`;
+        }
+        else {
+            process.stderr.write(chalk.red.bold(`missing --region or --endpointBasePath\n`));
+            return help(args);
+        }
     }
 
-    if (query && appId && subscriptionKey && region) {
+    if (query && subscriptionKey && uri) {
+        var qargs = {
+            log: !args.nologging,
+            staging: args.staging,
+            "subscription-key": `${subscriptionKey}`,
+            verbose: args.verbose,
+            q: `${query}`
+        };
+        if (args.spellCheck) {
+            qargs.spellCheck = true;
+            qargs["bing-spell-check-subscription-key"] = args.spellCheck;
+        }
+        if (args.timezoneOffset) {
+            qargs.timezoneOffset = args.timezoneOffset;
+        }
         var options = {
-            uri: `https://${region}.api.cognitive.microsoft.com/luis/v2.0/apps/${appId}`,
+            uri: uri,
             method: "GET",
-            qs: {  // Query string like ?key=value&...
-                "subscription-key": `${subscriptionKey}`,
-                verbose: true,
-                timezoneOffset: 0,
-                q: `${query}`
-            },
+            qs: qargs,
             json: true
         }
-
-        let result = await request(options);
-        await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
+        let timings = args.t || args.timing;
+        if (args.timing) {
+            let samples = typeof timings === 'boolean' ? 5 : timings;
+            let total = 0.0;
+            let sq = 0.0;
+            let min = Number.MAX_VALUE;
+            let max = Number.MIN_VALUE;
+            let values = [];
+            for (i = 0; i <= samples; ++i) {
+                let start = performance.now();
+                let result = await request(options);
+                let elapsed = performance.now() - start;
+                console.log(`${i}: ${elapsed} ms`);
+                if (i > 0) {
+                    total += elapsed;
+                    sq += elapsed * elapsed;
+                    if (elapsed > max) max = elapsed;
+                    if (elapsed < min) min = elapsed;
+                    values.push(elapsed);
+                }
+            }
+            values.sort((a, b) => a - b);
+            let variance = (sq - (total * total / samples)) / (samples - 1);
+            let p95 = values[Math.floor((samples - 1) * 0.95)];
+            console.log(`Timing after 1st: [${min} ms, ${total / samples} ms, ${max} ms], stddev ${Math.sqrt(variance)} ms, P95 ${p95} ms`)
+        }
+        else {
+            let result = await request(options);
+            await stdoutAsync(JSON.stringify(result, null, 2) + "\n");
+        }
         return;
     }
     return help(args);

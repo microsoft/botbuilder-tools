@@ -22,9 +22,9 @@ npm install -g botdispatch
 
 This will install dispatch into your global path.
 
-# Usage
+## Usage
 
-## Initializing dispatch
+### Initializing dispatch
 
 To initialize dispatch:
 
@@ -56,8 +56,7 @@ dispatch init -n TestDispatch --luisAuthoringKey "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dispatch init --bot c:\src\bot\testbot.bot
 ```
 
-
-## Adding source to dispatch
+### Adding source to dispatch
 
 This step is not needed if you have a .bot file already connected with services (i.e., LUIS/QnA). Dispatch will take the services in .bot file
 and add each of the services it can dispatch to .dispatch file.  Currently, a maximum of 500 dispatch sources could be added to a Dispatch model.
@@ -69,7 +68,6 @@ dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxx
 dispatch add -t file -n TestModule -f c:\src\testmodule.tsv
 dispatch add -t file -n TestModule2 -f c:\src\testmodule2.txt
 dispatch add -t file -n TestModule3 -f c:\src\testmodule3.json
-
 ```
 
 Arguments
@@ -96,8 +94,7 @@ Supported file types:
 | .txt | Lines of utterances with intent as file name |
 | .json | Exported LUIS or QnA Maker json file | 
 
-
-## Removing dispatch source
+### Removing dispatch source
 
 To remove one of the services from .dispatch file, run
 
@@ -105,7 +102,6 @@ To remove one of the services from .dispatch file, run
 dispatch remove -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 
 dispatch remove -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 
 dispatch remove -t file -f c:\src\testmodule.json
-
 ```
 
 Arguments
@@ -120,14 +116,13 @@ Arguments
 | --dataFolder  | (optional) Dispatch working directory |
 | -h, --help    | Output usage information |
 
-## Creating your dispatch model  
+### Creating your dispatch model  
 
 To create, train and publish your new dispatch model:
 
 ```shell
 dispatch create [options]
 dispatch create --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
-
 ```
 
 Options:
@@ -144,7 +139,7 @@ Options:
 
 This command creates a brand new LUIS application.
 
-## Refreshing your dispatch model  
+### Refreshing your dispatch model  
 
 To train and publish your existing dispatch model after modification:
 
@@ -166,7 +161,7 @@ With the following options
 
 This command updates existing LUIS application in .dispatch file.
 
-## Evaluating your dispatch model  
+### Evaluating your dispatch model  
 
 This command will run cross validation evaluation on the dispatch model and generate a summary of the evaluation:  
 
@@ -186,7 +181,7 @@ Options:
 
 If no options are supplied, the tool will prompt for the required information it needs to run model evaluation.
 
-## Testing your dispatch model  
+### Testing your dispatch model  
 
 To test your dispatch model against test set:
 
@@ -206,7 +201,7 @@ Options:
 | -h, --help              | Output usage information |
 
 
-## Run prediction using your dispatch model  
+### Run prediction using your dispatch model  
 
 To run prediction against your new dispatch model, run
 
@@ -226,7 +221,7 @@ With the following options
 
 You'll then be prompted to enter the utterance you'd like to run prediction on.
 
-## Print dispatch configuration to console 
+### Print dispatch configuration to console 
 
 To print your current dispatch configuration, run
 
@@ -242,13 +237,10 @@ With the following options
 | --dataFolder         | (optional) Dispatch working directory |
 | -h, --help           | Output usage information |
 
+## Common Tasks
 
-# Common Tasks
-
-## Create bot dispatch using bot file
+### Create bot dispatch using bot file
 If you have a .bot file containing one or more LUIS model(s) and/or one or more QnA Maker knowledge base(s), you could create Dispatch model without having to initialize Dispatch and add all of the sources separately. Running the eval command is optional but it provides insight into how well the newly created or updated Dispatch model will perform.  In addition, it provides suggestions for improving the bot components.
-
-
 
 ```shell
 dispatch create --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
@@ -261,7 +253,7 @@ dispatch refresh --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
 dispatch eval --luisSubscriptionKey <azure_luis_key> --luisSubscriptionRegion <azure_luis_region>
 ```
 
-## Create and evaluate bot dispatch
+### Create and evaluate bot dispatch
 
 End-to-end example of a bot consisting of a LUIS module and a QnA Maker knowledge base module:
 
@@ -275,7 +267,7 @@ dispatch eval --luisSubscriptionKey <azure_luis_key> --luisSubscriptionRegion <a
 
 The output is Summary.html file located in local file system directory where the commands were issued. It includes all the evaluation results and suggestions for improving the bot components.
 
-## Evaluate single LUIS model
+### Evaluate single LUIS model
 
 Evaluate a LUIS model performing cross validation:
 
@@ -288,7 +280,7 @@ dispatch eval --luisSubscriptionKey <azure_luis_key> --luisSubscriptionRegion <a
 
 The output, Summary.html, contains all the evaluation results. The file is located in local file system directory where the commands were issued.
 
-## Test a LUIS model using test utterances
+### Test a LUIS model using test utterances
 
 Suppose the dispatcher model was already created following the steps of one of the above tasks. To test this model with a tab-delimited text file run these commands:
 
@@ -298,12 +290,22 @@ dispatch test --testFilePath <text_file>
 
 The output, Summary.html, contains all the evaluation results. The file is located in the location of the test file.
 
-# Sample Code and Tutorial
+## Sample Code and Tutorial
 C# Sample: https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/14.nlp-with-dispatch
 
 JS Sample: https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/14.nlp-with-dispatch 
 
 Tutorial: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch
+
+## Troubleshooting
+
+If you are using the Dispatch command line tool in Azure Pipelines with a [Microsoft-hosted agent](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#use-a-microsoft-hosted-agent), you may encounter the following error:
+
+> `Unable to install/use dotnet framework`
+
+To fix this, make sure you are using the correct agent pool. In order to successfully run the .NET commands that Dispatch relies on, you will need to use Visual Studio 2017 on Windows Server 2016 (`vs2017-win2016`). In the web UI, you would select "Hosted VS2017":
+
+![azurepipelinesagentpoolvmimages](https://user-images.githubusercontent.com/41968495/52246146-8ea81c00-2899-11e9-8ed1-5a0347ad12a5.jpg)
 
 ## Nightly builds
 

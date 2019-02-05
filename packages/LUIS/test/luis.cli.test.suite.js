@@ -48,7 +48,7 @@ describe('The LUIS cli tool', () => {
             it('and no appid', done =>{
                 exec(`node ${luis} --authoringKey dummy-key --region westeurope query --q "message to send"`, (error, stdout, stderr) => {
                     assert.equal(stdout, '');
-                    assert(stderr.includes('missing --appid'));
+                    assert(stderr.toLowerCase().includes('missing --appid'));
                     done();
                 });
             });

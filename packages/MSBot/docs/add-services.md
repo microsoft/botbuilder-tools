@@ -92,7 +92,7 @@ Options:
 | -t, --tenantId <tenantId>             | id of the tenant for the Azure service (either GUID or xxx.onmicrosoft.com) |
 | -s, --subscriptionId <subscriptionId> | GUID of the subscription for the Azure Service                              |
 | -r, --resourceGroup <resourceGroup>   | name of the resourceGroup for the Azure Service                             |
-| -e, --endpoint <endpoint>             | (OPTIONAL) Registered endpoint url for the Azure Bot Service                |
+| -e, --endpoint <endpoint>             | Registered endpoint url for the Azure Bot Service                           |
 | -a, --appId<appid>                    | appId                                                                       |
 | -p, --appPassword <appPassword>       | appPassword                                                                 |
 | -b, --bot <path>                      | path to bot file.                                                           |
@@ -180,6 +180,7 @@ With the following options:
 |-------------------------------------|-----------------------------------------------------------------------|
 | -n, --name <name>                   | name of the LUIS application                                          |
 | -a, --appId  <appid>                | application ID for the LUIS application                               |
+| -r, --region <region>               | region for the LUIS app, (default: westus)                            |
 | --version <version>                 | version for the LUIS App, (example: 0.1)                             |
 | --authoringKey <authoringkey>       | authoring key for authoring LUIS models via the authoring API         |
 | --subscriptionKey <subscriptionKey> |                                                                       |

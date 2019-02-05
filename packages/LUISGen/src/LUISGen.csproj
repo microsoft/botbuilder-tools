@@ -16,7 +16,7 @@
         <Description>LUISGen is a tool for generating a strongly typed C# class or typescript interface to make consuming LUIS output easier in the Microsoft Bot Builder SDK.  This enables build-time error checking and intellisense against the intents and entities of your LUIS application model.</Description>
         <Product>Microsoft Bot Framework</Product>
         <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
-        <PackageProjectUrl>https://github.com/Microsoft/botbuilder-tools/packages/LUISGen</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUISGen</PackageProjectUrl>
         <PackageIconUrl>http://docs.botframework.com/images/bot_icon.png</PackageIconUrl>
         <PackageLicenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/Microsoft/botbuilder-tools</RepositoryUrl>

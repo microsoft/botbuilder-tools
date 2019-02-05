@@ -1,7 +1,8 @@
 ﻿{
   "LuisApi": {
     "IsLocal": false,
-    "BatchTest":  true,
+    "BatchTest": true,
+    "DispatchVersion": "1.2.3",
     "AuthoringBaseUrl": "https://{0}.api.cognitive.microsoft.com/luis/api/v2.0/apps",
     "EndpointBaseUrl": "https://{0}.api.cognitive.microsoft.com/luis/v2.0/apps"
   }
