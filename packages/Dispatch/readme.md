@@ -324,3 +324,13 @@ To reset registry:
 ```shell
 npm config set registry https://registry.npmjs.org/
 ```
+
+# Troubleshooting
+
+If you are using the Dispatch command line tool in Azure Pipelines with a [Microsoft-hosted agent](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#use-a-microsoft-hosted-agent), you may encounter the following error:
+
+> `Unable to install/use dotnet framework`
+
+To fix this, make sure you are using the correct agent pool. In order to successfully run the .NET commands that Dispatch relies on, you will need to use Visual Studio 2017 on Windows Server 2016 (`vs2017-win2016`). In the web UI, you would select "Hosted VS2017":
+
+![azurepipelinesagentpoolvmimages](https://user-images.githubusercontent.com/41968495/52246146-8ea81c00-2899-11e9-8ed1-5a0347ad12a5.jpg)
