@@ -7,7 +7,7 @@
     ],
     "allOf": [
         {
-            "$ref": "component.schema#"
+            "$ref": "../definitions/component.schema#"
         },
         {
             "properties": {

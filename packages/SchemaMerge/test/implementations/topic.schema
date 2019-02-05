@@ -9,24 +9,37 @@
             "type": "integer"
         }
     },
-    "properties": {
-        "$type": {
-            "const": "Microsoft.Topic"
+    "allOf": [
+        {
+            "$ref": "../definitions/component.schema"
         },
-        "recognizers": {
-            "type": "array",
-            "items": {
-                "$ref": "IRecognizer.schema"
+        {
+            "properties": {
+                "$type": {
+                    "const": "Microsoft.Topic"
+                },
+                "primary": {
+                    "$ref": "../definitions/IRecognizer.schema",
+                    "title": "Primary Reco",
+                    "description": "Really?"
+                },
+                "recognizers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "../definitions/IRecognizer.schema",
+                        "title": "Cool recognizers"
+                    }
+                },
+                "prompts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "../definitions/IPrompt.schema"
+                    }
+                },
+                "priority": {
+                    "$ref": "#/definitions/local"
+                }
             }
-        },
-        "prompts": {
-            "type": "array",
-            "items": {
-                "$ref": "IPrompt.schema"
-            }
-        },
-        "priority": {
-            "$ref": "#/definitions/local"
         }
-    }
+    ]
 }

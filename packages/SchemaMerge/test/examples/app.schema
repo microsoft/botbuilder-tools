@@ -12,38 +12,15 @@
         },
         {
             "$ref": "#/definitions/Microsoft.Topic"
+        },
+        {
+            "$ref": "#/definitions/Microsoft.IRecognizer"
+        },
+        {
+            "$ref": "#/definitions/Microsoft.IPrompt"
         }
     ],
     "definitions": {
-        "Microsoft.IPrompt": {
-            "title": "Microsoft IPrompt",
-            "description": "Definition of Microsoft.IPrompt which will be expanded by components that $implements it.",
-            "$defines": "Microsoft.IPrompt",
-            "oneOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "$ref": "#/definitions/Microsoft.Prompt"
-                }
-            ]
-        },
-        "Microsoft.IRecognizer": {
-            "title": "Microsoft IRecognizer",
-            "description": "Definition of Microsoft.IRecognizer which will be expanded by components that $implements it.",
-            "$defines": "Microsoft.IRecognizer",
-            "oneOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "$ref": "#/definitions/Microsoft.LUISRecognizer"
-                },
-                {
-                    "$ref": "#/definitions/Microsoft.RegexRecognizer"
-                }
-            ]
-        },
         "Microsoft.LUISRecognizer": {
             "title": "LUIS Recognizer",
             "description": "LUIS recognizer.",
@@ -150,19 +127,35 @@
                     "type": "integer"
                 }
             },
+            "required": [
+                "$type"
+            ],
             "properties": {
                 "$type": {
+                    "type": "string",
                     "const": "Microsoft.Topic"
+                },
+                "$id": {
+                    "type": "string"
+                },
+                "primary": {
+                    "title": "Primary Reco",
+                    "description": "Really?",
+                    "$ref": "#/definitions/Microsoft.IRecognizer"
                 },
                 "recognizers": {
                     "type": "array",
                     "items": {
+                        "title": "Cool recognizers",
+                        "description": "Definition of Microsoft.IRecognizer which will be expanded by components that $implements it.",
                         "$ref": "#/definitions/Microsoft.IRecognizer"
                     }
                 },
                 "prompts": {
                     "type": "array",
                     "items": {
+                        "title": "Microsoft IPrompt",
+                        "description": "Definition of Microsoft.IPrompt which will be expanded by components that $implements it.",
                         "$ref": "#/definitions/Microsoft.IPrompt"
                     }
                 },
@@ -170,6 +163,29 @@
                     "type": "integer"
                 }
             }
+        },
+        "Microsoft.IRecognizer": {
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/definitions/Microsoft.LUISRecognizer"
+                },
+                {
+                    "$ref": "#/definitions/Microsoft.RegexRecognizer"
+                }
+            ]
+        },
+        "Microsoft.IPrompt": {
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/definitions/Microsoft.Prompt"
+                }
+            ]
         }
     }
 }

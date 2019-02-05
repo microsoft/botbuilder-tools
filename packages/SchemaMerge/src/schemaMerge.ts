@@ -57,15 +57,13 @@ async function mergeSchemas() {
                 // TODO: Check for compatibility?
                 fixDefinitionReferences(schema);
                 definitions[type] = schema;
-            } else if (schema.$defines) {
-                // Implementation definition like IRecognizer
-                definitions[schema.$defines] = schema;
-            } else {
-                console.log("Schema " + path + " is not a component schema.");
+            } else if (!schema.$defines) {
+                // $defines will be found if included
+                console.log("Warning: " + path + " does not contain $defines or $type.");
             }
         }
+        extractDefines(definitions);
         expandProviders(definitions, implementations);
-        contractProviderReferences(definitions, implementations);
         let finalSchema = {
             $schema: "http://json-schema.org/draft-07/schema#",
             oneOf: Object.keys(definitions)
@@ -139,6 +137,7 @@ function fixDefinitionReferences(schema: any): void {
     });
 }
 
+// Expand provider definitions with implementations
 function expandProviders(definitions: any, implementations: any): void {
     for (let type in implementations) {
         let provider = definitions[type];
@@ -152,15 +151,20 @@ function expandProviders(definitions: any, implementations: any): void {
     }
 }
 
-function contractProviderReferences(definitions: any,
-    _implementations: any): void {
+function extractDefines(definitions: any): void {
     walkSchema(definitions, (val) => {
         let done = val.properties;
         if (done) {
-            walkSchema(val, (inner, obj, key) => {
+            walkSchema(val, (inner) => {
                 let done = inner.$defines;
                 if (done) {
-                    obj[<string>key] = { "$ref": "#/definitions/" + done };
+                    if (!definitions.hasOwnProperty(inner.$defines)) {
+                        definitions[inner.$defines] = { oneOf: inner.oneOf };
+                    }
+                    inner.$ref = "#/definitions/" + inner.$defines;
+                    delete inner.oneOf;
+                    delete inner.$schema;
+                    delete inner.$defines;
                 }
                 return false;
             });

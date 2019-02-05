@@ -1,0 +1,5 @@
+{
+  "$schema": "./simple.schema",
+  "$type":"t2",
+  "c": 3
+}

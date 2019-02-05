@@ -1,8 +1,8 @@
 {
     "$schema": "./app.schema",
     "$type":"Microsoft.Topic",
-    "prompts": [{
-        "$type":"Microsoft.Prompt",
-        "prompt": ""
-    }]
+    "primary":{"$type":"Microsoft.LUISRecognizer",
+    "application": {
+        ""
+    }}
 }
