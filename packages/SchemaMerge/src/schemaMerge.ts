@@ -92,8 +92,20 @@ function findImplements(definitions: any, defines: Set<string>): void {
             if (done) {
                 for (let iname of val.$implements) {
                     if (definitions.hasOwnProperty(iname)) {
-                        // TODO: promote one of
-                        definitions[iname].oneOf.push(type);
+                        let definition = definitions[iname];
+                        let oneOf = definition.oneOf;
+                        if (!oneOf) {
+                            let constraints: any = {};
+                            for (let prop in definition) {
+                                if (prop != "title" && prop != "description" && prop != "$schema") {
+                                    constraints[prop] = definition[prop];
+                                    delete definition[prop];
+                                }
+                            }
+                            oneOf = [constraints];
+                            definition.oneOf = oneOf;
+                        }
+                        oneOf.push(type);
                         defines.add(iname);
                     } else {
                         missing(iname)
