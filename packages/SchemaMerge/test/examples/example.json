@@ -1,9 +1,4 @@
 {
-    "$schema": "./app.schema",
-    "$type":"Microsoft.LUISRecognizer",
-    "application": {
-        "applicationId": "12",
-        "endpoint": "3",
-        "endpointKey": "66"
-    }
-  }
+  "$schema": "./app.schema",
+  "$type":"Microsoft.SimplePrompt",
+}

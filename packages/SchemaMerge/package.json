@@ -1,6 +1,6 @@
 {
   "name": "schemamerge",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Merge together multiple JSON schemas with references and allof into a single simple schema.",
   "main": "./lib/schemaMerge.js",
   "types": "./typing/lib/schemamerge.d.ts",

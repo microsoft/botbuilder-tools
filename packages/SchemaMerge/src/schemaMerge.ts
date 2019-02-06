@@ -186,7 +186,9 @@ function addStandardProperties(definitions: any): void {
             if (definition.$type) {
                 addProp(props, "$type", { type: "string", const: type });
                 addProp(props, "$id", { type: "string" });
-                addProp(definition, "patternProperties", { "^\$": {} });
+                addProp(props, "$ref", { type: "string" });
+                addProp(definition, "additionalProperties", false);
+                addProp(definition, "patternProperties", { "^\\$": { type: "string" } });
             }
             if (!definition.required) {
                 definition.required = [];

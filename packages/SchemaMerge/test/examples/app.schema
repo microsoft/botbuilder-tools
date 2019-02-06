@@ -14,7 +14,7 @@
             "$ref": "#/definitions/Microsoft.SimplePrompt"
         },
         {
-            "$ref": "#/definitions/Micorosoft.Topic"
+            "$ref": "#/definitions/Microsoft.Topic"
         },
         {
             "$ref": "#/definitions/Microsoft.IRecognizer"
@@ -66,14 +66,20 @@
                 },
                 "$id": {
                     "type": "string"
+                },
+                "$ref": {
+                    "type": "string"
                 }
             },
             "required": [
                 "application",
                 "$type"
             ],
+            "additionalProperties": false,
             "patternProperties": {
-                "^$": {}
+                "^\\$": {
+                    "type": "string"
+                }
             }
         },
         "Microsoft.Prompt": {
@@ -98,10 +104,16 @@
                 },
                 "prompt": {
                     "type": "string"
+                },
+                "$ref": {
+                    "type": "string"
                 }
             },
+            "additionalProperties": false,
             "patternProperties": {
-                "^$": {}
+                "^\\$": {
+                    "type": "string"
+                }
             }
         },
         "Microsoft.RegexRecognizer": {
@@ -129,10 +141,16 @@
                 },
                 "pattern": {
                     "type": "string"
+                },
+                "$ref": {
+                    "type": "string"
                 }
             },
+            "additionalProperties": false,
             "patternProperties": {
-                "^$": {}
+                "^\\$": {
+                    "type": "string"
+                }
             }
         },
         "Microsoft.SimplePrompt": {
@@ -148,17 +166,23 @@
                 },
                 "$id": {
                     "type": "string"
+                },
+                "$ref": {
+                    "type": "string"
                 }
             },
+            "additionalProperties": false,
             "patternProperties": {
-                "^$": {}
+                "^\\$": {
+                    "type": "string"
+                }
             },
             "required": [
                 "$type"
             ]
         },
-        "Micorosoft.Topic": {
-            "$type": "Micorosoft.Topic",
+        "Microsoft.Topic": {
+            "$type": "Microsoft.Topic",
             "title": "Topic",
             "description": "Topic from DRuE.",
             "type": "object",
@@ -196,14 +220,20 @@
                 },
                 "$type": {
                     "type": "string",
-                    "const": "Micorosoft.Topic"
+                    "const": "Microsoft.Topic"
                 },
                 "$id": {
                     "type": "string"
+                },
+                "$ref": {
+                    "type": "string"
                 }
             },
+            "additionalProperties": false,
             "patternProperties": {
-                "^$": {}
+                "^\\$": {
+                    "type": "string"
+                }
             },
             "required": [
                 "$type"
