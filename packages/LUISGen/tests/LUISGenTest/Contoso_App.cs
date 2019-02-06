@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Microsoft.Bot.Builder.Ai.LUIS.Tests
 {
-    public class Contoso_App: IRecognizerConvert
+    public partial class Contoso_App: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
