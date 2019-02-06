@@ -35,7 +35,7 @@ program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
     .option("-o, output <path>", "Output path and filename for unified schema.")
-    .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged.  Also supports component merging using $defines, $implements and $type, see readme.md for more information.`)
+    .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged.  Also supports component merging using $implements and oneof, see readme.md for more information.`)
     .parse(process.argv);
 
 let failed = false;
@@ -47,7 +47,6 @@ async function mergeSchemas() {
         program.help();
     }
     else {
-        let defines = new Set();
         let definitions: any = {};
         for (let path of schemaPaths) {
             console.log(chalk.default.grey(`parsing: ${path}`));
@@ -58,19 +57,14 @@ async function mergeSchemas() {
             fixDefinitionReferences(schema);
             definitions[type] = schema;
         }
-        findImplements(definitions, defines);
+        findImplements(definitions);
         expandTypes(definitions);
-        addStandardProperties(definitions, defines);
+        addStandardProperties(definitions);
         let finalSchema = {
             $schema: "http://json-schema.org/draft-07/schema#",
             oneOf: Object.keys(definitions)
-                .filter((schemaName) => !defines.has(schemaName))
-                .map(
-                    // (schemaName) => definitions[schemaName]),
-                    (schemaName) => {
-                        let ref = { $ref: "#/definitions/" + schemaName };
-                        return ref;
-                    }),
+                .filter((schemaName) => !definitions[schemaName].oneOf)
+                .map((schemaName) => { return { $ref: "#/definitions/" + schemaName}}),
             definitions: definitions
         };
         if (!program.output) {
@@ -85,7 +79,7 @@ async function mergeSchemas() {
     }
 }
 
-function findImplements(definitions: any, defines: Set<string>): void {
+function findImplements(definitions: any): void {
     for (let type in definitions) {
         walkSchema(definitions[type], (val: any) => {
             let done: any = val.$implements;
@@ -95,18 +89,10 @@ function findImplements(definitions: any, defines: Set<string>): void {
                         let definition = definitions[iname];
                         let oneOf = definition.oneOf;
                         if (!oneOf) {
-                            let constraints: any = {};
-                            for (let prop in definition) {
-                                if (prop != "title" && prop != "description" && prop != "$schema") {
-                                    constraints[prop] = definition[prop];
-                                    delete definition[prop];
-                                }
-                            }
-                            oneOf = [constraints];
-                            definition.oneOf = oneOf;
+                            badUnion(type, iname);
+                        } else {
+                            oneOf.push({ $ref: "#/definitions/" + type });
                         }
-                        oneOf.push(type);
-                        defines.add(iname);
                     } else {
                         missing(iname)
                     }
@@ -137,11 +123,11 @@ function walkSchema(schema: any, fun: (val: any, obj?: any, key?: string) => boo
 }
 
 function fixDefinitionReferences(schema: any): void {
-    walkSchema(schema, (val: any) => {
+    walkSchema(schema, (val: any, _obj, type: any) => {
         if (val.$ref) {
             let ref: string = val.$ref;
             if (ref.startsWith("#/definitions/")) {
-                val.$ref = "#/definitions/" + schema.$type + "/definitions" + ref.substr(ref.indexOf('/'));
+                val.$ref = "#/definitions/" + type + "/definitions" + ref.substr(ref.indexOf('/'));
             }
         }
         return false;
@@ -150,26 +136,21 @@ function fixDefinitionReferences(schema: any): void {
 
 function expandTypes(definitions: any): void {
     walkSchema(definitions, (val) => {
-        if (val.properties) {
-            walkSchema(val.properties, (val) => {
-                if (val.$type) {
-                    if (definitions.hasOwnProperty(val.$type)) {
-                        val.$ref = "#/definitions/" + val.$type;
-                    } else {
-                        missing(val.$type);
-                    }
-                }
-                return false;
-            });
+        if (val.$type) {
+            if (definitions.hasOwnProperty(val.$type)) {
+                val.$ref = "#/definitions/" + val.$type;
+            } else {
+                missing(val.$type);
+            }
         }
         return false;
     });
 }
 
-function addStandardProperties(definitions: any, defines: Set<string>): void {
+function addStandardProperties(definitions: any): void {
     for (let type in definitions) {
         let definition = definitions[type];
-        if (!defines.has(type)) {
+        if (!definition.oneOf) {
             let props = definition.properties;
             if (!props) {
                 props = {};
@@ -197,6 +178,11 @@ function missing(type: string): void {
         missingTypes.add(type);
         failed = true;
     }
+}
+
+function badUnion(type: string, union: string) {
+    console.log(chalk.default.redBright(type + " $implements " + union + " which does not use oneOf."));
+    failed = true;
 }
 
 interface IPackage {

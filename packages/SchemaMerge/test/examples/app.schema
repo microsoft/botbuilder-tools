@@ -225,15 +225,21 @@
                 "$type"
             ]
         },
+        "Microsoft.INothing": {
+            "title": "Microsoft Nothing",
+            "description": "Definition of a union type with no $implements.",
+            "oneOf": []
+        },
         "Microsoft.IPrompt": {
             "title": "Microsoft IPrompt",
             "description": "Definition of Microsoft.IPrompt which will be expanded by components that $implements it.",
             "oneOf": [
                 {
-                    "type": "string"
+                    "$ref": "#/definitions/Microsoft.Prompt"
                 },
-                "Microsoft.Prompt",
-                "Microsoft.SimplePrompt"
+                {
+                    "$ref": "#/definitions/Microsoft.SimplePrompt"
+                }
             ]
         },
         "Microsoft.IRecognizer": {
@@ -243,8 +249,12 @@
                 {
                     "type": "string"
                 },
-                "Microsoft.LUISRecognizer",
-                "Microsoft.RegexRecognizer"
+                {
+                    "$ref": "#/definitions/Microsoft.LUISRecognizer"
+                },
+                {
+                    "$ref": "#/definitions/Microsoft.RegexRecognizer"
+                }
             ]
         }
     }
