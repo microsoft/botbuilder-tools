@@ -19,6 +19,19 @@
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Tom",
+            "program": "${workspaceFolder}\\lib\\schemaMerge.js",
+            "args": 
+                ["components/**/*.schema", "-o", "app.schema"],
+            "cwd": "c:/tmp/schemas/schemas",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/lib/**/*.js"
+            ]
         }
     ]
 }

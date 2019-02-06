@@ -59,7 +59,7 @@ async function mergeSchemas() {
             definitions[type] = schema;
         }
         findImplements(definitions, defines);
-        expandTypes(definitions, defines);
+        expandTypes(definitions);
         addStandardProperties(definitions, defines);
         let finalSchema = {
             $schema: "http://json-schema.org/draft-07/schema#",
@@ -136,12 +136,12 @@ function fixDefinitionReferences(schema: any): void {
     });
 }
 
-function expandTypes(definitions: any, defines: Set<string>): void {
+function expandTypes(definitions: any): void {
     walkSchema(definitions, (val) => {
         if (val.properties) {
             walkSchema(val.properties, (val) => {
                 if (val.$type) {
-                    if (defines.has(val.$type)) {
+                    if (definitions.hasOwnProperty(val.$type)) {
                         val.$ref = "#/definitions/" + val.$type;
                     } else {
                         missing(val.$type);
@@ -178,9 +178,13 @@ function addStandardProperties(definitions: any, defines: Set<string>): void {
     }
 }
 
+let missingTypes = new Set();
 function missing(type: string): void {
-    console.log(chalk.default.redBright("Missing " + type + " schema file from merge."));
-    failed = true;
+    if (!missingTypes.has(type)) {
+        console.log(chalk.default.redBright("Missing " + type + " schema file from merge."));
+        missingTypes.add(type);
+        failed = true;
+    }
 }
 
 interface IPackage {
