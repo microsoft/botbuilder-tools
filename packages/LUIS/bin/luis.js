@@ -137,7 +137,7 @@ async function runProgram() {
                 case "app":
                 case "application":
                     result = await client.apps.add(args.region, args.cloud, requestBody, args);
-                    result = await client.apps.get(args.region, args.cloud, result, args);
+                    result = await client.apps.get(args.region, args.cloud, result.body, args);
 
                     // Write output to console and return
                     await writeAppToConsole(config, args, requestBody, result);
@@ -407,7 +407,7 @@ async function runProgram() {
                 case "version":
                     result = await client.versions.importMethod(args.region, args.cloud, args.appId, requestBody, args);
                     if (args.msbot) {
-                        let version = result.version;
+                        let version = result.body;
                         result = await client.apps.get(args.region, args.cloud, args.appId || args.applicationId || config.applicationId, args);
                         result.version = version;
 
