@@ -18,6 +18,9 @@
                 },
                 "prompt": {
                     "type": "string"
+                },
+                "remote": {
+                    "$ref": "https://raw.githubusercontent.com/Microsoft/BotBuilder/master/schemas/botframework.schema#/definitions/Activity"
                 }
             }
         }
