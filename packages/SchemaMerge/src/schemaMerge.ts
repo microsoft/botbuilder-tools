@@ -38,6 +38,7 @@ program
     .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged.  Also supports component merging using $defines, $implements and $type, see readme.md for more information.`)
     .parse(process.argv);
 
+let failed = false;
 mergeSchemas();
 
 async function mergeSchemas() {
@@ -46,30 +47,24 @@ async function mergeSchemas() {
         program.help();
     }
     else {
-        let implementations: any = {};
+        let defines = new Set();
         let definitions: any = {};
         for (let path of schemaPaths) {
             console.log(chalk.default.grey(`parsing: ${path}`));
             var schema = allof(await parser.dereference(path));
-            var type = schema.$type;
+            var filename = <string>path.split(/[\\\/]/).pop();
+            var type = filename.substr(0, filename.lastIndexOf("."));
             delete schema.$schema;
-            if (type) {
-                findImplements(schema, implementations);
-                // TODO: Check for compatibility?
-                fixDefinitionReferences(schema);
-                definitions[type] = schema;
-            } else if (!schema.$defines) {
-                // $defines will be found if included
-                console.warn(chalk.default.yellowBright("WARNING: " + path + " does not have $type or $defines and so is not a component schema."));
-            }
+            fixDefinitionReferences(schema);
+            definitions[type] = schema;
         }
-        extractDefines(definitions);
-        expandProviders(definitions, implementations);
-        addStandardProperties(definitions);
+        findImplements(definitions, defines);
+        expandTypes(definitions, defines);
+        addStandardProperties(definitions, defines);
         let finalSchema = {
             $schema: "http://json-schema.org/draft-07/schema#",
             oneOf: Object.keys(definitions)
-                .filter((schemaName) => !definitions[schemaName].$defines)
+                .filter((schemaName) => !defines.has(schemaName))
                 .map(
                     // (schemaName) => definitions[schemaName]),
                     (schemaName) => {
@@ -81,24 +76,33 @@ async function mergeSchemas() {
         if (!program.output) {
             program.output = "app.schema";
         }
-        fs.writeFileSync(program.output, JSON.stringify(finalSchema, null, 4));
+        if (!failed) {
+            console.log("Writing " + program.output);
+            fs.writeFileSync(program.output, JSON.stringify(finalSchema, null, 4));
+        } else {
+            console.log("Could not merge schemas");
+        }
     }
 }
 
-function findImplements(schema: any, definitions: any): void {
-    walkSchema(schema, (val: any) => {
-        let done: any = val.$implements;
-        if (done) {
-            for (let iname of val.$implements) {
-                if (definitions.hasOwnProperty(iname)) {
-                    definitions[iname].push(schema.$type);
-                } else {
-                    definitions[iname] = [schema.$type];
+function findImplements(definitions: any, defines: Set<string>): void {
+    for (let type in definitions) {
+        walkSchema(definitions[type], (val: any) => {
+            let done: any = val.$implements;
+            if (done) {
+                for (let iname of val.$implements) {
+                    if (definitions.hasOwnProperty(iname)) {
+                        // TODO: promote one of
+                        definitions[iname].oneOf.push(type);
+                        defines.add(iname);
+                    } else {
+                        missing(iname)
+                    }
                 }
             }
-        }
-        return done;
-    })
+            return done;
+        });
+    }
 }
 
 function walkSchema(schema: any, fun: (val: any, obj?: any, key?: string) => boolean, obj?: any, key?: any): boolean {
@@ -132,20 +136,16 @@ function fixDefinitionReferences(schema: any): void {
     });
 }
 
-function extractDefines(definitions: any): void {
+function expandTypes(definitions: any, defines: Set<string>): void {
     walkSchema(definitions, (val) => {
-        let done = val.properties;
-        if (done) {
-            walkSchema(val, (inner) => {
-                let done = inner.$defines;
-                if (done) {
-                    if (!definitions.hasOwnProperty(inner.$defines)) {
-                        definitions[inner.$defines] = { oneOf: inner.oneOf };
+        if (val.properties) {
+            walkSchema(val.properties, (val) => {
+                if (val.$type) {
+                    if (defines.has(val.$type)) {
+                        val.$ref = "#/definitions/" + val.$type;
+                    } else {
+                        missing(val.$type);
                     }
-                    inner.$ref = "#/definitions/" + inner.$defines;
-                    delete inner.oneOf;
-                    delete inner.$schema;
-                    delete inner.$defines;
                 }
                 return false;
             });
@@ -154,42 +154,20 @@ function extractDefines(definitions: any): void {
     });
 }
 
-// Expand provider definitions with implementations
-function expandProviders(definitions: any, implementations: any): void {
-    for (let type in implementations) {
-        let provider = definitions[type];
-        if (provider) {
-            let providerDefinitions = implementations[type];
-            for (let implementation of providerDefinitions) {
-                provider.oneOf.push({ $ref: "#/definitions/" + implementation })
-            }
-        }
-        // Ignore if no provider since that means no one actually uses type
-    }
-}
-
-function addProp(obj: any, key: string, val: any): void {
-    if (!obj[key]) {
-        obj[key] = val;
-    }
-}
-
-function addStandardProperties(definitions: any): void {
+function addStandardProperties(definitions: any, defines: Set<string>): void {
     for (let type in definitions) {
         let definition = definitions[type];
-        if (definition.$type) {
+        if (!defines.has(type)) {
             let props = definition.properties;
             if (!props) {
                 props = {};
                 definition.properties = props;
             }
-            if (definition.$type) {
-                addProp(props, "$type", { type: "string", const: type });
-                addProp(props, "$id", { type: "string" });
-                addProp(props, "$ref", { type: "string" });
-                addProp(definition, "additionalProperties", false);
-                addProp(definition, "patternProperties", { "^\\$": { type: "string" } });
-            }
+            props.$type = { type: "string", const: type };
+            props.$id = { type: "string" };
+            props.$ref = { type: "string" };
+            definition.additionalProperties = false;
+            definition.patternProperties = { "^\\$": { type: "string" } };
             if (!definition.required) {
                 definition.required = [];
             }
@@ -198,6 +176,11 @@ function addStandardProperties(definitions: any): void {
             }
         }
     }
+}
+
+function missing(type: string): void {
+    console.log(chalk.default.redBright("Missing " + type + " schema file from merge."));
+    failed = true;
 }
 
 interface IPackage {

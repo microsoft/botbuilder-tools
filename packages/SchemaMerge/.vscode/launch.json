@@ -11,10 +11,10 @@
             "program": "${workspaceFolder}\\lib\\schemaMerge.js",
             "args": 
                 // ["TextPrompt.schema", "-o", "c:/tmp/tom.schema"],
-                ["*.schema", "-o", "../examples/app.schema"],
+                ["implementations/*.schema", "definitions/*.schema", "-o", "examples/app.schema"],
             "cwd":
             //  "C:/Users/chrimc/Source/repos/botbuilder-dotnet/tests/Microsoft.Bot.Builder.TestBot.Json/Schemas/components/dialogs",
-            "${workspaceFolder}/test/implementations",
+            "${workspaceFolder}/test",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"

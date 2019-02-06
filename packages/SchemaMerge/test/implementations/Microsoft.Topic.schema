@@ -1,6 +1,5 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$type": "Microsoft.Topic",
     "title": "Topic",
     "description": "Topic from DRuE.",
     "type": "object",
@@ -12,21 +11,21 @@
     },
     "properties": {
         "primary": {
-            "$ref": "../definitions/IRecognizer.schema",
+            "$type": "Microsoft.IRecognizer",
             "title": "Primary Reco",
             "description": "Really?"
         },
         "recognizers": {
             "type": "array",
             "items": {
-                "$ref": "../definitions/IRecognizer.schema",
+                "$type": "Microsoft.IRecognizer",
                 "title": "Cool recognizers"
             }
         },
         "prompts": {
             "type": "array",
             "items": {
-                "$ref": "../definitions/IPrompt.schema"
+                "$type": "Microsoft.IPrompt"
             }
         },
         "priority": {
