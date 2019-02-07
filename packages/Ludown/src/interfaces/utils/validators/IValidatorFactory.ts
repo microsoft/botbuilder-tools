@@ -1,3 +1,3 @@
 export type IValidatorFactory = (factoryState) => {
-    execute: (programState) => Promise<boolean>;
-}
+    execute(programState): Promise<boolean>;
+};

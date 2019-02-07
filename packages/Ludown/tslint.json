@@ -8,6 +8,7 @@
     "rules": {
         "typedef": false,
         "newline-per-chained-call": false,
-        "no-relative-imports": false
+        "no-relative-imports": false,
+        "export-name": false
     }
 }
