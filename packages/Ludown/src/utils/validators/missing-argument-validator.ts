@@ -21,7 +21,7 @@ export type ArgumentBag = string[];
  * bags that don't exist, then the arguments are valid.
  *
  * @param factoryState An array of argument bags for validation
- * @returns Promise of boolean on resolve and an IValidatorErrorObject on rejection.
+ * @returns Promise of true on resolve and an IValidatorErrorObject on rejection.
  */
 export const missingArgumentValidatorFactory: IValidatorFactory = (factoryState: ArgumentBag[]) => {
     const doesArgBagExist = (argBag: ArgumentBag, haystack: Object) => intersection(Object.keys(haystack), argBag).length !== 0;
@@ -30,7 +30,10 @@ export const missingArgumentValidatorFactory: IValidatorFactory = (factoryState:
         execute: (programState: Object) => {
             const missingArgBag = factoryState.find(bag => !doesArgBagExist(bag, programState));
 
-            return !missingArgBag ? Promise.resolve(true) : Promise.reject({ code: ERROR_CODE.MISSING_ARGUMENTS, data: missingArgBag });
+            return new Promise((resolve, reject) => !missingArgBag ?
+                resolve(true) :
+                reject({ code: ERROR_CODE.MISSING_ARGUMENTS, data: missingArgBag })
+            );
         }
     };
 };
