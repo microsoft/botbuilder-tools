@@ -95,9 +95,13 @@ $listEntity:\<normalized-value\>=
     - \<synonym1\>
     - \<synonym2\>
 
-Here's an example definition of a list entity: 
+When using list entity, you should include a value from the list directly in the utterance, not an entity label or any other value. Here's an example definition of a list entity: 
 
 ```markdown
+# CommunicationPreference
+- set phone call as my communication preference
+- I prefer to receive text message
+
 $commPreference:call=
 	- phone call
 	- give me a ring
