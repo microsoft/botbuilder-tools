@@ -1,0 +1,13 @@
+{
+    "rulesDirectory": [
+        "node_modules/tslint-microsoft-contrib"
+    ],
+    "extends": [
+        "tslint-microsoft-contrib/recommended_ruleset"
+    ],
+    "rules": {
+        "typedef": false,
+        "newline-per-chained-call": false,
+        "no-relative-imports": false
+    }
+}

@@ -3,7 +3,13 @@
     "version": "1.1.0",
     "description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
     "main": "",
-    "scripts": {},
+    "scripts": {
+        "postinstall": "npm run build",
+        "build": "tsc",
+        "lint": "tslint",
+        "clean": "rimraf dist/** && rimraf",
+        "test": "jasmine"
+    },
     "bin": {
         "ludown": ""
     },
@@ -32,6 +38,10 @@
     "devDependencies": {
         "@types/jasmine": "^3.3.8",
         "@types/lodash": "^4.14.120",
-        "jasmine": "^3.3.1"
+        "jasmine": "^3.3.1",
+        "rimraf": "^2.6.3",
+        "tslint": "^5.12.1",
+        "tslint-microsoft-contrib": "^6.0.0",
+        "typescript": "^3.3.1"
     }
 }
