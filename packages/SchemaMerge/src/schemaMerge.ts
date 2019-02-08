@@ -163,17 +163,17 @@ function addStandardProperties(definitions: any): void {
     for (let type in definitions) {
         let definition = definitions[type];
         if (!definition.oneOf) {
-            let obj: any = {
+            let props: any = {
                 $ref: { type: "string" },
                 $type: { type: "string", const: type },
                 $id: { type: "string" }
             };
             if (definition.properties) {
                 for (let prop in definition.properties) {
-                    obj[prop] = definition.properties[prop];
+                    props[prop] = definition.properties[prop];
                 }
             }
-            definition.properties = obj;
+            definition.properties = props;
             definition.additionalProperties = false;
             definition.patternProperties = { "^\\$": { type: "string" } };
             if (!definition.required) {
