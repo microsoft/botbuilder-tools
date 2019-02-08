@@ -35,7 +35,7 @@ program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
     .option("-o, output <path>", "Output path and filename for unified schema.")
-    .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged.  Also supports component merging using $implements and oneof, see readme.md for more information.`)
+    .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged.  Also supports component merging using $implements and oneOf, see readme.md for more information.`)
     .parse(process.argv);
 
 let failed = false;
@@ -55,6 +55,9 @@ async function mergeSchemas() {
             var type = filename.substr(0, filename.lastIndexOf("."));
             delete schema.$schema;
             fixDefinitionReferences(schema);
+            if (!schema.type) {
+                schema.type = "object";
+            }
             definitions[type] = schema;
         }
         findImplements(definitions);
@@ -62,9 +65,18 @@ async function mergeSchemas() {
         addStandardProperties(definitions);
         let finalSchema = {
             $schema: "http://json-schema.org/draft-07/schema#",
+            type: "object",
+            title: "Component types",
+            description: "These are all of the types that can be created by the loader.",
             oneOf: Object.keys(definitions)
                 .filter((schemaName) => !definitions[schemaName].oneOf)
-                .map((schemaName) => { return { $ref: "#/definitions/" + schemaName}}),
+                .map((schemaName) => {
+                    return {
+                        title: definitions[schemaName].title || "",
+                        description: definitions[schemaName].description || "",
+                        $ref: "#/definitions/" + schemaName
+                    }
+                }),
             definitions: definitions
         };
         if (!program.output) {
@@ -151,14 +163,17 @@ function addStandardProperties(definitions: any): void {
     for (let type in definitions) {
         let definition = definitions[type];
         if (!definition.oneOf) {
-            let props = definition.properties;
-            if (!props) {
-                props = {};
-                definition.properties = props;
+            let obj: any = {
+                $ref: { type: "string" },
+                $type: { type: "string", const: type },
+                $id: { type: "string" }
+            };
+            if (definition.properties) {
+                for (let prop in definition.properties) {
+                    obj[prop] = definition.properties[prop];
+                }
             }
-            props.$type = { type: "string", const: type };
-            props.$id = { type: "string" };
-            props.$ref = { type: "string" };
+            definition.properties = obj;
             definition.additionalProperties = false;
             definition.patternProperties = { "^\\$": { type: "string" } };
             if (!definition.required) {
