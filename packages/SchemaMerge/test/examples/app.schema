@@ -5,27 +5,27 @@
     "description": "These are all of the types that can be created by the loader.",
     "oneOf": [
         {
-            "title": "LUIS Recognizer",
+            "title": "Microsoft.LUISRecognizer",
             "description": "LUIS recognizer.",
             "$ref": "#/definitions/Microsoft.LUISRecognizer"
         },
         {
-            "title": "Simple Prompt",
+            "title": "Microsoft.Prompt",
             "description": "Example simple prompt.",
             "$ref": "#/definitions/Microsoft.Prompt"
         },
         {
-            "title": "Regular Expression Recognizer",
+            "title": "Microsoft.RegexRecognizer",
             "description": "Example regular expression recognizer.",
             "$ref": "#/definitions/Microsoft.RegexRecognizer"
         },
         {
-            "title": "Really Prompt",
+            "title": "Microsoft.SimplePrompt",
             "description": "",
             "$ref": "#/definitions/Microsoft.SimplePrompt"
         },
         {
-            "title": "Topic",
+            "title": "Microsoft.Topic",
             "description": "Topic from DRuE.",
             "$ref": "#/definitions/Microsoft.Topic"
         }
@@ -253,12 +253,12 @@
             "description": "Definition of Microsoft.IPrompt which will be expanded by components that $implements it.",
             "oneOf": [
                 {
-                    "title": "Simple Prompt",
+                    "title": "Microsoft.Prompt",
                     "description": "Example simple prompt.",
                     "$ref": "#/definitions/Microsoft.Prompt"
                 },
                 {
-                    "title": "Really Prompt",
+                    "title": "Microsoft.SimplePrompt",
                     "description": "Microsoft.SimplePrompt",
                     "$ref": "#/definitions/Microsoft.SimplePrompt"
                 }
@@ -274,12 +274,12 @@
                     "title": "string"
                 },
                 {
-                    "title": "LUIS Recognizer",
+                    "title": "Microsoft.LUISRecognizer",
                     "description": "LUIS recognizer.",
                     "$ref": "#/definitions/Microsoft.LUISRecognizer"
                 },
                 {
-                    "title": "Regular Expression Recognizer",
+                    "title": "Microsoft.RegexRecognizer",
                     "description": "Example regular expression recognizer.",
                     "$ref": "#/definitions/Microsoft.RegexRecognizer"
                 }

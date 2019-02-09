@@ -74,7 +74,7 @@ async function mergeSchemas() {
                 .sort()
                 .map((schemaName) => {
                     return {
-                        title: definitions[schemaName].title || "",
+                        title: schemaName,
                         description: definitions[schemaName].description || "",
                         $ref: "#/definitions/" + schemaName
                     };
@@ -106,7 +106,8 @@ function findImplements(definitions: any): void {
                             badUnion(type, iname);
                         } else {
                             oneOf.push({
-                                title: definitions[type].title || type,
+                                // NOTE: This overrides any existing title to prevent namespace collisions
+                                title: type,
                                 description: definitions[type].description || type,
                                 $ref: "#/definitions/" + type
                             });
@@ -125,7 +126,8 @@ function addTypeTitles(definitions: any): void {
     walkSchema(definitions, (val) => {
         if (val.oneOf) {
             walkSchema(val.oneOf, (def) => {
-                if (def.type && !def.title) {
+                if (def.type) {
+                    // NOTE: This overrides any existing title but prevents namespace collision
                     def.title = def.type;
                 }
                 return false;
