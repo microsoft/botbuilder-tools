@@ -61,6 +61,7 @@ async function mergeSchemas() {
             definitions[type] = schema;
         }
         findImplements(definitions);
+        addTypeTitles(definitions);
         expandTypes(definitions);
         addStandardProperties(definitions);
         let finalSchema = {
@@ -70,12 +71,13 @@ async function mergeSchemas() {
             description: "These are all of the types that can be created by the loader.",
             oneOf: Object.keys(definitions)
                 .filter((schemaName) => !definitions[schemaName].oneOf)
+                .sort()
                 .map((schemaName) => {
                     return {
                         title: definitions[schemaName].title || "",
                         description: definitions[schemaName].description || "",
                         $ref: "#/definitions/" + schemaName
-                    }
+                    };
                 }),
             definitions: definitions
         };
@@ -103,7 +105,11 @@ function findImplements(definitions: any): void {
                         if (!oneOf) {
                             badUnion(type, iname);
                         } else {
-                            oneOf.push({ $ref: "#/definitions/" + type });
+                            oneOf.push({
+                                title: definitions[type].title || type,
+                                description: definitions[type].description || type,
+                                $ref: "#/definitions/" + type
+                            });
                         }
                     } else {
                         missing(iname)
@@ -113,6 +119,20 @@ function findImplements(definitions: any): void {
             return done;
         });
     }
+}
+
+function addTypeTitles(definitions: any): void {
+    walkSchema(definitions, (val) => {
+        if (val.oneOf) {
+            walkSchema(val.oneOf, (def) => {
+                if (def.type && !def.title) {
+                    def.title = def.type;
+                }
+                return false;
+            });
+        }
+        return false;
+    });
 }
 
 function walkSchema(schema: any, fun: (val: any, obj?: any, key?: string) => boolean, obj?: any, key?: any): boolean {

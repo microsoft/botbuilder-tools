@@ -253,9 +253,13 @@
             "description": "Definition of Microsoft.IPrompt which will be expanded by components that $implements it.",
             "oneOf": [
                 {
+                    "title": "Simple Prompt",
+                    "description": "Example simple prompt.",
                     "$ref": "#/definitions/Microsoft.Prompt"
                 },
                 {
+                    "title": "Really Prompt",
+                    "description": "Microsoft.SimplePrompt",
                     "$ref": "#/definitions/Microsoft.SimplePrompt"
                 }
             ],
@@ -266,12 +270,17 @@
             "description": "Definition of Microsoft.IRecognizer which will be expanded by components that $implements it.",
             "oneOf": [
                 {
-                    "type": "string"
+                    "type": "string",
+                    "title": "string"
                 },
                 {
+                    "title": "LUIS Recognizer",
+                    "description": "LUIS recognizer.",
                     "$ref": "#/definitions/Microsoft.LUISRecognizer"
                 },
                 {
+                    "title": "Regular Expression Recognizer",
+                    "description": "Example regular expression recognizer.",
                     "$ref": "#/definitions/Microsoft.RegexRecognizer"
                 }
             ],
