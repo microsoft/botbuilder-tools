@@ -78,7 +78,6 @@
                 }
             },
             "required": [
-                "application",
                 "$type"
             ],
             "type": "object",
@@ -87,7 +86,19 @@
                 "^\\$": {
                     "type": "string"
                 }
-            }
+            },
+            "anyOf": [
+                {
+                    "required": [
+                        "$ref"
+                    ]
+                },
+                {
+                    "required": [
+                        "application"
+                    ]
+                }
+            ]
         },
         "Microsoft.Prompt": {
             "title": "Simple Prompt",
@@ -146,7 +157,6 @@
                 }
             },
             "required": [
-                "pattern",
                 "$type"
             ],
             "type": "object",
@@ -155,7 +165,19 @@
                 "^\\$": {
                     "type": "string"
                 }
-            }
+            },
+            "anyOf": [
+                {
+                    "required": [
+                        "$ref"
+                    ]
+                },
+                {
+                    "required": [
+                        "pattern"
+                    ]
+                }
+            ]
         },
         "Microsoft.SimplePrompt": {
             "title": "Really Prompt",

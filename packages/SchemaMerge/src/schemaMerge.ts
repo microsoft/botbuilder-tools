@@ -137,24 +137,6 @@ function addTypeTitles(definitions: any): void {
     });
 }
 
-function walkSchema(schema: any, fun: (val: any, obj?: any, key?: string) => boolean, obj?: any, key?: any): boolean {
-    let done = fun(schema, obj, key);
-    if (!done) {
-        if (Array.isArray(schema)) {
-            for (let val of schema) {
-                done = walkSchema(val, fun);
-                if (done) break;
-            }
-        }
-        else if (typeof schema === 'object') {
-            for (let val in schema) {
-                done = walkSchema(schema[val], fun, schema, val);
-                if (done) break;
-            }
-        }
-    }
-    return done;
-}
 
 function fixDefinitionReferences(schema: any): void {
     walkSchema(schema, (val: any, _obj, type: any) => {
@@ -185,6 +167,7 @@ function addStandardProperties(definitions: any): void {
     for (let type in definitions) {
         let definition = definitions[type];
         if (!definition.oneOf) {
+            // Reorder properties to put $ first.
             let props: any = {
                 $ref: { type: "string" },
                 $type: { type: "string", const: type },
@@ -198,14 +181,41 @@ function addStandardProperties(definitions: any): void {
             definition.properties = props;
             definition.additionalProperties = false;
             definition.patternProperties = { "^\\$": { type: "string" } };
-            if (!definition.required) {
-                definition.required = [];
-            }
-            if (!definition.required.includes("$type")) {
-                definition.required.push("$type");
+            if (definition.required) {
+                let required = definition.required;
+                definition.required = ["$type"];
+                definition.anyOf = [
+                    {
+                        required: ["$ref"]
+                    },
+                    {
+                        required: required
+                    }
+                ];
+            } else {
+                definition.required = ["$type"];
             }
         }
     }
+}
+
+function walkSchema(schema: any, fun: (val: any, obj?: any, key?: string) => boolean, obj?: any, key?: any): boolean {
+    let done = fun(schema, obj, key);
+    if (!done) {
+        if (Array.isArray(schema)) {
+            for (let val of schema) {
+                done = walkSchema(val, fun);
+                if (done) break;
+            }
+        }
+        else if (typeof schema === 'object') {
+            for (let val in schema) {
+                done = walkSchema(schema[val], fun, schema, val);
+                if (done) break;
+            }
+        }
+    }
+    return done;
 }
 
 let missingTypes = new Set();
