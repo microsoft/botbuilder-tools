@@ -89,11 +89,13 @@
             },
             "anyOf": [
                 {
+                    "title": "Reference",
                     "required": [
                         "$ref"
                     ]
                 },
                 {
+                    "title": "Type",
                     "required": [
                         "application"
                     ]
@@ -168,11 +170,13 @@
             },
             "anyOf": [
                 {
+                    "title": "Reference",
                     "required": [
                         "$ref"
                     ]
                 },
                 {
+                    "title": "Type",
                     "required": [
                         "pattern"
                     ]

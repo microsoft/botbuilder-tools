@@ -186,9 +186,11 @@ function addStandardProperties(definitions: any): void {
                 definition.required = ["$type"];
                 definition.anyOf = [
                     {
+                        title: "Reference",
                         required: ["$ref"]
                     },
                     {
+                        title: "Type",
                         required: required
                     }
                 ];
