@@ -693,12 +693,52 @@ async function processConfiguration(): Promise<void> {
                             console.error(chalk.default.redBright(`Unable to find QnAMaker CLI. Please install via npm i -g qnamaker and try again. \n\nSee https://aka.ms/msbot-clone-services for pre-requisites.`))
                             showErrorHelp();
                         }
-                        // qnamaker create kb --subscriptionKey c87eb99bfc274a4db6b671b43f867575  --name testtesttest --in qna.json --wait --msbot -q
                         let qnaPath = path.join(args.folder, `${resource.id}.qna`);
                         let kbName = resource.name;
 
-                        let svc = await runCommand(`qnamaker create kb --subscriptionKey ${args.qnaSubscriptionKey} --name "${kbName}" --in ${qnaPath} --wait --msbot -q`,
-                            `Creating QnA Maker KB [${kbName}]`);
+                        // These values pretty much gaurantee success. We can decrease them if the QnA backend gets faster
+                        const initialDelaySeconds = 30;
+                        let retryAttemptsRemaining = 3;
+                        let retryDelaySeconds = 15;
+                        const retryDelayIncrease = 30;
+
+                        console.log(`Waiting ${initialDelaySeconds} seconds for QnAMaker backend to finish setting up...`);
+                        await sleep(initialDelaySeconds);
+
+                        let svc;
+                        while (retryAttemptsRemaining >= 0) {
+                            try {
+                                svc = await runCommand(`qnamaker create kb --subscriptionKey ${args.qnaSubscriptionKey} --name "${kbName}" --in ${qnaPath} --wait --msbot`,
+                                    `Creating QnA Maker KB [${kbName}]`);
+                                break;
+                            } catch (err) {
+                                // Helpful error messages are mostly in err.stderr, when available. err.stderr can't be parsed to JSON, so we have to search for substrings
+                                if (err.stderr) {
+                                    const generalFailedString = `"operationState\": \"Failed\"`;
+                                    const invalidSubscriptionString = `Access denied due to invalid subscription key`;
+                                    // Usually the first failure
+                                    if (err.stderr.includes(invalidSubscriptionString)) {
+                                        console.warn(chalk.default.yellowBright(`QnAMaker backend still generating API keys. Waiting ${retryDelaySeconds} seconds before trying again. ${retryAttemptsRemaining} attempts remaining.`));
+                                    // Usually the remaining, non-breaking failures
+                                    } else if (err.stderr.includes(generalFailedString)) {
+                                        console.warn(chalk.default.yellowBright(`QnAMaker backend not ready. Waiting ${retryDelaySeconds} seconds before trying again. ${retryAttemptsRemaining} attempts remaining.`));
+                                    } else {
+                                        console.error(chalk.default.yellowBright(`QnAMaker doesn't seem to be working. Waiting ${retryDelaySeconds} seconds before trying again. ${retryAttemptsRemaining} attempts remaining.`));
+                                    }
+                                }
+                                retryAttemptsRemaining--;
+                                await sleep(retryDelaySeconds);
+                                retryDelaySeconds += retryDelayIncrease;
+
+                                if (retryAttemptsRemaining === 0) {
+                                    console.error(chalk.default.redBright(`Unable to create QnA KB.`));
+                                    showErrorHelp();
+                                } else {
+                                    continue;
+                                }
+                            }
+                        }
+
                         let service = new QnaMakerService(svc);
                         service.id = `${resource.id}`; // keep id
                         service.name = kbName;
@@ -1162,6 +1202,19 @@ function logCommand(args: ICloneArgs, message: string, command: string) {
 function generateShortId() {
     // Generate pseudo-random 6-character UID
     return Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+}
+
+async function sleep(seconds: number) {
+    while (seconds > 0) {
+        process.stdout.write(`${seconds}...  \r`);
+        await sleepOneSecond();
+        seconds--;
+    }
+    process.stdout.write(' \r');
+}
+
+function sleepOneSecond() {
+    return new Promise(resolve => setTimeout(resolve, 1000));
 }
 
 class ServiceVersion {
