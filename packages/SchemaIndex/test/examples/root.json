@@ -1,0 +1,24 @@
+{
+  "$type": "root",
+  "$id": "rootId",
+  "recognizers": [
+    {
+      "$type": "Recognizer",
+      "$id": "inlineRecognizerWithId"
+    },
+    {
+      "$type": "Recognizer",
+      "$ref": "externalRecognizerId"
+    },
+    {
+      "$type": "Recognizer",
+      "$ref": "missingRecognizerId"
+    },
+    {
+      "$type": "Recognizer"
+    },
+    {
+      "$ref": "externalRecognizer"
+    }
+  ]
+}
