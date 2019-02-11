@@ -1022,7 +1022,7 @@ async function getAppInsightsService(azAppInsights: any): Promise<AppInsightsSer
 
 async function runCommand(command: string, description: string): Promise<any> {
     logCommand(args, description, command);
-    let p = await exec(command);
+    let p = await exec(command, { maxBuffer: 1024 * 2048 });
     try {
         return JSON.parse(p.stdout);
     } catch (err) {
