@@ -730,7 +730,7 @@ async function processConfiguration(): Promise<void> {
                                 await sleep(retryDelaySeconds);
                                 retryDelaySeconds += retryDelayIncrease;
 
-                                if (retryAttemptsRemaining === 0) {
+                                if (retryAttemptsRemaining < 0) {
                                     console.error(chalk.default.redBright(`Unable to create QnA KB.`));
                                     showErrorHelp();
                                 } else {
