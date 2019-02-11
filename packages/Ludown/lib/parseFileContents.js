@@ -34,11 +34,11 @@ const parseFileContentsModule = {
         // patterns can have references to any other entity types. 
         // So if there is a pattern.any entity that is also defined as another type, remove the pattern.any entity
         LUISJSONBlob.patternAnyEntities = (LUISJSONBlob.patternAnyEntities || []).filter(entity => {
-            if(itemExists(LUISJSONBlob.entities, entity.name, entity.roles)) return false;
-            if(itemExists(LUISJSONBlob.closedLists, entity.name, entity.roles)) return false;
-            if(itemExists(LUISJSONBlob.model_features, entity.name, entity.roles)) return false;
-            if(itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
-            if(itemExists(LUISJSONBlob.regex_entities, entity.name, entity.roles)) return false; 
+            if (itemExists(LUISJSONBlob.entities, entity.name, entity.roles)) return false;
+            if (itemExists(LUISJSONBlob.closedLists, entity.name, entity.roles)) return false;
+            if (itemExists(LUISJSONBlob.model_features, entity.name, entity.roles)) return false;
+            if (itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
+            if (itemExists(LUISJSONBlob.regex_entities, entity.name, entity.roles)) return false;
             if (itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
             return true;
         });
@@ -75,10 +75,10 @@ const parseFileContentsModule = {
             });
         }
 
-        if(LUISJSONBlob.regex_entities.length > 0) {
-            LUISJSONBlob.regex_entities.forEach(function(entity) {
+        if (LUISJSONBlob.regex_entities.length > 0) {
+            LUISJSONBlob.regex_entities.forEach(function (entity) {
                 entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
-                if(entityFound.length === 0) {
+                if (entityFound.length === 0) {
                     entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, [`regEx:/${entity.regexPattern}/`]));
                 } else {
                     if (entityFound[0].regexPattern !== undefined) {
@@ -90,7 +90,7 @@ const parseFileContentsModule = {
                 }
             });
         }
-        
+
         // for each entityFound, see if there are duplicate definitions
         entitiesList.forEach(function (entity) {
             if (entity.type.length > 1) {
@@ -235,7 +235,7 @@ const parseFileContentsModule = {
 
             // do we have regex entities here?
             if (blob.regex_entities.length > 0) {
-                blob.regex_entities.forEach(function(regexEntity){
+                blob.regex_entities.forEach(function (regexEntity) {
                     // do we have the same entity in final?
                     let entityExistsInFinal = (FinalLUISJSON.regex_entities || []).find(item => item.name == regexEntity.name);
                     if (entityExistsInFinal === undefined) {
@@ -243,11 +243,11 @@ const parseFileContentsModule = {
                     } else {
                         // verify that the pattern is the same
                         if (entityExistsInFinal.regexPattern !== regexEntity.regexPattern) {
-                            throw(new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity : ${regExEntity.name} has inconsistent pattern definitions. \n 1. ${regexEntity.regexPattern} \n 2. ${entityExistsInFinal.regexPattern}`)); 
+                            throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity : ${regExEntity.name} has inconsistent pattern definitions. \n 1. ${regexEntity.regexPattern} \n 2. ${entityExistsInFinal.regexPattern}`));
                         }
                         // merge roles
                         if (entityExistsInFinal.roles.length > 0) {
-                            (regexEntity.roles || []).forEach(function(role){
+                            (regexEntity.roles || []).forEach(function (role) {
                                 if (!entityExistsInFinal.roles.includes(role))
                                     entityExistsInFinal.roles.push(role);
                             })
@@ -315,8 +315,61 @@ const parseFileContentsModule = {
             }
         });
         return finalQnAAlterationsList;
+    },
+    /**
+     * Helper function to add an item to collection if it does not exist
+     * @param {object} collection contents of the current collection
+     * @param {LUISObjNameEnum} type item type
+     * @param {object} value value of the current item to examine and add
+     * @returns {void} nothing
+     */
+    addItemIfNotPresent: function (collection, type, value) {
+        let hasValue = false;
+        for (let i in collection[type]) {
+            if (collection[type][i].name === value) {
+                hasValue = true;
+                break;
+            }
+        }
+        if (!hasValue) {
+            let itemObj = {};
+            itemObj.name = value;
+            if (type == LUISObjNameEnum.PATTERNANYENTITY) {
+                itemObj.explicitList = [];
+            }
+            if (type !== LUISObjNameEnum.INTENT) {
+                itemObj.roles = [];
+            }
+            collection[type].push(itemObj);
+        }
+    },
+    /**
+     * Helper function to add an item to collection if it does not exist
+     * @param {object} collection contents of the current collection
+     * @param {LUISObjNameEnum} type item type
+     * @param {object} value value of the current item to examine and add
+     * @param {string []} roles possible roles to add to the item
+     * @returns {void} nothing
+     */
+    addItemOrRoleIfNotPresent: function (collection, type, value, roles) {
+        let existingItem = collection[type].filter(item => item.name == value);
+        if (existingItem.length !== 0) {
+            // see if the role exists and if so, merge
+            mergeRoles(existingItem[0].roles, roles);
+        } else {
+            let itemObj = {};
+            itemObj.name = value;
+            if (type == LUISObjNameEnum.PATTERNANYENTITY) {
+                itemObj.explicitList = [];
+            }
+            if (type !== LUISObjNameEnum.INTENT) {
+                itemObj.roles = roles;
+            }
+            collection[type].push(itemObj);
+        }
     }
 };
+
 /**
  * Helper function to merge item if it does not already exist
  *
@@ -346,6 +399,7 @@ const mergeResults = function (blob, finalCollection, type) {
         });
     }
 };
+
 /**
  * Helper function to merge closed list item if it does not already exist
  *
@@ -377,6 +431,7 @@ const mergeResults_closedlists = function (blob, finalCollection, type) {
         });
     }
 };
+
 /**
  * Helper function to parse and handle LUIS entities
  * @param {parserObj} parsedContent parserObj containing current parsed content
@@ -427,12 +482,12 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
             // add to prebuiltEntities if it does not exist there.
             addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entityType, entityRoles);
         }
-       
+
     } else if (entityType.startsWith('/')) {
         if (entityType.endsWith('/')) {
             // handle regex entity 
-            let regex = entityType.slice(1).slice(0, entityType.length - 2); 
-            if (regex === '') throw(new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} has empty regex pattern defined.`));
+            let regex = entityType.slice(1).slice(0, entityType.length - 2);
+            if (regex === '') throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} has empty regex pattern defined.`));
             // add this as a regex entity if it does not exist
             let regExEntity = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entityName);
             if (regExEntity === undefined) {
@@ -442,13 +497,13 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
             } else {
                 // throw an error if the pattern is different for the same entity
                 if (regExEntity.regexPattern !== regex) {
-                    throw(new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} has multiple regex patterns defined. \n 1. /${regex}/\n 2. /${regExEntity.regexPattern}/`));
+                    throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} has multiple regex patterns defined. \n 1. /${regex}/\n 2. /${regExEntity.regexPattern}/`));
                 }
             }
         } else {
-            throw(new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} is missing trailing '/'. Regex patterns need to be enclosed in forward slashes. e.g. /[0-9]/`));
+            throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} is missing trailing '/'. Regex patterns need to be enclosed in forward slashes. e.g. /[0-9]/`));
         }
-    } else if(entityType.endsWith('=')) {
+    } else if (entityType.endsWith('=')) {
         // is this qna maker alterations list? 
         if (entityType.includes(PARSERCONSTS.QNAALTERATIONS)) {
             try {
@@ -514,6 +569,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
         }
     }
 };
+
 /**
  * Helper function to parse and handle QnA Maker alterations
  * @param {parserObj} parsedContent parserObj containing current parsed content
@@ -536,6 +592,7 @@ const parseAndHandleQnAAlterations = function (parsedContent, chunkSplitByLine) 
     });
     parsedContent.qnaAlterations.wordAlterations.push(new qnaAlterations.alterations(alterationlist));
 }
+
 /**
  * Helper function to parse and handle list entities
  * @param {parserObj} parsedContent parserObj containing current parsed content
@@ -580,6 +637,7 @@ const parseAndHandleListEntity = function (parsedContent, chunkSplitByLine, enti
         mergeRoles(closedListExists[0].roles, entityRoles);
     }
 }
+
 /**
  * Helper function to parse and handle LUIS intents
  * @param {parserObj} parsedContent parserObj containing current parsed content
@@ -771,6 +829,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
         });
     }
 }
+
 /**
  * Helper function to parse and handle URL or file references in lu files
  * @param {parserObj} parsedContent parserObj containing current parsed content
@@ -808,6 +867,7 @@ const parseURLOrFileRef = async function (parsedContent, chunkSplitByLine) {
         parsedContent.additionalFilesToParse.push(new fileToParse(linkValue));
     }
 }
+
 /**
  * Helper function to add an item to collection if it does not exist
  * @param {object} collection contents of the current collection
@@ -835,6 +895,7 @@ const addItemIfNotPresent = function (collection, type, value) {
         collection[type].push(itemObj);
     }
 };
+
 /**
  * Helper function to add an item to collection if it does not exist
  * @param {object} collection contents of the current collection
@@ -860,6 +921,7 @@ const addItemOrRoleIfNotPresent = function (collection, type, value, roles) {
         collection[type].push(itemObj);
     }
 }
+
 /**
  * Helper function merge roles
  * @param {string []} srcEntityRoles contents of the current collection
@@ -874,6 +936,7 @@ const mergeRoles = function (srcEntityRoles, tgtEntityRoles) {
         }
     });
 }
+
 /**
  * Helper function that returns true if the item exists. Merges roles before returning 
  * @param {Object} collection contents of the current collection
@@ -892,4 +955,5 @@ const itemExists = function (collection, entityName, entityRoles) {
     }
     return false;
 }
+
 module.exports = parseFileContentsModule;
