@@ -10,7 +10,7 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}\\lib\\schemaIndex.js",
             "args": 
-                ["examples/*.json"],
+                ["examples/*.cog"],
             "cwd": "${workspaceFolder}/test",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [

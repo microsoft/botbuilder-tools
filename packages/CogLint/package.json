@@ -1,11 +1,11 @@
 { 
-  "name": "schemaIndex",
+  "name": "cogLint",
   "version": "1.2.0",
   "description": "Merge together multiple JSON schemas with references and allof into a single simple schema.",
-  "main": "./lib/schemaIndex.js",
-  "types": "./typing/lib/schemaIndex.d.ts",
+  "main": "./lib/cogLint.js",
+  "types": "./typing/lib/cogLint.d.ts",
   "bin": {
-    "schemaIndex": "./lib/schemaIndex.js"
+    "cogLint": "./lib/cogLint.js"
   },
   "directories": {
     "bin": "bin",

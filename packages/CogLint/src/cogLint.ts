@@ -9,7 +9,7 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
 import * as semver from 'semver';
-import * as indexer from './index';
+import * as indexer from './cogIndex';
 
 // tslint:disable-next-line:no-let-requires no-require-imports
 const pkg: IPackage = require('../package.json');
@@ -31,7 +31,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
-    .description(`Take JSON files created for Bot Framework and index $id, $type and $ref to identify errors. See  readme.md for more information.`)
+    .description(`Take JSON .cog files created for Bot Framework and index $id, $type and $ref to identify errors. See  readme.md for more information.`)
     .parse(process.argv);
 
 doIndexing();
