@@ -1,0 +1,316 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "Component types",
+    "description": "These are all of the types that can be created by the loader.",
+    "oneOf": [
+        {
+            "title": "Microsoft.LUISRecognizer",
+            "description": "LUIS recognizer.",
+            "$ref": "#/definitions/Microsoft.LUISRecognizer"
+        },
+        {
+            "title": "Microsoft.Prompt",
+            "description": "Example simple prompt.",
+            "$ref": "#/definitions/Microsoft.Prompt"
+        },
+        {
+            "title": "Microsoft.RegexRecognizer",
+            "description": "Example regular expression recognizer.",
+            "$ref": "#/definitions/Microsoft.RegexRecognizer"
+        },
+        {
+            "title": "Microsoft.SimplePrompt",
+            "description": "",
+            "$ref": "#/definitions/Microsoft.SimplePrompt"
+        },
+        {
+            "title": "Microsoft.Topic",
+            "description": "Topic from DRuE.",
+            "$ref": "#/definitions/Microsoft.Topic"
+        }
+    ],
+    "definitions": {
+        "Microsoft.LUISRecognizer": {
+            "title": "LUIS Recognizer",
+            "description": "LUIS recognizer.",
+            "$implements": [
+                "Microsoft.IRecognizer"
+            ],
+            "$comment": "Ensure namespaces work on local definitions.",
+            "definitions": {
+                "local": {
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "$ref": {
+                    "type": "string"
+                },
+                "$type": {
+                    "type": "string",
+                    "const": "Microsoft.LUISRecognizer"
+                },
+                "$id": {
+                    "type": "string"
+                },
+                "application": {
+                    "type": "object",
+                    "required": [
+                        "applicationId",
+                        "endpoint",
+                        "endpointKey"
+                    ],
+                    "properties": {
+                        "applicationId": {
+                            "type": "string"
+                        },
+                        "endpoint": {
+                            "type": "string"
+                        },
+                        "endpointKey": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "priority": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$type"
+            ],
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "anyOf": [
+                {
+                    "title": "Reference",
+                    "required": [
+                        "$ref"
+                    ]
+                },
+                {
+                    "title": "Type",
+                    "required": [
+                        "application"
+                    ]
+                }
+            ]
+        },
+        "Microsoft.Prompt": {
+            "title": "Simple Prompt",
+            "description": "Example simple prompt.",
+            "$implements": [
+                "Microsoft.IPrompt"
+            ],
+            "properties": {
+                "$ref": {
+                    "type": "string"
+                },
+                "$type": {
+                    "type": "string",
+                    "const": "Microsoft.Prompt"
+                },
+                "$id": {
+                    "type": "string"
+                },
+                "prompt": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$type"
+            ]
+        },
+        "Microsoft.RegexRecognizer": {
+            "title": "Regular Expression Recognizer",
+            "description": "Example regular expression recognizer.",
+            "$implements": [
+                "Microsoft.IRecognizer"
+            ],
+            "properties": {
+                "$ref": {
+                    "type": "string"
+                },
+                "$type": {
+                    "type": "string",
+                    "const": "Microsoft.RegexRecognizer"
+                },
+                "$id": {
+                    "type": "string"
+                },
+                "$comment": {
+                    "text": "Test explicit override"
+                },
+                "pattern": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$type"
+            ],
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "anyOf": [
+                {
+                    "title": "Reference",
+                    "required": [
+                        "$ref"
+                    ]
+                },
+                {
+                    "title": "Type",
+                    "required": [
+                        "pattern"
+                    ]
+                }
+            ]
+        },
+        "Microsoft.SimplePrompt": {
+            "title": "Really Prompt",
+            "$implements": [
+                "Microsoft.IPrompt"
+            ],
+            "type": "object",
+            "properties": {
+                "$ref": {
+                    "type": "string"
+                },
+                "$type": {
+                    "type": "string",
+                    "const": "Microsoft.SimplePrompt"
+                },
+                "$id": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$type"
+            ]
+        },
+        "Microsoft.Topic": {
+            "title": "Topic",
+            "description": "Topic from DRuE.",
+            "type": "object",
+            "$comment": "Overlapping definition to ensure definitions are scoped by the type.",
+            "definitions": {
+                "local": {
+                    "type": "integer"
+                }
+            },
+            "properties": {
+                "$ref": {
+                    "type": "string"
+                },
+                "$type": {
+                    "type": "string",
+                    "const": "Microsoft.Topic"
+                },
+                "$id": {
+                    "type": "string"
+                },
+                "primary": {
+                    "$type": "Microsoft.IRecognizer",
+                    "title": "Primary Reco",
+                    "description": "Really?",
+                    "$ref": "#/definitions/Microsoft.IRecognizer"
+                },
+                "recognizers": {
+                    "type": "array",
+                    "items": {
+                        "$type": "Microsoft.IRecognizer",
+                        "title": "Cool recognizers",
+                        "$ref": "#/definitions/Microsoft.IRecognizer"
+                    }
+                },
+                "prompts": {
+                    "type": "array",
+                    "items": {
+                        "$type": "Microsoft.IPrompt",
+                        "$ref": "#/definitions/Microsoft.IPrompt"
+                    }
+                },
+                "priority": {
+                    "$comment": "Testing local definitions.",
+                    "type": "integer"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$type"
+            ]
+        },
+        "Microsoft.INothing": {
+            "title": "Microsoft Nothing",
+            "description": "Definition of a union type with no $implements.",
+            "oneOf": [],
+            "type": "object"
+        },
+        "Microsoft.IPrompt": {
+            "title": "Microsoft IPrompt",
+            "description": "Definition of Microsoft.IPrompt which will be expanded by components that $implements it.",
+            "oneOf": [
+                {
+                    "title": "Microsoft.Prompt",
+                    "description": "Example simple prompt.",
+                    "$ref": "#/definitions/Microsoft.Prompt"
+                },
+                {
+                    "title": "Microsoft.SimplePrompt",
+                    "description": "Microsoft.SimplePrompt",
+                    "$ref": "#/definitions/Microsoft.SimplePrompt"
+                }
+            ],
+            "type": "object"
+        },
+        "Microsoft.IRecognizer": {
+            "title": "Microsoft IRecognizer",
+            "description": "Definition of Microsoft.IRecognizer which will be expanded by components that $implements it.",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "title": "string"
+                },
+                {
+                    "title": "Microsoft.LUISRecognizer",
+                    "description": "LUIS recognizer.",
+                    "$ref": "#/definitions/Microsoft.LUISRecognizer"
+                },
+                {
+                    "title": "Microsoft.RegexRecognizer",
+                    "description": "Example regular expression recognizer.",
+                    "$ref": "#/definitions/Microsoft.RegexRecognizer"
+                }
+            ],
+            "type": "object"
+        }
+    }
+}

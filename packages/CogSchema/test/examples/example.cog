@@ -1,0 +1,10 @@
+{
+  "$schema": "./app.schema",
+  "$type":"Microsoft.Topic",
+  "primary":{
+    "$type":"Microsoft.LUISRecognizer",
+    "application": {
+      "applicationId": "ldkj"
+    }
+  }
+}
