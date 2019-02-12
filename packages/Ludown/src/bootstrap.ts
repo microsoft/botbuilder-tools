@@ -5,6 +5,7 @@ import * as ludown from './commands/ludown';
 import * as printers from './utils/printers';
 
 latestVersion(pacakgeJson.name, { version: `>${pacakgeJson.version}` })
+    .catch(err => pacakgeJson.version)
     .then(resolvedLatestVersion => {
         if (semver.gt(resolvedLatestVersion, pacakgeJson.version)) {
             printUpdateMessage(pacakgeJson.version, resolvedLatestVersion, pacakgeJson.name);
