@@ -1,4 +1,4 @@
-{ 
+{
   "name": "cogLint",
   "version": "1.2.0",
   "description": "Merge together multiple JSON schemas with references and allof into a single simple schema.",
@@ -22,7 +22,7 @@
     "typings/"
   ],
   "scripts": {
-    "test": "cd test/ && mocha --opts mocha.optse",
+    "test": "mocha -r node_modules/ts-node/register test/*.ts",
     "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",
     "build": "tsc"
   },
@@ -40,16 +40,21 @@
   },
   "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
     "@types/globby": "^8.0.0",
+    "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.18",
-    "@types/semver": "^5.5.0"
+    "@types/semver": "^5.5.0",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.3"
   },
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
     "fs": "0.0.1-security",
     "globby": "^9.0.0",
-    "log-prefix": "^0.1.1",
     "process": "^0.11.10",
     "semver": "^5.6.0"
   }

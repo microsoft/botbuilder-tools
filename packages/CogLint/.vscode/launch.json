@@ -7,6 +7,21 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Mocha Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-r", "node_modules/ts-node/register", "test/*.ts",
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}\\lib\\schemaIndex.js",
             "args": 

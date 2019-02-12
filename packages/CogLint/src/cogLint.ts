@@ -45,9 +45,9 @@ async function doIndexing() {
         });
     let index = refs.result;
 
-    console.log("");
     for (let defs of index.multipleDefinitions()) {
         let def = (<indexer.Definition[]>defs)[0];
+        console.log("");
         logger(MsgKind.error, `Multiple definitions for ${def.id} ${def.usedByString()}`);
         for (let def of defs) {
             logger(MsgKind.error, `  ${def.toString()}`);
@@ -60,17 +60,15 @@ async function doIndexing() {
     }
 
     console.log("");
-    for (let def of index.missingTypes()) {
+    for (let def of index.missingTypes) {
         logger(MsgKind.error, `Missing $type for ${def.toString()}`);
     }
 
     console.log("");
     for (let [type, definitions] of index.typeTo) {
-        if (type != "") {
-            logger(MsgKind.msg, `Instances of ${type}`);
-            for (let def of definitions) {
-                logger(MsgKind.msg, `  ${def.toString()}`);
-            }
+        logger(MsgKind.msg, `Instances of ${type}`);
+        for (let def of definitions) {
+            logger(MsgKind.msg, `  ${def.toString()}`);
         }
     }
 }

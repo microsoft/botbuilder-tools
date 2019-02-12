@@ -10,8 +10,8 @@ import * as glob from 'globby';
 
 /** Definition of a Bot Framework component. */
 export class Definition {
-    /** $type of the copmonent or "" if undefined. */
-    type: string;
+    /** $type of the copmonent or undefined. */
+    type?: string;
 
     /** Path to the file that contains the component definition. */
     file?: string;
@@ -32,19 +32,57 @@ export class Definition {
     * @param file The file that defines the component.
     * @param path The path within the file to the component.
     */
-    constructor(type: string, id?: string, file?: string, path?: string) {
-        this.type = type || "";
+    constructor(type?: string, id?: string, file?: string, path?: string) {
+        this.type = type;
         this.id = id;
         this.file = file;
         this.path = path;
         this.usedBy = [];
     }
 
-    usedByString() : string {
+    compare(definition: Definition): number {
+        let result : number;
+        if (this.file && this.path && definition.file && definition.path) { // Actual definitions
+            if (this.file === definition.file) {
+                if (this.path === definition.path) {
+                    result = 0;
+                } else {
+                    result = this.path.localeCompare(definition.path);
+                }
+            } else {
+                result = this.file.localeCompare(definition.file);
+            }
+        } else if (this.file && this.path) {
+            result = -1;
+        } else if (definition.file && definition.path) {
+            result = +1;
+        } else if (this.id && this.type && definition.id && definition.type) {
+            if (this.id === definition.id) {
+                if (this.type === definition.type) {
+                    result = 0;
+                } else {
+                    result = this.type.localeCompare(definition.type);
+                }
+            } else {
+                result = this.id.localeCompare(definition.id);
+            }
+        } else {
+            if (this.id && this.type) {
+                result = -1;
+            } else if (definition.id && definition.type) {
+                result = +1;
+            } else {
+                result = -1;
+            }
+        }
+        return result;
+    }
+
+    usedByString(): string {
         let result = "";
         if (this.usedBy.length > 0) {
             result = "used by";
-            for(let user of this.usedBy) {
+            for (let user of this.usedBy) {
                 result += " " + user.locator();
             }
         }
@@ -72,9 +110,13 @@ export class DefinitionMap {
     /** Map from a type to all components of that type. */
     typeTo: Map<string, Definition[]>;
 
+    /** Definitions that are missing a $type. */
+    missingTypes: Definition[];
+
     constructor() {
         this.idTo = new Map<string, Definition[]>();
         this.typeTo = new Map<string, Array<Definition>>();
+        this.missingTypes = [];
     }
 
     /**
@@ -85,7 +127,7 @@ export class DefinitionMap {
      * @param path path within the file for defining the component.
      */
     addDefinition(definition: Definition) {
-        if (!this.typeTo.has(definition.type)) {
+        if (definition.type && !this.typeTo.has(definition.type)) {
             this.typeTo.set(definition.type, []);
         }
         if (definition.id) {
@@ -106,10 +148,18 @@ export class DefinitionMap {
             }
             if (add) {
                 (<Definition[]>this.idTo.get(definition.id)).push(definition);
-                (<Definition[]>this.typeTo.get(definition.type)).push(definition);
+                if (definition.type) {
+                    (<Definition[]>this.typeTo.get(definition.type)).push(definition);
+                } else {
+                    this.missingTypes.push(definition);
+                }
             }
         } else {
-            (<Definition[]>this.typeTo.get(definition.type)).push(definition);
+            if (definition.type) {
+                (<Definition[]>this.typeTo.get(definition.type)).push(definition);
+            } else {
+                this.missingTypes.push(definition);
+            }
         }
     }
 
@@ -127,6 +177,55 @@ export class DefinitionMap {
         }
         for (let idDef of (<Definition[]>this.idTo.get(id))) {
             idDef.usedBy.push(source);
+        }
+    }
+
+    /**
+     * Remove definition from map.
+     * @param definition Definition to remove.
+     */
+    removeDefinition(definition: Definition): boolean {
+        let found = false;
+        if (definition.id && this.idTo.has(definition.id)) {
+            // Remove from ids
+            const defs = <Definition[]>this.idTo.get(definition.id);
+            const newDefs = defs.filter((d) => d.compare(definition) != 0);
+            if (newDefs.length == 0) {
+                this.idTo.delete(definition.id);
+            } else {
+                this.idTo.set(definition.id, newDefs);
+            }
+            found = newDefs.length != defs.length;
+        }
+        if (definition.type && this.typeTo.has(definition.type)) {
+            const defs = <Definition[]>this.typeTo.get(definition.type);
+            const newDefs = defs.filter((d) => d.compare(definition) != 0);
+            if (newDefs.length == 0) {
+                this.typeTo.delete(definition.type);
+            } else {
+                this.typeTo.set(definition.type, newDefs);
+            }
+            found = found || newDefs.length != defs.length;
+        } else {
+            // Remove from missing types
+            let newDefs = this.missingTypes.filter((d) => d.compare(definition) == 0);
+            found = found || newDefs.length != this.missingTypes.length;
+        }
+        // Remove from all usedBy.
+        for(let def of this.allDefinitions()) {
+            def.usedBy = def.usedBy.filter((d) => d.compare(definition) != 0);
+        }
+        return found;
+    }
+
+    * allDefinitions(): Iterable<Definition> {
+        for (let defs of this.typeTo.values()) {
+            for (let def of defs) {
+                yield def;
+            }
+        }
+        for (let def of this.missingTypes) {
+            yield def;
         }
     }
 
@@ -149,15 +248,6 @@ export class DefinitionMap {
             }
         }
     }
-
-    /** Component definitions that are missing $type. */
-    * missingTypes(): Iterable<Definition> {
-        if (this.typeTo.has("")) {
-            for(let def of <Definition[]>this.typeTo.get("")) {
-                yield def;
-            }
-        }
-    }
 }
 
 /** Result of indexing files. */
@@ -177,12 +267,12 @@ export type Failed = (error: Error) => boolean;
  * @param started Callback called as each file starts.
  * @param failed Callback called if file analysis fails.  
  */
-export async function index(patterns: Array<string>, started?: Started, failed?:Failed): Promise<IndexResult> {
+export async function index(patterns: Array<string>, started?: Started, failed?: Failed): Promise<IndexResult> {
     const result: IndexResult = {
         result: new DefinitionMap(),
         success: true
     };
-    if (!started) started = (_file) => {};
+    if (!started) started = (_file) => { };
     if (!failed) failed = (_error) => true;
     let filePaths = glob.sync(patterns);
     if (filePaths.length == 0) {
@@ -192,11 +282,11 @@ export async function index(patterns: Array<string>, started?: Started, failed?:
             try {
                 started(filePath);
                 const schema = JSON.parse(fs.readFileSync(filePath).toString());
-                walkSchema(schema, "", (elt, path) => {
+                walkJSON(schema, "", (elt, path) => {
                     if (elt.$type) {
                         result.result.addDefinition(new Definition(elt.$type, elt.$id, filePath, path));
                     } else if (elt.$id || elt.$ref) { // Missing type
-                        result.result.addDefinition(new Definition("", elt.$id, filePath, path));
+                        result.result.addDefinition(new Definition(undefined, elt.$id, filePath, path));
                     }
                     if (elt.$ref) {
                         result.result.addReference(elt.$ref, new Definition(elt.$type, elt.$id, filePath, path));
@@ -212,20 +302,19 @@ export async function index(patterns: Array<string>, started?: Started, failed?:
     return result;
 }
 
-function walkSchema(schema: any, path: string, fun: (val: any, path: string) => boolean): boolean {
-    let done = fun(schema, path);
+function walkJSON(json: any, path: string, fun: (val: any, path: string) => boolean): boolean {
+    let done = fun(json, path);
     if (!done) {
-        if (Array.isArray(schema)) {
+        if (Array.isArray(json)) {
             let i = 0;
-            for (let val of schema) {
-                done = walkSchema(val, `${path}[${i}]`, fun);
+            for (let val of json) {
+                done = walkJSON(val, `${path}[${i}]`, fun);
                 if (done) break;
                 ++i;
             }
-        }
-        else if (typeof schema === 'object') {
-            for (let val in schema) {
-                done = walkSchema(schema[val], `${path}/${val}`, fun);
+        } else if (typeof json === 'object') {
+            for (let val in json) {
+                done = walkJSON(json[val], `${path}/${val}`, fun);
                 if (done) break;
             }
         }

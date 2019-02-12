@@ -1,4 +1,4 @@
 {
-    "$type": "RecognizerMismatch",
-    "$id": "externalRecognizerId"
+    "$type": "RecognizerTypeMismatch",
+    "$id": "typeMismatchID"
 }
