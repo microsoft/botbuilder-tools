@@ -266,6 +266,17 @@ export class DefinitionMap {
             }
         }
     }
+
+    /** Definitions with ids that are unused. */
+    * unusedIDs(): Iterable<Definition> {
+        for (let defs of this.idTo.values()) {
+            for (let def of defs) {
+                if (def.usedBy.length == 0) {
+                    yield def;
+                }
+            }
+        }
+    }
 }
 
 /**
