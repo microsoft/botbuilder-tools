@@ -27,7 +27,7 @@
             "program": "${workspaceFolder}\\lib\\cogSchema.js",
             "args": 
                 ["components/**/*.schema", "-o", "app.schema"],
-            "cwd": "c:/tmp/schemas/schemas",
+            "cwd": "C:/Users/chrimc/Source/repos/botbuilder-dotnet/tests/Microsoft.Bot.Builder.TestBot.Json/Schemas",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"

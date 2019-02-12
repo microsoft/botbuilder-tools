@@ -55,7 +55,7 @@ async function mergeSchemas() {
             var type = filename.substr(0, filename.lastIndexOf("."));
             delete schema.$schema;
             fixDefinitionReferences(schema);
-            if (!schema.type) {
+            if (!schema.type && !schema.oneOf) {
                 schema.type = "object";
             }
             definitions[type] = schema;
