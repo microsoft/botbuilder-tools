@@ -1,0 +1,87 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "oneOf": [
+        {
+            "$ref": "#/definitions/Recognizer"
+        },
+        {
+            "$ref": "#/definitions/RecognizerTypeMismatch"
+        },
+        {
+            "$ref": "#/definitions/root"
+        }
+    ],
+    "definitions": {
+        "root": {
+            "properties": {
+                "$type": {
+                    "type": "string",
+                    "const": "root"
+                },
+                "recognizers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IRecognizers"
+                    }
+                }
+            },
+            "required": ["$type", "recognizers"]
+        },
+        "IRecognizers": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/Recognizer"
+                }
+            ]
+        },
+        "Recognizer": {
+            "properties": {
+                "$type": {
+                    "type": "string",
+                    "const": "Recognizer"
+                },
+                "$ref": {
+                    "type": "string"
+                },
+                "$id": {
+                    "type": "string"
+                },
+                "req": {
+                    "type": "string"
+                },
+                "opt": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$type"
+            ],
+            "anyOf": [
+                {
+                    "required": [
+                        "$ref"
+                    ]
+                },
+                {
+                    "required": [
+                        "req"
+                    ]
+                }
+            ]
+        },
+        "RecognizerTypeMismatch": {
+            "properties": {
+                "$type": {
+                    "type": "string",
+                    "const": "RecognizerTypeMismatch"
+                },
+                "$ref": {
+                    "type": "string"
+                },
+                "$id": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

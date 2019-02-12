@@ -1,4 +1,7 @@
 {
+    "$schema": "./app.schema",
     "$type": "Recognizer",
-    "$id": "externalRecognizerId"
+    "$id": "externalRecognizerId",
+    "req": "a value",
+    "opt": "optional value"
 }

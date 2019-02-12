@@ -1,14 +1,17 @@
 {
+  "$schema": "./app.schema",
   "$type": "root",
   "$id": "rootId",
   "recognizers": [
     {
       "$type": "Recognizer",
-      "$id": "inlineRecognizerWithId"
+      "$id": "inlineRecognizerWithId",
+      "req": "a value"
     },
     {
       "$type": "Recognizer",
-      "$ref": "externalRecognizerId"
+      "$ref": "externalRecognizerId",
+      "req": "a value"
     },
     {
       "$type": "Recognizer",
@@ -22,7 +25,8 @@
     },
     {
       "$type": "Recognizer",
-      "$ref": "typeMismatchID"
+      "$ref": "typeMismatchID",
+      "req": "a value"
     }
   ]
 }

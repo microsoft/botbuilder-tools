@@ -51,6 +51,7 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
+    "ajv": "^6.9.1",
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
     "fs": "0.0.1-security",

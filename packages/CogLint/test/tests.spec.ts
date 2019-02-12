@@ -5,7 +5,7 @@ describe('Test .cog indexing library', async () => {
     it('index all', async () => {
         let index = await indexer.index(["test/examples/*.cog"]);
         expect(index.files.length).equal(6);
-        expect(index.files.filter((f) => f.errors.length > 0).length).equals(1);
+        expect(index.files.filter((f) => f.errors.length > 0).length).equals(2);
         expect(size(index.allDefinitions())).equal(13);
         expect(size(index.missingDefinitions())).equal(2);
         expect(size(index.multipleDefinitions())).equal(2);

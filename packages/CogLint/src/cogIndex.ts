@@ -7,6 +7,8 @@
 // tslint:disable:no-object-literal-type-assertion
 import * as fs from 'fs';
 import * as glob from 'globby';
+import * as ajv from 'ajv';
+import * as path from 'path';
 
 /** Definition of a Bot Framework component. */
 export class Definition {
@@ -231,6 +233,7 @@ export class DefinitionMap {
         return found;
     }
 
+    /** All definitions. */
     * allDefinitions(): Iterable<Definition> {
         for (let defs of this.typeTo.values()) {
             for (let def of defs) {
@@ -263,14 +266,6 @@ export class DefinitionMap {
     }
 }
 
-/** Result of indexing files. */
-export interface IndexResult {
-    /** Resulting index map. */
-    result: DefinitionMap;
-    /** true if all files were parsed correcly. */
-    success: boolean;
-}
-
 /**
  * Index JSON files using $type, $id and $ref.
  * @param patterns Glob patterns for files to analyze.
@@ -279,11 +274,30 @@ export interface IndexResult {
 export async function index(patterns: Array<string>): Promise<DefinitionMap> {
     const result = new DefinitionMap();
     let filePaths = glob.sync(patterns);
+    let schemas = new ajv();
     for (let filePath of filePaths) {
         let processed = new ProcessedFile(filePath);
         try {
-            const schema = JSON.parse(fs.readFileSync(filePath).toString());
-            walkJSON(schema, "", (elt, path) => {
+            const cog = JSON.parse(fs.readFileSync(filePath).toString());
+            const schemaFile = cog.$schema;
+             if (schemaFile) {
+                let validator = schemas.getSchema(schemaFile);
+                if (!validator) {
+                    let schemaPath = path.join(path.dirname(filePath), schemaFile);
+                    let schemaObject = JSON.parse(fs.readFileSync(schemaPath).toString());
+                    schemas.addSchema(schemaObject, schemaFile);
+                    validator = schemas.getSchema(schemaFile);
+                }
+                let validation = validator(cog, filePath);
+                if (!validation && validator.errors) {
+                    for (let err of validator.errors) {
+                        processed.errors.push(new Error(`${err.dataPath} ${err.message}`));
+                    }
+                }
+            } else {
+                throw new Error(`${filePath} does not have a $schema.`);
+            }
+            walkJSON(cog, "", (elt, path) => {
                 if (elt.$type) {
                     result.addDefinition(new Definition(elt.$type, elt.$id, filePath, path));
                 } else if (elt.$id || elt.$ref) { // Missing type

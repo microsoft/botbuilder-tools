@@ -1,4 +1,5 @@
 {
+    "$schema": "./app.schema",
     "$type": "RecognizerTypeMismatch",
     "$id": "typeMismatchID"
 }
