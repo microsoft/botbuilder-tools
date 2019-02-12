@@ -41,7 +41,7 @@ export class Definition {
     }
 
     compare(definition: Definition): number {
-        let result : number;
+        let result: number;
         if (this.file && this.path && definition.file && definition.path) { // Actual definitions
             if (this.file === definition.file) {
                 if (this.path === definition.path) {
@@ -98,6 +98,16 @@ export class Definition {
     }
 }
 
+export class ProcessedFile {
+    file: string;
+    errors: Error[];
+
+    constructor(file: string) {
+        this.file = file;
+        this.errors = [];
+    }
+}
+
 /** Maps from $id to definition and $type to definition */
 export class DefinitionMap {
     /** 
@@ -113,10 +123,13 @@ export class DefinitionMap {
     /** Definitions that are missing a $type. */
     missingTypes: Definition[];
 
+    files: ProcessedFile[];
+
     constructor() {
         this.idTo = new Map<string, Definition[]>();
         this.typeTo = new Map<string, Array<Definition>>();
         this.missingTypes = [];
+        this.files = [];
     }
 
     /**
@@ -212,7 +225,7 @@ export class DefinitionMap {
             found = found || newDefs.length != this.missingTypes.length;
         }
         // Remove from all usedBy.
-        for(let def of this.allDefinitions()) {
+        for (let def of this.allDefinitions()) {
             def.usedBy = def.usedBy.filter((d) => d.compare(definition) != 0);
         }
         return found;
@@ -258,46 +271,33 @@ export interface IndexResult {
     success: boolean;
 }
 
-export type Started = (file: string) => void;
-export type Failed = (error: Error) => boolean;
-
 /**
  * Index JSON files using $type, $id and $ref.
  * @param patterns Glob patterns for files to analyze.
- * @param started Callback called as each file starts.
- * @param failed Callback called if file analysis fails.  
+ * @returns Result of analyzing files.
  */
-export async function index(patterns: Array<string>, started?: Started, failed?: Failed): Promise<IndexResult> {
-    const result: IndexResult = {
-        result: new DefinitionMap(),
-        success: true
-    };
-    if (!started) started = (_file) => { };
-    if (!failed) failed = (_error) => true;
+export async function index(patterns: Array<string>): Promise<DefinitionMap> {
+    const result = new DefinitionMap();
     let filePaths = glob.sync(patterns);
-    if (filePaths.length == 0) {
-        result.success = false;
-    } else {
-        for (let filePath of filePaths) {
-            try {
-                started(filePath);
-                const schema = JSON.parse(fs.readFileSync(filePath).toString());
-                walkJSON(schema, "", (elt, path) => {
-                    if (elt.$type) {
-                        result.result.addDefinition(new Definition(elt.$type, elt.$id, filePath, path));
-                    } else if (elt.$id || elt.$ref) { // Missing type
-                        result.result.addDefinition(new Definition(undefined, elt.$id, filePath, path));
-                    }
-                    if (elt.$ref) {
-                        result.result.addReference(elt.$ref, new Definition(elt.$type, elt.$id, filePath, path));
-                    }
-                    return false;
-                });
-            } catch (e) {
-                if (!failed(e)) break;
-                result.success = false;
-            }
+    for (let filePath of filePaths) {
+        let processed = new ProcessedFile(filePath);
+        try {
+            const schema = JSON.parse(fs.readFileSync(filePath).toString());
+            walkJSON(schema, "", (elt, path) => {
+                if (elt.$type) {
+                    result.addDefinition(new Definition(elt.$type, elt.$id, filePath, path));
+                } else if (elt.$id || elt.$ref) { // Missing type
+                    result.addDefinition(new Definition(undefined, elt.$id, filePath, path));
+                }
+                if (elt.$ref) {
+                    result.addReference(elt.$ref, new Definition(elt.$type, elt.$id, filePath, path));
+                }
+                return false;
+            });
+        } catch (e) {
+            processed.errors.push(e);
         }
+        result.files.push(processed);
     }
     return result;
 }

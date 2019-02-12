@@ -37,13 +37,18 @@ program
 doIndexing();
 
 async function doIndexing() {
-    const refs = await indexer.index(program.args,
-        (file) => logger(MsgKind.msg, `Parsing ${file}`),
-        (error) => {
-            logger(MsgKind.error, error.message);
-            return true;
-        });
-    let index = refs.result;
+    const index = await indexer.index(program.args);
+
+    for(let processed of index.files) {
+        if (processed.errors.length == 0) {
+            logger(MsgKind.msg, `Processed ${processed.file}`);
+        } else {
+            logger(MsgKind.error, `Errors processing ${processed.file}`);
+            for(let error of processed.errors) {
+                logger(MsgKind.error, `  ${error.message}`);
+            }
+        }
+    }
 
     for (let defs of index.multipleDefinitions()) {
         let def = (<indexer.Definition[]>defs)[0];

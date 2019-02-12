@@ -3,12 +3,12 @@ import {expect} from 'chai';
 import * as indexer from '../src/cogIndex';
 describe('Test .cog indexing library', async () => {
     it('index all', async () => {
-        let result = await indexer.index(["test/examples/*.cog"]);
-        expect(result.success).true; 
-        let index = result.result;
-        expect(size(index.allDefinitions())).is.equal(13);
-        expect(size(index.missingDefinitions())).is.equal(2);
-        expect(size(index.multipleDefinitions())).is.equal(2);
+        let index = await indexer.index(["test/examples/*.cog"]);
+        expect(index.files.length).equal(6);
+        expect(index.files.filter((f) => f.errors.length > 0).length).equals(1);
+        expect(size(index.allDefinitions())).equal(13);
+        expect(size(index.missingDefinitions())).equal(2);
+        expect(size(index.multipleDefinitions())).equal(2);
     });
 });
 

@@ -23,7 +23,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\lib\\schemaIndex.js",
+            "program": "${workspaceFolder}\\lib\\cogLint.js",
             "args": 
                 ["examples/*.cog"],
             "cwd": "${workspaceFolder}/test",
