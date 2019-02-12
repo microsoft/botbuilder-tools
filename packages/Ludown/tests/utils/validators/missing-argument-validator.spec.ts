@@ -1,4 +1,4 @@
-import { missingArgumentValidatorFactory } from '../../src/utils/validators/missing-argument-validator';
+import { missingArgumentValidatorFactory } from '../../../src/utils/validators/missing-argument-validator';
 
 describe('Missing argument validator', () => {
     it('should resolve with true when passed arguments exist', (done) => {

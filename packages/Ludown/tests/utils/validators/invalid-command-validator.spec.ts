@@ -1,5 +1,5 @@
-import { ERROR_CODE } from '../../src/models/error-codes';
-import { invalidCommandValidatorFactory } from '../../src/utils/validators/invalid-command-validator';
+import { ERROR_CODE } from '../../../src/models/error-codes';
+import { invalidCommandValidatorFactory } from '../../../src/utils/validators/invalid-command-validator';
 
 describe('Invalid command validator', () => {
     it('should resolve when given command is allowed', (done) => {

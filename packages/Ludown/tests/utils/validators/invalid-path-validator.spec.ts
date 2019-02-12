@@ -1,6 +1,6 @@
 import * as mockFs from 'mock-fs';
-import { ERROR_CODE } from '../../src/models/error-codes';
-import { invalidPathValidator } from '../../src/utils/validators/invalid-path-validator';
+import { ERROR_CODE } from '../../../src/models/error-codes';
+import { invalidPathValidator } from '../../../src/utils/validators/invalid-path-validator';
 
 describe('Invalid path validator', () => {
     beforeAll(() => {
