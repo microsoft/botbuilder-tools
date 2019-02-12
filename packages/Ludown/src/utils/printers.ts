@@ -21,7 +21,7 @@ export const printInfo = (message: string, color?: string) => {
  * @param message The message to write.
  */
 export const printSuccess = (message: string) => {
-    process.stdout.write(chalk.greenBright(message));
+    process.stdout.write(chalk.greenBright(`${message}\n`));
 };
 
 /**
@@ -31,7 +31,7 @@ export const printSuccess = (message: string) => {
  * @param message The message to write.
  */
 export const printError = (message: string) => {
-    process.stderr.write(chalk.redBright(message));
+    process.stderr.write(chalk.redBright(`${message}\n`));
 };
 
 /**
@@ -42,6 +42,6 @@ export const printError = (message: string) => {
  */
 export const log = (message: string) => {
     if (configs.debug) {
-        logger.buffer(message);
+        logger.buffer(`${message}\n`);
     }
 };
