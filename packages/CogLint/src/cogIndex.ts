@@ -44,7 +44,8 @@ export class Definition {
 
     compare(definition: Definition): number {
         let result: number;
-        if (this.file && this.path && definition.file && definition.path) { // Actual definitions
+        if (this.file != undefined && this.path != undefined 
+            && definition.file != undefined && definition.path != undefined) { // Actual definitions
             if (this.file === definition.file) {
                 if (this.path === definition.path) {
                     result = 0;
@@ -54,11 +55,12 @@ export class Definition {
             } else {
                 result = this.file.localeCompare(definition.file);
             }
-        } else if (this.file && this.path) {
-            result = -1;
-        } else if (definition.file && definition.path) {
+        } else if (this.file != undefined && this.path != undefined) {
             result = +1;
-        } else if (this.id && this.type && definition.id && definition.type) {
+        } else if (definition.file != undefined && definition.path != undefined) {
+            result = -1;
+        } else if (this.id != undefined && this.type != undefined
+             && definition.id != undefined && definition.type != undefined) {
             if (this.id === definition.id) {
                 if (this.type === definition.type) {
                     result = 0;
@@ -69,9 +71,9 @@ export class Definition {
                 result = this.id.localeCompare(definition.id);
             }
         } else {
-            if (this.id && this.type) {
+            if (this.id != undefined && this.type != undefined) {
                 result = -1;
-            } else if (definition.id && definition.type) {
+            } else if (definition.id != undefined && definition.type != undefined) {
                 result = +1;
             } else {
                 result = -1;

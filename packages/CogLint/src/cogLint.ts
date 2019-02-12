@@ -76,6 +76,25 @@ async function doIndexing() {
             logger(MsgKind.msg, `  ${def.toString()}`);
         }
     }
+
+    // TODO: Remove this
+    let def1 = index.allDefinitions()[Symbol.iterator]().next().value;
+    index.removeDefinition(def1);
+    let def2 = def1;
+    for(let def of index.allDefinitions()) {
+        if (def.path === undefined) {
+            def1 = def;
+        } else if (def.usedBy.length > 0) {
+            def2 = def;
+        }
+    }
+    if (!index.removeDefinition(def1)
+        || !index.removeDefinition(def2)) {
+        console.log("huh?");
+    }
+    if (index.removeDefinition(def1)) {
+        console.log("huh");
+    }
 }
 
 export const enum MsgKind {
