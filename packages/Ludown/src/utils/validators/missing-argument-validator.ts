@@ -26,13 +26,26 @@ export type ArgumentBag = string[];
 export const missingArgumentValidatorFactory: IValidatorFactory = (factoryState: ArgumentBag[]) => {
     const doesArgBagExist = (argBag: ArgumentBag, haystack: Object) => intersection(Object.keys(haystack), argBag).length !== 0;
 
+    const getErrorMessage = (argBag: ArgumentBag) => {
+        if (argBag.length > 1) {
+            return `The option ("${argBag[0]}") is required.`;
+        }
+        else {
+            return `At least one of the options ${JSON.stringify(argBag)} is required.`;
+        }
+    };
+
     return {
         execute: (programState: Object) => {
             const missingArgBag = factoryState.find(bag => !doesArgBagExist(bag, programState));
 
             return new Promise((resolve, reject) => !missingArgBag ?
                 resolve(true) :
-                reject({ code: ERROR_CODE.MISSING_ARGUMENTS, data: missingArgBag })
+                reject({
+                    code: ERROR_CODE.MISSING_ARGUMENTS,
+                    data: missingArgBag,
+                    message: getErrorMessage(missingArgBag)
+                })
             );
         }
     };

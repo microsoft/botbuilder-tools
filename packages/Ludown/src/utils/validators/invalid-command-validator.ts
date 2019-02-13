@@ -15,7 +15,11 @@ export const invalidCommandValidatorFactory: IValidatorFactory = (allowableComma
         execute: (command: string) => {
             return new Promise((resolve, reject) => allowableCommands.includes(command) ?
                 resolve(true) :
-                reject({ code: ERROR_CODE.UNKNOWN_COMMAND, data: command })
+                reject({
+                    code: ERROR_CODE.UNKNOWN_COMMAND,
+                    data: command,
+                    message: `The specified command ("${command}") is invalid.`
+                })
             );
         }
     };
