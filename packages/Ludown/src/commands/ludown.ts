@@ -38,7 +38,7 @@ export const init = () => {
         // Validate the given sub commands.
         invalidCommandValidatorFactory(allowableCommands).execute(resolvedArguments.command)
             .catch(err => {
-                printError(`The specified command ("${err.data}") is invalid.`);
+                printError(err.message);
                 ludownCommand.help();
             });
     });
