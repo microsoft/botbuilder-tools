@@ -9,7 +9,7 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
 import * as semver from 'semver';
-import * as indexer from './cogIndex';
+import * as indexer from './cogTracker';
 
 // tslint:disable-next-line:no-let-requires no-require-imports
 const pkg: IPackage = require('../package.json');
@@ -37,20 +37,21 @@ program
 doIndexing();
 
 async function doIndexing() {
-    const index = await indexer.index(program.args);
+    const tracker = new indexer.CogTracker();
+    await tracker.addCogFiles(program.args);
 
-    for(let processed of index.files) {
-        if (processed.errors.length == 0) {
-            logger(MsgKind.msg, `Processed ${processed.file}`);
+    for(let cog of tracker.cogs) {
+        if (cog.errors.length == 0) {
+            logger(MsgKind.msg, `Processed ${cog.file}`);
         } else {
-            logger(MsgKind.error, `Errors processing ${processed.file}`);
-            for(let error of processed.errors) {
+            logger(MsgKind.error, `Errors processing ${cog.file}`);
+            for(let error of cog.errors) {
                 logger(MsgKind.error, `  ${error.message}`);
             }
         }
     }
 
-    for (let defs of index.multipleDefinitions()) {
+    for (let defs of tracker.multipleDefinitions()) {
         let def = (<indexer.Definition[]>defs)[0];
         logger(MsgKind.error, `Multiple definitions for ${def.id} ${def.usedByString()}`);
         for (let def of defs) {
@@ -58,19 +59,19 @@ async function doIndexing() {
         }
     }
 
-    for (let def of index.missingDefinitions()) {
+    for (let def of tracker.missingDefinitions()) {
         logger(MsgKind.error, `Missing definition for ${def} ${def.usedByString()}`);
     }
 
-    for (let def of index.missingTypes) {
+    for (let def of tracker.missingTypes) {
         logger(MsgKind.error, `Missing $type for ${def}`);
     }
 
-    for (let def of index.unusedIDs()) {
+    for (let def of tracker.unusedIDs()) {
         logger(MsgKind.warning, `Unused id ${def}`);
     }
 
-    for (let [type, definitions] of index.typeTo) {
+    for (let [type, definitions] of tracker.typeTo) {
         logger(MsgKind.msg, `Instances of ${type}`);
         for (let def of definitions) {
             logger(MsgKind.msg, `  ${def}`);
