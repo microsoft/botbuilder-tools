@@ -5,7 +5,7 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as glob from 'globby';
 import * as ajv from 'ajv';
 import * as path from 'path';
@@ -16,15 +16,18 @@ export class Cog {
     file: string;
 
     /** Definition of this cog or undefined if file did not parse. */
-    definition?: any;
+    body?: any;
 
     /** Any errors found in validating definition. */
     errors: Error[];
 
+    save: boolean;
+
     constructor(file: string, definition?: object) {
         this.file = file;
-        this.definition = definition;
+        this.body = definition;
         this.errors = [];
+        this.save = true;
     }
 
     toString(): string {
@@ -166,7 +169,7 @@ export class CogTracker {
                 let validator = this.validator.getSchema(schemaFile);
                 if (!validator) {
                     let schemaPath = path.join(path.dirname(file), schemaFile);
-                    let schemaObject = JSON.parse(fs.readFileSync(schemaPath).toString());
+                    let schemaObject = await fs.readJSON(schemaPath);
                     this.validator.addSchema(schemaObject, schemaFile);
                     validator = this.validator.getSchema(schemaFile);
                 }
@@ -177,8 +180,12 @@ export class CogTracker {
                     }
                 }
             } else {
-                throw new Error(`${file} does not have a $schema.`);
+                cog.errors.push(new Error(`${file} does not have a $schema.`));
             }
+            if (body.$id && body.$id != cog.id()) {
+                cog.errors.push(new Error(`Cog $id=${body.$id} does not match id based on filename ${cog.id()}.`))
+            }
+            body.$id = cog.id();
             this.walkJSON(body, "", (elt, path) => {
                 if (elt.$type) {
                     this.addDefinition(new Definition(elt.$type, elt.$id, cog, path));
@@ -200,13 +207,14 @@ export class CogTracker {
     async addCogFile(file: string): Promise<Cog> {
         let cog: Cog;
         try {
-            cog = await this.addCog(JSON.parse(fs.readFileSync(file).toString()), file);
+            cog = await this.addCog(await fs.readJSON(file), file);
         } catch (e) {
             // File is not valid JSON
             cog = new Cog(file);
             cog.errors.push(e);
             this.cogs.push(cog);
         }
+        cog.save = false;
         return cog;
     }
 
@@ -227,6 +235,20 @@ export class CogTracker {
             }
         }
         // this.verifyRemoved(this, cog);
+    }
+
+    /** Write out cog files. */
+    async writeCogs(root: string): Promise<void> {
+        for (let cog of this.cogs) {
+            if (cog.save) {
+                let filePath = path.join(root, cog.file);
+                let dir = path.dirname(filePath);
+                await fs.mkdirp(dir);
+                delete cog.body.$id;
+                await fs.writeJSON(filePath, cog.body, { spaces: 4 });
+                cog.body.$id = cog.id();
+            }
+        }
     }
 
     /** All definitions. */

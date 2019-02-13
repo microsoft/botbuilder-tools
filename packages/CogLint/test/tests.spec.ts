@@ -6,11 +6,12 @@ describe('Test .cog indexing library', async () => {
     it('index all', async () => {
         let tracker = new ct.CogTracker();
         await tracker.addCogFiles(["test/examples/*.cog"]);
-        expect(tracker.cogs.length).equal(6);
-        expect(tracker.cogs.filter((f) => f.errors.length > 0).length).equal(2);
+        expect(tracker.cogs.length).equal(5);
+        expect(tracker.cogs.filter((f) => f.errors.length > 0).length).equal(3);
         expect(size(tracker.allDefinitions())).equal(13);
         expect(size(tracker.missingDefinitions())).equal(2);
         expect(size(tracker.multipleDefinitions())).equal(2);
+        tracker.writeCogs("test.out/");
         for (let cog of tracker.cogs) {
             tracker.removeCog(cog);
             verifyRemoved(tracker, cog);

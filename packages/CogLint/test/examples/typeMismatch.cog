@@ -1,5 +1,5 @@
 {
     "$schema": "./app.schema",
     "$type": "RecognizerTypeMismatch",
-    "$id": "typeMismatchID"
+    "$id": "shouldNotHave"
 }

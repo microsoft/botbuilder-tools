@@ -1,6 +1,5 @@
 {
     "$schema": "./app.schema",
     "$type": "Recognizer",
-    "$id": "externalRecognizerId",
-    "req": "avalue"
+    "req": "val"
 }
