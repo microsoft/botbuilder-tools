@@ -10,6 +10,7 @@
         "newline-per-chained-call": false,
         "no-relative-imports": false,
         "export-name": false,
-        "one-line": false
+        "one-line": false,
+        "linebreak-style": false
     }
 }
