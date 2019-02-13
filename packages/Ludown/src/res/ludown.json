@@ -1,0 +1,8 @@
+{
+    "description": "",
+    "commands": {
+        "parse": "Convert .lu file(s) into LUIS JSON OR QnA Maker JSON files.",
+        "refresh": "Convert LUIS JSON and/ or QnAMaker JSON file into .lu file",
+        "translate": "Translate .lu files"
+    }
+}

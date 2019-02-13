@@ -1,5 +1,6 @@
 import { name } from 'commander';
 import { version } from '../../package.json';
+import * as ludownRes from '../res/ludown.json';
 import { extractArguments } from '../utils/argument-extractor';
 import { commandExecuterFactory } from '../utils/command-factory.js';
 import { printError } from '../utils/printers';
@@ -16,24 +17,25 @@ export const init = () => {
 
         // Register the ludown sub commands and their aliases.
         const ludownCommand = name('ludown')
-            .description('Ludown is a command line tool to bootstrap language understanding models from .lu files.')
+            .description(ludownRes.description)
             .version(version, '-v, --version');
 
         ludownCommand
-            .command('parse', 'Convert .lu file(s) into LUIS JSON OR QnA Maker JSON files.')
+            .command('parse', ludownRes.commands.parse)
             .alias('p');
 
         ludownCommand
-            .command('refresh', 'Convert LUIS JSON and/ or QnAMaker JSON file into .lu file')
+            .command('refresh', ludownRes.commands.refresh)
             .alias('d');
 
         ludownCommand
-            .command('translate', 'Translate .lu files')
+            .command('translate', ludownRes.commands.translate)
             .alias('t');
 
         // Fire the command parser to handle version and help options.
         ludownCommand.parse(process.argv);
 
+        // Validate the given sub commands.
         invalidCommandValidatorFactory(allowableCommands).execute(resolvedArguments.command)
             .catch(err => {
                 printError(`The specified command ("${err.data}") is invalid.`);
