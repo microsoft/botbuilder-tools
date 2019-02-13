@@ -9,10 +9,11 @@ import * as fs from 'fs-extra';
 import * as glob from 'globby';
 import * as ajv from 'ajv';
 import * as path from 'path';
+let clone = require('clone');
 
 /** Top-level cog definition that would be found in a file. */
 export class Cog {
-    /** The path to where the cog came from or should be written to. */
+    /** The full path to where the cog came from or should be written to. */
     file: string;
 
     /** Definition of this cog or undefined if file did not parse. */
@@ -23,20 +24,18 @@ export class Cog {
 
     save: boolean;
 
-    constructor(file: string, definition?: object) {
+    constructor(file: string, body?: object) {
         this.file = file;
-        this.body = definition;
+        if (!path.isAbsolute) {
+            throw new Error(`${file} must be an absolute path.`);
+        }
+        this.body = body;
         this.errors = [];
         this.save = true;
     }
 
     toString(): string {
-        return this.file;
-    }
-
-    /** ID of this component which is derived from file name. */
-    id(): string {
-        return path.basename(this.file, ".cog");
+        return path.relative(process.cwd(), this.file);
     }
 }
 
@@ -61,7 +60,7 @@ export class Definition {
     * Construct a component definition.
     * @param type The $type of the component.
     * @param id The $id of the component if present.
-    * @param cog The cog that contains the definition.
+    * @param cog The cog that contains the definition. (undefined for forward reference.)
     * @param path The path within the file to the component.
     */
     constructor(type?: string, id?: string, cog?: Cog, path?: string) {
@@ -84,7 +83,7 @@ export class Definition {
                     result = this.path.localeCompare(definition.path);
                 }
             } else {
-                result = this.cog.id().localeCompare(definition.cog.id());
+                result = this.cog.file.localeCompare(definition.cog.file);
             }
         } else if (this.cog != undefined && this.path != undefined) {
             result = +1;
@@ -118,18 +117,31 @@ export class Definition {
         if (this.usedBy.length > 0) {
             result = "used by";
             for (let user of this.usedBy) {
-                result += " " + user.locator();
+                result += " " + user.locatorString();
             }
         }
         return result;
     }
 
     toString(): string {
-        return `${this.type}[${this.id || ""}](${this.cog}#${this.path})`;
+        return `${this.type}[${this.idString()}](${this.path})`;
     }
 
-    locator(): string {
-        return `${this.cog}#${this.path}`;
+    locatorString(): string {
+        if (this.id) {
+            return this.idString();
+        } else {
+            return `${this.cog}(${this.path})`;
+        }
+    }
+
+    idString(): string {
+        let result = "";
+        if (this.id) {
+            let [file, ref] = this.id.split("#");
+            result = path.relative(process.cwd(), file) + "#" + ref;
+        }
+        return result;
     }
 }
 
@@ -161,39 +173,46 @@ export class CogTracker {
         this.validator = new ajv();
     }
 
-    async addCog(body: any, file: string): Promise<Cog> {
-        let cog = new Cog(file, body);
+    async addCog(cog: Cog): Promise<void> {
         try {
-            const schemaFile = body.$schema;
+            const schemaFile = cog.body.$schema;
             if (schemaFile) {
                 let validator = this.validator.getSchema(schemaFile);
                 if (!validator) {
-                    let schemaPath = path.join(path.dirname(file), schemaFile);
+                    let schemaPath = path.join(path.dirname(cog.file), schemaFile);
                     let schemaObject = await fs.readJSON(schemaPath);
                     this.validator.addSchema(schemaObject, schemaFile);
                     validator = this.validator.getSchema(schemaFile);
                 }
-                let validation = validator(body, file);
+                let validation = validator(cog.body, cog.file);
                 if (!validation && validator.errors) {
                     for (let err of validator.errors) {
-                        cog.errors.push(new Error(`${err.dataPath} ${err.message}`));
+                        let path = err.dataPath;
+                        if (path.startsWith(cog.file)) {
+                            path = path.substring(cog.file.length);
+                        }
+                        cog.errors.push(new Error(`${path} ${err.message}`));
                     }
                 }
             } else {
-                cog.errors.push(new Error(`${file} does not have a $schema.`));
+                cog.errors.push(new Error(`${cog} does not have a $schema.`));
             }
-            if (body.$id && body.$id != cog.id()) {
-                cog.errors.push(new Error(`Cog $id=${body.$id} does not match id based on filename ${cog.id()}.`))
+            if (cog.body.$id) {
+                cog.errors.push(new Error(`Cog cannot have $id at the root.`))
             }
-            body.$id = cog.id();
-            this.walkJSON(body, "", (elt, path) => {
+            cog.body.$id = "";
+            this.walkJSON(cog.body, "", (elt, path) => {
+                if (elt.$id && !this.isValidID(elt.$id)) {
+                    cog.errors.push(new Error(`${elt.$id} is not a valid id.`));
+                }
+                let id = elt.$id ? this.expandID(elt.$id, cog) : undefined;
                 if (elt.$type) {
-                    this.addDefinition(new Definition(elt.$type, elt.$id, cog, path));
+                    this.addDefinition(new Definition(elt.$type, id, cog, path));
                 } else if (elt.$id || elt.$ref) { // Missing type
-                    this.addDefinition(new Definition(undefined, elt.$id, cog, path));
+                    this.addDefinition(new Definition(undefined, id, cog, path));
                 }
                 if (elt.$ref) {
-                    this.addReference(elt.$ref, new Definition(elt.$type, elt.$id, cog, path));
+                    this.addReference(elt.$ref, new Definition(elt.$type, id, cog, path));
                 }
                 return false;
             });
@@ -201,13 +220,14 @@ export class CogTracker {
             cog.errors.push(e);
         }
         this.cogs.push(cog);
-        return cog;
     }
 
     async addCogFile(file: string): Promise<Cog> {
         let cog: Cog;
         try {
-            cog = await this.addCog(await fs.readJSON(file), file);
+            let abs = path.resolve(file);
+            cog = new Cog(abs, await fs.readJSON(abs));
+            await this.addCog(cog);
         } catch (e) {
             // File is not valid JSON
             cog = new Cog(file);
@@ -237,16 +257,31 @@ export class CogTracker {
         // this.verifyRemoved(this, cog);
     }
 
+    /** Clone an existing cog so you can modify it and then call updateCog. */
+    cloneCog(file: string): undefined | Cog {
+        let cog = this.findCog(file);
+        return cog ? clone(cog, false) : undefined;
+    }
+
+    /** Update or add a cog. */
+    async updateCog(cog: Cog): Promise<void> {
+        let oldCog = this.findCog(cog.file);
+        if (oldCog) {
+            this.removeCog(oldCog);
+        }
+        await this.addCog(cog);
+    }
+
     /** Write out cog files. */
-    async writeCogs(root: string): Promise<void> {
+    async writeCogs(root?: string): Promise<void> {
         for (let cog of this.cogs) {
             if (cog.save) {
-                let filePath = path.join(root, cog.file);
+                let filePath = root ? path.join(root, cog.file) : cog.file;
                 let dir = path.dirname(filePath);
                 await fs.mkdirp(dir);
                 delete cog.body.$id;
                 await fs.writeJSON(filePath, cog.body, { spaces: 4 });
-                cog.body.$id = cog.id();
+                cog.body.$id = cog.file;
             }
         }
     }
@@ -336,10 +371,11 @@ export class CogTracker {
 
     /**
      * Add reference to a $id.
-     * @param id Reference found in $ref.
-     * @param source Definition with $ref.
+     * @param ref Reference found in $ref.
+     * @param source Definition that contains $ref.
      */
-    private addReference(id: string, source: Definition): void {
+    private addReference(ref: string, source: Definition): void {
+        let id = this.expandRef(ref, <Cog>source.cog);
         if (!this.idTo.has(id)) {
             // ID does not exist so add place holder
             let definition = new Definition(source.type, id);
@@ -405,6 +441,49 @@ export class CogTracker {
             }
         }
         return done;
+    }
+
+    /** Find an existing cog or return undefined. */
+    private findCog(file: string): undefined | Cog {
+        let fullFile = path.resolve(file);
+        let result: undefined | Cog;
+        for (let cog of this.cogs) {
+            if (cog.file === fullFile) {
+                result = cog;
+                break;
+            }
+        }
+        return result;
+    }
+
+    private expandID(id: string, cog: Cog): string {
+        return path.join(cog.file) + "#/" + id;
+    }
+
+    private expandRef(ref: string, cog: Cog): string {
+        let fullRef: string;
+        let [refPath, refID] = ref.split("#");
+        if (refPath) { // Reference to another file
+            let fullPath = path.join(path.dirname(cog.file), refPath);
+            fullRef = fullPath + "#" + (refID || "");
+        } else { // Local ref
+            fullRef = cog.file + "#" + refID;
+        }
+        return fullRef;
+    }
+
+    /** $id cannot contain any special characters. */
+    private isValidID(id: string): boolean {
+        let ok = true;
+        // NOTE: Could exclude more, including [] and ~ but in our case we are never interpreting as JSON Path.
+        const exclude = ['/', '#'];
+        for (let ch of id) {
+            if (exclude.indexOf(ch) != -1) {
+                ok = false;
+                break;
+            }
+        }
+        return ok;
     }
 
     /*

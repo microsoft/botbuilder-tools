@@ -42,9 +42,9 @@ async function doIndexing() {
 
     for(let cog of tracker.cogs) {
         if (cog.errors.length == 0) {
-            logger(MsgKind.msg, `Processed ${cog.file}`);
+            logger(MsgKind.msg, `Processed ${cog}`);
         } else {
-            logger(MsgKind.error, `Errors processing ${cog.file}`);
+            logger(MsgKind.error, `Errors processing ${cog}`);
             for(let error of cog.errors) {
                 logger(MsgKind.error, `  ${error.message}`);
             }
@@ -53,9 +53,9 @@ async function doIndexing() {
 
     for (let defs of tracker.multipleDefinitions()) {
         let def = (<indexer.Definition[]>defs)[0];
-        logger(MsgKind.error, `Multiple definitions for ${def.id} ${def.usedByString()}`);
+        logger(MsgKind.error, `Multiple definitions for ${def.idString()} ${def.usedByString()}`);
         for (let def of defs) {
-            logger(MsgKind.error, `  ${def}`);
+            logger(MsgKind.error, `  ${def.locatorString()}`);
         }
     }
 
@@ -74,7 +74,7 @@ async function doIndexing() {
     for (let [type, definitions] of tracker.typeTo) {
         logger(MsgKind.msg, `Instances of ${type}`);
         for (let def of definitions) {
-            logger(MsgKind.msg, `  ${def}`);
+            logger(MsgKind.msg, `  ${def.locatorString()}`);
         }
     }
 }

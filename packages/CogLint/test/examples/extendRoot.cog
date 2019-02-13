@@ -1,0 +1,10 @@
+{
+    "$schema": "./app.schema",
+    "$type": "root",
+    "recognizers": [
+        {
+            "$type":"Recognizer",
+            "$ref": "./root.cog#/inlineRecognizer",
+            "$comment": "Refer to id in another file."
+        }]
+}

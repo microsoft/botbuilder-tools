@@ -4,33 +4,51 @@
   "recognizers": [
     {
       "$type": "Recognizer",
+      "$ref": "#/inlineRecognizer",
+      "req": "forward ref"
+    },
+    {
+      "$type": "Recognizer",
       "$id": "inlineRecognizer",
-      "req": "a value"
+      "req": "inline id"
     },
     {
       "$type": "Recognizer",
-      "$ref": "externalRecognizer",
-      "req": "a value"
+      "$ref": "./externalRecognizer.cog",
+      "req": "external whole file reference"
     },
     {
       "$type": "Recognizer",
-      "$ref": "missingRecognizer"
-    },
-    {
-      "$type": "Recognizer"
-    },
-    {
-      "$ref": "externalRecognizer"
+      "$ref": "./missingRecognizer.cog",
+      "$comment": "reference does not exist"
     },
     {
       "$type": "Recognizer",
-      "$ref": "typeMismatch",
-      "req": "a value"
+      "$comment": "type error because missing $ref/$req"
+    },
+    {
+      "$ref": "./externalRecognizer.cog",
+      "$comment": "missing $type"
     },
     {
       "$type": "Recognizer",
-      "$id": "externalRecognizer",
-      "req": "a"
+      "$ref": "./typeMismatch.cog",
+      "req": "this type does not match ref type"
+    },
+    {
+      "$type": "Recognizer",
+      "$id": "multiplyDefined",
+      "req": "multiply defined in this file"
+    },
+    {
+      "$type": "Recognizer",
+      "$id": "multiplyDefined",
+      "req": "multiply defined in this file"
+    },
+    {
+      "$type":"Recognizer",
+      "$ref": "#/inlineRecognizer",
+      "$comment": "after reference"
     }
   ]
 }
