@@ -1,0 +1,18 @@
+{
+    "description": "Translate .lu files from one language to another. Uses the Microsoft translator text API.",
+    "usage": "-k <translate_key> --in <luFile> | -k <translate_key> --lu_folder <inputFolder> [-s]",
+    "options": {
+        "in": ".lu file to parse",
+        "to_lang": "Target language to translate to. See https://aka.ms/translate-langs for list of supported languages and codes. You can also specify comma or space delimited list of target languages.",
+        "translate_key": "Your translation key. See https://aka.ms/translate-key to get your key",
+        "lu_folder": "[Optional] Folder that has the .lu file. By default ludown will only look at the current folder. To look at all subfolders, include -s",
+        "out_folder": "[Optional] Output folder for all files the tool will generate",
+        "src_lang": "[Optional] Source language. When omitted, source language is automatically detected. See https://aka.ms/translate-langs for list of supported languages and codes",
+        "subfolder": "[Optional] Include sub-folders as well when looking for .lu files",
+        "lu_file": "[Optional] Output .lu file name",
+        "translate_comments": "[Optional] Translate comments in .lu files",
+        "translate_link_text": "[Optional] Translate URL or .lu file reference link text",
+        "batch_translate": "[Optional] Batch up <x> (1-25) number of lines before calling translation API. Defaults to 25.",
+        "verbose": "[Optional] Get verbose messages from parser"
+    }
+}
