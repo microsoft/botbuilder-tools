@@ -1,5 +1,7 @@
-import 'mocha';
 import { expect } from 'chai';
+import * as fs from 'fs-extra';
+import * as glob from 'globby';
+import 'mocha';
 import * as ct from '../src/cogTracker';
 
 describe('Test .cog indexing library', async () => {
@@ -20,13 +22,42 @@ describe('Test .cog indexing library', async () => {
 
     it('clone', () => {
         let foo = tracker.cloneCog("foo");
-        expect(foo).to.equal(undefined);
-        let copy = tracker.cloneCog("test/examples/root.cog");
-        expect(copy).to.not.equal(undefined);
-        if (copy) {
+        const id = "test/examples/root.cog";
+        expect(foo, "Can't find cog").to.equal(undefined);
+        let original = tracker.findCog(id);
+        expect(original, "Can't find cog").to.not.equal(undefined);
+        let copy = tracker.cloneCog(id);
+        if (original && copy) {
+            let len = original.body.recognizers.length;
+            copy.body.recognizers.pop();
+            expect(len === copy.body.recognizers.length + 1).is.true;
             tracker.updateCog(copy);
-            verify(tracker);
+            let newCog = tracker.findCog("test/examples/root.cog");
+            if (newCog) {
+                expect(copy, "Update should be object").is.equal(newCog);
+                expect(newCog.save, "Saved should be true").is.true;
+                verify(tracker);
+            } else {
+                expect.fail("Did not update");
+            }
+        } else {
+            expect.fail("Can't clone");
         }
+    });
+
+    it('write', async () => {
+        await fs.remove("test.out");
+        let savesBefore = size(tracker.cogs.filter((c) => c.save));
+        await tracker.writeCogs("test.out");
+        let savesAfter = size(tracker.cogs.filter((c) => c.save));
+        expect(savesAfter).equals(0);
+        let saved = 0;
+        for(let file of glob.sync("test.out/**/*.cog")) {
+            let cog = tracker.findCog(file);
+            expect(cog, `${cog} is not found as ${file}`).is.not.equal(undefined);
+            ++saved;
+        }
+        expect(saved).equals(savesBefore);
     });
 
     it('remove', () => {
@@ -50,16 +81,16 @@ function verify(tracker: ct.CogTracker) {
     }
 }
 
-function checkDef(def: ct.Definition, tracker: ct.CogTracker) : void {
+function checkDef(def: ct.Definition, tracker: ct.CogTracker): void {
     if (def.id) {
-        expect(findDefinition(tracker.idTo.get(def.id), def)).is.true;
+        expect(findDefinition(tracker.idTo.get(def.id), def), `${def} in idTo`).is.true;
     }
     if (def.type) {
-        expect(findDefinition(tracker.typeTo.get(def.type), def)).is.true;
+        expect(findDefinition(tracker.typeTo.get(def.type), def), `${def} in idType`).is.true;
     } else {
-        expect(findDefinition(tracker.missingTypes, def)).is.true;
+        expect(findDefinition(tracker.missingTypes, def), `${def} in missingTypes`).is.true;
     }
-    for(let used of def.usedBy) {
+    for (let used of def.usedBy) {
         checkDef(used, tracker);
     }
 }

@@ -10,6 +10,9 @@ References to definitions show up in this format `TYPE[ID](file#path)`.
 
 The indexing functionality is also available to be used in a program to map from id or type to component definitions.  You can also identify errors and update the map.  Check out [index.ts](src/index.ts) for more.
 
+# CogTracker class
+If you need to work with cog files you can make use of the `CogTracker` class which supports reading, updating, writing and indexing cog files with both schema and semantic validation.  
+
 ## Prerequisite
 
 - [Node.js](https://nodejs.org/) version 8.5 or higher

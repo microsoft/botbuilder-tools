@@ -22,6 +22,7 @@ export class Cog {
     /** Any errors found in validating definition. */
     errors: Error[];
 
+    /** TRUE if cog should be written, i.e. changed since read. */
     save: boolean;
 
     constructor(file: string, body?: object) {
@@ -129,7 +130,7 @@ export class Definition {
 
     locatorString(): string {
         if (this.id) {
-            return this.idString();
+            return `[${this.idString()}](${this.path})`;
         } else {
             return `${this.cog}(${this.path})`;
         }
@@ -163,7 +164,7 @@ export class CogTracker {
     /** Top-level cogs in tracker. */
     cogs: Cog[];
 
-    validator: ajv.Ajv;
+    private validator: ajv.Ajv;
 
     constructor() {
         this.idTo = new Map<string, Definition[]>();
@@ -173,6 +174,7 @@ export class CogTracker {
         this.validator = new ajv();
     }
 
+    /** Add a new Cog file to the tracker. */
     async addCog(cog: Cog): Promise<void> {
         try {
             const schemaFile = cog.body.$schema;
@@ -216,21 +218,24 @@ export class CogTracker {
                 }
                 return false;
             });
+            // Assume we will save it and reset this when coming from file
+            cog.save = true;
         } catch (e) {
             cog.errors.push(e);
         }
         this.cogs.push(cog);
     }
 
+    /** Read a cog file and add it to the tracker. */
     async addCogFile(file: string): Promise<Cog> {
         let cog: Cog;
+        let abs = path.resolve(file);
         try {
-            let abs = path.resolve(file);
             cog = new Cog(abs, await fs.readJSON(abs));
             await this.addCog(cog);
         } catch (e) {
             // File is not valid JSON
-            cog = new Cog(file);
+            cog = new Cog(abs);
             cog.errors.push(e);
             this.cogs.push(cog);
         }
@@ -238,7 +243,7 @@ export class CogTracker {
         return cog;
     }
 
-    /** Add files that match patterns to tracker. */
+    /** Add cog files that match patterns to tracker. */
     async addCogFiles(patterns: string[]): Promise<void> {
         let filePaths = glob.sync(patterns);
         for (let filePath of filePaths) {
@@ -254,7 +259,19 @@ export class CogTracker {
                 this.removeDefinition(definition);
             }
         }
-        // this.verifyRemoved(this, cog);
+    }
+
+    /** Find an existing cog or return undefined. */
+    findCog(file: string): undefined | Cog {
+        let fullFile = path.resolve(file);
+        let result: undefined | Cog;
+        for (let cog of this.cogs) {
+            if (cog.file === fullFile) {
+                result = cog;
+                break;
+            }
+        }
+        return result;
     }
 
     /** Clone an existing cog so you can modify it and then call updateCog. */
@@ -272,16 +289,20 @@ export class CogTracker {
         await this.addCog(cog);
     }
 
-    /** Write out cog files. */
+    /** Write out cog files with save true and reset the flag. 
+     * @param root If present this is the new root and paths below will be relative to process.cwd.
+    */
     async writeCogs(root?: string): Promise<void> {
         for (let cog of this.cogs) {
             if (cog.save) {
-                let filePath = root ? path.join(root, cog.file) : cog.file;
+                let filePath = root ? path.join(path.resolve(root), path.relative(process.cwd(), cog.file)) : cog.file;
                 let dir = path.dirname(filePath);
                 await fs.mkdirp(dir);
                 delete cog.body.$id;
                 await fs.writeJSON(filePath, cog.body, { spaces: 4 });
+                cog.file = filePath;
                 cog.body.$id = cog.file;
+                cog.save = false;
             }
         }
     }
@@ -443,19 +464,6 @@ export class CogTracker {
         return done;
     }
 
-    /** Find an existing cog or return undefined. */
-    private findCog(file: string): undefined | Cog {
-        let fullFile = path.resolve(file);
-        let result: undefined | Cog;
-        for (let cog of this.cogs) {
-            if (cog.file === fullFile) {
-                result = cog;
-                break;
-            }
-        }
-        return result;
-    }
-
     private expandID(id: string, cog: Cog): string {
         return path.join(cog.file) + "#/" + id;
     }
@@ -472,7 +480,6 @@ export class CogTracker {
         return fullRef;
     }
 
-    /** $id cannot contain any special characters. */
     private isValidID(id: string): boolean {
         let ok = true;
         // NOTE: Could exclude more, including [] and ~ but in our case we are never interpreting as JSON Path.
@@ -485,20 +492,5 @@ export class CogTracker {
         }
         return ok;
     }
-
-    /*
-    private verifyRemoved(tracker: CogTracker, cog: Cog) {
-        for (let def of tracker.allDefinitions()) {
-            if (def.cog === cog) {
-                console.log(`*** ${def}`);
-            }
-            for (let used of def.usedBy) {
-                if (used.cog === cog) {
-                    console.log(`*** used ${used}`);
-                }
-            }
-        }
-    }
-    */
 }
 
