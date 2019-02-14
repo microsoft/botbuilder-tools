@@ -2,16 +2,17 @@
 
 # CogLint Command Line tool
 
-CogLint is a command line tool that analyzes JSON .cog files created for the Bot Framework.  It builds an index of how components relate to each other using $type, $id and $ref and prints out the definition map and any errors found including: 
+CogLint is a command line tool that analyzes JSON .cog files created for the Bot Framework.  It builds an index of cog components and  how they relate to each other using $type, $id and $ref.  From this information it prints out what the types used and any errors including: 
 * **Missing $type:** A valid component must include a $type.
-* **Multiple definitions for an $id:** There should be only one definition for a $id.
-* **Undefined $id:** Missing definition for $id.
-References to definitions show up in this format `TYPE[ID](file#path)`.
-
-The indexing functionality is also available to be used in a program to map from id or type to component definitions.  You can also identify errors and update the map.  Check out [index.ts](src/index.ts) for more.
+* **Multiple $id definitions:** There should be only one definition for a $id.
+* **Incompatible types between $ref and $id:** 
+* **Undefined $id** 
+* **Schema validation:** Reports JSON schema validation errors.
+* **Malformed JSON:** Reports files which do not contain valid JSON.
+References to definitions show up in this format `TYPE[ID](file#/path)`.
 
 # CogTracker class
-If you need to work with cog files you can make use of the [`CogTracker`](docs/classes/_cogtracker_.cogtracker.html) class which supports reading, updating, writing and indexing cog files with both schema and semantic validation.  
+If you need to work with cog files, you can make use of the [`CogTracker`](docs/classes/_cogtracker_.cogtracker.html) class which supports reading, updating, writing and indexing cog files with both schema and semantic validation.  The [`CogLint`](src/cogLint.ts) tool shows an example of how to use the tracker to read in files and report various kinds of errors.  You can also use the class as an in-memory cache of cog definitions and their relationships.
 
 ## Prerequisite
 
