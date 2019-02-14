@@ -24,7 +24,8 @@
   "scripts": {
     "test": "mocha -r node_modules/ts-node/register test/*.ts",
     "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",
-    "build": "tsc"
+    "build": "tsc",
+    "docs": "typedoc --out docs src"
   },
   "engines": {
     "node": ">=8.0"
@@ -48,6 +49,7 @@
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "ts-node": "^8.0.2",
+    "typedoc": "^0.14.2",
     "typescript": "^3.3.3"
   },
   "dependencies": {
