@@ -13,7 +13,7 @@ let clone = require('clone');
 
 /** Top-level cog definition that would be found in a file. */
 export class Cog {
-    /** The full path to where the cog came from or should be written to. */
+    /** The path relative to the CogTracker root where the cog came from or should be written to. */
     file: string;
 
     /** Definition of this cog or undefined if file did not parse. */
@@ -25,6 +25,10 @@ export class Cog {
     /** TRUE if cog should be written, i.e. changed since read. */
     save: boolean;
 
+    id() :string {
+        return path.basename(this.file, ".cog");
+    }
+    
     constructor(file: string, body?: object) {
         this.file = file;
         if (!path.isAbsolute) {
@@ -125,29 +129,24 @@ export class Definition {
     }
 
     toString(): string {
-        return `${this.type}[${this.idString()}](${this.path})`;
+        return `${this.type}${this.locatorString()}`;
     }
 
     locatorString(): string {
         if (this.id) {
-            return `[${this.idString()}](${this.path})`;
+            return `[${this.id}]`;
         } else {
-            return `${this.cog}(${this.path})`;
+            let id = this.cog ? this.cog.id() : "undefined";
+            return `(${id}#${this.path})`;
         }
-    }
-
-    idString(): string {
-        let result = "";
-        if (this.id) {
-            let [file, ref] = this.id.split("#");
-            result = path.relative(process.cwd(), file) + "#" + ref;
-        }
-        return result;
     }
 }
 
 /** Tracks cogs and the definitions they contain. */
 export class CogTracker {
+    /** Paths will be relative to root directory. */
+    root: string;
+    
     /** 
      * Map from $id to the definition.
      * If there are more than one, then it is multiply defined.
@@ -166,7 +165,8 @@ export class CogTracker {
 
     private validator: ajv.Ajv;
 
-    constructor() {
+    constructor(root?: string) {
+        this.root = root || process.cwd();
         this.idTo = new Map<string, Definition[]>();
         this.typeTo = new Map<string, Definition[]>();
         this.missingTypes = [];
@@ -200,14 +200,14 @@ export class CogTracker {
                 cog.errors.push(new Error(`${cog} does not have a $schema.`));
             }
             if (cog.body.$id) {
-                cog.errors.push(new Error(`Cog cannot have $id at the root.`))
+                cog.errors.push(new Error(`Cog cannot have $id at the root because it is defined by the filename.`))
             }
-            cog.body.$id = "";
+            cog.body.$id = cog.id();
             this.walkJSON(cog.body, "", (elt, path) => {
                 if (elt.$id && !this.isValidID(elt.$id)) {
                     cog.errors.push(new Error(`${elt.$id} is not a valid id.`));
                 }
-                let id = elt.$id ? this.expandID(elt.$id, cog) : undefined;
+                let id = elt.$id || undefined;
                 if (elt.$type) {
                     this.addDefinition(new Definition(elt.$type, id, cog, path));
                 } else if (elt.$id || elt.$ref) { // Missing type
@@ -229,13 +229,13 @@ export class CogTracker {
     /** Read a cog file and add it to the tracker. */
     async addCogFile(file: string): Promise<Cog> {
         let cog: Cog;
-        let abs = path.resolve(file);
+        let rel = path.relative(this.root, file);
         try {
-            cog = new Cog(abs, await fs.readJSON(abs));
+            cog = new Cog(rel, await fs.readJSON(rel));
             await this.addCog(cog);
         } catch (e) {
             // File is not valid JSON
-            cog = new Cog(abs);
+            cog = new Cog(rel);
             cog.errors.push(e);
             this.cogs.push(cog);
         }
@@ -298,10 +298,11 @@ export class CogTracker {
                 let filePath = root ? path.join(path.resolve(root), path.relative(process.cwd(), cog.file)) : cog.file;
                 let dir = path.dirname(filePath);
                 await fs.mkdirp(dir);
+                let oldID = cog.id();
                 delete cog.body.$id;
                 await fs.writeJSON(filePath, cog.body, { spaces: 4 });
                 cog.file = filePath;
-                cog.body.$id = cog.file;
+                cog.body.$id = oldID;
                 cog.save = false;
             }
         }
@@ -396,14 +397,14 @@ export class CogTracker {
      * @param source Definition that contains $ref.
      */
     private addReference(ref: string, source: Definition): void {
-        let id = this.expandRef(ref, <Cog>source.cog);
-        if (!this.idTo.has(id)) {
+        let fullRef = this.expandRef(ref, <Cog> source.cog);
+        if (!this.idTo.has(fullRef)) {
             // ID does not exist so add place holder
-            let definition = new Definition(source.type, id);
+            let definition = new Definition(source.type, fullRef);
             this.addDefinition(definition);
-            this.idTo.set(id, [definition]);
+            this.idTo.set(fullRef, [definition]);
         }
-        for (let idDef of (<Definition[]>this.idTo.get(id))) {
+        for (let idDef of (<Definition[]>this.idTo.get(fullRef))) {
             idDef.usedBy.push(source);
         }
     }
@@ -464,22 +465,6 @@ export class CogTracker {
         return done;
     }
 
-    private expandID(id: string, cog: Cog): string {
-        return path.join(cog.file) + "#/" + id;
-    }
-
-    private expandRef(ref: string, cog: Cog): string {
-        let fullRef: string;
-        let [refPath, refID] = ref.split("#");
-        if (refPath) { // Reference to another file
-            let fullPath = path.join(path.dirname(cog.file), refPath);
-            fullRef = fullPath + "#" + (refID || "");
-        } else { // Local ref
-            fullRef = cog.file + "#" + refID;
-        }
-        return fullRef;
-    }
-
     private isValidID(id: string): boolean {
         let ok = true;
         // NOTE: Could exclude more, including [] and ~ but in our case we are never interpreting as JSON Path.
@@ -491,6 +476,10 @@ export class CogTracker {
             }
         }
         return ok;
+    }
+
+    private expandRef(ref: string, cog: Cog): string {
+        return ref.startsWith('#') ? `${cog.id()}${ref}` : ref;
     }
 }
 

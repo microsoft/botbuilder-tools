@@ -4,7 +4,7 @@
   "recognizers": [
     {
       "$type": "Recognizer",
-      "$ref": "#/inlineRecognizer",
+      "$ref": "#inlineRecognizer",
       "req": "forward ref"
     },
     {
@@ -14,12 +14,12 @@
     },
     {
       "$type": "Recognizer",
-      "$ref": "./externalRecognizer.cog",
+      "$ref": "externalRecognizer",
       "req": "external whole file reference"
     },
     {
       "$type": "Recognizer",
-      "$ref": "./missingRecognizer.cog",
+      "$ref": "missingRecognizer",
       "$comment": "reference does not exist"
     },
     {
@@ -27,12 +27,12 @@
       "$comment": "type error because missing $ref/$req"
     },
     {
-      "$ref": "./externalRecognizer.cog",
+      "$ref": "externalRecognizer",
       "$comment": "missing $type"
     },
     {
       "$type": "Recognizer",
-      "$ref": "./typeMismatch.cog",
+      "$ref": "typeMismatch",
       "req": "this type does not match ref type"
     },
     {
@@ -47,7 +47,7 @@
     },
     {
       "$type":"Recognizer",
-      "$ref": "#/inlineRecognizer",
+      "$ref": "#inlineRecognizer",
       "$comment": "after reference"
     }
   ]
