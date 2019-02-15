@@ -119,8 +119,12 @@
                 "$id": {
                     "type": "string"
                 },
-                "prompt": {
-                    "type": "string"
+                "$lg": {
+                    "properties": {
+                        "prompt": {
+                            "type": "string"
+                        }
+                    }
                 }
             },
             "type": "object",
@@ -271,8 +275,7 @@
         "Microsoft.INothing": {
             "title": "Microsoft Nothing",
             "description": "Definition of a union type with no $implements.",
-            "oneOf": [],
-            "type": "object"
+            "oneOf": []
         },
         "Microsoft.IPrompt": {
             "title": "Microsoft IPrompt",
@@ -288,8 +291,7 @@
                     "description": "Microsoft.SimplePrompt",
                     "$ref": "#/definitions/Microsoft.SimplePrompt"
                 }
-            ],
-            "type": "object"
+            ]
         },
         "Microsoft.IRecognizer": {
             "title": "Microsoft IRecognizer",
@@ -309,8 +311,7 @@
                     "description": "Example regular expression recognizer.",
                     "$ref": "#/definitions/Microsoft.RegexRecognizer"
                 }
-            ],
-            "type": "object"
+            ]
         }
     }
 }

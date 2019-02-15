@@ -49,11 +49,12 @@ async function mergeSchemas() {
     else {
         let definitions: any = {};
         for (let path of schemaPaths) {
-            console.log(chalk.default.grey(`parsing: ${path}`));
+            console.log(chalk.default.grey(`Parsing ${path}`));
             var schema = allof(await parser.dereference(path));
             var filename = <string>path.split(/[\\\/]/).pop();
             var type = filename.substr(0, filename.lastIndexOf("."));
             delete schema.$schema;
+            checkLG(schema);
             fixDefinitionReferences(schema);
             if (!schema.type && !schema.oneOf) {
                 schema.type = "object";
@@ -137,6 +138,22 @@ function addTypeTitles(definitions: any): void {
     });
 }
 
+function checkLG(schema: any): void {
+    walkSchema(schema, (val: any) => {
+        if (val.$lg) {
+            let lg = val.$lg;
+            if (lg.properties) {
+                for (let propName in lg.properties) {
+                    let prop = lg.properties[propName];
+                    if (!prop.type || prop.type != "string") {
+                        invalidLG(propName);
+                    }
+                }
+            }
+        }
+        return false;
+    });
+}
 
 function fixDefinitionReferences(schema: any): void {
     walkSchema(schema, (val: any, _obj, type: any) => {
@@ -229,8 +246,13 @@ function missing(type: string): void {
     }
 }
 
-function badUnion(type: string, union: string) {
+function badUnion(type: string, union: string): void {
     console.log(chalk.default.redBright(type + " $implements " + union + " which does not use oneOf."));
+    failed = true;
+}
+
+function invalidLG(prop: string): void {
+    console.log(chalk.default.redBright(`$lg property ${prop} must be a string.`));
     failed = true;
 }
 

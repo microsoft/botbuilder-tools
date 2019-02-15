@@ -1,10 +1,6 @@
 {
   "$schema": "./app.schema",
-  "$type":"Microsoft.Topic",
-  "primary":{
-    "$type":"Microsoft.LUISRecognizer",
-    "application": {
-      "applicationId": "ldkj"
-    }
-  }
+  "$type":"Microsoft.LUISRecognizer",
+  "$ref":"soemfile"
+  "priority": ""
 }

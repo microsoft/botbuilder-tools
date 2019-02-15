@@ -6,8 +6,12 @@
         "Microsoft.IPrompt"
     ],
     "properties": {
-        "prompt": {
-            "type": "string"
+        "$lg": {
+            "properties": {
+                "prompt": {
+                    "type": "string"
+                }
+            }
         }
     }
 }
