@@ -4,7 +4,7 @@
     "recognizers": [
         {
             "$type":"Recognizer",
-            "$ref": "./root.cog#/inlineRecognizer",
+            "$ref": "root#inlineRecognizer",
             "$comment": "Refer to id in another file."
         }]
 }
