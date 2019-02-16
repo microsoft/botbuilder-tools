@@ -17,6 +17,8 @@ import * as uuid from 'uuid';
 import { spawnAsync } from './processUtils';
 import { logAsync } from './stdioAsync';
 import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap } from './utils';
+import  { ServiceVersion  } from './msbot-clone-service-version'
+
 const Table = require('cli-table3');
 const opn = require('opn');
 const commandExistsSync = require('command-exists').sync;
@@ -1215,34 +1217,4 @@ async function sleep(seconds: number) {
 
 function sleepOneSecond() {
     return new Promise(resolve => setTimeout(resolve, 1000));
-}
-
-class ServiceVersion {
-    constructor(version: string) {
-        const versionPattern = /([0-9]+)\.([0-9]+)\.([0-9]+)\)/;
-        const versions = versionPattern.exec(version) || ['0', '0', '0', '0'];
-        this.major = parseInt(versions[1]);
-        this.minor = parseInt(versions[2]);
-        this.patch = parseInt(versions[3]);
-    }
-
-    public major: number;
-    public minor: number;
-    public patch: number;
-
-    public isOlder(version: ServiceVersion): boolean {
-        if (version.major == this.major && version.minor == this.minor && version.patch == this.patch)
-            return false;
-
-        if (version.major > this.major)
-            return true;
-
-        if (version.minor > this.minor)
-            return true;
-
-        if (version.patch > this.patch)
-            return true;
-
-        return false;
-    }
 }
