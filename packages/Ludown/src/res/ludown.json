@@ -1,5 +1,5 @@
 {
-    "description": "",
+    "description": "Ludown is a command line tool to bootstrap language understanding models from .lu files",
     "commands": {
         "parse": "Convert .lu file(s) into LUIS JSON OR QnA Maker JSON files.",
         "refresh": "Convert LUIS JSON and/ or QnAMaker JSON file into .lu file",

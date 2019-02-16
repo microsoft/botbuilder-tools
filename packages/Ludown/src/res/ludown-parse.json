@@ -1,0 +1,7 @@
+{
+    "description": "Convert .lu file(s) into LUIS JSON, QnA Maker JSON files.",
+    "commands": {
+        "toluis": "Convert .lu file(s) into LUIS JSON file.",
+        "toqna": "Convert .lu file(s) into QnA Maker JSON files."
+    }
+}

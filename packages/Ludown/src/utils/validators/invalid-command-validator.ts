@@ -13,7 +13,9 @@ import { ERROR_CODE } from '../../models/error-codes';
 export const invalidCommandValidatorFactory: IValidatorFactory = (allowableCommands: string[]) => {
     return {
         execute: (command: string) => {
-            return new Promise((resolve, reject) => allowableCommands.includes(command) ?
+            const normalizedCommand = command.toLocaleLowerCase();
+
+            return new Promise((resolve, reject) => allowableCommands.map(c => c.toLocaleLowerCase()).includes(normalizedCommand) ?
                 resolve(true) :
                 reject({
                     code: ERROR_CODE.UNKNOWN_COMMAND,
