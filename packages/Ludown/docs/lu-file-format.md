@@ -64,6 +64,9 @@ You can define:
 - [PREBUILT](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/pre-builtentities) entities by using $PREBUILT:\<entityType\> notation. 
 - [List](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-intent-and-list-entity) entities by using $\<entityName\>:\<CanonicalValue\>**=**<List of values> notation.
 
+Due to the way entities are represented in Lu files, there are some reserved characters that **cannot be used** in entity names. These characters are:
+- The colon character ":"
+
 Here's an example: 
 
 ```markdown
