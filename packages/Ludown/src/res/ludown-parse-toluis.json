@@ -1,0 +1,18 @@
+{
+    "description": "Convert .lu file(s) into LUIS JSON file. You can optionally also request LUIS batch test input file",
+    "usage": "--in <luFile> | --lu_folder <inputFolder> [-s]",
+    "options": {
+        "in": ".lu file to parse.",
+        "lu_folder": "[Optional] Folder that has the .lu file. By default ludown will only look at the current folder. To look at all subfolders, include -s.",
+        "out_folder": "[Optional] Output folder for all files the tool will generate.",
+        "subfolder": "[Optional] Include sub-folders as well when looking for .lu files.",
+        "luis_name": "[Optional] LUIS app name.",
+        "luis_desc": "[Optional] LUIS app description.",
+        "skip_header": "[Optional] Generate .lu file without the header comment",
+        "luis_versionId": "[Optional] LUIS app version.",
+        "luis_culture": "[Optional] LUIS app culture.",
+        "write_luis_batch_tests": "[Optional] Write out LUIS batch test json file.",
+        "out": "[Optional] Output file name for the LUIS model.",
+        "verbose": "[Optional] Get verbose messages from parser."
+    }
+}
