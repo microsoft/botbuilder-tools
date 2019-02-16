@@ -10,7 +10,7 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * Fires up the ludown refresh command.
  */
 const mainCommand = commandExecuterFactory(() => {
-    const refreshCommand = name('ludown translate')
+    const refreshCommand = name('ludown refresh')
         .description(ludownRefreshRes.description)
         .usage(ludownRefreshRes.usage);
 
@@ -40,7 +40,7 @@ mainCommand.execute();
  * @description
  * Run all validations on the refresh command arguments.
  *
- * @param translateCommand The object that contains the arguments to validate.
+ * @param refreshCommand The object that contains the arguments to validate.
  * @returns A promise of the validation statuses.
  */
 function validateCommand(refreshCommand: Command): Promise<boolean[]> {

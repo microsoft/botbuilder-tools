@@ -1,0 +1,14 @@
+{
+    "description": "Convert .lu file(s) into QnA Maker JSON file.",
+    "usage": "--in <luFile> | --lu_folder <inputFolder> [-s]",
+    "options": {
+        "in": ".lu file to parse.",
+        "lu_folder": "[Optional] Folder that has the .lu file. By default ludown will only look at the current folder. To look at all subfolders, include -s.",
+        "out_folder": "[Optional] Output folder for all files the tool will generate.",
+        "subfolder": "[Optional] Include sub-folders as well when looking for .lu files.",
+        "qna_name": "[Optional] QnA KB name.",
+        "write_qna_alterations": "[Optional] QnA Maker alterations.",
+        "out": "[Optional] Output file name for the QnA KB.",
+        "verbose": "[Optional] Get verbose messages from parser."
+    }
+}

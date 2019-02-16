@@ -1,18 +1,16 @@
 import { Command, name } from 'commander';
-import * as ludownParseRes from '../res/ludown-parse-toluis.json';
-import * as luisLocales from '../res/luis-locales.json';
+import * as ludownParseRes from '../res/ludown-parse-toqna.json';
 import { commandExecuterFactory } from '../utils/command-factory';
 import { printError } from '../utils/printers.js';
-import { invalidArgumentValueValidatorFactory } from '../utils/validators/invalid-argument-value.js';
 import { invalidPathValidator } from '../utils/validators/invalid-path-validator.js';
 import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator.js';
 
 /**
  * @description
- * Fires up the ludown parse toluis command.
+ * Fires up the ludown parse toqna command.
  */
 const mainCommand = commandExecuterFactory(() => {
-    const parseCommand = name('ludown parse ToLuis')
+    const parseCommand = name('ludown parse ToQna')
         .description(ludownParseRes.description)
         .usage(ludownParseRes.usage);
 
@@ -21,11 +19,8 @@ const mainCommand = commandExecuterFactory(() => {
         .option('-l, --lu_folder <inputFolder>', ludownParseRes.options.lu_folder)
         .option('-o, --out_folder <outputFolder>', ludownParseRes.options.out_folder)
         .option('-s, --subfolder', ludownParseRes.options.subfolder)
-        .option('-n, --luis_name <luis_appName>', ludownParseRes.options.luis_name)
-        .option('-d, --luis_desc <luis_appDesc>', ludownParseRes.options.luis_desc)
-        .option('-i, --luis_versionId <luis_versionId>', ludownParseRes.options.luis_versionId, '0.1')
-        .option('-c, --luis_culture <luis_appCulture>', ludownParseRes.options.luis_culture, 'en-us')
-        .option('-t, --write_luis_batch_tests', ludownParseRes.options.write_luis_batch_tests)
+        .option('-n, --qna_name <QnA_KB_Name>', ludownParseRes.options.qna_name)
+        .option('-a, --write_qna_alterations', ludownParseRes.options.write_qna_alterations)
         .option('--out <OutFileName>', ludownParseRes.options.out)
         .option('--verbose', ludownParseRes.options.verbose)
         .parse(process.argv);
@@ -58,13 +53,6 @@ function validateCommand(parseCommand: Command): Promise<boolean[]> {
 
     if (parseCommand.lu_folder) {
         validations.push(invalidPathValidator(true).execute(parseCommand.lu_folder));
-    }
-
-    if (parseCommand.luis_culture) {
-        validations.push(invalidArgumentValueValidatorFactory(luisLocales).execute({
-            name: 'luis_culture',
-            value: parseCommand.luis_culture
-        }));
     }
 
     return Promise.all(validations);
