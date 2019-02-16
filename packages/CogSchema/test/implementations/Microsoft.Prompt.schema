@@ -1,10 +1,8 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "../../src/cogSchema.schema",
     "title": "Simple Prompt",
     "description": "Example simple prompt.",
-    "$implements": [
-        "Microsoft.IPrompt"
-    ],
+    "$role": "unionType(Microsoft.IPrompt)",
     "properties": {
         "$lg": {
             "properties": {

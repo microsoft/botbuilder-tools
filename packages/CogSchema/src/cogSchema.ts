@@ -5,10 +5,12 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
+import * as Validator from 'ajv';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as glob from 'globby';
+import * as path from 'path';
 import * as process from 'process';
 import * as semver from 'semver';
 let parser: any = require('json-schema-ref-parser');
@@ -48,30 +50,41 @@ async function mergeSchemas() {
     }
     else {
         let definitions: any = {};
+        let validator = new Validator();
+        var metaSchema = await fs.readJSON(path.join(__dirname, "../src/cogSchema.schema"));
+        validator.addSchema(metaSchema, 'cogSchema');
         for (let path of schemaPaths) {
             console.log(chalk.default.grey(`Parsing ${path}`));
-            var schema = allof(await parser.dereference(path));
-            var filename = <string>path.split(/[\\\/]/).pop();
-            var type = filename.substr(0, filename.lastIndexOf("."));
-            delete schema.$schema;
-            checkLG(schema);
-            fixDefinitionReferences(schema);
-            if (!schema.type && !schema.oneOf) {
-                schema.type = "object";
+            try {
+                var schema = allof(await parser.dereference(path));
+                delete schema.$schema;
+                if (!validator.validate('cogSchema', schema)) {
+                    for (let error of <Validator.ErrorObject[]>validator.errors) {
+                        schemaError(error);
+                    }
+                }
+                var filename = <string>path.split(/[\\\/]/).pop();
+                var type = filename.substr(0, filename.lastIndexOf("."));
+                if (!schema.type && !isUnionType(schema)) {
+                    schema.type = "object";
+                }
+                definitions[type] = schema;
+            } catch (e) {
+                thrownError(e);
             }
-            definitions[type] = schema;
         }
+        fixDefinitionReferences(schema);
         findImplements(definitions);
         addTypeTitles(definitions);
         expandTypes(definitions);
-        addStandardProperties(definitions);
+        addStandardProperties(definitions, metaSchema);
         let finalSchema = {
             $schema: "http://json-schema.org/draft-07/schema#",
             type: "object",
             title: "Component types",
             description: "These are all of the types that can be created by the loader.",
             oneOf: Object.keys(definitions)
-                .filter((schemaName) => !definitions[schemaName].oneOf)
+                .filter((schemaName) => !isUnionType(definitions[schemaName]))
                 .sort()
                 .map((schemaName) => {
                     return {
@@ -99,14 +112,16 @@ function findImplements(definitions: any): void {
         walkSchema(definitions[type], (val: any) => {
             let done: any = val.$implements;
             if (done) {
-                for (let iname of val.$implements) {
-                    if (definitions.hasOwnProperty(iname)) {
-                        let definition = definitions[iname];
-                        let oneOf = definition.oneOf;
-                        if (!oneOf) {
-                            badUnion(type, iname);
+                for (let unionName of val.$implements) {
+                    if (definitions.hasOwnProperty(unionName)) {
+                        let unionType = definitions[unionName];
+                        if (!isUnionType(unionType)) {
+                            badUnion(type, unionName);
                         } else {
-                            oneOf.push({
+                            if (!unionType.oneOf) {
+                                unionType.oneOf = [];
+                            }
+                            unionType.oneOf.push({
                                 // NOTE: This overrides any existing title to prevent namespace collisions
                                 title: type,
                                 description: definitions[type].description || type,
@@ -114,7 +129,7 @@ function findImplements(definitions: any): void {
                             });
                         }
                     } else {
-                        missing(iname)
+                        missing(unionName)
                     }
                 }
             }
@@ -138,33 +153,18 @@ function addTypeTitles(definitions: any): void {
     });
 }
 
-function checkLG(schema: any): void {
-    walkSchema(schema, (val: any) => {
-        if (val.$lg) {
-            let lg = val.$lg;
-            if (lg.properties) {
-                for (let propName in lg.properties) {
-                    let prop = lg.properties[propName];
-                    if (!prop.type || prop.type != "string") {
-                        invalidLG(propName);
-                    }
+function fixDefinitionReferences(definitions: any): void {
+    for (let type in definitions) {
+        walkSchema(definitions[type], (val: any) => {
+            if (val.$ref) {
+                let ref: string = val.$ref;
+                if (ref.startsWith("#/definitions/")) {
+                    val.$ref = "#/definitions/" + type + "/definitions" + ref.substr(ref.indexOf('/'));
                 }
             }
-        }
-        return false;
-    });
-}
-
-function fixDefinitionReferences(schema: any): void {
-    walkSchema(schema, (val: any, _obj, type: any) => {
-        if (val.$ref) {
-            let ref: string = val.$ref;
-            if (ref.startsWith("#/definitions/")) {
-                val.$ref = "#/definitions/" + type + "/definitions" + ref.substr(ref.indexOf('/'));
-            }
-        }
-        return false;
-    });
+            return false;
+        });
+    }
 }
 
 function expandTypes(definitions: any): void {
@@ -180,16 +180,18 @@ function expandTypes(definitions: any): void {
     });
 }
 
-function addStandardProperties(definitions: any): void {
+function addStandardProperties(definitions: any, cogSchema: any): void {
     for (let type in definitions) {
         let definition = definitions[type];
-        if (!definition.oneOf) {
+        if (!isUnionType(definition)) {
             // Reorder properties to put $ first.
             let props: any = {
-                $ref: { type: "string" },
-                $type: { type: "string", const: type },
-                $id: { type: "string" }
+                $type: cogSchema.definitions.type,
+                $copy: cogSchema.definitions.copy,
+                $id: cogSchema.definitions.id,
+                $role: cogSchema.definitions.role
             };
+            props.$type.const = type;
             if (definition.properties) {
                 for (let prop in definition.properties) {
                     props[prop] = definition.properties[prop];
@@ -237,6 +239,10 @@ function walkSchema(schema: any, fun: (val: any, obj?: any, key?: string) => boo
     return done;
 }
 
+function isUnionType(schema: any): boolean {
+    return schema.$role === "unionType";
+}
+
 let missingTypes = new Set();
 function missing(type: string): void {
     if (!missingTypes.has(type)) {
@@ -251,8 +257,13 @@ function badUnion(type: string, union: string): void {
     failed = true;
 }
 
-function invalidLG(prop: string): void {
-    console.log(chalk.default.redBright(`$lg property ${prop} must be a string.`));
+function schemaError(error: Validator.ErrorObject): void {
+    console.log(chalk.default.redBright(error.message || ""));
+    failed = true;
+}
+
+function thrownError(error: Error): void {
+    console.log(chalk.default.redBright(error.message || ""));
     failed = true;
 }
 

@@ -1,6 +1,6 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "../../src/cogSchema.schema",
     "title": "Microsoft Nothing",
     "description": "Definition of a union type with no $implements.",
-    "oneOf":[]
+    "$role":"unionType"
 }

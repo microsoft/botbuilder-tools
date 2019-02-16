@@ -2,7 +2,7 @@
 
 # CogSchema Command Line tool
 
-CogSchema tool is a command line tool designed to merge together Microsoft Bot Builder](https://github.com/Microsoft/BotBuilder) .cog JSON schema files into a single JSON schema file. The declarative files should have a filename with the name to use to refer to that type using `$type`.  Within a schema definition you can use `$implements:[<type>, ..]` to include the type definition into other union types which must use `oneOf` in their schema.  To refer to a type in a property, just use `"$type":"<type>"`.  The merger combines all of the component schemas into a single schema file that has resolved all `$ref`, merged `allOf` and connected together schemas through `$implements` and `$type`. 
+CogSchema tool is a command line tool designed to merge together Microsoft Bot Builder](https://github.com/Microsoft/BotBuilder) .schema JSON schema files into a single JSON schema file. The declarative files should have a filename with the name to use to refer to that type using `$type`.  Within a schema definition you can use `$role:"unionType(<type>)` to include the type definition into union types defined using `$role:"unionType"`.  To refer to a type in a property, just use `"$type":"<type>"`.  The merger combines all of the component schemas into a single schema file that has resolved all `$ref`, merged `allOf` and connected together schemas through `$role` and `$type`. 
 
 For example look at these files:
 * [Microsoft.IRecognizer.schema](test/definitions/Microsoft.IRecognizer.schema) defines the place holder for `Microsoft.IRecognizer` including a default option which is a bare string.    

@@ -1,7 +1,11 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Really Prompt",
-    "$implements": [
-        "Microsoft.IPrompt"
-    ]
+    "$schema": "../../src/cogSchema.schema",
+    "title": "Prompt",
+    "$role": "unionType(Microsoft.IPrompt)",
+    "properties": {
+        "prompt": {
+            "type": "string",
+            "$role":"foo"
+        }
+    }
 }

@@ -34,9 +34,7 @@
         "Microsoft.LUISRecognizer": {
             "title": "LUIS Recognizer",
             "description": "LUIS recognizer.",
-            "$implements": [
-                "Microsoft.IRecognizer"
-            ],
+            "$role": "unionType(Microsoft.IRecognizer)",
             "$comment": "Ensure namespaces work on local definitions.",
             "definitions": {
                 "local": {
@@ -44,15 +42,30 @@
                 }
             },
             "properties": {
-                "$ref": {
-                    "type": "string"
-                },
                 "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
                     "type": "string",
-                    "const": "Microsoft.LUISRecognizer"
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "Microsoft.Topic"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
-                    "type": "string"
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "$role": {
+                    "title": "$role",
+                    "description": "Schema definition fro $role added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^((lg)|unionType|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
                 },
                 "application": {
                     "type": "object",
@@ -105,19 +118,32 @@
         "Microsoft.Prompt": {
             "title": "Simple Prompt",
             "description": "Example simple prompt.",
-            "$implements": [
-                "Microsoft.IPrompt"
-            ],
+            "$role": "unionType(Microsoft.IPrompt)",
             "properties": {
-                "$ref": {
-                    "type": "string"
-                },
                 "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
                     "type": "string",
-                    "const": "Microsoft.Prompt"
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "Microsoft.Topic"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
-                    "type": "string"
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "$role": {
+                    "title": "$role",
+                    "description": "Schema definition fro $role added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^((lg)|unionType|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
                 },
                 "$lg": {
                     "properties": {
@@ -141,19 +167,32 @@
         "Microsoft.RegexRecognizer": {
             "title": "Regular Expression Recognizer",
             "description": "Example regular expression recognizer.",
-            "$implements": [
-                "Microsoft.IRecognizer"
-            ],
+            "$role": "unionType(Microsoft.IRecognizer)",
             "properties": {
-                "$ref": {
-                    "type": "string"
-                },
                 "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
                     "type": "string",
-                    "const": "Microsoft.RegexRecognizer"
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "Microsoft.Topic"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
-                    "type": "string"
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "$role": {
+                    "title": "$role",
+                    "description": "Schema definition fro $role added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^((lg)|unionType|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
                 },
                 "$comment": {
                     "text": "Test explicit override"
@@ -188,23 +227,40 @@
             ]
         },
         "Microsoft.SimplePrompt": {
-            "title": "Really Prompt",
-            "$implements": [
-                "Microsoft.IPrompt"
-            ],
-            "type": "object",
+            "title": "Prompt",
+            "$role": "unionType(Microsoft.IPrompt)",
             "properties": {
-                "$ref": {
-                    "type": "string"
-                },
                 "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
                     "type": "string",
-                    "const": "Microsoft.SimplePrompt"
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "Microsoft.Topic"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
-                    "type": "string"
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "$role": {
+                    "title": "$role",
+                    "description": "Schema definition fro $role added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^((lg)|unionType|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
+                },
+                "prompt": {
+                    "type": "string",
+                    "$role": "foo"
                 }
             },
+            "type": "object",
             "additionalProperties": false,
             "patternProperties": {
                 "^\\$": {
@@ -226,15 +282,30 @@
                 }
             },
             "properties": {
-                "$ref": {
-                    "type": "string"
-                },
                 "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
                     "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
                     "const": "Microsoft.Topic"
                 },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+                },
                 "$id": {
-                    "type": "string"
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "$role": {
+                    "title": "$role",
+                    "description": "Schema definition fro $role added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^((lg)|unionType|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
                 },
                 "primary": {
                     "$type": "Microsoft.IRecognizer",
@@ -275,41 +346,21 @@
         "Microsoft.INothing": {
             "title": "Microsoft Nothing",
             "description": "Definition of a union type with no $implements.",
-            "oneOf": []
+            "$role": "unionType"
         },
         "Microsoft.IPrompt": {
             "title": "Microsoft IPrompt",
             "description": "Definition of Microsoft.IPrompt which will be expanded by components that $implements it.",
-            "oneOf": [
-                {
-                    "title": "Microsoft.Prompt",
-                    "description": "Example simple prompt.",
-                    "$ref": "#/definitions/Microsoft.Prompt"
-                },
-                {
-                    "title": "Microsoft.SimplePrompt",
-                    "description": "Microsoft.SimplePrompt",
-                    "$ref": "#/definitions/Microsoft.SimplePrompt"
-                }
-            ]
+            "$role": "unionType"
         },
         "Microsoft.IRecognizer": {
             "title": "Microsoft IRecognizer",
             "description": "Definition of Microsoft.IRecognizer which will be expanded by components that $implements it.",
+            "$role": "unionType",
             "oneOf": [
                 {
                     "type": "string",
                     "title": "string"
-                },
-                {
-                    "title": "Microsoft.LUISRecognizer",
-                    "description": "LUIS recognizer.",
-                    "$ref": "#/definitions/Microsoft.LUISRecognizer"
-                },
-                {
-                    "title": "Microsoft.RegexRecognizer",
-                    "description": "Example regular expression recognizer.",
-                    "$ref": "#/definitions/Microsoft.RegexRecognizer"
                 }
             ]
         }
