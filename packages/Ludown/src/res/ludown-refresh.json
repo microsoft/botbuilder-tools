@@ -1,0 +1,15 @@
+{
+    "description": "Convert LUIS JSON and/or QnAMaker JSON file into .lu file.",
+    "usage": "-i <LUISJsonFile> | -q <QnAJSONFile>",
+    "options": {
+        "luis_file": "[Optional] LUIS JSON input file name.",
+        "qna_file": "[Optional] QnA Maker JSON input file name",
+        "qna_alteration_file": "[Optional] QnA Maker Alteration input file name",
+        "out_folder": "[Optional] Output folder for all files the tool will generate",
+        "lu_file": "[Optional] Output .lu file name",
+        "verbose": "[Optional] Get verbose messages from parser",
+        "skip_header": "[Optional] Generate .lu file without the header comment",
+        "stdin": "[Optional] Read input from stdin",
+        "stdout": "[Optional] Write output to stdout only. Specifying this option will not write any generated content to disk"
+    }
+}

@@ -6,6 +6,10 @@ import { invalidArgumentValueValidatorFactory } from '../utils/validators/invali
 import { invalidPathValidator } from '../utils/validators/invalid-path-validator.js';
 import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator';
 
+/**
+ * @description
+ * Fires up the ludown translate command.
+ */
 const mainCommand = commandExecuterFactory(() => {
     const translateCommand = name('ludown translate')
         .description(ludownTranslateRes.description)
@@ -35,6 +39,13 @@ const mainCommand = commandExecuterFactory(() => {
 
 mainCommand.execute();
 
+/**
+ * @description
+ * Run all validations on the translate command arguments.
+ *
+ * @param translateCommand The object that contains the arguments to validate.
+ * @returns A promise of the validation statuses.
+ */
 function validateCommand(translateCommand: Command): Promise<boolean[]> {
     const validations: Promise<boolean>[] = [];
 
