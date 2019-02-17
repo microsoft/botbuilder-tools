@@ -3,7 +3,7 @@ import * as ludownTranslateRes from '../res/ludown-translate.json';
 import { commandExecuterFactory } from '../utils/command-factory';
 import { printError } from '../utils/printers.js';
 import { invalidArgumentValueValidatorFactory } from '../utils/validators/invalid-argument-value.js';
-import { invalidPathValidator } from '../utils/validators/invalid-path-validator.js';
+import { invalidPathValidatorFactory } from '../utils/validators/invalid-path-validator.js';
 import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator';
 
 /**
@@ -58,11 +58,11 @@ function validateCommand(translateCommand: Command): Promise<boolean[]> {
     );
 
     if (translateCommand.in) {
-        validations.push(invalidPathValidator(false).execute(translateCommand.in));
+        validations.push(invalidPathValidatorFactory(false).execute(translateCommand.in));
     }
 
     if (translateCommand.lu_folder) {
-        validations.push(invalidPathValidator(true).execute(translateCommand.lu_folder));
+        validations.push(invalidPathValidatorFactory(true).execute(translateCommand.lu_folder));
     }
 
     if (translateCommand.batch_translate) {

@@ -10,7 +10,7 @@ import { ERROR_CODE } from '../../models/error-codes';
  *
  * @param isDirectory A boolean to indicate whether the path is a file or a directory.
  */
-export const invalidPathValidator: IValidatorFactory = (isDirectory: boolean) => {
+export const invalidPathValidatorFactory: IValidatorFactory = (isDirectory: boolean) => {
     return {
         execute: (inputPath: string) => {
             const resolvedPath = path.resolve(inputPath);

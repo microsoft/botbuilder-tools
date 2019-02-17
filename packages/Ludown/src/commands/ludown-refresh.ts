@@ -2,7 +2,7 @@ import { Command, name } from 'commander';
 import * as ludownRefreshRes from '../res/ludown-refresh.json';
 import { commandExecuterFactory } from '../utils/command-factory';
 import { printError } from '../utils/printers.js';
-import { invalidPathValidator } from '../utils/validators/invalid-path-validator.js';
+import { invalidPathValidatorFactory } from '../utils/validators/invalid-path-validator.js';
 import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator.js';
 
 /**
@@ -45,7 +45,7 @@ mainCommand.execute();
  */
 function validateCommand(refreshCommand: Command): Promise<boolean[]> {
     const validations: Promise<boolean>[] = [];
-    const invalidPathFactory = invalidPathValidator(false);
+    const invalidPathFactory = invalidPathValidatorFactory(false);
 
     validations.push(missingArgumentValidatorFactory([['luis_file', 'qna_file', 'qna_alteration_file', 'stdin']]).execute(refreshCommand));
 

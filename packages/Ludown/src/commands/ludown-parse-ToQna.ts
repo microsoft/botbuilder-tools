@@ -2,7 +2,7 @@ import { Command, name } from 'commander';
 import * as ludownParseRes from '../res/ludown-parse-toqna.json';
 import { commandExecuterFactory } from '../utils/command-factory';
 import { printError } from '../utils/printers.js';
-import { invalidPathValidator } from '../utils/validators/invalid-path-validator.js';
+import { invalidPathValidatorFactory } from '../utils/validators/invalid-path-validator.js';
 import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator.js';
 
 /**
@@ -48,11 +48,11 @@ function validateCommand(parseCommand: Command): Promise<boolean[]> {
     validations.push(missingArgumentValidatorFactory([['in', 'lu_folder']]).execute(parseCommand));
 
     if (parseCommand.in) {
-        validations.push(invalidPathValidator(false).execute(parseCommand.in));
+        validations.push(invalidPathValidatorFactory(false).execute(parseCommand.in));
     }
 
     if (parseCommand.lu_folder) {
-        validations.push(invalidPathValidator(true).execute(parseCommand.lu_folder));
+        validations.push(invalidPathValidatorFactory(true).execute(parseCommand.lu_folder));
     }
 
     return Promise.all(validations);
