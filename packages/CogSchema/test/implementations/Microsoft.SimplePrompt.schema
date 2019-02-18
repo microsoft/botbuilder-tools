@@ -5,7 +5,7 @@
     "properties": {
         "prompt": {
             "type": "string",
-            "$role":"foo"
+            "$role":"lg"
         }
     }
 }
