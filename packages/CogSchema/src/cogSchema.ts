@@ -81,8 +81,12 @@ async function mergeSchemas() {
         expandTypes(definitions);
         addStandardProperties(definitions, metaSchema);
         checkLG(definitions);
+        if (!program.output) {
+            program.output = "app.schema";
+        }
         let finalSchema = {
             $schema: metaSchema.$id,
+            $id: path.basename(program.output),
             type: "object",
             title: "Component types",
             description: "These are all of the types that can be created by the loader.",
@@ -98,9 +102,7 @@ async function mergeSchemas() {
                 }),
             definitions: definitions
         };
-        if (!program.output) {
-            program.output = "app.schema";
-        }
+
         if (!failed) {
             console.log("Writing " + program.output);
             await fs.writeJSON(program.output, finalSchema, { spaces: 4 });
