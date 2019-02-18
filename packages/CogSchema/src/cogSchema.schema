@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/CogSchema/src/cogSchema.schema",
     "title": "JSON Schema definition for cog schemas.",
     "description": "In order to create a component for Bot Framework .cog files you need to create a schema file describing your configuration that meets this definition.",
     "definitions": {
@@ -28,8 +28,6 @@
             "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$"
         },
         "metaSchema": {
-            "$schema": "http://json-schema.org/draft-07/schema#",
-            "$id": "http://json-schema.org/draft-07/schema#",
             "title": "Core schema meta-schema",
             "definitions": {
                 "schemaArray": {
@@ -46,7 +44,7 @@
                 "nonNegativeIntegerDefault0": {
                     "allOf": [
                         {
-                            "$ref": "#/definitions/nonNegativeInteger"
+                            "$ref": "#/definitions/metaSchema/definitions/nonNegativeInteger"
                         },
                         {
                             "default": 0
@@ -125,72 +123,72 @@
                     "type": "number"
                 },
                 "maxLength": {
-                    "$ref": "#/definitions/nonNegativeInteger"
+                    "$ref": "#/definitions/metaSchema/definitions/nonNegativeInteger"
                 },
                 "minLength": {
-                    "$ref": "#/definitions/nonNegativeIntegerDefault0"
+                    "$ref": "#/definitions/metaSchema/definitions/nonNegativeIntegerDefault0"
                 },
                 "pattern": {
                     "type": "string",
                     "format": "regex"
                 },
                 "additionalItems": {
-                    "$ref": "#"
+                    "$ref": "#/definitions/metaSchema"
                 },
                 "items": {
                     "anyOf": [
                         {
-                            "$ref": "#"
+                            "$ref": "#/definitions/metaSchema"
                         },
                         {
-                            "$ref": "#/definitions/schemaArray"
+                            "$ref": "#/definitions/metaSchema/definitions/schemaArray"
                         }
                     ],
                     "default": true
                 },
                 "maxItems": {
-                    "$ref": "#/definitions/nonNegativeInteger"
+                    "$ref": "#/definitions/metaSchema/definitions/nonNegativeInteger"
                 },
                 "minItems": {
-                    "$ref": "#/definitions/nonNegativeIntegerDefault0"
+                    "$ref": "#/definitions/metaSchema/definitions/nonNegativeIntegerDefault0"
                 },
                 "uniqueItems": {
                     "type": "boolean",
                     "default": false
                 },
                 "contains": {
-                    "$ref": "#"
+                    "$ref": "#/definitions/metaSchema"
                 },
                 "maxProperties": {
-                    "$ref": "#/definitions/nonNegativeInteger"
+                    "$ref": "#/definitions/metaSchema/definitions/nonNegativeInteger"
                 },
                 "minProperties": {
-                    "$ref": "#/definitions/nonNegativeIntegerDefault0"
+                    "$ref": "#/definitions/metaSchema/definitions/nonNegativeIntegerDefault0"
                 },
                 "required": {
-                    "$ref": "#/definitions/stringArray"
+                    "$ref": "#/definitions/metaSchema/definitions/stringArray"
                 },
                 "additionalProperties": {
-                    "$ref": "#"
+                    "$ref": "#/definitions/metaSchema"
                 },
                 "definitions": {
                     "type": "object",
                     "additionalProperties": {
-                        "$ref": "#"
+                        "$ref": "#/definitions/metaSchema"
                     },
                     "default": {}
                 },
                 "properties": {
                     "type": "object",
                     "additionalProperties": {
-                        "$ref": "#"
+                        "$ref": "#/definitions/metaSchema"
                     },
                     "default": {}
                 },
                 "patternProperties": {
                     "type": "object",
                     "additionalProperties": {
-                        "$ref": "#"
+                        "$ref": "#/definitions/metaSchema"
                     },
                     "propertyNames": {
                         "format": "regex"
@@ -202,16 +200,16 @@
                     "additionalProperties": {
                         "anyOf": [
                             {
-                                "$ref": "#"
+                                "$ref": "#/definitions/metaSchema"
                             },
                             {
-                                "$ref": "#/definitions/stringArray"
+                                "$ref": "#/definitions/metaSchema/definitions/stringArray"
                             }
                         ]
                     }
                 },
                 "propertyNames": {
-                    "$ref": "#"
+                    "$ref": "#/definitions/metaSchema"
                 },
                 "const": true,
                 "enum": {
@@ -223,12 +221,12 @@
                 "type": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/simpleTypes"
+                            "$ref": "#/definitions/metaSchema/definitions/simpleTypes"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/simpleTypes"
+                                "$ref": "#/definitions/metaSchema/definitions/simpleTypes"
                             },
                             "minItems": 1,
                             "uniqueItems": true
@@ -245,25 +243,25 @@
                     "type": "string"
                 },
                 "if": {
-                    "$ref": "#"
+                    "$ref": "#/definitions/metaSchema"
                 },
                 "then": {
-                    "$ref": "#"
+                    "$ref": "#/definitions/metaSchema"
                 },
                 "else": {
-                    "$ref": "#"
+                    "$ref": "#/definitions/metaSchema"
                 },
                 "allOf": {
-                    "$ref": "#/definitions/schemaArray"
+                    "$ref": "#/definitions/metaSchema/definitions/schemaArray"
                 },
                 "anyOf": {
-                    "$ref": "#/definitions/schemaArray"
+                    "$ref": "#/definitions/metaSchema/definitions/schemaArray"
                 },
                 "oneOf": {
-                    "$ref": "#/definitions/schemaArray"
+                    "$ref": "#/definitions/metaSchema/definitions/schemaArray"
                 },
                 "not": {
-                    "$ref": "#"
+                    "$ref": "#/definitions/metaSchema"
                 }
             },
             "default": true
@@ -271,7 +269,7 @@
     },
     "allOf": [
         {
-            "$ref": "http://json-schema.org/draft-07/schema#"
+            "$ref": "#/definitions/metaSchema"
         },
         {
             "properties": {
