@@ -37,7 +37,7 @@ program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
     .option("-o, output <path>", "Output path and filename for unified schema.")
-    .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged.  Also supports component merging using $implements and oneOf, see readme.md for more information.`)
+    .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged.  Also supports component merging using $role, see readme.md for more information.`)
     .parse(process.argv);
 
 let failed = false;
@@ -76,11 +76,10 @@ async function mergeSchemas() {
             }
         }
         fixDefinitionReferences(schema);
-        findImplements(definitions);
+        processRoles(definitions);
         addTypeTitles(definitions);
         expandTypes(definitions);
         addStandardProperties(definitions, metaSchema);
-        checkLG(definitions);
         if (!program.output) {
             program.output = "app.schema";
         }
@@ -120,58 +119,90 @@ async function getMetaSchema(): Promise<any> {
         let schema = await fs.readJSON(baseName);
         let metaSchemaName = schema.$schema;
         metaSchema = JSON.parse(await getURL(metaSchemaName));
-        delete metaSchema.$schema;
-        delete metaSchema.$id;
-        walkJSON(metaSchema, (elt) => {
-            if (elt.$ref && typeof elt.$ref === 'string' && elt.$ref.startsWith("#")) {
-                elt.$ref = '#/definitions/metaSchema' + elt.$ref.substring(1);
+        for(let prop in schema) {
+            let propDef = schema[prop];
+            if (typeof propDef === "string") {
+                metaSchema[prop] = propDef;
+            } else {
+                for(let subProp in propDef) {
+                    metaSchema[prop][subProp] = propDef[subProp];
+                }
             }
-            return false;
-        });
-        schema.definitions.metaSchema = metaSchema;
-        walkJSON(schema, (elt) => {
-            if (elt.$ref && elt.$ref === metaSchemaName) {
-                elt.$ref = '#/definitions/metaSchema';
-            }
-            return false;
-        });
-        await fs.writeJSON(schemaName, schema, { spaces: 4 });
+        }
+        metaSchema.$schema = metaSchema.$id;
+        await fs.writeJSON(schemaName, metaSchema, { spaces: 4 });
     } else {
         metaSchema = await fs.readJSON(schemaName);
     }
     return metaSchema;
 }
 
-function findImplements(definitions: any): void {
+function processRoles(_definitions: any): void {
+    /*
     for (let type in definitions) {
-        walkJSON(definitions[type], (val: any) => {
-            let done: any = val.$implements;
-            if (done) {
-                for (let unionName of val.$implements) {
-                    if (definitions.hasOwnProperty(unionName)) {
-                        let unionType = definitions[unionName];
-                        if (!isUnionType(unionType)) {
-                            badUnion(type, unionName);
-                        } else {
-                            if (!unionType.oneOf) {
-                                unionType.oneOf = [];
-                            }
-                            unionType.oneOf.push({
-                                // NOTE: This overrides any existing title to prevent namespace collisions
-                                title: type,
-                                description: definitions[type].description || type,
-                                $ref: "#/definitions/" + type
-                            });
-                        }
-                    } else {
-                        missing(unionName)
+        let definition = definitions[type];
+        if (definition.$role) {
+            if (typeof definition.$role === "string") {
+                processRole(definition.$role, type, definitions);
+            } else  {
+                for (let role of definition.$role) {
+                    processRole(role, definition, definitions);
+                }
+            }
+        }
+        walkJSON(definitions[type], (val: any, _obj, key) => {
+            if (val.$role) {
+                if (typeof val.$role === "string") {
+                    processRole(val.$role, val, key || "", type, definitions);
+                } else {
+                    for (let role of val.$role) {
+                        processRole(role, val, key || "", type, definitions);
                     }
                 }
             }
-            return done;
+            return false;
         });
     }
+    */
 }
+
+/*
+function processRole(role: string, elt: any, key: string, type: string, definitions: any): void {
+    if (role === "lg") {
+        if (!elt.type) {
+            elt.type = "string";
+        } else if (elt.type != "string") {
+            badLG(key || "");
+        }
+    } else if (role === "unionType") {
+        if (!key) {
+            error
+        }
+    } else if (role.startsWith("unionType(")) {
+
+    }
+    for (let unionName of val.$implements) {
+        if (definitions.hasOwnProperty(unionName)) {
+            let unionType = definitions[unionName];
+            if (!isUnionType(unionType)) {
+                badUnion(type, unionName);
+            } else {
+                if (!unionType.oneOf) {
+                    unionType.oneOf = [];
+                }
+                unionType.oneOf.push({
+                    // NOTE: This overrides any existing title to prevent namespace collisions
+                    title: type,
+                    description: definitions[type].description || type,
+                    $ref: "#/definitions/" + type
+                });
+            }
+        } else {
+            missing(unionName)
+        }
+    }
+}
+*/
 
 function addTypeTitles(definitions: any): void {
     walkJSON(definitions, (val) => {
@@ -255,19 +286,6 @@ function addStandardProperties(definitions: any, cogSchema: any): void {
     }
 }
 
-function checkLG(definitions: any): void {
-    walkJSON(definitions, (elt, _obj, key) => {
-        if (elt.$role === "lg") {
-            if (!elt.type) {
-                elt.type = "string";
-            } else if (elt.type != "string") {
-                badLG(<string>key);
-            }
-        }
-        return false;
-    });
-}
-
 function walkJSON(elt: any, fun: (val: any, obj?: any, key?: string) => boolean, obj?: any, key?: any): boolean {
     let done = fun(elt, obj, key);
     if (!done) {
@@ -285,39 +303,6 @@ function walkJSON(elt: any, fun: (val: any, obj?: any, key?: string) => boolean,
         }
     }
     return done;
-}
-
-function isUnionType(schema: any): boolean {
-    return schema.$role === "unionType";
-}
-
-let missingTypes = new Set();
-function missing(type: string): void {
-    if (!missingTypes.has(type)) {
-        console.log(chalk.default.redBright("Missing " + type + " schema file from merge."));
-        missingTypes.add(type);
-        failed = true;
-    }
-}
-
-function badUnion(type: string, union: string): void {
-    console.log(chalk.default.redBright(type + " $implements " + union + " which does not use oneOf."));
-    failed = true;
-}
-
-function schemaError(error: Validator.ErrorObject): void {
-    console.log(chalk.default.redBright(error.message || ""));
-    failed = true;
-}
-
-function thrownError(error: Error): void {
-    console.log(chalk.default.redBright(error.message || ""));
-    failed = true;
-}
-
-function badLG(property: string): void {
-    console.log(chalk.default.redBright(`${property} has a $role of lg and must be a string.`));
-    failed = true;
 }
 
 async function getURL(url: string): Promise<any> {
@@ -349,6 +334,48 @@ async function getURL(url: string): Promise<any> {
         });
     });
 };
+
+function isUnionType(schema: any): boolean {
+    return schema.$role === "unionType";
+}
+
+let missingTypes = new Set();
+function missing(type: string): void {
+    if (!missingTypes.has(type)) {
+        console.log(chalk.default.redBright("Missing " + type + " schema file from merge."));
+        missingTypes.add(type);
+        failed = true;
+    }
+}
+
+/*
+function badUnion(type: string, union: string): void {
+    console.log(chalk.default.redBright(type + " $implements " + union + " which does not use oneOf."));
+    failed = true;
+}
+*/
+
+function schemaError(error: Validator.ErrorObject): void {
+    console.log(chalk.default.redBright(error.message || ""));
+    failed = true;
+}
+
+function thrownError(error: Error): void {
+    console.log(chalk.default.redBright(error.message || ""));
+    failed = true;
+}
+
+/*
+function badLG(property: string): void {
+    console.log(chalk.default.redBright(`${property} has a $role of lg and must be a string.`));
+    failed = true;
+}
+
+function errorMsg(message: string): void {
+    console.log(chalk.default.redBright(message));
+    failed = true;
+}
+*/
 
 interface IPackage {
     version: string;

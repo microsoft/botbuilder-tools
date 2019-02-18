@@ -1,5 +1,5 @@
 {
-    "$schema": "../../src/cogSchema.schema",
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/CogSchema/src/cogSchema.schema",
     "title": "Prompt",
     "$role": "unionType(Microsoft.IPrompt)",
     "properties": {
