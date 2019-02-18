@@ -25,10 +25,11 @@ export class Cog {
     /** TRUE if cog should be written, i.e. changed since read. */
     save: boolean;
 
-    id() :string {
+    /** Return the id of the cog, i.e. the base filename. */
+    id(): string {
         return path.basename(this.file, ".cog");
     }
-    
+
     constructor(file: string, body?: object) {
         this.file = file;
         if (!path.isAbsolute) {
@@ -136,9 +137,13 @@ export class Definition {
         if (this.id) {
             return `[${this.id}]`;
         } else {
-            let id = this.cog ? this.cog.id() : "undefined";
-            return `(${id}#${this.path})`;
+            return this.pathString();
         }
+    }
+
+    pathString(): string {
+        let id = this.cog ? this.cog.id() : "undefined";
+        return `(${id}#${this.path})`;
     }
 }
 
@@ -146,11 +151,11 @@ export class Definition {
 export class CogTracker {
     /** Paths will be relative to root directory. */
     root: string;
-    
+
     /** 
      * Map from $id to the definition.
      * If there are more than one, then it is multiply defined.
-     * If any of them are missing cog, then there is a $ref, but no definition.
+     * If any of them are missing cog, then there is a $copy, but no definition.
      */
     idTo: Map<string, Definition[]>;
 
@@ -188,9 +193,9 @@ export class CogTracker {
                     let metaSchema: any;
                     if (!await fs.pathExists(metaSchemaCache)) {
                         metaSchema = JSON.parse(await this.getURL(metaSchemaName));
-                        await fs.writeJSON(metaSchemaCache, metaSchema);
+                        await fs.writeJSON(metaSchemaCache, metaSchema, { spaces: 4 });
                     } else {
-                        metaSchema = fs.readJSON(metaSchemaCache);
+                        metaSchema = await fs.readJSON(metaSchemaCache);
                     }
                     this.validator.addSchema(metaSchema, metaSchemaName);
                     this.validator.addSchema(schemaObject, schemaFile);
@@ -212,19 +217,22 @@ export class CogTracker {
             if (cog.body.$id) {
                 cog.errors.push(new Error(`Cog cannot have $id at the root because it is defined by the filename.`))
             }
+            // Expand $id to include root type
+            this.walkJSON(cog.body, "", (elt) => {
+                if (elt.$id) {
+                    elt.$id = cog.id() + "#" + elt.$id;
+                }
+                return false;
+            });
             cog.body.$id = cog.id();
             this.walkJSON(cog.body, "", (elt, path) => {
-                if (elt.$id && !this.isValidID(elt.$id)) {
-                    cog.errors.push(new Error(`${elt.$id} is not a valid id.`));
-                }
-                let id = elt.$id || undefined;
                 if (elt.$type) {
-                    this.addDefinition(new Definition(elt.$type, id, cog, path));
-                } else if (elt.$id || elt.$ref) { // Missing type
-                    this.addDefinition(new Definition(undefined, id, cog, path));
+                    this.addDefinition(new Definition(elt.$type, elt.$id, cog, path));
+                } else if (elt.$id || elt.$copy) { // Missing type
+                    this.addDefinition(new Definition(undefined, elt.$id, cog, path));
                 }
-                if (elt.$ref) {
-                    this.addReference(elt.$ref, new Definition(elt.$type, id, cog, path));
+                if (elt.$copy) {
+                    this.addReference(elt.$copy, new Definition(elt.$type, elt.$id, cog, path));
                 }
                 return false;
             });
@@ -272,16 +280,20 @@ export class CogTracker {
     }
 
     /** Find an existing cog or return undefined. */
-    findCog(file: string): undefined | Cog {
-        let fullFile = path.resolve(file);
+    findCog(id: string): undefined | Cog {
         let result: undefined | Cog;
         for (let cog of this.cogs) {
-            if (cog.file === fullFile) {
+            if (cog.id() === id) {
                 result = cog;
                 break;
             }
         }
         return result;
+    }
+
+    /** Find the cog corresponding to a file path. */
+    findCogFile(file:string): undefined | Cog {
+        return this.findCog(path.basename(file, ".cog"));
     }
 
     /** Clone an existing cog so you can modify it and then call updateCog. */
@@ -292,7 +304,7 @@ export class CogTracker {
 
     /** Update or add a cog. */
     async updateCog(cog: Cog): Promise<void> {
-        let oldCog = this.findCog(cog.file);
+        let oldCog = this.findCog(cog.id());
         if (oldCog) {
             this.removeCog(oldCog);
         }
@@ -311,7 +323,7 @@ export class CogTracker {
                 let oldID = cog.id();
                 delete cog.body.$id;
                 await fs.writeJSON(filePath, cog.body, { spaces: 4 });
-                cog.file = filePath;
+                cog.file = path.relative(process.cwd(), filePath);
                 cog.body.$id = oldID;
                 cog.save = false;
             }
@@ -334,12 +346,15 @@ export class CogTracker {
     * multipleDefinitions(): Iterable<Definition[]> {
         for (let def of this.idTo.values()) {
             if (def.length > 1) {
-                yield def;
+                let type = def[0].type;
+                if (!def.find((d) => d.type != type)) {
+                    yield def;
+                }
             }
         }
     }
 
-    /** Definitions that are referred to through $ref, but are not defined. */
+    /** Definitions that are referred to through $copy, but are not defined. */
     * missingDefinitions(): Iterable<Definition> {
         for (let defs of this.idTo.values()) {
             for (let def of defs) {
@@ -374,7 +389,7 @@ export class CogTracker {
                 // Reference already existed, check for consistency
                 // Merge if possible, otherwise add
                 for (let old of <Definition[]>this.idTo.get(definition.id)) {
-                    if (!old.cog && !old.path && old.type == definition.type) {
+                    if (!old.cog && !old.path && old.type === definition.type) {
                         add = false;
                         old.cog = definition.cog;
                         old.path = definition.path;
@@ -403,11 +418,11 @@ export class CogTracker {
 
     /**
      * Add reference to a $id.
-     * @param ref Reference found in $ref.
-     * @param source Definition that contains $ref.
+     * @param ref Reference found in $copy.
+     * @param source Definition that contains $copy.
      */
     private addReference(ref: string, source: Definition): void {
-        let fullRef = this.expandRef(ref, <Cog> source.cog);
+        let fullRef = this.expandRef(ref, <Cog>source.cog);
         if (!this.idTo.has(fullRef)) {
             // ID does not exist so add place holder
             let definition = new Definition(source.type, fullRef);
@@ -475,19 +490,6 @@ export class CogTracker {
         return done;
     }
 
-    private isValidID(id: string): boolean {
-        let ok = true;
-        // NOTE: Could exclude more, including [] and ~ but in our case we are never interpreting as JSON Path.
-        const exclude = ['/', '#'];
-        for (let ch of id) {
-            if (exclude.indexOf(ch) != -1) {
-                ok = false;
-                break;
-            }
-        }
-        return ok;
-    }
-
     private expandRef(ref: string, cog: Cog): string {
         return ref.startsWith('#') ? `${cog.id()}${ref}` : ref;
     }
@@ -496,31 +498,31 @@ export class CogTracker {
         return new Promise((resolve, reject) => {
             const http = require('http'),
                 https = require('https');
-    
+
             let client = http;
-    
+
             if (url.toString().indexOf("https") === 0) {
                 client = https;
             }
-    
+
             client.get(url, (resp: any) => {
                 let data = '';
-    
+
                 // A chunk of data has been recieved.
                 resp.on('data', (chunk: any) => {
                     data += chunk;
                 });
-    
+
                 // The whole response has been received. 
                 resp.on('end', () => {
                     resolve(data);
                 });
-    
+
             }).on("error", (err: any) => {
                 reject(err);
             });
         });
     };
-    
+
 }
 

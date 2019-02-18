@@ -53,9 +53,9 @@ async function doIndexing() {
 
     for (let defs of tracker.multipleDefinitions()) {
         let def = (<indexer.Definition[]>defs)[0];
-        logger(MsgKind.error, `Multiple definitions for ${def.id} ${def.usedByString()}`);
+        logger(MsgKind.error, `Multiple definitions for ${def} ${def.usedByString()}`);
         for (let def of defs) {
-            logger(MsgKind.error, `  ${def.locatorString()}`);
+            logger(MsgKind.error, `  ${def.pathString()}`);
         }
     }
 

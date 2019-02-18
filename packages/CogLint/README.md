@@ -2,10 +2,10 @@
 
 # CogLint Command Line tool
 
-CogLint is a command line tool that analyzes JSON .cog files created for the Bot Framework.  It builds an index of cog components and  how they relate to each other using $type, $id and $ref.  From this information it prints out what the types used and any errors including: 
+CogLint is a command line tool that analyzes JSON .cog files created for the Bot Framework.  It builds an index of cog components and how they relate to each other using $type, $id and $copy.  From this information it prints out information about types and any errors including: 
 * **Missing $type:** A valid component must include a $type.
 * **Multiple $id definitions:** There should be only one definition for a $id.
-* **Incompatible types between $ref and $id:** 
+* **Incompatible types between $copy and $id:** 
 * **Undefined $id** 
 * **Schema validation:** Reports JSON schema validation errors.
 * **Malformed JSON:** Reports files which do not contain valid JSON.

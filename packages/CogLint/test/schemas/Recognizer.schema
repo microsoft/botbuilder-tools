@@ -1,0 +1,15 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/CogSchema/src/cogSchema.schema",
+    "$role": "unionType(IRecognizer)",
+    "properties": {
+        "req": {
+            "type": "string"
+        },
+        "opt": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "req"
+    ]
+}

@@ -3,8 +3,9 @@
     "$type": "root",
     "recognizers": [
         {
-            "$type":"Recognizer",
-            "$ref": "root#inlineRecognizer",
+            "$type": "Recognizer",
+            "$copy": "root#inlineRecognizer",
             "$comment": "Refer to id in another file."
-        }]
+        }
+    ]
 }

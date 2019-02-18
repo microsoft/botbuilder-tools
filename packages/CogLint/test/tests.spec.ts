@@ -14,25 +14,24 @@ describe('Test .cog indexing library', async () => {
 
     it('errors', () => expect(tracker.cogs.filter((f) => f.errors.length > 0).length).equal(3));
 
-    it('definitions', () => expect(size(tracker.allDefinitions())).equal(19));
+    it('definitions', () => expect(size(tracker.allDefinitions())).equal(18));
 
-    it('missing', () => expect(size(tracker.missingDefinitions())).equal(3));
+    it('missing', () => expect(size(tracker.missingDefinitions())).equal(2));
 
     it('multiple', () => expect(size(tracker.multipleDefinitions())).equal(1));
 
     it('clone', () => {
         let foo = tracker.cloneCog("foo");
-        const id = "test/examples/root.cog";
         expect(foo, "Can't find cog").to.equal(undefined);
-        let original = tracker.findCog(id);
+        let original = tracker.findCog("root");
         expect(original, "Can't find cog").to.not.equal(undefined);
-        let copy = tracker.cloneCog(id);
+        let copy = tracker.cloneCog("root");
         if (original && copy) {
             let len = original.body.recognizers.length;
             copy.body.recognizers.pop();
             expect(len === copy.body.recognizers.length + 1).is.true;
             tracker.updateCog(copy);
-            let newCog = tracker.findCog("test/examples/root.cog");
+            let newCog = tracker.findCog("root");
             if (newCog) {
                 expect(copy, "Update should be object").is.equal(newCog);
                 expect(newCog.save, "Saved should be true").is.true;
@@ -53,7 +52,7 @@ describe('Test .cog indexing library', async () => {
         expect(savesAfter).equals(0);
         let saved = 0;
         for(let file of glob.sync("test.out/**/*.cog")) {
-            let cog = tracker.findCog(file);
+            let cog = tracker.findCogFile(file);
             expect(cog, `${cog} is not found as ${file}`).is.not.equal(undefined);
             ++saved;
         }

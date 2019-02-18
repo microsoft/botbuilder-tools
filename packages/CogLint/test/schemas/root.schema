@@ -1,0 +1,14 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/CogSchema/src/cogSchema.schema",
+    "properties": {
+        "recognizers": {
+            "type": "array",
+            "items": {
+                "$type": "IRecognizer"
+            }
+        }
+    },
+    "required": [
+        "recognizers"
+    ]
+}

@@ -100,6 +100,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#cogs" class="tsd-kind-icon">cogs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#idto" class="tsd-kind-icon">id<wbr>To</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#missingtypes" class="tsd-kind-icon">missing<wbr>Types</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#root" class="tsd-kind-icon">root</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#typeto" class="tsd-kind-icon">type<wbr>To</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_cogtracker_.cogtracker.html#validator" class="tsd-kind-icon">validator</a></li>
 							</ul>
@@ -114,10 +115,10 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_cogtracker_.cogtracker.html#addreference" class="tsd-kind-icon">add<wbr>Reference</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#alldefinitions" class="tsd-kind-icon">all<wbr>Definitions</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#clonecog" class="tsd-kind-icon">clone<wbr>Cog</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_cogtracker_.cogtracker.html#expandid" class="tsd-kind-icon">expandID</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_cogtracker_.cogtracker.html#expandref" class="tsd-kind-icon">expand<wbr>Ref</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#findcog" class="tsd-kind-icon">find<wbr>Cog</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_cogtracker_.cogtracker.html#isvalidid" class="tsd-kind-icon">is<wbr>ValidID</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#findcogfile" class="tsd-kind-icon">find<wbr>Cog<wbr>File</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_cogtracker_.cogtracker.html#geturl" class="tsd-kind-icon">getURL</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#missingdefinitions" class="tsd-kind-icon">missing<wbr>Definitions</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#multipledefinitions" class="tsd-kind-icon">multiple<wbr>Definitions</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_cogtracker_.cogtracker.html#removecog" class="tsd-kind-icon">remove<wbr>Cog</a></li>
@@ -137,15 +138,21 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Cog<wbr>Tracker<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_cogtracker_.cogtracker.html" class="tsd-signature-type">CogTracker</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Cog<wbr>Tracker<span class="tsd-signature-symbol">(</span>root<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_cogtracker_.cogtracker.html" class="tsd-signature-type">CogTracker</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L167">cogTracker.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L171">cogTracker.ts:171</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> root: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_cogtracker_.cogtracker.html" class="tsd-signature-type">CogTracker</a></h4>
 						</li>
 					</ul>
@@ -159,7 +166,7 @@
 					<div class="tsd-signature tsd-kind-icon">cogs<span class="tsd-signature-symbol">:</span> <a href="_cogtracker_.cog.html" class="tsd-signature-type">Cog</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L165">cogTracker.ts:165</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L169">cogTracker.ts:169</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -174,14 +181,14 @@
 					<div class="tsd-signature tsd-kind-icon">id<wbr>To<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_cogtracker_.definition.html" class="tsd-signature-type">Definition</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L156">cogTracker.ts:156</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L160">cogTracker.ts:160</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Map from $id to the definition.
 								If there are more than one, then it is multiply defined.
-							If any of them are missing cog, then there is a $ref, but no definition.</p>
+							If any of them are missing cog, then there is a $copy, but no definition.</p>
 						</div>
 					</div>
 				</section>
@@ -191,7 +198,7 @@
 					<div class="tsd-signature tsd-kind-icon">missing<wbr>Types<span class="tsd-signature-symbol">:</span> <a href="_cogtracker_.definition.html" class="tsd-signature-type">Definition</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L162">cogTracker.ts:162</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L166">cogTracker.ts:166</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -201,12 +208,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="root" class="tsd-anchor"></a>
+					<h3>root</h3>
+					<div class="tsd-signature tsd-kind-icon">root<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L153">cogTracker.ts:153</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Paths will be relative to root directory.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="typeto" class="tsd-anchor"></a>
 					<h3>type<wbr>To</h3>
 					<div class="tsd-signature tsd-kind-icon">type<wbr>To<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_cogtracker_.definition.html" class="tsd-signature-type">Definition</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L159">cogTracker.ts:159</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L163">cogTracker.ts:163</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -221,7 +243,7 @@
 					<div class="tsd-signature tsd-kind-icon">validator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Ajv</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L167">cogTracker.ts:167</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L171">cogTracker.ts:171</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -238,7 +260,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L178">cogTracker.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L183">cogTracker.ts:183</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -266,7 +288,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L230">cogTracker.ts:230</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L248">cogTracker.ts:248</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -294,7 +316,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L247">cogTracker.ts:247</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L265">cogTracker.ts:265</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -322,7 +344,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L356">cogTracker.ts:356</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L382">cogTracker.ts:382</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -351,7 +373,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L398">cogTracker.ts:398</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L424">cogTracker.ts:424</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -364,13 +386,13 @@
 								<li>
 									<h5>ref: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Reference found in $ref.</p>
+										<p>Reference found in $copy.</p>
 									</div>
 								</li>
 								<li>
 									<h5>source: <a href="_cogtracker_.definition.html" class="tsd-signature-type">Definition</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Definition that contains $ref.</p>
+										<p>Definition that contains $copy.</p>
 									</div>
 								</li>
 							</ul>
@@ -388,7 +410,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L311">cogTracker.ts:311</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L334">cogTracker.ts:334</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -410,7 +432,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L278">cogTracker.ts:278</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L300">cogTracker.ts:300</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -432,32 +454,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="expandid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> expandID</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">expandID<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cog<span class="tsd-signature-symbol">: </span><a href="_cogtracker_.cog.html" class="tsd-signature-type">Cog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L467">cogTracker.ts:467</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>id: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>cog: <a href="_cogtracker_.cog.html" class="tsd-signature-type">Cog</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
 					<a name="expandref" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> expand<wbr>Ref</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -467,7 +463,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L471">cogTracker.ts:471</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L493">cogTracker.ts:493</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -487,18 +483,49 @@
 					<a name="findcog" class="tsd-anchor"></a>
 					<h3>find<wbr>Cog</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">find<wbr>Cog<span class="tsd-signature-symbol">(</span>file<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="_cogtracker_.cog.html" class="tsd-signature-type">Cog</a></li>
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Cog<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="_cogtracker_.cog.html" class="tsd-signature-type">Cog</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L265">cogTracker.ts:265</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L283">cogTracker.ts:283</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Find an existing cog or return undefined.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<a href="_cogtracker_.cog.html" class="tsd-signature-type">Cog</a>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="findcogfile" class="tsd-anchor"></a>
+					<h3>find<wbr>Cog<wbr>File</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Cog<wbr>File<span class="tsd-signature-symbol">(</span>file<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="_cogtracker_.cog.html" class="tsd-signature-type">Cog</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L295">cogTracker.ts:295</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the cog corresponding to a file path.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -515,25 +542,25 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="isvalidid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> is<wbr>ValidID</h3>
+					<a name="geturl" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> getURL</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>ValidID<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">getURL<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L483">cogTracker.ts:483</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L497">cogTracker.ts:497</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -547,12 +574,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L332">cogTracker.ts:332</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L358">cogTracker.ts:358</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Definitions that are referred to through $ref, but are not defined.</p>
+									<p>Definitions that are referred to through $copy, but are not defined.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="_cogtracker_.definition.html" class="tsd-signature-type">Definition</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -569,7 +596,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L323">cogTracker.ts:323</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L346">cogTracker.ts:346</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -591,7 +618,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L255">cogTracker.ts:255</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L273">cogTracker.ts:273</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -619,7 +646,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L412">cogTracker.ts:412</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L438">cogTracker.ts:438</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -647,7 +674,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L343">cogTracker.ts:343</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L369">cogTracker.ts:369</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -669,7 +696,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L284">cogTracker.ts:284</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L306">cogTracker.ts:306</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -697,7 +724,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L447">cogTracker.ts:447</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L473">cogTracker.ts:473</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -747,7 +774,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/074dd61/packages/CogLint/src/cogTracker.ts#L295">cogTracker.ts:295</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/botbuilder-tools/blob/fbe1289/packages/CogLint/src/cogTracker.ts#L317">cogTracker.ts:317</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -807,6 +834,9 @@
 								<a href="_cogtracker_.cogtracker.html#missingtypes" class="tsd-kind-icon">missing<wbr>Types</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_cogtracker_.cogtracker.html#root" class="tsd-kind-icon">root</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_cogtracker_.cogtracker.html#typeto" class="tsd-kind-icon">type<wbr>To</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -834,16 +864,16 @@
 								<a href="_cogtracker_.cogtracker.html#clonecog" class="tsd-kind-icon">clone<wbr>Cog</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="_cogtracker_.cogtracker.html#expandid" class="tsd-kind-icon">expandID</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_cogtracker_.cogtracker.html#expandref" class="tsd-kind-icon">expand<wbr>Ref</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_cogtracker_.cogtracker.html#findcog" class="tsd-kind-icon">find<wbr>Cog</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_cogtracker_.cogtracker.html#findcogfile" class="tsd-kind-icon">find<wbr>Cog<wbr>File</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="_cogtracker_.cogtracker.html#isvalidid" class="tsd-kind-icon">is<wbr>ValidID</a>
+								<a href="_cogtracker_.cogtracker.html#geturl" class="tsd-kind-icon">getURL</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_cogtracker_.cogtracker.html#missingdefinitions" class="tsd-kind-icon">missing<wbr>Definitions</a>
