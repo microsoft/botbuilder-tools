@@ -5,9 +5,9 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
+import * as ajv from 'ajv';
 import * as fs from 'fs-extra';
 import * as glob from 'globby';
-import * as ajv from 'ajv';
 import * as path from 'path';
 let clone = require('clone');
 
@@ -183,6 +183,16 @@ export class CogTracker {
                 if (!validator) {
                     let schemaPath = path.join(path.dirname(cog.file), schemaFile);
                     let schemaObject = await fs.readJSON(schemaPath);
+                    let metaSchemaName = schemaObject.$schema;
+                    let metaSchemaCache = path.join(__dirname, path.basename(metaSchemaName));
+                    let metaSchema: any;
+                    if (!await fs.pathExists(metaSchemaCache)) {
+                        metaSchema = JSON.parse(await this.getURL(metaSchemaName));
+                        await fs.writeJSON(metaSchemaCache, metaSchema);
+                    } else {
+                        metaSchema = fs.readJSON(metaSchemaCache);
+                    }
+                    this.validator.addSchema(metaSchema, metaSchemaName);
                     this.validator.addSchema(schemaObject, schemaFile);
                     validator = this.validator.getSchema(schemaFile);
                 }
@@ -481,5 +491,36 @@ export class CogTracker {
     private expandRef(ref: string, cog: Cog): string {
         return ref.startsWith('#') ? `${cog.id()}${ref}` : ref;
     }
+
+    private async getURL(url: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            const http = require('http'),
+                https = require('https');
+    
+            let client = http;
+    
+            if (url.toString().indexOf("https") === 0) {
+                client = https;
+            }
+    
+            client.get(url, (resp: any) => {
+                let data = '';
+    
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk: any) => {
+                    data += chunk;
+                });
+    
+                // The whole response has been received. 
+                resp.on('end', () => {
+                    resolve(data);
+                });
+    
+            }).on("error", (err: any) => {
+                reject(err);
+            });
+        });
+    };
+    
 }
 
