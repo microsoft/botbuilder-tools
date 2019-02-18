@@ -10,7 +10,8 @@
             "name": "Mocha Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
-                "-r", "node_modules/ts-node/register", 
+                "-r",
+                "node_modules/ts-node/register",
                 "test/*.ts",
                 "-u",
                 "tdd",
@@ -25,9 +26,24 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}\\lib\\cogLint.js",
-            "args": 
-                ["examples/*.cog"],
+            "args": [
+                "examples/*.cog"
+            ],
             "cwd": "${workspaceFolder}/test",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/lib/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch TestBot",
+            "program": "${workspaceFolder}\\lib\\cogLint.js",
+            "args": [
+                "**/*.cog"
+            ],
+            "cwd": "${workspaceFolder}/../../../botbuilder-dotnet/tests/Microsoft.Bot.Builder.TestBot.Json/dialogs/",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"

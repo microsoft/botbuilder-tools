@@ -39,42 +39,45 @@ doIndexing();
 async function doIndexing() {
     const tracker = new indexer.CogTracker();
     await tracker.addCogFiles(program.args);
-
-    for(let cog of tracker.cogs) {
-        if (cog.errors.length == 0) {
-            logger(MsgKind.msg, `Processed ${cog}`);
-        } else {
-            logger(MsgKind.error, `Errors processing ${cog}`);
-            for(let error of cog.errors) {
-                logger(MsgKind.error, `  ${error.message}`);
+    if (tracker.cogs.length == 0) {
+        program.help();
+    } else {
+        for (let cog of tracker.cogs) {
+            if (cog.errors.length == 0) {
+                logger(MsgKind.msg, `Processed ${cog}`);
+            } else {
+                logger(MsgKind.error, `Errors processing ${cog}`);
+                for (let error of cog.errors) {
+                    logger(MsgKind.error, `  ${error.message}`);
+                }
             }
         }
-    }
 
-    for (let defs of tracker.multipleDefinitions()) {
-        let def = (<indexer.Definition[]>defs)[0];
-        logger(MsgKind.error, `Multiple definitions for ${def} ${def.usedByString()}`);
-        for (let def of defs) {
-            logger(MsgKind.error, `  ${def.pathString()}`);
+        for (let defs of tracker.multipleDefinitions()) {
+            let def = (<indexer.Definition[]>defs)[0];
+            logger(MsgKind.error, `Multiple definitions for ${def} ${def.usedByString()}`);
+            for (let def of defs) {
+                logger(MsgKind.error, `  ${def.pathString()}`);
+            }
         }
-    }
 
-    for (let def of tracker.missingDefinitions()) {
-        logger(MsgKind.error, `Missing definition for ${def} ${def.usedByString()}`);
-    }
+        for (let def of tracker.missingDefinitions()) {
+            logger(MsgKind.error, `Missing definition for ${def} ${def.usedByString()}`);
+        }
 
-    for (let def of tracker.missingTypes) {
-        logger(MsgKind.error, `Missing $type for ${def}`);
-    }
+        for (let def of tracker.missingTypes) {
+            logger(MsgKind.error, `Missing $type for ${def}`);
+        }
 
-    for (let def of tracker.unusedIDs()) {
-        logger(MsgKind.warning, `Unused id ${def}`);
-    }
+        for (let def of tracker.unusedIDs()) {
+            logger(MsgKind.warning, `Unused id ${def}`);
+        }
 
-    for (let [type, definitions] of tracker.typeTo) {
-        logger(MsgKind.msg, `Instances of ${type}`);
-        for (let def of definitions) {
-            logger(MsgKind.msg, `  ${def.locatorString()}`);
+        for (let [type, definitions] of tracker.typeTo) {
+            logger(MsgKind.msg, `Instances of ${type}`);
+            for (let def of definitions) {
+                logger(MsgKind.msg, `  ${def.locatorString()}`);
+            }
         }
     }
 }
