@@ -1,8 +1,8 @@
 {
-    "$schema": "../../src/cogSchema.schema",
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/CogSchema/src/cogSchema.schema",
     "title": "LUIS Recognizer",
     "description": "LUIS recognizer.",
-    "$role": "unionType(Microsoft.IRecognizer)",
+    "$role": ["unionType(Microsoft.IRecognizer)", "unionType(Microsoft.IPrompt)"],
     "$comment": "Ensure namespaces work on local definitions.",
     "definitions": {
         "local": {

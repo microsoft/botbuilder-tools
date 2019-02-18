@@ -5,14 +5,14 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import * as Validator from 'ajv';
 import * as chalk from 'chalk';
-import * as program from 'commander';
 import * as fs from 'fs-extra';
 import * as glob from 'globby';
 import * as path from 'path';
 import * as process from 'process';
+import * as program from 'commander';
 import * as semver from 'semver';
+import * as Validator from 'ajv';
 let parser: any = require('json-schema-ref-parser');
 let allof: any = require('json-schema-merge-allof');
 
@@ -51,7 +51,23 @@ async function mergeSchemas() {
     else {
         let definitions: any = {};
         let validator = new Validator();
-        var metaSchema = await fs.readJSON(path.join(__dirname, "../src/cogSchema.schema"));
+        let schemaName = path.join(__dirname, "../src/cogSchema.schema");
+        if (!await fs.pathExists(schemaName)) {
+            // Recreate the local standalone schema by expanding meta-schema
+            // If you change baseCogSchema.schema, just delete the old one and run this and it will build a new one which is then checked-in.
+            let baseName = path.join(__dirname, "../src/baseCogSchema.schema");
+            let schema = await fs.readJSON(baseName);
+            schema.definitions.metaSchema = JSON.parse(await getURL(schema.$schema));
+            walkJSON(schema, (elt) => {
+                if (elt.$ref) {
+                    elt.$ref = "#/definitions/metaSchema";
+                    return true;
+                }
+                return false;
+            });
+            await fs.writeJSON(schemaName, schema, { spaces: 4 });
+        }
+        let metaSchema = await fs.readJSON(schemaName);
         validator.addSchema(metaSchema, 'cogSchema');
         for (let path of schemaPaths) {
             console.log(chalk.default.grey(`Parsing ${path}`));
@@ -78,6 +94,7 @@ async function mergeSchemas() {
         addTypeTitles(definitions);
         expandTypes(definitions);
         addStandardProperties(definitions, metaSchema);
+        checkLG(definitions);
         let finalSchema = {
             $schema: "http://json-schema.org/draft-07/schema#",
             type: "object",
@@ -100,7 +117,7 @@ async function mergeSchemas() {
         }
         if (!failed) {
             console.log("Writing " + program.output);
-            fs.writeFileSync(program.output, JSON.stringify(finalSchema, null, 4));
+            await fs.writeJSON(program.output, finalSchema, { spaces: 4 });
         } else {
             console.log("Could not merge schemas");
         }
@@ -109,7 +126,7 @@ async function mergeSchemas() {
 
 function findImplements(definitions: any): void {
     for (let type in definitions) {
-        walkSchema(definitions[type], (val: any) => {
+        walkJSON(definitions[type], (val: any) => {
             let done: any = val.$implements;
             if (done) {
                 for (let unionName of val.$implements) {
@@ -139,9 +156,9 @@ function findImplements(definitions: any): void {
 }
 
 function addTypeTitles(definitions: any): void {
-    walkSchema(definitions, (val) => {
+    walkJSON(definitions, (val) => {
         if (val.oneOf) {
-            walkSchema(val.oneOf, (def) => {
+            walkJSON(val.oneOf, (def) => {
                 if (def.type) {
                     // NOTE: This overrides any existing title but prevents namespace collision
                     def.title = def.type;
@@ -155,7 +172,7 @@ function addTypeTitles(definitions: any): void {
 
 function fixDefinitionReferences(definitions: any): void {
     for (let type in definitions) {
-        walkSchema(definitions[type], (val: any) => {
+        walkJSON(definitions[type], (val: any) => {
             if (val.$ref) {
                 let ref: string = val.$ref;
                 if (ref.startsWith("#/definitions/")) {
@@ -168,7 +185,7 @@ function fixDefinitionReferences(definitions: any): void {
 }
 
 function expandTypes(definitions: any): void {
-    walkSchema(definitions, (val) => {
+    walkJSON(definitions, (val) => {
         if (val.$type) {
             if (definitions.hasOwnProperty(val.$type)) {
                 val.$ref = "#/definitions/" + val.$type;
@@ -220,18 +237,31 @@ function addStandardProperties(definitions: any, cogSchema: any): void {
     }
 }
 
-function walkSchema(schema: any, fun: (val: any, obj?: any, key?: string) => boolean, obj?: any, key?: any): boolean {
-    let done = fun(schema, obj, key);
+function checkLG(definitions: any): void {
+    walkJSON(definitions, (elt, _obj, key) => {
+        if (elt.$role === "lg") {
+            if (!elt.type) {
+                elt.type = "string";
+            } else if (elt.type != "string") {
+                badLG(<string>key);
+            }
+        }
+        return false;
+    });
+}
+
+function walkJSON(elt: any, fun: (val: any, obj?: any, key?: string) => boolean, obj?: any, key?: any): boolean {
+    let done = fun(elt, obj, key);
     if (!done) {
-        if (Array.isArray(schema)) {
-            for (let val of schema) {
-                done = walkSchema(val, fun);
+        if (Array.isArray(elt)) {
+            for (let val of elt) {
+                done = walkJSON(val, fun);
                 if (done) break;
             }
         }
-        else if (typeof schema === 'object') {
-            for (let val in schema) {
-                done = walkSchema(schema[val], fun, schema, val);
+        else if (typeof elt === 'object') {
+            for (let val in elt) {
+                done = walkJSON(elt[val], fun, elt, val);
                 if (done) break;
             }
         }
@@ -266,6 +296,41 @@ function thrownError(error: Error): void {
     console.log(chalk.default.redBright(error.message || ""));
     failed = true;
 }
+
+function badLG(property: string): void {
+    console.log(chalk.default.redBright(`${property} has a $role of lg and must be a string.`));
+    failed = true;
+}
+
+async function getURL(url: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+        const http = require('http'),
+            https = require('https');
+
+        let client = http;
+
+        if (url.toString().indexOf("https") === 0) {
+            client = https;
+        }
+
+        client.get(url, (resp: any) => {
+            let data = '';
+
+            // A chunk of data has been recieved.
+            resp.on('data', (chunk: any) => {
+                data += chunk;
+            });
+
+            // The whole response has been received. Print out the result.
+            resp.on('end', () => {
+                resolve(data);
+            });
+
+        }).on("error", (err: any) => {
+            reject(err);
+        });
+    });
+};
 
 interface IPackage {
     version: string;

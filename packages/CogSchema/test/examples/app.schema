@@ -34,7 +34,10 @@
         "Microsoft.LUISRecognizer": {
             "title": "LUIS Recognizer",
             "description": "LUIS recognizer.",
-            "$role": "unionType(Microsoft.IRecognizer)",
+            "$role": [
+                "unionType(Microsoft.IRecognizer)",
+                "unionType(Microsoft.IPrompt)"
+            ],
             "$comment": "Ensure namespaces work on local definitions.",
             "definitions": {
                 "local": {
@@ -145,12 +148,9 @@
                     "type": "string",
                     "pattern": "^((lg)|unionType|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
                 },
-                "$lg": {
-                    "properties": {
-                        "prompt": {
-                            "type": "string"
-                        }
-                    }
+                "prompt": {
+                    "$role": "lg",
+                    "type": "string"
                 }
             },
             "type": "object",

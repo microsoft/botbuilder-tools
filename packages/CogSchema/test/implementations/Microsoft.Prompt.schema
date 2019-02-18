@@ -4,12 +4,8 @@
     "description": "Example simple prompt.",
     "$role": "unionType(Microsoft.IPrompt)",
     "properties": {
-        "$lg": {
-            "properties": {
-                "prompt": {
-                    "type": "string"
-                }
-            }
+        "prompt": {
+            "$role": "lg",
         }
     }
 }
