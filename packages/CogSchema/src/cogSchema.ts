@@ -13,8 +13,9 @@ import * as process from 'process';
 import * as program from 'commander';
 import * as semver from 'semver';
 import * as Validator from 'ajv';
-let parser: any = require('json-schema-ref-parser');
 let allof: any = require('json-schema-merge-allof');
+let clone = require('clone');
+let parser: any = require('json-schema-ref-parser');
 
 // tslint:disable-next-line:no-let-requires no-require-imports
 const pkg: IPackage = require('../package.json');
@@ -237,7 +238,7 @@ function addStandardProperties(definitions: any, cogSchema: any): void {
         if (!isUnionType(definition)) {
             // Reorder properties to put $ first.
             let props: any = {
-                $type: cogSchema.definitions.type,
+                $type: clone(cogSchema.definitions.type),
                 $copy: cogSchema.definitions.copy,
                 $id: cogSchema.definitions.id,
                 $role: cogSchema.definitions.role
@@ -257,7 +258,7 @@ function addStandardProperties(definitions: any, cogSchema: any): void {
                 definition.anyOf = [
                     {
                         title: "Reference",
-                        required: ["$ref"]
+                        required: ["$copy"]
                     },
                     {
                         title: "Type",
@@ -309,7 +310,7 @@ async function getURL(url: string): Promise<any> {
                 data += chunk;
             });
 
-            // The whole response has been received. Print out the result.
+            // The whole response has been received. 
             resp.on('end', () => {
                 resolve(data);
             });

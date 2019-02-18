@@ -48,6 +48,7 @@
   "dependencies": {
     "ajv": "^6.9.1",
     "chalk": "^2.4.2",
+    "clone": "^2.1.2",
     "commander": "^2.19.0",
     "fs-extra": "^7.0.1",
     "globby": "^9.0.0",

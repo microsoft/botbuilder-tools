@@ -51,7 +51,7 @@
                     "description": "Schema definition for $type added by cogSchema.",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
-                    "const": "Microsoft.Topic"
+                    "const": "Microsoft.LUISRecognizer"
                 },
                 "$copy": {
                     "title": "$copy",
@@ -108,7 +108,7 @@
                 {
                     "title": "Reference",
                     "required": [
-                        "$ref"
+                        "$copy"
                     ]
                 },
                 {
@@ -129,7 +129,7 @@
                     "description": "Schema definition for $type added by cogSchema.",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
-                    "const": "Microsoft.Topic"
+                    "const": "Microsoft.Prompt"
                 },
                 "$copy": {
                     "title": "$copy",
@@ -175,7 +175,7 @@
                     "description": "Schema definition for $type added by cogSchema.",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
-                    "const": "Microsoft.Topic"
+                    "const": "Microsoft.RegexRecognizer"
                 },
                 "$copy": {
                     "title": "$copy",
@@ -216,7 +216,7 @@
                 {
                     "title": "Reference",
                     "required": [
-                        "$ref"
+                        "$copy"
                     ]
                 },
                 {
@@ -236,7 +236,7 @@
                     "description": "Schema definition for $type added by cogSchema.",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
-                    "const": "Microsoft.Topic"
+                    "const": "Microsoft.SimplePrompt"
                 },
                 "$copy": {
                     "title": "$copy",

@@ -1,6 +1,9 @@
 {
   "$schema": "./app.schema",
-  "$type":"Microsoft.LUISRecognizer",
-  "$ref":"soemfile"
-  "priority": ""
+  "$type":"Microsoft.Topic",
+  "recognizers": [
+    {
+      "$type":
+    }
+  ]
 }
