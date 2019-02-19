@@ -50,7 +50,7 @@
     "targz": "^1.0.1"
   },
   "dependencies": {
-    "botframework-config": "^4.0.0-preview1.3.5",
+    "botframework-config": "^4.2.1",
     "chalk": "2.4.1",
     "cli-table3": "^0.5.1",
     "command-exists": "^1.2.8",
