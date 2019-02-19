@@ -9,6 +9,7 @@ import { ERROR_CODE } from '../../models/error-codes';
  * was to be that of a file or a directory.
  *
  * @param isDirectory A boolean to indicate whether the path is a file or a directory.
+ * @returns Promise of true on resolve and an IValidatorErrorObject on rejection.
  */
 export const invalidPathValidatorFactory: IValidatorFactory = (isDirectory: boolean) => {
     return {
