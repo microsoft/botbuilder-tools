@@ -246,8 +246,7 @@ function addStandardProperties(definitions: any, cogSchema: any): void {
             let props: any = {
                 $type: clone(cogSchema.definitions.type),
                 $copy: cogSchema.definitions.copy,
-                $id: cogSchema.definitions.id,
-                $role: cogSchema.definitions.role
+                $id: cogSchema.definitions.id
             };
             props.$type.const = type;
             if (definition.properties) {

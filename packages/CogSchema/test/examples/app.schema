@@ -65,12 +65,6 @@
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
                 },
-                "$role": {
-                    "title": "$role",
-                    "description": "Schema definition for root $role added by cogSchema.",
-                    "type": "string",
-                    "pattern": "^((lg)|(unionType)|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
-                },
                 "application": {
                     "type": "object",
                     "required": [
@@ -143,12 +137,6 @@
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
                 },
-                "$role": {
-                    "title": "$role",
-                    "description": "Schema definition for root $role added by cogSchema.",
-                    "type": "string",
-                    "pattern": "^((lg)|(unionType)|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
-                },
                 "prompt": {
                     "$role": "lg",
                     "type": "string"
@@ -188,12 +176,6 @@
                     "description": "Schema definition for $id added by cogSchema.",
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
-                },
-                "$role": {
-                    "title": "$role",
-                    "description": "Schema definition for root $role added by cogSchema.",
-                    "type": "string",
-                    "pattern": "^((lg)|(unionType)|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
                 },
                 "$comment": {
                     "text": "Test explicit override"
@@ -250,12 +232,6 @@
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
                 },
-                "$role": {
-                    "title": "$role",
-                    "description": "Schema definition for root $role added by cogSchema.",
-                    "type": "string",
-                    "pattern": "^((lg)|(unionType)|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
-                },
                 "prompt": {
                     "type": "string",
                     "$role": "lg"
@@ -301,12 +277,6 @@
                     "description": "Schema definition for $id added by cogSchema.",
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
-                },
-                "$role": {
-                    "title": "$role",
-                    "description": "Schema definition for root $role added by cogSchema.",
-                    "type": "string",
-                    "pattern": "^((lg)|(unionType)|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
                 },
                 "primary": {
                     "$type": "Microsoft.IRecognizer",
