@@ -60,18 +60,22 @@ async function mergeSchemas() {
             console.log(chalk.default.grey(`Parsing ${path}`));
             try {
                 var schema = allof(await parser.dereference(path));
-                delete schema.$schema;
-                if (!validator.validate('cogSchema', schema)) {
-                    for (let error of <Validator.ErrorObject[]>validator.errors) {
-                        schemaError(error);
+                if (schema.$id) {
+                    console.log(chalk.default.yellowBright(`  Skipping because of top-level $id:${schema.$id}.`));
+                } else {
+                    delete schema.$schema;
+                    if (!validator.validate('cogSchema', schema)) {
+                        for (let error of <Validator.ErrorObject[]>validator.errors) {
+                            schemaError(error);
+                        }
                     }
+                    var filename = <string>path.split(/[\\\/]/).pop();
+                    var type = filename.substr(0, filename.lastIndexOf("."));
+                    if (!schema.type && !isUnionType(schema)) {
+                        schema.type = "object";
+                    }
+                    definitions[type] = schema;
                 }
-                var filename = <string>path.split(/[\\\/]/).pop();
-                var type = filename.substr(0, filename.lastIndexOf("."));
-                if (!schema.type && !isUnionType(schema)) {
-                    schema.type = "object";
-                }
-                definitions[type] = schema;
             } catch (e) {
                 thrownError(e);
             }
@@ -173,8 +177,10 @@ function processRole(role: string, elt: any, type: string, definitions: any, key
         }
     } else if (role.startsWith(prefix) && role.endsWith(")")) {
         let unionType = role.substring(prefix.length, role.length - 1);
-        if (!definitions[unionType] || !isUnionType(definitions[unionType])) {
-            errorMsg(type, `is missing $role of unionType.`);
+        if (!definitions[unionType]) {
+            errorMsg(type, `union type ${unionType} is not defined.`);
+        } else if (!isUnionType(definitions[unionType])) {
+            errorMsg(unionType, `is missing $role of unionType.`);
         } else {
             let definition = definitions[type];
             let unionDefinition = definitions[unionType];
@@ -187,7 +193,7 @@ function processRole(role: string, elt: any, type: string, definitions: any, key
                 $ref: `#/definitions/${type}`
             });
         }
-    } 
+    }
 }
 
 function addTypeTitles(definitions: any): void {
@@ -335,12 +341,12 @@ function missing(type: string): void {
 }
 
 function schemaError(error: Validator.ErrorObject): void {
-    console.log(chalk.default.redBright(`${error.dataPath} ${error.message}`));
+    console.log(chalk.default.redBright(`  ${error.dataPath} ${error.message}`));
     failed = true;
 }
 
 function thrownError(error: Error): void {
-    console.log(chalk.default.redBright(error.message || ""));
+    console.log(chalk.default.redBright("  " + error.message));
     failed = true;
 }
 

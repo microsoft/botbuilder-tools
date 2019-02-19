@@ -9,12 +9,15 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}\\lib\\cogSchema.js",
-            "args": 
-                // ["TextPrompt.schema", "-o", "c:/tmp/tom.schema"],
-                ["implementations/*.schema", "definitions/*.schema", "-o", "examples/app.schema"],
-            "cwd":
-            //  "C:/Users/chrimc/Source/repos/botbuilder-dotnet/tests/Microsoft.Bot.Builder.TestBot.Json/Schemas/components/dialogs",
-            "${workspaceFolder}/test",
+            "args":
+            // ["TextPrompt.schema", "-o", "c:/tmp/tom.schema"],
+            [
+                "implementations/*.schema",
+                "definitions/*.schema",
+                "-o",
+                "examples/app.schema"
+            ],
+            "cwd": "${workspaceFolder}/test",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"
@@ -25,9 +28,28 @@
             "request": "launch",
             "name": "Launch Tom",
             "program": "${workspaceFolder}\\lib\\cogSchema.js",
-            "args": 
-                ["components/**/*.schema", "-o", "app.schema"],
-            "cwd": "C:/Users/chrimc/Source/repos/botbuilder-dotnet/tests/Microsoft.Bot.Builder.TestBot.Json/Schemas",
+            "args": [
+                "components/**/*.schema",
+                "-o",
+                "app.schema"
+            ],
+            "cwd": "${workspaceFolder}/../../../botbuilder-dotnet/tests/Microsoft.Bot.Builder.TestBot.Json/Schemas",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/lib/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch OBI",
+            "program": "${workspaceFolder}\\lib\\cogSchema.js",
+            "args": [
+                "**/*.schema",
+                "-o",
+                "app.schema"
+            ],
+            "cwd": "${workspaceFolder}/../../../botframework-obi/schema/examples",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"
