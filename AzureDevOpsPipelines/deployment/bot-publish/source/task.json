@@ -1,0 +1,72 @@
+{
+	"id": "{GUID}",
+    "name": "publish-azure-bot",
+    "friendlyName": "Publish Azure Bot",
+    "description": "This task publish .bot files to Azure.",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "{taskauthor}",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Bot Pulish $(name)",
+    "inputs": [
+        {
+            "name": "connectedServiceNameARM",
+            "aliases": [
+                "azureSubscription"
+            ],
+            "type": "connectedService:AzureRM",
+            "label": "Azure subscription",
+            "required": true,
+            "helpMarkDown": "Select an Azure resource manager subscription for the deployment"
+        },
+        {
+            "name": "resource-group",
+            "type": "text",
+            "label": "Resource Group",
+            "required": true,
+            "helpMarkDown": ""
+        },
+        {
+            "name": "proj-name",
+            "type": "text",
+            "label": "Project File Name",
+            "required": true,
+            "helpMarkDown": ""
+        },
+        {
+            "name": "code-dir",
+            "type": "filepath",
+            "label": "Root Folder",
+            "required": true,
+            "helpMarkDown": ""
+        },
+        {
+            "name": "name",
+            "type": "text",
+            "label": "Name of the Bot",
+            "required": true,
+            "helpMarkDown": ""
+        },
+        {
+            "name": "version",
+            "type": "picklist",
+            "label": "Version of the Bot",
+            "required": true,
+            "defaultValue": "v4",
+            "helpMarkDown": "",
+            "options": {
+                "v3": "v3",
+                "v4": "v4"
+            }
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "index.js"
+        }
+    }
+}

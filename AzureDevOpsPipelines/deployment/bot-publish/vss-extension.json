@@ -1,0 +1,36 @@
+{
+    "manifestVersion": 1,
+    "id": "publish-azure-bot",
+    "name": "publish-azure-bot",
+    "version": "0.0.1",
+    "publisher": "{publisher}",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "This task publish .bot files to Azure.",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "icons": {
+        "default": "images/extension-icon.png"        
+    },
+    "files": [
+        {
+            "path": "source"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "custom-build-release-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "source"
+            }
+        }
+    ]
+}
