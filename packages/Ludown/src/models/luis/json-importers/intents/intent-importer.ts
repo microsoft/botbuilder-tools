@@ -6,6 +6,6 @@ import { IIntent } from '../../../../interfaces/luis/intents/IIntent';
  *
  * @param state The LUIS JSON object.
  */
-export const intentImporter: (state: { intents: any[] }) => IIntent[] = state => {
+export const intentImporter: (state) => IIntent[] = state => {
     return state.intents.map(i => ({ name: i.name }));
 };
