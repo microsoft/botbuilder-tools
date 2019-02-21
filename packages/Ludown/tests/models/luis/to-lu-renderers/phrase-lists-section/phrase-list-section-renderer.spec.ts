@@ -1,5 +1,5 @@
 import { markdownWriter } from '../../../../../src/helpers/markdown-writer';
-import { phraseListSectionRenderer } from '../../../../../src/models/luis/to-lu-renderers/phrase-lists-section/phrase-list-section-renderer';
+import { phraseListSectionRenderer } from '../../../../../src/models/luis/to-lu-renderers/phrase-lists-section/phrase-lists-section-renderer';
 
 describe('Phrase list section renderer', () => {
     const runTestCase = (sampleApp) => {
