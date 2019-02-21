@@ -73,7 +73,7 @@ async function doIndexing() {
             logger(MsgKind.warning, `Unused id ${def}`);
         }
 
-        for (let [type, definitions] of tracker.typeTo) {
+        for (let [type, definitions] of tracker.typeToDef) {
             logger(MsgKind.msg, `Instances of ${type}`);
             for (let def of definitions) {
                 logger(MsgKind.msg, `  ${def.locatorString()}`);

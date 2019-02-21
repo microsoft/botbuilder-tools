@@ -3,10 +3,18 @@
     "$role": "unionType(IRecognizer)",
     "properties": {
         "req": {
-            "type": "string"
+            "type": "string",
+            "$role": "lg"
         },
         "opt": {
             "type": "string"
+        },
+        "complex": {
+            "properties": {
+                "inside": {
+                    "$role":"lg"
+                }
+            }
         }
     },
     "required": [

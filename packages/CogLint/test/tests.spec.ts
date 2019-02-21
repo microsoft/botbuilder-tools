@@ -20,7 +20,9 @@ describe('Test .cog indexing library', async () => {
 
     it('multiple', () => expect(size(tracker.multipleDefinitions())).equal(1));
 
-    it('clone', () => {
+    it(`types`, () => expect(tracker.typeToType.size).equal(4));
+
+    it('clone', async () => {
         let foo = tracker.cloneCog("foo");
         expect(foo, "Can't find cog").to.equal(undefined);
         let original = tracker.findCog("root");
@@ -30,7 +32,7 @@ describe('Test .cog indexing library', async () => {
             let len = original.body.recognizers.length;
             copy.body.recognizers.pop();
             expect(len === copy.body.recognizers.length + 1).is.true;
-            tracker.updateCog(copy);
+            await tracker.updateCog(copy);
             let newCog = tracker.findCog("root");
             if (newCog) {
                 expect(copy, "Update should be object").is.equal(newCog);
@@ -82,10 +84,10 @@ function verify(tracker: ct.CogTracker) {
 
 function checkDef(def: ct.Definition, tracker: ct.CogTracker): void {
     if (def.id) {
-        expect(findDefinition(tracker.idTo.get(def.id), def), `${def} in idTo`).is.true;
+        expect(findDefinition(tracker.idToDef.get(def.id), def), `${def} in idTo`).is.true;
     }
     if (def.type) {
-        expect(findDefinition(tracker.typeTo.get(def.type), def), `${def} in idType`).is.true;
+        expect(findDefinition(tracker.typeToDef.get(def.type.name), def), `${def} in idType`).is.true;
     } else {
         expect(findDefinition(tracker.missingTypes, def), `${def} in missingTypes`).is.true;
     }

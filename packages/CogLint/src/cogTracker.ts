@@ -45,10 +45,58 @@ export class Cog {
     }
 }
 
+/** Information about a type. */
+export class Type {
+    /** Name of the type. */
+    name: string;
+
+    /** Paths to lg properties for concrete types. */
+    lgProperties: string[];
+
+    /** Possible types for a union type. */
+    implementations: Type[];
+
+    /** Union types this type is part of. */
+    unionTypes: Type[];
+
+    constructor(name: string, schema?: any) {
+        this.name = name;
+        this.lgProperties = [];
+        this.implementations = [];
+        this.unionTypes = [];
+        if (schema) {
+            this.walkProps(schema, name);
+        }
+    }
+
+    addImplementation(type:Type) {
+        this.implementations.push(type);
+        type.unionTypes.push(this);
+    }
+
+    toString(): string {
+        return this.name;
+    }
+
+    private walkProps(val: any, path: string) {
+        if (val.properties) {
+            for (let propName in val.properties) {
+                let prop = val.properties[propName];
+                let newPath = `${path}/${propName}`;
+                if (prop.$role === "lg") {
+                    this.lgProperties.push(newPath);
+                } else if (prop.properties) {
+                    this.walkProps(prop, newPath);
+                }
+            }
+        }
+    }
+}
+
 /** Definition of a Bot Framework component. */
 export class Definition {
-    /** $type of the copmonent or undefined. */
-    type?: string;
+    /** $type definition of the copmonent or undefined. */
+    type?: Type;
 
     /** Cog that contains definition. */
     cog?: Cog;
@@ -62,18 +110,23 @@ export class Definition {
     /** Where this definition is being used. */
     usedBy: Definition[];
 
+    /** ID of definition being copied from. */
+    copy?: string;
+
     /**
     * Construct a component definition.
     * @param type The $type of the component.
     * @param id The $id of the component if present.
     * @param cog The cog that contains the definition. (undefined for forward reference.)
     * @param path The path within the file to the component.
+    * @param copy The id of the copied definition.
     */
-    constructor(type?: string, id?: string, cog?: Cog, path?: string) {
+    constructor(type?: Type, id?: string, cog?: Cog, path?: string, copy?: string) {
         this.type = type;
         this.id = id;
         this.cog = cog;
         this.path = path;
+        this.copy = copy;
         this.usedBy = [];
     }
 
@@ -101,7 +154,7 @@ export class Definition {
                 if (this.type === definition.type) {
                     result = 0;
                 } else {
-                    result = this.type.localeCompare(definition.type);
+                    result = this.type.name.localeCompare(definition.type.name);
                 }
             } else {
                 result = this.id.localeCompare(definition.id);
@@ -147,6 +200,33 @@ export class Definition {
     }
 }
 
+// For LG
+// 1) Need to crawl LG files to pick up template definitions.  (Do hierarchy.)
+// 2) Need to track LG property names and copy chains in cog files.
+// 3) Need to compile the resulting into composite .lg files per language.
+// What about writing?
+// 1) Write to associated definitions
+// 2) Need to know what templates can be used.
+// NOTE: Schema path to string <type>.<path with [] for array> or inore it... or not allow []
+// Root propertyname is defined by type, i.e. MyPromptType.Prompt.
+// In a cog of that type, it would be, MyPrompt.Prompt -> MyPromptType.Prompt
+// In a cog that copies, it would be, MyCopyPrompt.Prompt -> MyPrompt.Prompt -> MyPromptType.Prompt
+// In an id in a cog that copied it would be, MyParent#MyID.Prompt -> MyCopyPrompt.Prompt -> MyPrompt.Prompt -> MyPromptType.Prompt
+// Fallback is copy chain.
+// Type -> List of property names, i.e. Prompt, Stuff[].Prompt, etc.
+// 
+/*
+class LG {
+    path: string;
+    fallback: string[];
+
+    constructor(path: string, fallback: string[]) {
+        this.path = path;
+        this.fallback = fallback;
+    }
+}
+*/
+
 /** Tracks cogs and the definitions they contain. */
 export class CogTracker {
     /** Paths will be relative to root directory. */
@@ -157,10 +237,13 @@ export class CogTracker {
      * If there are more than one, then it is multiply defined.
      * If any of them are missing cog, then there is a $copy, but no definition.
      */
-    idTo: Map<string, Definition[]>;
+    idToDef: Map<string, Definition[]>;
 
     /** Map from a type to all instances of that type. */
-    typeTo: Map<string, Definition[]>;
+    typeToDef: Map<string, Definition[]>;
+
+    /** Map from type name to information about that type. */
+    typeToType: Map<string, Type>;
 
     /** Definitions that are missing a $type. */
     missingTypes: Definition[];
@@ -172,8 +255,9 @@ export class CogTracker {
 
     constructor(root?: string) {
         this.root = root || process.cwd();
-        this.idTo = new Map<string, Definition[]>();
-        this.typeTo = new Map<string, Definition[]>();
+        this.idToDef = new Map<string, Definition[]>();
+        this.typeToDef = new Map<string, Definition[]>();
+        this.typeToType = new Map<string, Type>();
         this.missingTypes = [];
         this.cogs = [];
         this.validator = new ajv();
@@ -184,23 +268,8 @@ export class CogTracker {
         try {
             const schemaFile = cog.body.$schema;
             if (schemaFile) {
-                let validator = this.validator.getSchema(schemaFile);
-                if (!validator) {
-                    let schemaPath = path.join(path.dirname(cog.file), schemaFile);
-                    let schemaObject = await fs.readJSON(schemaPath);
-                    let metaSchemaName = schemaObject.$schema;
-                    let metaSchemaCache = path.join(__dirname, path.basename(metaSchemaName));
-                    let metaSchema: any;
-                    if (!await fs.pathExists(metaSchemaCache)) {
-                        metaSchema = JSON.parse(await this.getURL(metaSchemaName));
-                        await fs.writeJSON(metaSchemaCache, metaSchema, { spaces: 4 });
-                    } else {
-                        metaSchema = await fs.readJSON(metaSchemaCache);
-                    }
-                    this.validator.addSchema(metaSchema, metaSchemaName);
-                    this.validator.addSchema(schemaObject, schemaFile);
-                    validator = this.validator.getSchema(schemaFile);
-                }
+                let schemaPath = path.join(path.dirname(cog.file), schemaFile);
+                let validator = await this.getValidator(schemaPath);
                 let validation = validator(cog.body, cog.file);
                 if (!validation && validator.errors) {
                     for (let err of validator.errors) {
@@ -217,22 +286,23 @@ export class CogTracker {
             if (cog.body.$id) {
                 cog.errors.push(new Error(`Cog cannot have $id at the root because it is defined by the filename.`))
             }
-            // Expand $id to include root type
-            this.walkJSON(cog.body, "", (elt) => {
+            // Expand $id to include root cog
+            walkJSON(cog.body, "", (elt) => {
                 if (elt.$id) {
                     elt.$id = cog.id() + "#" + elt.$id;
                 }
                 return false;
             });
             cog.body.$id = cog.id();
-            this.walkJSON(cog.body, "", (elt, path) => {
+            walkJSON(cog.body, "", (elt, path) => {
                 if (elt.$type) {
-                    this.addDefinition(new Definition(elt.$type, elt.$id, cog, path));
+                    let def = new Definition(this.typeToType.get(elt.$type), elt.$id, cog, path, elt.$copy);
+                    this.addDefinition(def);
+                    if (elt.$copy) {
+                        this.addReference(elt.$copy, def);
+                    }
                 } else if (elt.$id || elt.$copy) { // Missing type
-                    this.addDefinition(new Definition(undefined, elt.$id, cog, path));
-                }
-                if (elt.$copy) {
-                    this.addReference(elt.$copy, new Definition(elt.$type, elt.$id, cog, path));
+                    this.addDefinition(new Definition(undefined, elt.$id, cog, path, elt.$copy));
                 }
                 return false;
             });
@@ -292,7 +362,7 @@ export class CogTracker {
     }
 
     /** Find the cog corresponding to a file path. */
-    findCogFile(file:string): undefined | Cog {
+    findCogFile(file: string): undefined | Cog {
         return this.findCog(path.basename(file, ".cog"));
     }
 
@@ -332,7 +402,7 @@ export class CogTracker {
 
     /** All definitions. */
     * allDefinitions(): Iterable<Definition> {
-        for (let defs of this.typeTo.values()) {
+        for (let defs of this.typeToDef.values()) {
             for (let def of defs) {
                 yield def;
             }
@@ -344,7 +414,7 @@ export class CogTracker {
 
     /** Definitions that try to define the same $id. */
     * multipleDefinitions(): Iterable<Definition[]> {
-        for (let def of this.idTo.values()) {
+        for (let def of this.idToDef.values()) {
             if (def.length > 1) {
                 let type = def[0].type;
                 if (!def.find((d) => d.type != type)) {
@@ -356,7 +426,7 @@ export class CogTracker {
 
     /** Definitions that are referred to through $copy, but are not defined. */
     * missingDefinitions(): Iterable<Definition> {
-        for (let defs of this.idTo.values()) {
+        for (let defs of this.idToDef.values()) {
             for (let def of defs) {
                 if (!def.cog) {
                     yield def;
@@ -367,7 +437,7 @@ export class CogTracker {
 
     /** Definitions with ids that are unused. */
     * unusedIDs(): Iterable<Definition> {
-        for (let defs of this.idTo.values()) {
+        for (let defs of this.idToDef.values()) {
             for (let def of defs) {
                 if (def.usedBy.length == 0) {
                     yield def;
@@ -376,19 +446,81 @@ export class CogTracker {
         }
     }
 
+    private async getValidator(schemaPath: string): Promise<ajv.ValidateFunction> {
+        let validator = this.validator.getSchema(schemaPath);
+        if (!validator) {
+            let schemaObject = await fs.readJSON(schemaPath);
+            if (schemaObject.oneOf) {
+                const defRef = "#/definitions/";
+                const unionRole = "unionType(";
+                let processRole = (role: string, type: Type) => {
+                    if (role.startsWith(unionRole)) {
+                        role = role.substring(unionRole.length, role.length - 1);
+                        let unionType = this.typeToType.get(role);
+                        if (!unionType) {
+                            unionType = new Type(role);
+                            this.typeToType.set(role, unionType);
+                        }
+                        unionType.addImplementation(type);
+                    }
+                };
+                for (let one of schemaObject.oneOf) {
+                    let ref = one.$ref;
+                    // NOTE: Assuming schema file format is from cogSchema or we will ignore.
+                    // Assumption is that a given type name is the same across different schemas.
+                    // All .cog in one app should use the same app.schema, but if you are using 
+                    // a .cog from another app then it will use its own schema which if it follows the rules
+                    // should have globally unique type names.
+                    if (ref.startsWith(defRef)) {
+                        ref = ref.substring(defRef.length);
+                        if (!this.typeToType.get(ref)) {
+                            let def = schemaObject.definitions[ref];
+                            if (def) {
+                                let type = new Type(ref, def);
+                                this.typeToType.set(ref, type);
+                                if (def.$role) {
+                                    if (typeof def.$role === "string") {
+                                        processRole(def.$role, type);
+                                    } else {
+                                        for (let role of def.$role) {
+                                            processRole(role, type);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            let metaSchemaName = schemaObject.$schema;
+            let metaSchemaCache = path.join(__dirname, path.basename(metaSchemaName));
+            let metaSchema: any;
+            if (!await fs.pathExists(metaSchemaCache)) {
+                metaSchema = JSON.parse(await this.getURL(metaSchemaName));
+                await fs.writeJSON(metaSchemaCache, metaSchema, { spaces: 4 });
+            } else {
+                metaSchema = await fs.readJSON(metaSchemaCache);
+            }
+            this.validator.addSchema(metaSchema, metaSchemaName);
+            this.validator.addSchema(schemaObject, schemaPath);
+            validator = this.validator.getSchema(schemaPath);
+        }
+        return validator;
+    }
+
     /** Add a new definition to the tracker.
      * The definition might be a forward reference.
     */
     private addDefinition(definition: Definition) {
-        if (definition.type && !this.typeTo.has(definition.type)) {
-            this.typeTo.set(definition.type, []);
+        if (definition.type && !this.typeToDef.has(definition.type.name)) {
+            this.typeToDef.set(definition.type.name, []);
         }
         if (definition.id) {
             let add = true;
-            if (this.idTo.has(definition.id)) {
+            if (this.idToDef.has(definition.id)) {
                 // Reference already existed, check for consistency
                 // Merge if possible, otherwise add
-                for (let old of <Definition[]>this.idTo.get(definition.id)) {
+                for (let old of <Definition[]>this.idToDef.get(definition.id)) {
                     if (!old.cog && !old.path && old.type === definition.type) {
                         add = false;
                         old.cog = definition.cog;
@@ -397,19 +529,19 @@ export class CogTracker {
                     }
                 }
             } else {
-                this.idTo.set(definition.id, []);
+                this.idToDef.set(definition.id, []);
             }
             if (add) {
-                (<Definition[]>this.idTo.get(definition.id)).push(definition);
+                (<Definition[]>this.idToDef.get(definition.id)).push(definition);
                 if (definition.type) {
-                    (<Definition[]>this.typeTo.get(definition.type)).push(definition);
+                    (<Definition[]>this.typeToDef.get(definition.type.name)).push(definition);
                 } else {
                     this.missingTypes.push(definition);
                 }
             }
         } else {
             if (definition.type) {
-                (<Definition[]>this.typeTo.get(definition.type)).push(definition);
+                (<Definition[]>this.typeToDef.get(definition.type.name)).push(definition);
             } else {
                 this.missingTypes.push(definition);
             }
@@ -423,13 +555,14 @@ export class CogTracker {
      */
     private addReference(ref: string, source: Definition): void {
         let fullRef = this.expandRef(ref, <Cog>source.cog);
-        if (!this.idTo.has(fullRef)) {
+        if (!this.idToDef.has(fullRef)) {
             // ID does not exist so add place holder
             let definition = new Definition(source.type, fullRef);
             this.addDefinition(definition);
-            this.idTo.set(fullRef, [definition]);
+            this.idToDef.set(fullRef, [definition]);
         }
-        for (let idDef of (<Definition[]>this.idTo.get(fullRef))) {
+        let copyDef = (<Definition[]>this.idToDef.get(fullRef));
+        for (let idDef of copyDef) {
             idDef.usedBy.push(source);
         }
     }
@@ -437,24 +570,24 @@ export class CogTracker {
     /** Remove definition from tracker. */
     private removeDefinition(definition: Definition): boolean {
         let found = false;
-        if (definition.id && this.idTo.has(definition.id)) {
+        if (definition.id && this.idToDef.has(definition.id)) {
             // Remove from ids
-            const defs = <Definition[]>this.idTo.get(definition.id);
+            const defs = <Definition[]>this.idToDef.get(definition.id);
             const newDefs = defs.filter((d) => d.compare(definition) != 0);
             if (newDefs.length == 0) {
-                this.idTo.delete(definition.id);
+                this.idToDef.delete(definition.id);
             } else {
-                this.idTo.set(definition.id, newDefs);
+                this.idToDef.set(definition.id, newDefs);
             }
             found = newDefs.length != defs.length;
         }
-        if (definition.type && this.typeTo.has(definition.type)) {
-            const defs = <Definition[]>this.typeTo.get(definition.type);
+        if (definition.type && this.typeToDef.has(definition.type.name)) {
+            const defs = <Definition[]>this.typeToDef.get(definition.type.name);
             const newDefs = defs.filter((d) => d.compare(definition) != 0);
             if (newDefs.length == 0) {
-                this.typeTo.delete(definition.type);
+                this.typeToDef.delete(definition.type.name);
             } else {
-                this.typeTo.set(definition.type, newDefs);
+                this.typeToDef.set(definition.type.name, newDefs);
             }
             found = found || newDefs.length != defs.length;
         } else {
@@ -468,26 +601,6 @@ export class CogTracker {
             def.usedBy = def.usedBy.filter((d) => d.compare(definition) != 0);
         }
         return found;
-    }
-
-    private walkJSON(json: any, path: string, fun: (val: any, path: string) => boolean): boolean {
-        let done = fun(json, path);
-        if (!done) {
-            if (Array.isArray(json)) {
-                let i = 0;
-                for (let val of json) {
-                    done = this.walkJSON(val, `${path}[${i}]`, fun);
-                    if (done) break;
-                    ++i;
-                }
-            } else if (typeof json === 'object') {
-                for (let val in json) {
-                    done = this.walkJSON(json[val], `${path}/${val}`, fun);
-                    if (done) break;
-                }
-            }
-        }
-        return done;
     }
 
     private expandRef(ref: string, cog: Cog): string {
@@ -523,6 +636,25 @@ export class CogTracker {
             });
         });
     };
+}
 
+function walkJSON(json: any, path: string, fun: (val: any, path: string) => boolean): boolean {
+    let done = fun(json, path);
+    if (!done) {
+        if (Array.isArray(json)) {
+            let i = 0;
+            for (let val of json) {
+                done = walkJSON(val, `${path}[${i}]`, fun);
+                if (done) break;
+                ++i;
+            }
+        } else if (typeof json === 'object') {
+            for (let val in json) {
+                done = walkJSON(json[val], `${path}/${val}`, fun);
+                if (done) break;
+            }
+        }
+    }
+    return done;
 }
 
