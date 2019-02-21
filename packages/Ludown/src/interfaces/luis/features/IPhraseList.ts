@@ -6,4 +6,6 @@ export interface IPhraseList {
     name: string;
 
     values: string;
+
+    interchangeable: boolean;
 }
