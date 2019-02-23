@@ -16,12 +16,26 @@ export const printInfo = (message: string, color?: string) => {
 
 /**
  * @description
+ * Writes the message given to the standard output in yellow color.
+ *
+ * @param message The message to write.
+ */
+export const printWarn = (message: string) => {
+    if (configs.verbose) {
+        process.stdout.write(chalk.yellow(`${message}\n`));
+    }
+};
+
+/**
+ * @description
  * Writes the message given to the standard output in green color.
  *
  * @param message The message to write.
  */
 export const printSuccess = (message: string) => {
-    process.stdout.write(chalk.greenBright(`${message}\n`));
+    if (configs.verbose) {
+        process.stdout.write(chalk.greenBright(`${message}\n`));
+    }
 };
 
 /**

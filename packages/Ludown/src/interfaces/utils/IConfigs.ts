@@ -5,4 +5,6 @@
  */
 export interface IConfigs {
     debug: boolean;
+
+    verbose: boolean;
 }
