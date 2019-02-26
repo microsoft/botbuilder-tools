@@ -80,7 +80,10 @@ const helpers = {
             default:
             throw (new exception(retCode.errorCode.INVALID_LU_FILE_REF, `[ERROR]: Invalid LU File Ref: "${utterance}".\n Unsupported syntax. Not expecting ${splitReference[2]}`));
         }
-        
+        if (reference === "" && splitReference.length >= 7 && splitReference[7].toLowerCase() === 'utterances') reference = splitReference[7].toLowerCase();
+        if (reference === "" && splitReference.length >= 7 && splitReference[7].toLowerCase() === 'patterns') reference = splitReference[7].toLowerCase();
+        if (reference === "" && splitReference.length >= 7 && splitReference[7].toLowerCase() === 'utterancesandpatterns') reference = splitReference[7].toLowerCase();
+
         return {
             luFile: luFileInRef,
             ref: reference
@@ -191,6 +194,11 @@ const helpers = {
                         } else {
                             throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR] Invalid list entity definition for ' + currentLine + '\n List entities follow $<entityName>:<normalizedValue>= notation'));
                         }
+                    } else if (entityType.startsWith('/') && entityType.endsWith('/')) {
+                        // this is a regex entity.
+                        sectionsInFile.push(currentLine);
+                        middleOfSection = false;
+                        currentSection = null;
                     } else {
                         throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR] Invalid entity definition for ' + currentLine));
                     }

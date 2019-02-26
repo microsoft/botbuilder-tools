@@ -6,13 +6,13 @@ using System.IO;
 
 namespace LUISGen
 {
-    class Program
+    public class Program
     {
         static void Usage()
         {
-            Console.Error.WriteLine("LUISGen <LUIS.json> [-cs [CLASS]] [-ts [INTERFACE]] [-o PATH] [-v] [--version]");
+            Console.Error.WriteLine("LUISGen <LUIS.json> [--stdin] [-cs [CLASS]] [-ts [INTERFACE]] [-o PATH] [-v] [--version]");
             Console.Error.WriteLine("From a LUIS export file generate a strongly typed class for consuming intents and entities.");
-            Console.Error.WriteLine("If the input is -, will get the export file from stdin.");
+            Console.Error.WriteLine("[--stdin], optionally get the export file from stdin instead of providing JSON file path");
             Console.Error.WriteLine("At least one of -cs or -ts must be supplied.");
             Console.Error.WriteLine("-cs [CLASS] : Generate C# class file including namespace.  Default is Luis.<appName> if no class name is specified.");
             Console.Error.WriteLine("-ts [INTERFACE] : Generate Typescript interface descriptions.  Default is <appName> if no class name is specified.");
@@ -59,7 +59,7 @@ namespace LUISGen
             return arg?.Trim();
         }
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             string path = null;
             string outPath = null;
@@ -97,6 +97,11 @@ namespace LUISGen
                                     outType = arg.Substring(1);
                                 }
                                 break;
+                            case "--stdin":
+                                {
+                                    path = "--stdin";
+                                    break;
+                                }
                             case "-o":
                                 {
                                     ++i;
@@ -126,14 +131,14 @@ namespace LUISGen
             {
                 Usage();
             }
-            outPath = outPath ?? (path == "-" ? "." : Path.GetDirectoryName(path));
+            outPath = outPath ?? (path == "--stdin" ? "." : Path.GetDirectoryName(path));
 
-            if (path == "-")
+            if (path == "--stdin")
             {
                 Console.Error.WriteLine("Reading from stdin until EOF (Ctrl-Z).");
             }
             dynamic app;
-            using (var inFile = path == "-" ? Console.In : new StreamReader(path))
+            using (var inFile = path == "--stdin" ? Console.In : new StreamReader(path))
             {
                 app = JsonConvert.DeserializeObject(inFile.ReadToEnd());
             }

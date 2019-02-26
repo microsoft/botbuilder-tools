@@ -5,7 +5,7 @@ It is useful for tools like the emulator to have secure access to keys it needs 
 MSBot commands like add \<service\> and others that accepts the `--secret` option has data which needs to be encrypted with the secret. 
 This allows you to check in a .bot file into a public repo safely and only need the secret to unlock all of the keys your bot uses.
 
-**WARNING::**
+**WARNING**
 - There are no retrieval mechanisms in place for retrieving a lost secret key. You should use best practices (e.g. secure your keys in [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/)) to secure your secret.  **It is strongly encouraged that you DO NOT check it into your source control and instead rely on technologies such as [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) to securely store it.**
 - You should make sure that you use the same secret when adding all services.
 
@@ -33,7 +33,7 @@ To encrypt an decrypted bot file, use
 msbot secret --new
 ```
 
-**NOTE::** This command will generate a new encryption key and output it to the console window. Please store this key securely.
+**NOTE** This command will generate a new encryption key and output it to the console window. Please store this key securely.
 
 Example:
 ```bash

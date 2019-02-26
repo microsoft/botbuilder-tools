@@ -593,7 +593,7 @@
         ],
         "description": "Updates the name or description of the application version.",
         "name": "Update",
-        "entityName": "ApplicationUpdateObject",
+        "entityName": "applicationUpdateObject",
         "entityType": "ApplicationUpdateObject"
     },
     {
@@ -662,7 +662,9 @@
             }
         ],
         "description": "Creates a new version using the current snapshot of the selected application version.",
-        "name": "Clone"
+        "name": "Clone",
+        "entityName": "versionCloneObject",
+        "entityType": "TaskUpdateObject"
     },
     {
         "method": "get",
@@ -3953,7 +3955,7 @@
     },
     {
         "method": "get",
-        "methodAlias": "list",
+        "methodAlias": "get",
         "target": [
             "explicitListItems",
             "explicitlistitems"

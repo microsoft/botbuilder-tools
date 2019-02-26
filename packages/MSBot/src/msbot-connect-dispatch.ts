@@ -119,7 +119,7 @@ async function processConnectDispatch(config: BotConfiguration): Promise<BotConf
         }
     }
 
-    const newService = new DispatchService({
+    const newService = new DispatchService(<any>{
         name: args.name,
         appId: args.appId,
         authoringKey: args.authoringKey,
@@ -145,6 +145,4 @@ function showErrorHelp(): void {
     process.exit(1);
 }
 
-interface ITempDispatchService extends IDispatchService {
-    [key: string]: string | string[] | undefined | boolean | IConnectedService[];
-}
+

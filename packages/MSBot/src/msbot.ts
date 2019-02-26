@@ -54,6 +54,9 @@ program
 program
     .command('export', 'export all connected services so that this bot can be cloned');
 
+    program
+    .command('create', 'create an Azure Bot Service. ');
+
 program
     .command('clone', 'create a new Azure Group and clone all of the .recipe services into it. ');
 
@@ -67,7 +70,7 @@ program
     .command('update <service>', 'update a service record (Luis/Qna/Azure/...) used by the bot');
 
 (async () => {
-    const latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
+    const latest = await latestVersion(pkg.name, { version: `^${pkg.version}` })
         .catch(() => pkg.version);
     if (semver.gt(latest, pkg.version)) {
         process.stderr.write(chalk.default.white(`\n     Update available `));

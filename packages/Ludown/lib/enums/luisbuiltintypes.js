@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 module.exports = {
-    consolidatedList : [
+    consolidatedList: [
         "datetimeV2",
         "age",
         "dimension",
@@ -16,108 +16,88 @@ module.exports = {
         "temperature",
         "url",
         "datetime",
-        "keyPhrase"
+        "keyPhrase",
+        "geographyV2",
+        "personName"
     ],
     perLocaleAvailability: {
         "de-de": {
             "datetimeV2": "datetime",
-            "email": null,
-            "url": null
+            "geographyV2": null,
+            "personName": null
         },
         "zh-cn": {
-            "email": null,
-            "phoneNumber": null,
-            "url": null, 
             "datetime": "datetimeV2",
-            "keyPhrase": null
+            "keyPhrase": null,
+            "geographyV2": null
         },
         "en-us": {
             "datetime": "datetimeV2"
         },
-        "fr-fr":{
-            "email": null,
-            "phoneNumber": null,
-            "url": null, 
+        "fr-fr": {
             "datetime": "datetimeV2",
-        }, 
+            "geographyV2": null,
+            "personName": null
+        },
         "fr-ca": {
-            "datetimeV2": null,
+            "datetimeV2": "datetime",
             "age": null,
             "dimension": null,
-            "email": null,
             "money": null,
-            "number": null,
             "ordinal": null,
             "percentage": null,
-            "phoneNumber": null,
             "temperature": null,
-            "url": null,
-            "datetime": null
+            "geographyV2": null,
+            "personName": null
         },
         "es-es": {
-            "email": null,
-            "url": null, 
-            "datetime": "datetimeV2"
+            "datetime": "datetimeV2",
+            "geographyV2": null,
+            "personName": null
         },
         "es-mx": {
-            "datetimeV2": null,
+            "datetimeV2": "datetime",
             "age": null,
             "dimension": null,
-            "email": null,
             "money": null,
-            "number": null,
             "ordinal": null,
             "percentage": null,
-            "phoneNumber": null,
             "temperature": null,
-            "url": null,
-            "datetime": null
+            "datetime": null,
+            "geographyV2": null,
+            "personName": null
         },
         "it-it": {
             "datetimeV2": "datetime",
-            "email": null,
-            "phoneNumber": null,
-            "url": null
+            "geographyV2": null,
+            "personName": null
         },
         "ja-jp": {
             "datetimeV2": "datetime",
-            "email": null,
-            "phoneNumber": null,
-            "url": null
+            "geographyV2": null,
+            "personName": null
         },
         "pt-br": {
-            "email": null,
-            "datetime": "datetimeV2",
-            "url": null, 
+            "datetimeV2": "datetime",
+            "geographyV2": null,
+            "personName": null
         },
         "ko-kr": {
             "datetimeV2": null,
             "age": null,
             "dimension": null,
-            "email": null,
             "money": null,
             "number": null,
             "ordinal": null,
             "percentage": null,
-            "phoneNumber": null,
             "temperature": null,
-            "url": null,
-            "datetime": null
+            "datetime": null,
+            "geographyV2": null,
+            "personName": null
         },
         "nl-nl": {
-            "datetimeV2": null,
-            "age": null,
-            "dimension": null,
-            "email": null,
-            "money": null,
-            "number": null,
-            "ordinal": null,
-            "percentage": null,
-            "phoneNumber": null,
-            "temperature": null,
-            "url": null,
-            "datetime": null
+            "geographyV2": null,
+            "personName": null
         }
-
     }
 }

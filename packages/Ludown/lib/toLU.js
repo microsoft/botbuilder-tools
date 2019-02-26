@@ -12,6 +12,7 @@ const txtfile = require('read-text-file');
 const toLUHelpers = require('./toLU-helpers');
 const helperClasses = require('./classes/hclasses');
 const exception = require('./classes/exception');
+const stdin = require('get-stdin');
 const toLUModules = {
     /**
      * Function to take commander program object and construct markdown file for specified input
@@ -65,32 +66,58 @@ const toLUModules = {
             }
             QnAAltJSON.sourceFile = program.QNA_ALTERATION_FILE;
         }
+
+        // do we have stdin specified? 
+        if(program.stdin) {
+            let parsedJsonFromStdin;
+            try {
+                parsedJsonFromStdin = JSON.parse(await stdin());
+            } catch (err) {
+                throw (new exception(retCode.errorCode.INVALID_INPUT, `Sorry, unable to parse stdin as JSON! \n\n ${JSON.stringify(err, null, 2)}\n\n`));
+            }
+            if (await validateLUISJSON(parsedJsonFromStdin)) {
+                // if validation did not throw, then ground this as valid LUIS JSON
+                LUISJSON.model = parsedJsonFromStdin;
+                LUISJSON.sourceFile = 'stdin';
+            } else if (parsedJsonFromStdin.qnaList || parsedJsonFromStdin.qnaDocuments) {
+                QnAJSON.model = parsedJsonFromStdin;
+                QnAJSON.sourceFile = 'stdin';
+            } else {
+                throw (new exception(retCode.errorCode.INVALID_INPUT, `Sorry, unable to parse stdin as LUIS or QnA Maker model!`));
+            }
+        }
         // construct the markdown file content
         outFileContent = await toLUHelpers.constructMdFileHelper(LUISJSON, QnAJSON, QnAAltJSON, program.LUIS_File, program.QNA_FILE, program.skip_header)
         if(!outFileContent) {
             throw(new exception(retCode.errorCode.UNKNOWN_ERROR,'Sorry, Unable to generate .lu file content!'));
         }
-        // write out the file
-        if(!program.lu_File) {
-            if(LUISJSON.sourceFile) {
-                outFileName += path.basename(LUISJSON.sourceFile, path.extname(LUISJSON.sourceFile));
+        if (!program.stdout) {
+            // write out the file
+            if(!program.lu_File) {
+                if(LUISJSON.sourceFile) {
+                    outFileName += path.basename(LUISJSON.sourceFile, path.extname(LUISJSON.sourceFile));
+                }
+                if(QnAJSON.sourceFile) {
+                    outFileName += path.basename(QnAJSON.sourceFile, path.extname(QnAJSON.sourceFile));
+                }   
+                program.lu_File = outFileName + '.lu'; 
+            } else {
+                if(program.lu_File.lastIndexOf('.lu') === -1) {
+                    program.lu_File += '.lu';
+                }
             }
-            if(QnAJSON.sourceFile) {
-                outFileName += path.basename(QnAJSON.sourceFile, path.extname(QnAJSON.sourceFile));
-            }   
-            program.lu_File = outFileName + '.lu'; 
+            outFileName = path.join(outFolder, program.lu_File);
+            try {
+                fs.writeFileSync(outFileName, outFileContent, 'utf-8');
+            } catch (err) {
+                throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to write LU file - ' + outFileName));
+            }
+            if(program.verbose) process.stdout.write(outFileContent);
+            if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote to ' + path.join(outFolder, program.lu_File)));
         } else {
-            if(program.lu_File.lastIndexOf('.lu') === -1) {
-                program.lu_File += '.lu';
-            }
+            process.stdout.write(outFileContent);
         }
-        outFileName = path.join(outFolder, program.lu_File);
-        try {
-            fs.writeFileSync(outFileName, outFileContent, 'utf-8');
-        } catch (err) {
-            throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to write LU file - ' + outFileName));
-        }
-        if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote to ' + path.join(outFolder, program.lu_File)));
+        
     }
 };
 /**
@@ -131,17 +158,25 @@ const parseLUISFile = async function(file) {
     } catch (err) {
         throw (new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, error parsing file as LUIS JSON: ' + file));
     }
-
+    await validateLUISJSON(LUISJSON);
+    return LUISJSON;
+};
+/**
+ * Helper to validate input LUIS JSON
+ * @param {Object} LUISJsonBlob parsed LUIS JSON blob
+ * @throws {exception} Throws on errors. Exception object includes errCode and text. 
+ */
+const validateLUISJSON = async function(LUISJSON) {
+    if(!LUISJSON.intents && !LUISJSON.entities) {
+        return false;
+    }
     if(LUISJSON.composites && LUISJSON.composites.length !== 0) {
         throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to composite entities. Cannot convert to .lu file.'));
-    }
-    if(LUISJSON.regex_entities && LUISJSON.regex_entities.length !== 0) {
-        throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to regular expression entities. Cannot convert to .lu file.'));
     }
     if(LUISJSON.regex_features && LUISJSON.regex_features.length !== 0) {
         throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to regex_features. Cannot convert to .lu file.'));
     }
-    return LUISJSON;
+    return true;
 };
 /**
  * Helper function to parse LUIS JSON file into a JSON object

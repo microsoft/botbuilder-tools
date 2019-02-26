@@ -3,17 +3,16 @@
  * Licensed under the MIT License.
  */
 const parseFile = require('../lib/parseFileContents');
-
+var chai = require('chai');
+var assert = chai.assert;
 describe('With helper functions', function() {
     it('validateLUISBlob throw when duplicate entity definitions are found', function(done) {
         let luFile = `# Greeting
 - hi {commPreference}
 
+$commPreference:simple
 $commPreference:call=
-- phone call
-
-$commPreference:phraseList
-- m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix`;
+- phone call`;
         parseFile.parseFile(luFile, false, 'en-us')
             .then(function(parsedContent) {
                 parseFile.validateLUISBlob(parsedContent.LUISJsonStructure)
@@ -21,6 +20,21 @@ $commPreference:phraseList
                     .catch(() => done())
             })
             .catch(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+    });
+
+    it('validateLUISBlob does not throw when phrase list names collide with other entity names', function(done) {
+        let luFile = `# Greeting
+- hi {commPreference}
+$commPreference:simple
+$commPreference:phraseList
+- m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix`;
+        parseFile.parseFile(luFile, false, 'en-us')
+            .then(function(parsedContent) {
+                parseFile.validateLUISBlob(parsedContent.LUISJsonStructure)
+                    .then(() => done())
+                    .catch(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            })
+            .catch((err) => done('Test fail. validateLUISBlob did not throw when expected!'))
     });
 
     it('parseFile throws on invalid file refs', function(done) {
@@ -109,5 +123,18 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
         parseFile.parseFile(luFile, false, 'en-us')
             .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
             .catch(() => done())
+    });
+
+    it('parseFile correctly de-dupes patterns', function(done) {
+        let luFile = `# test
+        - this is {one}
+        - this is {one}
+`;
+        parseFile.parseFile(luFile, false, 'en-us')
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.patterns.length, 1);
+                done();
+            })
+            .catch(() => done('Test fail. parseFile threw when it was not expected!'))
     });
 });

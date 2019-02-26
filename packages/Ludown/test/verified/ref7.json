@@ -1,0 +1,43 @@
+{
+  "intents": [
+    {
+      "name": "All"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "delete the {alarmTime} alarm",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "remove the {alarmTime} alarm",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "set {commPreference} as my communication preference",
+      "intent": "All",
+      "entities": []
+    },
+    {
+      "text": "I prefer to receive {commPreference}",
+      "intent": "All",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "ref7",
+  "desc": "",
+  "culture": "en-us"
+}

@@ -1,0 +1,19 @@
+$userName:simple
+$PREBUILT:datetimeV2
+$PREBUILT:age
+$PREBUILT:dimension
+$PREBUILT:email
+$PREBUILT:money
+$PREBUILT:number
+$PREBUILT:ordinal
+$PREBUILT:percentage
+$PREBUILT:phoneNumber
+$PREBUILT:temperature
+$PREBUILT:url
+$commPreference:call=
+- Telefonruf
+- Geben Sie mir einen Ring
+- Ring
+- Aufrufen
+- Handy
+- Telefon

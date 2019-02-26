@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "abs",
+      "id": "195",
+      "name": "CloneBot33"
+    },
+    {
+      "type": "endpoint",
+      "id": "158",
+      "name": "cloud",
+      "url": "https://loneot33azlm.azurewebsites.net/api/messages"
+    },
+    {
+      "type": "appInsights",
+      "id": "10",
+      "name": "test AppInsights"
+    },
+    {
+      "type": "blob",
+      "id": "89",
+      "name": "testBlob",
+      "container": ""
+    },
+    {
+      "type": "endpoint",
+      "id": "3",
+      "name": "localhost",
+      "url": "http://localhost:3978/api/messages"
+    }
+  ]
+}

@@ -7,7 +7,7 @@ $question:PhraseList interchangeable
     - you are`,
         'langCode': 'de',
         'translatedContent': `$ChocolateType:phraseList
-- m&m, Mars, Mints, spearmings, Zahltag, Gelee, Kit Kat, KitKat, Twix
+- m & m, mars, mints, Speersplaner, Zahltag, Gelee, Kit kat, Kitkat, twix
 $question:PhraseList interchangeable
 - Bist du
 - Du bist
@@ -47,8 +47,8 @@ $PREBUILT:phoneNumber
 $PREBUILT:temperature
 $PREBUILT:url
 $commPreference:call=
-- Telefonat
-- Gib mir einen Ring
+- Telefonruf
+- Geben Sie mir einen Ring
 - Ring
 - Aufrufen
 - Handy
@@ -87,7 +87,7 @@ $commPreference:call=
         'luFile': `### ? How do I change the default message
         `,
         'langCode': 'de',
-        'translatedContent': `### ? Wie ändere ich die Standardmeldung
+        'translatedContent': `### ? Wie ändere ich die Standardnachricht?
 
 `
     },

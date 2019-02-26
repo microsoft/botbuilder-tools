@@ -34,16 +34,6 @@ describe('With toLU module', function() {
             })
     });
 
-    it('throws when input file has regex entities', function(done) {
-        let invalidFile = resolvePath('test/testcases/InvalidLUISModel1.json')
-        toLU.generateMarkdown({LUIS_File:invalidFile})
-            .then(() => done('Test fail! Did not throw when expected'))
-            .catch(err => {
-                assert.equal(new exception(err).errCode, retCode.errorCode.INVALID_INPUT_FILE);
-                done();
-            })
-    });
-
     it('throws when input file has regex features', function(done) {
         let invalidFile = resolvePath('test/testcases/InvalidLUISModel2.json')
         toLU.generateMarkdown({LUIS_File:invalidFile})
