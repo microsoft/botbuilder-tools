@@ -1,9 +1,13 @@
 {
   "$schema": "./app.schema",
   "$type":"Microsoft.Topic",
-  "recognizers": [
+  "prompts": [
     {
-      "$type":
+      "$type":"Microsoft.Prompt",
+      "prompt": {
+        "en": "Hi",
+        "fr": "Bonjour"
+      }
     }
   ]
 }

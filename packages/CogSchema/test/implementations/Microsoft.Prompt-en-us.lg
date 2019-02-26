@@ -1,0 +1,13 @@
+> Root namespace
+# Microsoft
+## Prompt
+> A comment
+### prompt
+- How are you?
+> Another comment
+- How is today?
+### alternate
+-Why not?
+# Microsoft.Prompt.alternate2
+- OK
+

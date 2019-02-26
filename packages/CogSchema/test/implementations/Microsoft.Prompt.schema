@@ -5,7 +5,13 @@
     "$role": "unionType(Microsoft.IPrompt)",
     "properties": {
         "prompt": {
-            "$role": "lg",
+            "$role": "lg"
+        },
+        "alternate": {
+            "$role": "lg"
+        },
+        "alternate2": {
+            "$role": "lg"
         }
     }
 }
