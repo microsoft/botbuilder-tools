@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\lib\\cogSchema.js",
+            "program": "${workspaceFolder}\\lib\\cogSchema\\src\\cogSchema.js",
             "args":
             // ["TextPrompt.schema", "-o", "c:/tmp/tom.schema"],
             [

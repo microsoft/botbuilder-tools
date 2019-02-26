@@ -3,9 +3,11 @@ import * as fs from 'fs-extra';
 import * as glob from 'globby';
 import 'mocha';
 import * as ct from '../src/cogTracker';
+import * as st from '../src/schemaTracker';
 
 describe('Test .cog indexing library', async () => {
-    let tracker = new ct.CogTracker();
+    let schemas = new st.schemaTracker();
+    let tracker = new ct.CogTracker(schemas);
     before(async () => {
         await tracker.addCogFiles(["test/examples/*.cog"]);
     });

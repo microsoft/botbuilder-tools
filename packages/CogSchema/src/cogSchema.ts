@@ -8,18 +8,19 @@
 import * as chalk from 'chalk';
 import * as fs from 'fs-extra';
 import * as glob from 'globby';
-import * as LG from './lg';
+import * as lgt from '../../CogLint/src/lgTracker';
 import * as path from 'path';
 import * as process from 'process';
 import * as program from 'commander';
 import * as semver from 'semver';
+import * as st from '../../CogLint/src/schemaTracker';
 import * as Validator from 'ajv';
 let allof: any = require('json-schema-merge-allof');
 let clone = require('clone');
 let parser: any = require('json-schema-ref-parser');
 
 // tslint:disable-next-line:no-let-requires no-require-imports
-const pkg: IPackage = require('../package.json');
+const pkg: IPackage = require('../../../package.json');
 const requiredVersion: string = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
     console.error(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
@@ -54,7 +55,6 @@ async function mergeSchemas() {
     }
     else {
         let definitions: any = {};
-        let tracker = new LG.LGTracker();
         let validator = new Validator();
         let metaSchema = await getMetaSchema();
         validator.addSchema(metaSchema, 'cogSchema');
@@ -78,7 +78,6 @@ async function mergeSchemas() {
                     }
                     definitions[type] = schema;
                 }
-                await tracker.addLGFiles([path.join(path.dirname(schemaPath), path.basename(schemaPath, ".schema") + "*.lg")]);
             } catch (e) {
                 thrownError(e);
             }
@@ -113,7 +112,13 @@ async function mergeSchemas() {
         if (!failed) {
             console.log("Writing " + program.output);
             await fs.writeJSON(program.output, finalSchema, { spaces: 4 });
-            await tracker.writeFiles(path.join(path.dirname(program.output), path.basename(program.output, ".schema") + ".lg"));
+            let schema = new st.schemaTracker();
+            await schema.getValidator(program.output);
+            let lg = new lgt.LGTracker(schema);
+            for (let schemaPath of schemaPaths) {
+                await lg.addLGFiles([path.join(path.dirname(schemaPath), path.basename(schemaPath, ".schema") + "*.lg")]);
+            }
+            await lg.writeFiles(path.join(path.dirname(program.output), path.basename(program.output, ".schema") + ".lg"));
         } else {
             console.log("Could not merge schemas");
         }
@@ -122,10 +127,10 @@ async function mergeSchemas() {
 
 async function getMetaSchema(): Promise<any> {
     let metaSchema: any;
-    let schemaName = path.join(__dirname, "../src/cogSchema.schema");
+    let schemaName = path.join(__dirname, "../../../src/cogSchema.schema");
     if (!await fs.pathExists(schemaName)) {
         console.log("Generating cogSchema.schema");
-        let baseName = path.join(__dirname, "../src/baseCogSchema.schema");
+        let baseName = path.join(__dirname, "../../../src/baseCogSchema.schema");
         let schema = await fs.readJSON(baseName);
         let metaSchemaName = schema.$schema;
         metaSchema = JSON.parse(await getURL(metaSchemaName));

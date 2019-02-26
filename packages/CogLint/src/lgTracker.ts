@@ -10,6 +10,7 @@ import * as glob from 'globby';
 import * as os from 'os';
 import * as path from 'path';
 import * as readline from 'readline';
+import * as st from './schemaTracker';
 
 export class LGFile {
     file: string;
@@ -31,17 +32,21 @@ export class LGFile {
 }
 
 export class Template {
-    file: LGFile;
     name: string;
-    line: number;
-    contents: string;
+    locale: string;
+    file?: LGFile;
+    line?: number;
+    contents?: string;
 
-    constructor(file: LGFile, name: string, line: number, definition: string) {
-        this.file = file;
+    constructor(name: string, locale: string, contents?: string, file?: LGFile, line?: number) {
         this.name = name;
+        this.locale = locale;
+        this.file = file;
         this.line = line;
-        this.contents = definition;
-        file.templates.push(this);
+        this.contents = contents;
+        if (file) {
+            file.templates.push(this);
+        }
     }
 
     equalContents(other: Template): boolean {
@@ -60,9 +65,46 @@ export class LGTracker {
     /** Hierarchical object with $templates at leaves. */
     index: any;
 
-    constructor() {
+    schema: st.schemaTracker;
+
+    constructor(schema?: st.schemaTracker) {
         this.files = [];
         this.index = {};
+        if (schema) {
+            this.schema = schema;
+            for (let type of schema.typeToType.values()) {
+                for (let name of type.lgProperties) {
+                    let fullName = name.replace('/', '.');
+                    this.addTemplate(new Template(fullName, ""));
+                }
+            }
+        } else {
+            this.schema = new st.schemaTracker();
+        }
+    }
+
+
+    addTemplate(template: Template) {
+        let locale = template.locale;
+        if (!this.index.hasOwnProperty(locale)) {
+            this.index[locale] = {};
+        }
+        let root = this.index[locale];
+        let pathName = template.name ? template.name.split('.') : "";
+        for (let pos = 0; pos < pathName.length; ++pos) {
+            let name = pathName[pos];
+            if (!root.hasOwnProperty(name)) {
+                root[name] = {};
+            }
+            root = root[name];
+        }
+        if (!root.hasOwnProperty("$templates")) {
+            root.$templates = [];
+        }
+        if (root.$templates.length == 1 && root.$templates[0].definition === undefined) {
+            root.$templates.pop();
+        }
+        root.$templates.push(template);
     }
 
     /** Add LG file to tracker.  */
@@ -72,11 +114,11 @@ export class LGTracker {
         let indent = 1;
         let lineNum = 0;
         let definition = "";
-        this.readLines(lgPath,
+        return this.readLines(lgPath,
             (line) => {
                 if (line.startsWith('#')) {
                     if (definition) {
-                        this.addTemplate(file, namePath, lineNum, definition);
+                        this.addTemplate(new Template(this.pathToName(namePath), file.locale(), definition, file, lineNum));
                         definition = "";
                     }
                     let pos = 1;
@@ -104,8 +146,9 @@ export class LGTracker {
             },
             () => {
                 if (definition) {
-                    this.addTemplate(file, namePath, lineNum, definition);
+                    this.addTemplate(new Template(this.pathToName(namePath), file.locale(), definition, file, lineNum));
                 }
+                this.files.push(file);
             });
     }
 
@@ -119,6 +162,11 @@ export class LGTracker {
     async writeFiles(basePath: string, flat?: boolean): Promise<void> {
         for (let key in this.index) {
             let filename = path.join(path.dirname(basePath), path.basename(basePath, ".lg") + (key ? `-${key}` : "") + ".lg");
+            if (await fs.pathExists(filename)) {
+                let old = new LGTracker(this.schema);
+                await old.addLGFile(filename);
+                this.union(old, true);
+            }
             let [contents, hasTemplate] = this.buildContents(this.index[key], 1, flat);
             if (hasTemplate) {
                 await fs.outputFile(filename, contents);
@@ -127,8 +175,8 @@ export class LGTracker {
     }
 
     /** Union templates into this one. */
-    union(other: LGTracker): void {
-        this.unionR(this.index, other.index);
+    union(other: LGTracker, front: boolean): void {
+        this.unionR(this.index, other.index, front);
         this.files.push.apply(other.files);
     }
 
@@ -146,7 +194,7 @@ export class LGTracker {
                     if (flat && template.name) {
                         contents += `# ${template.name}${os.EOL}`;
                     }
-                    contents += template.contents + os.EOL;
+                    contents += (template.contents || "") + os.EOL;
                 }
                 hasTemplate = hasTemplate || val.$templates.length > 0;
             } else {
@@ -185,7 +233,7 @@ export class LGTracker {
         return remove;
     }
 
-    private unionR(current: any, other: any) {
+    private unionR(current: any, other: any, front?: boolean) {
         for (let key in other) {
             if (!current.hasOwnProperty(key)) {
                 current[key] = other[key];
@@ -193,15 +241,19 @@ export class LGTracker {
                 let oldVal = current[key];
                 let newVal = other[key];
                 if (key === "$templates") {
-                    this.mergeTemplates(oldVal, newVal);
+                    this.mergeTemplates(oldVal, newVal, front);
                 } else {
-                    this.unionR(oldVal, newVal);
+                    this.unionR(oldVal, newVal, front);
                 }
             }
         }
     }
 
-    private mergeTemplates(current: Template[], other: Template[]) {
+    private mergeTemplates(current: Template[], other: Template[], front?: boolean) {
+        if (current.length == 1 && !current[0].contents) {
+            // Remove empty definition
+            current.shift();
+        }
         for (let newTemplate of other) {
             let found = false;
             for (let oldTemplate of current) {
@@ -211,7 +263,11 @@ export class LGTracker {
                 }
             }
             if (!found) {
-                current.push(newTemplate);
+                if (front) {
+                    current.unshift(newTemplate);
+                } else {
+                    current.push(newTemplate);
+                }
             }
         }
     }
@@ -228,25 +284,6 @@ export class LGTracker {
         }
     }
 
-    private addTemplate(file: LGFile, pathName: string[], lineNum: number, definition: string) {
-        let template = new Template(file, this.pathToName(pathName), lineNum, definition);
-        let locale = file.locale();
-        if (!this.index.hasOwnProperty(locale)) {
-            this.index[locale] = {};
-        }
-        let root = this.index[locale];
-        for (let pos = 0; pos < pathName.length; ++pos) {
-            let name = pathName[pos];
-            if (!root.hasOwnProperty(name)) {
-                root[name] = {};
-            }
-            root = root[name];
-        }
-        if (!root.hasOwnProperty("$templates")) {
-            root.$templates = [];
-        }
-        root.$templates.push(template);
-    }
 
     private pathToName(pathName: string[]): string {
         let name = pathName[0];
@@ -256,13 +293,22 @@ export class LGTracker {
         return name;
     }
 
-    private readLines(path: string, lineFun: (line: string) => void, closeFun?: () => void): void {
-        let lineReader = readline.createInterface({
-            input: fs.createReadStream(path)
+    private readLines(path: string, lineFun: (line: string) => void, closeFun?: () => void): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            let lineReader = readline.createInterface({
+                input: fs.createReadStream(path)
+            });
+            lineReader.on('line', (line) => {
+                try {
+                    lineFun(line);
+                } catch (e) {
+                    reject(e);
+                }
+            });
+            lineReader.on('close', () => {
+                if (closeFun) closeFun();
+                resolve();
+            });
         });
-        lineReader.on('line', lineFun);
-        if (closeFun) {
-            lineReader.on('close', closeFun);
-        }
     }
 }

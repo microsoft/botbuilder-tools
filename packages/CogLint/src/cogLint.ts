@@ -6,10 +6,11 @@
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
 import * as chalk from 'chalk';
+import * as cogs from './cogTracker';
 import * as program from 'commander';
 import * as process from 'process';
+import * as schemas from './schemaTracker';
 import * as semver from 'semver';
-import * as indexer from './cogTracker';
 
 // tslint:disable-next-line:no-let-requires no-require-imports
 const pkg: IPackage = require('../package.json');
@@ -37,7 +38,8 @@ program
 doIndexing();
 
 async function doIndexing() {
-    const tracker = new indexer.CogTracker();
+    const schema = new schemas.schemaTracker();
+    const tracker = new cogs.CogTracker(schema);
     await tracker.addCogFiles(program.args);
     if (tracker.cogs.length == 0) {
         program.help();
@@ -54,7 +56,7 @@ async function doIndexing() {
         }
 
         for (let defs of tracker.multipleDefinitions()) {
-            let def = (<indexer.Definition[]>defs)[0];
+            let def = (<cogs.Definition[]>defs)[0];
             logger(MsgKind.error, `Multiple definitions for ${def} ${def.usedByString()}`);
             for (let def of defs) {
                 logger(MsgKind.error, `  ${def.pathString()}`);
