@@ -124,6 +124,14 @@ async function mergeSchemas() {
             for (let schemaPath of schemaPaths) {
                 await lg.addLGFiles([path.join(path.dirname(schemaPath), path.basename(schemaPath, ".schema") + "*.lg")], progress);
             }
+            for (let multiple of lg.multiplyDefined()) {
+                let template0 = multiple[0];
+                let desc = `${template0.name} has multiple definitions: `;
+                for(let template of multiple) {
+                    desc += ` ${template.file}:${template.line}`;
+                }
+                warning(desc);
+            }
             await lg.writeFiles(path.join(path.dirname(program.output), path.basename(program.output, ".schema") + ".lg"), program.flat, result);
         } else {
             console.log(chalk.default.redBright("Could not merge schemas"));

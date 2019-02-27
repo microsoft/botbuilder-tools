@@ -12,6 +12,7 @@ import * as path from 'path';
 import * as readline from 'readline';
 import * as st from './schemaTracker';
 
+/** .lg file and the templates defined in it. */
 export class LGFile {
     file: string;
     templates: Template[];
@@ -25,6 +26,7 @@ export class LGFile {
         return path.basename(this.file, ".schema");
     }
 
+    /** Locale as defined by filename-locale.lg. */
     locale(): string {
         let filename = path.basename(this.file, ".lg");
         let start = filename.indexOf("-");
@@ -32,11 +34,22 @@ export class LGFile {
     }
 }
 
+/** Template in a .lg file. */
 export class Template {
+
+    /** Full name of the template. */
     name: string;
+
+    /** The template locale. */
     locale: string;
+
+    /** File that contained definition. */
     file?: LGFile;
+
+    /** Line number where definition is found. */
     line?: number;
+
+    /** Content of template. */
     contents?: string;
 
     constructor(name: string, locale: string, contents?: string, file?: LGFile, line?: number) {
@@ -59,6 +72,7 @@ export class Template {
     }
 }
 
+/** Track LG file contents. */
 export class LGTracker {
     /** Files that have been added to the tracker. */
     files: LGFile[];
@@ -66,6 +80,7 @@ export class LGTracker {
     /** Hierarchical object with $templates at leaves. */
     index: any;
 
+    /** Track schemas where .lg properties are defined. */
     schema: st.schemaTracker;
 
     constructor(schema?: st.schemaTracker) {
@@ -84,7 +99,7 @@ export class LGTracker {
         }
     }
 
-
+    /** Add a template to the tracker. */
     addTemplate(template: Template) {
         let locale = template.locale;
         if (!this.index.hasOwnProperty(locale)) {
@@ -102,7 +117,7 @@ export class LGTracker {
         if (!root.hasOwnProperty("$templates")) {
             root.$templates = [];
         }
-        if (root.$templates.length == 1 && root.$templates[0].definition === undefined) {
+        if (root.$templates.length == 1 && root.$templates[0].contents === undefined) {
             root.$templates.pop();
         }
         root.$templates.push(template);
@@ -110,7 +125,7 @@ export class LGTracker {
 
     /** Add LG file to tracker.  */
     async addLGFile(lgPath: string, log?: (msg: string) => void): Promise<void> {
-        if (!log) log = (_msg) => {};
+        if (!log) log = (_msg) => { };
         log(`Adding ${lgPath}`);
         let file = new LGFile(lgPath)
         let namePath: string[] = [];
@@ -162,6 +177,11 @@ export class LGTracker {
         }
     }
 
+    /** Write out .lg files, one per locale.
+     * @param basePath Base filename and path without locale.
+     * @param flat True to produce flat template names instead of hiearchical.
+     * @param log Logger for output.
+     */
     async writeFiles(basePath: string, flat?: boolean, log?: (name: string) => void): Promise<void> {
         if (!log) log = (_name) => { };
         for (let key in this.index) {
@@ -187,6 +207,23 @@ export class LGTracker {
     /** Subtract templates from this one. */
     diff(other: LGTracker): void {
         this.diffR(this.index, other.index);
+    }
+
+    /** Return multiply defined templates. */
+    * multiplyDefined(): Iterable<Template[]> {
+        yield* this.multiplyDefinedR(this.index);
+    }
+
+    private * multiplyDefinedR(elt: any): Iterable<Template[]> {
+        for(let key in elt) {
+            if (key === "$templates") {
+                if (elt.$templates.length > 1) {
+                    yield elt.$templates;
+                }
+            } else {
+                yield* this.multiplyDefinedR(elt[key]);
+            }
+        }
     }
 
     private buildContents(val: any, depth: number, flat?: boolean): [string, boolean] {
