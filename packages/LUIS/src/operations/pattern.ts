@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/patternMappers";
 import * as Parameters from "../models/parameters";
@@ -64,7 +64,7 @@ export class Pattern {
    * @param callback The callback
    */
   addPattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
-  addPattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): Promise<Models.PatternAddPatternResponse> {
+  addPattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, pattern: Models.PatternRuleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternRuleInfo>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): Promise<Models.PatternAddPatternResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -117,7 +117,7 @@ export class Pattern {
    * @param callback The callback
    */
   getPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.PatternGetPatternsOptionalParams, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  getPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternGetPatternsResponse> {
+  getPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.PatternGetPatternsOptionalParams | msRest.ServiceCallback<Models.PatternRuleInfo[]>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternGetPatternsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -172,7 +172,7 @@ export class Pattern {
    * @param callback The callback
    */
   updatePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  updatePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternUpdatePatternsResponse> {
+  updatePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleUpdateObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternRuleInfo[]>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternUpdatePatternsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -228,7 +228,7 @@ export class Pattern {
    * @param callback The callback
    */
   batchAddPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  batchAddPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternBatchAddPatternsResponse> {
+  batchAddPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patterns: Models.PatternRuleCreateObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternRuleInfo[]>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternBatchAddPatternsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -284,7 +284,7 @@ export class Pattern {
    * @param callback The callback
    */
   deletePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternIds: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PatternDeletePatternsResponse> {
+  deletePatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternIds: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PatternDeletePatternsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -343,7 +343,7 @@ export class Pattern {
    * @param callback The callback
    */
   updatePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternRuleInfo>): void;
-  updatePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): Promise<Models.PatternUpdatePatternResponse> {
+  updatePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, pattern: Models.PatternRuleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternRuleInfo>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo>): Promise<Models.PatternUpdatePatternResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -400,7 +400,7 @@ export class Pattern {
    * @param callback The callback
    */
   deletePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PatternDeletePatternResponse> {
+  deletePattern(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PatternDeletePatternResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -456,7 +456,7 @@ export class Pattern {
    * @param callback The callback
    */
   getIntentPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options: Models.PatternGetIntentPatternsOptionalParams, callback: msRest.ServiceCallback<Models.PatternRuleInfo[]>): void;
-  getIntentPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternGetIntentPatternsResponse> {
+  getIntentPatterns(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.PatternGetIntentPatternsOptionalParams | msRest.ServiceCallback<Models.PatternRuleInfo[]>, callback?: msRest.ServiceCallback<Models.PatternRuleInfo[]>): Promise<Models.PatternGetIntentPatternsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,

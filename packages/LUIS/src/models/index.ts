@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 
 /**
@@ -200,7 +200,7 @@ export interface ApplicationSettingUpdateObject {
 export interface PublishSettingUpdateObject {
   /**
    * @member {boolean} [sentimentAnalysis] Setting sentiment analysis as true
-   * returns the Sentiment of the input utterance along with the resopnse
+   * returns the Sentiment of the input utterance along with the response
    */
   sentimentAnalysis?: boolean;
   /**
@@ -227,12 +227,12 @@ export interface ExampleLabelObject {
    */
   text?: string;
   /**
-   * @member {EntityLabelObject[]} [entityLabels] The idenfied entities within
-   * the utterance.
+   * @member {EntityLabelObject[]} [entityLabels] The identified entities
+   * within the utterance.
    */
   entityLabels?: EntityLabelObject[];
   /**
-   * @member {string} [intentName] The idenfitied intent representing the
+   * @member {string} [intentName] The identified intent representing the
    * utterance.
    */
   intentName?: string;
@@ -734,11 +734,6 @@ export interface ApplicationPublishObject {
    * used, instead of the Production one. Default value: false .
    */
   isStaging?: boolean;
-  /**
-   * @member {string} [region] The target region that the application is
-   * published to.
-   */
-  region?: string;
 }
 
 /**
@@ -1722,6 +1717,10 @@ export interface EndpointInfo {
    */
   endpointRegion?: string;
   /**
+   * @member {string} [failedRegions] Regions where publishing failed.
+   */
+  failedRegions?: string;
+  /**
    * @member {string} [publishedDateTime] Timestamp when was last published.
    */
   publishedDateTime?: string;
@@ -1783,7 +1782,7 @@ export interface PublishSettings {
   id: string;
   /**
    * @member {boolean} isSentimentAnalysisEnabled Setting sentiment analysis as
-   * true returns the Sentiment of the input utterance along with the resopnse
+   * true returns the Sentiment of the input utterance along with the response
    */
   isSentimentAnalysisEnabled: boolean;
   /**
@@ -2284,6 +2283,44 @@ export interface LabelTextObject {
 
 /**
  * @interface
+ * An interface representing AppVersionSettingObject.
+ * Object model of an application version setting.
+ *
+ */
+export interface AppVersionSettingObject {
+  /**
+   * @member {string} [name] The application version setting name.
+   */
+  name?: string;
+  /**
+   * @member {string} [value] The application version setting value.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AzureAccountInfoObject.
+ * Defines the azure account information object.
+ *
+ */
+export interface AzureAccountInfoObject {
+  /**
+   * @member {string} azureSubscriptionId The id for the azure subscription.
+   */
+  azureSubscriptionId: string;
+  /**
+   * @member {string} resourceGroup The azure resource group name.
+   */
+  resourceGroup: string;
+  /**
+   * @member {string} accountName The azure account name.
+   */
+  accountName: string;
+}
+
+/**
+ * @interface
  * An interface representing HierarchicalChildModelUpdateObject.
  */
 export interface HierarchicalChildModelUpdateObject {
@@ -2695,6 +2732,21 @@ export interface AppsImportMethodOptionalParams extends msRest.RequestOptionsBas
 
 /**
  * @interface
+ * An interface representing AppsDeleteMethodOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface AppsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [force] A flag to indicate whether to force an
+   * operation. Default value: false .
+   */
+  force?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing VersionsListOptionalParams.
  * Optional Parameters.
  *
@@ -2769,57 +2821,60 @@ export interface PatternGetIntentPatternsOptionalParams extends msRest.RequestOp
 }
 
 /**
+ * @interface
+ * An interface representing AzureAccountsAssignToAppOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface AzureAccountsAssignToAppOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
+   * account information object.
+   */
+  azureAccountInfoObject?: AzureAccountInfoObject;
+}
+
+/**
+ * @interface
+ * An interface representing AzureAccountsRemoveFromAppOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface AzureAccountsRemoveFromAppOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
+   * account information object.
+   */
+  azureAccountInfoObject?: AzureAccountInfoObject;
+}
+
+/**
  * Defines values for TrainingStatus.
  * Possible values include: 'NeedsTraining', 'InProgress', 'Trained'
  * @readonly
  * @enum {string}
  */
-export enum TrainingStatus {
-  NeedsTraining = 'NeedsTraining',
-  InProgress = 'InProgress',
-  Trained = 'Trained',
-}
+export type TrainingStatus = 'NeedsTraining' | 'InProgress' | 'Trained';
 
 /**
  * Defines values for OperationStatusType.
  * Possible values include: 'Failed', 'FAILED', 'Success'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperationStatusType =
- * <OperationStatusType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OperationStatusType {
-  Failed = 'Failed',
-  FAILED = 'FAILED',
-  Success = 'Success',
-}
+export type OperationStatusType = 'Failed' | 'FAILED' | 'Success';
 
 /**
  * Defines values for AzureRegions.
- * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2',
- * 'westcentralus', 'westus2', 'eastus', 'southcentralus', 'northeurope',
- * 'eastasia', 'australiaeast', 'brazilsouth', 'virginia'
+ * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
+ * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast',
+ * 'brazilsouth', 'virginia'
  * @readonly
  * @enum {string}
  */
-export enum AzureRegions {
-  Westus = 'westus',
-  Westeurope = 'westeurope',
-  Southeastasia = 'southeastasia',
-  Eastus2 = 'eastus2',
-  Westcentralus = 'westcentralus',
-  Westus2 = 'westus2',
-  Eastus = 'eastus',
-  Southcentralus = 'southcentralus',
-  Northeurope = 'northeurope',
-  Eastasia = 'eastasia',
-  Australiaeast = 'australiaeast',
-  Brazilsouth = 'brazilsouth',
-  Virginia = 'virginia',
-}
+export type AzureRegions = 'westus' | 'westeurope' | 'southeastasia' | 'eastus2' | 'westcentralus' | 'westus2' | 'eastus' | 'southcentralus' | 'northeurope' | 'eastasia' | 'australiaeast' | 'brazilsouth' | 'virginia';
 
 /**
  * Defines values for AzureClouds.
@@ -2827,345 +2882,133 @@ export enum AzureRegions {
  * @readonly
  * @enum {string}
  */
-export enum AzureClouds {
-  Com = 'com',
-  Us = 'us',
-}
+export type AzureClouds = 'com' | 'us';
 
 /**
  * Defines values for ReadableType.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType =
- * <ReadableType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType1.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType1 =
- * <ReadableType1>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType1 {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType1 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType2.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType2 =
- * <ReadableType2>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType2 {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType2 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType3.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType3 =
- * <ReadableType3>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType3 {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType3 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType4.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType4 =
- * <ReadableType4>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType4 {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType4 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType5.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType5 =
- * <ReadableType5>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType5 {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType5 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType6.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType6 =
- * <ReadableType6>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType6 {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType6 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType7.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType7 =
- * <ReadableType7>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType7 {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType7 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType8.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType8 =
- * <ReadableType8>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType8 {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType8 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for Status.
- * Possible values include: 'Queued', 'InProgress', 'UpToDate', 'Fail',
- * 'Success'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Status = <Status>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Queued', 'InProgress', 'UpToDate', 'Fail', 'Success'
  * @readonly
  * @enum {string}
  */
-export enum Status {
-  Queued = 'Queued',
-  InProgress = 'InProgress',
-  UpToDate = 'UpToDate',
-  Fail = 'Fail',
-  Success = 'Success',
-}
+export type Status = 'Queued' | 'InProgress' | 'UpToDate' | 'Fail' | 'Success';
 
 /**
  * Defines values for Status1.
- * Possible values include: 'Queued', 'InProgress', 'UpToDate', 'Fail',
- * 'Success'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Status1 = <Status1>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Queued', 'InProgress', 'UpToDate', 'Fail', 'Success'
  * @readonly
  * @enum {string}
  */
-export enum Status1 {
-  Queued = 'Queued',
-  InProgress = 'InProgress',
-  UpToDate = 'UpToDate',
-  Fail = 'Fail',
-  Success = 'Success',
-}
+export type Status1 = 'Queued' | 'InProgress' | 'UpToDate' | 'Fail' | 'Success';
 
 /**
  * Defines values for ReadableType9.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType9 =
- * <ReadableType9>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType9 {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType9 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType10.
- * Possible values include: 'Entity Extractor', 'Hierarchical Entity
- * Extractor', 'Hierarchical Child Entity Extractor', 'Composite Entity
- * Extractor', 'Closed List Entity Extractor', 'Prebuilt Entity Extractor',
- * 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity
- * Extractor'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReadableType10 =
- * <ReadableType10>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
+ * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
+ * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export enum ReadableType10 {
-  EntityExtractor = 'Entity Extractor',
-  HierarchicalEntityExtractor = 'Hierarchical Entity Extractor',
-  HierarchicalChildEntityExtractor = 'Hierarchical Child Entity Extractor',
-  CompositeEntityExtractor = 'Composite Entity Extractor',
-  ClosedListEntityExtractor = 'Closed List Entity Extractor',
-  PrebuiltEntityExtractor = 'Prebuilt Entity Extractor',
-  IntentClassifier = 'Intent Classifier',
-  PatternAnyEntityExtractor = 'Pattern.Any Entity Extractor',
-  RegexEntityExtractor = 'Regex Entity Extractor',
-}
+export type ReadableType10 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Contains response data for the createPatternFeature operation.
@@ -5961,6 +5804,54 @@ export type AppsListAvailableCustomPrebuiltDomainsForCultureResponse = Array<Pre
 };
 
 /**
+ * Contains response data for the packagePublishedApplicationAsGzip operation.
+ */
+export type AppsPackagePublishedApplicationAsGzipResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
+ * Contains response data for the packageTrainedApplicationAsGzip operation.
+ */
+export type AppsPackageTrainedApplicationAsGzipResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
  * Contains response data for the clone operation.
  */
 export type VersionsCloneResponse = {
@@ -6383,5 +6274,119 @@ export type PatternGetIntentPatternsResponse = Array<PatternRuleInfo> & {
        * The response body as parsed JSON or XML
        */
       parsedBody: PatternRuleInfo[];
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SettingsListResponse = Array<AppVersionSettingObject> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AppVersionSettingObject[];
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type SettingsUpdateResponse = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the assignToApp operation.
+ */
+export type AzureAccountsAssignToAppResponse = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the getAssigned operation.
+ */
+export type AzureAccountsGetAssignedResponse = Array<AzureAccountInfoObject> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AzureAccountInfoObject[];
+    };
+};
+
+/**
+ * Contains response data for the removeFromApp operation.
+ */
+export type AzureAccountsRemoveFromAppResponse = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the getUserLUISAccounts operation.
+ */
+export type AzureAccountsGetUserLUISAccountsResponse = Array<AzureAccountInfoObject> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AzureAccountInfoObject[];
     };
 };
