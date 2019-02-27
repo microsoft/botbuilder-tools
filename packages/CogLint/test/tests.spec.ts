@@ -22,7 +22,7 @@ describe('Test .cog indexing library', async () => {
 
     it('multiple', () => expect(size(tracker.multipleDefinitions())).equal(1));
 
-    it(`types`, () => expect(tracker.typeToType.size).equal(4));
+    it(`types`, () => expect(tracker.schema.typeToType.size).equal(4));
 
     it('clone', async () => {
         let foo = tracker.cloneCog("foo");
