@@ -40,6 +40,7 @@ program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
     .option("-o, output <path>", "Output path and filename for unified schema and associated .lg files per locale.")
+    .option("-f, flat", "Use a flat naming schema for templates.")
     .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged. Will also use $role to define union types.  All associated .lg files will be merged into a single .lg file per locale.  See readme.md for more information.`)
     .parse(process.argv);
 
@@ -56,6 +57,7 @@ async function mergeSchemas() {
     else {
         let progress = (msg: string) => console.log(chalk.default.grey(msg));
         let warning = (msg: string) => console.log(chalk.default.yellowBright(msg));
+        let result = (msg: string) => console.log(msg);
         let definitions: any = {};
         let validator = new Validator();
         let metaSchema = await getMetaSchema();
@@ -112,7 +114,7 @@ async function mergeSchemas() {
         };
 
         if (!failed) {
-            progress(chalk.default.grey("Writing " + program.output));
+            result(`Writing ${program.output}`);
             await fs.writeJSON(program.output, finalSchema, { spaces: 4 });
             console.log("");
             progress("Generating .lg files");
@@ -122,7 +124,7 @@ async function mergeSchemas() {
             for (let schemaPath of schemaPaths) {
                 await lg.addLGFiles([path.join(path.dirname(schemaPath), path.basename(schemaPath, ".schema") + "*.lg")], progress);
             }
-            await lg.writeFiles(path.join(path.dirname(program.output), path.basename(program.output, ".schema") + ".lg"), false, progress);
+            await lg.writeFiles(path.join(path.dirname(program.output), path.basename(program.output, ".schema") + ".lg"), program.flat, result);
         } else {
             console.log(chalk.default.redBright("Could not merge schemas"));
         }
