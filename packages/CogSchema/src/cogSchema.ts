@@ -39,8 +39,8 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
-    .option("-o, output <path>", "Output path and filename for unified schema.")
-    .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged.  Also supports component merging using $role, see readme.md for more information.`)
+    .option("-o, output <path>", "Output path and filename for unified schema and associated .lg files per locale.")
+    .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged. Will also use $role to define union types.  All associated .lg files will be merged into a single .lg file per locale.  See readme.md for more information.`)
     .parse(process.argv);
 
 let failed = false;
@@ -54,16 +54,18 @@ async function mergeSchemas() {
         program.help();
     }
     else {
+        let progress = (msg: string) => console.log(chalk.default.grey(msg));
+        let warning = (msg: string) => console.log(chalk.default.yellowBright(msg));
         let definitions: any = {};
         let validator = new Validator();
         let metaSchema = await getMetaSchema();
         validator.addSchema(metaSchema, 'cogSchema');
         for (let schemaPath of schemaPaths) {
-            console.log(chalk.default.grey(`Parsing ${schemaPath}`));
+            progress(`Parsing ${schemaPath}`);
             try {
                 let schema = allof(await parser.dereference(schemaPath));
                 if (schema.$id) {
-                    console.log(chalk.default.yellowBright(`  Skipping because of top-level $id:${schema.$id}.`));
+                    warning(`  Skipping because of top-level $id:${schema.$id}.`);
                 } else {
                     delete schema.$schema;
                     if (!validator.validate('cogSchema', schema)) {
@@ -110,17 +112,19 @@ async function mergeSchemas() {
         };
 
         if (!failed) {
-            console.log("Writing " + program.output);
+            progress(chalk.default.grey("Writing " + program.output));
             await fs.writeJSON(program.output, finalSchema, { spaces: 4 });
+            console.log("");
+            progress("Generating .lg files");
             let schema = new st.schemaTracker();
             await schema.getValidator(program.output);
             let lg = new lgt.LGTracker(schema);
             for (let schemaPath of schemaPaths) {
-                await lg.addLGFiles([path.join(path.dirname(schemaPath), path.basename(schemaPath, ".schema") + "*.lg")]);
+                await lg.addLGFiles([path.join(path.dirname(schemaPath), path.basename(schemaPath, ".schema") + "*.lg")], progress);
             }
-            await lg.writeFiles(path.join(path.dirname(program.output), path.basename(program.output, ".schema") + ".lg"));
+            await lg.writeFiles(path.join(path.dirname(program.output), path.basename(program.output, ".schema") + ".lg"), false, progress);
         } else {
-            console.log("Could not merge schemas");
+            console.log(chalk.default.redBright("Could not merge schemas"));
         }
     }
 }
@@ -178,7 +182,7 @@ function processRole(role: string, elt: any, type: string, definitions: any, met
         if (elt.type) {
             errorMsg(type, `$role:lg should not have a type.`);
         }
-        for(let prop in metaSchema.definitions.lg) {
+        for (let prop in metaSchema.definitions.lg) {
             elt[prop] = metaSchema.definitions.lg[prop];
         }
     } else if (role === "unionType") {

@@ -27,7 +27,8 @@ export class LGFile {
 
     locale(): string {
         let filename = path.basename(this.file, ".lg");
-        return filename.substring(filename.indexOf("-") + 1);
+        let start = filename.indexOf("-");
+        return start === -1 ? "" : filename.substring(filename.indexOf("-") + 1);
     }
 }
 
@@ -108,7 +109,9 @@ export class LGTracker {
     }
 
     /** Add LG file to tracker.  */
-    async addLGFile(lgPath: string): Promise<void> {
+    async addLGFile(lgPath: string, log?: (msg: string) => void): Promise<void> {
+        if (!log) log = (_msg) => {};
+        log(`Adding ${lgPath}`);
         let file = new LGFile(lgPath)
         let namePath: string[] = [];
         let indent = 1;
@@ -153,24 +156,25 @@ export class LGTracker {
     }
 
     /** Add all LG files matching glob patterns to tracker. */
-    async addLGFiles(patterns: string[]): Promise<void> {
+    async addLGFiles(patterns: string[], log?: (msg: string) => void): Promise<void> {
         for (let path of await glob(patterns)) {
-            await this.addLGFile(path);
+            await this.addLGFile(path, log);
         }
     }
 
-    async writeFiles(basePath: string, flat?: boolean): Promise<void> {
+    async writeFiles(basePath: string, flat?: boolean, log?: (name: string) => void): Promise<void> {
+        if (!log) log = (_name) => { };
         for (let key in this.index) {
             let filename = path.join(path.dirname(basePath), path.basename(basePath, ".lg") + (key ? `-${key}` : "") + ".lg");
             if (await fs.pathExists(filename)) {
+                log(`Merging existing ${filename}`);
                 let old = new LGTracker(this.schema);
                 await old.addLGFile(filename);
                 this.union(old, true);
             }
-            let [contents, hasTemplate] = this.buildContents(this.index[key], 1, flat);
-            if (hasTemplate) {
-                await fs.outputFile(filename, contents);
-            }
+            log(`Writing ${filename}`);
+            let [contents] = this.buildContents(this.index[key], 1, flat);
+            await fs.outputFile(filename, contents);
         }
     }
 
@@ -190,13 +194,14 @@ export class LGTracker {
         let hasTemplate = false;
         for (let key in val) {
             if (key === "$templates") {
-                for (let template of <Template[]>val.$templates) {
+                if (val.$templates.length > 0) {
+                    let template = val.$templates[0];
                     if (flat && template.name) {
                         contents += `# ${template.name}${os.EOL}`;
                     }
-                    contents += (template.contents || "") + os.EOL;
+                    contents += template.contents || os.EOL;
+                    hasTemplate = true;
                 }
-                hasTemplate = hasTemplate || val.$templates.length > 0;
             } else {
                 let [childContents, childTemplate] = this.buildContents(val[key], depth + 1, flat);
                 if (childTemplate) {
