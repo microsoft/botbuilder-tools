@@ -1,15 +1,44 @@
+#!/usr/bin/env node
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
+// tslint:disable:no-console
+// tslint:disable:no-object-literal-type-assertion
+import * as child_process from 'child_process';
+import * as ct from '../src/cogTracker';
 import { expect } from 'chai';
 import * as fs from 'fs-extra';
 import * as glob from 'globby';
 import 'mocha';
-import * as ct from '../src/cogTracker';
+import * as path from 'path';
 import * as st from '../src/schemaTracker';
+import * as util from 'util';
+const exec = util.promisify(child_process.exec);
 
 describe('Test .cog indexing library', async () => {
     let schemas = new st.schemaTracker();
     let tracker = new ct.CogTracker(schemas);
+
     before(async () => {
-        await tracker.addCogFiles(["test/examples/*.cog"]);
+        // If you want to regenerate the oracle *.schema and *.lg files
+        // 1) Run schemas/makeschemas.cmd
+        // 2) Run cogLint examples/*.cog -w examples/app.lg (or execute "Launch program")
+        await fs.remove("test.out");
+        await fs.mkdirp("test.out");
+        for(let file of glob.sync(["test/**/*.schema", "test/**/*.lg", "test/**/*.cog", "test/**/*.cmd"])) {
+            await fs.copy(file, path.join("test.out", file.substring(file.indexOf("/") + 1)));
+        }
+        process.chdir("test.out");
+        await fs.remove("examples/app.schema");
+        await fs.remove("examples/app.lg");
+        await fs.remove("examples/app-en-us.lg");
+        process.chdir("schemas");
+        await exec("makeschemas.cmd");
+        process.chdir("..");
+        tracker.root = process.cwd();
+        await tracker.addCogFiles(["examples/*.cog"]);
+        await tracker.writeLG("examples/app.lg");
     });
 
     it('index all', () => expect(tracker.cogs.length).equal(8));
@@ -49,13 +78,12 @@ describe('Test .cog indexing library', async () => {
     });
 
     it('write', async () => {
-        await fs.remove("test.out");
         let savesBefore = size(tracker.cogs.filter((c) => c.save));
-        await tracker.writeCogs("test.out");
+        await tracker.writeCogs("cogs");
         let savesAfter = size(tracker.cogs.filter((c) => c.save));
         expect(savesAfter).equals(0);
         let saved = 0;
-        for(let file of glob.sync("test.out/**/*.cog")) {
+        for(let file of glob.sync("cogs/examples/*.cog")) {
             let cog = tracker.findCogFile(file);
             expect(cog, `${cog} is not found as ${file}`).is.not.equal(undefined);
             ++saved;
@@ -67,6 +95,19 @@ describe('Test .cog indexing library', async () => {
         for (let cog of tracker.cogs) {
             tracker.removeCog(cog);
             verifyRemoved(tracker, cog);
+        }
+    });
+
+    it('files', async () => {
+        for(let file of glob.sync(["../test/examples/*", "../test/schemas/*"])) {
+            let newFile = path.join(process.cwd(), file.substring("../test/".length));
+            if (!await fs.pathExists(newFile)) {
+                expect.fail(`${newFile} is missing`);
+            }
+            let contents = (await fs.readFile(file)).toString();
+            let newContents = (await fs.readFile(newFile)).toString();
+            expect
+            expect(newContents === contents, `${newFile} has changed`).is.true;
         }
     });
 });

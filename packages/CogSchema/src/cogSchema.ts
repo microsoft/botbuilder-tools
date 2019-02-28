@@ -94,6 +94,10 @@ async function mergeSchemas() {
         if (!program.output) {
             program.output = "app.schema";
         }
+        let finalDefinitions: any = {};
+        for (let key of Object.keys(definitions).sort()) {
+            finalDefinitions[key] = definitions[key];
+        }
         let finalSchema = {
             $schema: metaSchema.$id,
             $id: path.basename(program.output),
@@ -110,7 +114,7 @@ async function mergeSchemas() {
                         $ref: "#/definitions/" + schemaName
                     };
                 }),
-            definitions: definitions
+            definitions: finalDefinitions
         };
 
         if (!failed) {
@@ -127,7 +131,7 @@ async function mergeSchemas() {
             for (let multiple of lg.multiplyDefined()) {
                 let template0 = multiple[0];
                 let desc = `${template0.name} has multiple definitions: `;
-                for(let template of multiple) {
+                for (let template of multiple) {
                     desc += ` ${template.file}:${template.line}`;
                 }
                 warning(desc);

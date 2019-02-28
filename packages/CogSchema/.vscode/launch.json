@@ -27,7 +27,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Tom",
-            "program": "${workspaceFolder}\\lib\\cogSchema.js",
+            "program": "${workspaceFolder}\\lib\\cogSchems\\src\\cogSchema.js",
             "args": [
                 "components/**/*.schema",
                 "-o",
@@ -43,13 +43,29 @@
             "type": "node",
             "request": "launch",
             "name": "Launch OBI",
-            "program": "${workspaceFolder}\\lib\\cogSchema.js",
+            "program": "${workspaceFolder}\\lib\\cogSchema\\src\\cogSchema.js",
             "args": [
                 "**/*.schema",
                 "-o",
                 "app.schema"
             ],
             "cwd": "${workspaceFolder}/../../../botframework-obi/schema/examples",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/lib/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch cogLint",
+            "program": "${workspaceFolder}\\lib\\cogSchema\\src\\cogSchema.js",
+            "args": [
+                "*.schema",
+                "-o",
+                "../examples/app.schema"
+            ],
+            "cwd": "${workspaceFolder}/../cogLint/test/schemas",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"

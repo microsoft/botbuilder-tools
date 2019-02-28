@@ -11,8 +11,10 @@ CogLint is a command line tool that analyzes JSON .cog files created for the Bot
 * **Malformed JSON:** Reports files which do not contain valid JSON.
 References to definitions show up in this format `TYPE[ID](file#/path)`.
 
+You can also optionally update your .lg files with templates specific to your cog files by using the -w switch.
+
 # CogTracker class
-If you need to work with cog files, you can make use of the [`CogTracker`](docs/classes/_cogtracker_.cogtracker.html) class which supports reading, updating, writing and indexing cog files with both schema and semantic validation.  The [`CogLint`](src/cogLint.ts) tool shows an example of how to use the tracker to read in files and report various kinds of errors.  You can also use the class as an in-memory cache of cog definitions and their relationships.
+If you need to work with cog files, you can make use of the [`CogTracker`](docs/classes/_cogtracker_.cogtracker.html) class which supports reading, updating, writing and indexing cog files with both schema and semantic validation.  The [`CogLint`](src/cogLint.ts) tool shows an example of how to use the tracker to read in files and report various kinds of errors.  You can also use the class as an in-memory cache of cog definitions, .lg files and their relationships.
 
 ## Prerequisite
 

@@ -1,15 +1,22 @@
 > Root namespace
+
 # Microsoft
 ## Prompt
 > A comment
+
 ### prompt
-- My prompt
+- How are you?
+> Another comment
+- How is today?
 
 ### alternate
--My alternate
+-Why not?
 
 ### alternate2
 - OK
 
+> Define the same template more than once
+
 # multipleTemplate
 - a
+

@@ -1,4 +1,4 @@
 @echo off
-del ..\examples\*.lg
-call cogschema *.schema -o ..\examples\app.schema
-call cogschema prompt.schema -o ..\examples\promptOnly.schema
+del /q ..\examples\*.lg
+call node ..\..\..\cogschema\lib\cogschema\src\cogschema.js *.schema -o ..\examples\app.schema
+call node ..\..\..\cogschema\lib\cogschema\src\cogschema.js prompt.schema -o ..\examples\promptOnly.schema

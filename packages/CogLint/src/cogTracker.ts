@@ -249,7 +249,7 @@ export class CogTracker {
                 let type = this.schema.typeToType.get(cog.body.$type);
                 if (type) {
                     for (let fullName of type.lgProperties) {
-                        let propName = cog.id() + fullName.substring(fullName.indexOf("/")).replace('/', '.');
+                        let propName = cog.id() + fullName.substring(fullName.indexOf("/")).replace(/\//g, '.');
                         this.lg.addTemplate(new lgt.Template(propName, undefined, ""))
                     }
                 }

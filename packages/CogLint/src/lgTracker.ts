@@ -121,7 +121,7 @@ export class LGTracker {
             this.schema = schema;
             for (let type of schema.typeToType.values()) {
                 for (let name of type.lgProperties) {
-                    let fullName = name.replace('/', '.');
+                    let fullName = name.replace(/\//g, '.');
                     this.addTemplate(new Template(fullName, "", ""));
                 }
             }
