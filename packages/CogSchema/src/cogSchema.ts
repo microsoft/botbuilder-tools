@@ -40,7 +40,7 @@ program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
     .option("-o, output <path>", "Output path and filename for unified schema and associated .lg files per locale.")
-    .option("-f, flat", "Use a flat naming schema for templates.")
+    .option("-f, flat <boolean>", "Use a flat naming schema for templates.")
     .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged. Will also use $role to define union types.  All associated .lg files will be merged into a single .lg file per locale.  See readme.md for more information.`)
     .parse(process.argv);
 

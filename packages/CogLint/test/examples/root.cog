@@ -1,6 +1,10 @@
 {
   "$schema": "./app.schema",
   "$type": "root",
+  "prompt": {
+    "$type": "prompt",
+    "$copy": "myPromptCopy"
+  },
   "recognizers": [
     {
       "$type": "Recognizer",

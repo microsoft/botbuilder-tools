@@ -27,7 +27,9 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}\\lib\\cogLint.js",
             "args": [
-                "examples/*.cog"
+                "examples/*.cog",
+                "-w",
+                "examples/app.lg"
             ],
             "cwd": "${workspaceFolder}/test",
             "preLaunchTask": "tsc: build - tsconfig.json",

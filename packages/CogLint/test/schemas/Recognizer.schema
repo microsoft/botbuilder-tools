@@ -3,7 +3,6 @@
     "$role": "unionType(IRecognizer)",
     "properties": {
         "req": {
-            "type": "string",
             "$role": "lg"
         },
         "opt": {

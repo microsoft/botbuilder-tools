@@ -32,87 +32,6 @@
         }
     ],
     "definitions": {
-        "Microsoft.LUISRecognizer": {
-            "title": "LUIS Recognizer",
-            "description": "LUIS recognizer.",
-            "$role": [
-                "unionType(Microsoft.IRecognizer)",
-                "unionType(Microsoft.IPrompt)"
-            ],
-            "$comment": "Ensure namespaces work on local definitions.",
-            "definitions": {
-                "local": {
-                    "type": "string"
-                }
-            },
-            "properties": {
-                "$type": {
-                    "title": "$type",
-                    "description": "Schema definition for $type added by cogSchema.",
-                    "type": "string",
-                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
-                    "const": "Microsoft.LUISRecognizer"
-                },
-                "$copy": {
-                    "title": "$copy",
-                    "description": "Schema deifnition for $copy added by cogSchema.",
-                    "type": "string",
-                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
-                },
-                "$id": {
-                    "title": "$id",
-                    "description": "Schema definition for $id added by cogSchema.",
-                    "type": "string",
-                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
-                },
-                "application": {
-                    "type": "object",
-                    "required": [
-                        "applicationId",
-                        "endpoint",
-                        "endpointKey"
-                    ],
-                    "properties": {
-                        "applicationId": {
-                            "type": "string"
-                        },
-                        "endpoint": {
-                            "type": "string"
-                        },
-                        "endpointKey": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "priority": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "$type"
-            ],
-            "type": "object",
-            "additionalProperties": false,
-            "patternProperties": {
-                "^\\$": {
-                    "type": "string"
-                }
-            },
-            "anyOf": [
-                {
-                    "title": "Reference",
-                    "required": [
-                        "$copy"
-                    ]
-                },
-                {
-                    "title": "Type",
-                    "required": [
-                        "application"
-                    ]
-                }
-            ]
-        },
         "Microsoft.Prompt": {
             "title": "Simple Prompt",
             "description": "Example simple prompt.",
@@ -231,6 +150,87 @@
                     "title": "Type",
                     "required": [
                         "pattern"
+                    ]
+                }
+            ]
+        },
+        "Microsoft.LUISRecognizer": {
+            "title": "LUIS Recognizer",
+            "description": "LUIS recognizer.",
+            "$role": [
+                "unionType(Microsoft.IRecognizer)",
+                "unionType(Microsoft.IPrompt)"
+            ],
+            "$comment": "Ensure namespaces work on local definitions.",
+            "definitions": {
+                "local": {
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "Microsoft.LUISRecognizer"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+                },
+                "$id": {
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "application": {
+                    "type": "object",
+                    "required": [
+                        "applicationId",
+                        "endpoint",
+                        "endpointKey"
+                    ],
+                    "properties": {
+                        "applicationId": {
+                            "type": "string"
+                        },
+                        "endpoint": {
+                            "type": "string"
+                        },
+                        "endpointKey": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "priority": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$type"
+            ],
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "anyOf": [
+                {
+                    "title": "Reference",
+                    "required": [
+                        "$copy"
+                    ]
+                },
+                {
+                    "title": "Type",
+                    "required": [
+                        "application"
                     ]
                 }
             ]
@@ -357,14 +357,14 @@
             "$role": "unionType",
             "oneOf": [
                 {
-                    "title": "Microsoft.LUISRecognizer",
-                    "description": "LUIS recognizer.",
-                    "$ref": "#/definitions/Microsoft.LUISRecognizer"
-                },
-                {
                     "title": "Microsoft.Prompt",
                     "description": "Example simple prompt.",
                     "$ref": "#/definitions/Microsoft.Prompt"
+                },
+                {
+                    "title": "Microsoft.LUISRecognizer",
+                    "description": "LUIS recognizer.",
+                    "$ref": "#/definitions/Microsoft.LUISRecognizer"
                 },
                 {
                     "title": "Microsoft.SimplePrompt",
@@ -383,14 +383,14 @@
                     "title": "string"
                 },
                 {
-                    "title": "Microsoft.LUISRecognizer",
-                    "description": "LUIS recognizer.",
-                    "$ref": "#/definitions/Microsoft.LUISRecognizer"
-                },
-                {
                     "title": "Microsoft.RegexRecognizer",
                     "description": "Example regular expression recognizer.",
                     "$ref": "#/definitions/Microsoft.RegexRecognizer"
+                },
+                {
+                    "title": "Microsoft.LUISRecognizer",
+                    "description": "LUIS recognizer.",
+                    "$ref": "#/definitions/Microsoft.LUISRecognizer"
                 }
             ]
         }

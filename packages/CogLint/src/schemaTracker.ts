@@ -12,7 +12,7 @@ import * as path from 'path';
 export class schemaTracker {
     /** Map from type name to information about that type. */
     typeToType: Map<string, Type>;
-    
+
     private validator: ajv.Ajv;
 
     constructor() {
@@ -20,10 +20,12 @@ export class schemaTracker {
         this.validator = new ajv();
     }
 
-    async getValidator(schemaPath: string): Promise<ajv.ValidateFunction> {
+    async getValidator(schemaPath: string): Promise<[ajv.ValidateFunction, boolean]> {
         let validator = this.validator.getSchema(schemaPath);
+        let added = false;
         if (!validator) {
             let schemaObject = await fs.readJSON(schemaPath);
+            added = true;
             if (schemaObject.oneOf) {
                 const defRef = "#/definitions/";
                 const unionRole = "unionType(";
@@ -75,11 +77,13 @@ export class schemaTracker {
             } else {
                 metaSchema = await fs.readJSON(metaSchemaCache);
             }
-            this.validator.addSchema(metaSchema, metaSchemaName);
+            if (!this.validator.getSchema(metaSchemaName)) {
+                this.validator.addSchema(metaSchema, metaSchemaName);
+            }
             this.validator.addSchema(schemaObject, schemaPath);
             validator = this.validator.getSchema(schemaPath);
         }
-        return validator;
+        return [validator, added];
     }
 
     private async getURL(url: string): Promise<any> {

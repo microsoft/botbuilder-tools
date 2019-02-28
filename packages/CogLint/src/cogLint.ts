@@ -32,6 +32,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
+    .option("-w, write <path>", "Write cog lg information into .lg files where <path> is an .lg file with no locale.")
     .description(`Take JSON .cog files created for Bot Framework and index $id, $type and $ref to identify errors. See  readme.md for more information.`)
     .parse(process.argv);
 
@@ -80,6 +81,10 @@ async function doIndexing() {
             for (let def of definitions) {
                 logger(MsgKind.msg, `  ${def.locatorString()}`);
             }
+        }
+
+        if (program.write) {
+            tracker.writeLG(program.write, (msg) => logger(MsgKind.msg, msg));
         }
     }
 }

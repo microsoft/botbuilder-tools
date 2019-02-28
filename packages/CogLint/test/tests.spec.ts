@@ -12,17 +12,17 @@ describe('Test .cog indexing library', async () => {
         await tracker.addCogFiles(["test/examples/*.cog"]);
     });
 
-    it('index all', () => expect(tracker.cogs.length).equal(6));
+    it('index all', () => expect(tracker.cogs.length).equal(8));
 
     it('errors', () => expect(tracker.cogs.filter((f) => f.errors.length > 0).length).equal(3));
 
-    it('definitions', () => expect(size(tracker.allDefinitions())).equal(18));
+    it('definitions', () => expect(size(tracker.allDefinitions())).equal(21));
 
     it('missing', () => expect(size(tracker.missingDefinitions())).equal(2));
 
     it('multiple', () => expect(size(tracker.multipleDefinitions())).equal(1));
 
-    it(`types`, () => expect(tracker.schema.typeToType.size).equal(4));
+    it(`types`, () => expect(tracker.schema.typeToType.size).equal(5));
 
     it('clone', async () => {
         let foo = tracker.cloneCog("foo");

@@ -7,8 +7,10 @@
 // tslint:disable:no-object-literal-type-assertion
 import * as fs from 'fs-extra';
 import * as glob from 'globby';
+import * as lgt from './lgTracker';
 import * as path from 'path';
 import * as st from './schemaTracker';
+
 let clone = require('clone');
 
 /** Top-level cog definition that would be found in a file. */
@@ -28,6 +30,11 @@ export class Cog {
     /** Return the id of the cog, i.e. the base filename. */
     id(): string {
         return path.basename(this.file, ".cog");
+    }
+
+    /** Base schema for cog. */
+    schema(): string {
+        return this.body.$schema;
     }
 
     constructor(file: string, body?: object) {
@@ -152,39 +159,16 @@ export class Definition {
     }
 }
 
-// For LG
-// 1) Need to crawl LG files to pick up template definitions.  (Do hierarchy.)
-// 2) Need to track LG property names and copy chains in cog files.
-// 3) Need to compile the resulting into composite .lg files per language.
-// What about writing?
-// 1) Write to associated definitions
-// 2) Need to know what templates can be used.
-// NOTE: Schema path to string <type>.<path with [] for array> or inore it... or not allow []
-// Root propertyname is defined by type, i.e. MyPromptType.Prompt.
-// In a cog of that type, it would be, MyPrompt.Prompt -> MyPromptType.Prompt
-// In a cog that copies, it would be, MyCopyPrompt.Prompt -> MyPrompt.Prompt -> MyPromptType.Prompt
-// In an id in a cog that copied it would be, MyParent#MyID.Prompt -> MyCopyPrompt.Prompt -> MyPrompt.Prompt -> MyPromptType.Prompt
-// Fallback is copy chain.
-// Type -> List of property names, i.e. Prompt, Stuff[].Prompt, etc.
-// 
-/*
-class LG {
-    path: string;
-    fallback: string[];
-
-    constructor(path: string, fallback: string[]) {
-        this.path = path;
-        this.fallback = fallback;
-    }
-}
-*/
-
 /** Tracks cogs and the definitions they contain. */
 export class CogTracker {
     /** Paths will be relative to root directory. */
     root: string;
 
+    /** Tracker for information about schemas. */
     schema: st.schemaTracker;
+
+    /** Tracker for LG information. */
+    lg: lgt.LGTracker;
 
     /** 
      * Map from $id to the definition.
@@ -204,6 +188,7 @@ export class CogTracker {
 
     constructor(schema: st.schemaTracker, root?: string) {
         this.schema = schema;
+        this.lg = new lgt.LGTracker(schema);
         this.root = root || process.cwd();
         this.idToDef = new Map<string, Definition[]>();
         this.typeToDef = new Map<string, Definition[]>();
@@ -217,7 +202,7 @@ export class CogTracker {
             const schemaFile = cog.body.$schema;
             if (schemaFile) {
                 let schemaPath = path.join(path.dirname(cog.file), schemaFile);
-                let validator = await this.schema.getValidator(schemaPath);
+                let [validator, added] = await this.schema.getValidator(schemaPath);
                 let validation = validator(cog.body, cog.file);
                 if (!validation && validator.errors) {
                     for (let err of validator.errors) {
@@ -227,6 +212,11 @@ export class CogTracker {
                         }
                         cog.errors.push(new Error(`${path} ${err.message}`));
                     }
+                }
+                if (added) {
+                    // Add .lg files from schema
+                    let pattern = path.join(path.dirname(schemaPath), path.basename(schemaPath, ".schema") + "*.lg");
+                    this.lg.addLGFiles([pattern]);
                 }
             } else {
                 cog.errors.push(new Error(`${cog} does not have a $schema.`));
@@ -254,6 +244,16 @@ export class CogTracker {
                 }
                 return false;
             });
+            // Ensure we have templates for this specific cog
+            if (cog.id()) {
+                let type = this.schema.typeToType.get(cog.body.$type);
+                if (type) {
+                    for (let fullName of type.lgProperties) {
+                        let propName = cog.id() + fullName.substring(fullName.indexOf("/")).replace('/', '.');
+                        this.lg.addTemplate(new lgt.Template(propName, undefined, ""))
+                    }
+                }
+            }
             // Assume we will save it and reset this when coming from file
             cog.save = true;
         } catch (e) {
@@ -346,6 +346,11 @@ export class CogTracker {
                 cog.save = false;
             }
         }
+    }
+
+    /** Update .lg files based on current state. */
+    async writeLG(basePath: string, log?: (msg: string) => void) {
+        this.lg.writeFiles(basePath, undefined, log);
     }
 
     /** All definitions. */

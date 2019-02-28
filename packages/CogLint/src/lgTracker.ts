@@ -14,12 +14,20 @@ import * as st from './schemaTracker';
 
 /** .lg file and the templates defined in it. */
 export class LGFile {
+
+    /** Path to .lg file. */
     file: string;
+
+    /** Templates defined in file. */
     templates: Template[];
+
+    /** True if flat naming is used. */
+    isFlat: boolean;
 
     constructor(file: string) {
         this.file = file;
         this.templates = [];
+        this.isFlat = true;
     }
 
     toString(): string {
@@ -41,7 +49,7 @@ export class Template {
     name: string;
 
     /** The template locale. */
-    locale: string;
+    locale?: string;
 
     /** File that contained definition. */
     file?: LGFile;
@@ -52,19 +60,42 @@ export class Template {
     /** Content of template. */
     contents?: string;
 
-    constructor(name: string, locale: string, contents?: string, file?: LGFile, line?: number) {
+    /** constructor
+     * @param name Full name using . as delimiters.
+     * @param locale Locale of template or undefined for all locales.
+     * @param contents Definition of template.
+     * @param file File containing template.
+     * @param line Line number in file where template is defined.
+     */
+    constructor(name: string, locale?: string, contents?: string, file?: LGFile, line?: number) {
         this.name = name;
         this.locale = locale;
         this.file = file;
         this.line = line;
-        this.contents = contents;
+        this.contents = contents ? contents.trim() : contents;
         if (file) {
             file.templates.push(this);
         }
     }
 
-    equalContents(other: Template): boolean {
-        return this.contents === other.contents;
+    /** Replace template with new template if old template is undefined, empty or identical. */
+    replaceIf(other: Template): boolean {
+        let replace = (this.contents === undefined && other.contents != undefined)
+            || (this.contents === "" && other.contents != undefined && other.contents != "")
+            || (this.contents === other.contents);
+        if (replace) {
+            this.name = other.name;
+            this.locale = other.locale;
+            this.file = other.file;
+            this.line = other.line;
+            this.contents = other.contents;
+        }
+        return replace;
+    }
+
+    /** Test to see if template definition is empty. */
+    isEmpty(): boolean {
+        return this.contents === undefined || this.contents === "";
     }
 
     toString(): string {
@@ -91,7 +122,7 @@ export class LGTracker {
             for (let type of schema.typeToType.values()) {
                 for (let name of type.lgProperties) {
                     let fullName = name.replace('/', '.');
-                    this.addTemplate(new Template(fullName, ""));
+                    this.addTemplate(new Template(fullName, "", ""));
                 }
             }
         } else {
@@ -99,50 +130,57 @@ export class LGTracker {
         }
     }
 
-    /** Add a template to the tracker. */
+    /** Add a template to the tracker. 
+     * If the locale is undefined will be added to all locales.
+    */
     addTemplate(template: Template) {
         let locale = template.locale;
-        if (!this.index.hasOwnProperty(locale)) {
-            this.index[locale] = {};
-        }
-        let root = this.index[locale];
-        let pathName = template.name ? template.name.split('.') : "";
-        for (let pos = 0; pos < pathName.length; ++pos) {
-            let name = pathName[pos];
-            if (!root.hasOwnProperty(name)) {
-                root[name] = {};
+        if (locale === undefined) {
+            for (let loc in this.index) {
+                let newTemplate = new Template(template.name, loc, template.contents, template.file, template.line);
+                this.addTemplate(newTemplate);
             }
-            root = root[name];
+        } else {
+            if (!this.index.hasOwnProperty(locale)) {
+                this.index[locale] = {};
+            }
+            let root = this.index[locale];
+            let pathName = template.name ? template.name.split('.') : "";
+            for (let pos = 0; pos < pathName.length; ++pos) {
+                let name = pathName[pos];
+                if (!root.hasOwnProperty(name)) {
+                    root[name] = {};
+                }
+                root = root[name];
+            }
+            if (!root.hasOwnProperty("$templates")) {
+                root.$templates = [];
+            }
+            this.mergeTemplates(root.$templates, [template]);
         }
-        if (!root.hasOwnProperty("$templates")) {
-            root.$templates = [];
-        }
-        if (root.$templates.length == 1 && root.$templates[0].contents === undefined) {
-            root.$templates.pop();
-        }
-        root.$templates.push(template);
     }
 
     /** Add LG file to tracker.  */
-    async addLGFile(lgPath: string, log?: (msg: string) => void): Promise<void> {
+    async addLGFile(lgPath: string, log?: (msg: string) => void): Promise<LGFile> {
         if (!log) log = (_msg) => { };
         log(`Adding ${lgPath}`);
-        let file = new LGFile(lgPath)
+        let file = new LGFile(lgPath);
         let namePath: string[] = [];
         let indent = 1;
         let lineNum = 0;
-        let definition = "";
+        let contents = "";
         return this.readLines(lgPath,
             (line) => {
                 if (line.startsWith('#')) {
-                    if (definition) {
-                        this.addTemplate(new Template(this.pathToName(namePath), file.locale(), definition, file, lineNum));
-                        definition = "";
+                    if (contents) {
+                        this.addTemplate(new Template(this.pathToName(namePath), file.locale(), contents, file, lineNum));
+                        contents = "";
                     }
                     let pos = 1;
                     while (line.length > pos && line[pos] === "#") {
                         ++pos;
                     }
+                    if (pos > 1) file.isFlat = false;
                     while (pos < indent) {
                         namePath.pop();
                         --indent;
@@ -158,16 +196,16 @@ export class LGTracker {
                         ++indent;
                     }
                 } else {
-                    definition += line + os.EOL;
+                    contents += line + os.EOL;
                 }
                 ++lineNum;
             },
             () => {
-                if (definition) {
-                    this.addTemplate(new Template(this.pathToName(namePath), file.locale(), definition, file, lineNum));
+                if (contents) {
+                    this.addTemplate(new Template(this.pathToName(namePath), file.locale(), contents, file, lineNum));
                 }
                 this.files.push(file);
-            });
+            }).then(() => file);
     }
 
     /** Add all LG files matching glob patterns to tracker. */
@@ -179,21 +217,26 @@ export class LGTracker {
 
     /** Write out .lg files, one per locale.
      * @param basePath Base filename and path without locale.
-     * @param flat True to produce flat template names instead of hiearchical.
+     * @param flat True to produce flat template names instead of hiearchical.  If undefined will be from existing file format.
      * @param log Logger for output.
      */
     async writeFiles(basePath: string, flat?: boolean, log?: (name: string) => void): Promise<void> {
         if (!log) log = (_name) => { };
         for (let key in this.index) {
             let filename = path.join(path.dirname(basePath), path.basename(basePath, ".lg") + (key ? `-${key}` : "") + ".lg");
+            let fileFlat = flat;
             if (await fs.pathExists(filename)) {
                 log(`Merging existing ${filename}`);
                 let old = new LGTracker(this.schema);
-                await old.addLGFile(filename);
+                let oldFile = await old.addLGFile(filename);
+                if (fileFlat === undefined) {
+                    // Preserve old file format
+                    fileFlat = oldFile.isFlat;
+                }
                 this.union(old, true);
             }
             log(`Writing ${filename}`);
-            let [contents] = this.buildContents(this.index[key], 1, flat);
+            let [contents] = this.buildContents(this.index[key], 1, fileFlat);
             await fs.outputFile(filename, contents);
         }
     }
@@ -215,7 +258,7 @@ export class LGTracker {
     }
 
     private * multiplyDefinedR(elt: any): Iterable<Template[]> {
-        for(let key in elt) {
+        for (let key in elt) {
             if (key === "$templates") {
                 if (elt.$templates.length > 1) {
                     yield elt.$templates;
@@ -236,7 +279,11 @@ export class LGTracker {
                     if (flat && template.name) {
                         contents += `# ${template.name}${os.EOL}`;
                     }
-                    contents += template.contents || os.EOL;
+                    if (template.contents) {
+                        contents += template.contents + os.EOL + os.EOL;
+                    } else if (template.contents === "") {
+                        contents += os.EOL;
+                    }
                     hasTemplate = true;
                 }
             } else {
@@ -292,19 +339,15 @@ export class LGTracker {
     }
 
     private mergeTemplates(current: Template[], other: Template[], front?: boolean) {
-        if (current.length == 1 && !current[0].contents) {
-            // Remove empty definition
-            current.shift();
-        }
         for (let newTemplate of other) {
             let found = false;
             for (let oldTemplate of current) {
-                if (newTemplate.equalContents(oldTemplate)) {
-                    found = true;
+                found = oldTemplate.replaceIf(newTemplate);
+                if (found) {
                     break;
                 }
             }
-            if (!found) {
+            if (!found && (current.length == 0 || !newTemplate.isEmpty())) {
                 if (front) {
                     current.unshift(newTemplate);
                 } else {
@@ -318,7 +361,7 @@ export class LGTracker {
         for (let newTemplate of other) {
             let pos = 0;
             for (let oldTemplate of current) {
-                if (newTemplate.equalContents(oldTemplate)) {
+                if (newTemplate.contents === oldTemplate.contents) {
                     current.splice(pos, 1);
                     break;
                 }
