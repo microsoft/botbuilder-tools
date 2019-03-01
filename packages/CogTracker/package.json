@@ -1,0 +1,64 @@
+{
+  "name": "cogtracker",
+  "version": "1.0.0",
+  "description": "Utilities for reading, validating, indexing, modifying and writing Bot Framework .schema, .cog and .lg files.",
+  "main": "./lib/cogTracker.js",
+  "types": "./typing/lib/cogTracker.d.ts",
+  "bin": {
+    "cogLint": "./lib/cogTracker.js"
+  },
+  "directories": {
+    "bin": "bin",
+    "doc": "docs",
+    "lib": "lib",
+    "typingse": "typings",
+    "examples": "test/examples"
+  },
+  "files": [
+    "bin/",
+    "docs/",
+    "lib/",
+    "test/examples/",
+    "typings/"
+  ],
+  "scripts": {
+    "test": "mocha -r node_modules/ts-node/register test/*.ts",
+    "clean": "erase /Q /s lib\\* && erase /Q /s typings\\* && erase /Q /s doc\\*",
+    "build": "tsc",
+    "docs": "typedoc --out docs src"
+  },
+  "engines": {
+    "node": ">=8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Microsoft/botbuilder-tools/issues"
+  },
+  "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/globby": "^8.0.0",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.18",
+    "@types/semver": "^5.5.0",
+    "chai": "^4.2.0",
+    "chalk": "^2.4.2",
+    "mocha": "^5.2.0",
+    "ts-node": "^8.0.2",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^5.0.5",
+    "ajv": "^6.9.1",
+    "clone": "^2.1.2",
+    "fs-extra": "^7.0.1",
+    "globby": "^9.0.0",
+    "semver": "^5.6.0"
+  }
+}

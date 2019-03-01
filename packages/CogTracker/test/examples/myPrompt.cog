@@ -1,0 +1,8 @@
+{
+    "$schema": "./promptOnly.schema",
+    "$type": "prompt",
+    "prompt": {
+        "en-us": "Hello",
+        "fr": "Bonjour"
+    }
+}
