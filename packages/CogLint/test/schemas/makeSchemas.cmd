@@ -9,3 +9,4 @@ popd
 :run
 call node %cs% *.schema -o ..\examples\app.schema
 call node %cs% prompt.schema -o ..\examples\promptOnly.schema
+call node %cs% *.schema -f -o ..\examples\app-flat.schema

@@ -65,10 +65,6 @@
             "$role": "unionType",
             "oneOf": [
                 {
-                    "type": "string",
-                    "title": "string"
-                },
-                {
                     "title": "Microsoft.LUISRecognizer",
                     "description": "LUIS recognizer.",
                     "$ref": "#/definitions/Microsoft.LUISRecognizer"
@@ -77,6 +73,10 @@
                     "title": "Microsoft.RegexRecognizer",
                     "description": "Example regular expression recognizer.",
                     "$ref": "#/definitions/Microsoft.RegexRecognizer"
+                },
+                {
+                    "type": "string",
+                    "title": "string"
                 }
             ]
         },

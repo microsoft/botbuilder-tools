@@ -36,7 +36,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     process.exit(1);
 };
 
-function parseBool(val?: string) : boolean {
+function parseBool(val?: string): boolean {
     return val === "true";
 }
 
@@ -95,6 +95,7 @@ async function mergeSchemas() {
         addTypeTitles(definitions);
         expandTypes(definitions);
         addStandardProperties(definitions, metaSchema);
+        sortUnions(definitions);
         if (!program.output) {
             program.output = "app.schema";
         }
@@ -305,6 +306,15 @@ function addStandardProperties(definitions: any, cogSchema: any): void {
             } else {
                 definition.required = ["$type"];
             }
+        }
+    }
+}
+
+function sortUnions(definitions: any): void {
+    for (let key in definitions) {
+        let definition = definitions[key];
+        if (isUnionType(definition) && definition.oneOf) {
+            definition.oneOf = definition.oneOf.sort((a: any, b: any) => a.title.localeCompare(b.title));
         }
     }
 }
