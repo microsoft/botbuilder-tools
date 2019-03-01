@@ -1,9 +1,8 @@
 > Root namespace
-
 # Microsoft
+
 ## Prompt
 > A comment
-
 ### prompt
 - How are you?
 > Another comment
@@ -16,7 +15,11 @@
 - OK
 
 > Define the same template more than once
-
 # multipleTemplate
 - a
+
+> *** Alternative Definition ***
+> Second definition
+# multipleTemplate
+-b
 

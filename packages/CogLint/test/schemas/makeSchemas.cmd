@@ -1,4 +1,11 @@
 @echo off
+setlocal
 del /q ..\examples\*.lg
-call node ..\..\..\cogschema\lib\cogschema\src\cogschema.js *.schema -o ..\examples\app.schema
-call node ..\..\..\cogschema\lib\cogschema\src\cogschema.js prompt.schema -o ..\examples\promptOnly.schema
+set cs=..\..\..\cogschema\lib\cogschema\src\cogschema.js
+if exist %cs% goto run
+pushd ..\..\..\cogschema
+call npm run build
+popd
+:run
+call node %cs% *.schema -o ..\examples\app.schema
+call node %cs% prompt.schema -o ..\examples\promptOnly.schema

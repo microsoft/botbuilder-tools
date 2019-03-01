@@ -36,11 +36,15 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     process.exit(1);
 };
 
+function parseBool(val?: string) : boolean {
+    return val === "true";
+}
+
 program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
     .option("-o, output <path>", "Output path and filename for unified schema and associated .lg files per locale.")
-    .option("-f, flat <boolean>", "Use a flat naming schema for templates.")
+    .option("-f, flat [boolean]", "Use flat (true) or hierarchical (false) naming for templates, default is true if present, otherwise use format found in output file if present.", parseBool)
     .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged. Will also use $role to define union types.  All associated .lg files will be merged into a single .lg file per locale.  See readme.md for more information.`)
     .parse(process.argv);
 

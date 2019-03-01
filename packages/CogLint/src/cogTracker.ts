@@ -216,7 +216,7 @@ export class CogTracker {
                 if (added) {
                     // Add .lg files from schema
                     let pattern = path.join(path.dirname(schemaPath), path.basename(schemaPath, ".schema") + "*.lg");
-                    this.lg.addLGFiles([pattern]);
+                    await this.lg.addLGFiles([pattern]);
                 }
             } else {
                 cog.errors.push(new Error(`${cog} does not have a $schema.`));

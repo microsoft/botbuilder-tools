@@ -10,7 +10,6 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}\\lib\\cogSchema\\src\\cogSchema.js",
             "args":
-            // ["TextPrompt.schema", "-o", "c:/tmp/tom.schema"],
             [
                 "implementations/*.schema",
                 "definitions/*.schema",

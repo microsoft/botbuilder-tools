@@ -60,19 +60,24 @@ export class Template {
     /** Content of template. */
     contents?: string;
 
+    /** Comments before template. */
+    comments?: string;
+
     /** constructor
      * @param name Full name using . as delimiters.
      * @param locale Locale of template or undefined for all locales.
      * @param contents Definition of template.
      * @param file File containing template.
      * @param line Line number in file where template is defined.
+     * @param comments Comments before template definition.
      */
-    constructor(name: string, locale?: string, contents?: string, file?: LGFile, line?: number) {
+    constructor(name: string, locale?: string, contents?: string, file?: LGFile, line?: number, comments?: string) {
         this.name = name;
         this.locale = locale;
         this.file = file;
         this.line = line;
-        this.contents = contents ? contents.trim() : contents;
+        this.contents = contents ? contents.trimRight() : contents;
+        this.comments = comments ? comments.trimRight() : comments;
         if (file) {
             file.templates.push(this);
         }
@@ -89,6 +94,7 @@ export class Template {
             this.file = other.file;
             this.line = other.line;
             this.contents = other.contents;
+            this.comments = other.comments;
         }
         return replace;
     }
@@ -137,7 +143,7 @@ export class LGTracker {
         let locale = template.locale;
         if (locale === undefined) {
             for (let loc in this.index) {
-                let newTemplate = new Template(template.name, loc, template.contents, template.file, template.line);
+                let newTemplate = new Template(template.name, loc, template.contents, template.file, template.line, template.comments);
                 this.addTemplate(newTemplate);
             }
         } else {
@@ -169,13 +175,18 @@ export class LGTracker {
         let indent = 1;
         let lineNum = 0;
         let contents = "";
+        let lastComments = "";
+        let comments = "";
         return this.readLines(lgPath,
-            (line) => {
+            (fullLine) => {
+                let line = fullLine.trim();
                 if (line.startsWith('#')) {
-                    if (contents) {
-                        this.addTemplate(new Template(this.pathToName(namePath), file.locale(), contents, file, lineNum));
-                        contents = "";
+                    if (contents || lastComments) {
+                        this.addTemplate(new Template(this.pathToName(namePath), file.locale(), contents, file, lineNum, lastComments));
                     }
+                    lastComments = comments;
+                    contents = "";
+                    comments = "";
                     let pos = 1;
                     while (line.length > pos && line[pos] === "#") {
                         ++pos;
@@ -195,14 +206,20 @@ export class LGTracker {
                         namePath.push(name);
                         ++indent;
                     }
+                } else if (line.startsWith(">")) {
+                    comments += fullLine + os.EOL;
+                } else if (line === "" || line.startsWith("-")) {
+                    contents += comments + fullLine + os.EOL;
+                    comments = "";
                 } else {
-                    contents += line + os.EOL;
+                    contents += fullLine + os.EOL;
                 }
                 ++lineNum;
             },
             () => {
-                if (contents) {
-                    this.addTemplate(new Template(this.pathToName(namePath), file.locale(), contents, file, lineNum));
+                if (contents || comments || lastComments) {
+                    contents += comments;
+                    this.addTemplate(new Template(this.pathToName(namePath), file.locale(), contents, file, lineNum, lastComments));
                 }
                 this.files.push(file);
             }).then(() => file);
@@ -217,7 +234,7 @@ export class LGTracker {
 
     /** Write out .lg files, one per locale.
      * @param basePath Base filename and path without locale.
-     * @param flat True to produce flat template names instead of hiearchical.  If undefined will be from existing file format.
+     * @param flat True to produce flat template names instead of hierarchical.  If undefined will be from existing file format.
      * @param log Logger for output.
      */
     async writeFiles(basePath: string, flat?: boolean, log?: (name: string) => void): Promise<void> {
@@ -274,24 +291,45 @@ export class LGTracker {
         let hasTemplate = false;
         for (let key in val) {
             if (key === "$templates") {
-                if (val.$templates.length > 0) {
-                    let template = val.$templates[0];
-                    if (flat && template.name) {
-                        contents += `# ${template.name}${os.EOL}`;
+                let first = true;
+                for (let template of val.$templates) {
+                    let templateContents = "";
+                    if (flat) {
+                        if (template.comments) {
+                            templateContents += template.comments + os.EOL;
+                        }
+                        templateContents += `# ${template.name}${os.EOL}`;
+                    } else {
+                        if (first) {
+                            first = false;
+                        }
+                        else {
+                            const altDef = "> *** Alternative Definition ***";
+                            if (!template.comments || !template.comments.startsWith(altDef)) {
+                                templateContents += altDef + os.EOL;
+                            }
+                            if (template.comments) {
+                                templateContents += template.comments + os.EOL;
+                            }
+                            templateContents += `${"#".repeat(depth - 1)} ${template.name.substring(template.name.lastIndexOf("."))}` + os.EOL;
+                        }
                     }
                     if (template.contents) {
-                        contents += template.contents + os.EOL + os.EOL;
-                    } else if (template.contents === "") {
-                        contents += os.EOL;
+                        templateContents += template.contents + os.EOL;
                     }
-                    hasTemplate = true;
+                    contents += templateContents + os.EOL;
                 }
+                hasTemplate = true;
             } else {
                 let [childContents, childTemplate] = this.buildContents(val[key], depth + 1, flat);
                 if (childTemplate) {
                     if (flat) {
                         contents += childContents;
                     } else {
+                        let child = val[key];
+                        if (child.$templates && child.$templates.length > 0 && child.$templates[0].comments) {
+                            contents += child.$templates[0].comments + os.EOL;
+                        }
                         contents += `${"#".repeat(depth)} ${key}${os.EOL}${childContents}`;
                     }
                     hasTemplate = true;
