@@ -1,5 +1,5 @@
 {
-  "name": "cogLint",
+  "name": "coglint",
   "version": "1.2.0",
   "description": "Merge together multiple JSON schemas with references and allof into a single simple schema.",
   "main": "./lib/cogLint.js",
@@ -24,8 +24,7 @@
   "scripts": {
     "test": "mocha -r node_modules/ts-node/register test/*.ts",
     "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",
-    "build": "tsc",
-    "docs": "typedoc --out docs src"
+    "build": "tsc"
   },
   "engines": {
     "node": ">=8.0"
@@ -57,6 +56,7 @@
     "ajv": "^6.9.1",
     "chalk": "^2.4.2",
     "clone": "^2.1.2",
+    "cogtracker": "^1.0.0",
     "commander": "^2.19.0",
     "fs-extra": "^7.0.1",
     "globby": "^9.0.0",

@@ -5,6 +5,8 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
+export * from './lgTracker';
+export * from './schemaTracker';
 import * as fs from 'fs-extra';
 import * as glob from 'globby';
 import * as lgt from './lgTracker';
@@ -165,7 +167,7 @@ export class CogTracker {
     root: string;
 
     /** Tracker for information about schemas. */
-    schema: st.schemaTracker;
+    schema: st.SchemaTracker;
 
     /** Tracker for LG information. */
     lg: lgt.LGTracker;
@@ -186,7 +188,7 @@ export class CogTracker {
     /** Top-level cogs in tracker. */
     cogs: Cog[];
 
-    constructor(schema: st.schemaTracker, root?: string) {
+    constructor(schema: st.SchemaTracker, root?: string) {
         this.schema = schema;
         this.lg = new lgt.LGTracker(schema);
         this.root = root || process.cwd();

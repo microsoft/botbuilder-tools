@@ -118,9 +118,9 @@ export class LGTracker {
     index: any;
 
     /** Track schemas where .lg properties are defined. */
-    schema: st.schemaTracker;
+    schema: st.SchemaTracker;
 
-    constructor(schema?: st.schemaTracker) {
+    constructor(schema?: st.SchemaTracker) {
         this.files = [];
         this.index = {};
         if (schema) {
@@ -132,7 +132,7 @@ export class LGTracker {
                 }
             }
         } else {
-            this.schema = new st.schemaTracker();
+            this.schema = new st.SchemaTracker();
         }
     }
 

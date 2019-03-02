@@ -8,10 +8,10 @@
             "type": "node",
             "request": "launch",
             "name": "Mocha Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "program": "${workspaceFolder}/node_modules/.bin/mocha.cmd",
             "args": [
                 "-r",
-                "node_modules/ts-node/register",
+                "../../node_modules/ts-node/register",
                 "test/*.ts",
                 "-u",
                 "tdd",
@@ -19,37 +19,9 @@
                 "999999",
                 "--colors"
             ],
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}\\lib\\cogLint.js",
-            "args": [
-                "examples/*.cog",
-                "-w",
-                "examples/app.lg"
-            ],
-            "cwd": "${workspaceFolder}/test",
-            "preLaunchTask": "tsc: build - tsconfig.json",
-            "outFiles": [
-                "${workspaceFolder}/lib/**/*.js"
-            ]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch TestBot",
-            "program": "${workspaceFolder}\\lib\\cogLint.js",
-            "args": [
-                "**/*.cog"
-            ],
-            "cwd": "${workspaceFolder}/../../../botbuilder-dotnet/tests/Microsoft.Bot.Builder.TestBot.Json/dialogs/",
-            "preLaunchTask": "tsc: build - tsconfig.json",
-            "outFiles": [
-                "${workspaceFolder}/lib/**/*.js"
-            ]
+            "internalConsoleOptions": "openOnSessionStart",
+            "cwd": "${workspaceFolder}",
+            "outFiles": []
         }
     ]
 }

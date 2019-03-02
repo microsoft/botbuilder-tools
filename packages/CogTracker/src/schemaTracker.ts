@@ -9,7 +9,7 @@ import * as ajv from 'ajv';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 
-export class schemaTracker {
+export class SchemaTracker {
     /** Map from type name to information about that type. */
     typeToType: Map<string, Type>;
 

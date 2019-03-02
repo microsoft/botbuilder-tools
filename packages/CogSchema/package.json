@@ -1,9 +1,9 @@
 {
-  "name": "cogSchema",
+  "name": "cogschema",
   "version": "1.2.0",
   "description": "Merge together multiple Bot Framework .cog JSON schemas into a single schema.",
   "main": "./lib/cogSchema.js",
-  "types": "./typings/lib/cogSchema/src/cogSchema.d.ts",
+  "types": "./typings/lib/cogSchema.d.ts",
   "bin": {
     "cogSchema": "./lib/cogSchema/src/cogSchema.js"
   },
@@ -11,7 +11,7 @@
     "bin": "bin",
     "doc": "docs",
     "lib": "lib",
-    "typingse": "typings",
+    "typings": "typings",
     "examples": "examples"
   },
   "files": [
@@ -49,6 +49,7 @@
     "ajv": "^6.9.1",
     "chalk": "^2.4.2",
     "clone": "^2.1.2",
+    "cogtracker": "^1.0.0",
     "commander": "^2.19.0",
     "fs-extra": "^7.0.1",
     "globby": "^9.0.0",

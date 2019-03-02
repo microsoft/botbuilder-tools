@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\lib\\cogSchema\\src\\cogSchema.js",
+            "program": "${workspaceFolder}\\lib\\cogSchema.js",
             "args":
             [
                 "implementations/*.schema",
@@ -26,7 +26,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Tom",
-            "program": "${workspaceFolder}\\lib\\cogSchems\\src\\cogSchema.js",
+            "program": "${workspaceFolder}\\lib\\cogSchema.js",
             "args": [
                 "components/**/*.schema",
                 "-o",
@@ -42,7 +42,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch OBI",
-            "program": "${workspaceFolder}\\lib\\cogSchema\\src\\cogSchema.js",
+            "program": "${workspaceFolder}\\lib\\cogSchema.js",
             "args": [
                 "**/*.schema",
                 "-o",
@@ -58,7 +58,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch cogLint",
-            "program": "${workspaceFolder}\\lib\\cogSchema\\src\\cogSchema.js",
+            "program": "${workspaceFolder}\\lib\\cogSchema.js",
             "args": [
                 "*.schema",
                 "-o",

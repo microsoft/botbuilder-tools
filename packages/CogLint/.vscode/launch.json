@@ -7,23 +7,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Mocha Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-            "args": [
-                "-r",
-                "node_modules/ts-node/register",
-                "test/*.ts",
-                "-u",
-                "tdd",
-                "--timeout",
-                "999999",
-                "--colors"
-            ],
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}\\lib\\cogLint.js",
             "args": [
@@ -31,7 +14,7 @@
                 "-w",
                 "examples/app.lg"
             ],
-            "cwd": "${workspaceFolder}/test",
+            "cwd": "${workspaceFolder}/../cogtracker/test",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"

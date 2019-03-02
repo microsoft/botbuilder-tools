@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Utilities for reading, validating, indexing, modifying and writing Bot Framework .schema, .cog and .lg files.",
   "main": "./lib/cogTracker.js",
-  "types": "./typing/lib/cogTracker.d.ts",
+  "types": "./typings/lib/cogTracker.d.ts",
   "bin": {
     "cogLint": "./lib/cogTracker.js"
   },
@@ -11,7 +11,7 @@
     "bin": "bin",
     "doc": "docs",
     "lib": "lib",
-    "typingse": "typings",
+    "typings": "typings",
     "examples": "test/examples"
   },
   "files": [
@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "test": "mocha -r node_modules/ts-node/register test/*.ts",
-    "clean": "erase /Q /s lib\\* && erase /Q /s typings\\* && erase /Q /s doc\\*",
+    "clean": "erase /Q /s lib\\* && erase /Q /s typings\\* && erase /Q /s docs\\*",
     "build": "tsc",
     "docs": "typedoc --out docs src"
   },
@@ -48,6 +48,7 @@
     "@types/semver": "^5.5.0",
     "chai": "^4.2.0",
     "chalk": "^2.4.2",
+    "cogschema": "^1.2.0",
     "mocha": "^5.2.0",
     "ts-node": "^8.0.2",
     "typedoc": "^0.14.2",
