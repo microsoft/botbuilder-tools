@@ -1,28 +1,21 @@
-# prompt
 > Simple prompt
-## prompt
+# prompt.prompt
 > Simple english
 - English prompt
 
-# externalRecognizer
-## req
+# externalRecognizer.req
 
-## complex
-### inside
+# externalRecognizer.complex.inside
 
-# myPrompt
-## prompt
+# myPrompt.prompt
 
-## alternatePrompt
+# myPrompt.alternatePrompt
 
-# myPromptCopy
-## prompt
+# myPromptCopy.prompt
 
-## alternatePrompt
+# myPromptCopy.alternatePrompt
 
-# NotUsed
-## req
+# NotUsed.req
 
-## complex
-### inside
+# NotUsed.complex.inside
 

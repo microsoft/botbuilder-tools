@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\lib\\cogSchema.js",
+            "program": "${workspaceFolder}\\lib\\cogSchemaMain.js",
             "args":
             [
                 "implementations/*.schema",
@@ -26,7 +26,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Tom",
-            "program": "${workspaceFolder}\\lib\\cogSchema.js",
+            "program": "${workspaceFolder}\\lib\\cogSchemaMain.js",
             "args": [
                 "components/**/*.schema",
                 "-o",

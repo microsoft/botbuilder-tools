@@ -1,34 +1,25 @@
-# Recognizer
-## req
+# Recognizer.req
 
-## complex
-### inside
+# Recognizer.complex.inside
 
-# prompt
-## prompt
+# prompt.prompt
 - Generic prompt
 
-## alternatePrompt
+# prompt.alternatePrompt
 
-# externalRecognizer
-## req
+# externalRecognizer.req
 
-## complex
-### inside
+# externalRecognizer.complex.inside
 
-# myPrompt
-## prompt
+# myPrompt.prompt
 
-## alternatePrompt
+# myPrompt.alternatePrompt
 
-# myPromptCopy
-## prompt
+# myPromptCopy.prompt
 
-## alternatePrompt
+# myPromptCopy.alternatePrompt
 
-# NotUsed
-## req
+# NotUsed.req
 
-## complex
-### inside
+# NotUsed.complex.inside
 

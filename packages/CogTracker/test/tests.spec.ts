@@ -11,7 +11,7 @@ import * as fs from 'fs-extra';
 import * as glob from 'globby';
 import 'mocha';
 import * as path from 'path';
-import * as cs from 'cogschema';
+let cs = require('cogschema/lib/cogSchema');
 
 describe('Test .cog indexing library', async () => {
     let schemas = new ct.SchemaTracker();
@@ -30,11 +30,8 @@ describe('Test .cog indexing library', async () => {
         await fs.remove("examples/app.schema");
         await fs.remove("examples/app.lg");
         await fs.remove("examples/app-en-us.lg");
-        await fs.remove("examples/app.flat.lg");
-        await fs.remove("examples/app.flat-en-us.lg");
-        await cs.mergeSchemas(["schemas/*.schema"], "examples/app.schema", false);
-        await cs.mergeSchemas(["schemas/prompt.schema"], "examples\promptOnly.schema", false);
-        await cs.mergeSchemas(["schemas/*.schema"], "examples/app.flat.schema", true);
+        await cs.mergeSchemas(["schemas/*.schema"], "examples/app.schema", true);
+        await cs.mergeSchemas(["schemas/prompt.schema"], "examples\promptOnly.schema", true);
         tracker.root = process.cwd();
         await tracker.addCogFiles(["examples/*.cog"]);
         await tracker.writeLG("examples/app.lg");
