@@ -1,6 +1,6 @@
 {
   "name": "cogschema",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "description": "Merge together multiple Bot Framework .cog JSON schemas into a single schema.",
   "main": "./lib/cogSchemaMain.js",
   "types": "./typings/lib/cogSchema.d.ts",

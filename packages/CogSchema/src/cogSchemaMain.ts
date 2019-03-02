@@ -44,4 +44,9 @@ program
     .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged. Will also use $role to define union types and lg properties.  All associated .lg files will be merged into a single .lg file per locale.  See readme.md for more information.`)
     .parse(process.argv);
 
-cs.mergeSchemas(program.args, program.output, program.flat);
+    program.help();
+    
+cs.mergeSchemas(program.args, program.output, program.flat)
+    .then((finished) => {
+        if (!finished) program.help();
+    });
