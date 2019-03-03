@@ -260,12 +260,111 @@
         "name": "ListEndpoints"
     },
     {
+        "method": "get",
+        "methodAlias": "list",
+        "target": [
+            "userazureaccounts"
+        ],
+        "command": "luis list userazureaccounts --armToken <string>",
+        "pathFragment": "",
+        "params": [
+            {
+                "name": "armToken",
+                "in": "path",
+                "required": true,
+                "type": "string",
+                "description": "The user's ARM token.",
+                "x-ms-parameter-location": "method"
+            }
+        ],
+        "description": "Returns the list of Azure accounts belonging to the user.",
+        "name": "ListUserAzureAccounts"
+    },
+    {
+        "method": "get",
+        "methodAlias": "list",
+        "target": [
+            "appazureaccounts"
+        ],
+        "command": "luis list appazureaccounts --armToken <string> --appId <string>",
+        "pathFragment": "",
+        "params": [
+            {
+                "name": "armToken",
+                "in": "path",
+                "required": true,
+                "type": "string",
+                "description": "The user's ARM token.",
+                "x-ms-parameter-location": "method"
+            },
+            {
+                "name": "appId",
+                "in": "path",
+                "required": true,
+                "type": "string",
+                "format": "uuid",
+                "description": "The application ID.",
+                "x-ms-parameter-location": "method"
+            }
+        ],
+        "description": "Returns the list of Azure accounts asigned to the application.",
+        "name": "ListAppAzureAccounts"
+    },
+    {
+        "method": "post",
+        "methodAlias": "add",
+        "target": [
+            "appazureaccount"
+        ],
+        "command": "luis add appazureaccount --in accountToAdd.json --appId <string>",
+        "pathFragment": "",
+        "params": [
+            {
+                "name": "appId",
+                "in": "path",
+                "required": true,
+                "type": "string",
+                "format": "uuid",
+                "description": "The application ID.",
+                "x-ms-parameter-location": "method"
+            }
+        ],
+        "description": "Assigns a LUIS Azure account to the application.",
+        "name": "AddLuisAccount",
+        "entityName": "accountToAdd",
+        "entityType": "AzureAccountInfoObject"
+    },
+    {
+        "method": "delete",
+        "methodAlias": "delete",
+        "target": [
+            "appazureaccount"
+        ],
+        "command": "luis delete appazureaccount --in accountToDelete.json --appId <string>",
+        "pathFragment": "",
+        "params": [
+            {
+                "name": "appId",
+                "in": "path",
+                "required": true,
+                "type": "string",
+                "format": "uuid",
+                "description": "The application ID.",
+                "x-ms-parameter-location": "method"
+            }
+        ],
+        "description": "Deletes the assignment of the LUIS Azure account from the application.",
+        "name": "RemoveLuisAccount",
+        "entityName": "accountToDelete",
+        "entityType": "AzureAccountInfoObject"
+    },
+    {
         "method": "post",
         "methodAlias": "publish",
         "target": [
             "version"
         ],
-        "command": "luis publish version --in applicationPublishObject.json --appId <string> --versionId <version> --publishRegion <publishedRegion> --staging",
+        "command": "luis publish version --in applicationPublishObject.json --appId <string> --versionId <version> --staging",
         "pathFragment": "",
         "params": [
             {
@@ -344,7 +443,7 @@
         "target": [
             "settings"
         ],
-        "command": "luis get settings --appId <string>",
+        "command": "luis list settings --appId <string>",
         "pathFragment": "",
         "params": [
             {
@@ -357,8 +456,70 @@
                 "x-ms-parameter-location": "method"
             }
         ],
-        "description": "Get the application settings.",
+        "description": "List the application settings.",
         "name": "GetSettings"
+    },
+    {
+        "method": "put",
+        "methodAlias": "update",
+        "target": [
+            "versionsettings"
+        ],
+        "command": "luis update versionsettings --in appVersionSettingUpdateObjects.json --appId <string> --useAllTrainingData <true|false>",
+        "pathFragment": "",
+        "params": [
+            {
+                "name": "appId",
+                "in": "path",
+                "required": true,
+                "type": "string",
+                "format": "uuid",
+                "description": "The application ID.",
+                "x-ms-parameter-location": "method"
+            },
+            {
+                "name": "useAllTrainingData",
+                "in": "path",
+                "description": "Should application training use all negative data or not.",
+                "required": false,
+                "type": "boolean",
+                "x-ms-parameter-location": "method"
+            }
+        ],
+        "description": "Updates the application version settings.",
+        "name": "UpdateAppVersionSettings",
+        "entityName": "appVersionSettingObjects",
+        "entityType": "AppVersionSettingObjects"
+    },
+    {
+        "method": "get",
+        "methodAlias": "list",
+        "target": [
+            "versionsettings"
+        ],
+        "command": "luis list versionsettings --appId <string> --versionId <string>",
+        "pathFragment": "",
+        "params": [
+            {
+                "name": "appId",
+                "in": "path",
+                "required": true,
+                "type": "string",
+                "format": "uuid",
+                "description": "The application ID.",
+                "x-ms-parameter-location": "method"
+            },
+            {
+                "name": "versionId",
+                "in": "path",
+                "description": "The version ID.",
+                "required": true,
+                "type": "string",
+                "x-ms-parameter-location": "method"
+            }
+        ],
+        "description": "List the application version settings.",
+        "name": "GetAppVersionSettings"
     },
     {
         "method": "put",
@@ -695,6 +856,66 @@
         ],
         "description": "Exports a LUIS application to JSON format.",
         "name": "Export"
+    },
+    {
+        "method": "get",
+        "methodAlias": "package",
+        "target": [
+            "version"
+        ],
+        "command": "luis package version --appId <string> --versionId <string>",
+        "pathFragment": "",
+        "params": [
+            {
+                "name": "appId",
+                "in": "path",
+                "required": true,
+                "type": "string",
+                "format": "uuid",
+                "description": "The application ID.",
+                "x-ms-parameter-location": "method"
+            },
+            {
+                "name": "versionId",
+                "in": "path",
+                "description": "The version ID.",
+                "required": true,
+                "type": "string",
+                "x-ms-parameter-location": "method"
+            }
+        ],
+        "description": "Packages a trained LUIS application to binary GZip format.",
+        "name": "PackageTrained"
+    },
+    {
+        "method": "get",
+        "methodAlias": "package",
+        "target": [
+            "slot"
+        ],
+        "command": "luis package slot --appId <string> --slotName <PRODUCTION|STAGING>",
+        "pathFragment": "",
+        "params": [
+            {
+                "name": "appId",
+                "in": "path",
+                "required": true,
+                "type": "string",
+                "format": "uuid",
+                "description": "The application ID.",
+                "x-ms-parameter-location": "method"
+            },
+            {
+                "name": "slotName",
+                "in": "path",
+                "description": "The publish slot name, either PRODUCTION or STAGING.",
+                "required": true,
+                "type": "string",
+                "x-ms-parameter-location": "method"
+            }
+        ],
+        "description": "Packages a published LUIS application to binary GZip format.",
+        "name": "PackagePublished"
     },
     {
         "method": "delete",
