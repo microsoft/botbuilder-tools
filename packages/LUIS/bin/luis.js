@@ -1008,6 +1008,7 @@ async function validateArguments(args, operation) {
                             }
                             break;
                     }
+                    break;
                 case "versionsettings":
                     switch (operation.methodAlias) {
                         case "update":
