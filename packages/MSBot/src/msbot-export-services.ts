@@ -10,7 +10,7 @@ import * as program from 'commander';
 import * as fsx from 'fs-extra';
 import * as process from 'process';
 import { spawnAsync } from './processUtils';
-import { regionToLuisAuthoringRegionMap, showMessage } from './utils';
+import { regionToLuisAuthoringRegionMap } from './utils';
 
 export interface ExportOptions {
     // should resources be downloaded info folder
@@ -19,9 +19,6 @@ export interface ExportOptions {
     // progress callback during export
     progress?: (service: IConnectedService, command: string, index: number, total: number) => void
 }
-
-require('log-prefix')(() => showMessage('%s'));
-program.option('--verbose', 'Add [msbot] prefix to all messages');
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -45,6 +42,7 @@ program
     .option('-q, --quiet', 'disable output')
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
+    .option('--prefix', 'Append [msbot] prefix to all messages')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);

@@ -593,7 +593,7 @@
         ],
         "description": "Updates the name or description of the application version.",
         "name": "Update",
-        "entityName": "ApplicationUpdateObject",
+        "entityName": "applicationUpdateObject",
         "entityType": "ApplicationUpdateObject"
     },
     {
@@ -662,7 +662,9 @@
             }
         ],
         "description": "Creates a new version using the current snapshot of the selected application version.",
-        "name": "Clone"
+        "name": "Clone",
+        "entityName": "versionCloneObject",
+        "entityType": "TaskUpdateObject"
     },
     {
         "method": "get",
@@ -3795,54 +3797,6 @@
         "entityType": "PatternAnyModelCreateObject"
     },
     {
-        "method": "get",
-        "methodAlias": "list",
-        "target": [
-            "patterns"
-        ],
-        "command": "luis list patterns --skip <integer> --take <integer>",
-        "pathFragment": "",
-        "params": [
-            {
-                "name": "appId",
-                "in": "path",
-                "required": true,
-                "type": "string",
-                "format": "uuid",
-                "description": "The application ID.",
-                "x-ms-parameter-location": "method"
-            },
-            {
-                "name": "versionId",
-                "in": "path",
-                "description": "The version ID.",
-                "required": true,
-                "type": "string",
-                "x-ms-parameter-location": "method"
-            },
-            {
-                "name": "skip",
-                "in": "query",
-                "description": "The number of entries to skip. Default value is 0.",
-                "type": "integer",
-                "default": 0,
-                "minimum": 0,
-                "x-ms-parameter-location": "method"
-            },
-            {
-                "name": "take",
-                "in": "query",
-                "description": "The number of entries to return. Maximum page size is 500. Default is 100.",
-                "type": "integer",
-                "default": 100,
-                "minimum": 0,
-                "maximum": 500,
-                "x-ms-parameter-location": "method"
-            }
-        ],
-        "name": "GetPatternAnyEntityInfos"
-    },
-    {
         "method": "delete",
         "methodAlias": "delete",
         "target": [
@@ -4001,7 +3955,7 @@
     },
     {
         "method": "get",
-        "methodAlias": "list",
+        "methodAlias": "get",
         "target": [
             "explicitListItems",
             "explicitlistitems"

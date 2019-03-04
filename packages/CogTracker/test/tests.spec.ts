@@ -102,7 +102,6 @@ describe('Test .cog indexing library', async () => {
             }
             let contents = (await fs.readFile(file)).toString();
             let newContents = (await fs.readFile(newFile)).toString();
-            expect
             expect(newContents === contents, `${newFile} has changed`).is.true;
         }
     });

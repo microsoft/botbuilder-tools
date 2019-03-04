@@ -144,4 +144,10 @@ describe('Testing all classes', function() {
             assert.equal(new hClasses.modelObj().name, '');
         });
     });
+
+    describe('regex entity class', function() {
+        it('can create a new instance with no values passed in', function() {
+            assert.equal(new hClasses.regExEntity().name, '');
+        });
+    });
 });

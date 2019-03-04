@@ -210,7 +210,6 @@ Basic usage: `luis <action> <resource> <args...>`
 | `luis get patternEntityRoles`                                                                                                               | Get all entity roles for a given entity.                                                                                                    |
 | **Patterns**                                                                                                                                |                                                                                                                                             |
 | `luis delete patterns --in patternIds.json`                                                                                                 | Deletes the patterns with the specified IDs.                                                                                                |
-| `luis list patterns --skip <integer> --take <integer>`                                                                                      | Return an application version's patterns.                                                                                                   |
 | `luis update patterns --in patterns.json`                                                                                                   | Update patterns.                                                                                                                            |
 | **Permissions**                                                                                                                             |                                                                                                                                             |
 | `luis add permissions --in userToAdd.json`                                                                                                  | Add a user to the allowed list of users to access this LUIS application. Users are added using their email addresses.                       |
@@ -309,7 +308,7 @@ client.apps.list(azureRegion, options).then((result) => {
 
 Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
 
-You can get the latest nightly build of MSBot from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+You can get the latest nightly build of LUIS from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
 
 ```shell
 npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/

@@ -1,0 +1,9 @@
+
+## ChangeCalendarEntry
+- 改变 {Subject=午餐约会} 从 {OriginalStartTime=11} - {OriginalEndTime=12} 自 {StartTime=12} - {EndTime=1 30} 
+- 移动我的 {OriginalStartTime=10过去10}   {Subject=医生预约} 自 {StartTime=10} 
+- 改变 {Subject=电影院}   {SlotAttribute=位置} 
+- 改变 {Subject=发展议程午餐}   {StartDate=明天} 
+- 改变 {Subject=牙医预约} 
+- 改变 {Subject=牙医应用} 自 {MoveLaterTimeSpan=一小时} 后
+

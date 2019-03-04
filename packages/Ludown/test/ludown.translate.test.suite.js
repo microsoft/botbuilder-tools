@@ -15,7 +15,7 @@ const pathToOutputFolder = path.resolve('./test/output');
 const fs = require('fs');
 const helpers = require('../lib/helpers');
 const NEWLINE = require('os').EOL;
-const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
+const TRANSLATE_KEY = null;
 const SHOW_LOGS = false;
 
 const LUDOWN_ROOT = path.join(__dirname, '../');
@@ -55,6 +55,55 @@ describe('With translate module', function() {
         exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ${LUDOWN_ROOT}/test/output -n 1_de --verbose --in ` + luFilePath, (error, stdout) => {
             try {
                 compareFiles(LUDOWN_ROOT + '/test/output/de/1.lu', LUDOWN_ROOT + '/test/verified/1.lu');
+                console.log(stdout);
+                done();
+            } catch(err){
+                done(err);
+            }
+        });
+    });
+
+    it('correctly localize the file content', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let luFilePath = resolvePath('test/testcases/reduced.lu');
+        exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t zh-Hans -o ${LUDOWN_ROOT}/test/output --verbose --in ` + luFilePath, (error, stdout) => {
+            try {
+                compareFiles(LUDOWN_ROOT + '/test/output/zh-Hans/reduced.lu', LUDOWN_ROOT + '/test/verified/zh-Hans/reduced.lu');
+                console.log(stdout);
+                done();
+            } catch(err){
+                done(err);
+            }
+        });
+    });
+
+    it('correctly localize QnA segments with full markdown support in answers', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let luFilePath = resolvePath('test/testcases/faq.lu');
+        exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t de -o ${LUDOWN_ROOT}/test/output --verbose --in ` + luFilePath, (error, stdout) => {
+            try {
+                compareFiles(LUDOWN_ROOT + '/test/output/de/faq.lu', LUDOWN_ROOT + '/test/verified/de/faq.lu');
+                console.log(stdout);
+                done();
+            } catch(err){
+                done(err);
+            }
+        });
+    });
+
+    it('correctly localizes the file content when multiple target languages are specified', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let luFilePath = resolvePath('test/testcases/reduced.lu');
+        exec(`node ${ludown} translate -k ${TRANSLATE_KEY} -t "zh-Hans, de" -o ${LUDOWN_ROOT}/test/output --verbose --in ` + luFilePath, (error, stdout) => {
+            try {
+                compareFiles(LUDOWN_ROOT + '/test/output/zh-Hans/reduced.lu', LUDOWN_ROOT + '/test/verified/zh-Hans/reduced.lu');
+                compareFiles(LUDOWN_ROOT + '/test/output/de/reduced.lu', LUDOWN_ROOT + '/test/verified/de/reduced.lu');
                 console.log(stdout);
                 done();
             } catch(err){
@@ -149,19 +198,6 @@ describe('With translate module', function() {
             })
             .catch (err => done(err));
     });
-
-    it('Link text can be left untranslated', function(done) {
-        if (!TRANSLATE_KEY) {
-            this.skip();
-        }
-        let fileContent = `\`\`\`markdown
-        test 123`;
-        trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', 'esx', false, true, SHOW_LOGS)
-            .then(function() {
-                done('Test fail! Did not throw when expected');
-            })
-            .catch (() => done());
-    }); 
 
     it('Alterations are translated correctly', function(done) {
         if (!TRANSLATE_KEY) {

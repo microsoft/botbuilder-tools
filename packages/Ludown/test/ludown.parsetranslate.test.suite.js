@@ -9,7 +9,8 @@ const translate = require('../lib/translate-helpers');
 const retCode = require('../lib/enums/CLI-errors');
 const helpers = require('../lib/helpers');
 const NEWLINE = require('os').EOL;
-const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
+const TRANSLATE_KEY2 = process.env.TRANSLATOR_KEY;
+const TRANSLATE_KEY = null;
 
 describe('With the parseAndTranslate method', function() {
     it('Translating comments can be skipped', function(done) {
@@ -23,7 +24,7 @@ describe('With the parseAndTranslate method', function() {
     });
 
     
-    it('QnA content is translated correctly', function(done) {
+    xit('QnA content is translated correctly', function(done) {
         if (!TRANSLATE_KEY) {
             this.skip();
         }
@@ -36,7 +37,7 @@ describe('With the parseAndTranslate method', function() {
     });
 
     
-    it('Phrase list entity references are translated correctly', function(done) {
+    xit('Phrase list entity references are translated correctly', function(done) {
         if (!TRANSLATE_KEY) {
             this.skip();
         }
@@ -189,7 +190,7 @@ describe('With the parseAndTranslate method', function() {
             .catch(err => done(err))
     });
 
-    it('Intents and utterances are translated correctly', function(done) {
+    xit('Intents and utterances are translated correctly', function(done) {
         if (!TRANSLATE_KEY) {
             this.skip();
         }

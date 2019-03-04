@@ -10,9 +10,7 @@ import * as program from 'commander';
 import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import { stdoutAsync } from './stdioAsync';
-import { showMessage, uuidValidate } from './utils';
-require('log-prefix')(() => showMessage('%s'));
-program.option('--verbose', 'Add [msbot] prefix to all messages');
+import { uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -43,6 +41,7 @@ program
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     .option('--stdin', 'arguments are passed in as JSON object via stdin')
+    .option('--prefix', 'Append [msbot] prefix to all messages')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const command: program.Command = program.parse(process.argv);
@@ -51,7 +50,7 @@ Object.assign(args, command);
 
 if (args.stdin) {
     //force verbosity output if args are passed via stdin
-    process.env.VERBOSE = 'verbose';
+    process.env.PREFIX = 'prefix';
 }
 
 if (process.argv.length < 3) {
@@ -120,7 +119,7 @@ async function processConnectDispatch(config: BotConfiguration): Promise<BotConf
         }
     }
 
-    const newService = new DispatchService({
+    const newService = new DispatchService(<any>{
         name: args.name,
         appId: args.appId,
         authoringKey: args.authoringKey,
@@ -146,6 +145,4 @@ function showErrorHelp(): void {
     process.exit(1);
 }
 
-interface ITempDispatchService extends IDispatchService {
-    [key: string]: string | string[] | undefined | boolean | IConnectedService[];
-}
+

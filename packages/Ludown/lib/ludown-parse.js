@@ -3,6 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const program = require('commander');
 const chalk = require('chalk');
 program.Command.prototype.unknownOption = function () {

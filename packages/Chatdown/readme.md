@@ -28,7 +28,7 @@ chatdown <chat> --help
 
 | Argument| Description|
 |-------------| ------------------------- |
-| `<chatfile>` | The path of the chat file to be parsed. If omitted, stdin will be used. |
+| `<chat>` | The path of the chat file to be parsed. If omitted, stdin will be used. |
 | `-v, --version` | show version |
 | `--help`    | Output the help to the console |
 | `--static`  | use static timestamps when generating timestamps on activities. |
@@ -287,7 +287,7 @@ Now, any time a .chat file is created or saved, chatdown will automatically crea
 
 Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
 
-You can get the latest nightly build of MSBot from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+You can get the latest nightly build of Chatdown from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
 
 ```shell
 npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/

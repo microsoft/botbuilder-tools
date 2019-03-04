@@ -11,10 +11,6 @@ import * as fsx from 'fs-extra';
 import * as readline from 'readline-sync';
 import * as validurl from 'valid-url';
 
-import { showMessage } from './utils';
-require('log-prefix')(() => showMessage('%s'));
-program.option('--verbose', 'Add [msbot] prefix to all messages');
-
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
     program.help();
@@ -36,8 +32,9 @@ program
     .option('-a, --appId  <appid>', 'Microsoft AppId used for auth with the endpoint')
     .option('-p, --appPassword <password>', 'Microsoft app password used for auth with the endpoint')
     .option('-e, --endpoint <endpoint>', 'local endpoint for the bot')
+    .option('-q, --quiet', 'do not prompt')
     .option('--secret', 'generate a secret and encrypt service keys with it')
-    .option('-q, --quiet', 'do not prompt');
+    .option('--prefix', 'Append [msbot] prefix to all messages');
 
 const command: program.Command = program.parse(process.argv);
 const args: IInitArgs = <IInitArgs>{};

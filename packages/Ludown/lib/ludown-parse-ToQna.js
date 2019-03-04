@@ -3,6 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const program = require('commander');
 const fParser = require('../lib/parser');
 const chalk = require('chalk');

@@ -5,7 +5,7 @@ It is useful for tools like the emulator to have secure access to keys it needs 
 MSBot commands like add \<service\> and others that accepts the `--secret` option has data which needs to be encrypted with the secret. 
 This allows you to check in a .bot file into a public repo safely and only need the secret to unlock all of the keys your bot uses.
 
-**WARNING::**
+**WARNING**
 - There are no retrieval mechanisms in place for retrieving a lost secret key. You should use best practices (e.g. secure your keys in [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/)) to secure your secret.  **It is strongly encouraged that you DO NOT check it into your source control and instead rely on technologies such as [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) to securely store it.**
 - You should make sure that you use the same secret when adding all services.
 
@@ -22,6 +22,7 @@ Options:
   --secret <secret>  secret used to confirm you can do secret operations
   -c, --clear        clear the secret and store keys unencrypted
   -n, --new          generate a new secret and store keys encrypted
+  --prefix           append [msbot] prefix to all messages
   -h, --help         output usage information
 ```
 
@@ -32,7 +33,7 @@ To encrypt an decrypted bot file, use
 msbot secret --new
 ```
 
-**NOTE::** This command will generate a new encryption key and output it to the console window. Please store this key securely.
+**NOTE** This command will generate a new encryption key and output it to the console window. Please store this key securely.
 
 Example:
 ```bash
@@ -53,6 +54,13 @@ msbot secret -b my.bot --secret OLDSECRET --new
 ```
 This will encrypt all sensitive data and give you a new secret key which you can use with --secret switch.
 
+**NOTE** You can (re)set your bot file secret for Azure Bot Service by updating the botFileSecret application settings for your bot in the Azure portal. To do this, 
+- Navigate to https://portal.azure.com, sign in with your Azure account.
+- Locate and open the settings blade for your bot.
+- Click on application settings under **App Service Settings** in the left nav.
+- Locate the 'botFileSecret' application settings and update the value to the new secret.
+- Click on 'Save'.
+
 ## Clearing the secret
 
 You can stop using encryption by passing in the secret with a --clear flag.
@@ -61,4 +69,3 @@ You can stop using encryption by passing in the secret with a --clear flag.
 msbot secret -b my.bot --secret OLDSECRET --clear
 ```
 This will leave your file decrypted and the old secret will not be used anymore.
-

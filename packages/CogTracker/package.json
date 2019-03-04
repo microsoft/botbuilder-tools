@@ -22,7 +22,7 @@
     "typings/"
   ],
   "scripts": {
-    "test": "mocha -r node_modules/ts-node/register test/*.ts",
+    "test": "mocha -r test/ts-node-register test/*.ts",
     "clean": "erase /Q /s lib\\* && erase /Q /s typings\\* && erase /Q /s docs\\*",
     "build": "tsc",
     "docs": "typedoc --out docs src"

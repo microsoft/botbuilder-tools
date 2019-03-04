@@ -1,0 +1,2 @@
+> Regex entitiy as identified by /pattern/. regex pattern MUST be enclosed in forward slash 
+$HRF-number:/hrf-[0-9]{6}/

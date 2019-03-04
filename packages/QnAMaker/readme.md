@@ -87,7 +87,7 @@ the configuration will override the `.qnamakerrc` and any environment variables 
 
 Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
 
-You can get the latest nightly build of MSBot from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+You can get the latest nightly build of QnAMaker from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
 
 ```shell
 npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/

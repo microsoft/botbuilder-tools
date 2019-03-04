@@ -120,6 +120,9 @@ $drinkType:soda=
 
 
 
+> # RegEx entities
+
+
 > # QnA pairs
 
 > Source: custom editorial
@@ -128,7 +131,6 @@ $drinkType:soda=
 ```markdown
 You can change the default message if you use the QnAMakerDialog.
 See [this link](https://docs.botframework.com/en-us/azure-bot-service/templates/qnamaker/#navtitle) for details.
-
 ```
 
 > Source: custom editorial
@@ -137,7 +139,6 @@ See [this link](https://docs.botframework.com/en-us/azure-bot-service/templates/
 ```markdown
 You can use our REST apis to manage your KB.
 \#1. See here for details: https://westus.dev.cognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa
-
 ```
 
 > Source: custom editorial
@@ -146,7 +147,6 @@ You can use our REST apis to manage your KB.
 
 ```markdown
 Vishwac
-
 ```
 
 > Source: custom editorial
@@ -155,7 +155,6 @@ Vishwac
 ```markdown
 You can change the default message if you use the QnAMakerDialog.
 See [this link](https://docs.botframework.com/en-us/azure-bot-service/templates/qnamaker/#navtitle) for details.
-
 ```
 
 > Source: custom editorial
@@ -168,7 +167,6 @@ See [this link](https://docs.botframework.com/en-us/azure-bot-service/templates/
 
 ```markdown
 You can get coffee in our Seattle store at 1 pike place, Seattle, WA
-
 ```
 
 > Source: custom editorial
@@ -181,7 +179,6 @@ You can get coffee in our Seattle store at 1 pike place, Seattle, WA
 
 ```markdown
 You can get coffee in our Portland store at 52 marine drive, Portland, OR
-
 ```
 
 > Source: custom editorial
@@ -195,7 +192,6 @@ You can get coffee in our Portland store at 52 marine drive, Portland, OR
 
 ```markdown
 You can find all about ludown cli [here](https://github.com/Microsoft/botbuilder-tools/tree/master/Ludown)
-
 ```
 
 > # QnA Alterations

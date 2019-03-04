@@ -3,6 +3,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
@@ -59,7 +60,7 @@ const translateModule = {
         while(filesToParse.length > 0) {
             let file = filesToParse[0];
             try {
-                await parseFile(file, outFolder, program.translate_key, program.to_lang, program.src_lang, program.translate_comments, program.translate_link_text, program.verbose);
+                await parseFile(file, outFolder, program.translate_key, program.to_lang, program.src_lang, program.translate_comments, program.translate_link_text, program.verbose, program.batch_translate);
             } catch (err) {
                 throw(err);
             }
@@ -78,10 +79,11 @@ const translateModule = {
  * @param {boolean} translate_comments translate comments in .lu files if this is set to true
  * @param {boolean} translate_link_text translate URL or LU reference link text in .lu files if this is set to true
  * @param {boolean} log indicates if this function should write verbose messages to process.stdout
+ * @param {number} batch_translate indicates number of input lines to batch up before calling translation API
  * @returns {void} nothing
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
-async function parseFile(file, outFolder, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log) {
+async function parseFile(file, outFolder, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log, batch_translate) {
     let fileName = path.basename(file);
     if(!fs.existsSync(path.resolve(file))) {
         throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));
@@ -92,31 +94,39 @@ async function parseFile(file, outFolder, translate_key, to_lang, src_lang, tran
     }
     if(log) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
     let parsedLocContent = '';
-    try {
-        parsedLocContent = await translateHelpers.parseAndTranslate(fileContent, translate_key, to_lang, src_lang, translate_comments, translate_link_text, log)
-    } catch (err) {
-        throw(err);
-    }
-    if (!parsedLocContent) {
-        throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, file : ' + file + 'had invalid content'));
-    } else {
-        // write out file
-        outFolder = path.join(outFolder, to_lang);
-        try
-        {
-            fs.mkdirSync(outFolder);
-        } catch(exception) {
-            if(exception.code != 'EEXIST') {
-                throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to create folder - ' + exception));
-            }
-        }
-        let outFileName = path.join(outFolder, fileName);
+    // Support multi-language specification for targets.
+    // Accepted formats are space or comma separated list of target language codes.
+    // Tokenize to_lang
+    let toLang = to_lang.split(/[, ]/g);
+    for (idx in toLang) {
+        let tgt_lang = toLang[idx].trim();
+        if (tgt_lang === '') continue;
         try {
-            fs.writeFileSync(outFileName, parsedLocContent, 'utf-8');
+            parsedLocContent = await translateHelpers.parseAndTranslate(fileContent, translate_key, tgt_lang, src_lang, translate_comments, translate_link_text, log, batch_translate)
         } catch (err) {
-            throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to write LU file - ' + outFileName));
+            throw(err);
         }
-        if(log) process.stdout.write(chalk.default.italic('Successfully wrote to ' + outFileName + '\n\n'));
+        if (!parsedLocContent) {
+            throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, file : ' + file + 'had invalid content'));
+        } else {
+            // write out file
+            loutFolder = path.join(outFolder, tgt_lang);
+            try
+            {
+                fs.mkdirSync(loutFolder);
+            } catch(exception) {
+                if(exception.code != 'EEXIST') {
+                    throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to create folder - ' + exception));
+                }
+            }
+            let outFileName = path.join(loutFolder, fileName);
+            try {
+                fs.writeFileSync(outFileName, parsedLocContent, 'utf-8');
+            } catch (err) {
+                throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE, 'Unable to write LU file - ' + outFileName));
+            }
+            if(log) process.stdout.write(chalk.default.italic('Successfully wrote to ' + outFileName + '\n\n'));
+        }
     }
 }
 

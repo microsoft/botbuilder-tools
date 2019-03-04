@@ -1,0 +1,147 @@
+[
+  {
+    "conversation": {
+      "id": "V5Yt3PKRFaB1R1/3MyhqY0vI/UI="
+    },
+    "id": "1",
+    "timestamp": "2018-12-07T18:14:39.100Z",
+    "type": "conversationUpdate",
+    "channelId": "chatdown",
+    "membersAdded": [
+      {
+        "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+        "name": "LulaBot",
+        "role": "bot"
+      }
+    ],
+    "membersRemoved": []
+  },
+  {
+    "conversation": {
+      "id": "V5Yt3PKRFaB1R1/3MyhqY0vI/UI="
+    },
+    "id": "2",
+    "text": "[ConversationUpdate:\n    membersadded=Joe,Susan]",
+    "timestamp": "2018-12-07T18:14:41.100Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "V5Yt3PKRFaB1R1/3MyhqY0vI/UI="
+    },
+    "id": "3",
+    "recipient": {
+      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
+      "name": "Joe",
+      "role": "user"
+    },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
+    "text": "Hi Joe!\nLulaBot->Susan: Hi Susan!\n\n[ConversationUpdate:membersremoved=Susan]",
+    "timestamp": "2018-12-07T18:14:43.100Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "V5Yt3PKRFaB1R1/3MyhqY0vI/UI="
+    },
+    "id": "4",
+    "recipient": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
+    "from": {
+      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
+      "name": "Joe",
+      "role": "user"
+    },
+    "text": "Hi!",
+    "timestamp": "2018-12-07T18:14:45.100Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "V5Yt3PKRFaB1R1/3MyhqY0vI/UI="
+    },
+    "id": "5",
+    "recipient": {
+      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
+      "name": "Joe",
+      "role": "user"
+    },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
+    "text": "Hello there!",
+    "timestamp": "2018-12-07T18:14:47.100Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "V5Yt3PKRFaB1R1/3MyhqY0vI/UI="
+    },
+    "id": "7",
+    "recipient": {
+      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
+      "name": "Joe",
+      "role": "user"
+    },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
+    "timestamp": "2018-12-07T18:14:47.200Z",
+    "type": "typing",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "V5Yt3PKRFaB1R1/3MyhqY0vI/UI="
+    },
+    "id": "8",
+    "recipient": {
+      "id": "iWYRSfG2L/R91ab+T5ecn1P2GbY=",
+      "name": "Joe",
+      "role": "user"
+    },
+    "from": {
+      "id": "feCFNCKOpzAtVMMV7Mm1l+GUZt0=",
+      "name": "LulaBot",
+      "role": "bot"
+    },
+    "text": "# cheese choices\n1. cheese 1 \n2. cheese 2\n3. cheese 3",
+    "timestamp": "2018-12-07T18:14:54.200Z",
+    "type": "message",
+    "channelId": "chatdown",
+    "suggestedActions": {
+      "actions": [
+        {
+          "title": "option 1",
+          "type": "imBack",
+          "value": "option 1"
+        },
+        {
+          "title": "option 2",
+          "type": "imBack",
+          "value": "option 2"
+        },
+        {
+          "title": "option 3",
+          "type": "imBack",
+          "value": "option 3"
+        }
+      ]
+    }
+  }
+]

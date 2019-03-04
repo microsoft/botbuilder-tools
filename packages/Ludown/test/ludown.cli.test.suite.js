@@ -6,13 +6,19 @@ var chai = require('chai');
 var assert = chai.assert;
 var path = require('path');
 const { exec } = require('child_process');
+const { platform } = require('os')
 const ludown = require.resolve('../bin/ludown');
+const package = require('../package.json');
 
 const LUDOWN_ROOT = path.join(__dirname, '../');
 const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
 
 function resolvePath(relativePath) {
     return path.join(LUDOWN_ROOT, relativePath);
+}
+
+function shouldEscapeString() {
+    return platform() !== 'win32';
 }
 
 describe('The ludown cli tool', function() {
@@ -84,11 +90,44 @@ describe('The ludown cli tool', function() {
                 }
             });
         });
+
+        it('should not prefix [ludown] to stdout when --prefix is not passed as an argument', function(done) {
+            exec(`node ${ludown}`, (error, stdout, stderr) => {
+                try {
+                    assert.notEqual(stderr.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+
+        it('should prefix [ludown] to stdout when --prefix is passed as an argument', function(done) {
+            exec(`node ${ludown} --prefix`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+
+        it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
+            exec(`node ${ludown} parse -x --prefix`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
     });
 
     describe('with translate command', function(){
         it('should print an error when an invalid argument is passed', function(done) {
-            exec(`node ${ludown} translate -x`, (error, stdout, stderr) => {
+            exec(`node ${ludown} translate -d`, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('Unknown arguments'), true);
                     done();
@@ -184,9 +223,53 @@ describe('The ludown cli tool', function() {
                 }
             });
         });
+
+        it('should not prefix [ludown] to stdout when --prefix is not passed as an argument', function(done) {
+            exec(`node ${ludown} translate`, (error, stdout, stderr) => {
+                try {
+                    assert.notEqual(stderr.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+        
+        it('should prefix [ludown] to stdout when --prefix is passed as an argument', function(done) {
+            exec(`node ${ludown} translate --prefix`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+        
+        it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
+            exec(`node ${ludown} translate -k --prefix`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
     });
     
     describe('With parse toluis command', function() {
+        it('should print a warning when an incorrect locale is specified', function(done) {
+            exec(`node ${ludown} parse toluis -c de-dex`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.includes('Unrecognized LUIS locale'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+
         it('should print an error when an invalid argument is passed', function(done) {
             exec(`node ${ludown} parse toluis -x`, (error, stdout, stderr) => {
                 try {
@@ -270,6 +353,41 @@ describe('The ludown cli tool', function() {
                     done(err);
                 }
                 
+            });
+        });
+
+        it('should not prefix [ludown] to stdout when --prefix is not passed as an argument', function(done) {
+            exec(`node ${ludown} parse toluis`, (error, stdout, stderr) => {
+                try {
+                    assert.notEqual(stderr.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+        
+        it('should prefix [ludown] to stdout when --prefix is passed as an argument', function(done) {
+            exec(`node ${ludown} parse toluis --prefix`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+        
+        it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
+            let exampleLu = resolvePath('test/test123');
+            let luFile = resolvePath('examples/1.lu');
+            exec(`node ${ludown} parse toluis -o ${exampleLu}\\testFolder --in ${luFile} --prefix`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
             });
         });
     });
@@ -362,9 +480,72 @@ describe('The ludown cli tool', function() {
                 
             });
         });
+
+        it('should not prefix [ludown] to stdout when --prefix is not passed as an argument', function(done) {
+            exec(`node ${ludown} parse toqna`, (error, stdout, stderr) => {
+                try {
+                    assert.notEqual(stderr.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+        
+        it('should prefix [ludown] to stdout when --prefix is passed as an argument', function(done) {
+            exec(`node ${ludown} parse toqna --prefix`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+        
+        it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
+            let exampleLu = resolvePath('test/test123');
+            let luFile = resolvePath('examples/1.lu');
+            exec(`node ${ludown} parse toqna -o ${exampleLu}\\testFolder --in ${luFile} --prefix`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
     });
 
     describe('With refresh command', function() {
+        it('should print an error when an invalid json is passed in with stdin option set', function(done) {
+            let testJsonString = JSON.stringify({"one": "two"});
+            testJsonString = shouldEscapeString() ? `'${testJsonString}'` : testJsonString;
+
+            exec(`echo ${testJsonString} | node ${ludown} refresh --stdin`, (error, stdout, stderr) => {
+                try {
+                    assert(stderr.includes('unable to parse stdin as LUIS or QnA Maker model!'));
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+
+        it('should parse a LUIS JSON correctly in with stdin option set', function(done) {
+            let testJsonString = JSON.stringify({"intents": [{"name":"Greeting"}]});
+            testJsonString = shouldEscapeString() ? `'${testJsonString}'` : testJsonString;
+
+            exec(`echo ${testJsonString} | node ${ludown} refresh --stdin --stdout -s`, (error, stdout, stderr) => {
+                try {
+                    assert(stdout.includes('# Intent definitions'));
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+        
         it('should print an error when an invalid argument is passed', function(done) {
             exec(`node ${ludown} refresh -x`, (error, stdout, stderr) => {
                 try {
@@ -426,6 +607,40 @@ describe('The ludown cli tool', function() {
                 
             });
         });
-    });
 
+        it('should not prefix [ludown] to stdout when --prefix is not passed as an argument', function(done) {
+            exec(`node ${ludown} refresh`, (error, stdout, stderr) => {
+                try {
+                    assert.notEqual(stderr.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+        
+        it('should prefix [ludown] to stdout when --prefix is passed as an argument', function(done) {
+            exec(`node ${ludown} refresh --prefix`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+        
+        it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
+            let exampleLu = resolvePath('test/test123');
+            let luFile = resolvePath('examples/1.lu');
+            exec(`node ${ludown} refresh -o ${exampleLu}\\testFolder --in ${luFile} --prefix`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.startsWith(`[${package.name}]`), true);
+                    done(); 
+                } catch (err) {
+                    done(err);
+                }                
+            });
+        });
+    });
 });

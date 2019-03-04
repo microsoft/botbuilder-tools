@@ -3,9 +3,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+require('./utils');
 const helperClasses = require('./classes/hclasses');
 const helpers = require('./helpers');
 const NEWLINE = require('os').EOL;
+const exception = require('./classes/exception');
 const toLUHelpers = {
     /**
      * Construct lu file content from LUIS JSON object
@@ -35,6 +37,19 @@ const toLUHelpers = {
                         let text = utterance.text;
                         let offSet = 0;
                         let sortedEntitiesList = objectSortByStartPos(utterance.entities);
+                        // Skip this utterance if it has nested entity references
+                        let doEntitiesOverlap = sortedEntitiesList.reduce((overlapBit, entity) => {
+                            if (overlapBit === undefined) return entity.endPos;
+                            if (overlapBit < 0) return overlapBit;
+                            if (overlapBit >= entity.startPos) return -1;
+                            return entity.endPos;
+                        }, undefined);
+
+                        if(doEntitiesOverlap < 0) {
+                            // Skip this utterance. It has nested entity references. 
+                            process.stdout.write('\nUtterance "' + utterance.text + '" has nested entity references. This utterance will be skipped.\n\n');
+                            return;
+                        }
                         sortedEntitiesList.forEach(function(entity) {
                             let label = text.substring(entity.startPos, entity.endPos + 1);
                             let entityWithLabel = '{' + entity.entity + '=' + label + '}';
@@ -86,6 +101,14 @@ const toLUHelpers = {
                 });
                 fileContent += NEWLINE + NEWLINE;
             });
+        }
+
+        if(LUISJSON.regex_entities && LUISJSON.regex_entities.length >= 0) {
+            fileContent += '> # RegEx entities' + NEWLINE + NEWLINE; 
+            LUISJSON.regex_entities.forEach(function(regExEntity) {
+                fileContent += '$' + regExEntity.name + ':/' + regExEntity.regexPattern + '/' + NEWLINE; 
+            });
+            fileContent += NEWLINE;
         }
         return fileContent;
     },
