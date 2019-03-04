@@ -47,8 +47,7 @@ function update_version() {
   pname=$(cat package.json | jq -r '.name' | cut -d- -f1)
   pversion=$(cat package.json | jq -r '.version' | cut -d- -f1)
   ppatch=$(npm view $pname version | cut -d- -f2 | rev | cut -d. -f1 | rev)
-  npm version --allow-same-version $pversion-$ppatch
-  npm version prerelease
+  npm version --allow-same-version $pversion
   npm config set registry $oldregistry
 }
 
