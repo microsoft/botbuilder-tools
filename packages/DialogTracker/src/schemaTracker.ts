@@ -74,8 +74,12 @@ export class SchemaTracker {
             let metaSchemaCache = path.join(__dirname, path.basename(metaSchemaName));
             let metaSchema: any;
             if (!await fs.pathExists(metaSchemaCache)) {
-                let metaSchemaDefinition = await this.getURL(metaSchemaName);
-                metaSchema = JSON.parse(metaSchemaDefinition);
+                try {
+                    let metaSchemaDefinition = await this.getURL(metaSchemaName);
+                    metaSchema = JSON.parse(metaSchemaDefinition);
+                } catch (e) {
+                    throw new Error(`Could not parse ${metaSchemaName}`);
+                }
                 await fs.writeJSON(metaSchemaCache, metaSchema, { spaces: 4 });
             } else {
                 metaSchema = await fs.readJSON(metaSchemaCache);
