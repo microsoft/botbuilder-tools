@@ -6,7 +6,7 @@
     "description": "QnA Maker REST API V4.0",
     "version": "4.0"
   },
-  "host": "westus.api.cognitive.microsoft.com",
+  "host": "westus.api.dialognitive.microsoft.com",
   "basePath": "/qnamaker/v4.0",
   "schemes": [
     "https"
@@ -1354,7 +1354,7 @@
                   },
                   {
                     "id": 2,
-                    "answer": "You can use our REST apis to manage your KB. See here for details: https://westus.dev.cognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa",
+                    "answer": "You can use our REST apis to manage your KB. See here for details: https://westus.dev.dialognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa",
                     "source": "Custom Editorial",
                     "questions": [
                       "How do I programmatically update my KB?"
@@ -1629,7 +1629,7 @@
                   },
                   {
                     "id": 32,
-                    "answer": "<main id=\"main\" role=\"main\" class=\"content\" ms.cmpgrp=\"content\" data-bi-name=\"content\" lang=\"en-us\" dir=\"ltr\"><p>You'll need to whitelist the following URLs in your corporate firewall:</p><ul><li>login.botframework.com (Bot authentication)</li><li>login.microsoftonline.com (Bot authentication)</li><li>westus.api.cognitive.microsoft.com (for Luis.ai NLP integration)</li><li>state.botframework.com (Bot state storage for prototyping)</li><li>cortanabfchanneleastus.azurewebsites.net (Cortana channel)</li><li>cortanabfchannelwestus.azurewebsites.net (Cortana Channel)</li><li>*.botFramework.com (channels)</li></ul><h2 id=\"rate-limiting\">Rate limiting</h2></main>",
+                    "answer": "<main id=\"main\" role=\"main\" class=\"content\" ms.cmpgrp=\"content\" data-bi-name=\"content\" lang=\"en-us\" dir=\"ltr\"><p>You'll need to whitelist the following URLs in your corporate firewall:</p><ul><li>login.botframework.com (Bot authentication)</li><li>login.microsoftonline.com (Bot authentication)</li><li>westus.api.dialognitive.microsoft.com (for Luis.ai NLP integration)</li><li>state.botframework.com (Bot state storage for prototyping)</li><li>cortanabfchanneleastus.azurewebsites.net (Cortana channel)</li><li>cortanabfchannelwestus.azurewebsites.net (Cortana Channel)</li><li>*.botFramework.com (channels)</li></ul><h2 id=\"rate-limiting\">Rate limiting</h2></main>",
                     "source": "https://docs.microsoft.com/en-us/bot-framework/resources-bot-framework-faq",
                     "questions": [
                       "Which specific URLs do I need to whitelist in my corporate firewall to access bot services?"
@@ -1823,7 +1823,7 @@
                 "operationState": "Succeeded",
                 "createdTimestamp": "2018-03-19T02:08:46Z",
                 "lastActionTimestamp": "2018-03-19T02:09:29Z",
-                "resourceLocation": "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0/knowledgebases/9d091697-fb8c-4ed5-9ac0-35bf8273bfff",
+                "resourceLocation": "https://westus.api.dialognitive.microsoft.com/qnamaker/v4.0/knowledgebases/9d091697-fb8c-4ed5-9ac0-35bf8273bfff",
                 "userId": "86bb8390-56c0-42c2-9f81-3de161981191",
                 "operationId": "03a4f4ce-30a6-4ec6-b436-02bcdf6153e1"
               }
@@ -2217,7 +2217,7 @@
           },
           {
             "id": 0,
-            "answer": "You can use our REST apis to manage your KB. See here for details: https://westus.dev.cognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa",
+            "answer": "You can use our REST apis to manage your KB. See here for details: https://westus.dev.dialognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa",
             "source": "Custom Editorial",
             "questions": [
               "How do I programmatically update my KB?"
@@ -2444,7 +2444,7 @@
           },
           {
             "id": 2,
-            "answer": "You can use our REST apis to manage your KB. See here for details: https://westus.dev.cognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa",
+            "answer": "You can use our REST apis to manage your KB. See here for details: https://westus.dev.dialognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa",
             "source": "Custom Editorial",
             "questions": [
               "How do I programmatically update my KB?"
@@ -2719,7 +2719,7 @@
           },
           {
             "id": 32,
-            "answer": "<main id=\"main\" role=\"main\" class=\"content\" ms.cmpgrp=\"content\" data-bi-name=\"content\" lang=\"en-us\" dir=\"ltr\"><p>You'll need to whitelist the following URLs in your corporate firewall:</p><ul><li>login.botframework.com (Bot authentication)</li><li>login.microsoftonline.com (Bot authentication)</li><li>westus.api.cognitive.microsoft.com (for Luis.ai NLP integration)</li><li>state.botframework.com (Bot state storage for prototyping)</li><li>cortanabfchanneleastus.azurewebsites.net (Cortana channel)</li><li>cortanabfchannelwestus.azurewebsites.net (Cortana Channel)</li><li>*.botFramework.com (channels)</li></ul><h2 id=\"rate-limiting\">Rate limiting</h2></main>",
+            "answer": "<main id=\"main\" role=\"main\" class=\"content\" ms.cmpgrp=\"content\" data-bi-name=\"content\" lang=\"en-us\" dir=\"ltr\"><p>You'll need to whitelist the following URLs in your corporate firewall:</p><ul><li>login.botframework.com (Bot authentication)</li><li>login.microsoftonline.com (Bot authentication)</li><li>westus.api.dialognitive.microsoft.com (for Luis.ai NLP integration)</li><li>state.botframework.com (Bot state storage for prototyping)</li><li>cortanabfchanneleastus.azurewebsites.net (Cortana channel)</li><li>cortanabfchannelwestus.azurewebsites.net (Cortana Channel)</li><li>*.botFramework.com (channels)</li></ul><h2 id=\"rate-limiting\">Rate limiting</h2></main>",
             "source": "https://docs.microsoft.com/en-us/bot-framework/resources-bot-framework-faq",
             "questions": [
               "Which specific URLs do I need to whitelist in my corporate firewall to access bot services?"
@@ -2853,7 +2853,7 @@
             },
             {
               "id": 0,
-              "answer": "You can use our REST apis to manage your KB. See here for details: https://westus.dev.cognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa",
+              "answer": "You can use our REST apis to manage your KB. See here for details: https://westus.dev.dialognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa",
               "source": "Custom Editorial",
               "questions": [
                 "How do I programmatically update my KB?"

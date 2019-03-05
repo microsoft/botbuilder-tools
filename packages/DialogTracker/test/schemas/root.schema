@@ -1,0 +1,17 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
+    "properties": {
+        "recognizers": {
+            "type": "array",
+            "items": {
+                "$type": "IRecognizer"
+            }
+        },
+        "prompt": {
+            "$type": "prompt"
+        }
+    },
+    "required": [
+        "recognizers"
+    ]
+}

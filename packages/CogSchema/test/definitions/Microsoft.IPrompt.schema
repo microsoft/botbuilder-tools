@@ -1,6 +1,0 @@
-{
-    "$schema": "../../src/cogSchema.schema",
-    "title": "Microsoft IPrompt",
-    "description": "Definition of Microsoft.IPrompt which will be expanded by components that $implements it.",
-    "$role":"unionType"
-}

@@ -1,0 +1,83 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
+    "$id": "promptOnly.schema",
+    "type": "object",
+    "title": "Component types",
+    "description": "These are all of the types that can be created by the loader.",
+    "oneOf": [
+        {
+            "title": "prompt",
+            "description": "",
+            "$ref": "#/definitions/prompt"
+        }
+    ],
+    "definitions": {
+        "prompt": {
+            "properties": {
+                "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "prompt"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+                },
+                "$id": {
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "prompt": {
+                    "$role": "lg",
+                    "type": [
+                        "string",
+                        "object"
+                    ],
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "alternatePrompt": {
+                    "$role": "lg",
+                    "type": [
+                        "string",
+                        "object"
+                    ],
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "$type"
+            ],
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "anyOf": [
+                {
+                    "title": "Reference",
+                    "required": [
+                        "$copy"
+                    ]
+                },
+                {
+                    "title": "Type",
+                    "required": [
+                        "prompt"
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "$schema": "../../src/dialogSchema.schema",
+    "title": "Microsoft Nothing",
+    "description": "Definition of a union type with no $implements.",
+    "$role":"unionType"
+}

@@ -1,0 +1,39 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
+    "title": "LUIS Recognizer",
+    "description": "LUIS recognizer.",
+    "$role": ["unionType(Microsoft.IRecognizer)", "unionType(Microsoft.IPrompt)"],
+    "$comment": "Ensure namespaces work on local definitions.",
+    "definitions": {
+        "local": {
+            "type": "string"
+        }
+    },
+    "properties": {
+        "application": {
+            "type": "object",
+            "properties": {
+                "applicationId": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "endpointKey": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "applicationId",
+                "endpoint",
+                "endpointKey"
+            ]
+        },
+        "priority": {
+            "$ref": "#/definitions/local"
+        }
+    },
+    "required": [
+        "application"
+    ]
+}

@@ -86,7 +86,7 @@ Siehe [diesen Link] (https://docs.botframework.com/en-us/azure-bot-service/templ
 ### ? Wie kann ich meine KB programmatisch aktualisieren?
 ```markdown
 Sie können mit unserem REST apis Ihre KB verwalten.
-\ #1. Weitere Informationen: https://westus.dev.cognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa
+\ #1. Weitere Informationen: https://westus.dev.dialognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa
 ```
 
 > Sie können URLs für QnA-Hersteller mit dem #URL Referenzschema in die Aufnahme einfügen.

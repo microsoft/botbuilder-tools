@@ -1,0 +1,17 @@
+{
+    "$schema": "../../src/dialogSchema.schema",
+    "title": "Simple Prompt",
+    "description": "Example simple prompt.",
+    "$role": "unionType(Microsoft.IPrompt)",
+    "properties": {
+        "prompt": {
+            "$role": "lg"
+        },
+        "alternate": {
+            "$role": "lg"
+        },
+        "alternate2": {
+            "$role": "lg"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
+    "$role": "unionType(IRecognizer)",
+    "properties": {
+        "req": {
+            "$role": "lg"
+        },
+        "opt": {
+            "type": "string"
+        },
+        "complex": {
+            "properties": {
+                "inside": {
+                    "$role":"lg"
+                }
+            }
+        }
+    },
+    "required": [
+        "req"
+    ]
+}

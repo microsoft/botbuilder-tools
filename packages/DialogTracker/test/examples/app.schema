@@ -1,0 +1,280 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
+    "$id": "app.schema",
+    "type": "object",
+    "title": "Component types",
+    "description": "These are all of the types that can be created by the loader.",
+    "oneOf": [
+        {
+            "title": "Recognizer",
+            "description": "",
+            "$ref": "#/definitions/Recognizer"
+        },
+        {
+            "title": "RecognizerTypeMismatch",
+            "description": "",
+            "$ref": "#/definitions/RecognizerTypeMismatch"
+        },
+        {
+            "title": "prompt",
+            "description": "",
+            "$ref": "#/definitions/prompt"
+        },
+        {
+            "title": "root",
+            "description": "",
+            "$ref": "#/definitions/root"
+        }
+    ],
+    "definitions": {
+        "IRecognizer": {
+            "$role": "unionType",
+            "oneOf": [
+                {
+                    "title": "Recognizer",
+                    "description": "",
+                    "$ref": "#/definitions/Recognizer"
+                },
+                {
+                    "title": "RecognizerTypeMismatch",
+                    "description": "",
+                    "$ref": "#/definitions/RecognizerTypeMismatch"
+                }
+            ]
+        },
+        "Recognizer": {
+            "$role": "unionType(IRecognizer)",
+            "properties": {
+                "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "Recognizer"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+                },
+                "$id": {
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "req": {
+                    "$role": "lg",
+                    "type": [
+                        "string",
+                        "object"
+                    ],
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "opt": {
+                    "type": "string"
+                },
+                "complex": {
+                    "properties": {
+                        "inside": {
+                            "$role": "lg",
+                            "type": [
+                                "string",
+                                "object"
+                            ],
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "required": [
+                "$type"
+            ],
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "anyOf": [
+                {
+                    "title": "Reference",
+                    "required": [
+                        "$copy"
+                    ]
+                },
+                {
+                    "title": "Type",
+                    "required": [
+                        "req"
+                    ]
+                }
+            ]
+        },
+        "RecognizerTypeMismatch": {
+            "$role": "unionType(IRecognizer)",
+            "type": "object",
+            "properties": {
+                "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "RecognizerTypeMismatch"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+                },
+                "$id": {
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$type"
+            ]
+        },
+        "prompt": {
+            "properties": {
+                "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "prompt"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+                },
+                "$id": {
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "prompt": {
+                    "$role": "lg",
+                    "type": [
+                        "string",
+                        "object"
+                    ],
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "alternatePrompt": {
+                    "$role": "lg",
+                    "type": [
+                        "string",
+                        "object"
+                    ],
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "$type"
+            ],
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "anyOf": [
+                {
+                    "title": "Reference",
+                    "required": [
+                        "$copy"
+                    ]
+                },
+                {
+                    "title": "Type",
+                    "required": [
+                        "prompt"
+                    ]
+                }
+            ]
+        },
+        "root": {
+            "properties": {
+                "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "root"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+                },
+                "$id": {
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "recognizers": {
+                    "type": "array",
+                    "items": {
+                        "$type": "IRecognizer",
+                        "$ref": "#/definitions/IRecognizer"
+                    }
+                },
+                "prompt": {
+                    "$type": "prompt",
+                    "$ref": "#/definitions/prompt"
+                }
+            },
+            "required": [
+                "$type"
+            ],
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "anyOf": [
+                {
+                    "title": "Reference",
+                    "required": [
+                        "$copy"
+                    ]
+                },
+                {
+                    "title": "Type",
+                    "required": [
+                        "recognizers"
+                    ]
+                }
+            ]
+        }
+    }
+}

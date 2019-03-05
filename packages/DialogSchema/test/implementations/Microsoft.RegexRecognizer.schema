@@ -1,0 +1,17 @@
+{
+    "$schema": "../../src/dialogSchema.schema",
+    "title": "Regular Expression Recognizer",
+    "description": "Example regular expression recognizer.",
+    "$role": "unionType(Microsoft.IRecognizer)",
+    "properties": {
+        "$comment": {
+            "text": "Test explicit override"
+        },
+        "pattern": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "pattern"
+    ]
+}
