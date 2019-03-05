@@ -1,8 +1,8 @@
-[![npm version](https://badge.fury.io/js/msbot.svg)](https://badge.fury.io/js/cogSchema)
+[![npm version](https://badge.fury.io/js/msbot.svg)](https://badge.fury.io/js/dialogSchema)
 
-# CogSchema Command Line tool
+# DialogSchema Command Line tool
 
-CogSchema tool is a command line tool designed to merge together Microsoft Bot Builder](https://github.com/Microsoft/BotBuilder) .schema JSON schema files into a single JSON schema file. The .schema files should have a unique filename that is used to refer to that type using `$type`.  The .schema files can optionally include a `$schema: "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema"` which defines the schema they are validated against.  Within a schema definition you can use `$role:"unionType(<type>)` to project the type definition into union types defined using `$role:"unionType"` while merging.  To refer to a type in a property, just use `"$type":"<type>"`.  The merger combines all of the component .schema files into a single .schema file that has resolved all external `$ref`, merged `allOf` and connected together schemas through `$role` and `$type`. 
+DialogSchema tool is a command line tool designed to merge together Microsoft Bot Builder](https://github.com/Microsoft/BotBuilder) .schema JSON schema files into a single JSON schema file. The .schema files should have a unique filename that is used to refer to that type using `$type`.  The .schema files can optionally include a `$schema: "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema"` which defines the schema they are validated against.  Within a schema definition you can use `$role:"unionType(<type>)` to project the type definition into union types defined using `$role:"unionType"` while merging.  To refer to a type in a property, just use `"$type":"<type>"`.  The merger combines all of the component .schema files into a single .schema file that has resolved all external `$ref`, merged `allOf` and connected together schemas through `$role` and `$type`. 
 
 In addition all .lg files that share a location and name with .schema files will be merged into a single global .lg file for each locale.  The naming pattern is `<type>[-<locale>].lg` found in the same location as `<type>.schema`.  If a global .lg file already exists then its template definitions will replace any associated with individual .schema files.  Any property marked with `$role:"lg"` will automatically be included as an empty template if not already defined in a .lg file.  
 
@@ -25,21 +25,21 @@ For example look at these files:
 To install using npm:
 
 ```shell
-npm install -g cogSchema
+npm install -g dialogSchema
 ```
 
-This will install cogSchema into your global path.
+This will install dialogSchema into your global path.
 
 To uninstall using npm:
 
 ```shell
-npm uninstall -g cogSchema
+npm uninstall -g dialogSchema
 ```
 ## Nightly builds
 
 Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
 
-You can get the latest nightly build of CogSchema from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
+You can get the latest nightly build of DialogSchema from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
 
 ```shell
 npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/

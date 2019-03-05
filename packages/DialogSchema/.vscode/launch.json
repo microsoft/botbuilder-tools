@@ -44,11 +44,9 @@
             "name": "Launch OBI",
             "program": "${workspaceFolder}\\lib\\dialogSchemaMain.js",
             "args": [
-                "**/*.schema",
-                "-o",
-                "app.schema"
+                "*.schema"
             ],
-            "cwd": "${workspaceFolder}/../../../botframework-obi/schema/examples",
+            "cwd": "${workspaceFolder}/../../../botframework-obi/fileformats/dialog/schema/schemas",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"
