@@ -227,7 +227,7 @@ async function runProgram() {
                     result = await client.model.addSubList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, requestBody, args);
                     break;
                 case "appazureaccount":
-                    result = await client.azureAccounts.assignToApp(args.region, args.cloud, args.appId, requestBody, args);
+                    result = await client.azureAccounts.assignToApp(args.region, args.cloud, args.appId, { azureAccountInfoObject: requestBody, ...args });
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -298,7 +298,7 @@ async function runProgram() {
                                 return;
                             }
                         }
-                        result = await client.azureAccounts.deleteMethod(args.region, args.cloud, args.appId, requestBody, args);
+                        result = await client.azureAccounts.removeFromApp(args.region, args.cloud, args.appId, { azureAccountInfoObject: requestBody, ...args });
                     }
                     break;
 
