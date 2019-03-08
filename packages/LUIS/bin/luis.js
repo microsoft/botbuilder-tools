@@ -228,8 +228,7 @@ async function runProgram() {
                     result = await client.model.addSubList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, requestBody, args);
                     break;
                 case "appazureaccount":
-                    var infoObj = {azureAccountInfoObject: requestBody};
-                    var options = Object.assign.apply(Object, [{}].concat(infoObj).concat(args));
+                    var options = Object.assign({}, { azureAccountInfoObject: requestBody }, args);
                     result = await client.azureAccounts.assignToApp(args.region, args.cloud, args.appId, options);
                     break;
                 default:
@@ -301,8 +300,7 @@ async function runProgram() {
                                 return;
                             }
                         }
-                        var infoObj = {azureAccountInfoObject: requestBody};
-                        var options = Object.assign.apply(Object, [{}].concat(infoObj).concat(args));
+                        var options = Object.assign({}, { azureAccountInfoObject: requestBody }, args);
                         result = await client.azureAccounts.removeFromApp(args.region, args.cloud, args.appId, options);
                     }
                     break;
