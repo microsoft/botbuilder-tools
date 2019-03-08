@@ -893,7 +893,7 @@
         "target": [
             "slot"
         ],
-        "command": "luis package slot --appId <string> --slotName <PRODUCTION|STAGING>",
+        "command": "luis package slot --appId <string> --slotName <string>",
         "pathFragment": "",
         "params": [
             {

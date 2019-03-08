@@ -129,6 +129,7 @@ async function runProgram() {
 
     // INVOKE operation
     let result = {};
+    let outputFilePath = '';
 
     switch (verb) {
         // ------------------ ADD  ------------------
@@ -332,9 +333,11 @@ async function runProgram() {
             switch (target) {
                 case "slot":
                     result = await client.apps.packagePublishedApplicationAsGzip(args.region, args.cloud, args.appId, args.slotName, args);
+                    outputFilePath = path.join(args.outputFolderPath, `${args.appId}_${args.slotName}.gz`);
                     break;
                 case "version":
                     result = await client.apps.packageTrainedApplicationAsGzip(args.region, args.cloud, args.appId, args.versionId, args);
+                    outputFilePath = path.join(args.outputFolderPath, `${args.appId}_v${args.versionId}.gz`);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -671,18 +674,44 @@ async function runProgram() {
         throw new Error(result.error.message);
     }
 
-    if (result.readableStreamBody) {
-        result = await new Promise((resolve, reject) => {
-            var body = '';
-            var stream = result.readableStreamBody;
-            stream.on('readable', () => body += stream.read());
-            stream.on('end', () => {
-                resolve(body);
+    if (verb != "package") {
+        if (result.readableStreamBody) {
+            result = await new Promise((resolve, reject) => {
+                var body = '';
+                var stream = result.readableStreamBody;
+                stream.on('readable', () => body += stream.read());
+                stream.on('end', () => {
+                    resolve(body);
+                });
             });
-        });
-        await stdoutAsync(result);
-    } else {
-        await stdoutAsync((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
+            await stdoutAsync(result);
+        } else {
+            await stdoutAsync((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
+        }
+    }
+    else {
+        // Packaging APIs
+        if (result.readableStreamBody) {
+            result = await new Promise((resolve, reject) => {
+                var stream = result.readableStreamBody;
+                let body = [];
+                stream.on('readable', function() {
+                    let chunk;
+                    while ((chunk = stream.read()) != null) {
+                        body.push(chunk);
+                    }
+                });
+                stream.on('end', () => {
+                    body = body.slice(0, -1);
+                    var buffer = Buffer.concat(body);
+                    resolve(buffer);
+                });
+            });
+    
+            await fs.writeFile(outputFilePath, result);
+
+            await stdoutAsync(`Package file successfully written in: ${outputFilePath}`);
+        }
     }
 }
 
