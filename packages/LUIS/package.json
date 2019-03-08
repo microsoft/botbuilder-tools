@@ -49,7 +49,7 @@
     "intercept-stdout": "^0.1.2",
     "latest-version": "^4.0.0",
     "minimist": "^1.2.0",
-    "ms-rest-js": "1.0.455",
+    "@azure/ms-rest-js": "1.7.0",
     "node-fetch": "^2.1.2",
     "perf_hooks": "0.0.1",
     "read-text-file": "^1.1.0",

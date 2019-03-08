@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/versionsMappers";
 import * as Parameters from "../models/parameters";
@@ -64,7 +64,7 @@ export class Versions {
    * @param callback The callback
    */
   clone(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  clone(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsCloneResponse> {
+  clone(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsCloneResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -114,7 +114,7 @@ export class Versions {
    * @param callback The callback
    */
   list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: Models.VersionsListOptionalParams, callback: msRest.ServiceCallback<Models.VersionInfo[]>): void;
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.VersionsListOptionalParams, callback?: msRest.ServiceCallback<Models.VersionInfo[]>): Promise<Models.VersionsListResponse> {
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.VersionsListOptionalParams | msRest.ServiceCallback<Models.VersionInfo[]>, callback?: msRest.ServiceCallback<Models.VersionInfo[]>): Promise<Models.VersionsListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -165,7 +165,7 @@ export class Versions {
    * @param callback The callback
    */
   get(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VersionInfo>): void;
-  get(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VersionInfo>): Promise<Models.VersionsGetResponse> {
+  get(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VersionInfo>, callback?: msRest.ServiceCallback<Models.VersionInfo>): Promise<Models.VersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -220,7 +220,7 @@ export class Versions {
    * @param callback The callback
    */
   update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsUpdateResponse> {
+  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, versionUpdateObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -273,7 +273,7 @@ export class Versions {
    * @param callback The callback
    */
   deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsDeleteMethodResponse> {
+  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -325,7 +325,7 @@ export class Versions {
    * @param callback The callback
    */
   exportMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LuisApp>): void;
-  exportMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LuisApp>): Promise<Models.VersionsExportMethodResponse> {
+  exportMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LuisApp>, callback?: msRest.ServiceCallback<Models.LuisApp>): Promise<Models.VersionsExportMethodResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -377,7 +377,7 @@ export class Versions {
    * @param callback The callback
    */
   importMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, luisApp: Models.LuisApp, options: Models.VersionsImportMethodOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  importMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, luisApp: Models.LuisApp, options?: Models.VersionsImportMethodOptionalParams, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsImportMethodResponse> {
+  importMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, luisApp: Models.LuisApp, options?: Models.VersionsImportMethodOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsImportMethodResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -432,7 +432,7 @@ export class Versions {
    * @param callback The callback
    */
   deleteUnlabelledUtterance(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, utterance: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteUnlabelledUtterance(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, utterance: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsDeleteUnlabelledUtteranceResponse> {
+  deleteUnlabelledUtterance(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, utterance: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.VersionsDeleteUnlabelledUtteranceResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
