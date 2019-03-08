@@ -702,7 +702,6 @@ async function runProgram() {
                     }
                 });
                 stream.on('end', () => {
-                    body = body.slice(0, -1);
                     var buffer = Buffer.concat(body);
                     resolve(buffer);
                 });
