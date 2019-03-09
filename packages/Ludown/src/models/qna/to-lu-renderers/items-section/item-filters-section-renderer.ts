@@ -1,0 +1,23 @@
+import { IMarkdownWriter } from '../../../../interfaces/helpers/IMarkdownWriter';
+import { IKnowledgeBaseItem } from 'src/interfaces/qna/knowledge-base-items/IKnowledgeBaseItem';
+import { itemFilterRenderer } from './item-filter-renderer';
+
+/**
+ * @description
+ * Renders the QnA knowledge base item filters section to Lu file format.
+ *
+ * @param knowledgeBaseItem The QnA knowledge base item object.
+ * @param writer The writer used to write the Lu file.
+ */
+export const itemFiltersSectionRenderer = (knowledgeBaseItem: IKnowledgeBaseItem, writer: IMarkdownWriter) => {
+	if (!knowledgeBaseItem.filters || knowledgeBaseItem.filters.length === 0) {
+		return;
+	}
+
+	writer.addNewLine();
+	writer.addStatement('**Filters:**');
+	writer.addNewLine();
+
+	knowledgeBaseItem.filters.forEach(filter => itemFilterRenderer(filter, writer));
+	writer.addNewLine();
+};
