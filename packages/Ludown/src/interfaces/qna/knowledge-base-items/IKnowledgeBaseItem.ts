@@ -1,4 +1,4 @@
-import { IKnoweldgeBaseItemFilter } from './IKnoweldgeBaseItemFilter';
+import { IKnowledgeBaseItemFilter } from './IKnoweldgeBaseItemFilter';
 
 /**
  * @description
@@ -11,5 +11,5 @@ export interface IKnowledgeBaseItem {
 
 	answer: string;
 
-	filters: IKnoweldgeBaseItemFilter[];
+	filters: IKnowledgeBaseItemFilter[];
 }

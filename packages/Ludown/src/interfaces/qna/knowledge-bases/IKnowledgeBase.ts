@@ -1,5 +1,5 @@
-import { IKnowledgeBaseItem } from "../knowledge-base-items/IKnowledgeBaseItem";
+import { IKnowledgeBaseItem } from '../knowledge-base-items/IKnowledgeBaseItem';
 
 export interface IKnowledgeBase {
-    items: IKnowledgeBaseItem[];
+	items: IKnowledgeBaseItem[];
 }
