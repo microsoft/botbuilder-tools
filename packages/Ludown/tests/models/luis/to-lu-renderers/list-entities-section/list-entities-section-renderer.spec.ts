@@ -1,9 +1,9 @@
-import { markdownWriter } from '../../../../../src/helpers/markdown-writer';
+import { markdownWriterFactory } from '../../../../../src/helpers/markdown-writer';
 import { listEntitiesSectionRenderer } from '../../../../../src/models/luis/to-lu-renderers/list-entities-section/list-entities-section-renderer';
 
 describe('List entities section', () => {
 	const runTestCase = sampleApp => {
-		const writer = markdownWriter();
+		const writer = markdownWriterFactory();
 		listEntitiesSectionRenderer(sampleApp, writer);
 
 		return writer.render();

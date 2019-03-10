@@ -1,9 +1,9 @@
-import { markdownWriter } from '../../../../../src/helpers/markdown-writer';
+import { markdownWriterFactory } from '../../../../../src/helpers/markdown-writer';
 import { alterationsSectionRenderer } from '../../../../../src/models/qna/to-lu-renderers/alterations-section/alterations-section-renderer';
 
 describe('QnA alterations section', () => {
 	const runTestCase = sampleDocument => {
-		const writer = markdownWriter();
+		const writer = markdownWriterFactory();
 		alterationsSectionRenderer(sampleDocument, writer);
 
 		return writer.render();

@@ -1,23 +1,23 @@
-import { markdownWriter } from '../../../../../src/helpers/markdown-writer';
+import { markdownWriterFactory } from '../../../../../src/helpers/markdown-writer';
 import { prebuiltEntitiesSectionRenderer } from '../../../../../src/models/luis/to-lu-renderers/prebuilt-entities-section/prebuilt-entities-section-renderer';
 
 describe('Prebuilt entities section', () => {
-    const runTestCase = (sampleApp) => {
-        const writer = markdownWriter();
-        prebuiltEntitiesSectionRenderer(sampleApp, writer);
+	const runTestCase = sampleApp => {
+		const writer = markdownWriterFactory();
+		prebuiltEntitiesSectionRenderer(sampleApp, writer);
 
-        return writer.render();
-    };
+		return writer.render();
+	};
 
-    it('should output correct section text when prebuilt entities are given.', () => {
-        const output = runTestCase({ prebuiltEntities: [{ name: 'datetime' }, { name: 'number' }] });
+	it('should output correct section text when prebuilt entities are given.', () => {
+		const output = runTestCase({ prebuiltEntities: [{ name: 'datetime' }, { name: 'number' }] });
 
-        expect(output).toBe('> # Prebuilt entity definitions\n\n$PREBUILT:datetime\n\n$PREBUILT:number\n\n');
-    });
+		expect(output).toBe('> # Prebuilt entity definitions\n\n$PREBUILT:datetime\n\n$PREBUILT:number\n\n');
+	});
 
-    it('should not output anything if entities are empty or do not exist.', () => {
-        const output = runTestCase({});
+	it('should not output anything if entities are empty or do not exist.', () => {
+		const output = runTestCase({});
 
-        expect(output).toBe('');
-    });
+		expect(output).toBe('');
+	});
 });
