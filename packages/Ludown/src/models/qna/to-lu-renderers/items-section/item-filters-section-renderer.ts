@@ -16,7 +16,6 @@ export const itemFiltersSectionRenderer = (knowledgeBaseItem: IKnowledgeBaseItem
 
 	writer.addNewLine();
 	writer.addStatement('**Filters:**');
-	writer.addNewLine();
 
 	knowledgeBaseItem.filters.forEach(filter => itemFilterRenderer(filter, writer));
 	writer.addNewLine();
