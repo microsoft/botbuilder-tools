@@ -3,7 +3,7 @@ import { IKnowledgeBase } from 'src/interfaces/qna/knowledge-bases/IKnowledgeBas
 
 /**
  * @description
- * Creates a knowledge base a QnA JSON object.
+ * Creates a knowledge base from a QnA JSON object.
  *
  * @param state The QnA JSON object.
  */

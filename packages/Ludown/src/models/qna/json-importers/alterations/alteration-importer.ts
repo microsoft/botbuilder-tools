@@ -6,6 +6,6 @@ import { IQnaAlteration } from 'src/interfaces/qna/alterations/IQnaAlteration';
  *
  * @param state The QnA alteration JSON object.
  */
-export const alterationImporter: (state) => IQnaAlteration[] = state => {
-	return state.wordAlterations.map(wordAlteration => ({ alterations: wordAlteration.alterations }));
+export const alterationImporter: (state) => IQnaAlteration = state => {
+	return { alterations: state.alterations };
 };
