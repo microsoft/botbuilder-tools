@@ -4,6 +4,22 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch LUIS",
+            "program": "${workspaceFolder}\\packages\\LUIS\\bin\\luis.js",
+            "args": [
+                "list",
+                "apps",
+                "--appId",
+                "00000000-0000-0000-0000-000000000000",
+                "--authoringKey",
+                "00000000000000000000000000000000",
+                "--region",
+                "westus"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch Chatdown",
             "program": "${workspaceFolder}\\packages\\Chatdown\\bin\\chatdown.js",
             "cwd": "${workspaceFolder}\\packages\\Chatdown\\Examples",

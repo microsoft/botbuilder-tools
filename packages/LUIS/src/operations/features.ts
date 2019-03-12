@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/featuresMappers";
 import * as Parameters from "../models/parameters";
@@ -34,6 +34,7 @@ export class Features {
    * @param versionId The version ID.
    * @param patternCreateObject The Name and Pattern of the feature.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.FeaturesCreatePatternFeatureResponse>
    */
   createPatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesCreatePatternFeatureResponse>;
@@ -48,6 +49,7 @@ export class Features {
    * @param versionId The version ID.
    * @param patternCreateObject The Name and Pattern of the feature.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   createPatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, callback: msRest.ServiceCallback<number>): void;
   /**
@@ -62,9 +64,10 @@ export class Features {
    * @param patternCreateObject The Name and Pattern of the feature.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   createPatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  createPatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): Promise<Models.FeaturesCreatePatternFeatureResponse> {
+  createPatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternCreateObject: Models.PatternCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.FeaturesCreatePatternFeatureResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -89,6 +92,7 @@ export class Features {
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.FeaturesGetApplicationVersionPatternFeaturesResponse>
    */
   getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams): Promise<Models.FeaturesGetApplicationVersionPatternFeaturesResponse>;
@@ -102,6 +106,7 @@ export class Features {
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): void;
   /**
@@ -115,9 +120,10 @@ export class Features {
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams, callback: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): void;
-  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): Promise<Models.FeaturesGetApplicationVersionPatternFeaturesResponse> {
+  getApplicationVersionPatternFeatures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesGetApplicationVersionPatternFeaturesOptionalParams | msRest.ServiceCallback<Models.PatternFeatureInfo[]>, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): Promise<Models.FeaturesGetApplicationVersionPatternFeaturesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -175,7 +181,7 @@ export class Features {
    * @param callback The callback
    */
   addPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  addPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): Promise<Models.FeaturesAddPhraseListResponse> {
+  addPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.FeaturesAddPhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -228,7 +234,7 @@ export class Features {
    * @param callback The callback
    */
   listPhraseLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.FeaturesListPhraseListsOptionalParams, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): void;
-  listPhraseLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): Promise<Models.FeaturesListPhraseListsResponse> {
+  listPhraseLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams | msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): Promise<Models.FeaturesListPhraseListsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -280,7 +286,7 @@ export class Features {
    * @param callback The callback
    */
   list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.FeaturesListOptionalParams, callback: msRest.ServiceCallback<Models.FeaturesResponseObject>): void;
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams, callback?: msRest.ServiceCallback<Models.FeaturesResponseObject>): Promise<Models.FeaturesListResponse> {
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.FeaturesListOptionalParams | msRest.ServiceCallback<Models.FeaturesResponseObject>, callback?: msRest.ServiceCallback<Models.FeaturesResponseObject>): Promise<Models.FeaturesListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -306,6 +312,7 @@ export class Features {
    * @param versionId The version ID.
    * @param patternId The pattern feature ID.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.FeaturesGetPatternFeatureInfoResponse>
    */
   getPatternFeatureInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesGetPatternFeatureInfoResponse>;
@@ -320,6 +327,7 @@ export class Features {
    * @param versionId The version ID.
    * @param patternId The pattern feature ID.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   getPatternFeatureInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, callback: msRest.ServiceCallback<Models.PatternFeatureInfo>): void;
   /**
@@ -334,9 +342,10 @@ export class Features {
    * @param patternId The pattern feature ID.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   getPatternFeatureInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternFeatureInfo>): void;
-  getPatternFeatureInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo>): Promise<Models.FeaturesGetPatternFeatureInfoResponse> {
+  getPatternFeatureInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternFeatureInfo>, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo>): Promise<Models.FeaturesGetPatternFeatureInfoResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -366,6 +375,7 @@ export class Features {
    * the status of the feature will be changed. - Name, Pattern and a boolean called IsActive to
    * update the feature.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.FeaturesUpdatePatternFeatureResponse>
    */
   updatePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesUpdatePatternFeatureResponse>;
@@ -383,6 +393,7 @@ export class Features {
    * the status of the feature will be changed. - Name, Pattern and a boolean called IsActive to
    * update the feature.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   updatePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
@@ -400,9 +411,10 @@ export class Features {
    * update the feature.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   updatePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesUpdatePatternFeatureResponse> {
+  updatePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, patternUpdateObject: Models.PatternUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesUpdatePatternFeatureResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -429,6 +441,7 @@ export class Features {
    * @param versionId The version ID.
    * @param patternId The pattern feature ID.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.FeaturesDeletePatternFeatureResponse>
    */
   deletePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesDeletePatternFeatureResponse>;
@@ -443,6 +456,7 @@ export class Features {
    * @param versionId The version ID.
    * @param patternId The pattern feature ID.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   deletePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
@@ -457,9 +471,10 @@ export class Features {
    * @param patternId The pattern feature ID.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   deletePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesDeletePatternFeatureResponse> {
+  deletePatternFeature(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, patternId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesDeletePatternFeatureResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -515,7 +530,7 @@ export class Features {
    * @param callback The callback
    */
   getPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): void;
-  getPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): Promise<Models.FeaturesGetPhraseListResponse> {
+  getPhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PhraseListFeatureInfo>, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): Promise<Models.FeaturesGetPhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -571,7 +586,7 @@ export class Features {
    * @param callback The callback
    */
   updatePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options: Models.FeaturesUpdatePhraseListOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesUpdatePhraseListResponse> {
+  updatePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesUpdatePhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -627,7 +642,7 @@ export class Features {
    * @param callback The callback
    */
   deletePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesDeletePhraseListResponse> {
+  deletePhraseList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesDeletePhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
