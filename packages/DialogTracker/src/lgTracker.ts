@@ -6,7 +6,7 @@
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
 import * as fs from 'fs-extra';
-import * as glob from 'globby';
+import glob from 'globby';
 import * as os from 'os';
 import * as path from 'path';
 import * as readline from 'readline';
