@@ -8,7 +8,7 @@
 export * from './lgTracker';
 export * from './schemaTracker';
 import * as fs from 'fs-extra';
-import * as glob from 'globby';
+import glob from 'globby';
 import * as lgt from './lgTracker';
 import * as path from 'path';
 import * as st from './schemaTracker';
@@ -283,7 +283,7 @@ export class DialogTracker {
 
     /** Add dialog files that match patterns to tracker. */
     async addDialogFiles(patterns: string[]): Promise<void> {
-        let filePaths = glob.sync(patterns);
+        let filePaths = await glob(patterns);
         for (let filePath of filePaths) {
             await this.addDialogFile(filePath);
         }

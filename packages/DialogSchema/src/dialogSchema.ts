@@ -8,7 +8,7 @@
 import * as chalk from 'chalk';
 import * as dt from 'dialogtracker';
 import * as fs from 'fs-extra';
-import * as glob from 'globby';
+import glob from 'globby';
 import * as os from 'os';
 import * as path from 'path';
 import * as Validator from 'ajv';
