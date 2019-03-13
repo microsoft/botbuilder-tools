@@ -41,7 +41,6 @@
   "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
   "devDependencies": {
     "@types/fs-extra": "^5.0.5",
-    "@types/globby": "^8.0.0",
     "@types/node": "^10.12.18",
     "@types/semver": "^5.5.0"
   },
@@ -52,7 +51,7 @@
     "dialogtracker": "^1.0.0",
     "commander": "^2.19.0",
     "fs-extra": "^7.0.1",
-    "globby": "^9.0.0",
+    "globby": "^9.1.0",
     "json-schema-merge-allof": "^0.6.0",
     "json-schema-ref-parser": "^6.0.3",
     "log-prefix": "^0.1.1",

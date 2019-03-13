@@ -8,7 +8,7 @@
 import * as dt from '../src/DialogTracker';
 import { expect } from 'chai';
 import * as fs from 'fs-extra';
-import * as glob from 'globby';
+import glob from 'globby';
 import 'mocha';
 import * as path from 'path';
 let cs = require('Dialogschema/lib/DialogSchema');
@@ -23,7 +23,7 @@ describe('Test .dialog indexing library', async () => {
         // 2) Run DialogLint examples/*.dialog -w examples/app.lg (or execute "Launch program")
         await fs.remove("test.out");
         await fs.mkdirp("test.out");
-        for(let file of glob.sync(["test/**/*.schema", "test/**/*.lg", "test/**/*.dialog", "test/**/*.cmd"])) {
+        for(let file of await glob(["test/**/*.schema", "test/**/*.lg", "test/**/*.dialog", "test/**/*.cmd"])) {
             await fs.copy(file, path.join("test.out", file.substring(file.indexOf("/") + 1)));
         }
         process.chdir("test.out");
@@ -31,7 +31,7 @@ describe('Test .dialog indexing library', async () => {
         await fs.remove("examples/app.lg");
         await fs.remove("examples/app-en-us.lg");
         await cs.mergeSchemas(["schemas/*.schema"], "examples/app.schema", true);
-        await cs.mergeSchemas(["schemas/prompt.schema"], "examples\promptOnly.schema", true);
+        await cs.mergeSchemas(["schemas/prompt.schema"], "examples/promptOnly.schema", true);
         tracker.root = process.cwd();
         await tracker.addDialogFiles(["examples/*.dialog"]);
         await tracker.writeLG("examples/app.lg");
@@ -79,7 +79,7 @@ describe('Test .dialog indexing library', async () => {
         let savesAfter = size(tracker.dialogs.filter((c) => c.save));
         expect(savesAfter).equals(0);
         let saved = 0;
-        for(let file of glob.sync("Dialogs/examples/*.dialog")) {
+        for(let file of await glob("Dialogs/examples/*.dialog")) {
             let dialog = tracker.findDialogFile(file);
             expect(dialog, `${dialog} is not found as ${file}`).is.not.equal(undefined);
             ++saved;
@@ -95,7 +95,7 @@ describe('Test .dialog indexing library', async () => {
     });
 
     it('files', async () => {
-        for(let file of glob.sync(["../test/examples/*", "../test/schemas/*"])) {
+        for(let file of await glob(["../test/examples/*", "../test/schemas/*"])) {
             let newFile = path.join(process.cwd(), file.substring("../test/".length));
             if (!await fs.pathExists(newFile)) {
                 expect.fail(`${newFile} is missing`);
