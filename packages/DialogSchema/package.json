@@ -42,7 +42,8 @@
   "devDependencies": {
     "@types/fs-extra": "^5.0.5",
     "@types/node": "^10.12.18",
-    "@types/semver": "^5.5.0"
+    "@types/semver": "^5.5.0",
+    "typescript": "^3.3.3"
   },
   "dependencies": {
     "ajv": "^6.9.1",

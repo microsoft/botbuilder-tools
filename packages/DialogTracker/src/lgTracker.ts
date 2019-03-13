@@ -289,7 +289,7 @@ export class LGTracker {
     private buildContents(val: any, depth: number, flat?: boolean): [string, boolean] {
         let contents = "";
         let hasTemplate = false;
-        for (let key in val) {
+        for (let key of Object.keys(val).sort()) {
             if (key === "$templates") {
                 let first = true;
                 for (let template of val.$templates) {

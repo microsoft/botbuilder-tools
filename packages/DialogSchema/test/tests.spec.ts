@@ -18,9 +18,7 @@ describe('Test schema merge and .dialog indexing library', async () => {
     let tracker = new dt.DialogTracker(schemas);
 
     before(async () => {
-        // If you want to regenerate the oracle *.schema and *.lg files
-        // 1) Run schemas/makeschemas.cmd
-        // 2) Run DialogLint examples/*.dialog -w examples/app.lg (or execute "Launch program")
+        // If you want to regenerate the oracle *.schema and *.lg files, run schemas/makeschemas.cmd
         await fs.remove("test.out");
         await fs.mkdirp("test.out");
         for(let file of await glob(["test/**/*.schema", "test/**/*.lg", "test/**/*.dialog", "test/**/*.cmd"])) {

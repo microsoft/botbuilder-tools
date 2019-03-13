@@ -27,6 +27,11 @@
         }
     ],
     "definitions": {
+        "INothing": {
+            "title": "Microsoft Nothing",
+            "description": "Definition of a union type with no implementations.",
+            "$role": "unionType"
+        },
         "IRecognizer": {
             "$role": "unionType",
             "oneOf": [

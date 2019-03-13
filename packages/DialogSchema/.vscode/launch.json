@@ -11,8 +11,7 @@
             "program": "${workspaceFolder}\\lib\\dialogSchemaMain.js",
             "args":
             [
-                "implementations/*.schema",
-                "definitions/*.schema",
+                "schemas/*.schema",
                 "-o",
                 "examples/app.schema"
             ],

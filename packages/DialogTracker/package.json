@@ -11,21 +11,19 @@
     "bin": "bin",
     "doc": "docs",
     "lib": "lib",
-    "typings": "typings",
-    "examples": "test/examples"
+    "typings": "typings"
   },
   "files": [
     "bin/",
     "docs/",
     "lib/",
-    "test/examples/",
     "typings/"
   ],
   "scripts": {
-    "test": "mocha -r test/ts-node-register test/*.ts",
+    "test": "echo run tests in ../DialogSchema",
     "clean": "erase /Q /s lib\\* && erase /Q /s typings\\* && erase /Q /s docs\\*",
     "build": "tsc",
-    "docs": "typedoc --out docs src"
+    "docs": "rd /s /q docs && typedoc --out docs src"
   },
   "engines": {
     "node": ">=8.0"
@@ -42,19 +40,17 @@
   "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
   "devDependencies": {
     "@types/chai": "^4.1.7",
+    "@types/fs-extra": "^5.0.5",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.18",
     "@types/semver": "^5.5.0",
     "chai": "^4.2.0",
     "chalk": "^2.4.2",
-    "dialogschema": "^1.0.0",
     "mocha": "^5.2.0",
     "ts-node": "^8.0.2",
-    "typedoc": "^0.14.2",
-    "typescript": "^3.3.3"
+    "typedoc": "^0.14.2"
   },
   "dependencies": {
-    "@types/fs-extra": "^5.0.5",
     "ajv": "^6.9.1",
     "clone": "^2.1.2",
     "fs-extra": "^7.0.1",
