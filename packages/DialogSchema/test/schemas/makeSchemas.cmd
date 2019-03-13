@@ -1,7 +1,7 @@
 @echo off
 setlocal
 del /q ..\examples\*.lg
-set cs=..\..\..\dialogschema\lib\dialogschemaMain.js
+set cs=..\..\lib\dialogschemaMain.js
 if exist %cs% goto run
 pushd ..\..\..\dialogschema
 call npm run build

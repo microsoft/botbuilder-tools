@@ -5,15 +5,15 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import * as dt from '../src/DialogTracker';
+import * as dt from 'dialogtracker';
 import { expect } from 'chai';
 import * as fs from 'fs-extra';
 import glob from 'globby';
 import 'mocha';
 import * as path from 'path';
-let cs = require('Dialogschema/lib/DialogSchema');
+import * as cs from '../src/dialogSchema';
 
-describe('Test .dialog indexing library', async () => {
+describe('Test schema merge and .dialog indexing library', async () => {
     let schemas = new dt.SchemaTracker();
     let tracker = new dt.DialogTracker(schemas);
 

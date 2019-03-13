@@ -1,8 +1,25 @@
-# Microsoft.Prompt.prompt
+# Recognizer.req
 
-# Microsoft.Prompt.alternate
+# Recognizer.complex.inside
 
-# Microsoft.Prompt.alternate2
+# prompt.prompt
+- Generic prompt
 
-# Microsoft.SimplePrompt.prompt
+# prompt.alternatePrompt
+
+# externalRecognizer.req
+
+# externalRecognizer.complex.inside
+
+# myPrompt.prompt
+
+# myPrompt.alternatePrompt
+
+# myPromptCopy.prompt
+
+# myPromptCopy.alternatePrompt
+
+# NotUsed.req
+
+# NotUsed.complex.inside
 

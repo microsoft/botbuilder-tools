@@ -1,24 +1,21 @@
-> Root namespace
-# Microsoft
+> Simple prompt
+# prompt.prompt
+> Simple english
+- English prompt
 
-> A comment
-# Microsoft.Prompt.prompt
-- How are you?
-> Another comment
-- How is today?
+# externalRecognizer.req
 
-# Microsoft.Prompt.alternate
--Why not?
+# externalRecognizer.complex.inside
 
-# Microsoft.Prompt.alternate2
-- OK
+# myPrompt.prompt
 
-> Define the same template more than once
-# multipleTemplate
-- a
+# myPrompt.alternatePrompt
 
-> *** Alternative Definition ***
-> Second definition
-# multipleTemplate
--b
+# myPromptCopy.prompt
+
+# myPromptCopy.alternatePrompt
+
+# NotUsed.req
+
+# NotUsed.complex.inside
 

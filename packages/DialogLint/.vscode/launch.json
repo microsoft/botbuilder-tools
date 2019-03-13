@@ -14,7 +14,7 @@
                 "-w",
                 "examples/app.lg"
             ],
-            "cwd": "${workspaceFolder}/../dialogtracker/test",
+            "cwd": "${workspaceFolder}/../dialogschema/test",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"
@@ -24,7 +24,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch TestBot",
-            "program": "${workspaceFolder}\\lib\\cogLint.js",
+            "program": "${workspaceFolder}\\lib\\dialogLint.js",
             "args": [
                 "**/*.dialog"
             ],
