@@ -191,23 +191,23 @@ export const regionToLuisPublishRegionMap: { [region: string]: string } = {
 }
 
 export const regionToAppInsightRegionNameMap: { [region: string]: string } = {
-    australiaeast: RegionNames.SOUTHEASTASIA,
-    australiacentral: RegionNames.SOUTHEASTASIA,
-    australiacentral2: RegionNames.SOUTHEASTASIA,
-    australiasoutheast: RegionNames.SOUTHEASTASIA,
+    australiaeast: RegionNames.AUSTRALIAEAST,
+    australiacentral: RegionNames.AUSTRALIAEAST,
+    australiacentral2: RegionNames.AUSTRALIAEAST,
+    australiasoutheast: RegionNames.AUSTRALIAEAST,
     eastasia: RegionNames.SOUTHEASTASIA,
     southeastasia: RegionNames.SOUTHEASTASIA,
-    japanwest: RegionNames.SOUTHEASTASIA,
-    japaneast: RegionNames.SOUTHEASTASIA,
-    southindia: RegionNames.SOUTHEASTASIA,
-    centralindia: RegionNames.SOUTHEASTASIA,
-    westindia: RegionNames.SOUTHEASTASIA,
-    koreacentral: RegionNames.SOUTHEASTASIA,
-    koreasouth: RegionNames.SOUTHEASTASIA,
+    japanwest: RegionNames.JAPANEAST,
+    japaneast: RegionNames.JAPANEAST,
+    southindia: RegionNames.CENTRALINDIA,
+    centralindia: RegionNames.CENTRALINDIA,
+    westindia: RegionNames.CENTRALINDIA,
+    koreacentral: RegionNames.KOREACENTRAL,
+    koreasouth: RegionNames.KOREACENTRAL,
 
     eastus: RegionNames.EASTUS,
     eastus2: RegionNames.EASTUS,
-    canadaeast: RegionNames.EASTUS,
+    canadaeast: RegionNames.CANADACENTRAL,
 
     southcentralus: RegionNames.SOUTHCENTRALUS,
     brazilsouth: RegionNames.SOUTHCENTRALUS,
@@ -224,8 +224,8 @@ export const regionToAppInsightRegionNameMap: { [region: string]: string } = {
     westeurope: RegionNames.WESTEUROPE,
     uksouth: RegionNames.WESTEUROPE,
     ukwest: RegionNames.WESTEUROPE,
-    francecentral: RegionNames.WESTEUROPE,
-    francesouth: RegionNames.WESTEUROPE,
+    francecentral: RegionNames.FRANCECENTRAL,
+    francesouth: RegionNames.FRANCECENTRAL,
     germanycentral: RegionNames.WESTEUROPE,
     germanynortheast: RegionNames.WESTEUROPE,
 
@@ -238,10 +238,10 @@ export const regionToAppInsightRegionNameMap: { [region: string]: string } = {
 }
 
 export const regionToSearchRegionMap: { [region: string]: string } = {
-    australiaeast: RegionCodes.SOUTHEASTASIA,
-    australiacentral: RegionCodes.SOUTHEASTASIA,
-    australiacentral2: RegionCodes.SOUTHEASTASIA,
-    australiasoutheast: RegionCodes.SOUTHEASTASIA,
+    australiaeast: RegionCodes.AUSTRALIAEAST,
+    australiacentral: RegionCodes.AUSTRALIAEAST,
+    australiacentral2: RegionCodes.AUSTRALIAEAST,
+    australiasoutheast: RegionCodes.AUSTRALIAEAST,
     eastasia: RegionCodes.SOUTHEASTASIA,
     southeastasia: RegionCodes.SOUTHEASTASIA,
 
@@ -263,15 +263,15 @@ export const regionToSearchRegionMap: { [region: string]: string } = {
     southindia: RegionCodes.CENTRALINDIA,
     centralindia: RegionCodes.CENTRALINDIA,
     westindia: RegionCodes.CENTRALINDIA,
-    koreacentral: RegionCodes.EASTASIA,
-    koreasouth: RegionCodes.EASTASIA,
+    koreacentral: RegionCodes.KOREACENTRAL,
+    koreasouth: RegionCodes.KOREACENTRAL,
 
     northeurope: RegionCodes.NORTHEUROPE,
     westeurope: RegionCodes.WESTEUROPE,
     uksouth: RegionCodes.UKSOUTH,
     ukwest: RegionCodes.UKSOUTH,
-    francecentral: RegionCodes.WESTEUROPE,
-    francesouth: RegionCodes.WESTEUROPE,
+    francecentral: RegionCodes.FRANCECENTRAL,
+    francesouth: RegionCodes.FRANCECENTRAL,
     germanycentral: RegionCodes.WESTEUROPE,
     germanynortheast: RegionCodes.NORTHEUROPE,
 
@@ -316,6 +316,9 @@ export const searchRegions = [
     RegionCodes.SOUTHEASTASIA,
     RegionCodes.EASTASIA,
     RegionCodes.JAPANEAST,
+    RegionCodes.JAPANWEST,
+    RegionCodes.KOREACENTRAL,
+    RegionCodes.CENTRALINDIA,
     RegionCodes.AUSTRALIAEAST,
 
     RegionCodes.BRAZILSOUTH,
@@ -335,5 +338,11 @@ const appInsightRegions = [
     RegionCodes.SOUTHCENTRALUS,
     RegionCodes.WESTEUROPE,
     RegionCodes.NORTHEUROPE,
+    RegionCodes.AUSTRALIAEAST,
+    RegionCodes.NORTHEUROPE,
+    RegionCodes.FRANCECENTRAL,
+    RegionCodes.JAPANEAST,
+    RegionCodes.KOREACENTRAL,
+    RegionCodes.CENTRALINDIA
 ];
 
