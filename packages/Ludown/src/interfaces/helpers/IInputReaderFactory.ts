@@ -12,4 +12,4 @@ export interface IInputReader {
  * @description
  * Represents a factory that creates input readers
  */
-export type IInputReaderFactory = (factoryState) => IInputReader;
+export type IInputReaderFactory = (factoryState?) => IInputReader;

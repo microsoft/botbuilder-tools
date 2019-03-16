@@ -1,52 +1,52 @@
 {
-    "name": "ludown",
-    "version": "1.1.0",
-    "description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
-    "main": "",
-    "scripts": {
-        "postinstall": "npm run build",
-        "build": "tsc",
-        "lint": "tslint",
-        "clean": "rimraf dist/**",
-        "test": "jasmine"
-    },
-    "bin": {
-        "ludown": ""
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
-    },
-    "author": "Microsoft",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Microsoft/botbuilder-tools/issues"
-    },
-    "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
-    "dependencies": {
-        "chalk": "2.4.1",
-        "commander": "^2.15.1",
-        "deep-equal": "^1.0.1",
-        "get-stdin": "^6.0.0",
-        "intercept-stdout": "^0.1.2",
-        "latest-version": "^4.0.0",
-        "lodash": "^4.17.11",
-        "node-fetch": "^2.1.2",
-        "read-text-file": "^1.1.0",
-        "semver": "^5.5.1"
-    },
-    "devDependencies": {
-        "@types/jasmine": "^3.3.8",
-        "@types/latest-version": "^4.0.0",
-        "@types/lodash": "^4.14.120",
-        "@types/mock-fs": "^3.6.30",
-        "@types/node": "^10.12.24",
-        "@types/semver": "^5.5.0",
-        "jasmine": "^3.3.1",
-        "mock-fs": "^4.8.0",
-        "rimraf": "^2.6.3",
-        "tslint": "^5.12.1",
-        "tslint-microsoft-contrib": "^6.0.0",
-        "typescript": "^3.3.1"
-    }
+	"name": "ludown",
+	"version": "1.1.0",
+	"description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
+	"main": "",
+	"scripts": {
+		"postinstall": "npm run build",
+		"build": "tsc",
+		"lint": "tslint",
+		"clean": "rimraf dist/**",
+		"test": "jasmine"
+	},
+	"bin": {
+		"ludown": ""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Microsoft/botbuilder-tools.git"
+	},
+	"author": "Microsoft",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Microsoft/botbuilder-tools/issues"
+	},
+	"homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
+	"dependencies": {
+		"chalk": "2.4.1",
+		"commander": "^2.15.1",
+		"deep-equal": "^1.0.1",
+		"get-stdin": "^6.0.0",
+		"intercept-stdout": "^0.1.2",
+		"latest-version": "^4.0.0",
+		"lodash": "^4.17.11",
+		"node-fetch": "^2.1.2",
+		"read-text-file": "^1.1.0",
+		"semver": "^5.5.1"
+	},
+	"devDependencies": {
+		"@types/jasmine": "^3.3.8",
+		"@types/latest-version": "^4.0.0",
+		"@types/lodash": "^4.14.120",
+		"@types/mock-fs": "^3.6.30",
+		"@types/node": "^10.12.24",
+		"@types/semver": "^5.5.0",
+		"jasmine": "^3.3.1",
+		"mock-fs": "^4.8.0",
+		"rimraf": "^2.6.3",
+		"tslint": "^5.12.1",
+		"tslint-microsoft-contrib": "^6.0.0",
+		"typescript": "^3.3.1"
+	}
 }
