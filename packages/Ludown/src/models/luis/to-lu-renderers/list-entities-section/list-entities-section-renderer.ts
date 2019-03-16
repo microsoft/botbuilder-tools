@@ -1,5 +1,5 @@
 import { IMarkdownWriter } from '../../../../interfaces/helpers/IMarkdownWriter';
-import { IApp } from '../../../../interfaces/luis/apps/IApp';
+import { ILuisApp } from '../../../../interfaces/luis/apps/IApp';
 import { listEntityRenderer } from './list-entity-renderer';
 
 /**
@@ -9,7 +9,7 @@ import { listEntityRenderer } from './list-entity-renderer';
  * @param app The LUIS app object.
  * @param writer The writer used to write the Lu file.
  */
-export const listEntitiesSectionRenderer = (app: IApp, writer: IMarkdownWriter) => {
+export const listEntitiesSectionRenderer = (app: ILuisApp, writer: IMarkdownWriter) => {
 	if (!app.listEntities || app.listEntities.length === 0) {
 		return;
 	}

@@ -1,5 +1,5 @@
 import { IMarkdownWriter } from '../../../../interfaces/helpers/IMarkdownWriter';
-import { IApp } from '../../../../interfaces/luis/apps/IApp';
+import { ILuisApp } from '../../../../interfaces/luis/apps/IApp';
 import { phraseListRenderer } from './phrase-list-renderer';
 
 /**
@@ -9,7 +9,7 @@ import { phraseListRenderer } from './phrase-list-renderer';
  * @param app The LUIS app object.
  * @param writer The writer used to write the Lu file.
  */
-export const phraseListSectionRenderer = (app: IApp, writer: IMarkdownWriter) => {
+export const phraseListSectionRenderer = (app: ILuisApp, writer: IMarkdownWriter) => {
 	if (!app.phraseLists || app.phraseLists.length === 0) {
 		return;
 	}

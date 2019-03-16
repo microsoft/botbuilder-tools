@@ -1,5 +1,5 @@
 import { IMarkdownWriter } from '../../../../interfaces/helpers/IMarkdownWriter';
-import { IApp } from '../../../../interfaces/luis/apps/IApp';
+import { ILuisApp } from '../../../../interfaces/luis/apps/IApp';
 import { IIntentData } from '../../../../interfaces/luis/intents/IIntent';
 import { intentRenderer } from './intent-renderer';
 
@@ -10,7 +10,7 @@ import { intentRenderer } from './intent-renderer';
  * @param app The LUIS app object.
  * @param writer The writer used to write the Lu file.
  */
-export const intentsSectionRenderer = (app: IApp, writer: IMarkdownWriter) => {
+export const intentsSectionRenderer = (app: ILuisApp, writer: IMarkdownWriter) => {
 	if (!app.intents || app.intents.length === 0) {
 		return;
 	}
@@ -32,7 +32,7 @@ export const intentsSectionRenderer = (app: IApp, writer: IMarkdownWriter) => {
  * @returns A map of each intent and the data (utterances/patterns) that belong
  * to that intent.
  */
-function getDataPerIntent(app: IApp): Map<string, IIntentData> {
+function getDataPerIntent(app: ILuisApp): Map<string, IIntentData> {
 	const intentDataMap = new Map<string, IIntentData>();
 
 	app.intents.forEach(intent => intentDataMap.set(intent.name, { utterances: [], patterns: [] }));

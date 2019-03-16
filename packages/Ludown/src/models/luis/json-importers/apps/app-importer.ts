@@ -1,4 +1,4 @@
-import { IApp } from '../../../../interfaces/luis/apps/IApp';
+import { ILuisApp } from '../../../../interfaces/luis/apps/IApp';
 import { hierarchicalEntityImporter } from '../entities/hierarchical-entity-importer';
 import { listEntityImporter } from '../entities/list-entity.importer';
 import { patternEntityImporter } from '../entities/pattern-entity-importer';
@@ -16,7 +16,7 @@ import { utteranceImporter } from '../utterances/utterance-importer';
  *
  * @param state The phrase list JSON object.
  */
-export const appImporter: (state) => IApp = state => {
+export const appImporter: (state) => ILuisApp = state => {
 	return {
 		intents: intentImporter(state),
 		entities: simpleEntityImporter(state),

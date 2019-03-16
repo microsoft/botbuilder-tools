@@ -12,7 +12,7 @@ import { IUtterance } from '../utterances/IUtterance';
  * Represents a LUIS app's useful information from the point of view
  * of the ludown tool.
  */
-export interface IApp {
+export interface ILuisApp {
 	intents?: IIntent[];
 
 	entities?: IEntity[];
