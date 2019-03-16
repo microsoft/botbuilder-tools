@@ -1,4 +1,4 @@
-import { markdownWriterFactory } from '../../../helpers/markdown-writer';
+import { IMarkdownWriter } from '../../../interfaces/helpers/IMarkdownWriter';
 import { IQnaAlterationsDocument } from '../../../interfaces/qna/alterations/IQnaAlterationsDocument';
 import { alterationsSectionRenderer } from './alterations-section/alterations-section-renderer';
 
@@ -8,9 +8,7 @@ import { alterationsSectionRenderer } from './alterations-section/alterations-se
  *
  * @param alterationDocument The QnA alterations base object.
  */
-export const qnaAlterationsDocumentRenderer = (alterationDocument: IQnaAlterationsDocument): string => {
-	const writer = markdownWriterFactory();
-
+export const qnaAlterationsDocumentRenderer = (alterationDocument: IQnaAlterationsDocument, writer: IMarkdownWriter): string => {
 	alterationsSectionRenderer(alterationDocument, writer);
 
 	return writer.render();

@@ -1,4 +1,4 @@
-import { markdownWriterFactory } from '../../../helpers/markdown-writer';
+import { IMarkdownWriter } from '../../../interfaces/helpers/IMarkdownWriter';
 import { ILuisApp } from '../../../interfaces/luis/apps/IApp';
 import { intentsSectionRenderer } from './intents-section/intents-section-renderer';
 import { listEntitiesSectionRenderer } from './list-entities-section/list-entities-section-renderer';
@@ -13,9 +13,7 @@ import { simpleEntitiesSectionRenderer } from './simple-entities-section/simple-
  *
  * @param app The app object to render.
  */
-export const luisAppRenderer = (app: ILuisApp): string => {
-	const writer = markdownWriterFactory();
-
+export const luisAppRenderer = (app: ILuisApp, writer: IMarkdownWriter): string => {
 	intentsSectionRenderer(app, writer);
 	simpleEntitiesSectionRenderer(app, writer);
 	prebuiltEntitiesSectionRenderer(app, writer);

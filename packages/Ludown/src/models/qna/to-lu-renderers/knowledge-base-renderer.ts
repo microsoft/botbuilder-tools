@@ -1,4 +1,4 @@
-import { markdownWriterFactory } from '../../../helpers/markdown-writer';
+import { IMarkdownWriter } from '../../../interfaces/helpers/IMarkdownWriter';
 import { IQnaKnowledgeBase } from '../../../interfaces/qna/knowledge-bases/IKnowledgeBase';
 import { itemsSectionRenderer } from './items-section/items-section-renderer';
 
@@ -8,9 +8,7 @@ import { itemsSectionRenderer } from './items-section/items-section-renderer';
  *
  * @param knowledgeBase The QnA knowledge base object.
  */
-export const qnaKnowledgeBaseRenderer = (knowledgeBase: IQnaKnowledgeBase): string => {
-	const writer = markdownWriterFactory();
-
+export const qnaKnowledgeBaseRenderer = (knowledgeBase: IQnaKnowledgeBase, writer: IMarkdownWriter): string => {
 	itemsSectionRenderer(knowledgeBase, writer);
 
 	return writer.render();
