@@ -1,5 +1,6 @@
 import { name } from 'commander';
 import { version } from '../../package.json';
+import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject.js';
 import * as ludownRes from '../res/ludown.json';
 import { extractArguments } from '../utils/argument-extractor';
 import { commandExecuterFactory } from '../utils/command-factory.js';
@@ -11,7 +12,7 @@ import { invalidCommandValidatorFactory } from '../utils/validators/invalid-comm
  * Fires up the main ludown command.
  */
 export const init = () => {
-	const mainCommand = commandExecuterFactory(() => {
+	const mainCommand = commandExecuterFactory(async () => {
 		const resolvedArguments = extractArguments(process.argv);
 		const allowableCommands = ['parse', 'p', 'refresh', 'd', 'translate', 't'];
 
@@ -29,13 +30,13 @@ export const init = () => {
 		// Fire the command parser to handle version and help options.
 		ludownCommand.parse(process.argv);
 
-		// Validate the given sub commands.
-		invalidCommandValidatorFactory(allowableCommands)
-			.execute(resolvedArguments.command)
-			.catch(err => {
-				printError(err.message);
-				ludownCommand.help();
-			});
+		try {
+			// Validate the given sub commands.
+			await invalidCommandValidatorFactory(allowableCommands).execute(resolvedArguments.command);
+		} catch (err) {
+			printError((<IValidatorErrorObject>err).message);
+			ludownCommand.help();
+		}
 	});
 
 	mainCommand.execute();

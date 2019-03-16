@@ -12,7 +12,7 @@ import { ERROR_CODE } from '../../models/error-codes';
  */
 export const invalidCommandValidatorFactory: IValidatorFactory = (allowableCommands: string[]) => {
 	return {
-		execute: (command: string) => {
+		execute: async (command: string): Promise<boolean> => {
 			const normalizedCommand = command.toLocaleLowerCase();
 
 			return new Promise((resolve, reject) =>

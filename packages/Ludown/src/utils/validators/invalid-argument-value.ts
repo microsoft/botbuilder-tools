@@ -13,7 +13,7 @@ import { ERROR_CODE } from '../../models/error-codes';
  */
 export const invalidArgumentValueValidatorFactory: IValidatorFactory = (allowableValues: string[]) => {
 	return {
-		execute: (state: IValidatorInputDto) => {
+		execute: async (state: IValidatorInputDto): Promise<boolean> => {
 			return new Promise((resolve, reject) => {
 				if (!state) {
 					reject({

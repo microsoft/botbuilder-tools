@@ -27,7 +27,7 @@ export const missingArgumentValidatorFactory: IValidatorFactory = (factoryState:
 	const doesArgBagExist = (argBag: ArgumentBag, haystack: Object) => intersection(Object.keys(haystack), argBag).length !== 0;
 
 	const getErrorMessage = (argBag: ArgumentBag) => {
-		if (argBag.length > 1) {
+		if (argBag.length === 1) {
 			return `The option ("${argBag[0]}") is required.`;
 		} else {
 			return `At least one of the options ${JSON.stringify(argBag)} is required.`;
@@ -35,7 +35,7 @@ export const missingArgumentValidatorFactory: IValidatorFactory = (factoryState:
 	};
 
 	return {
-		execute: (programState: Object) => {
+		execute: async (programState: Object): Promise<boolean> => {
 			const missingArgBag = factoryState.find(bag => !doesArgBagExist(bag, programState));
 
 			return new Promise((resolve, reject) =>

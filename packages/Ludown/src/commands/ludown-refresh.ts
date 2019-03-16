@@ -1,4 +1,5 @@
 import { Command, name } from 'commander';
+import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject.js';
 import * as ludownRefreshRes from '../res/ludown-refresh.json';
 import { commandExecuterFactory } from '../utils/command-factory';
 import { printError } from '../utils/printers.js';
@@ -9,7 +10,7 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * @description
  * Fires up the ludown refresh command.
  */
-const mainCommand = commandExecuterFactory(() => {
+const mainCommand = commandExecuterFactory(async () => {
 	const refreshCommand = name('ludown refresh')
 		.description(ludownRefreshRes.description)
 		.usage(ludownRefreshRes.usage);
@@ -26,14 +27,12 @@ const mainCommand = commandExecuterFactory(() => {
 		.option('--stdout', ludownRefreshRes.options.stdout)
 		.parse(process.argv);
 
-	validateCommand(refreshCommand)
-		.then(() => {
-			/** Fire handler here */
-		})
-		.catch(err => {
-			printError(err.message);
-			refreshCommand.help();
-		});
+	try {
+		await validateCommand(refreshCommand);
+	} catch (err) {
+		printError((<IValidatorErrorObject>err).message);
+		refreshCommand.help();
+	}
 });
 
 mainCommand.execute();
@@ -45,7 +44,7 @@ mainCommand.execute();
  * @param refreshCommand The object that contains the arguments to validate.
  * @returns A promise of the validation statuses.
  */
-function validateCommand(refreshCommand: Command): Promise<boolean[]> {
+async function validateCommand(refreshCommand: Command): Promise<boolean[]> {
 	const validations: Promise<boolean>[] = [];
 	const invalidPathFactory = invalidPathValidatorFactory(false);
 

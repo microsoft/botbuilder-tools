@@ -1,4 +1,5 @@
 import { Command, name } from 'commander';
+import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject.js';
 import * as ludownTranslateRes from '../res/ludown-translate.json';
 import { commandExecuterFactory } from '../utils/command-factory';
 import { printError } from '../utils/printers.js';
@@ -10,7 +11,7 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * @description
  * Fires up the ludown translate command.
  */
-const mainCommand = commandExecuterFactory(() => {
+const mainCommand = commandExecuterFactory(async () => {
 	const translateCommand = name('ludown translate')
 		.description(ludownTranslateRes.description)
 		.usage(ludownTranslateRes.usage);
@@ -30,14 +31,12 @@ const mainCommand = commandExecuterFactory(() => {
 		.option('-v --verbose', ludownTranslateRes.options.verbose)
 		.parse(process.argv);
 
-	validateCommand(translateCommand)
-		.then(() => {
-			/** Fire handler here */
-		})
-		.catch(err => {
-			printError(err.message);
-			translateCommand.help();
-		});
+	try {
+		await validateCommand(translateCommand);
+	} catch (err) {
+		printError((<IValidatorErrorObject>err).message);
+		translateCommand.help();
+	}
 });
 
 mainCommand.execute();
@@ -49,7 +48,7 @@ mainCommand.execute();
  * @param translateCommand The object that contains the arguments to validate.
  * @returns A promise of the validation statuses.
  */
-function validateCommand(translateCommand: Command): Promise<boolean[]> {
+async function validateCommand(translateCommand: Command): Promise<boolean[]> {
 	const validations: Promise<boolean>[] = [];
 
 	validations.push(missingArgumentValidatorFactory([['in', 'lu_folder'], ['translate_key'], ['to_lang']]).execute(translateCommand));

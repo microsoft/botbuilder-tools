@@ -1,4 +1,5 @@
 import { Command, name } from 'commander';
+import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject';
 import * as ludownParseRes from '../res/ludown-parse-toluis.json';
 import * as luisLocales from '../res/luis-locales.json';
 import { commandExecuterFactory } from '../utils/command-factory';
@@ -11,7 +12,7 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * @description
  * Fires up the ludown parse toluis command.
  */
-const mainCommand = commandExecuterFactory(() => {
+const mainCommand = commandExecuterFactory(async () => {
 	const parseCommand = name('ludown parse ToLuis')
 		.description(ludownParseRes.description)
 		.usage(ludownParseRes.usage);
@@ -30,14 +31,12 @@ const mainCommand = commandExecuterFactory(() => {
 		.option('--verbose', ludownParseRes.options.verbose)
 		.parse(process.argv);
 
-	validateCommand(parseCommand)
-		.then(() => {
-			/** Fire handler here */
-		})
-		.catch(err => {
-			printError(err.message);
-			parseCommand.help();
-		});
+	try {
+		await validateCommand(parseCommand);
+	} catch (err) {
+		printError((<IValidatorErrorObject>err).message);
+		parseCommand.help();
+	}
 });
 
 mainCommand.execute();

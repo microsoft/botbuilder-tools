@@ -10,6 +10,7 @@
 		"linebreak-style": false,
 		"indent": [true, "tabs", 4],
 		"non-literal-fs-path": false,
-		"no-void-expression": false
+		"no-void-expression": false,
+		"strict-boolean-expressions": false
 	}
 }

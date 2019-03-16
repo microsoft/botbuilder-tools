@@ -1,4 +1,5 @@
 import { Command, name } from 'commander';
+import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject.js';
 import * as ludownParseRes from '../res/ludown-parse-toqna.json';
 import { commandExecuterFactory } from '../utils/command-factory';
 import { printError } from '../utils/printers.js';
@@ -9,7 +10,7 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * @description
  * Fires up the ludown parse toqna command.
  */
-const mainCommand = commandExecuterFactory(() => {
+const mainCommand = commandExecuterFactory(async () => {
 	const parseCommand = name('ludown parse ToQna')
 		.description(ludownParseRes.description)
 		.usage(ludownParseRes.usage);
@@ -25,14 +26,12 @@ const mainCommand = commandExecuterFactory(() => {
 		.option('--verbose', ludownParseRes.options.verbose)
 		.parse(process.argv);
 
-	validateCommand(parseCommand)
-		.then(() => {
-			/** Fire handler here */
-		})
-		.catch(err => {
-			printError(err.message);
-			parseCommand.help();
-		});
+	try {
+		await validateCommand(parseCommand);
+	} catch (err) {
+		printError((<IValidatorErrorObject>err).message);
+		parseCommand.help();
+	}
 });
 
 mainCommand.execute();
@@ -44,7 +43,7 @@ mainCommand.execute();
  * @param parseCommand The object that contains the arguments to validate.
  * @returns A promise of the validation statuses.
  */
-function validateCommand(parseCommand: Command): Promise<boolean[]> {
+async function validateCommand(parseCommand: Command): Promise<boolean[]> {
 	const validations: Promise<boolean>[] = [];
 
 	validations.push(missingArgumentValidatorFactory([['in', 'lu_folder']]).execute(parseCommand));

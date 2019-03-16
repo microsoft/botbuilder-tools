@@ -13,7 +13,7 @@ import { ERROR_CODE } from '../../models/error-codes';
  */
 export const invalidPathValidatorFactory: IValidatorFactory = (isDirectory: boolean) => {
 	return {
-		execute: async (inputPath: string) => {
+		execute: async (inputPath: string): Promise<boolean> => {
 			const resolvedPath = path.resolve(inputPath);
 
 			return new Promise((resolve, reject) => {

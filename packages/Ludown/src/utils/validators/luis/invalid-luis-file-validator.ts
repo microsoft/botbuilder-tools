@@ -10,7 +10,7 @@ import { appImporter } from '../../../models/luis/json-importers/apps/app-import
  */
 export const invalidLuisFileValidatorFactory: IValidatorFactory = () => {
 	return {
-		execute: (jsonString: string) => {
+		execute: async (jsonString: string) => {
 			return new Promise((resolve, reject) => {
 				let luisFileData: Object;
 
