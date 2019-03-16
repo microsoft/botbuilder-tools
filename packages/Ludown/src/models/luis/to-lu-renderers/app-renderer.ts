@@ -1,11 +1,11 @@
-import { IApp } from 'src/interfaces/luis/apps/IApp';
 import { markdownWriterFactory } from '../../../helpers/markdown-writer';
+import { IApp } from '../../../interfaces/luis/apps/IApp';
 import { intentsSectionRenderer } from './intents-section/intents-section-renderer';
-import { simpleEntitiesSectionRenderer } from './simple-entities-section/simple-entities-section-renderer';
-import { prebuiltEntitiesSectionRenderer } from './prebuilt-entities-section/prebuilt-entities-section-renderer';
-import { phraseListSectionRenderer } from './phrase-lists-section/phrase-lists-section-renderer';
 import { listEntitiesSectionRenderer } from './list-entities-section/list-entities-section-renderer';
+import { phraseListSectionRenderer } from './phrase-lists-section/phrase-lists-section-renderer';
+import { prebuiltEntitiesSectionRenderer } from './prebuilt-entities-section/prebuilt-entities-section-renderer';
 import { regexEntitiesSectionRenderer } from './regex-entities-section/regex-entities-section-renderer';
+import { simpleEntitiesSectionRenderer } from './simple-entities-section/simple-entities-section-renderer';
 
 /**
  * @description
@@ -13,7 +13,7 @@ import { regexEntitiesSectionRenderer } from './regex-entities-section/regex-ent
  *
  * @param app The app object to render.
  */
-export const appRenderer = (app: IApp): string => {
+export const luisAppRenderer = (app: IApp): string => {
 	const writer = markdownWriterFactory();
 
 	intentsSectionRenderer(app, writer);

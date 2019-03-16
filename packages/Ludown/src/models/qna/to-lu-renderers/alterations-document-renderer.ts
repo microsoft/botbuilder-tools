@@ -8,7 +8,7 @@ import { alterationsSectionRenderer } from './alterations-section/alterations-se
  *
  * @param alterationDocument The QnA alterations base object.
  */
-export const alterationsDocumentRenderer = (alterationDocument: IQnaAlterationsDocument): string => {
+export const qnaAlterationsDocumentRenderer = (alterationDocument: IQnaAlterationsDocument): string => {
 	const writer = markdownWriterFactory();
 
 	alterationsSectionRenderer(alterationDocument, writer);
