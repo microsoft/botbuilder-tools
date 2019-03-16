@@ -44,6 +44,7 @@
 		"@types/semver": "^5.5.0",
 		"jasmine": "^3.3.1",
 		"mock-fs": "^4.8.0",
+		"mock-stdin": "^0.3.1",
 		"rimraf": "^2.6.3",
 		"tslint": "^5.12.1",
 		"tslint-microsoft-contrib": "^6.0.0",

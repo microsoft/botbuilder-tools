@@ -5,7 +5,7 @@ import { IInputFile } from './IInputFile';
  * Represents an interface for any data reader
  */
 export interface IInputReader {
-	read(path: string): Promise<IInputFile[]>;
+	read(path?: string): Promise<IInputFile[]>;
 }
 
 /**

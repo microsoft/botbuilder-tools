@@ -12,9 +12,10 @@ import { invalidPathValidatorFactory } from '../../utils/validators/invalid-path
 export const directoryReader: IInputReaderFactory = (options: IDirectoryReaderOptions) => {
 	return {
 		read: async (directoryPath: string) => {
-			await invalidPathValidatorFactory(false).execute(directoryPath);
+			await invalidPathValidatorFactory(true).execute(directoryPath);
 
 			const resolvedPath = path.resolve(directoryPath);
+
 			const filePaths = getFilePathsInDirectory(resolvedPath, options);
 
 			return filePaths.map(filePath => ({
@@ -40,7 +41,7 @@ function getFilePathsInDirectory(directoryPath: string, options: IDirectoryReade
 
 	fs.readdirSync(directoryPath).forEach(filePath => {
 		const resolvedPath = path.resolve(directoryPath, filePath);
-		const fileStats = fs.statSync(filePath);
+		const fileStats = fs.statSync(resolvedPath);
 
 		if (options.recursive && fileStats.isDirectory()) {
 			results = results.concat(getFilePathsInDirectory(resolvedPath, options));
