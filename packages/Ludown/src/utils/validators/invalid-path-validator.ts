@@ -1,4 +1,4 @@
-import { existsSync, lstatSync } from 'fs';
+import * as fs from 'fs';
 import * as path from 'path';
 import { IValidatorFactory } from '../../interfaces/utils/validators/IValidatorFactory';
 import { ERROR_CODE } from '../../models/error-codes';
@@ -12,39 +12,47 @@ import { ERROR_CODE } from '../../models/error-codes';
  * @returns Promise of true on resolve and an IValidatorErrorObject on rejection.
  */
 export const invalidPathValidatorFactory: IValidatorFactory = (isDirectory: boolean) => {
-    return {
-        execute: (inputPath: string) => {
-            const resolvedPath = path.resolve(inputPath);
+	return {
+		execute: async (inputPath: string) => {
+			const resolvedPath = path.resolve(inputPath);
 
-            return new Promise((resolve, reject) => {
-                if (!existsSync(resolvedPath)) {
-                    reject({
-                        code: ERROR_CODE.PATH_NOT_FOUND,
-                        data: resolvedPath,
-                        message: `The path ("${resolvedPath}") does not exist.`
-                    });
-                }
+			return new Promise((resolve, reject) => {
+				if (!fs.existsSync(resolvedPath)) {
+					reject({
+						code: ERROR_CODE.PATH_NOT_FOUND,
+						data: resolvedPath,
+						message: `The path ("${resolvedPath}") does not exist.`
+					});
+				}
 
-                const pathInfo = lstatSync(resolvedPath);
+				const pathInfo = fs.lstatSync(resolvedPath);
 
-                if (isDirectory && !pathInfo.isDirectory()) {
-                    reject({
-                        code: ERROR_CODE.NOT_A_DIRECTORY,
-                        data: resolvedPath,
-                        message: `The path ("${resolvedPath}") is not a directory.`
-                    });
-                }
-                else if (!isDirectory && pathInfo.isDirectory()) {
-                    reject({
-                        code: ERROR_CODE.NOT_A_FILE,
-                        data: resolvedPath,
-                        message: `The path ("${resolvedPath}") is not a file.`
-                    });
-                }
-                else {
-                    resolve(true);
-                }
-            });
-        }
-    };
+				if (isDirectory && !pathInfo.isDirectory()) {
+					reject({
+						code: ERROR_CODE.NOT_A_DIRECTORY,
+						data: resolvedPath,
+						message: `The path ("${resolvedPath}") is not a directory.`
+					});
+				} else if (!isDirectory && pathInfo.isDirectory()) {
+					reject({
+						code: ERROR_CODE.NOT_A_FILE,
+						data: resolvedPath,
+						message: `The path ("${resolvedPath}") is not a file.`
+					});
+				}
+
+				try {
+					fs.accessSync(resolvedPath, fs.constants.R_OK);
+				} catch {
+					reject({
+						code: ERROR_CODE.NOT_A_FILE,
+						data: resolvedPath,
+						message: `The user has no read permissions on the path ("${resolvedPath}").`
+					});
+				}
+
+				resolve(true);
+			});
+		}
+	};
 };
