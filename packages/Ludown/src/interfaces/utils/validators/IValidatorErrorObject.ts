@@ -6,7 +6,7 @@ import { ERROR_CODE } from '../../../models/error-codes';
  * function fails.
  */
 export interface IValidatorErrorObject {
-    code: ERROR_CODE;
-    data: Object;
-    message: string;
+	code: ERROR_CODE;
+	data: Object;
+	message: string;
 }

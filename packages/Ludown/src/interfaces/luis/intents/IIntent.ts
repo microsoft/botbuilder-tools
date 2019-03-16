@@ -6,7 +6,7 @@ import { IUtterance } from '../utterances/IUtterance';
  * Represents a LUIS intent.
  */
 export interface IIntent {
-    name: string;
+	name: string;
 }
 
 /**
@@ -14,7 +14,7 @@ export interface IIntent {
  * Represnts data that is relevant to an intent.
  */
 export interface IIntentData {
-    utterances: IUtterance[];
+	utterances: IUtterance[];
 
-    patterns: IPattern[];
+	patterns: IPattern[];
 }

@@ -7,6 +7,6 @@ import { entityImporter } from './sub-importers/base-entity-importer';
  *
  * @param state The LUIS JSON object.
  */
-export const patternEntityImporter: (state) => IEntity[] = (state) => {
-    return state.patternAnyEntities.map(entityImporter);
+export const patternEntityImporter: (state) => IEntity[] = state => {
+	return state.patternAnyEntities.map(entityImporter);
 };

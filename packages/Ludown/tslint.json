@@ -1,16 +1,15 @@
 {
-    "rulesDirectory": [
-        "node_modules/tslint-microsoft-contrib"
-    ],
-    "extends": [
-        "tslint-microsoft-contrib/recommended_ruleset"
-    ],
-    "rules": {
-        "typedef": false,
-        "newline-per-chained-call": false,
-        "no-relative-imports": false,
-        "export-name": false,
-        "one-line": false,
-        "linebreak-style": false
-    }
+	"rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
+	"extends": ["tslint-microsoft-contrib/recommended_ruleset"],
+	"rules": {
+		"typedef": false,
+		"newline-per-chained-call": false,
+		"no-relative-imports": false,
+		"export-name": false,
+		"one-line": false,
+		"linebreak-style": false,
+		"indent": [true, "tabs", 4],
+		"non-literal-fs-path": false,
+		"no-void-expression": false
+	}
 }

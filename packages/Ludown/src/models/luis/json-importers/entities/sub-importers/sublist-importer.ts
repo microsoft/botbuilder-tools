@@ -6,9 +6,9 @@ import { ISublist } from '../../../../../interfaces/luis/entities/composers/ISub
  *
  * @param state The sublist JSON object.
  */
-export const sublistImporter: (state) => ISublist = (state) => {
-    return {
-        canonicalForm: state.canonicalForm,
-        list: state.list
-    };
+export const sublistImporter: (state) => ISublist = state => {
+	return {
+		canonicalForm: state.canonicalForm,
+		list: state.list
+	};
 };

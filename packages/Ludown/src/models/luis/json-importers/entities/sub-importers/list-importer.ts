@@ -7,6 +7,6 @@ import { sublistImporter } from './sublist-importer';
  *
  * @param state The list entity JSON object.
  */
-export const listImporter: (state) => IList = (state) => {
-    return { subLists: state.subLists.map(sublistImporter) };
+export const listImporter: (state) => IList = state => {
+	return { subLists: state.subLists.map(sublistImporter) };
 };

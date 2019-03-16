@@ -5,4 +5,4 @@ import { IEntity } from './IEntity';
  * @description
  * Represents a LUIS list entity.
  */
-export interface IListEntity extends IEntity, IList { }
+export interface IListEntity extends IEntity, IList {}

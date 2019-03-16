@@ -8,6 +8,6 @@ import { listImporter } from './sub-importers/list-importer';
  *
  * @param state The LUIS JSON object.
  */
-export const listEntityImporter: (state) => IListEntity[] = (state) => {
-    return state.closedLists.map(c => ({ ...entityImporter(state), ...listImporter(state) }));
+export const listEntityImporter: (state) => IListEntity[] = state => {
+	return state.closedLists.map(c => ({ ...entityImporter(state), ...listImporter(state) }));
 };

@@ -12,27 +12,25 @@ import { ERROR_CODE } from '../../models/error-codes';
  * @returns Promise of true on resolve and an IValidatorErrorObject on rejection.
  */
 export const invalidArgumentValueValidatorFactory: IValidatorFactory = (allowableValues: string[]) => {
-    return {
-        execute: (state: IValidatorInputDto) => {
-            return new Promise((resolve, reject) => {
-                if (!state) {
-                    reject({
-                        code: ERROR_CODE.INVALID_ARGUMENT_VALUE,
-                        data: state,
-                        message: 'Undefined value provided'
-                    });
-                }
-                else if (!allowableValues.includes(state.value)) {
-                    reject({
-                        code: ERROR_CODE.INVALID_ARGUMENT_VALUE,
-                        data: state,
-                        message: `Invalid value ("${state.value}") provided for option ("${state.name}")`
-                    });
-                }
-                else {
-                    resolve(true);
-                }
-            });
-        }
-    };
+	return {
+		execute: (state: IValidatorInputDto) => {
+			return new Promise((resolve, reject) => {
+				if (!state) {
+					reject({
+						code: ERROR_CODE.INVALID_ARGUMENT_VALUE,
+						data: state,
+						message: 'Undefined value provided'
+					});
+				} else if (!allowableValues.includes(state.value)) {
+					reject({
+						code: ERROR_CODE.INVALID_ARGUMENT_VALUE,
+						data: state,
+						message: `Invalid value ("${state.value}") provided for option ("${state.name}")`
+					});
+				} else {
+					resolve(true);
+				}
+			});
+		}
+	};
 };

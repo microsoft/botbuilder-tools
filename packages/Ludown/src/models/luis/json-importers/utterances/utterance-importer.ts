@@ -7,13 +7,13 @@ import { IUtterance } from '../../../../interfaces/luis/utterances/IUtterance';
  * @param state The LUIS JSON object.
  */
 export const utteranceImporter: (state) => IUtterance[] = state => {
-    return state.utterances.map(u => ({
-        text: u.text,
-        intent: u.intent,
-        entities: u.entities.map(entity => ({
-            name: entity.name,
-            startPosition: entity.startPos,
-            endPosition: entity.endPos
-        }))
-    }));
+	return state.utterances.map(u => ({
+		text: u.text,
+		intent: u.intent,
+		entities: u.entities.map(entity => ({
+			name: entity.name,
+			startPosition: entity.startPos,
+			endPosition: entity.endPos
+		}))
+	}));
 };

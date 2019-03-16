@@ -4,7 +4,7 @@
  * the command line.
  */
 export interface IConfigs {
-    debug: boolean;
+	debug: boolean;
 
-    verbose: boolean;
+	verbose: boolean;
 }

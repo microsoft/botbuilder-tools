@@ -7,16 +7,16 @@ import { resolve } from 'path';
  * buffer, and then flushes that buffer in a file when it is done.
  */
 export const logger = ((fileName: string) => {
-    const filePath = resolve(__dirname, fileName);
+	const filePath = resolve(__dirname, fileName);
 
-    let buffer: string = '';
+	let buffer: string = '';
 
-    return {
-        buffer: (message: string) => {
-            buffer = buffer.concat(message);
-        },
-        flush: () => {
-            writeFileSync(filePath, buffer, { encoding: 'utf-8' });
-        }
-    };
+	return {
+		buffer: (message: string) => {
+			buffer = buffer.concat(message);
+		},
+		flush: () => {
+			writeFileSync(filePath, buffer, { encoding: 'utf-8' });
+		}
+	};
 })('ludown-debug.log');

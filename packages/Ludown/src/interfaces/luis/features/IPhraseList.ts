@@ -3,9 +3,9 @@
  * Represents a LUIS phrase list.
  */
 export interface IPhraseList {
-    name: string;
+	name: string;
 
-    values: string;
+	values: string;
 
-    interchangeable: boolean;
+	interchangeable: boolean;
 }

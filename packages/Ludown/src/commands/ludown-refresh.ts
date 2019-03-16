@@ -10,28 +10,30 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * Fires up the ludown refresh command.
  */
 const mainCommand = commandExecuterFactory(() => {
-    const refreshCommand = name('ludown refresh')
-        .description(ludownRefreshRes.description)
-        .usage(ludownRefreshRes.usage);
+	const refreshCommand = name('ludown refresh')
+		.description(ludownRefreshRes.description)
+		.usage(ludownRefreshRes.usage);
 
-    refreshCommand
-        .option('-i, --luis_file <LUIS_JSON_File>', ludownRefreshRes.options.luis_file)
-        .option('-q, --qna_file <QNA_FILE>', ludownRefreshRes.options.qna_file)
-        .option('-a, --qna_alteration_file <QNA_ALT_FILE>', ludownRefreshRes.options.qna_alteration_file)
-        .option('-o, --out_folder <outputFolder> [optional]', ludownRefreshRes.options.out_folder)
-        .option('-n, --lu_file <LU_File>', ludownRefreshRes.options.lu_file)
-        .option('--verbose', ludownRefreshRes.options.verbose)
-        .option('-s, --skip_header', ludownRefreshRes.options.skip_header)
-        .option('--stdin', ludownRefreshRes.options.stdin)
-        .option('--stdout', ludownRefreshRes.options.stdout)
-        .parse(process.argv);
+	refreshCommand
+		.option('-i, --luis_file <LUIS_JSON_File>', ludownRefreshRes.options.luis_file)
+		.option('-q, --qna_file <QNA_FILE>', ludownRefreshRes.options.qna_file)
+		.option('-a, --qna_alteration_file <QNA_ALT_FILE>', ludownRefreshRes.options.qna_alteration_file)
+		.option('-o, --out_folder <outputFolder> [optional]', ludownRefreshRes.options.out_folder)
+		.option('-n, --lu_file <LU_File>', ludownRefreshRes.options.lu_file)
+		.option('--verbose', ludownRefreshRes.options.verbose)
+		.option('-s, --skip_header', ludownRefreshRes.options.skip_header)
+		.option('--stdin', ludownRefreshRes.options.stdin)
+		.option('--stdout', ludownRefreshRes.options.stdout)
+		.parse(process.argv);
 
-    validateCommand(refreshCommand)
-        .then(() => { /** Fire handler here */ })
-        .catch(err => {
-            printError(err.message);
-            refreshCommand.help();
-        });
+	validateCommand(refreshCommand)
+		.then(() => {
+			/** Fire handler here */
+		})
+		.catch(err => {
+			printError(err.message);
+			refreshCommand.help();
+		});
 });
 
 mainCommand.execute();
@@ -44,16 +46,16 @@ mainCommand.execute();
  * @returns A promise of the validation statuses.
  */
 function validateCommand(refreshCommand: Command): Promise<boolean[]> {
-    const validations: Promise<boolean>[] = [];
-    const invalidPathFactory = invalidPathValidatorFactory(false);
+	const validations: Promise<boolean>[] = [];
+	const invalidPathFactory = invalidPathValidatorFactory(false);
 
-    validations.push(missingArgumentValidatorFactory([['luis_file', 'qna_file', 'qna_alteration_file', 'stdin']]).execute(refreshCommand));
+	validations.push(missingArgumentValidatorFactory([['luis_file', 'qna_file', 'qna_alteration_file', 'stdin']]).execute(refreshCommand));
 
-    ['luis_file', 'qna_file', 'qna_alteration_file'].forEach(key => {
-        if (refreshCommand[key]) {
-            validations.push(invalidPathFactory.execute(refreshCommand[key]));
-        }
-    });
+	['luis_file', 'qna_file', 'qna_alteration_file'].forEach(key => {
+		if (refreshCommand[key]) {
+			validations.push(invalidPathFactory.execute(refreshCommand[key]));
+		}
+	});
 
-    return Promise.all(validations);
+	return Promise.all(validations);
 }

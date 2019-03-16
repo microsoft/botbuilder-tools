@@ -7,5 +7,5 @@ import { IPhraseList } from '../../../../interfaces/luis/features/IPhraseList';
  * @param state The LUIS JSON object.
  */
 export const phraseListImporter: (state) => IPhraseList[] = state => {
-    return state.model_features.map(f => ({ name: f.name, values: f.words, interchangeable: f.mode }));
+	return state.model_features.map(f => ({ name: f.name, values: f.words, interchangeable: f.mode }));
 };

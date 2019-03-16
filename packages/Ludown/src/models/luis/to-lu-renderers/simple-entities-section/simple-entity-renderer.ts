@@ -9,6 +9,6 @@ import { IEntity } from '../../../../interfaces/luis/entities/IEntity';
  * @param writer The writer used to write the Lu file.
  */
 export const simpleEntityRenderer = (entity: IEntity, writer: IMarkdownWriter) => {
-    writer.addStatement(`$${entity.name}:Simple`);
-    writer.addNewLine();
+	writer.addStatement(`$${entity.name}:Simple`);
+	writer.addNewLine();
 };

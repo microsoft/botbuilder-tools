@@ -11,37 +11,32 @@ import { invalidCommandValidatorFactory } from '../utils/validators/invalid-comm
  * Fires up the main ludown command.
  */
 export const init = () => {
-    const mainCommand = commandExecuterFactory(() => {
-        const resolvedArguments = extractArguments(process.argv);
-        const allowableCommands = ['parse', 'p', 'refresh', 'd', 'translate', 't'];
+	const mainCommand = commandExecuterFactory(() => {
+		const resolvedArguments = extractArguments(process.argv);
+		const allowableCommands = ['parse', 'p', 'refresh', 'd', 'translate', 't'];
 
-        // Register the ludown sub commands and their aliases.
-        const ludownCommand = name('ludown')
-            .description(ludownRes.description)
-            .version(version, '-v, --version');
+		// Register the ludown sub commands and their aliases.
+		const ludownCommand = name('ludown')
+			.description(ludownRes.description)
+			.version(version, '-v, --version');
 
-        ludownCommand
-            .command('parse', ludownRes.commands.parse)
-            .alias('p');
+		ludownCommand.command('parse', ludownRes.commands.parse).alias('p');
 
-        ludownCommand
-            .command('refresh', ludownRes.commands.refresh)
-            .alias('d');
+		ludownCommand.command('refresh', ludownRes.commands.refresh).alias('d');
 
-        ludownCommand
-            .command('translate', ludownRes.commands.translate)
-            .alias('t');
+		ludownCommand.command('translate', ludownRes.commands.translate).alias('t');
 
-        // Fire the command parser to handle version and help options.
-        ludownCommand.parse(process.argv);
+		// Fire the command parser to handle version and help options.
+		ludownCommand.parse(process.argv);
 
-        // Validate the given sub commands.
-        invalidCommandValidatorFactory(allowableCommands).execute(resolvedArguments.command)
-            .catch(err => {
-                printError(err.message);
-                ludownCommand.help();
-            });
-    });
+		// Validate the given sub commands.
+		invalidCommandValidatorFactory(allowableCommands)
+			.execute(resolvedArguments.command)
+			.catch(err => {
+				printError(err.message);
+				ludownCommand.help();
+			});
+	});
 
-    mainCommand.execute();
+	mainCommand.execute();
 };

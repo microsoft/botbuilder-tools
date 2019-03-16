@@ -8,8 +8,8 @@ import { roleImporter } from './role-importer';
  * @param state The entity JSON object.
  */
 export const entityImporter: (state) => IEntity = state => {
-    return {
-        name: state.name,
-        roles: state.roles.map(roleImporter)
-    };
+	return {
+		name: state.name,
+		roles: state.roles.map(roleImporter)
+	};
 };

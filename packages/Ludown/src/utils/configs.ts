@@ -5,6 +5,6 @@ import { IConfigs } from '../interfaces/utils/IConfigs';
  * Process wide configurations.
  */
 export const configs: IConfigs = {
-    verbose: false,
-    debug: false
+	verbose: false,
+	debug: false
 };

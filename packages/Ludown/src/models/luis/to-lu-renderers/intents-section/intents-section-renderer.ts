@@ -11,15 +11,15 @@ import { intentRenderer } from './intent-renderer';
  * @param writer The writer used to write the Lu file.
  */
 export const intentsSectionRenderer = (app: IApp, writer: IMarkdownWriter) => {
-    if (!app.intents || app.intents.length === 0) {
-        return;
-    }
+	if (!app.intents || app.intents.length === 0) {
+		return;
+	}
 
-    writer.addComment('# Intent definitions');
-    writer.addNewLine();
+	writer.addComment('# Intent definitions');
+	writer.addNewLine();
 
-    const intentDataMap = getDataPerIntent(app);
-    app.intents.forEach(intent => intentRenderer(intent, intentDataMap.get(intent.name), writer));
+	const intentDataMap = getDataPerIntent(app);
+	app.intents.forEach(intent => intentRenderer(intent, intentDataMap.get(intent.name), writer));
 };
 
 /**
@@ -33,12 +33,12 @@ export const intentsSectionRenderer = (app: IApp, writer: IMarkdownWriter) => {
  * to that intent.
  */
 function getDataPerIntent(app: IApp): Map<string, IIntentData> {
-    const intentDataMap = new Map<string, IIntentData>();
+	const intentDataMap = new Map<string, IIntentData>();
 
-    app.intents.forEach(intent => intentDataMap.set(intent.name, { utterances: [], patterns: [] }));
+	app.intents.forEach(intent => intentDataMap.set(intent.name, { utterances: [], patterns: [] }));
 
-    app.utterances.forEach(u => intentDataMap.get(u.intent).utterances.push(u));
-    app.patterns.forEach(p => intentDataMap.get(p.intent).patterns.push(p));
+	app.utterances.forEach(u => intentDataMap.get(u.intent).utterances.push(u));
+	app.patterns.forEach(p => intentDataMap.get(p.intent).patterns.push(p));
 
-    return intentDataMap;
+	return intentDataMap;
 }

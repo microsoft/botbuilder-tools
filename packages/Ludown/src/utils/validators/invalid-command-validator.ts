@@ -11,18 +11,19 @@ import { ERROR_CODE } from '../../models/error-codes';
  * @returns Promise of true on resolve and an IValidatorErrorObject on rejection.
  */
 export const invalidCommandValidatorFactory: IValidatorFactory = (allowableCommands: string[]) => {
-    return {
-        execute: (command: string) => {
-            const normalizedCommand = command.toLocaleLowerCase();
+	return {
+		execute: (command: string) => {
+			const normalizedCommand = command.toLocaleLowerCase();
 
-            return new Promise((resolve, reject) => allowableCommands.map(c => c.toLocaleLowerCase()).includes(normalizedCommand) ?
-                resolve(true) :
-                reject({
-                    code: ERROR_CODE.UNKNOWN_COMMAND,
-                    data: command,
-                    message: `The specified command ("${command}") is invalid.`
-                })
-            );
-        }
-    };
+			return new Promise((resolve, reject) =>
+				allowableCommands.map(c => c.toLocaleLowerCase()).includes(normalizedCommand)
+					? resolve(true)
+					: reject({
+							code: ERROR_CODE.UNKNOWN_COMMAND,
+							data: command,
+							message: `The specified command ("${command}") is invalid.`
+					  })
+			);
+		}
+	};
 };

@@ -10,8 +10,8 @@ import { logger } from './logger';
  * @param color An optional color to write it with
  */
 export const printInfo = (message: string, color?: string) => {
-    const colorToUse = color || 'white';
-    process.stdout.write(chalk[colorToUse](message));
+	const colorToUse = color || 'white';
+	process.stdout.write(chalk[colorToUse](message));
 };
 
 /**
@@ -21,9 +21,9 @@ export const printInfo = (message: string, color?: string) => {
  * @param message The message to write.
  */
 export const printWarn = (message: string) => {
-    if (configs.verbose) {
-        process.stdout.write(chalk.yellow(`${message}\n`));
-    }
+	if (configs.verbose) {
+		process.stdout.write(chalk.yellow(`${message}\n`));
+	}
 };
 
 /**
@@ -33,9 +33,9 @@ export const printWarn = (message: string) => {
  * @param message The message to write.
  */
 export const printSuccess = (message: string) => {
-    if (configs.verbose) {
-        process.stdout.write(chalk.greenBright(`${message}\n`));
-    }
+	if (configs.verbose) {
+		process.stdout.write(chalk.greenBright(`${message}\n`));
+	}
 };
 
 /**
@@ -45,7 +45,7 @@ export const printSuccess = (message: string) => {
  * @param message The message to write.
  */
 export const printError = (message: string) => {
-    process.stderr.write(chalk.redBright(`${message}\n`));
+	process.stderr.write(chalk.redBright(`${message}\n`));
 };
 
 /**
@@ -55,7 +55,7 @@ export const printError = (message: string) => {
  * @param message The message to write.
  */
 export const log = (message: string) => {
-    if (configs.debug) {
-        logger.buffer(`${message}\n`);
-    }
+	if (configs.debug) {
+		logger.buffer(`${message}\n`);
+	}
 };

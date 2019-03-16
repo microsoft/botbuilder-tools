@@ -2,7 +2,7 @@
  * @description
  */
 export interface IValidatorInputDto {
-    name: string;
+	name: string;
 
-    value: string;
+	value: string;
 }

@@ -10,12 +10,12 @@ import { phraseListRenderer } from './phrase-list-renderer';
  * @param writer The writer used to write the Lu file.
  */
 export const phraseListSectionRenderer = (app: IApp, writer: IMarkdownWriter) => {
-    if (!app.phraseLists || app.phraseLists.length === 0) {
-        return;
-    }
+	if (!app.phraseLists || app.phraseLists.length === 0) {
+		return;
+	}
 
-    writer.addComment('# Phrase list definitions');
-    writer.addNewLine();
+	writer.addComment('# Phrase list definitions');
+	writer.addNewLine();
 
-    app.phraseLists.forEach(phraseList => phraseListRenderer(phraseList, writer));
+	app.phraseLists.forEach(phraseList => phraseListRenderer(phraseList, writer));
 };

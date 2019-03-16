@@ -9,6 +9,6 @@ import { IRegexEntity } from '../../../../interfaces/luis/entities/IRegexEntity'
  * @param writer The writer used to write the Lu file.
  */
 export const regexEntityRenderer = (entity: IRegexEntity, writer: IMarkdownWriter) => {
-    writer.addStatement(`$${entity.name}:/${entity.regex}/`);
-    writer.addNewLine();
+	writer.addStatement(`$${entity.name}:/${entity.regex}/`);
+	writer.addNewLine();
 };

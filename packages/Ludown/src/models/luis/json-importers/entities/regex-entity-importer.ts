@@ -8,5 +8,5 @@ import { entityImporter } from './sub-importers/base-entity-importer';
  * @param state The LUIS JSON object.
  */
 export const regexEntityImporter: (state) => IRegexEntity[] = state => {
-    return state.regex_entities.map(r => ({ ...entityImporter(r), regex: r.regexPattern }));
+	return state.regex_entities.map(r => ({ ...entityImporter(r), regex: r.regexPattern }));
 };

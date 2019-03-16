@@ -13,23 +13,23 @@ import { IUtterance } from '../utterances/IUtterance';
  * of the ludown tool.
  */
 export interface IApp {
-    intents?: IIntent[];
+	intents?: IIntent[];
 
-    entities?: IEntity[];
+	entities?: IEntity[];
 
-    patternEntities?: IEntity[];
+	patternEntities?: IEntity[];
 
-    regexEntities?: IRegexEntity[];
+	regexEntities?: IRegexEntity[];
 
-    hierarchicalEntities?: IHierarchicalEntity[];
+	hierarchicalEntities?: IHierarchicalEntity[];
 
-    listEntities?: IListEntity[];
+	listEntities?: IListEntity[];
 
-    prebuiltEntities?: IEntity[];
+	prebuiltEntities?: IEntity[];
 
-    phraseLists?: IPhraseList[];
+	phraseLists?: IPhraseList[];
 
-    utterances?: IUtterance[];
+	utterances?: IUtterance[];
 
-    patterns?: IPattern[];
+	patterns?: IPattern[];
 }

@@ -4,21 +4,21 @@
  * SDK for writing markdown files.
  */
 export interface IMarkdownWriter {
-    addFirstLevelHeader(header: string): IMarkdownWriter;
+	addFirstLevelHeader(header: string): IMarkdownWriter;
 
-    addSecondLevelHeader(header: string): IMarkdownWriter;
+	addSecondLevelHeader(header: string): IMarkdownWriter;
 
-    addThirdLevelHeader(header: string): IMarkdownWriter;
+	addThirdLevelHeader(header: string): IMarkdownWriter;
 
-    addStatement(statement: string): IMarkdownWriter;
+	addStatement(statement: string): IMarkdownWriter;
 
-    addListItem(statement: string, indentation?: number): IMarkdownWriter;
+	addListItem(statement: string, indentation?: number): IMarkdownWriter;
 
-    addComment(comment: string): IMarkdownWriter;
+	addComment(comment: string): IMarkdownWriter;
 
-    addLink(text: string, href: string): IMarkdownWriter;
+	addLink(text: string, href: string): IMarkdownWriter;
 
-    addNewLine(): IMarkdownWriter;
+	addNewLine(): IMarkdownWriter;
 
-    render(): string;
+	render(): string;
 }

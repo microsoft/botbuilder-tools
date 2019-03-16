@@ -25,13 +25,11 @@ import { IExtractedArguments } from '../interfaces/utils/IExtractedArguments';
  * @returns An object containing the normalized command and arguments.
  */
 export const extractArguments = (processArgs: string[]): IExtractedArguments => {
-    const normalize = (data: string) => data ? data.trim().toLocaleLowerCase() : '';
+	const normalize = (data: string) => (data ? data.trim().toLocaleLowerCase() : '');
 
-    const command = normalize(processArgs[2]);
+	const command = normalize(processArgs[2]);
 
-    const args = processArgs
-        .slice(3)
-        .map(normalize);
+	const args = processArgs.slice(3).map(normalize);
 
-    return { command, args };
+	return { command, args };
 };

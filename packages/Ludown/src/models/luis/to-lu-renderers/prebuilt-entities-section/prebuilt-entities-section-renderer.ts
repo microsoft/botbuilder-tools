@@ -10,12 +10,12 @@ import { prebuiltEntityRenderer } from './prebuilt-entity-renderer';
  * @param writer The writer used to write the Lu file.
  */
 export const prebuiltEntitiesSectionRenderer = (app: IApp, writer: IMarkdownWriter) => {
-    if (!app.prebuiltEntities || app.prebuiltEntities.length === 0) {
-        return;
-    }
+	if (!app.prebuiltEntities || app.prebuiltEntities.length === 0) {
+		return;
+	}
 
-    writer.addComment('# Prebuilt entity definitions');
-    writer.addNewLine();
+	writer.addComment('# Prebuilt entity definitions');
+	writer.addNewLine();
 
-    app.prebuiltEntities.forEach(entity => prebuiltEntityRenderer(entity, writer));
+	app.prebuiltEntities.forEach(entity => prebuiltEntityRenderer(entity, writer));
 };

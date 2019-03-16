@@ -3,7 +3,7 @@
  * Represents a LUIS pattern.
  */
 export interface IPattern {
-    pattern: string;
+	pattern: string;
 
-    intent: string;
+	intent: string;
 }

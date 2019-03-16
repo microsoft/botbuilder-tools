@@ -5,5 +5,5 @@ import { IEntity } from './IEntity';
  * Represents a LUIS regex entity.
  */
 export interface IRegexEntity extends IEntity {
-    regex: string;
+	regex: string;
 }

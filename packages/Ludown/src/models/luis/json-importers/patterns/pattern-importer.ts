@@ -7,8 +7,8 @@ import { IPattern } from '../../../../interfaces/luis/patterns/IPattern';
  * @param state The LUIS JSON object.
  */
 export const patternImporter: (state) => IPattern[] = state => {
-    return state.patterns.map(p => ({
-        pattern: p.pattern,
-        intent: p.intent
-    }));
+	return state.patterns.map(p => ({
+		pattern: p.pattern,
+		intent: p.intent
+	}));
 };

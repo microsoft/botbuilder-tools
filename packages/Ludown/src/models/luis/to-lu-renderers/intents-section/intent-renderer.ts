@@ -11,11 +11,11 @@ import { utteranceRenderer } from './utterance-renderer';
  * @param writer The writer used to write the Lu file.
  */
 export const intentRenderer = (intent: IIntent, data: IIntentData, writer: IMarkdownWriter) => {
-    writer.addSecondLevelHeader(intent.name);
+	writer.addSecondLevelHeader(intent.name);
 
-    data.utterances.forEach(utterance => utteranceRenderer(utterance, writer));
-    data.patterns.forEach(pattern => patternRenderer(pattern, writer));
+	data.utterances.forEach(utterance => utteranceRenderer(utterance, writer));
+	data.patterns.forEach(pattern => patternRenderer(pattern, writer));
 
-    writer.addNewLine();
-    writer.addNewLine();
+	writer.addNewLine();
+	writer.addNewLine();
 };

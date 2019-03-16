@@ -10,27 +10,29 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * Fires up the ludown parse toqna command.
  */
 const mainCommand = commandExecuterFactory(() => {
-    const parseCommand = name('ludown parse ToQna')
-        .description(ludownParseRes.description)
-        .usage(ludownParseRes.usage);
+	const parseCommand = name('ludown parse ToQna')
+		.description(ludownParseRes.description)
+		.usage(ludownParseRes.usage);
 
-    parseCommand
-        .option('--in <luFile>', ludownParseRes.options.in)
-        .option('-l, --lu_folder <inputFolder>', ludownParseRes.options.lu_folder)
-        .option('-o, --out_folder <outputFolder>', ludownParseRes.options.out_folder)
-        .option('-s, --subfolder', ludownParseRes.options.subfolder)
-        .option('-n, --qna_name <QnA_KB_Name>', ludownParseRes.options.qna_name)
-        .option('-a, --write_qna_alterations', ludownParseRes.options.write_qna_alterations)
-        .option('--out <OutFileName>', ludownParseRes.options.out)
-        .option('--verbose', ludownParseRes.options.verbose)
-        .parse(process.argv);
+	parseCommand
+		.option('--in <luFile>', ludownParseRes.options.in)
+		.option('-l, --lu_folder <inputFolder>', ludownParseRes.options.lu_folder)
+		.option('-o, --out_folder <outputFolder>', ludownParseRes.options.out_folder)
+		.option('-s, --subfolder', ludownParseRes.options.subfolder)
+		.option('-n, --qna_name <QnA_KB_Name>', ludownParseRes.options.qna_name)
+		.option('-a, --write_qna_alterations', ludownParseRes.options.write_qna_alterations)
+		.option('--out <OutFileName>', ludownParseRes.options.out)
+		.option('--verbose', ludownParseRes.options.verbose)
+		.parse(process.argv);
 
-    validateCommand(parseCommand)
-        .then(() => { /** Fire handler here */ })
-        .catch(err => {
-            printError(err.message);
-            parseCommand.help();
-        });
+	validateCommand(parseCommand)
+		.then(() => {
+			/** Fire handler here */
+		})
+		.catch(err => {
+			printError(err.message);
+			parseCommand.help();
+		});
 });
 
 mainCommand.execute();
@@ -43,17 +45,17 @@ mainCommand.execute();
  * @returns A promise of the validation statuses.
  */
 function validateCommand(parseCommand: Command): Promise<boolean[]> {
-    const validations: Promise<boolean>[] = [];
+	const validations: Promise<boolean>[] = [];
 
-    validations.push(missingArgumentValidatorFactory([['in', 'lu_folder']]).execute(parseCommand));
+	validations.push(missingArgumentValidatorFactory([['in', 'lu_folder']]).execute(parseCommand));
 
-    if (parseCommand.in) {
-        validations.push(invalidPathValidatorFactory(false).execute(parseCommand.in));
-    }
+	if (parseCommand.in) {
+		validations.push(invalidPathValidatorFactory(false).execute(parseCommand.in));
+	}
 
-    if (parseCommand.lu_folder) {
-        validations.push(invalidPathValidatorFactory(true).execute(parseCommand.lu_folder));
-    }
+	if (parseCommand.lu_folder) {
+		validations.push(invalidPathValidatorFactory(true).execute(parseCommand.lu_folder));
+	}
 
-    return Promise.all(validations);
+	return Promise.all(validations);
 }

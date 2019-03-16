@@ -10,32 +10,28 @@ import { invalidCommandValidatorFactory } from '../utils/validators/invalid-comm
  * Fires up the main ludown parse command.
  */
 export const init = () => {
-    const mainCommand = commandExecuterFactory(() => {
-        const resolvedArguments = extractArguments(process.argv);
-        const allowableCommands = ['toluis', 'toqna'];
+	const mainCommand = commandExecuterFactory(() => {
+		const resolvedArguments = extractArguments(process.argv);
+		const allowableCommands = ['toluis', 'toqna'];
 
-        // Register the ludown parse sub commands and their aliases.
-        const parseCommand = name('ludown parse')
-            .description(ludownParseRes.description);
+		// Register the ludown parse sub commands and their aliases.
+		const parseCommand = name('ludown parse').description(ludownParseRes.description);
 
-        parseCommand
-            .command('ToLuis', ludownParseRes.commands.toluis)
-            .alias('toluis');
+		parseCommand.command('ToLuis', ludownParseRes.commands.toluis).alias('toluis');
 
-        parseCommand
-            .command('ToQna', ludownParseRes.commands.toqna)
-            .alias('toqna');
+		parseCommand.command('ToQna', ludownParseRes.commands.toqna).alias('toqna');
 
-        // Fire the command parser to handle version and help options.
-        parseCommand.parse(process.argv);
+		// Fire the command parser to handle version and help options.
+		parseCommand.parse(process.argv);
 
-        // Validate the given sub commands.
-        invalidCommandValidatorFactory(allowableCommands).execute(resolvedArguments.command)
-            .catch(err => {
-                printError(err.message);
-                parseCommand.help();
-            });
-    });
+		// Validate the given sub commands.
+		invalidCommandValidatorFactory(allowableCommands)
+			.execute(resolvedArguments.command)
+			.catch(err => {
+				printError(err.message);
+				parseCommand.help();
+			});
+	});
 
-    mainCommand.execute();
+	mainCommand.execute();
 };

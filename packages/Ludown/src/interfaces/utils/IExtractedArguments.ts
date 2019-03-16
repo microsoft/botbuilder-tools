@@ -4,7 +4,7 @@
  * arguments passed by a node process to the program.
  */
 export interface IExtractedArguments {
-    command: string;
+	command: string;
 
-    args: string[];
+	args: string[];
 }

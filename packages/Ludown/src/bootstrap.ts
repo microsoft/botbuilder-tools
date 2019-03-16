@@ -5,14 +5,14 @@ import * as ludown from './commands/ludown';
 import * as printers from './utils/printers';
 
 latestVersion(pacakgeJson.name, { version: `>${pacakgeJson.version}` })
-    .catch(() => pacakgeJson.version)
-    .then(resolvedLatestVersion => {
-        if (semver.gt(resolvedLatestVersion, pacakgeJson.version)) {
-            printUpdateMessage(pacakgeJson.version, resolvedLatestVersion, pacakgeJson.name);
-        }
+	.catch(() => pacakgeJson.version)
+	.then(resolvedLatestVersion => {
+		if (semver.gt(resolvedLatestVersion, pacakgeJson.version)) {
+			printUpdateMessage(pacakgeJson.version, resolvedLatestVersion, pacakgeJson.name);
+		}
 
-        ludown.init();
-    });
+		ludown.init();
+	});
 
 /**
  * @description
@@ -24,11 +24,11 @@ latestVersion(pacakgeJson.name, { version: `>${pacakgeJson.version}` })
  * @param packageName The package name of the current library.
  */
 function printUpdateMessage(oldVersion: string, newVersion: string, packageName: string): void {
-    printers.printInfo('\n\tUpdate available');
-    printers.printInfo(oldVersion, 'gray');
-    printers.printInfo(' -> ');
-    printers.printInfo(newVersion, 'greenBright');
-    printers.printInfo('\n\tRun ');
-    printers.printInfo(`npm install -g ${packageName} `, 'blueBright');
-    printers.printInfo('to update\n');
+	printers.printInfo('\n\tUpdate available');
+	printers.printInfo(oldVersion, 'gray');
+	printers.printInfo(' -> ');
+	printers.printInfo(newVersion, 'greenBright');
+	printers.printInfo('\n\tRun ');
+	printers.printInfo(`npm install -g ${packageName} `, 'blueBright');
+	printers.printInfo('to update\n');
 }

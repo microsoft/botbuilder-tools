@@ -17,16 +17,16 @@ import { utteranceImporter } from '../utterances/utterance-importer';
  * @param state The phrase list JSON object.
  */
 export const appImporter: (state) => IApp = state => {
-    return {
-        intents: intentImporter(state),
-        entities: simpleEntityImporter(state),
-        hierarchicalEntities: hierarchicalEntityImporter(state),
-        listEntities: listEntityImporter(state),
-        patternEntities: patternEntityImporter(state),
-        regexEntities: regexEntityImporter(state),
-        prebuiltEntities: prebuiltEntityImporter(state),
-        phraseLists: phraseListImporter(state),
-        utterances: utteranceImporter(state),
-        patterns: patternImporter(state)
-    };
+	return {
+		intents: intentImporter(state),
+		entities: simpleEntityImporter(state),
+		hierarchicalEntities: hierarchicalEntityImporter(state),
+		listEntities: listEntityImporter(state),
+		patternEntities: patternEntityImporter(state),
+		regexEntities: regexEntityImporter(state),
+		prebuiltEntities: prebuiltEntityImporter(state),
+		phraseLists: phraseListImporter(state),
+		utterances: utteranceImporter(state),
+		patterns: patternImporter(state)
+	};
 };

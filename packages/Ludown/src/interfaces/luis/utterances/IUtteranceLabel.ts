@@ -3,9 +3,9 @@
  * Represents an entity label in a LUIS utterance.
  */
 export interface IUtteranceLabel {
-    name: string;
+	name: string;
 
-    startPosition: number;
+	startPosition: number;
 
-    endPosition: number;
+	endPosition: number;
 }

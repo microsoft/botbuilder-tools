@@ -8,10 +8,10 @@ import { knowledgeBaseItemFilterImporter } from './knowledge-base-item-filter-im
  * @param state The QnA JSON object.
  */
 export const knowledgeBaseItemImporter: (state) => IKnowledgeBaseItem[] = state => {
-    return state.qnaDocuments.map(document => ({
-        source: document.source,
-        answer: document.answer,
-        questions: document.questions,
-        filters: knowledgeBaseItemFilterImporter(state)
-    }));
+	return state.qnaDocuments.map(document => ({
+		source: document.source,
+		answer: document.answer,
+		questions: document.questions,
+		filters: knowledgeBaseItemFilterImporter(state)
+	}));
 };

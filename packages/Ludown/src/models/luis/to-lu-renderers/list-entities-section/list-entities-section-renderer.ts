@@ -10,12 +10,12 @@ import { listEntityRenderer } from './list-entity-renderer';
  * @param writer The writer used to write the Lu file.
  */
 export const listEntitiesSectionRenderer = (app: IApp, writer: IMarkdownWriter) => {
-    if (!app.listEntities || app.listEntities.length === 0) {
-        return;
-    }
+	if (!app.listEntities || app.listEntities.length === 0) {
+		return;
+	}
 
-    writer.addComment('# List entity definitions');
-    writer.addNewLine();
+	writer.addComment('# List entity definitions');
+	writer.addNewLine();
 
-    app.listEntities.forEach(entity => listEntityRenderer(entity, writer));
+	app.listEntities.forEach(entity => listEntityRenderer(entity, writer));
 };

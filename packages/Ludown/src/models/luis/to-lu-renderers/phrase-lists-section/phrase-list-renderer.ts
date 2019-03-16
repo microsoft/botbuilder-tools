@@ -9,15 +9,15 @@ import { IPhraseList } from '../../../../interfaces/luis/features/IPhraseList';
  * @param writer The writer used to write the Lu file.
  */
 export const phraseListRenderer = (phraseList: IPhraseList, writer: IMarkdownWriter) => {
-    let phraseListTitle = `$${phraseList.name}:PhraseList`;
+	let phraseListTitle = `$${phraseList.name}:PhraseList`;
 
-    if (phraseList.interchangeable) {
-        phraseListTitle = phraseListTitle.concat(' interchangeable');
-    }
+	if (phraseList.interchangeable) {
+		phraseListTitle = phraseListTitle.concat(' interchangeable');
+	}
 
-    writer.addStatement(phraseListTitle);
+	writer.addStatement(phraseListTitle);
 
-    phraseList.values.split(',').forEach(val => writer.addListItem(val));
+	phraseList.values.split(',').forEach(val => writer.addListItem(val));
 
-    writer.addNewLine();
+	writer.addNewLine();
 };

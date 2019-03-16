@@ -9,5 +9,5 @@ import { IPattern } from '../../../../interfaces/luis/patterns/IPattern';
  * @param writer The writer used to write the Lu file.
  */
 export const patternRenderer = (pattern: IPattern, writer: IMarkdownWriter) => {
-    writer.addListItem(pattern.pattern);
+	writer.addListItem(pattern.pattern);
 };

@@ -5,5 +5,5 @@ import { ISublist } from './ISublist';
  * Represents a composition for an entity that allows sub listing.
  */
 export interface IList {
-    subLists: ISublist[];
+	subLists: ISublist[];
 }

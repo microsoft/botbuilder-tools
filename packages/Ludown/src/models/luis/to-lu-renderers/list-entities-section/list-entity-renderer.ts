@@ -9,9 +9,9 @@ import { IListEntity } from '../../../../interfaces/luis/entities/IListEntity';
  * @param writer The writer used to write the Lu file.
  */
 export const listEntityRenderer = (entity: IListEntity, writer: IMarkdownWriter) => {
-    entity.subLists.forEach(s => {
-        writer.addStatement(`$${entity.name}:${s.canonicalForm}=`);
-        s.list.forEach(l => writer.addListItem(l));
-        writer.addNewLine();
-    });
+	entity.subLists.forEach(s => {
+		writer.addStatement(`$${entity.name}:${s.canonicalForm}=`);
+		s.list.forEach(l => writer.addListItem(l));
+		writer.addNewLine();
+	});
 };

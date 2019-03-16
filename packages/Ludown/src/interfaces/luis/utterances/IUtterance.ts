@@ -6,9 +6,9 @@ import { IUtteranceLabel } from './IUtteranceLabel';
  * Represents a LUIS utterance.
  */
 export interface IUtterance {
-    text: string;
+	text: string;
 
-    intent: string;
+	intent: string;
 
-    entities: IUtteranceLabel[];
+	entities: IUtteranceLabel[];
 }

@@ -5,7 +5,7 @@ import { IRole } from './composers/IRole';
  * Represents a LUIS simple entity.
  */
 export interface IEntity {
-    name: string;
+	name: string;
 
-    roles: IRole[];
+	roles: IRole[];
 }

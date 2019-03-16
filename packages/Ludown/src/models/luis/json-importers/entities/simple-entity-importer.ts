@@ -7,8 +7,6 @@ import { entityImporter } from './sub-importers/base-entity-importer';
  *
  * @param state The LUIS JSON object.
  */
-export const simpleEntityImporter: (state) => IEntity[] = (state) => {
-    return state.entities
-        .filter(e => e.children === undefined)
-        .map(entityImporter);
+export const simpleEntityImporter: (state) => IEntity[] = state => {
+	return state.entities.filter(e => e.children === undefined).map(entityImporter);
 };

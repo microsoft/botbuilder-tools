@@ -8,8 +8,6 @@ import { parentImporter } from './sub-importers/parent-importer';
  *
  * @param state The LUIS JSON object.
  */
-export const hierarchicalEntityImporter: (state) => IHierarchicalEntity[] = (state) => {
-    return state.entities
-        .filter(e => e.children !== undefined)
-        .map(e => ({ ...entityImporter(e), ...parentImporter(e) }));
+export const hierarchicalEntityImporter: (state) => IHierarchicalEntity[] = state => {
+	return state.entities.filter(e => e.children !== undefined).map(e => ({ ...entityImporter(e), ...parentImporter(e) }));
 };

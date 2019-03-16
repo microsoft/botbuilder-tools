@@ -6,6 +6,6 @@ import { IParent } from '../../../../../interfaces/luis/entities/composers/IPare
  *
  * @param state The parent entity JSON object.
  */
-export const parentImporter: (state) => IParent = (state) => {
-    return { children: state.children };
+export const parentImporter: (state) => IParent = state => {
+	return { children: state.children };
 };

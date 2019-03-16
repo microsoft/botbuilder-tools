@@ -9,13 +9,13 @@ import { preCommandInit } from '../helpers/pre-command-init';
  * logic to execute.
  */
 export const commandExecuterFactory = (commandHandler: Function) => {
-    return {
-        execute: () => {
-            preCommandInit();
+	return {
+		execute: () => {
+			preCommandInit();
 
-            if (commandHandler) {
-                commandHandler();
-            }
-        }
-    };
+			if (commandHandler) {
+				commandHandler();
+			}
+		}
+	};
 };
