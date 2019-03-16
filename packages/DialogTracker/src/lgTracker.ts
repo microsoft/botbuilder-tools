@@ -232,10 +232,17 @@ export class LGTracker {
         }
     }
 
-    /** Write out .lg files, one per locale.
+    /** Write out compiled .lg files, one per locale.
      * @param basePath Base filename and path without locale.
      * @param flat True to produce flat template names instead of hierarchical.  If undefined will be from existing file format.
      * @param log Logger for output.
+     * 
+     * A template definition is found by looking for in order: <id>.<property>, all <$copySrcId>.<property> then <type>.<property>.
+     * For each template we look for .lg files that correspond to id's that contain the definition, then global.lg.
+     * If no value is found we look at type.lg.
+     * Once we find a definition, then we put that definition into <id>.<property> in the compiled file.
+     * If you have an anonymous definition, then it will use the <$copySrcID>.<property> or <type>.<property> definition at runtime.
+     * At runtime we also do language fallback.
      */
     async writeFiles(basePath: string, flat?: boolean, log?: (name: string) => void): Promise<void> {
         if (!log) log = (_name) => { };
