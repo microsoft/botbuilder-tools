@@ -1,5 +1,5 @@
 import { IMarkdownWriter } from '../../../../interfaces/helpers/IMarkdownWriter';
-import { IKnowledgeBaseItemFilter } from 'src/interfaces/qna/knowledge-base-items/IKnoweldgeBaseItemFilter';
+import { IQnaKnowledgeBaseItemFilter } from 'src/interfaces/qna/knowledge-base-items/IKnoweldgeBaseItemFilter';
 
 /**
  * @description
@@ -8,6 +8,6 @@ import { IKnowledgeBaseItemFilter } from 'src/interfaces/qna/knowledge-base-item
  * @param knowledgeBaseItemFilter The QnA knowledge base item filter object.
  * @param writer The writer used to write the Lu file.
  */
-export const itemFilterRenderer = (knowledgeBaseItemFilter: IKnowledgeBaseItemFilter, writer: IMarkdownWriter) => {
+export const itemFilterRenderer = (knowledgeBaseItemFilter: IQnaKnowledgeBaseItemFilter, writer: IMarkdownWriter) => {
 	writer.addListItem(`${knowledgeBaseItemFilter.name} = ${knowledgeBaseItemFilter.value}`);
 };

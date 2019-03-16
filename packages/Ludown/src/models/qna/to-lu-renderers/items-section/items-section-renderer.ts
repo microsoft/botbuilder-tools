@@ -1,5 +1,5 @@
 import { IMarkdownWriter } from '../../../../interfaces/helpers/IMarkdownWriter';
-import { IKnowledgeBase } from '../../../../interfaces/qna/knowledge-bases/IKnowledgeBase';
+import { IQnaKnowledgeBase } from '../../../../interfaces/qna/knowledge-bases/IKnowledgeBase';
 import { itemRenderer } from './item-renderer';
 
 /**
@@ -9,7 +9,7 @@ import { itemRenderer } from './item-renderer';
  * @param knowledgeBase The QnA knowledge base object.
  * @param writer The writer used to write the Lu file.
  */
-export const itemsSectionRenderer = (knowledgeBase: IKnowledgeBase, writer: IMarkdownWriter) => {
+export const itemsSectionRenderer = (knowledgeBase: IQnaKnowledgeBase, writer: IMarkdownWriter) => {
 	if (!knowledgeBase.items || knowledgeBase.items.length === 0) {
 		return;
 	}

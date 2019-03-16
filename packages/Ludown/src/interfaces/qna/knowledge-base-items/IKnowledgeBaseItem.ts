@@ -1,15 +1,15 @@
-import { IKnowledgeBaseItemFilter } from './IKnoweldgeBaseItemFilter';
+import { IQnaKnowledgeBaseItemFilter } from './IKnoweldgeBaseItemFilter';
 
 /**
  * @description
  * Represents a QNA knowledge base document item.
  */
-export interface IKnowledgeBaseItem {
+export interface IQnaKnowledgeBaseItem {
 	source: string;
 
 	questions: string[];
 
 	answer: string;
 
-	filters: IKnowledgeBaseItemFilter[];
+	filters: IQnaKnowledgeBaseItemFilter[];
 }

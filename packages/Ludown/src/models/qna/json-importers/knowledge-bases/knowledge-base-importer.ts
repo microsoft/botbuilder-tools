@@ -1,5 +1,5 @@
+import { IQnaKnowledgeBase } from '../../../../interfaces/qna/knowledge-bases/IKnowledgeBase';
 import { knowledgeBaseItemImporter } from '../knowledge-base-items/knowledge-base-item-importer';
-import { IKnowledgeBase } from 'src/interfaces/qna/knowledge-bases/IKnowledgeBase';
 
 /**
  * @description
@@ -7,6 +7,6 @@ import { IKnowledgeBase } from 'src/interfaces/qna/knowledge-bases/IKnowledgeBas
  *
  * @param state The QnA JSON object.
  */
-export const knowledgeBaseImporter: (state) => IKnowledgeBase = state => {
+export const knowledgeBaseImporter: (state) => IQnaKnowledgeBase = state => {
 	return { items: knowledgeBaseItemImporter(state) };
 };

@@ -1,4 +1,4 @@
-import { IKnowledgeBaseItem } from '../../../../interfaces/qna/knowledge-base-items/IKnowledgeBaseItem';
+import { IQnaKnowledgeBaseItem } from '../../../../interfaces/qna/knowledge-base-items/IKnowledgeBaseItem';
 import { knowledgeBaseItemFilterImporter } from './knowledge-base-item-filter-importer';
 
 /**
@@ -7,7 +7,7 @@ import { knowledgeBaseItemFilterImporter } from './knowledge-base-item-filter-im
  *
  * @param state The QnA JSON object.
  */
-export const knowledgeBaseItemImporter: (state) => IKnowledgeBaseItem[] = state => {
+export const knowledgeBaseItemImporter: (state) => IQnaKnowledgeBaseItem[] = state => {
 	return state.qnaDocuments.map(document => ({
 		source: document.source,
 		answer: document.answer,
