@@ -6,5 +6,5 @@
 export enum FILE_TYPE {
 	LUIS,
 	QNA,
-	QNA_ALTERATION
+	QNA_ALTERATIONS
 }
