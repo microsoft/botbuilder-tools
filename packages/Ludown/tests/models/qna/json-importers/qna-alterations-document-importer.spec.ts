@@ -1,21 +1,19 @@
 import { ERROR_CODE } from '../../../../src/models/error-codes';
-import { qnaKnowledgeBaseImporter } from '../../../../src/models/qna/json-importers/qna-knowledge-base-importer';
+import { qnaAlterationsDocumentImporter } from '../../../../src/models/qna/json-importers/qna-alterations-document-importer';
 
-describe('QnA Knowledge base JSON importer', () => {
-	it('should resolve with Qna knowledge base when correct JSON format is provided.', async () => {
-		const sampleJsonFile = {
-			qnaDocuments: [{ answer: 'Sample answer', source: 'Sample source', questions: ['Sample question?'], metadata: [] }]
-		};
-		const qnaKnowledgeBase = await qnaKnowledgeBaseImporter(JSON.stringify(sampleJsonFile));
+describe('QnA alterations document JSON importer', () => {
+	it('should resolve with Qna alterations document when correct JSON format is provided.', async () => {
+		const sampleJsonFile = { wordAlterations: [{ alterations: ['qnamaker', 'qna maker'] }] };
+		const qnaAlterationsDocument = await qnaAlterationsDocumentImporter(JSON.stringify(sampleJsonFile));
 
-		expect(qnaKnowledgeBase).toEqual({
-			items: [{ source: 'Sample source', answer: 'Sample answer', questions: ['Sample question?'], filters: [] }]
+		expect(qnaAlterationsDocument).toEqual({
+			wordAlterations: [{ alterations: ['qnamaker', 'qna maker'] }]
 		});
 	});
 
 	it('should reject with invalid JSON error when invalid JSON is provided.', async () => {
 		try {
-			await qnaKnowledgeBaseImporter('SomeInvalidJSONText');
+			await qnaAlterationsDocumentImporter('SomeInvalidJSONText');
 		} catch (err) {
 			expect(err).toEqual({
 				code: ERROR_CODE.INVALID_JSON_FILE,
@@ -25,17 +23,17 @@ describe('QnA Knowledge base JSON importer', () => {
 		}
 	});
 
-	it('should reject with invalid QnA knowledge base JSON format error when invalid QnA knowledge base is provided.', async () => {
-		const invalidQnaKnowledgeBase = { name: 'Omar', age: 27, trait: 'Awesome' };
-		const invalidJSONString = JSON.stringify(invalidQnaKnowledgeBase);
+	it('should reject with invalid QnA alterations document JSON format error when invalid document is provided.', async () => {
+		const invalidQnaAlterationsDocument = { name: 'Omar', age: 27, trait: 'Awesome' };
+		const invalidJSONString = JSON.stringify(invalidQnaAlterationsDocument);
 
 		try {
-			await qnaKnowledgeBaseImporter(invalidJSONString);
+			await qnaAlterationsDocumentImporter(invalidJSONString);
 		} catch (err) {
 			expect(err).toEqual({
-				code: ERROR_CODE.INVALID_QNA_KNOWLEDGE_BASE_JSON_FILE,
-				data: invalidQnaKnowledgeBase,
-				message: 'Failed to parse the provided QnA knowledge base JSON file.'
+				code: ERROR_CODE.INVALID_QNA_ALTERATIONS_JSON_FILE,
+				data: invalidQnaAlterationsDocument,
+				message: 'Failed to parse the provided QnA alterations JSON file.'
 			});
 		}
 	});
