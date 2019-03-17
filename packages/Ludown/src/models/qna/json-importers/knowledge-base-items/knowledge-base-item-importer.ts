@@ -12,6 +12,6 @@ export const knowledgeBaseItemImporter: (state) => IQnaKnowledgeBaseItem[] = sta
 		source: document.source,
 		answer: document.answer,
 		questions: document.questions,
-		filters: knowledgeBaseItemFilterImporter(state)
+		filters: knowledgeBaseItemFilterImporter(document)
 	}));
 };
