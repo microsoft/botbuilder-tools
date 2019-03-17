@@ -6,25 +6,25 @@
     "definitions": {
         "role": {
             "title": "$role",
-            "description": "Schema definition for root $role added by cogSchema.",
+            "description": "Defines the role that this component consumes [lg|uniontype()].",
             "type": "string",
             "pattern": "^((lg)|(unionType)|(unionType\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
         },
         "id": {
             "title": "$id",
-            "description": "Schema definition for $id added by cogSchema.",
+            "description": "Inline id for reuse of an inline definition",
             "type": "string",
             "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
         },
         "copy": {
             "title": "$copy",
-            "description": "Schema deifnition for $copy added by cogSchema.",
+            "description": "Copy the definition by id from a .dialog file.",
             "type": "string",
             "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
         },
         "type": {
             "title": "$type",
-            "description": "Schema definition for $type added by cogSchema.",
+            "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
             "type": "string",
             "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$"
         },
