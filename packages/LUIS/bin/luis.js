@@ -8,7 +8,7 @@
 const pkg = require('../package.json');
 const semver = require('semver');
 const stdin = require('get-stdin');
-const msRest = require("ms-rest-js");
+const msRest = require("@azure/ms-rest-js");
 const { LuisAuthoring } = require('../lib/luisAuthoring');
 const getOperation = require('./getOperation');
 var pos = require("cli-position");
@@ -129,6 +129,7 @@ async function runProgram() {
 
     // INVOKE operation
     let result = {};
+    let outputFilePath = '';
 
     switch (verb) {
         // ------------------ ADD  ------------------
@@ -226,6 +227,10 @@ async function runProgram() {
                 case "sublist":
                     result = await client.model.addSubList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, requestBody, args);
                     break;
+                case "appazureaccount":
+                    var options = Object.assign({}, { azureAccountInfoObject: requestBody }, args);
+                    result = await client.azureAccounts.assignToApp(args.region, args.cloud, args.appId, options);
+                    break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
             }
@@ -253,14 +258,14 @@ async function runProgram() {
                         }
 
                         if (!args.force) {
-                            let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} (${app.id})? [no] `, { defaultResponse: 'no' });
+                            let answer = readlineSync.question(`Are you sure you want to delete the application ${app.name} (${app.id}) and delete its connected service relations if any? [no] `, { defaultResponse: 'no' });
                             if (answer.length == 0 || answer[0] != 'y') {
                                 process.stderr.write('delete operation canceled\n');
                                 process.exit(1);
                                 return;
                             }
                         }
-                        result = await client.apps.deleteMethod(args.region, args.cloud, args.appId, args);
+                        result = await client.apps.deleteMethod(args.region, args.cloud, args.appId, args.force, args);
                     }
                     break;
 
@@ -281,6 +286,24 @@ async function runProgram() {
                         result = await client.versions.deleteMethod(args.region, args.cloud, args.appId, args.versionId, args);
                     }
                     break;
+                case "appazureaccount":
+                    {
+                        let app = await client.apps.get(args.region, args.cloud, args.appId, args);
+                        if (app.error) {
+                            throw new Error(app.error);
+                        }
+                        if (!args.force) {
+                            let answer = readlineSync.question(`Are you sure you want to remove this assigned azure account from application ${app.name}? [no] `, { defaultResponse: 'no' });
+                            if (answer.length == 0 || answer[0] != 'y') {
+                                process.stderr.write('delete operation canceled\n');
+                                process.exit(1);
+                                return;
+                            }
+                        }
+                        var options = Object.assign({}, { azureAccountInfoObject: requestBody }, args);
+                        result = await client.azureAccounts.removeFromApp(args.region, args.cloud, args.appId, options);
+                    }
+                    break;
 
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -298,6 +321,21 @@ async function runProgram() {
                     break;
                 case "closedlistentityrole":
                     result = await client.model.getClosedListEntityRole(args.region, args.cloud, args.appId, args.versionId, args.entityId, args.roleId, args);
+                    break;
+                default:
+                    throw new Error(`Unknown resource: ${target}`);
+            }
+            break;
+        // ------------------ PACKAGE ------------------
+        case "package":
+            switch (target) {
+                case "slot":
+                    result = await client.apps.packagePublishedApplicationAsGzip(args.region, args.cloud, args.appId, args.slotName, args);
+                    outputFilePath = path.join(args.outputFolderPath, `${args.appId}_${args.slotName}.gz`);
+                    break;
+                case "version":
+                    result = await client.apps.packageTrainedApplicationAsGzip(args.region, args.cloud, args.appId, args.versionId, args);
+                    outputFilePath = path.join(args.outputFolderPath, `${args.appId}_v${args.versionId}.gz`);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -478,6 +516,15 @@ async function runProgram() {
                 case "prebuilts":
                     result = await client.model.listPrebuilts(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
+                case "versionsettings":
+                    result = await client.settings.list(args.region, args.cloud, args.appId, args.versionId, args);
+                    break;
+                case "userazureaccounts":
+                    result = await client.azureAccounts.getUserLUISAccounts(args.region, args.cloud, args);
+                    break;
+                case "appazureaccounts":
+                    result = await client.azureAccounts.getAssigned(args.region, args.cloud, args.appId, args);
+                    break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
             }
@@ -605,6 +652,9 @@ async function runProgram() {
                 case "settings":
                     result = await client.apps.updateSettings(args.region, args.cloud, args.appId, requestBody, args);
                     break;
+                case "versionsettings": 
+                    result = await client.settings.update(args.region, args.cloud, args.appId, args.versionId, requestBody, args);
+                    break;
                 case "sublist":
                     result = await client.model.updateSubList(args.region, args.cloud, args.appId, args.versionId, args.clEntityId, args.subListId, requestBody, args);
                     break;
@@ -622,18 +672,43 @@ async function runProgram() {
         throw new Error(result.error.message);
     }
 
-    if (result.readableStreamBody) {
-        result = await new Promise((resolve, reject) => {
-            var body = '';
-            var stream = result.readableStreamBody;
-            stream.on('readable', () => body += stream.read());
-            stream.on('end', () => {
-                resolve(body);
+    if (verb != "package") {
+        if (result.readableStreamBody) {
+            result = await new Promise((resolve, reject) => {
+                var body = '';
+                var stream = result.readableStreamBody;
+                stream.on('readable', () => body += stream.read());
+                stream.on('end', () => {
+                    resolve(body);
+                });
             });
-        });
-        await stdoutAsync(result);
-    } else {
-        await stdoutAsync((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
+            await stdoutAsync(result);
+        } else {
+            await stdoutAsync((result ? JSON.stringify(result, null, 2) : 'OK') + "\n");
+        }
+    }
+    else {
+        // Packaging APIs
+        if (result.readableStreamBody) {
+            result = await new Promise((resolve, reject) => {
+                var stream = result.readableStreamBody;
+                let body = [];
+                stream.on('readable', function() {
+                    let chunk;
+                    while ((chunk = stream.read()) != null) {
+                        body.push(chunk);
+                    }
+                });
+                stream.on('end', () => {
+                    var buffer = Buffer.concat(body);
+                    resolve(buffer);
+                });
+            });
+    
+            await fs.writeFile(outputFilePath, result);
+
+            await stdoutAsync(`Package file successfully written in: ${outputFilePath}`);
+        }
     }
 }
 
@@ -888,7 +963,7 @@ async function validateArguments(args, operation) {
 
     error.name = 'ArgumentError';
     if (!operation) {
-        let verbs = ["add", "clone", "delete", "export", "get", "import", "list", "publish", "query", "set", "suggest", "train", "update"];
+        let verbs = ["add", "clone", "delete", "export", "package", "get", "import", "list", "publish", "query", "set", "suggest", "train", "update"];
         if (verbs.indexOf(args._[0]) < 0)
             error.message = `'${args._[0]}' is not a valid action`;
         else if (args._.length >= 2)
@@ -896,6 +971,29 @@ async function validateArguments(args, operation) {
         else
             error.message = `missing resource\n`;
         throw error;
+    }
+
+    switch (operation.target[0]){
+        case "userazureaccounts":
+        case "appazureaccounts":
+            switch (operation.methodAlias) {
+                case "list":
+                    if (args.hasOwnProperty("armToken")) {
+                        args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
+                    }
+                    break;
+                }
+                break;
+                case "appazureaccount":
+                    switch (operation.methodAlias) {
+                        case "add":
+                        case "delete":
+                            if (args.hasOwnProperty("armToken")) {
+                                args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
+                            }
+                            break;
+                        }
+                        break;
     }
 
     const entitySpecified = typeof args.in === 'string';
@@ -911,11 +1009,10 @@ async function validateArguments(args, operation) {
                 case "version":
                     switch (operation.methodAlias) {
                         case "publish":
-                            if (args.region && args.versionId) {
+                            if (args.versionId) {
                                 body = {
                                     versionId: `${args.versionId}`,
-                                    isStaging: args.staging === 'true',
-                                    region: args.publishRegion
+                                    isStaging: args.staging === 'true'
                                 };
                             }
                             break;
@@ -938,6 +1035,18 @@ async function validateArguments(args, operation) {
                                 body = {
                                     isPublic: args.public === 'true'
                                 };
+                            }
+                            break;
+                    }
+                    break;
+                case "versionsettings":
+                    switch (operation.methodAlias) {
+                        case "update":
+                            if (args.hasOwnProperty("useAllTrainingData")) {
+                                body = [{
+                                    name: "UseAllTrainingData",
+                                    value: args.useAllTrainingData === 'true' ? 'true' : 'false'
+                                }];
                             }
                             break;
                     }

@@ -6,16 +6,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/trainMappers";
+import * as Mappers from "../models/settingsMappers";
 import * as Parameters from "../models/parameters";
 import { LuisAuthoringContext } from "../luisAuthoringContext";
 
-/** Class representing a Train. */
-export class Train {
+/** Class representing a Settings. */
+export class Settings {
   private readonly client: LuisAuthoringContext;
 
   /**
-   * Create a Train.
+   * Create a Settings.
    * @param {LuisAuthoringContext} client Reference to the service client.
    */
   constructor(client: LuisAuthoringContext) {
@@ -23,11 +23,7 @@ export class Train {
   }
 
   /**
-   * Sends a training request for a version of a specified LUIS app. This POST request initiates a
-   * request asynchronously. To determine whether the training request is successful, submit a GET
-   * request to get training status. Note: The application version is not fully trained unless all
-   * the models (intents and entities) are trained successfully or are up to date. To verify training
-   * success, get the training status at least once after training is complete.
+   * Gets the application version settings.
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
    * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
@@ -37,9 +33,9 @@ export class Train {
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TrainTrainVersionResponse>
+   * @returns Promise<Models.SettingsListResponse>
    */
-  trainVersion(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.TrainTrainVersionResponse>;
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.SettingsListResponse>;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -51,7 +47,7 @@ export class Train {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  trainVersion(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.AppVersionSettingObject[]>): void;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -64,8 +60,8 @@ export class Train {
    * @param options The optional parameters
    * @param callback The callback
    */
-  trainVersion(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
-  trainVersion(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnqueueTrainingResponse>, callback?: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): Promise<Models.TrainTrainVersionResponse> {
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppVersionSettingObject[]>): void;
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppVersionSettingObject[]>, callback?: msRest.ServiceCallback<Models.AppVersionSettingObject[]>): Promise<Models.SettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -74,15 +70,12 @@ export class Train {
         versionId,
         options
       },
-      trainVersionOperationSpec,
-      callback) as Promise<Models.TrainTrainVersionResponse>;
+      listOperationSpec,
+      callback) as Promise<Models.SettingsListResponse>;
   }
 
   /**
-   * Gets the training status of all models (intents and entities) for the specified LUIS app. You
-   * must call the train API to train the LUIS app before you call this API to get training status.
-   * "appID" specifies the LUIS app ID. "versionId" specifies the version number of the LUIS app. For
-   * example, "0.1".
+   * Updates the application version settings.
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
    * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
@@ -91,10 +84,11 @@ export class Train {
    * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
+   * @param listOfAppVersionSettingObject A list of the updated application version settings.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TrainGetStatusResponse>
+   * @returns Promise<Models.SettingsUpdateResponse>
    */
-  getStatus(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.TrainGetStatusResponse>;
+  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject[], options?: msRest.RequestOptionsBase): Promise<Models.SettingsUpdateResponse>;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -104,9 +98,10 @@ export class Train {
    * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
+   * @param listOfAppVersionSettingObject A list of the updated application version settings.
    * @param callback The callback
    */
-  getStatus(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
+  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject[], callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -116,49 +111,31 @@ export class Train {
    * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
+   * @param listOfAppVersionSettingObject A list of the updated application version settings.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatus(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
-  getStatus(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelTrainingInfo[]>, callback?: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): Promise<Models.TrainGetStatusResponse> {
+  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, listOfAppVersionSettingObject: Models.AppVersionSettingObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.SettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
         azureCloud,
         appId,
         versionId,
+        listOfAppVersionSettingObject,
         options
       },
-      getStatusOperationSpec,
-      callback) as Promise<Models.TrainGetStatusResponse>;
+      updateOperationSpec,
+      callback) as Promise<Models.SettingsUpdateResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const trainVersionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/train",
-  urlParameters: [
-    Parameters.azureRegion,
-    Parameters.azureCloud,
-    Parameters.appId,
-    Parameters.versionId0
-  ],
-  responses: {
-    202: {
-      bodyMapper: Mappers.EnqueueTrainingResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const getStatusOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/train",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/settings",
   urlParameters: [
     Parameters.azureRegion,
     Parameters.azureCloud,
@@ -174,11 +151,47 @@ const getStatusOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "ModelTrainingInfo"
+              className: "AppVersionSettingObject"
             }
           }
         }
       }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/settings",
+  urlParameters: [
+    Parameters.azureRegion,
+    Parameters.azureCloud,
+    Parameters.appId,
+    Parameters.versionId0
+  ],
+  requestBody: {
+    parameterPath: "listOfAppVersionSettingObject",
+    mapper: {
+      required: true,
+      serializedName: "listOfAppVersionSettingObject",
+      type: {
+        name: "Sequence",
+        element: {
+          type: {
+            name: "Composite",
+            className: "AppVersionSettingObject"
+          }
+        }
+      }
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -6,16 +6,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/permissionsMappers";
+import * as Mappers from "../models/azureAccountsMappers";
 import * as Parameters from "../models/parameters";
 import { LuisAuthoringContext } from "../luisAuthoringContext";
 
-/** Class representing a Permissions. */
-export class Permissions {
+/** Class representing a AzureAccounts. */
+export class AzureAccounts {
   private readonly client: LuisAuthoringContext;
 
   /**
-   * Create a Permissions.
+   * Create a AzureAccounts.
    * @param {LuisAuthoringContext} client Reference to the service client.
    */
   constructor(client: LuisAuthoringContext) {
@@ -23,7 +23,8 @@ export class Permissions {
   }
 
   /**
-   * Gets the list of user emails that have permissions to access your application.
+   * Assigns an azure account to the application.
+   * @summary apps - Assign a LUIS azure account to an application
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
    * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
@@ -32,9 +33,9 @@ export class Permissions {
    * include: 'com', 'us'
    * @param appId The application ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PermissionsListResponse>
+   * @returns Promise<Models.AzureAccountsAssignToAppResponse>
    */
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsListResponse>;
+  assignToApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.AzureAccountsAssignToAppOptionalParams): Promise<Models.AzureAccountsAssignToAppResponse>;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -45,7 +46,7 @@ export class Permissions {
    * @param appId The application ID.
    * @param callback The callback
    */
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, callback: msRest.ServiceCallback<Models.UserAccessList>): void;
+  assignToApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -57,8 +58,8 @@ export class Permissions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserAccessList>): void;
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserAccessList>, callback?: msRest.ServiceCallback<Models.UserAccessList>): Promise<Models.PermissionsListResponse> {
+  assignToApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: Models.AzureAccountsAssignToAppOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  assignToApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.AzureAccountsAssignToAppOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AzureAccountsAssignToAppResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -66,13 +67,13 @@ export class Permissions {
         appId,
         options
       },
-      listOperationSpec,
-      callback) as Promise<Models.PermissionsListResponse>;
+      assignToAppOperationSpec,
+      callback) as Promise<Models.AzureAccountsAssignToAppResponse>;
   }
 
   /**
-   * Adds a user to the allowed list of users to access this LUIS application. Users are added using
-   * their email address.
+   * Gets the LUIS azure accounts assigned to the application for the user using his ARM token.
+   * @summary apps - Get LUIS azure accounts assigned to the application
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
    * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
@@ -80,11 +81,10 @@ export class Permissions {
    * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
    * include: 'com', 'us'
    * @param appId The application ID.
-   * @param userToAdd A model containing the user's email address.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PermissionsAddResponse>
+   * @returns Promise<Models.AzureAccountsGetAssignedResponse>
    */
-  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, userToAdd: Models.UserCollaborator, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsAddResponse>;
+  getAssigned(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureAccountsGetAssignedResponse>;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -93,10 +93,9 @@ export class Permissions {
    * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
    * include: 'com', 'us'
    * @param appId The application ID.
-   * @param userToAdd A model containing the user's email address.
    * @param callback The callback
    */
-  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, userToAdd: Models.UserCollaborator, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  getAssigned(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -105,27 +104,25 @@ export class Permissions {
    * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
    * include: 'com', 'us'
    * @param appId The application ID.
-   * @param userToAdd A model containing the user's email address.
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, userToAdd: Models.UserCollaborator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, userToAdd: Models.UserCollaborator, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsAddResponse> {
+  getAssigned(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  getAssigned(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetAssignedResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
         azureCloud,
         appId,
-        userToAdd,
         options
       },
-      addOperationSpec,
-      callback) as Promise<Models.PermissionsAddResponse>;
+      getAssignedOperationSpec,
+      callback) as Promise<Models.AzureAccountsGetAssignedResponse>;
   }
 
   /**
-   * Removes a user from the allowed list of users to access this LUIS application. Users are removed
-   * using their email address.
+   * Removes assigned azure account from the application.
+   * @summary apps - Removes an assigned LUIS azure account from an application
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
    * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
@@ -133,11 +130,10 @@ export class Permissions {
    * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
    * include: 'com', 'us'
    * @param appId The application ID.
-   * @param userToDelete A model containing the user's email address.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PermissionsDeleteMethodResponse>
+   * @returns Promise<Models.AzureAccountsRemoveFromAppResponse>
    */
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, userToDelete: Models.UserCollaborator, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsDeleteMethodResponse>;
+  removeFromApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.AzureAccountsRemoveFromAppOptionalParams): Promise<Models.AzureAccountsRemoveFromAppResponse>;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -146,10 +142,9 @@ export class Permissions {
    * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
    * include: 'com', 'us'
    * @param appId The application ID.
-   * @param userToDelete A model containing the user's email address.
    * @param callback The callback
    */
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, userToDelete: Models.UserCollaborator, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  removeFromApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -158,39 +153,35 @@ export class Permissions {
    * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
    * include: 'com', 'us'
    * @param appId The application ID.
-   * @param userToDelete A model containing the user's email address.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, userToDelete: Models.UserCollaborator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, userToDelete: Models.UserCollaborator, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsDeleteMethodResponse> {
+  removeFromApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: Models.AzureAccountsRemoveFromAppOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  removeFromApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.AzureAccountsRemoveFromAppOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AzureAccountsRemoveFromAppResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
         azureCloud,
         appId,
-        userToDelete,
         options
       },
-      deleteMethodOperationSpec,
-      callback) as Promise<Models.PermissionsDeleteMethodResponse>;
+      removeFromAppOperationSpec,
+      callback) as Promise<Models.AzureAccountsRemoveFromAppResponse>;
   }
 
   /**
-   * Replaces the current users access list with the one sent in the body. If an empty list is sent,
-   * all access to other users will be removed.
+   * Gets the LUIS azure accounts for the user using his ARM token.
+   * @summary user - Get LUIS azure accounts
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
    * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
    * 'virginia'
    * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
    * include: 'com', 'us'
-   * @param appId The application ID.
-   * @param collaborators A model containing a list of user's email addresses.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PermissionsUpdateResponse>
+   * @returns Promise<Models.AzureAccountsGetUserLUISAccountsResponse>
    */
-  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, collaborators: Models.CollaboratorsArray, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsUpdateResponse>;
+  getUserLUISAccounts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase): Promise<Models.AzureAccountsGetUserLUISAccountsResponse>;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -198,11 +189,9 @@ export class Permissions {
    * 'virginia'
    * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
    * include: 'com', 'us'
-   * @param appId The application ID.
-   * @param collaborators A model containing a list of user's email addresses.
    * @param callback The callback
    */
-  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, collaborators: Models.CollaboratorsArray, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  getUserLUISAccounts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -210,64 +199,41 @@ export class Permissions {
    * 'virginia'
    * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
    * include: 'com', 'us'
-   * @param appId The application ID.
-   * @param collaborators A model containing a list of user's email addresses.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, collaborators: Models.CollaboratorsArray, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, collaborators: Models.CollaboratorsArray, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsUpdateResponse> {
+  getUserLUISAccounts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  getUserLUISAccounts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetUserLUISAccountsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
         azureCloud,
-        appId,
-        collaborators,
         options
       },
-      updateOperationSpec,
-      callback) as Promise<Models.PermissionsUpdateResponse>;
+      getUserLUISAccountsOperationSpec,
+      callback) as Promise<Models.AzureAccountsGetUserLUISAccountsResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "luis/api/v2.0/apps/{appId}/permissions",
-  urlParameters: [
-    Parameters.azureRegion,
-    Parameters.azureCloud,
-    Parameters.appId
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.UserAccessList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const addOperationSpec: msRest.OperationSpec = {
+const assignToAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "luis/api/v2.0/apps/{appId}/permissions",
+  path: "luis/api/v2.0/apps/{appId}/azureaccounts",
   urlParameters: [
     Parameters.azureRegion,
     Parameters.azureCloud,
     Parameters.appId
   ],
   requestBody: {
-    parameterPath: "userToAdd",
-    mapper: {
-      ...Mappers.UserCollaborator,
-      required: true
-    }
+    parameterPath: [
+      "options",
+      "azureAccountInfoObject"
+    ],
+    mapper: Mappers.AzureAccountInfoObject
   },
   responses: {
-    200: {
+    201: {
       bodyMapper: Mappers.OperationStatus
     },
     default: {
@@ -277,20 +243,50 @@ const addOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const getAssignedOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/apps/{appId}/azureaccounts",
+  urlParameters: [
+    Parameters.azureRegion,
+    Parameters.azureCloud,
+    Parameters.appId
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureAccountInfoObject"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const removeFromAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "luis/api/v2.0/apps/{appId}/permissions",
+  path: "luis/api/v2.0/apps/{appId}/azureaccounts",
   urlParameters: [
     Parameters.azureRegion,
     Parameters.azureCloud,
     Parameters.appId
   ],
   requestBody: {
-    parameterPath: "userToDelete",
-    mapper: {
-      ...Mappers.UserCollaborator,
-      required: true
-    }
+    parameterPath: [
+      "options",
+      "azureAccountInfoObject"
+    ],
+    mapper: Mappers.AzureAccountInfoObject
   },
   responses: {
     200: {
@@ -303,24 +299,27 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "luis/api/v2.0/apps/{appId}/permissions",
+const getUserLUISAccountsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/azureaccounts",
   urlParameters: [
     Parameters.azureRegion,
-    Parameters.azureCloud,
-    Parameters.appId
+    Parameters.azureCloud
   ],
-  requestBody: {
-    parameterPath: "collaborators",
-    mapper: {
-      ...Mappers.CollaboratorsArray,
-      required: true
-    }
-  },
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureAccountInfoObject"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
