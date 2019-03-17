@@ -1,4 +1,4 @@
-import { IQnaAlteration } from 'src/interfaces/qna/alterations/IQnaAlteration';
+import { IQnaAlteration } from '../../../../interfaces/qna/alterations/IQnaAlteration';
 
 /**
  * @description

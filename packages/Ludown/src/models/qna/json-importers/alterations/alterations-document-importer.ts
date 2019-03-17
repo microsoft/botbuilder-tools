@@ -1,4 +1,4 @@
-import { IQnaAlterationsDocument } from 'src/interfaces/qna/alterations/IQnaAlterationsDocument';
+import { IQnaAlterationsDocument } from '../../../../interfaces/qna/alterations/IQnaAlterationsDocument';
 import { alterationImporter } from './alteration-importer';
 
 /**
@@ -8,5 +8,5 @@ import { alterationImporter } from './alteration-importer';
  * @param state The QnA alterations document JSON object.
  */
 export const alterationsDocumentImporter: (state) => IQnaAlterationsDocument = state => {
-	return { wordAlterations: state.wordAlterations.map(alteration => alterationImporter(alteration)) };
+	return { wordAlterations: state.wordAlterations.map(alterationImporter) };
 };
