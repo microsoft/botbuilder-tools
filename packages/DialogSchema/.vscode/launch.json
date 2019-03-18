@@ -12,6 +12,8 @@
             "args":
             [
                 "schemas/*.schema",
+                // "../../luisgen/src/*.csproj"
+                "../package.json",
                 "-o",
                 "examples/app.schema"
             ],

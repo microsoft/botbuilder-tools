@@ -402,8 +402,8 @@ export class DialogTracker {
     }
 
     /** Add a new definition to the tracker.
- * The definition might be a forward reference.
-*/
+    * The definition might be a forward reference.
+    */
     private addDefinition(definition: Definition) {
         if (definition.type && !this.typeToDef.has(definition.type.name)) {
             this.typeToDef.set(definition.type.name, []);

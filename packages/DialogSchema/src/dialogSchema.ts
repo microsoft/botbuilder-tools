@@ -10,13 +10,15 @@ import * as dt from 'dialogtracker';
 import * as fs from 'fs-extra';
 import glob from 'globby';
 import * as os from 'os';
-import * as path from 'path';
+import * as ppath from 'path';
+// import * as xp from 'xml2js';
 import * as Validator from 'ajv';
+
 let allof: any = require('json-schema-merge-allof');
 let clone = require('clone');
 let parser: any = require('json-schema-ref-parser');
 
-const jsonOptions = { spaces: 4, EOL: os.EOL};
+const jsonOptions = { spaces: 4, EOL: os.EOL };
 
 let failed = false;
 let missingTypes = new Set();
@@ -32,7 +34,10 @@ let missingTypes = new Set();
 export async function mergeSchemas(patterns: string[], output?: string, flat?: boolean): Promise<boolean> {
     failed = false;
     missingTypes = new Set();
-    let schemaPaths = await glob(patterns);
+    let schemaPaths = [];
+    for await (const path of expandPackages(await glob(patterns))) {
+        schemaPaths.push(path);
+    }
     if (schemaPaths.length == 0) {
         return false;
     } else {
@@ -82,7 +87,7 @@ export async function mergeSchemas(patterns: string[], output?: string, flat?: b
         }
         let finalSchema = {
             $schema: metaSchema.$id,
-            $id: path.basename(output),
+            $id: ppath.basename(output),
             type: "object",
             title: "Component types",
             description: "These are all of the types that can be created by the loader.",
@@ -108,7 +113,7 @@ export async function mergeSchemas(patterns: string[], output?: string, flat?: b
             await schema.getValidator(output);
             let lg = new dt.LGTracker(schema);
             for (let schemaPath of schemaPaths) {
-                await lg.addLGFiles([path.join(path.dirname(schemaPath), path.basename(schemaPath, ".schema") + "*.lg")], progress);
+                await lg.addLGFiles([ppath.join(ppath.dirname(schemaPath), ppath.basename(schemaPath, ".schema") + "*.lg")], progress);
             }
             for (let multiple of lg.multiplyDefined()) {
                 let template0 = multiple[0];
@@ -118,7 +123,7 @@ export async function mergeSchemas(patterns: string[], output?: string, flat?: b
                 }
                 warning(desc);
             }
-            await lg.writeFiles(path.join(path.dirname(output), path.basename(output, ".schema") + ".lg"), flat, result);
+            await lg.writeFiles(ppath.join(ppath.dirname(output), ppath.basename(output, ".schema") + ".lg"), flat, result);
         } else {
             console.log(chalk.default.redBright("Could not merge schemas"));
         }
@@ -126,12 +131,48 @@ export async function mergeSchemas(patterns: string[], output?: string, flat?: b
     return true;
 }
 
+/** Expand packages into file paths. */
+async function* expandPackages(paths: string[]): AsyncIterable<string> {
+    for (let path of paths) {
+        if (path.endsWith(".schema")) {
+            yield path;
+        } else if (path.endsWith(".csproj")) {
+            // let json = await xmlToJSON(path);
+            // walkJSON(json, (val: any) => yield val);
+        } else if (path.endsWith("package.json")) {
+            let json = await fs.readJSON(path);
+            for(let pkg in json.dependencies) {
+                let pkgPath = ppath.join(ppath.dirname(path), `node_modules/${pkg}/**/*.schema`);
+                let pkgPaths = await glob(pkgPath);
+                for (let pkgSchema of pkgPaths) {
+                    yield pkgSchema;
+                }
+            }
+        }
+    }
+    return [];
+}
+
+/*
+async function xmlToJSON(path: string): Promise<string> {
+    let xml = (await fs.readFile(path)).toString();
+    return new Promise((resolve, reject) =>
+        xp.parseString(xml, (err: Error, result: any) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        }));
+}
+*/
+
 async function getMetaSchema(): Promise<any> {
     let metaSchema: any;
-    let schemaName = path.join(__dirname, "../src/dialogSchema.schema");
+    let schemaName = ppath.join(__dirname, "../src/dialogSchema.schema");
     if (!await fs.pathExists(schemaName)) {
         console.log("Generating dialogSchema.schema");
-        let baseName = path.join(__dirname, "../src/baseCogSchema.schema");
+        let baseName = ppath.join(__dirname, "../src/baseCogSchema.schema");
         let schema = await fs.readJSON(baseName);
         let metaSchemaName = schema.$schema;
         let metaSchemaDef = await getURL(metaSchemaName);

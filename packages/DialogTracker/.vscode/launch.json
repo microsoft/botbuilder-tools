@@ -22,9 +22,25 @@
         },
         {
             "type": "node",
+            "request": "launch",
+            "name": "DialogSchema",
+            "program": "${workspaceFolder}/../DialogSchema/lib/dialogschemamain.js",
+            "args": [
+                "schemas/*.schema",
+                "-o",
+                "examples/app.schema"
+            ],
+            "cwd": "${workspaceFolder}/../DialogSchema/test",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/lib/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
             "protocol": "inspector",
             "request": "launch",
-            "name": "Mocha Tests",
+            "name": "DialogSchema Tests",
             "program": "${workspaceFolder}/../../node_modules/mocha/bin/_mocha",
             "args": [
                 "-r",
