@@ -138,8 +138,9 @@ async function* expandPackages(paths: string[], progress: (msg: string) => void)
             yield path;
         } else {
             let references: string[] = [];
+            let name = ppath.basename(path);
             progress(`Following ${path}`);
-            if (path.endsWith(".csproj")) {
+            if (name.endsWith(".csproj")) {
                 let json = await xmlToJSON(path);
                 let packages = await findParentDirectory(ppath.dirname(path), "packages");
                 if (packages) {
@@ -154,7 +155,7 @@ async function* expandPackages(paths: string[], progress: (msg: string) => void)
                         return done;
                     });
                 }
-            } else if (path.endsWith("packages.config")) {
+            } else if (name === "packages.config") {
                 let json = await xmlToJSON(path);
                 let packages = await findParentDirectory(ppath.dirname(path), "packages");
                 if (packages) {
@@ -170,14 +171,15 @@ async function* expandPackages(paths: string[], progress: (msg: string) => void)
                         return done;
                     });
                 }
-            } else if (path.endsWith("package.json")) {
+            } else if (name === "package.json") {
                 let json = await fs.readJSON(path);
                 for (let pkg in json.dependencies) {
                     references.push(ppath.join(ppath.dirname(path), `node_modules/${pkg}/**/*.schema`));
                 }
+            } else {
+                throw new Error(`Unknown package type ${path}`);
             }
             for (let ref of references) {
-                console.log(`Expansion ${ref}`);
                 for (let expandedRef of await glob(ref)) {
                     yield ppath.relative(process.cwd(), expandedRef);
                 }
