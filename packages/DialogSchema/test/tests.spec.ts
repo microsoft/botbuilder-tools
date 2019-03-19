@@ -10,7 +10,8 @@ import { expect } from 'chai';
 import * as fs from 'fs-extra';
 import glob from 'globby';
 import 'mocha';
-import * as path from 'path';
+import * as os from 'os';
+import * as ppath from 'path';
 import * as cs from '../src/dialogSchema';
 
 describe('Test schema merge and .dialog indexing library', async () => {
@@ -19,20 +20,40 @@ describe('Test schema merge and .dialog indexing library', async () => {
 
     before(async () => {
         // If you want to regenerate the oracle *.schema and *.lg files, run schemas/makeschemas.cmd
-        await fs.remove("test.out");
-        await fs.mkdirp("test.out");
-        for(let file of await glob(["test/**/*.schema", "test/**/*.lg", "test/**/*.dialog", "test/**/*.cmd"])) {
-            await fs.copy(file, path.join("test.out", file.substring(file.indexOf("/") + 1)));
+        let tempDir = ppath.join(os.tmpdir(), "test.out");
+        await fs.remove(tempDir);
+        await fs.mkdirp(tempDir);
+        console.log(`Test dir ${tempDir}`);
+        for(let file of await glob(["test/**/*.schema", "test/**/*.lg", "test/**/*.dialog", "test/**/*.cmd", "test/projects/*", "test/packages/**"])) {
+            await fs.copy(file, ppath.join(tempDir, file.substring(file.indexOf("/") + 1)));
         }
-        process.chdir("test.out");
+        process.chdir(tempDir);
+        
+        await fs.writeJSON("package.json", {
+            dependencies: {
+                "Newtonsoft.Json": "^13.0.2"
+            }
+        });
+        await fs.mkdirp("node_modules");
+        await fs.move("packages/Newtonsoft.JSon", "node_modules/Newtonsoft.Json");
+        
         await fs.remove("examples/app.schema");
         await fs.remove("examples/app.lg");
         await fs.remove("examples/app-en-us.lg");
         await cs.mergeSchemas(["schemas/*.schema"], "examples/app.schema", true);
         await cs.mergeSchemas(["schemas/prompt.schema"], "examples/promptOnly.schema", true);
+        await cs.mergeSchemas(["package.json", "projects/*"], "examples/packages.schema", true);
+
         tracker.root = process.cwd();
         await tracker.addDialogFiles(["examples/*.dialog"]);
         await tracker.writeLG("examples/app.lg");
+    });
+
+    it('packages', async () => {
+        let json = await fs.readJSON("examples/packages.schema");
+        expect(json.definitions.packages, "Failed reading packages.config");
+        expect(json.definitions.CSProj, "Failed reading CSProj");
+        expect(json.definitions.node, "Failed reading package.json");
     });
 
     it('index all', () => expect(tracker.dialogs.length).equal(8));
@@ -94,7 +115,7 @@ describe('Test schema merge and .dialog indexing library', async () => {
 
     it('files', async () => {
         for(let file of await glob(["../test/examples/*", "../test/schemas/*"])) {
-            let newFile = path.join(process.cwd(), file.substring("../test/".length));
+            let newFile = ppath.join(process.cwd(), file.substring("../test/".length));
             if (!await fs.pathExists(newFile)) {
                 expect.fail(`${newFile} is missing`);
             }

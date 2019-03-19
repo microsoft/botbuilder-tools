@@ -6,6 +6,11 @@
     "description": "These are all of the types that can be created by the loader.",
     "oneOf": [
         {
+            "title": "CSProj",
+            "description": "Definition of a union type with no implementations.",
+            "$ref": "#/definitions/CSProj"
+        },
+        {
             "title": "Recognizer",
             "description": "",
             "$ref": "#/definitions/Recognizer"
@@ -14,6 +19,11 @@
             "title": "RecognizerTypeMismatch",
             "description": "",
             "$ref": "#/definitions/RecognizerTypeMismatch"
+        },
+        {
+            "title": "packages",
+            "description": "Definition of a union type with no implementations.",
+            "$ref": "#/definitions/packages"
         },
         {
             "title": "prompt",
@@ -27,6 +37,41 @@
         }
     ],
     "definitions": {
+        "CSProj": {
+            "title": "Microsoft Nothing",
+            "description": "Definition of a union type with no implementations.",
+            "type": "object",
+            "properties": {
+                "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "CSProj"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+                },
+                "$id": {
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$type"
+            ]
+        },
         "INothing": {
             "title": "Microsoft Nothing",
             "description": "Definition of a union type with no implementations.",
@@ -132,6 +177,41 @@
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
                     "const": "RecognizerTypeMismatch"
+                },
+                "$copy": {
+                    "title": "$copy",
+                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+                },
+                "$id": {
+                    "title": "$id",
+                    "description": "Schema definition for $id added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                }
+            },
+            "additionalProperties": false,
+            "patternProperties": {
+                "^\\$": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "$type"
+            ]
+        },
+        "packages": {
+            "title": "Microsoft Nothing",
+            "description": "Definition of a union type with no implementations.",
+            "type": "object",
+            "properties": {
+                "$type": {
+                    "title": "$type",
+                    "description": "Schema definition for $type added by cogSchema.",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+                    "const": "packages"
                 },
                 "$copy": {
                     "title": "$copy",

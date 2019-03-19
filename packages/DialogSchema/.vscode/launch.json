@@ -9,11 +9,11 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}\\lib\\dialogSchemaMain.js",
-            "args":
-            [
+            "args": [
                 "schemas/*.schema",
-                "../../luisgen/src/*.csproj",
-                "../../../../SpellerTest/SpellerTest/packages.config",
+                "projects/*.csproj",
+                "projects/packages.config",
+                // "../test.out/package.json",
                 "-o",
                 "examples/app.schema"
             ],
@@ -28,20 +28,15 @@
             "protocol": "inspector",
             "request": "launch",
             "name": "Mocha Tests",
-            "program": "${workspaceFolder}/../../node_modules/mocha/bin/_mocha",
-            "args": [
-                "-r",
-                "../../node_modules/ts-node/register",
-                "test/*.ts",
-                "-u",
-                "tdd",
-                "--timeout",
-                "999999",
-                "--colors"
-            ],
+            "sourceMaps": true,
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [],
             "internalConsoleOptions": "openOnSessionStart",
             "cwd": "${workspaceFolder}",
-            "outFiles": []
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/lib/**/*.js"
+            ]
         },
         {
             "type": "node",

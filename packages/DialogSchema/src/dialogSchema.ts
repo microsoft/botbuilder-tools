@@ -34,16 +34,16 @@ let missingTypes = new Set();
 export async function mergeSchemas(patterns: string[], output?: string, flat?: boolean): Promise<boolean> {
     failed = false;
     missingTypes = new Set();
+    let progress = (msg: string) => console.log(chalk.default.grey(msg));
+    let warning = (msg: string) => console.log(chalk.default.yellowBright(msg));
+    let result = (msg: string) => console.log(msg);
     let schemaPaths = [];
-    for await (const path of expandPackages(await glob(patterns))) {
+    for await (const path of expandPackages(await glob(patterns), progress)) {
         schemaPaths.push(path);
     }
     if (schemaPaths.length == 0) {
         return false;
     } else {
-        let progress = (msg: string) => console.log(chalk.default.grey(msg));
-        let warning = (msg: string) => console.log(chalk.default.yellowBright(msg));
-        let result = (msg: string) => console.log(msg);
         let definitions: any = {};
         let validator = new Validator();
         let metaSchema = await getMetaSchema();
@@ -131,53 +131,56 @@ export async function mergeSchemas(patterns: string[], output?: string, flat?: b
     return true;
 }
 
-/** Expand package.json, package.config or .csproj to look for .schema below referenced packages. */
-async function* expandPackages(paths: string[]): AsyncIterable<string> {
+/** Expand package.json, package.config or *.csproj to look for .schema below referenced packages. */
+async function* expandPackages(paths: string[], progress: (msg: string) => void): AsyncIterable<string> {
     for (let path of paths) {
-        let references: string[] = [];
         if (path.endsWith(".schema")) {
             yield path;
-        } else if (path.endsWith(".csproj")) {
-            let json = await xmlToJSON(path);
-            let packages = await findParentDirectory(ppath.dirname(path), "packages");
-            if (packages) {
-                walkJSON(json, (elt) => {
-                    let done = false;
-                    if (elt.PackageReference) {
-                        let pkg = elt.PackageReference[0].$;
-                        let pkgName = `${pkg.Include}.${pkg.Version}`;
-                        references.push(ppath.join(packages, pkgName) + "/**/*.schema");
-                        done = true;
-                    }
-                    return done;
-                });
-            }
-        } else if (path.endsWith("packages.config")) {
-            let json = await xmlToJSON(path);
-            let packages = await findParentDirectory(ppath.dirname(path), "packages");
-            if (packages) {
-                let references: string[] = [];
-                walkJSON(json, (elt) => {
-                    let done = false;
-                    if (elt.package) {
-                        for (let info of elt.package) {
-                            let id = `${info.$.id}.${info.$.version}`;
-                            references.push(ppath.join(packages, `${id}/**/*.schema`));
+        } else {
+            let references: string[] = [];
+            progress(`Following ${path}`);
+            if (path.endsWith(".csproj")) {
+                let json = await xmlToJSON(path);
+                let packages = await findParentDirectory(ppath.dirname(path), "packages");
+                if (packages) {
+                    walkJSON(json, (elt) => {
+                        let done = false;
+                        if (elt.PackageReference) {
+                            let pkg = elt.PackageReference[0].$;
+                            let pkgName = `${pkg.Include}.${pkg.Version}`;
+                            references.push(ppath.join(packages, pkgName, "/**/*.schema"));
+                            done = true;
                         }
-                        done = true;
-                    }
-                    return done;
-                });
+                        return done;
+                    });
+                }
+            } else if (path.endsWith("packages.config")) {
+                let json = await xmlToJSON(path);
+                let packages = await findParentDirectory(ppath.dirname(path), "packages");
+                if (packages) {
+                    walkJSON(json, (elt) => {
+                        let done = false;
+                        if (elt.package) {
+                            for (let info of elt.package) {
+                                let id = `${info.$.id}.${info.$.version}`;
+                                references.push(ppath.join(packages, `${id}/**/*.schema`));
+                            }
+                            done = true;
+                        }
+                        return done;
+                    });
+                }
+            } else if (path.endsWith("package.json")) {
+                let json = await fs.readJSON(path);
+                for (let pkg in json.dependencies) {
+                    references.push(ppath.join(ppath.dirname(path), `node_modules/${pkg}/**/*.schema`));
+                }
             }
-        } else if (path.endsWith("package.json")) {
-            let json = await fs.readJSON(path);
-            for (let pkg in json.dependencies) {
-                references.push(ppath.join(ppath.dirname(path), `node_modules/${pkg}/**/*.schema`));
-            }
-        }
-        for (let ref of references) {
-            for (let expandedRef in await glob(ref)) {
-                yield expandedRef;
+            for (let ref of references) {
+                console.log(`Expansion ${ref}`);
+                for (let expandedRef of await glob(ref)) {
+                    yield ppath.relative(process.cwd(), expandedRef);
+                }
             }
         }
     }
