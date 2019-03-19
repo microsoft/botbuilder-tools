@@ -12,3 +12,5 @@ export * from "./versions";
 export * from "./train";
 export * from "./permissions";
 export * from "./pattern";
+export * from "./settings";
+export * from "./azureAccounts";

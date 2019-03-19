@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 
 export const EntityLabelObject: msRest.CompositeMapper = {
@@ -911,13 +911,13 @@ export const PrebuiltDomainObject: msRest.CompositeMapper = {
     name: "Composite",
     className: "PrebuiltDomainObject",
     modelProperties: {
-      domain_name: {
+      domainName: {
         serializedName: "domain_name",
         type: {
           name: "String"
         }
       },
-      model_name: {
+      modelName: {
         serializedName: "model_name",
         type: {
           name: "String"
@@ -989,12 +989,6 @@ export const ApplicationPublishObject: msRest.CompositeMapper = {
         defaultValue: false,
         type: {
           name: "Boolean"
-        }
-      },
-      region: {
-        serializedName: "region",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1211,7 +1205,7 @@ export const LuisApp: msRest.CompositeMapper = {
           }
         }
       },
-      regex_entities: {
+      regexEntities: {
         serializedName: "regex_entities",
         type: {
           name: "Sequence",
@@ -1235,7 +1229,7 @@ export const LuisApp: msRest.CompositeMapper = {
           }
         }
       },
-      regex_features: {
+      regexFeatures: {
         serializedName: "regex_features",
         type: {
           name: "Sequence",
@@ -1247,7 +1241,7 @@ export const LuisApp: msRest.CompositeMapper = {
           }
         }
       },
-      model_features: {
+      modelFeatures: {
         serializedName: "model_features",
         type: {
           name: "Sequence",
@@ -2508,6 +2502,12 @@ export const EndpointInfo: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      failedRegions: {
+        serializedName: "failedRegions",
+        type: {
+          name: "String"
+        }
+      },
       publishedDateTime: {
         serializedName: "publishedDateTime",
         type: {
@@ -3291,6 +3291,59 @@ export const LabelTextObject: msRest.CompositeMapper = {
       },
       text: {
         serializedName: "text",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppVersionSettingObject: msRest.CompositeMapper = {
+  serializedName: "AppVersionSettingObject",
+  type: {
+    name: "Composite",
+    className: "AppVersionSettingObject",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureAccountInfoObject: msRest.CompositeMapper = {
+  serializedName: "AzureAccountInfoObject",
+  type: {
+    name: "Composite",
+    className: "AzureAccountInfoObject",
+    modelProperties: {
+      azureSubscriptionId: {
+        required: true,
+        serializedName: "azureSubscriptionId",
+        type: {
+          name: "String"
+        }
+      },
+      resourceGroup: {
+        required: true,
+        serializedName: "resourceGroup",
+        type: {
+          name: "String"
+        }
+      },
+      accountName: {
+        required: true,
+        serializedName: "accountName",
         type: {
           name: "String"
         }

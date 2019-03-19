@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/examplesMappers";
 import * as Parameters from "../models/parameters";
@@ -64,7 +64,7 @@ export class Examples {
    * @param callback The callback
    */
   add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
-  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LabelExampleResponse>): Promise<Models.ExamplesAddResponse> {
+  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabelExampleResponse>, callback?: msRest.ServiceCallback<Models.LabelExampleResponse>): Promise<Models.ExamplesAddResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -120,7 +120,7 @@ export class Examples {
    * @param callback The callback
    */
   batch(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
-  batch(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BatchLabelExample[]>): Promise<Models.ExamplesBatchResponse> {
+  batch(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchLabelExample[]>, callback?: msRest.ServiceCallback<Models.BatchLabelExample[]>): Promise<Models.ExamplesBatchResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -173,7 +173,7 @@ export class Examples {
    * @param callback The callback
    */
   list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ExamplesListOptionalParams, callback: msRest.ServiceCallback<Models.LabeledUtterance[]>): void;
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ExamplesListOptionalParams, callback?: msRest.ServiceCallback<Models.LabeledUtterance[]>): Promise<Models.ExamplesListResponse> {
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ExamplesListOptionalParams | msRest.ServiceCallback<Models.LabeledUtterance[]>, callback?: msRest.ServiceCallback<Models.LabeledUtterance[]>): Promise<Models.ExamplesListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -228,7 +228,7 @@ export class Examples {
    * @param callback The callback
    */
   deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ExamplesDeleteMethodResponse> {
+  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ExamplesDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,

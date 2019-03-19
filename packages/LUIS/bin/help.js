@@ -138,6 +138,7 @@ function getGeneralHelpContents() {
             [chalk.cyan.bold("clone"), "clone a resource"],
             [chalk.cyan.bold("delete"), "delete a resource"],
             [chalk.cyan.bold("export"), "export resources"],
+            [chalk.cyan.bold("package"), "package resources"],
             [chalk.cyan.bold("get"), "get a resource"],
             [chalk.cyan.bold("import"), "import resources"],
             [chalk.cyan.bold('init'), 'Initializes the .luisrc file with settings specific to your LUIS instance'],

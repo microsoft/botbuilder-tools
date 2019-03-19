@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/appsMappers";
 import * as Parameters from "../models/parameters";
@@ -67,7 +67,7 @@ export class Apps {
    * @param callback The callback
    */
   add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, applicationCreateObject: Models.ApplicationCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, applicationCreateObject: Models.ApplicationCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsAddResponse> {
+  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, applicationCreateObject: Models.ApplicationCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsAddResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -112,7 +112,7 @@ export class Apps {
    * @param callback The callback
    */
   list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options: Models.AppsListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): void;
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: Models.AppsListOptionalParams, callback?: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): Promise<Models.AppsListResponse> {
+  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: Models.AppsListOptionalParams | msRest.ServiceCallback<Models.ApplicationInfoResponse[]>, callback?: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): Promise<Models.AppsListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -124,7 +124,7 @@ export class Apps {
   }
 
   /**
-   * Imports an application to LUIS, the application's structure should be included in in the request
+   * Imports an application to LUIS, the application's structure should be included in the request
    * body.
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -160,7 +160,7 @@ export class Apps {
    * @param callback The callback
    */
   importMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, luisApp: Models.LuisApp, options: Models.AppsImportMethodOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  importMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, luisApp: Models.LuisApp, options?: Models.AppsImportMethodOptionalParams, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsImportMethodResponse> {
+  importMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, luisApp: Models.LuisApp, options?: Models.AppsImportMethodOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsImportMethodResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -205,7 +205,7 @@ export class Apps {
    * @param callback The callback
    */
   listCortanaEndpoints(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): void;
-  listCortanaEndpoints(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): Promise<Models.AppsListCortanaEndpointsResponse> {
+  listCortanaEndpoints(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PersonalAssistantsResponse>, callback?: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): Promise<Models.AppsListCortanaEndpointsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -249,7 +249,7 @@ export class Apps {
    * @param callback The callback
    */
   listDomains(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
-  listDomains(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string[]>): Promise<Models.AppsListDomainsResponse> {
+  listDomains(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.AppsListDomainsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -293,7 +293,7 @@ export class Apps {
    * @param callback The callback
    */
   listUsageScenarios(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
-  listUsageScenarios(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string[]>): Promise<Models.AppsListUsageScenariosResponse> {
+  listUsageScenarios(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.AppsListUsageScenariosResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -337,7 +337,7 @@ export class Apps {
    * @param callback The callback
    */
   listSupportedCultures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableCulture[]>): void;
-  listSupportedCultures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailableCulture[]>): Promise<Models.AppsListSupportedCulturesResponse> {
+  listSupportedCultures(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableCulture[]>, callback?: msRest.ServiceCallback<Models.AvailableCulture[]>): Promise<Models.AppsListSupportedCulturesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -384,7 +384,7 @@ export class Apps {
    * @param callback The callback
    */
   downloadQueryLogs(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  downloadQueryLogs(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsDownloadQueryLogsResponse> {
+  downloadQueryLogs(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsDownloadQueryLogsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -432,7 +432,7 @@ export class Apps {
    * @param callback The callback
    */
   get(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse>): void;
-  get(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInfoResponse>): Promise<Models.AppsGetResponse> {
+  get(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInfoResponse>, callback?: msRest.ServiceCallback<Models.ApplicationInfoResponse>): Promise<Models.AppsGetResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -483,7 +483,7 @@ export class Apps {
    * @param callback The callback
    */
   update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdateResponse> {
+  update(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -508,7 +508,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsDeleteMethodResponse>
    */
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsDeleteMethodResponse>;
+  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.AppsDeleteMethodOptionalParams): Promise<Models.AppsDeleteMethodResponse>;
   /**
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
@@ -531,8 +531,8 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsDeleteMethodResponse> {
+  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: Models.AppsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.AppsDeleteMethodOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -586,7 +586,7 @@ export class Apps {
    * @param callback The callback
    */
   publish(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, applicationPublishObject: Models.ApplicationPublishObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
-  publish(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, applicationPublishObject: Models.ApplicationPublishObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): Promise<Models.AppsPublishResponse> {
+  publish(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, applicationPublishObject: Models.ApplicationPublishObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>, callback?: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): Promise<Models.AppsPublishResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -635,7 +635,7 @@ export class Apps {
    * @param callback The callback
    */
   getSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSettings>): void;
-  getSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationSettings>): Promise<Models.AppsGetSettingsResponse> {
+  getSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSettings>, callback?: msRest.ServiceCallback<Models.ApplicationSettings>): Promise<Models.AppsGetSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -686,7 +686,7 @@ export class Apps {
    * @param callback The callback
    */
   updateSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdateSettingsResponse> {
+  updateSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdateSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -735,7 +735,7 @@ export class Apps {
    * @param callback The callback
    */
   getPublishSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublishSettings>): void;
-  getPublishSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PublishSettings>): Promise<Models.AppsGetPublishSettingsResponse> {
+  getPublishSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublishSettings>, callback?: msRest.ServiceCallback<Models.PublishSettings>): Promise<Models.AppsGetPublishSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -786,7 +786,7 @@ export class Apps {
    * @param callback The callback
    */
   updatePublishSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePublishSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdatePublishSettingsResponse> {
+  updatePublishSettings(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdatePublishSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -835,7 +835,7 @@ export class Apps {
    * @param callback The callback
    */
   listEndpoints(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<{ [propertyName: string]: string }>): void;
-  listEndpoints(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>): Promise<Models.AppsListEndpointsResponse> {
+  listEndpoints(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<{ [propertyName: string]: string }>, callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>): Promise<Models.AppsListEndpointsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -880,7 +880,7 @@ export class Apps {
    * @param callback The callback
    */
   listAvailableCustomPrebuiltDomains(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
-  listAvailableCustomPrebuiltDomains(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PrebuiltDomain[]>): Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse> {
+  listAvailableCustomPrebuiltDomains(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltDomain[]>, callback?: msRest.ServiceCallback<Models.PrebuiltDomain[]>): Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -930,7 +930,7 @@ export class Apps {
    * @param callback The callback
    */
   addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsAddCustomPrebuiltDomainResponse> {
+  addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsAddCustomPrebuiltDomainResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -978,7 +978,7 @@ export class Apps {
    * @param callback The callback
    */
   listAvailableCustomPrebuiltDomainsForCulture(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, culture: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
-  listAvailableCustomPrebuiltDomainsForCulture(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, culture: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PrebuiltDomain[]>): Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse> {
+  listAvailableCustomPrebuiltDomainsForCulture(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, culture: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltDomain[]>, callback?: msRest.ServiceCallback<Models.PrebuiltDomain[]>): Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -988,6 +988,112 @@ export class Apps {
       },
       listAvailableCustomPrebuiltDomainsForCultureOperationSpec,
       callback) as Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse>;
+  }
+
+  /**
+   * Packages published LUIS application as GZip.
+   * @summary package - Gets published LUIS application package in binary stream GZip format
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param slotName The publishing slot name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>
+   */
+  packagePublishedApplicationAsGzip(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, slotName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param slotName The publishing slot name.
+   * @param callback The callback
+   */
+  packagePublishedApplicationAsGzip(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, slotName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param slotName The publishing slot name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  packagePublishedApplicationAsGzip(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, slotName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  packagePublishedApplicationAsGzip(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, slotName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsPackagePublishedApplicationAsGzipResponse> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        azureCloud,
+        appId,
+        slotName,
+        options
+      },
+      packagePublishedApplicationAsGzipOperationSpec,
+      callback) as Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>;
+  }
+
+  /**
+   * Packages trained LUIS application as GZip.
+   * @summary package - Gets trained LUIS application package in binary stream GZip format
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>
+   */
+  packageTrainedApplicationAsGzip(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param callback The callback
+   */
+  packageTrainedApplicationAsGzip(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  packageTrainedApplicationAsGzip(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  packageTrainedApplicationAsGzip(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsPackageTrainedApplicationAsGzipResponse> {
+    return this.client.sendOperationRequest(
+      {
+        azureRegion,
+        azureCloud,
+        appId,
+        versionId,
+        options
+      },
+      packageTrainedApplicationAsGzipOperationSpec,
+      callback) as Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>;
   }
 }
 
@@ -1267,6 +1373,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.azureCloud,
     Parameters.appId
   ],
+  queryParameters: [
+    Parameters.force
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -1295,6 +1404,9 @@ const publishOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     201: {
+      bodyMapper: Mappers.ProductionOrStagingEndpointInfo
+    },
+    207: {
       bodyMapper: Mappers.ProductionOrStagingEndpointInfo
     },
     default: {
@@ -1502,6 +1614,56 @@ const listAvailableCustomPrebuiltDomainsForCultureOperationSpec: msRest.Operatio
               className: "PrebuiltDomain"
             }
           }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const packagePublishedApplicationAsGzipOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/package/{appId}/slot/{slotName}/gzip",
+  urlParameters: [
+    Parameters.azureRegion,
+    Parameters.azureCloud,
+    Parameters.appId,
+    Parameters.slotName
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Stream"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const packageTrainedApplicationAsGzipOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "luis/api/v2.0/package/{appId}/versions/{versionId}/gzip",
+  urlParameters: [
+    Parameters.azureRegion,
+    Parameters.azureCloud,
+    Parameters.appId,
+    Parameters.versionId0
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Stream"
         }
       }
     },
