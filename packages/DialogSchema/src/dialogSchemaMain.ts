@@ -41,7 +41,7 @@ program
     .usage("[options] <fileRegex ...>")
     .option("-o, output <path>", "Output path and filename for unified schema and associated .lg files per locale.")
     .option("-f, flat [boolean]", "Use flat (true) or hierarchical (false) naming for templates.", parseBool, true)
-    .description(`Take JSON Schema files and merge them into a single schema file where $ref are included and allOf are merged. Will also use $role to define union types and lg properties.  All associated .lg files will be merged into a single .lg file per locale.  See readme.md for more information.`)
+    .description(`The file regex matches .schema files or a project file like package.json, package.config or .csproj.  All the matched .schema files are merged them into a single schema file where $ref are included and allOf are merged. Will also use $role to define union types and lg properties.  All associated .lg files will be merged into a single .lg file per locale.  See readme.md for more information.`)
     .parse(process.argv);
 
 ds.mergeSchemas(program.args, program.output, program.flat)

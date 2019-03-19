@@ -12,8 +12,8 @@
             "args":
             [
                 "schemas/*.schema",
-                // "../../luisgen/src/*.csproj"
-                "../package.json",
+                "../../luisgen/src/*.csproj",
+                "../../../../SpellerTest/SpellerTest/packages.config",
                 "-o",
                 "examples/app.schema"
             ],
