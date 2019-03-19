@@ -44,20 +44,20 @@
             "properties": {
                 "$type": {
                     "title": "$type",
-                    "description": "Schema definition for $type added by cogSchema.",
+                    "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
                     "const": "CSProj"
                 },
                 "$copy": {
                     "title": "$copy",
-                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "description": "Copy the definition by id from a .dialog file.",
                     "type": "string",
                     "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
                     "title": "$id",
-                    "description": "Schema definition for $id added by cogSchema.",
+                    "description": "Inline id for reuse of an inline definition",
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
                 }
@@ -68,8 +68,19 @@
                     "type": "string"
                 }
             },
-            "required": [
-                "$type"
+            "anyOf": [
+                {
+                    "title": "Reference",
+                    "required": [
+                        "$copy"
+                    ]
+                },
+                {
+                    "title": "Type",
+                    "required": [
+                        "$type"
+                    ]
+                }
             ]
         },
         "INothing": {
@@ -97,20 +108,20 @@
             "properties": {
                 "$type": {
                     "title": "$type",
-                    "description": "Schema definition for $type added by cogSchema.",
+                    "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
                     "const": "Recognizer"
                 },
                 "$copy": {
                     "title": "$copy",
-                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "description": "Copy the definition by id from a .dialog file.",
                     "type": "string",
                     "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
                     "title": "$id",
-                    "description": "Schema definition for $id added by cogSchema.",
+                    "description": "Inline id for reuse of an inline definition",
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
                 },
@@ -142,9 +153,6 @@
                     }
                 }
             },
-            "required": [
-                "$type"
-            ],
             "type": "object",
             "additionalProperties": false,
             "patternProperties": {
@@ -162,7 +170,8 @@
                 {
                     "title": "Type",
                     "required": [
-                        "req"
+                        "req",
+                        "$type"
                     ]
                 }
             ]
@@ -173,20 +182,20 @@
             "properties": {
                 "$type": {
                     "title": "$type",
-                    "description": "Schema definition for $type added by cogSchema.",
+                    "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
                     "const": "RecognizerTypeMismatch"
                 },
                 "$copy": {
                     "title": "$copy",
-                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "description": "Copy the definition by id from a .dialog file.",
                     "type": "string",
                     "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
                     "title": "$id",
-                    "description": "Schema definition for $id added by cogSchema.",
+                    "description": "Inline id for reuse of an inline definition",
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
                 }
@@ -197,8 +206,19 @@
                     "type": "string"
                 }
             },
-            "required": [
-                "$type"
+            "anyOf": [
+                {
+                    "title": "Reference",
+                    "required": [
+                        "$copy"
+                    ]
+                },
+                {
+                    "title": "Type",
+                    "required": [
+                        "$type"
+                    ]
+                }
             ]
         },
         "packages": {
@@ -208,20 +228,20 @@
             "properties": {
                 "$type": {
                     "title": "$type",
-                    "description": "Schema definition for $type added by cogSchema.",
+                    "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
                     "const": "packages"
                 },
                 "$copy": {
                     "title": "$copy",
-                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "description": "Copy the definition by id from a .dialog file.",
                     "type": "string",
                     "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
                     "title": "$id",
-                    "description": "Schema definition for $id added by cogSchema.",
+                    "description": "Inline id for reuse of an inline definition",
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
                 }
@@ -232,28 +252,39 @@
                     "type": "string"
                 }
             },
-            "required": [
-                "$type"
+            "anyOf": [
+                {
+                    "title": "Reference",
+                    "required": [
+                        "$copy"
+                    ]
+                },
+                {
+                    "title": "Type",
+                    "required": [
+                        "$type"
+                    ]
+                }
             ]
         },
         "prompt": {
             "properties": {
                 "$type": {
                     "title": "$type",
-                    "description": "Schema definition for $type added by cogSchema.",
+                    "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
                     "const": "prompt"
                 },
                 "$copy": {
                     "title": "$copy",
-                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "description": "Copy the definition by id from a .dialog file.",
                     "type": "string",
                     "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
                     "title": "$id",
-                    "description": "Schema definition for $id added by cogSchema.",
+                    "description": "Inline id for reuse of an inline definition",
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
                 },
@@ -278,9 +309,6 @@
                     }
                 }
             },
-            "required": [
-                "$type"
-            ],
             "type": "object",
             "additionalProperties": false,
             "patternProperties": {
@@ -298,7 +326,8 @@
                 {
                     "title": "Type",
                     "required": [
-                        "prompt"
+                        "prompt",
+                        "$type"
                     ]
                 }
             ]
@@ -307,20 +336,20 @@
             "properties": {
                 "$type": {
                     "title": "$type",
-                    "description": "Schema definition for $type added by cogSchema.",
+                    "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
                     "const": "root"
                 },
                 "$copy": {
                     "title": "$copy",
-                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "description": "Copy the definition by id from a .dialog file.",
                     "type": "string",
                     "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
                     "title": "$id",
-                    "description": "Schema definition for $id added by cogSchema.",
+                    "description": "Inline id for reuse of an inline definition",
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
                 },
@@ -336,9 +365,6 @@
                     "$ref": "#/definitions/prompt"
                 }
             },
-            "required": [
-                "$type"
-            ],
             "type": "object",
             "additionalProperties": false,
             "patternProperties": {
@@ -356,7 +382,8 @@
                 {
                     "title": "Type",
                     "required": [
-                        "recognizers"
+                        "recognizers",
+                        "$type"
                     ]
                 }
             ]

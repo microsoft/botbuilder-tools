@@ -356,22 +356,23 @@ function addStandardProperties(definitions: any, dialogSchema: any): void {
             definition.properties = props;
             definition.additionalProperties = false;
             definition.patternProperties = { "^\\$": { type: "string" } };
-            if (definition.required) {
-                let required = definition.required;
-                definition.required = ["$type"];
-                definition.anyOf = [
-                    {
-                        title: "Reference",
-                        required: ["$copy"]
-                    },
-                    {
-                        title: "Type",
-                        required: required
-                    }
-                ];
+            let required = definition.required;
+            if (required) {
+                required.push("$type");
             } else {
-                definition.required = ["$type"];
+                required = ["$type"];
             }
+            delete definition.required;
+            definition.anyOf = [
+                {
+                    title: "Reference",
+                    required: ["$copy"]
+                },
+                {
+                    title: "Type",
+                    required: required
+                }
+            ];
         }
     }
 }
