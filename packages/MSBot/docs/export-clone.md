@@ -64,6 +64,7 @@ The **msbot clone services** command depends on and requires the following tools
 | --proj-file                                 | (OPTIONAL) auto publish the local project file to created bot service |
 | --code-dir <path>                           | (OPTIONAL) auto publish the folder path to created bot service        |
 | -q, --quiet                                 | disable output                                                         |
+| -e, --encryption                            | Enables bot file encryption                                                       |
 | --verbose                                   | Show commands
 | --force                                     | Do not prompt for confirmation
 | -h, --help                                  | output usage information                                              |
