@@ -42,13 +42,30 @@ export const invalidPathValidatorFactory: IValidatorFactory<IPathValidatorOption
 					});
 				}
 
+				const accessLevel = opts.accessLevel || 'read';
+				let accessConstant: number;
+
+				switch (accessLevel) {
+					case 'read':
+						accessConstant = fs.constants.R_OK;
+						break;
+					case 'write':
+						accessConstant = fs.constants.W_OK;
+						break;
+					case 'read-write':
+						accessConstant = fs.constants.F_OK;
+						break;
+					default:
+						accessConstant = fs.constants.R_OK;
+				}
+
 				try {
-					fs.accessSync(resolvedPath, fs.constants.R_OK);
+					fs.accessSync(resolvedPath, accessConstant);
 				} catch {
 					reject({
 						code: ERROR_CODE.NOT_A_FILE,
 						data: resolvedPath,
-						message: `The user has no read permissions on the path ("${resolvedPath}").`
+						message: `The user has no ${opts.accessLevel} permissions on the path ("${resolvedPath}").`
 					});
 				}
 
