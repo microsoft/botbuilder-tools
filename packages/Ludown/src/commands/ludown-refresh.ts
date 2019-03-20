@@ -10,7 +10,7 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * @description
  * Fires up the ludown refresh command.
  */
-const mainCommand = commandExecuterFactory(async () => {
+export const mainCommand = commandExecuterFactory(async (args: string[]) => {
 	const refreshCommand = name('ludown refresh')
 		.description(ludownRefreshRes.description)
 		.usage(ludownRefreshRes.usage);
@@ -25,7 +25,7 @@ const mainCommand = commandExecuterFactory(async () => {
 		.option('-s, --skip_header', ludownRefreshRes.options.skip_header)
 		.option('--stdin', ludownRefreshRes.options.stdin)
 		.option('--stdout', ludownRefreshRes.options.stdout)
-		.parse(process.argv);
+		.parse(args);
 
 	try {
 		await validateCommand(refreshCommand);

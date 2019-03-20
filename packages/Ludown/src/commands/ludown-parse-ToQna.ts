@@ -10,7 +10,7 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * @description
  * Fires up the ludown parse toqna command.
  */
-const mainCommand = commandExecuterFactory(async () => {
+export const mainCommand = commandExecuterFactory(async (args: string[]) => {
 	const parseCommand = name('ludown parse ToQna')
 		.description(ludownParseRes.description)
 		.usage(ludownParseRes.usage);
@@ -24,7 +24,7 @@ const mainCommand = commandExecuterFactory(async () => {
 		.option('-a, --write_qna_alterations', ludownParseRes.options.write_qna_alterations)
 		.option('--out <OutFileName>', ludownParseRes.options.out)
 		.option('--verbose', ludownParseRes.options.verbose)
-		.parse(process.argv);
+		.parse(args);
 
 	try {
 		await validateCommand(parseCommand);

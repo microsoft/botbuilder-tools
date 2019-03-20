@@ -12,7 +12,7 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * @description
  * Fires up the ludown parse toluis command.
  */
-const mainCommand = commandExecuterFactory(async () => {
+export const mainCommand = commandExecuterFactory(async (args: string[]) => {
 	const parseCommand = name('ludown parse ToLuis')
 		.description(ludownParseRes.description)
 		.usage(ludownParseRes.usage);
@@ -29,7 +29,7 @@ const mainCommand = commandExecuterFactory(async () => {
 		.option('-t, --write_luis_batch_tests', ludownParseRes.options.write_luis_batch_tests)
 		.option('--out <OutFileName>', ludownParseRes.options.out)
 		.option('--verbose', ludownParseRes.options.verbose)
-		.parse(process.argv);
+		.parse(args);
 
 	try {
 		await validateCommand(parseCommand);

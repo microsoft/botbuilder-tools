@@ -11,7 +11,7 @@ import { missingArgumentValidatorFactory } from '../utils/validators/missing-arg
  * @description
  * Fires up the ludown translate command.
  */
-const mainCommand = commandExecuterFactory(async () => {
+export const mainCommand = commandExecuterFactory(async (args: string[]) => {
 	const translateCommand = name('ludown translate')
 		.description(ludownTranslateRes.description)
 		.usage(ludownTranslateRes.usage);
@@ -29,7 +29,7 @@ const mainCommand = commandExecuterFactory(async () => {
 		.option('-u, --translate_link_text', ludownTranslateRes.options.translate_link_text)
 		.option('-b, --batch_translate <linesToBatch>', ludownTranslateRes.options.batch_translate)
 		.option('-v --verbose', ludownTranslateRes.options.verbose)
-		.parse(process.argv);
+		.parse(args);
 
 	try {
 		await validateCommand(translateCommand);

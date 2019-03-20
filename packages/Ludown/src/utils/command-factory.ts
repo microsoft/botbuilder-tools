@@ -14,7 +14,7 @@ export const commandExecuterFactory = (commandHandler: Function) => {
 			preCommandInit();
 
 			if (commandHandler) {
-				commandHandler();
+				commandHandler(process.argv);
 			}
 		}
 	};

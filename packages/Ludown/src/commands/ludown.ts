@@ -12,8 +12,8 @@ import { invalidCommandValidatorFactory } from '../utils/validators/invalid-comm
  * Fires up the main ludown command.
  */
 export const init = () => {
-	const mainCommand = commandExecuterFactory(async () => {
-		const resolvedArguments = extractArguments(process.argv);
+	const mainCommand = commandExecuterFactory(async (args: string[]) => {
+		const resolvedArguments = extractArguments(args);
 		const allowableCommands = ['parse', 'p', 'refresh', 'd', 'translate', 't'];
 
 		// Register the ludown sub commands and their aliases.
@@ -28,7 +28,7 @@ export const init = () => {
 		ludownCommand.command('translate', ludownRes.commands.translate).alias('t');
 
 		// Fire the command parser to handle version and help options.
-		ludownCommand.parse(process.argv);
+		ludownCommand.parse(args);
 
 		try {
 			// Validate the given sub commands.

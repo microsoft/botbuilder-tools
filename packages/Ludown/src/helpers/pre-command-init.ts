@@ -3,6 +3,7 @@ import { printError } from '../utils/printers';
 
 /**
  * @description
+ * Applies any command pre command initializations.
  */
 export const preCommandInit = () => {
 	Command.prototype.unknownOption = (arg: string) => {
