@@ -8,20 +8,20 @@ describe('Invalid path validator', () => {
 	afterEach(() => mockFs.restore());
 
 	it('should resolve when directory flag is false and path resolves to an existent file.', async () => {
-		const data = await invalidPathValidatorFactory(false).execute('./mock.txt');
+		const data = await invalidPathValidatorFactory({ isDirectory: false }).execute('./mock.txt');
 
 		expect(data).toBeTruthy();
 	});
 
 	it('should resolve when directory flag is true and path resolves to an existent directory.', async () => {
-		const data = await invalidPathValidatorFactory(true).execute('./mock-dir');
+		const data = await invalidPathValidatorFactory({ isDirectory: true }).execute('./mock-dir');
 
 		expect(data).toBeTruthy();
 	});
 
 	it('should reject when path does not exist.', async () => {
 		try {
-			await invalidPathValidatorFactory(true).execute('./non-existent-file.txt');
+			await invalidPathValidatorFactory({ isDirectory: true }).execute('./non-existent-file.txt');
 		} catch (err) {
 			const resolvedPath = path.resolve('./non-existent-file.txt');
 
@@ -35,7 +35,7 @@ describe('Invalid path validator', () => {
 
 	it('should reject when directory flag is true and path is of a file.', async () => {
 		try {
-			await invalidPathValidatorFactory(true).execute('./mock.txt');
+			await invalidPathValidatorFactory({ isDirectory: true }).execute('./mock.txt');
 		} catch (err) {
 			const resolvedPath = path.resolve('./mock.txt');
 
@@ -49,7 +49,7 @@ describe('Invalid path validator', () => {
 
 	it('should reject when directory flag is false and path is of a directory.', async () => {
 		try {
-			await invalidPathValidatorFactory(false).execute('./mock-dir');
+			await invalidPathValidatorFactory({ isDirectory: false }).execute('./mock-dir');
 		} catch (err) {
 			const resolvedPath = path.resolve('./mock-dir');
 

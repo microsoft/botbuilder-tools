@@ -54,11 +54,11 @@ async function validateCommand(translateCommand: Command): Promise<boolean[]> {
 	validations.push(missingArgumentValidatorFactory([['in', 'lu_folder'], ['translate_key'], ['to_lang']]).execute(translateCommand));
 
 	if (translateCommand.in) {
-		validations.push(invalidPathValidatorFactory(false).execute(translateCommand.in));
+		validations.push(invalidPathValidatorFactory({ isDirectory: false }).execute(translateCommand.in));
 	}
 
 	if (translateCommand.lu_folder) {
-		validations.push(invalidPathValidatorFactory(true).execute(translateCommand.lu_folder));
+		validations.push(invalidPathValidatorFactory({ isDirectory: false }).execute(translateCommand.lu_folder));
 	}
 
 	if (translateCommand.batch_translate) {

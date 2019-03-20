@@ -54,11 +54,11 @@ async function validateCommand(parseCommand: Command): Promise<boolean[]> {
 	validations.push(missingArgumentValidatorFactory([['in', 'lu_folder']]).execute(parseCommand));
 
 	if (parseCommand.in) {
-		validations.push(invalidPathValidatorFactory(false).execute(parseCommand.in));
+		validations.push(invalidPathValidatorFactory({ isDirectory: false }).execute(parseCommand.in));
 	}
 
 	if (parseCommand.lu_folder) {
-		validations.push(invalidPathValidatorFactory(true).execute(parseCommand.lu_folder));
+		validations.push(invalidPathValidatorFactory({ isDirectory: true }).execute(parseCommand.lu_folder));
 	}
 
 	if (parseCommand.luis_culture) {

@@ -12,7 +12,7 @@ import { invalidPathValidatorFactory } from '../../utils/validators/invalid-path
 export const directoryReader: IInputReaderFactory<IDirectoryReaderOptions> = (options: IDirectoryReaderOptions) => {
 	return {
 		read: async (directoryPath: string) => {
-			await invalidPathValidatorFactory(true).execute(directoryPath);
+			await invalidPathValidatorFactory({ isDirectory: true }).execute(directoryPath);
 
 			const resolvedPath = path.resolve(directoryPath);
 

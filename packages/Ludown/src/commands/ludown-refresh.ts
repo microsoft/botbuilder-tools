@@ -46,7 +46,7 @@ mainCommand.execute();
  */
 async function validateCommand(refreshCommand: Command): Promise<boolean[]> {
 	const validations: Promise<boolean>[] = [];
-	const invalidPathFactory = invalidPathValidatorFactory(false);
+	const invalidPathFactory = invalidPathValidatorFactory({ isDirectory: false });
 
 	validations.push(missingArgumentValidatorFactory([['luis_file', 'qna_file', 'qna_alteration_file', 'stdin']]).execute(refreshCommand));
 
