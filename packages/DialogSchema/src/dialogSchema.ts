@@ -313,7 +313,7 @@ function addTypeTitles(definitions: any): void {
 function fixDefinitionReferences(definitions: any): void {
     for (let type in definitions) {
         walkJSON(definitions[type], (val: any) => {
-            if (val.$ref) {
+            if (val.$ref && typeof val.$ref === "string") {
                 let ref: string = val.$ref;
                 if (ref.startsWith("#/definitions/")) {
                     val.$ref = "#/definitions/" + type + "/definitions" + ref.substr(ref.indexOf('/'));
