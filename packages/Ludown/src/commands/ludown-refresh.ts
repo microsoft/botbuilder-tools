@@ -1,4 +1,5 @@
 import { Command, name } from 'commander';
+import { execute } from '../command-handlers/ludown-refresh';
 import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject.js';
 import * as ludownRefreshRes from '../res/ludown-refresh.json';
 import { commandExecuterFactory } from '../utils/command-factory';
@@ -29,6 +30,7 @@ const mainCommand = commandExecuterFactory(async () => {
 
 	try {
 		await validateCommand(refreshCommand);
+		await execute(refreshCommand);
 	} catch (err) {
 		printError((<IValidatorErrorObject>err).message);
 		refreshCommand.help();
