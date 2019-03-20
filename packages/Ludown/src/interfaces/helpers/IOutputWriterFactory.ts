@@ -1,11 +1,9 @@
-import { ITypedFile } from './ITypedFile';
-
 /**
  * @description
  * Represents an interface for any data reader
  */
 export interface IOutputWriter {
-	write(data: ITypedFile): Promise<void>;
+	write(data: string): Promise<void>;
 }
 
 /**

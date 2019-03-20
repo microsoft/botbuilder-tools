@@ -12,7 +12,7 @@ describe('File writer', () => {
 	);
 
 	it('should write the file successfuly when content is given', async () => {
-		await fileWriterFactory('./mockDir', 'mock.txt').write({ content: 'New content' });
+		await fileWriterFactory('./mockDir', 'mock.txt').write('New content');
 
 		const newContent = fs.readFileSync('./mockDir/mock.txt', { encoding: 'utf-8' });
 

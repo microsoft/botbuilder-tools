@@ -7,8 +7,8 @@ import { ITypedFile } from '../../interfaces/helpers/ITypedFile';
  */
 export const stdoutWriterFactory: IOutputWriterFactory = () => {
 	return {
-		write: async (data: ITypedFile) => {
-			process.stdout.write(data.content, 'utf-8');
+		write: async (data: string) => {
+			process.stdout.write(data, 'utf-8');
 		}
 	};
 };

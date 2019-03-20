@@ -12,7 +12,7 @@ describe('Stdout writer', () => {
 	afterEach(() => (process.stdout.write = originalStdout));
 
 	it('should write to stdout successfuly when content is given', async () => {
-		await stdoutWriterFactory().write({ content: 'New content' });
+		await stdoutWriterFactory().write('New content');
 
 		expect(buffer).toEqual('New content');
 	});

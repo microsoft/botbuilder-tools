@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { IOutputWriterFactory } from '../../interfaces/helpers/IOutputWriterFactory';
-import { ITypedFile } from '../../interfaces/helpers/ITypedFile';
 import { invalidPathValidatorFactory } from '../../utils/validators/invalid-path-validator';
 
 /**
@@ -12,12 +11,12 @@ import { invalidPathValidatorFactory } from '../../utils/validators/invalid-path
  */
 export const fileWriterFactory: IOutputWriterFactory = (dirPath: string, filePath: string) => {
 	return {
-		write: async (data: ITypedFile) => {
+		write: async (data: string) => {
 			await invalidPathValidatorFactory({ isDirectory: true, accessLevel: 'write' }).execute(dirPath);
 
 			const resolvedPath = path.resolve(dirPath, filePath);
 
-			fs.writeFileSync(resolvedPath, data.content, { encoding: 'utf-8' });
+			fs.writeFileSync(resolvedPath, data, { encoding: 'utf-8' });
 		}
 	};
 };
