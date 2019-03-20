@@ -13,6 +13,8 @@
 		"no-void-expression": false,
 		"strict-boolean-expressions": false,
 		"mocha-unneeded-done": false,
-		"no-implicit-dependencies": false
+		"no-implicit-dependencies": false,
+		"no-unsafe-any": false,
+		"no-string-literal": false
 	}
 }
