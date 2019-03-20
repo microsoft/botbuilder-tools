@@ -63,7 +63,7 @@ async function validateCommand(translateCommand: Command): Promise<boolean[]> {
 
 	if (translateCommand.batch_translate) {
 		validations.push(
-			invalidArgumentValueValidatorFactory([...Array(25).keys()].map(v => v + 1)).execute({
+			invalidArgumentValueValidatorFactory([...Array(25).keys()].map(v => `${v + 1}`)).execute({
 				name: 'batch_translate',
 				value: translateCommand.batch_translate
 			})

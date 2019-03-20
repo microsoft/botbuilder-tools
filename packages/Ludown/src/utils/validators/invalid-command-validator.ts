@@ -10,7 +10,7 @@ import { ERROR_CODE } from '../../models/error-codes';
  * state against.
  * @returns Promise of true on resolve and an IValidatorErrorObject on rejection.
  */
-export const invalidCommandValidatorFactory: IValidatorFactory = (allowableCommands: string[]) => {
+export const invalidCommandValidatorFactory: IValidatorFactory<string[]> = (allowableCommands: string[]) => {
 	return {
 		execute: async (command: string): Promise<boolean> => {
 			const normalizedCommand = command.toLocaleLowerCase();

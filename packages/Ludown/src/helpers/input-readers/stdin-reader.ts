@@ -5,7 +5,7 @@ import { IInputReaderFactory } from '../../interfaces/helpers/IInputReaderFactor
  * @description
  * Represents a factory that reads input from the stdin stream.
  */
-export const stdinReader: IInputReaderFactory = () => {
+export const stdinReader: IInputReaderFactory<void> = () => {
 	return {
 		read: async (_: string) => {
 			const reader = readline.createInterface({

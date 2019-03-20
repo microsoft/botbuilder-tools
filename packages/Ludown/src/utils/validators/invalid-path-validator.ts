@@ -11,7 +11,7 @@ import { ERROR_CODE } from '../../models/error-codes';
  * @param isDirectory A boolean to indicate whether the path is a file or a directory.
  * @returns Promise of true on resolve and an IValidatorErrorObject on rejection.
  */
-export const invalidPathValidatorFactory: IValidatorFactory = (isDirectory: boolean) => {
+export const invalidPathValidatorFactory: IValidatorFactory<boolean> = (isDirectory: boolean) => {
 	return {
 		execute: async (inputPath: string): Promise<boolean> => {
 			const resolvedPath = path.resolve(inputPath);

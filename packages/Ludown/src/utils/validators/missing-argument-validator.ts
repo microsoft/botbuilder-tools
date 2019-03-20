@@ -23,7 +23,7 @@ export type ArgumentBag = string[];
  * @param factoryState An array of argument bags for validation
  * @returns Promise of true on resolve and an IValidatorErrorObject on rejection.
  */
-export const missingArgumentValidatorFactory: IValidatorFactory = (factoryState: ArgumentBag[]) => {
+export const missingArgumentValidatorFactory: IValidatorFactory<ArgumentBag[]> = (factoryState: ArgumentBag[]) => {
 	const doesArgBagExist = (argBag: ArgumentBag, haystack: Object) => intersection(Object.keys(haystack), argBag).length !== 0;
 
 	const getErrorMessage = (argBag: ArgumentBag) => {

@@ -10,4 +10,4 @@ export interface IValidator {
  * @description
  * Represents a factory that creates a validator.
  */
-export type IValidatorFactory = (factoryState) => IValidator;
+export type IValidatorFactory<T> = (factoryState: T) => IValidator;

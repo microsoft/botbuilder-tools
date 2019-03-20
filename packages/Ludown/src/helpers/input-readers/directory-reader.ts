@@ -9,7 +9,7 @@ import { invalidPathValidatorFactory } from '../../utils/validators/invalid-path
  * Represents a factory that validates the given path and reads the
  * content of the file.
  */
-export const directoryReader: IInputReaderFactory = (options: IDirectoryReaderOptions) => {
+export const directoryReader: IInputReaderFactory<IDirectoryReaderOptions> = (options: IDirectoryReaderOptions) => {
 	return {
 		read: async (directoryPath: string) => {
 			await invalidPathValidatorFactory(true).execute(directoryPath);

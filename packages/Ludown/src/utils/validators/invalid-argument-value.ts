@@ -11,7 +11,7 @@ import { ERROR_CODE } from '../../models/error-codes';
  * value against.
  * @returns Promise of true on resolve and an IValidatorErrorObject on rejection.
  */
-export const invalidArgumentValueValidatorFactory: IValidatorFactory = (allowableValues: string[]) => {
+export const invalidArgumentValueValidatorFactory: IValidatorFactory<string[]> = (allowableValues: string[]) => {
 	return {
 		execute: async (state: IValidatorInputDto): Promise<boolean> => {
 			return new Promise((resolve, reject) => {
