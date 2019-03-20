@@ -3,10 +3,10 @@ import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidator
 import * as ludownParseRes from '../res/ludown-parse-toluis.json';
 import * as luisLocales from '../res/luis-locales.json';
 import { commandExecuterFactory } from '../utils/command-factory';
-import { printError } from '../utils/printers.js';
-import { invalidArgumentValueValidatorFactory } from '../utils/validators/invalid-argument-value.js';
-import { invalidPathValidatorFactory } from '../utils/validators/invalid-path-validator.js';
-import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator.js';
+import { printError } from '../utils/printers';
+import { invalidArgumentValueValidatorFactory } from '../utils/validators/invalid-argument-value';
+import { invalidPathValidatorFactory } from '../utils/validators/invalid-path-validator';
+import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator';
 
 /**
  * @description

@@ -1,8 +1,8 @@
 import { name } from 'commander';
-import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject.js';
+import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject';
 import * as ludownParseRes from '../res/ludown-parse.json';
 import { extractArguments } from '../utils/argument-extractor';
-import { commandExecuterFactory } from '../utils/command-factory.js';
+import { commandExecuterFactory } from '../utils/command-factory';
 import { printError } from '../utils/printers';
 import { invalidCommandValidatorFactory } from '../utils/validators/invalid-command-validator';
 

@@ -10,6 +10,7 @@ describe('File writer', () => {
 			}
 		})
 	);
+	afterEach(() => mockFs.restore());
 
 	it('should write the file successfuly when content is given', async () => {
 		await fileWriterFactory('./mockDir', 'mock.txt').write('New content');

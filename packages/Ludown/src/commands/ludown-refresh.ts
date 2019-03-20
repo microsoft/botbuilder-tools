@@ -1,11 +1,10 @@
 import { Command, name } from 'commander';
 import { execute } from '../command-handlers/ludown-refresh';
-import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject.js';
+import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject';
 import * as ludownRefreshRes from '../res/ludown-refresh.json';
 import { commandExecuterFactory } from '../utils/command-factory';
-import { printError } from '../utils/printers.js';
-import { invalidPathValidatorFactory } from '../utils/validators/invalid-path-validator.js';
-import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator.js';
+import { printError } from '../utils/printers';
+import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator';
 
 /**
  * @description
@@ -48,15 +47,8 @@ mainCommand.execute();
  */
 async function validateCommand(refreshCommand: Command): Promise<boolean[]> {
 	const validations: Promise<boolean>[] = [];
-	const invalidPathFactory = invalidPathValidatorFactory({ isDirectory: false });
 
 	validations.push(missingArgumentValidatorFactory([['luis_file', 'qna_file', 'qna_alteration_file', 'stdin']]).execute(refreshCommand));
-
-	['luis_file', 'qna_file', 'qna_alteration_file'].forEach(key => {
-		if (refreshCommand[key]) {
-			validations.push(invalidPathFactory.execute(refreshCommand[key]));
-		}
-	});
 
 	return Promise.all(validations);
 }

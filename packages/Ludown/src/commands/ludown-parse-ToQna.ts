@@ -1,10 +1,10 @@
 import { Command, name } from 'commander';
-import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject.js';
+import { IValidatorErrorObject } from '../interfaces/utils/validators/IValidatorErrorObject';
 import * as ludownParseRes from '../res/ludown-parse-toqna.json';
 import { commandExecuterFactory } from '../utils/command-factory';
-import { printError } from '../utils/printers.js';
-import { invalidPathValidatorFactory } from '../utils/validators/invalid-path-validator.js';
-import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator.js';
+import { printError } from '../utils/printers';
+import { invalidPathValidatorFactory } from '../utils/validators/invalid-path-validator';
+import { missingArgumentValidatorFactory } from '../utils/validators/missing-argument-validator';
 
 /**
  * @description
