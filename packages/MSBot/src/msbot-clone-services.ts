@@ -52,6 +52,7 @@ interface ICloneArgs {
     sdkLanguage: string;
     appId: string;
     appSecret: string;
+    encryption: boolean;
     args: string[];
     force: boolean;
     decorate: boolean;
@@ -79,6 +80,7 @@ program
     .option('--searchSku <searchSku>', '(OPTIONAL) Set the Sku for provisioned azure search (free|basic|standard|standard2|standard3|...)')
     .option('--proj-file <projfile>', '(OPTIONAL) The local project file to created bot service')
     .option('--code-dir <path>', '(OPTIONAL) Passing in --code-dir will auto publish the folder path to created bot service')
+    .option('-e, --encryption', 'Enables bot file encryption')
     .option('-q, --quiet', 'Minimize output')
     .option('--verbose', 'Show commands')
     .option('--force', 'Do not prompt for confirmation')
@@ -367,21 +369,23 @@ async function processConfiguration(): Promise<void> {
                         }
                     }
                     // get appSettings from botAppSite (specifically to get secret)
-                    if (botWebSite) {
-                        let botAppSettings = await runCommand(`az webapp config appsettings list -g ${args.groupName} -n ${botWebSite.name} --subscription ${args.subscriptionId}`,
+                    if (botWebSite) {                                
+                        if(args.encryption){
+                            let botAppSettings = await runCommand(`az webapp config appsettings list -g ${args.groupName} -n ${botWebSite.name} --subscription ${args.subscriptionId}`,
                             `Fetching bot website appsettings [${args.name}]`);
-                        for (let setting of botAppSettings) {
-                            if (setting.name == "botFileSecret") {
-                                args.secret = setting.value;
-                                break;
+                            for (let setting of botAppSettings) {
+                                if (setting.name == "botFileSecret") {
+                                    args.secret = setting.value;
+                                    break;
+                                }
                             }
-                        }
 
-                        if (!args.secret) {
-                            args.secret = BotConfiguration.generateKey();
-                            // set the appsetting
-                            await runCommand(`az webapp config appsettings set -g ${args.groupName} -n ${botWebSite.name} --settings botFileSecret="${args.secret}" --subscription ${args.subscriptionId}`,
-                                `Setting bot website appsettings secret [${args.name}]`);
+                            if (!args.secret) {
+                                args.secret = BotConfiguration.generateKey();
+                                // set the appsetting
+                                await runCommand(`az webapp config appsettings set -g ${args.groupName} -n ${botWebSite.name} --settings botFileSecret="${args.secret}" --subscription ${args.subscriptionId}`,
+                                    `Setting bot website appsettings secret [${args.name}]`);
+                            }                            
                         }
 
                     } else {
@@ -851,21 +855,22 @@ async function processConfiguration(): Promise<void> {
             // publish local bot code to web service
             await publishBot(azBot);
 
-            // show emulator url with secret 
+            // show emulator url with secret if exist
+            let fullPath = path.resolve(process.cwd(), config.getPath());
+            let productionEndpoint = config.findServiceByNameOrId('production');
+            let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}`;
             if (args.secret) {
-                let fullPath = path.resolve(process.cwd(), config.getPath());
-                let productionEndpoint = config.findServiceByNameOrId('production');
-                let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}&secret=${encodeURIComponent(args.secret)}`;
-                if (productionEndpoint) {
-                    botFileUrl += `&id=${productionEndpoint.id}`;
-                }
-                console.log('To open this bot file in emulator:');
-                console.log(chalk.default.cyanBright(botFileUrl));
-
-                // auto launch emulator with url so it can memorize the secret so you don't need to remember it.  <whew!>
-                process.env.ELECTRON_NO_ATTACH_CONSOLE = "true";
-                opn(botFileUrl, { wait: false });
+                botFileUrl += `&secret=${encodeURIComponent(args.secret)}`;
             }
+            if (productionEndpoint) {
+                botFileUrl += `&id=${productionEndpoint.id}`;
+            }
+            console.log('To open this bot file in emulator:');
+            console.log(chalk.default.cyanBright(botFileUrl));
+
+            // auto launch emulator with url so it can memorize the secret so you don't need to remember it.  <whew!>
+            process.env.ELECTRON_NO_ATTACH_CONSOLE = "true";
+            opn(botFileUrl, { wait: false });
         }
 
         console.log(`Done.`);
