@@ -7,5 +7,5 @@ import { IInputFile } from './IInputFile';
  * known and appended.
  */
 export interface ITypedFile extends IInputFile {
-	fileType: FILE_TYPE;
+	fileType?: FILE_TYPE;
 }

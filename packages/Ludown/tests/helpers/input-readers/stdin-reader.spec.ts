@@ -1,14 +1,14 @@
 import * as stdin from 'mock-stdin';
-import { stdinReader } from '../../../src/helpers/input-readers/stdin-reader';
+import { stdinReaderFactory } from '../../../src/helpers/input-readers/stdin-reader';
 
 // tslint:disable: no-floating-promises no-unsafe-any
-describe('Invalid path validator', () => {
+describe('Stdin reader', () => {
 	let stdinHandler;
 
 	beforeEach(() => (stdinHandler = stdin.stdin()));
 
 	it('should resolve with the input given in stdin.', async done => {
-		stdinReader()
+		stdinReaderFactory()
 			.read()
 			.then(files => {
 				expect(files.length).toEqual(1);
@@ -25,7 +25,7 @@ describe('Invalid path validator', () => {
 	});
 
 	it('should resolve with the multi-line input given in stdin.', async done => {
-		stdinReader()
+		stdinReaderFactory()
 			.read()
 			.then(files => {
 				expect(files.length).toEqual(1);

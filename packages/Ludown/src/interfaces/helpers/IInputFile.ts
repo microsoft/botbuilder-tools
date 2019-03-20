@@ -3,7 +3,7 @@
  * Represents an interface for a file (or stdin) read as input.
  */
 export interface IInputFile {
-	name: string;
+	name?: string;
 
-	content: string;
+	content?: string;
 }
