@@ -29,10 +29,15 @@ export const mainCommand = commandExecuterFactory(async (args: string[]) => {
 
 	try {
 		await validateCommand(refreshCommand);
-		await execute(refreshCommand);
 	} catch (err) {
 		printError((<IValidatorErrorObject>err).message);
 		refreshCommand.help();
+	}
+
+	try {
+		await execute(refreshCommand);
+	} catch (err) {
+		printError((<IValidatorErrorObject>err).message);
 	}
 });
 
