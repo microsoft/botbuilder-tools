@@ -24,6 +24,8 @@ export const invalidPathValidatorFactory: IValidatorFactory<IPathValidatorOption
 						data: resolvedPath,
 						message: `The path ("${resolvedPath}") does not exist.`
 					});
+
+					return;
 				}
 
 				const pathInfo = fs.lstatSync(resolvedPath);
@@ -34,12 +36,16 @@ export const invalidPathValidatorFactory: IValidatorFactory<IPathValidatorOption
 						data: resolvedPath,
 						message: `The path ("${resolvedPath}") is not a directory.`
 					});
+
+					return;
 				} else if (!opts.isDirectory && pathInfo.isDirectory()) {
 					reject({
 						code: ERROR_CODE.NOT_A_FILE,
 						data: resolvedPath,
 						message: `The path ("${resolvedPath}") is not a file.`
 					});
+
+					return;
 				}
 
 				const accessLevel = opts.accessLevel || 'read';
@@ -63,10 +69,12 @@ export const invalidPathValidatorFactory: IValidatorFactory<IPathValidatorOption
 					fs.accessSync(resolvedPath, accessConstant);
 				} catch {
 					reject({
-						code: ERROR_CODE.NOT_A_FILE,
+						code: ERROR_CODE.INVALID_FS_PERMISSIONS,
 						data: resolvedPath,
 						message: `The user has no ${opts.accessLevel} permissions on the path ("${resolvedPath}").`
 					});
+
+					return;
 				}
 
 				resolve(true);

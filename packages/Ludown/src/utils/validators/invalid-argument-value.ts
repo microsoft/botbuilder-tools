@@ -21,12 +21,16 @@ export const invalidArgumentValueValidatorFactory: IValidatorFactory<string[]> =
 						data: state,
 						message: 'Undefined value provided'
 					});
+
+					return;
 				} else if (!allowableValues.includes(state.value)) {
 					reject({
 						code: ERROR_CODE.INVALID_ARGUMENT_VALUE,
 						data: state,
 						message: `Invalid value ("${state.value}") provided for option ("${state.name}")`
 					});
+
+					return;
 				} else {
 					resolve(true);
 				}
