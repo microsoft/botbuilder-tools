@@ -499,4 +499,37 @@ describe('The example lu files', function () {
         });
     });
 
+    it('Ludown batch test output generation can handle list entities', function (done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/ListEntityAndBatchtestsProblem.lu -t -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/ListEntityAndBatchtestsProblem_LUISBatchTest.json'), txtfile.readSync(TEST_ROOT + '/verified/ListEntityAndBatchtestsProblem_LUISBatchTest.json'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('Ludown batch test output generation can handle multiple list entity matches in utterances', function (done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/ListEntityAndBatchtestsProblem.1.lu -t -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/ListEntityAndBatchtestsProblem.1_LUISBatchTest.json'), txtfile.readSync(TEST_ROOT + '/verified/ListEntityAndBatchtestsProblem.1_LUISBatchTest.json'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('Ludown batch test output generation can handle list entity matches across intents/ utterances', function (done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/ListEntityAndBatchtestsProblem.2.lu -t -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/ListEntityAndBatchtestsProblem.2_LUISBatchTest.json'), txtfile.readSync(TEST_ROOT + '/verified/ListEntityAndBatchtestsProblem.2_LUISBatchTest.json'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
 });

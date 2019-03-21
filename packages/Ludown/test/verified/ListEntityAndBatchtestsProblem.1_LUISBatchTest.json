@@ -1,0 +1,33 @@
+[
+  {
+    "text": "give me a large big apple and a large coffee with two milk",
+    "intent": "AddToOrder",
+    "entities": [
+      {
+        "entity": "Item",
+        "startPos": 16,
+        "endPos": 24
+      },
+      {
+        "entity": "Item",
+        "startPos": 38,
+        "endPos": 43
+      },
+      {
+        "entity": "Item",
+        "startPos": 54,
+        "endPos": 57
+      },
+      {
+        "entity": "size",
+        "startPos": 10,
+        "endPos": 15
+      },
+      {
+        "entity": "size",
+        "startPos": 32,
+        "endPos": 37
+      }
+    ]
+  }
+]
