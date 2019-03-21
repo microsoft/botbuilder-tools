@@ -499,4 +499,15 @@ describe('The example lu files', function () {
         });
     });
 
+    it('Pre-built entities are resolved correctly when mixed case culture is specified', function (done) {
+        exec(`node ${ludown} parse toluis -c EN-US --in ${TEST_ROOT}/testcases/prebuilt-entity.lu -o ${TEST_ROOT}/output -n prebuilt-entity --out prebuilt-entity.json`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/prebuilt-entity.json'), txtfile.readSync(TEST_ROOT + '/verified/prebuilt-entity.json'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
 });
