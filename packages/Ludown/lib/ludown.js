@@ -45,6 +45,7 @@ getLatestVersion(pkg.name, { version: `>${pkg.version}` })
 
         if (!commands.includes(process.argv[2].toLowerCase())) {
             process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
+            process.stderr.write(chalk.default.redBright(`\n  See help text below (or ludown -h) for usage and supported commands.\n`))
             program.help();
         }
     });
