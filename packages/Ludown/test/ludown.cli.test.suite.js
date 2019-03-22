@@ -24,6 +24,18 @@ function shouldEscapeString() {
 describe('The ludown cli tool', function() {
 
     describe('with no command', function() {
+        it('should print the help contents when no command is passed', function(done) {
+            exec(`node ${ludown} examples/1.lu`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.includes('See help text below (or ludown -h) for usage and supported commands'), true);
+                    done();
+                } catch(err){
+                    done(err);
+                }
+            });
+        });
+
+
         it('should print the help contents when --help is passed as an argument', function(done) {
             exec(`node ${ludown} --help`, (error, stdout) => {
                 try {

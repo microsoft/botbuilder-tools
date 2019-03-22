@@ -406,6 +406,26 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
         newUtterancesToAdd.forEach(item => luisModel.LUISJsonStructure.utterances.push(item));
         // add new patterns to the list
         newPatternsToAdd.forEach(item => luisModel.LUISJsonStructure.patterns.push(item));
+
+        newPatternsToAdd.forEach(patternObject => {
+            if(patternObject.pattern.includes('{'))
+            {
+                let entityRegex = new RegExp(/\{(.*?)\}/g);
+                let entitiesFound = patternObject.pattern.match(entityRegex);
+
+                entitiesFound.forEach(function (entity) {
+                    entity = entity.replace("{", "").replace("}", "");
+
+                    if (entity.includes(':')) {
+                        // this is an entity with role
+                        const [entityName, roleName] = entity.split(':');
+                        parseFileContents.addItemOrRoleIfNotPresent(luisModel.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entityName, [roleName])
+                    } else {
+                        parseFileContents.addItemIfNotPresent(luisModel.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity);
+                    }
+                });
+            }
+        })
     });
 }
 /**
@@ -438,6 +458,7 @@ const haveLUISContent = function(blob) {
     (blob.patterns.length > 0) ||
     (blob[LUISObjNameEnum.UTTERANCE].length > 0) ||
     (blob.prebuiltEntities.length > 0) ||
+    (blob[LUISObjNameEnum.REGEX].length > 0) ||
     (blob.model_features.length > 0));
 };
 

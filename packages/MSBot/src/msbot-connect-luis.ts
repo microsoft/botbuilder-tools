@@ -105,7 +105,7 @@ async function processConnectLuisArgs(config: BotConfiguration): Promise<BotConf
     //    throw new Error("bad or missing --subscriptionKey");
 
     // add the service
-    const newService: LuisService = new LuisService({
+    const newService: LuisService = new LuisService(<any>{
         name: args.name,
         appId: args.appId,
         version: args.version,

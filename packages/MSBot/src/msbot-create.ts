@@ -45,6 +45,7 @@ interface ICreateArgs {
     decorate: boolean;
     codeDir: string;
     projFile: string;
+    searchSku: string;
 }
 
 program
@@ -61,6 +62,7 @@ program
     .option('--appSecret <appSecret>', '(OPTIONAL) Application Secret for an existing application, if not passed then a new Application will be created')
     .option('--proj-file <projfile>', '(OPTIONAL) auto publish the local project file to created bot service')
     .option('--code-dir <path>', '(OPTIONAL) auto publish the folder path to created bot service')
+    .option('--searchSku <searchSku>', '(OPTIONAL) Set the Sku for provisioned azure search (free|basic|standard|standard2|standard3|...)')
     .option('-q, --quiet', 'minimize output')
     .option('--verbose', 'show commands')
     .option('-f, --force', 'do not prompt for confirmation')
@@ -83,9 +85,9 @@ processConfiguration()
     .catch((reason) => {
         fs.unlinkSync('bot.recipe');
         if (reason.message) {
-            console.error(chalk.default.redBright(reason.message.replace('clone services','create')));
+            console.error(chalk.default.redBright(reason.message.replace('clone services', 'create')));
         } else {
-            console.error(chalk.default.redBright(reason.replace('clone services','create')));
+            console.error(chalk.default.redBright(reason.replace('clone services', 'create')));
         }
         showErrorHelp();
     });
@@ -171,7 +173,10 @@ async function processConfiguration(): Promise<void> {
     if (args.sdkLanguage)
         command += ` --sdkLanguage ${args.sdkLanguage}`;
 
-    await spawnAsync(command, (out) => process.stdout.write(out.replace("clone services", "create")), (err) => {}/* process.stderr.write(err)*/ );
+    if (args.searchSku)
+        command += ` --searchSku ${args.searchSku}`;
+
+    await spawnAsync(command, (out) => process.stdout.write(out.replace("clone services", "create")), (err) => { }/* process.stderr.write(err)*/);
 };
 
 async function runCommand(command: string, description: string): Promise<any> {

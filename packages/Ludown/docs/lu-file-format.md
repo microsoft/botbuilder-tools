@@ -53,9 +53,9 @@ LUDown tool supports the following [LUIS entity types](https://docs.microsoft.co
 - Prebuilt ("datetimeV2", "age", "dimension", "email", "money", "number", "ordinal", "percentage", "phoneNumber","temperature", "url", "datetime", "keyPhrase")
 - List
 - Simple
+- RegEx
 
 LUDown tool **does not** support the following LUIS entity types:
-- Regular expression
 - Hierarchical
 - Composite
 
@@ -63,6 +63,11 @@ You can define:
 - [Simple](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-primary-and-secondary-data) entities by using $\<entityName\>:simple notation. Note that the parser defaults to simple entity type.
 - [PREBUILT](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/pre-builtentities) entities by using $PREBUILT:\<entityType\> notation. 
 - [List](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-intent-and-list-entity) entities by using $\<entityName\>:\<CanonicalValue\>**=**<List of values> notation.
+
+**Note:**
+```markdown
+Entity names in Ludown cannot include a colon ':'. E.g. $Country:Office:Simple is invalid.  
+```
 
 Here's an example: 
 
@@ -95,9 +100,13 @@ $listEntity:\<normalized-value\>=
     - \<synonym1\>
     - \<synonym2\>
 
-Here's an example definition of a list entity: 
+When using list entity, you should include a value from the list directly in the utterance, not an entity label or any other value. Here's an example definition of a list entity: 
 
 ```markdown
+# CommunicationPreference
+- set phone call as my communication preference
+- I prefer to receive text message
+
 $commPreference:call=
 	- phone call
 	- give me a ring
@@ -110,6 +119,19 @@ $commPreference:text=
 	- text
 	- sms
 	- text message
+```
+
+[RegEx entities](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-intents-regex-entity) are defined by a regular expression the user provides as part of the entity definition.
+
+In the .lu file format, these are represented using 
+$\<entity-name\>:/regExPattern/ notation
+
+Note that the regEx pattern needs to be enclosed within forward slashs - '/'
+
+Here's an example of regex entity: 
+
+```markdown
+$HRF-number:/hrf-[0-9]{6}/
 ```
 
 ## Phrase List features

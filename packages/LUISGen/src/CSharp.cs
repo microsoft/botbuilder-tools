@@ -25,7 +25,7 @@ namespace {space}
             w.Indent();
 
             // Main class
-            w.IndentLine($"public class {className}: IRecognizerConvert");
+            w.IndentLine($"public partial class {className}: IRecognizerConvert");
             w.IndentLine("{");
             w.Indent();
 

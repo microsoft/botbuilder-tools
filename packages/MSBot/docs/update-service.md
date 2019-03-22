@@ -12,7 +12,7 @@ This allows you to rename a service, update keys, etc.
 | appinsights | update Azure AppInsights             | --serviceName     |
 | blob        | update Azure Blob storage            | --serviceName     |
 | cosmosdb    | update Azure CosmosDB                | --serviceName     |
-| dispatch    | update Dispatch model                | --applicationId   |
+| dispatch    | update Dispatch model                | --appId   |
 | endpoint    | update endpoint                      | --endpoint        |
 | generic     | update generic service configuration | --url             |
 | luis        | update LUIS application              | --appId   |

@@ -17,6 +17,8 @@ import * as uuid from 'uuid';
 import { spawnAsync } from './processUtils';
 import { logAsync } from './stdioAsync';
 import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap } from './utils';
+import  { ServiceVersion  } from './msbot-clone-service-version'
+
 const Table = require('cli-table3');
 const opn = require('opn');
 const commandExistsSync = require('command-exists').sync;
@@ -50,11 +52,13 @@ interface ICloneArgs {
     sdkLanguage: string;
     appId: string;
     appSecret: string;
+    encryption: boolean;
     args: string[];
     force: boolean;
     decorate: boolean;
     codeDir: string;
     projFile: string;
+    searchSku: string;
 }
 
 program
@@ -73,8 +77,10 @@ program
     .option('--prefix', 'Append [msbot] prefix to all messages')
     .option('--appId <appId>', '(OPTIONAL) Application ID for an existing application, if not passed then a new Application will be created')
     .option('--appSecret <appSecret>', '(OPTIONAL) Application Secret for an existing application, if not passed then a new Application will be created')
+    .option('--searchSku <searchSku>', '(OPTIONAL) Set the Sku for provisioned azure search (free|basic|standard|standard2|standard3|...)')
     .option('--proj-file <projfile>', '(OPTIONAL) The local project file to created bot service')
     .option('--code-dir <path>', '(OPTIONAL) Passing in --code-dir will auto publish the folder path to created bot service')
+    .option('-e, --encryption', 'Enables bot file encryption')
     .option('-q, --quiet', 'Minimize output')
     .option('--verbose', 'Show commands')
     .option('--force', 'Do not prompt for confirmation')
@@ -173,6 +179,10 @@ async function processConfiguration(): Promise<void> {
                 break;
             }
         }
+    }
+
+    if (!args.searchSku) {
+        args.searchSku = "basic";
     }
 
     // verify az command exists and is correct version
@@ -282,7 +292,7 @@ async function processConfiguration(): Promise<void> {
                             hasSitePlan = true;
                         }
                         rows.push([`Azure WebApp Service (QnA)`, `${args.location}`, ``, args.groupName]);
-                        rows.push([`Azure Search Service`, `${regionToSearchRegionMap[args.location]}`, `Standard`, args.groupName]);
+                        rows.push([`Azure Search Service`, `${regionToSearchRegionMap[args.location]}`, args.searchSku, args.groupName]);
                         break;
 
                     default:
@@ -359,21 +369,23 @@ async function processConfiguration(): Promise<void> {
                         }
                     }
                     // get appSettings from botAppSite (specifically to get secret)
-                    if (botWebSite) {
-                        let botAppSettings = await runCommand(`az webapp config appsettings list -g ${args.groupName} -n ${botWebSite.name} --subscription ${args.subscriptionId}`,
+                    if (botWebSite) {                                
+                        if(args.encryption){
+                            let botAppSettings = await runCommand(`az webapp config appsettings list -g ${args.groupName} -n ${botWebSite.name} --subscription ${args.subscriptionId}`,
                             `Fetching bot website appsettings [${args.name}]`);
-                        for (let setting of botAppSettings) {
-                            if (setting.name == "botFileSecret") {
-                                args.secret = setting.value;
-                                break;
+                            for (let setting of botAppSettings) {
+                                if (setting.name == "botFileSecret") {
+                                    args.secret = setting.value;
+                                    break;
+                                }
                             }
-                        }
 
-                        if (!args.secret) {
-                            args.secret = BotConfiguration.generateKey();
-                            // set the appsetting
-                            await runCommand(`az webapp config appsettings set -g ${args.groupName} -n ${botWebSite.name} --settings botFileSecret="${args.secret}" --subscription ${args.subscriptionId}`,
-                                `Setting bot website appsettings secret [${args.name}]`);
+                            if (!args.secret) {
+                                args.secret = BotConfiguration.generateKey();
+                                // set the appsetting
+                                await runCommand(`az webapp config appsettings set -g ${args.groupName} -n ${botWebSite.name} --settings botFileSecret="${args.secret}" --subscription ${args.subscriptionId}`,
+                                    `Setting bot website appsettings secret [${args.name}]`);
+                            }                            
                         }
 
                     } else {
@@ -440,7 +452,7 @@ async function processConfiguration(): Promise<void> {
 
                         // provision search instance
                         let searchName = args.name.toLowerCase() + '-search';
-                        let searchResult = await runCommand(`az search service create -g ${azGroup.name} -n "${searchName}" --location ${regionToSearchRegionMap[args.location]} --sku standard --subscription ${args.subscriptionId}`,
+                        let searchResult = await runCommand(`az search service create -g ${azGroup.name} -n "${searchName}" --location ${regionToSearchRegionMap[args.location]} --sku ${args.searchSku} --subscription ${args.subscriptionId}`,
                             `Creating Azure Search Service [${searchName}]`);
 
                         // get search keys
@@ -687,12 +699,52 @@ async function processConfiguration(): Promise<void> {
                             console.error(chalk.default.redBright(`Unable to find QnAMaker CLI. Please install via npm i -g qnamaker and try again. \n\nSee https://aka.ms/msbot-clone-services for pre-requisites.`))
                             showErrorHelp();
                         }
-                        // qnamaker create kb --subscriptionKey c87eb99bfc274a4db6b671b43f867575  --name testtesttest --in qna.json --wait --msbot -q
                         let qnaPath = path.join(args.folder, `${resource.id}.qna`);
                         let kbName = resource.name;
 
-                        let svc = await runCommand(`qnamaker create kb --subscriptionKey ${args.qnaSubscriptionKey} --name "${kbName}" --in ${qnaPath} --wait --msbot -q`,
-                            `Creating QnA Maker KB [${kbName}]`);
+                        // These values pretty much gaurantee success. We can decrease them if the QnA backend gets faster
+                        const initialDelaySeconds = 30;
+                        let retryAttemptsRemaining = 3;
+                        let retryDelaySeconds = 15;
+                        const retryDelayIncrease = 30;
+
+                        console.log(`Waiting ${initialDelaySeconds} seconds for QnAMaker backend to finish setting up...`);
+                        await sleep(initialDelaySeconds);
+
+                        let svc;
+                        while (retryAttemptsRemaining >= 0) {
+                            try {
+                                svc = await runCommand(`qnamaker create kb --subscriptionKey ${args.qnaSubscriptionKey} --name "${kbName}" --in ${qnaPath} --wait --msbot`,
+                                    `Creating QnA Maker KB [${kbName}]`);
+                                break;
+                            } catch (err) {
+                                // Helpful error messages are mostly in err.stderr, when available. err.stderr can't be parsed to JSON, so we have to search for substrings
+                                if (err.stderr) {
+                                    const generalFailedString = `"operationState\": \"Failed\"`;
+                                    const invalidSubscriptionString = `Access denied due to invalid subscription key`;
+                                    // Usually the first failure
+                                    if (err.stderr.includes(invalidSubscriptionString)) {
+                                        console.warn(chalk.default.yellowBright(`QnAMaker backend still generating API keys. Waiting ${retryDelaySeconds} seconds before trying again. ${retryAttemptsRemaining} attempts remaining.`));
+                                    // Usually the remaining, non-breaking failures
+                                    } else if (err.stderr.includes(generalFailedString)) {
+                                        console.warn(chalk.default.yellowBright(`QnAMaker backend not ready. Waiting ${retryDelaySeconds} seconds before trying again. ${retryAttemptsRemaining} attempts remaining.`));
+                                    } else {
+                                        console.error(chalk.default.yellowBright(`QnAMaker doesn't seem to be working. Waiting ${retryDelaySeconds} seconds before trying again. ${retryAttemptsRemaining} attempts remaining.`));
+                                    }
+                                }
+                                retryAttemptsRemaining--;
+                                await sleep(retryDelaySeconds);
+                                retryDelaySeconds += retryDelayIncrease;
+
+                                if (retryAttemptsRemaining < 0) {
+                                    console.error(chalk.default.redBright(`Unable to create QnA KB.`));
+                                    showErrorHelp();
+                                } else {
+                                    continue;
+                                }
+                            }
+                        }
+
                         let service = new QnaMakerService(svc);
                         service.id = `${resource.id}`; // keep id
                         service.name = kbName;
@@ -803,21 +855,22 @@ async function processConfiguration(): Promise<void> {
             // publish local bot code to web service
             await publishBot(azBot);
 
-            // show emulator url with secret 
+            // show emulator url with secret if exist
+            let fullPath = path.resolve(process.cwd(), config.getPath());
+            let productionEndpoint = config.findServiceByNameOrId('production');
+            let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}`;
             if (args.secret) {
-                let fullPath = path.resolve(process.cwd(), config.getPath());
-                let productionEndpoint = config.findServiceByNameOrId('production');
-                let botFileUrl = `bfemulator://bot.open?path=${encodeURIComponent(fullPath)}&secret=${encodeURIComponent(args.secret)}`;
-                if (productionEndpoint) {
-                    botFileUrl += `&id=${productionEndpoint.id}`;
-                }
-                console.log('To open this bot file in emulator:');
-                console.log(chalk.default.cyanBright(botFileUrl));
-
-                // auto launch emulator with url so it can memorize the secret so you don't need to remember it.  <whew!>
-                process.env.ELECTRON_NO_ATTACH_CONSOLE = "true";
-                opn(botFileUrl, { wait: false });
+                botFileUrl += `&secret=${encodeURIComponent(args.secret)}`;
             }
+            if (productionEndpoint) {
+                botFileUrl += `&id=${productionEndpoint.id}`;
+            }
+            console.log('To open this bot file in emulator:');
+            console.log(chalk.default.cyanBright(botFileUrl));
+
+            // auto launch emulator with url so it can memorize the secret so you don't need to remember it.  <whew!>
+            process.env.ELECTRON_NO_ATTACH_CONSOLE = "true";
+            opn(botFileUrl, { wait: false });
         }
 
         console.log(`Done.`);
@@ -981,7 +1034,7 @@ function createPublishCmds(azBot: IBotService): string {
     if (args.verbose) {
         azPublishCmd += '--verbose ';
     }
-    
+
     return azPublishCmd;
 }
 
@@ -1016,7 +1069,7 @@ async function getAppInsightsService(azAppInsights: any): Promise<AppInsightsSer
 
 async function runCommand(command: string, description: string): Promise<any> {
     logCommand(args, description, command);
-    let p = await exec(command);
+    let p = await exec(command, { maxBuffer: 1024 * 2048 });
     try {
         return JSON.parse(p.stdout);
     } catch (err) {
@@ -1158,32 +1211,15 @@ function generateShortId() {
     return Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
 }
 
-class ServiceVersion {
-    constructor(version: string) {
-        const versionPattern = /([0-9]+)\.([0-9]+)\.([0-9]+)\)/;
-        const versions = versionPattern.exec(version) || ['0', '0', '0', '0'];
-        this.major = parseInt(versions[1]);
-        this.minor = parseInt(versions[2]);
-        this.patch = parseInt(versions[3]);
+async function sleep(seconds: number) {
+    while (seconds > 0) {
+        process.stdout.write(`${seconds}...  \r`);
+        await sleepOneSecond();
+        seconds--;
     }
+    process.stdout.write(' \r');
+}
 
-    public major: number;
-    public minor: number;
-    public patch: number;
-
-    public isOlder(version: ServiceVersion): boolean {
-        if (version.major == this.major && version.minor == this.minor && version.patch == this.patch)
-            return false;
-
-        if (version.major > this.major)
-            return true;
-
-        if (version.minor > this.minor)
-            return true;
-
-        if (version.patch > this.patch)
-            return true;
-
-        return false;
-    }
+function sleepOneSecond() {
+    return new Promise(resolve => setTimeout(resolve, 1000));
 }

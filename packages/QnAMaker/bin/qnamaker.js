@@ -106,6 +106,7 @@ async function runProgram() {
 
     if (args.version || args.v) {
         await stdoutAsync(require(path.join(__dirname, '../package.json')).version + '\n');
+        return;
     }
 
     let serviceIn = {};

@@ -1,18 +1,7 @@
 
 > # Intent definitions
 
-## None
-
-
-## TestIntent
-- this is a {EntityOne=one} and a {EntityTwo=two} and a {EntityOne=one} again
-
-
 > # Entity definitions
-
-$EntityOne:simple
-
-$EntityTwo:simple
 
 
 > # PREBUILT Entity definitions
@@ -25,4 +14,5 @@ $EntityTwo:simple
 
 > # RegEx entities
 
+$HRF-number:/hrf-[0-9]{6}/
 

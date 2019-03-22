@@ -1,6 +1,6 @@
 {
   "name": "luisgen",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "LUISGen is a tool for generating C# class or Typescript interface for a LUIS app to make consuming LUIS output easier.",
   "repository": {
     "type": "git",

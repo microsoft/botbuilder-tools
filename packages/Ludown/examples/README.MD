@@ -3,7 +3,7 @@ This folder contains several different examples of .lu files.
 ## Usage
 
 ```bash
-ludown ./Examples/all.lu
+ludown parse [toluis | toqna] --in ./Examples/all.lu
 ```
 
 ludown tool will output:
