@@ -1,7 +1,0 @@
-{
-  "name": "Reservation",
-  "children": [
-    "Location::To",
-    "datetime"
-  ]
-}

@@ -1,4 +1,0 @@
-{
-  "name": "AirportCodeRegex",
-  "regexPattern": "[a-z]{3}"
-}

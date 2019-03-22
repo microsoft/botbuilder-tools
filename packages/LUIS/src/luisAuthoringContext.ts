@@ -4,10 +4,10 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as os from 'os';
+import * as msRest from "@azure/ms-rest-js";
 
-const pjson: any = require('../package.json');
+const packageName = "luis-apis";
+const packageVersion = "4.0.0";
 
 export class LuisAuthoringContext extends msRest.ServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -25,6 +25,10 @@ export class LuisAuthoringContext extends msRest.ServiceClient {
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRest.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
 
     super(credentials, options);
 
@@ -32,14 +36,5 @@ export class LuisAuthoringContext extends msRest.ServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
-    this.addUserAgentInfo(this.getUserAgent());
-  }
-
-  private getUserAgent() : string {
-    const packageUserAgent = `${pjson.name}/${pjson.version}`;
-    const platformUserAgent = `(${os.arch()}-${os.type()}-${os.release()}; Node.js,Version=${process.version})`;
-    const userAgent = `${packageUserAgent} ${platformUserAgent}`;
-    
-    return userAgent;
   }
 }

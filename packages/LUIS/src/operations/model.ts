@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/modelMappers";
 import * as Parameters from "../models/parameters";
@@ -64,7 +64,7 @@ export class Model {
    * @param callback The callback
    */
   addIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddIntentResponse> {
+  addIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddIntentResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -117,7 +117,7 @@ export class Model {
    * @param callback The callback
    */
   listIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListIntentsOptionalParams, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
-  listIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): Promise<Models.ModelListIntentsResponse> {
+  listIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams | msRest.ServiceCallback<Models.IntentClassifier[]>, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): Promise<Models.ModelListIntentsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -131,7 +131,7 @@ export class Model {
   }
 
   /**
-   * Adds an entity extractor to the application.
+   * Adds a simple entity extractor to the application.
    * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
    * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
    * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
@@ -140,7 +140,7 @@ export class Model {
    * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddEntityResponse>
    */
@@ -154,7 +154,7 @@ export class Model {
    * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param callback The callback
    */
   addEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
@@ -167,12 +167,12 @@ export class Model {
    * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param options The optional parameters
    * @param callback The callback
    */
   addEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddEntityResponse> {
+  addEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -225,7 +225,7 @@ export class Model {
    * @param callback The callback
    */
   listEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
-  listEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListEntitiesResponse> {
+  listEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams | msRest.ServiceCallback<Models.EntityExtractor[]>, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -283,7 +283,7 @@ export class Model {
    * @param callback The callback
    */
   addHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityResponse> {
+  addHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -336,7 +336,7 @@ export class Model {
    * @param callback The callback
    */
   listHierarchicalEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListHierarchicalEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): void;
-  listHierarchicalEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): Promise<Models.ModelListHierarchicalEntitiesResponse> {
+  listHierarchicalEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams | msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): Promise<Models.ModelListHierarchicalEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -394,7 +394,7 @@ export class Model {
    * @param callback The callback
    */
   addCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityResponse> {
+  addCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -447,7 +447,7 @@ export class Model {
    * @param callback The callback
    */
   listCompositeEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListCompositeEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): void;
-  listCompositeEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): Promise<Models.ModelListCompositeEntitiesResponse> {
+  listCompositeEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams | msRest.ServiceCallback<Models.CompositeEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): Promise<Models.ModelListCompositeEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -499,7 +499,7 @@ export class Model {
    * @param callback The callback
    */
   listClosedLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListClosedListsOptionalParams, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): void;
-  listClosedLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): Promise<Models.ModelListClosedListsResponse> {
+  listClosedLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams | msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): Promise<Models.ModelListClosedListsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -557,7 +557,7 @@ export class Model {
    * @param callback The callback
    */
   addClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddClosedListResponse> {
+  addClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddClosedListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -613,7 +613,7 @@ export class Model {
    * @param callback The callback
    */
   addPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltExtractorNames: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
-  addPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): Promise<Models.ModelAddPrebuiltResponse> {
+  addPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): Promise<Models.ModelAddPrebuiltResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -666,7 +666,7 @@ export class Model {
    * @param callback The callback
    */
   listPrebuilts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListPrebuiltsOptionalParams, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
-  listPrebuilts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): Promise<Models.ModelListPrebuiltsResponse> {
+  listPrebuilts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams | msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): Promise<Models.ModelListPrebuiltsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -718,7 +718,7 @@ export class Model {
    * @param callback The callback
    */
   listPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): void;
-  listPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): Promise<Models.ModelListPrebuiltEntitiesResponse> {
+  listPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>, callback?: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): Promise<Models.ModelListPrebuiltEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -770,7 +770,7 @@ export class Model {
    * @param callback The callback
    */
   listModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListModelsOptionalParams, callback: msRest.ServiceCallback<Models.ModelInfoResponse[]>): void;
-  listModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams, callback?: msRest.ServiceCallback<Models.ModelInfoResponse[]>): Promise<Models.ModelListModelsResponse> {
+  listModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams | msRest.ServiceCallback<Models.ModelInfoResponse[]>, callback?: msRest.ServiceCallback<Models.ModelInfoResponse[]>): Promise<Models.ModelListModelsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -825,7 +825,7 @@ export class Model {
    * @param callback The callback
    */
   examplesMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelId: string, options: Models.ModelExamplesMethodOptionalParams, callback: msRest.ServiceCallback<Models.LabelTextObject[]>): void;
-  examplesMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams, callback?: msRest.ServiceCallback<Models.LabelTextObject[]>): Promise<Models.ModelExamplesMethodResponse> {
+  examplesMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams | msRest.ServiceCallback<Models.LabelTextObject[]>, callback?: msRest.ServiceCallback<Models.LabelTextObject[]>): Promise<Models.ModelExamplesMethodResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -881,7 +881,7 @@ export class Model {
    * @param callback The callback
    */
   getIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntentClassifier>): void;
-  getIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntentClassifier>): Promise<Models.ModelGetIntentResponse> {
+  getIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntentClassifier>, callback?: msRest.ServiceCallback<Models.IntentClassifier>): Promise<Models.ModelGetIntentResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -940,7 +940,7 @@ export class Model {
    * @param callback The callback
    */
   updateIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateIntentResponse> {
+  updateIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateIntentResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -997,7 +997,7 @@ export class Model {
    * @param callback The callback
    */
   deleteIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options: Models.ModelDeleteIntentOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteIntentResponse> {
+  deleteIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteIntentResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1053,7 +1053,7 @@ export class Model {
    * @param callback The callback
    */
   getEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
-  getEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityExtractor>): Promise<Models.ModelGetEntityResponse> {
+  getEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityExtractor>, callback?: msRest.ServiceCallback<Models.EntityExtractor>): Promise<Models.ModelGetEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1112,7 +1112,7 @@ export class Model {
    * @param callback The callback
    */
   updateEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityResponse> {
+  updateEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1169,7 +1169,7 @@ export class Model {
    * @param callback The callback
    */
   deleteEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityResponse> {
+  deleteEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1225,7 +1225,7 @@ export class Model {
    * @param callback The callback
    */
   getHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): void;
-  getHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): Promise<Models.ModelGetHierarchicalEntityResponse> {
+  getHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HierarchicalEntityExtractor>, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): Promise<Models.ModelGetHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1287,7 +1287,7 @@ export class Model {
    * @param callback The callback
    */
   updateHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityResponse> {
+  updateHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1344,7 +1344,7 @@ export class Model {
    * @param callback The callback
    */
   deleteHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityResponse> {
+  deleteHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1400,7 +1400,7 @@ export class Model {
    * @param callback The callback
    */
   getCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor>): void;
-  getCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor>): Promise<Models.ModelGetCompositeEntityResponse> {
+  getCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CompositeEntityExtractor>, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor>): Promise<Models.ModelGetCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1462,7 +1462,7 @@ export class Model {
    * @param callback The callback
    */
   updateCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCompositeEntityResponse> {
+  updateCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1519,7 +1519,7 @@ export class Model {
    * @param callback The callback
    */
   deleteCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityResponse> {
+  deleteCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1575,7 +1575,7 @@ export class Model {
    * @param callback The callback
    */
   getClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): void;
-  getClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): Promise<Models.ModelGetClosedListResponse> {
+  getClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClosedListEntityExtractor>, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): Promise<Models.ModelGetClosedListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1634,7 +1634,7 @@ export class Model {
    * @param callback The callback
    */
   updateClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateClosedListResponse> {
+  updateClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateClosedListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1694,7 +1694,7 @@ export class Model {
    * @param callback The callback
    */
   patchClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  patchClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelPatchClosedListResponse> {
+  patchClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelPatchClosedListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1751,7 +1751,7 @@ export class Model {
    * @param callback The callback
    */
   deleteClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteClosedListResponse> {
+  deleteClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteClosedListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1807,7 +1807,7 @@ export class Model {
    * @param callback The callback
    */
   getPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): void;
-  getPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): Promise<Models.ModelGetPrebuiltResponse> {
+  getPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltEntityExtractor>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): Promise<Models.ModelGetPrebuiltResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1863,7 +1863,7 @@ export class Model {
    * @param callback The callback
    */
   deletePrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePrebuiltResponse> {
+  deletePrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePrebuiltResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1922,7 +1922,7 @@ export class Model {
    * @param callback The callback
    */
   deleteSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteSubListResponse> {
+  deleteSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteSubListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -1988,7 +1988,7 @@ export class Model {
    * @param callback The callback
    */
   updateSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateSubListResponse> {
+  updateSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateSubListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2046,7 +2046,7 @@ export class Model {
    * @param callback The callback
    */
   getIntentSuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options: Models.ModelGetIntentSuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
-  getIntentSuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams, callback?: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): Promise<Models.ModelGetIntentSuggestionsResponse> {
+  getIntentSuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams | msRest.ServiceCallback<Models.IntentsSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): Promise<Models.ModelGetIntentSuggestionsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2102,7 +2102,7 @@ export class Model {
    * @param callback The callback
    */
   getEntitySuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: Models.ModelGetEntitySuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
-  getEntitySuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams, callback?: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): Promise<Models.ModelGetEntitySuggestionsResponse> {
+  getEntitySuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams | msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): Promise<Models.ModelGetEntitySuggestionsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2161,7 +2161,7 @@ export class Model {
    * @param callback The callback
    */
   addSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  addSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): Promise<Models.ModelAddSubListResponse> {
+  addSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.ModelAddSubListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2218,7 +2218,7 @@ export class Model {
    * @param callback The callback
    */
   addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
-  addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ModelAddCustomPrebuiltDomainResponse> {
+  addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ModelAddCustomPrebuiltDomainResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2277,7 +2277,7 @@ export class Model {
    * @param callback The callback
    */
   addCustomPrebuiltIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCustomPrebuiltIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCustomPrebuiltIntentResponse> {
+  addCustomPrebuiltIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCustomPrebuiltIntentResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2330,7 +2330,7 @@ export class Model {
    * @param callback The callback
    */
   listCustomPrebuiltIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
-  listCustomPrebuiltIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): Promise<Models.ModelListCustomPrebuiltIntentsResponse> {
+  listCustomPrebuiltIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntentClassifier[]>, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): Promise<Models.ModelListCustomPrebuiltIntentsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2388,7 +2388,7 @@ export class Model {
    * @param callback The callback
    */
   addCustomPrebuiltEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCustomPrebuiltEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCustomPrebuiltEntityResponse> {
+  addCustomPrebuiltEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCustomPrebuiltEntityResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2441,7 +2441,7 @@ export class Model {
    * @param callback The callback
    */
   listCustomPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
-  listCustomPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListCustomPrebuiltEntitiesResponse> {
+  listCustomPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityExtractor[]>, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListCustomPrebuiltEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2493,7 +2493,7 @@ export class Model {
    * @param callback The callback
    */
   listCustomPrebuiltModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): void;
-  listCustomPrebuiltModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): Promise<Models.ModelListCustomPrebuiltModelsResponse> {
+  listCustomPrebuiltModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomPrebuiltModel[]>, callback?: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): Promise<Models.ModelListCustomPrebuiltModelsResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2548,7 +2548,7 @@ export class Model {
    * @param callback The callback
    */
   deleteCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCustomPrebuiltDomainResponse> {
+  deleteCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCustomPrebuiltDomainResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2607,7 +2607,7 @@ export class Model {
    * @param callback The callback
    */
   getHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HierarchicalChildEntity>): void;
-  getHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HierarchicalChildEntity>): Promise<Models.ModelGetHierarchicalEntityChildResponse> {
+  getHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HierarchicalChildEntity>, callback?: msRest.ServiceCallback<Models.HierarchicalChildEntity>): Promise<Models.ModelGetHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2673,7 +2673,7 @@ export class Model {
    * @param callback The callback
    */
   updateHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityChildResponse> {
+  updateHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2734,7 +2734,7 @@ export class Model {
    * @param callback The callback
    */
   deleteHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityChildResponse> {
+  deleteHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2797,7 +2797,7 @@ export class Model {
    * @param callback The callback
    */
   addHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityChildResponse> {
+  addHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2860,7 +2860,7 @@ export class Model {
    * @param callback The callback
    */
   addCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityChildResponse> {
+  addCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2920,7 +2920,7 @@ export class Model {
    * @param callback The callback
    */
   deleteCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, cChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityChildResponse> {
+  deleteCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -2974,7 +2974,7 @@ export class Model {
    * @param callback The callback
    */
   getRegexEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelGetRegexEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
-  getRegexEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): Promise<Models.ModelGetRegexEntityInfosResponse> {
+  getRegexEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams | msRest.ServiceCallback<Models.RegexEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): Promise<Models.ModelGetRegexEntityInfosResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3032,7 +3032,7 @@ export class Model {
    * @param callback The callback
    */
   createRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateRegexEntityModelResponse> {
+  createRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateRegexEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3085,7 +3085,7 @@ export class Model {
    * @param callback The callback
    */
   getPatternAnyEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelGetPatternAnyEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
-  getPatternAnyEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): Promise<Models.ModelGetPatternAnyEntityInfosResponse> {
+  getPatternAnyEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams | msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): Promise<Models.ModelGetPatternAnyEntityInfosResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3143,7 +3143,7 @@ export class Model {
    * @param callback The callback
    */
   createPatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createPatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePatternAnyEntityModelResponse> {
+  createPatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePatternAnyEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3199,7 +3199,7 @@ export class Model {
    * @param callback The callback
    */
   getEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetEntityRolesResponse> {
+  getEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3258,7 +3258,7 @@ export class Model {
    * @param callback The callback
    */
   createEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateEntityRoleResponse> {
+  createEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3315,7 +3315,7 @@ export class Model {
    * @param callback The callback
    */
   getPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetPrebuiltEntityRolesResponse> {
+  getPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetPrebuiltEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3374,7 +3374,7 @@ export class Model {
    * @param callback The callback
    */
   createPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePrebuiltEntityRoleResponse> {
+  createPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3431,7 +3431,7 @@ export class Model {
    * @param callback The callback
    */
   getClosedListEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getClosedListEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetClosedListEntityRolesResponse> {
+  getClosedListEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetClosedListEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3490,7 +3490,7 @@ export class Model {
    * @param callback The callback
    */
   createClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateClosedListEntityRoleResponse> {
+  createClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3547,7 +3547,7 @@ export class Model {
    * @param callback The callback
    */
   getRegexEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getRegexEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetRegexEntityRolesResponse> {
+  getRegexEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetRegexEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3606,7 +3606,7 @@ export class Model {
    * @param callback The callback
    */
   createRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateRegexEntityRoleResponse> {
+  createRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3663,7 +3663,7 @@ export class Model {
    * @param callback The callback
    */
   getCompositeEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getCompositeEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetCompositeEntityRolesResponse> {
+  getCompositeEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetCompositeEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3722,7 +3722,7 @@ export class Model {
    * @param callback The callback
    */
   createCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateCompositeEntityRoleResponse> {
+  createCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3779,7 +3779,7 @@ export class Model {
    * @param callback The callback
    */
   getPatternAnyEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getPatternAnyEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetPatternAnyEntityRolesResponse> {
+  getPatternAnyEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetPatternAnyEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3838,7 +3838,7 @@ export class Model {
    * @param callback The callback
    */
   createPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePatternAnyEntityRoleResponse> {
+  createPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3895,7 +3895,7 @@ export class Model {
    * @param callback The callback
    */
   getHierarchicalEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getHierarchicalEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetHierarchicalEntityRolesResponse> {
+  getHierarchicalEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetHierarchicalEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -3954,7 +3954,7 @@ export class Model {
    * @param callback The callback
    */
   createHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateHierarchicalEntityRoleResponse> {
+  createHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4011,7 +4011,7 @@ export class Model {
    * @param callback The callback
    */
   getCustomPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getCustomPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse> {
+  getCustomPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4070,7 +4070,7 @@ export class Model {
    * @param callback The callback
    */
   createCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateCustomPrebuiltEntityRoleResponse> {
+  createCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateCustomPrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4127,7 +4127,7 @@ export class Model {
    * @param callback The callback
    */
   getExplicitList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExplicitListItem[]>): void;
-  getExplicitList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExplicitListItem[]>): Promise<Models.ModelGetExplicitListResponse> {
+  getExplicitList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExplicitListItem[]>, callback?: msRest.ServiceCallback<Models.ExplicitListItem[]>): Promise<Models.ModelGetExplicitListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4186,7 +4186,7 @@ export class Model {
    * @param callback The callback
    */
   addExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  addExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<number>): Promise<Models.ModelAddExplicitListItemResponse> {
+  addExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.ModelAddExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4243,7 +4243,7 @@ export class Model {
    * @param callback The callback
    */
   getRegexEntityEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegexEntityExtractor>): void;
-  getRegexEntityEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor>): Promise<Models.ModelGetRegexEntityEntityInfoResponse> {
+  getRegexEntityEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegexEntityExtractor>, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor>): Promise<Models.ModelGetRegexEntityEntityInfoResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4302,7 +4302,7 @@ export class Model {
    * @param callback The callback
    */
   updateRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateRegexEntityModelResponse> {
+  updateRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateRegexEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4359,7 +4359,7 @@ export class Model {
    * @param callback The callback
    */
   deleteRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteRegexEntityModelResponse> {
+  deleteRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteRegexEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4415,7 +4415,7 @@ export class Model {
    * @param callback The callback
    */
   getPatternAnyEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): void;
-  getPatternAnyEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): Promise<Models.ModelGetPatternAnyEntityInfoResponse> {
+  getPatternAnyEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternAnyEntityExtractor>, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): Promise<Models.ModelGetPatternAnyEntityInfoResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4474,7 +4474,7 @@ export class Model {
    * @param callback The callback
    */
   updatePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePatternAnyEntityModelResponse> {
+  updatePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePatternAnyEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4531,7 +4531,7 @@ export class Model {
    * @param callback The callback
    */
   deletePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePatternAnyEntityModelResponse> {
+  deletePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePatternAnyEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4590,7 +4590,7 @@ export class Model {
    * @param callback The callback
    */
   getEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetEntityRoleResponse> {
+  getEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4653,7 +4653,7 @@ export class Model {
    * @param callback The callback
    */
   updateEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityRoleResponse> {
+  updateEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4714,7 +4714,7 @@ export class Model {
    * @param callback The callback
    */
   deleteEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityRoleResponse> {
+  deleteEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4774,7 +4774,7 @@ export class Model {
    * @param callback The callback
    */
   getPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetPrebuiltEntityRoleResponse> {
+  getPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetPrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4837,7 +4837,7 @@ export class Model {
    * @param callback The callback
    */
   updatePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePrebuiltEntityRoleResponse> {
+  updatePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4898,7 +4898,7 @@ export class Model {
    * @param callback The callback
    */
   deletePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePrebuiltEntityRoleResponse> {
+  deletePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -4958,7 +4958,7 @@ export class Model {
    * @param callback The callback
    */
   getClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetClosedListEntityRoleResponse> {
+  getClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5021,7 +5021,7 @@ export class Model {
    * @param callback The callback
    */
   updateClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateClosedListEntityRoleResponse> {
+  updateClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5082,7 +5082,7 @@ export class Model {
    * @param callback The callback
    */
   deleteClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteClosedListEntityRoleResponse> {
+  deleteClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5142,7 +5142,7 @@ export class Model {
    * @param callback The callback
    */
   getRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetRegexEntityRoleResponse> {
+  getRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5205,7 +5205,7 @@ export class Model {
    * @param callback The callback
    */
   updateRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateRegexEntityRoleResponse> {
+  updateRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5266,7 +5266,7 @@ export class Model {
    * @param callback The callback
    */
   deleteRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteRegexEntityRoleResponse> {
+  deleteRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5326,7 +5326,7 @@ export class Model {
    * @param callback The callback
    */
   getCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetCompositeEntityRoleResponse> {
+  getCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5389,7 +5389,7 @@ export class Model {
    * @param callback The callback
    */
   updateCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCompositeEntityRoleResponse> {
+  updateCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5450,7 +5450,7 @@ export class Model {
    * @param callback The callback
    */
   deleteCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityRoleResponse> {
+  deleteCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5510,7 +5510,7 @@ export class Model {
    * @param callback The callback
    */
   getPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetPatternAnyEntityRoleResponse> {
+  getPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetPatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5573,7 +5573,7 @@ export class Model {
    * @param callback The callback
    */
   updatePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePatternAnyEntityRoleResponse> {
+  updatePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5634,7 +5634,7 @@ export class Model {
    * @param callback The callback
    */
   deletePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePatternAnyEntityRoleResponse> {
+  deletePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5694,7 +5694,7 @@ export class Model {
    * @param callback The callback
    */
   getHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetHierarchicalEntityRoleResponse> {
+  getHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5757,7 +5757,7 @@ export class Model {
    * @param callback The callback
    */
   updateHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityRoleResponse> {
+  updateHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5818,7 +5818,7 @@ export class Model {
    * @param callback The callback
    */
   deleteHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityRoleResponse> {
+  deleteHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5878,7 +5878,7 @@ export class Model {
    * @param callback The callback
    */
   getCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetCustomEntityRoleResponse> {
+  getCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetCustomEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -5941,7 +5941,7 @@ export class Model {
    * @param callback The callback
    */
   updateCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCustomPrebuiltEntityRoleResponse> {
+  updateCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCustomPrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -6002,7 +6002,7 @@ export class Model {
    * @param callback The callback
    */
   deleteCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCustomEntityRoleResponse> {
+  deleteCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCustomEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -6062,7 +6062,7 @@ export class Model {
    * @param callback The callback
    */
   getExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExplicitListItem>): void;
-  getExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExplicitListItem>): Promise<Models.ModelGetExplicitListItemResponse> {
+  getExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExplicitListItem>, callback?: msRest.ServiceCallback<Models.ExplicitListItem>): Promise<Models.ModelGetExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -6125,7 +6125,7 @@ export class Model {
    * @param callback The callback
    */
   updateExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateExplicitListItemResponse> {
+  updateExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -6186,7 +6186,7 @@ export class Model {
    * @param callback The callback
    */
   deleteExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteExplicitListItemResponse> {
+  deleteExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,

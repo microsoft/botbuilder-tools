@@ -1,6 +1,0 @@
-{
-  "name": "Reservation",
-  "children": [
-    "Location::To"
-  ]
-}
