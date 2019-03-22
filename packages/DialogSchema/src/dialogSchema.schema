@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema",
+     "$schema": "http://json-schema.org/draft-04/schema#
     "$id": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
     "title": "JSON Schema definition for dialog schemas.",
     "definitions": {
