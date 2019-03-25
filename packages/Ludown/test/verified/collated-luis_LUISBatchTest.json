@@ -64,6 +64,11 @@
         "entity": "userName",
         "startPos": 8,
         "endPos": 14
+      },
+      {
+        "entity": "commPreference",
+        "startPos": 0,
+        "endPos": 4
       }
     ]
   },
@@ -97,6 +102,11 @@
         "entity": "userName",
         "startPos": 16,
         "endPos": 22
+      },
+      {
+        "entity": "commPreference",
+        "startPos": 8,
+        "endPos": 12
       }
     ]
   },
@@ -123,12 +133,44 @@
   {
     "text": "set phone call as my communication preference",
     "intent": "CommunicationPreference",
-    "entities": []
+    "entities": [
+      {
+        "entity": "commPreference",
+        "startPos": 4,
+        "endPos": 14
+      },
+      {
+        "entity": "commPreference",
+        "startPos": 10,
+        "endPos": 14
+      },
+      {
+        "entity": "commPreference",
+        "startPos": 4,
+        "endPos": 9
+      }
+    ]
   },
   {
     "text": "I prefer to receive text message",
     "intent": "CommunicationPreference",
-    "entities": []
+    "entities": [
+      {
+        "entity": "commPreference",
+        "startPos": 25,
+        "endPos": 32
+      },
+      {
+        "entity": "commPreference",
+        "startPos": 20,
+        "endPos": 24
+      },
+      {
+        "entity": "commPreference",
+        "startPos": 20,
+        "endPos": 32
+      }
+    ]
   },
   {
     "text": "can you help",
@@ -143,12 +185,34 @@
   {
     "text": "set call as my communication preference",
     "intent": "CommunicationPreference",
-    "entities": []
+    "entities": [
+      {
+        "entity": "commPreference",
+        "startPos": 4,
+        "endPos": 8
+      }
+    ]
   },
   {
     "text": "I prefer to receive text messages",
     "intent": "CommunicationPreference",
-    "entities": []
+    "entities": [
+      {
+        "entity": "commPreference",
+        "startPos": 25,
+        "endPos": 32
+      },
+      {
+        "entity": "commPreference",
+        "startPos": 20,
+        "endPos": 24
+      },
+      {
+        "entity": "commPreference",
+        "startPos": 20,
+        "endPos": 32
+      }
+    ]
   },
   {
     "text": "vishwac",
@@ -163,7 +227,13 @@
   {
     "text": "call me vishwac",
     "intent": "AskForUserName",
-    "entities": []
+    "entities": [
+      {
+        "entity": "commPreference",
+        "startPos": 0,
+        "endPos": 4
+      }
+    ]
   },
   {
     "text": "my name is vishwac",
@@ -178,7 +248,13 @@
   {
     "text": "you can call me vishwac",
     "intent": "AskForUserName",
-    "entities": []
+    "entities": [
+      {
+        "entity": "commPreference",
+        "startPos": 8,
+        "endPos": 12
+      }
+    ]
   },
   {
     "text": "set {commPreference} as my communication preference",
