@@ -273,7 +273,7 @@
                 "in": "path",
                 "required": true,
                 "type": "string",
-                "description": "The user's ARM token.",
+                "description": "The user's ARM token from https://resources.azure.com/api/token?plaintext=true.",
                 "x-ms-parameter-location": "method"
             }
         ],
@@ -294,7 +294,7 @@
                 "in": "path",
                 "required": true,
                 "type": "string",
-                "description": "The user's ARM token.",
+                "description": "The user's ARM token from from https://resources.azure.com/api/token?plaintext=true.",
                 "x-ms-parameter-location": "method"
             },
             {
@@ -320,6 +320,14 @@
         "pathFragment": "",
         "params": [
             {
+                "name": "armToken",
+                "in": "path",
+                "required": true,
+                "type": "string",
+                "description": "The user's ARM token from https://resources.azure.com/api/token?plaintext=true.",
+                "x-ms-parameter-location": "method"
+            },
+            {
                 "name": "appId",
                 "in": "path",
                 "required": true,
@@ -328,7 +336,7 @@
                 "description": "The application ID.",
                 "x-ms-parameter-location": "method"
             }
-        ],
+      ],
         "description": "Assigns a LUIS Azure account to the application.",
         "name": "AddLuisAccount",
         "entityName": "accountToAdd",
