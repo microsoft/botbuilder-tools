@@ -463,7 +463,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
     // add this entity to appropriate place
     // is this a builtin type? 
     if (builtInTypes.consolidatedList.includes(entityType)) {
-        if (!locale) locale = 'en-us';
+        locale = locale ? locale.toLowerCase() : 'en-us';
         // verify if the requested entityType is available in the requested locale
         let prebuiltCheck = builtInTypes.perLocaleAvailability[locale][entityType];
         if (prebuiltCheck === null) {

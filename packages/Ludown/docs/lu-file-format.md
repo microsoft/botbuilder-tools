@@ -64,6 +64,11 @@ You can define:
 - [PREBUILT](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/pre-builtentities) entities by using $PREBUILT:\<entityType\> notation. 
 - [List](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-intent-and-list-entity) entities by using $\<entityName\>:\<CanonicalValue\>**=**<List of values> notation.
 
+**Note:**
+```markdown
+Entity names in Ludown cannot include a colon ':'. E.g. $Country:Office:Simple is invalid.  
+```
+
 Here's an example: 
 
 ```markdown
