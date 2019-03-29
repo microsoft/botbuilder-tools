@@ -92,23 +92,25 @@ const parseFileContentsModule = {
         }
 
         // add any composite entities to entities list.
-        (LUISJSONBlob.composites || []).forEach(entity => {
+        const compositesEnt = (LUISJSONBlob.composites || []);
+        compositesEnt.forEach(entity => {
             entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
-                if (entityFound.length === 0) {
-                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['composite']));
-                } else {
-                    entityFound[0].type.push('composite');
-                }
+            if (entityFound.length === 0) {
+                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['composite']));
+            } else {
+                entityFound[0].type.push('composite');
+            }
         })
 
         // add any pre-built entities to the entities list.
-        (LUISJSONBlob.prebuiltEntities || []).forEach(entity => {
+        const prebuiltEnt = (LUISJSONBlob.prebuiltEntities || []);
+        prebuiltEnt.forEach(entity => {
             entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
-                if (entityFound.length === 0) {
-                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['prebuilt']));
-                } else {
-                    entityFound[0].type.push('composite');
-                }
+            if (entityFound.length === 0) {
+                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['prebuilt']));
+            } else {
+                entityFound[0].type.push('composite');
+            }
         })
         
         // for each entityFound, see if there are duplicate definitions
@@ -637,6 +639,9 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
         if (compositeEntity === undefined) {
             // add new composite entity
             parsedContent.LUISJsonStructure.composites.push(new helperClass.compositeEntity(entityName, compositeChildren, entityRoles));
+
+            // remove composite that might have been tagged as a simple entity due to inline entity definition in an utterance
+            parsedContent.LUISJsonStructure.entities = (parsedContent.LUISJsonStructure.entities || []).filter(entity => entity.name != entityName);
         } else {
             if (JSON.stringify(compositeChildren.sort()) !== JSON.stringify(compositeEntity.children.sort())) {
                 throw (new exception(retCode.errorCode.INVALID_COMPOSITE_ENTITY, `[ERROR]: Composite entity: ${entityName} has multiple definition with different children. \n 1. ${compositeChildren.join(', ')}\n 2. ${compositeEntity.children.join(', ')}`));

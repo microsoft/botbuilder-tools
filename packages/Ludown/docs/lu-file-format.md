@@ -57,12 +57,12 @@ LUDown tool supports the following [LUIS entity types](https://docs.microsoft.co
 
 LUDown tool **does not** support the following LUIS entity types:
 - Hierarchical
-- Composite
 
 You can define: 
 - [Simple](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-primary-and-secondary-data) entities by using $\<entityName\>:simple notation. Note that the parser defaults to simple entity type.
 - [PREBUILT](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/pre-builtentities) entities by using $PREBUILT:\<entityType\> notation. 
 - [List](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-intent-and-list-entity) entities by using $\<entityName\>:\<CanonicalValue\>**=**<List of values> notation.
+- [Composite](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-tutorial-composite-entity) entities using $\<entityName\>:[childEntity1, childEntity2, ...] notation. See [here](../examples/compositeEntities.lu) for an example.
 
 **Note:**
 ```markdown
@@ -134,6 +134,32 @@ Here's an example of regex entity:
 $HRF-number:/hrf-[0-9]{6}/
 ```
 
+[Composite entities](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-tutorial-composite-entity) enable grouping related entities into a parent category entity. 
+
+```markdown
+# setThermostat
+> This utterance labels ‘thermostat to 72’ as composite entity deviceTemperature
+    - Please set {deviceTemperature = thermostat to 72}
+> This is an example utterance that labels ‘owen’ as customDevice (simple entity) and wraps ‘owen to 72’ with the ‘deviceTemperature’ composite entity
+    - Set {deviceTemperature = {customDevice = owen} to 72}
+
+> Define a composite entity ‘deviceTemperature’ that has device (list entity), customDevice (simple entity), temperature (pre-built entity) as children
+$deviceTemperature: [device, customDevice, temperature]
+
+$device : thermostat=
+    - Thermostat
+    - Heater
+    - AC
+    - Air conditioner
+
+$device : refrigerator=
+    - Fridge
+    - Cooler
+
+$customDevice : simple
+
+$PREBUILT : temperature
+```
 ## Phrase List features
 
 You can enhance LUIS understanding of your model using [PhraseLists](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-tutorial-interchangeable-phrase-list).

@@ -342,7 +342,7 @@ $deviceTemperature:simple`;
     })
 
     it ('composite entities defined in an utterance is parsed correctly', function(done){
-      let testLUFile = `> [Supported today] Define a list entity ‘device’ with two normalized values and list of synonyms.
+      let testLUFile = `
       $device : thermostat=
           - Thermostat
           - Heater
@@ -353,24 +353,54 @@ $deviceTemperature:simple`;
           - Fridge
           - Cooler
       
-      > [Supported today] Define a simple entity for a custom device type.
       $customDevice : simple
       
-      > [Supported today] Add pre-built temperature entity
       $PREBUILT : temperature
       
-      > [--NEW--] Define a composite entity ‘deviceTemperature’ that has device (list entity), customDevice (simple entity), temperature (pre-built entity) as children
       $deviceTemperature: [device, customDevice, temperature]
       
       # setThermostat
-      > This utterance labels ‘thermostat to 72’ as composite entity deviceTemperature
           - Please set {deviceTemperature = thermostat to 72}
-      > This is an example utterance that labels ‘owen’ as customDevice (simple entity) and wraps ‘owen to 72’ with the ‘deviceTemperature’ composite entity
           - Set {deviceTemperature = {customDevice = owen} to 72}`;
 
       parseFile(testLUFile, false)
         .then(res => {
-          assert.equal(res.LUISJsonStructure.entities.length, 2);
+          assert.equal(res.LUISJsonStructure.entities.length, 1);
+          assert.equal(res.LUISJsonStructure.composites.length, 1);
+          assert.equal(res.LUISJsonStructure.composites[0].name, 'deviceTemperature');
+          assert.deepEqual(res.LUISJsonStructure.composites[0].children, ['device', 'customDevice', 'temperature']);
+          assert.equal(res.LUISJsonStructure.utterances.length, 2);
+          assert.equal(res.LUISJsonStructure.utterances[1].text, 'Set owen to 72');
+          assert.equal(res.LUISJsonStructure.utterances[1].entities.length, 2);
+          done();
+        })
+        .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
+    }) 
+
+    it ('composite entities defined in an utterance is parsed correctly (composite definition after reference to composite in utterance)', function(done){
+      let testLUFile = `
+      $device : thermostat=
+          - Thermostat
+          - Heater
+          - AC
+          - Air conditioner
+      
+      $device : refrigerator=
+          - Fridge
+          - Cooler
+      
+      $customDevice : simple
+      $PREBUILT : temperature
+
+      # setThermostat
+          - Please set {deviceTemperature = thermostat to 72}
+          - Set {deviceTemperature = {customDevice = owen} to 72}
+      
+      $deviceTemperature: [device, customDevice, temperature]`;
+
+      parseFile(testLUFile, false)
+        .then(res => {
+          assert.equal(res.LUISJsonStructure.entities.length, 1);
           assert.equal(res.LUISJsonStructure.composites.length, 1);
           assert.equal(res.LUISJsonStructure.composites[0].name, 'deviceTemperature');
           assert.deepEqual(res.LUISJsonStructure.composites[0].children, ['device', 'customDevice', 'temperature']);
