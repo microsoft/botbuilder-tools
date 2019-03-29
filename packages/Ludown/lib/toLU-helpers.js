@@ -35,29 +35,19 @@ const toLUHelpers = {
                     if(utterance.entities.length >= 0) {
                         // update utterance for each entity
                         let text = utterance.text;
-                        let offSet = 0;
                         let sortedEntitiesList = objectSortByStartPos(utterance.entities);
-                        // Skip this utterance if it has nested entity references
-                        let doEntitiesOverlap = sortedEntitiesList.reduce((overlapBit, entity) => {
-                            if (overlapBit === undefined) return entity.endPos;
-                            if (overlapBit < 0) return overlapBit;
-                            if (overlapBit >= entity.startPos) return -1;
-                            return entity.endPos;
-                        }, undefined);
-
-                        if(doEntitiesOverlap < 0) {
-                            // Skip this utterance. It has nested entity references. 
-                            process.stdout.write('\nUtterance "' + utterance.text + '" has nested entity references. This utterance will be skipped.\n\n');
-                            return;
-                        }
-                        sortedEntitiesList.forEach(function(entity) {
-                            let label = text.substring(entity.startPos, entity.endPos + 1);
-                            let entityWithLabel = '{' + entity.entity + '=' + label + '}';
-                            let leftText = updatedText.substring(0, entity.startPos + offSet);
-                            let rightText = updatedText.substring(entity.endPos + 1 + offSet);
-                            updatedText = leftText + entityWithLabel + rightText;
-                            offSet += entityWithLabel.length - label.length;
+                        let tokenizedText = text.split('');
+                        let nonCompositesInUtterance = sortedEntitiesList.filter(entity => LUISJSON.composites.find(composite => composite.name == entity.entity) == undefined);
+                        nonCompositesInUtterance.forEach(entity => {
+                            tokenizedText[parseInt(entity.startPos)] = `{${entity.entity}=${tokenizedText[parseInt(entity.startPos)]}`;
+                            tokenizedText[parseInt(entity.endPos)] += `}`;
                         })
+                        let compositeEntitiesInUtterance = sortedEntitiesList.filter(entity => LUISJSON.composites.find(composite => composite.name == entity.entity) != undefined);
+                        compositeEntitiesInUtterance.forEach(entity => {
+                            tokenizedText[parseInt(entity.startPos)] = `{${entity.entity}=${tokenizedText[parseInt(entity.startPos)]}`;
+                            tokenizedText[parseInt(entity.endPos)] += `}`;
+                        })
+                        updatedText = tokenizedText.join(''); 
                     }
                     if(updatedText) fileContent += '- ' + updatedText + NEWLINE;
                 });
@@ -109,6 +99,14 @@ const toLUHelpers = {
                 fileContent += '$' + regExEntity.name + ':/' + regExEntity.regexPattern + '/' + NEWLINE; 
             });
             fileContent += NEWLINE;
+        }
+
+        // add composite entities if found in source LUIS JSON
+        if(LUISJSON.composites && LUISJSON.composites.length > 0) {
+            fileContent += '> # Composite entities' + NEWLINE + NEWLINE; 
+            LUISJSON.composites.forEach(composite => {
+                fileContent += '$' + composite.name + ':[' + composite.children.join(', ') + ']' + NEWLINE;
+            })
         }
         return fileContent;
     },

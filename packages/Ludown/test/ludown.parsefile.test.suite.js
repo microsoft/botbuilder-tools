@@ -44,15 +44,6 @@ $commPreference:phraseList
             .catch(() => done())
     });
 
-    it('parseFile throws on nested entity refs', function(done) {
-        let luFile = `# Greeting
-- hi {userName=foo {lastName=bar}}
-`;
-        parseFile.parseFile(luFile, false, 'en-us')
-            .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
-            .catch(() => done())
-    });
-
     it('parseFile throws if a QnA maker question does not have a list decoration', function(done) {
         let luFile = `# ? q1
 question 2

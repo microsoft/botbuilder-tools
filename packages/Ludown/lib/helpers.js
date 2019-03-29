@@ -174,7 +174,7 @@ const helpers = {
                 if(currentLine.toLowerCase().includes(':')) {
                     // get entity name and type
                     let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
-                    let entityType = entityDef[1];
+                    let entityType = entityDef[1].trim();
                     // is entityType a phraseList? 
                     if(entityType.trim().toLowerCase().includes('phraselist') || entityType.trim().toLowerCase().includes('qna-alterations')) {
                         middleOfSection = true;
@@ -196,6 +196,11 @@ const helpers = {
                         }
                     } else if (entityType.startsWith('/') && entityType.endsWith('/')) {
                         // this is a regex entity.
+                        sectionsInFile.push(currentLine);
+                        middleOfSection = false;
+                        currentSection = null;
+                    } else if (entityType.startsWith('[') && entityType.endsWith(']')) {
+                        // this is a composite entity.
                         sectionsInFile.push(currentLine);
                         middleOfSection = false;
                         currentSection = null;

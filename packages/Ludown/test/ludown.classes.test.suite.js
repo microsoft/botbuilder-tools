@@ -150,4 +150,10 @@ describe('Testing all classes', function() {
             assert.equal(new hClasses.regExEntity().name, '');
         });
     });
+
+    describe('composite entity class', function() {
+        it('can create a new instance with no values passed in', function() {
+            assert.equal(new hClasses.compositeEntity().name, '');
+        });
+    });
 });
