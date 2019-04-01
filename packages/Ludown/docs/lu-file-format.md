@@ -160,6 +160,32 @@ $customDevice : simple
 
 $PREBUILT : temperature
 ```
+
+### Roles
+
+Every entity type except Phrase Lists can have [roles](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-roles). Roles are named, contextual subtypes of an entity. 
+
+Roles in .lu file format can be explicitly or implicity defined. 
+
+Explicit definition follow the following notation - $\<entityName>:\<entityType> Roles=role1, role2, ...
+```markdown
+> # Simple entity definition with roles
+
+$userName:simple Roles=firstName,lastName
+```
+
+Implicit definition: You can refer to roles directly in patterns as well as in labelled utterances via {\<entityName>:\<roleName>} format. 
+```markdown
+# AskForUserName
+- {userName:firstName=vishwac} {userName:lastName=kannan}
+- I'm {userName:firstName=vishwac}
+- my first name is {userName:firstName=vishwac}
+- {userName=vishwac} is my name
+
+> This definition is same as including an explicit defintion for userName with 'lastName', 'firstName' as roles
+> $userName : simple Roles=lastName, firstName
+```
+
 ## Phrase List features
 
 You can enhance LUIS understanding of your model using [PhraseLists](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-tutorial-interchangeable-phrase-list).

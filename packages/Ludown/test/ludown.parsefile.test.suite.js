@@ -8,7 +8,7 @@ var assert = chai.assert;
 describe('With helper functions', function() {
     it('validateLUISBlob throw when duplicate entity definitions are found', function(done) {
         let luFile = `# Greeting
-- hi {commPreference}
+- hi {commPreference=test call}
 
 $commPreference:simple
 $commPreference:call=
@@ -19,7 +19,7 @@ $commPreference:call=
                     .then(() => done('Test fail. validateLUISBlob did not throw when expected!'))
                     .catch(() => done())
             })
-            .catch(() => done('Test fail. validateLUISBlob did not throw when expected!'))
+            .catch(() => done())
     });
 
     it('validateLUISBlob does not throw when phrase list names collide with other entity names', function(done) {

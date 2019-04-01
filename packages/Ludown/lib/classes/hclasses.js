@@ -91,7 +91,7 @@ const readerObj = {
         }
     },
     utteranceEntity: class {
-        constructor (name, startPos, endPos) {
+        constructor (name, startPos, endPos, role) {
             this.entity = name ? name : '';
             this.startPos = startPos ? startPos : 0;
             this.endPos = endPos ? endPos : 0
