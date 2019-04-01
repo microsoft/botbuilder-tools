@@ -54,7 +54,7 @@
             "request": "launch",
             "name": "Update Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-            "cwd":"${workspaceFolder}/test",
+            "cwd": "${workspaceFolder}/test",
             "args": [
                 "-u",
                 "tdd",
@@ -229,6 +229,21 @@
                 "00000000-0000-0000-0000-00000000000f",
                 "--endpointKey",
                 "00000000-0000-0000-0000-00000000000f"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "msbot update endpoint",
+            "program": "${workspaceFolder}/bin/msbot-update-endpoint.js",
+            "args": [
+                "-b", "C:/scratch/qqq/test.bot",
+                "--endpoint",
+                "http://localhost:3978/api/messages",
+                "--appId",
+                "appid",
+                "--appPassword",
+                "123123123123"
             ]
         }
     ]
