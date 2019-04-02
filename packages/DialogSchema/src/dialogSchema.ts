@@ -218,7 +218,7 @@ async function getMetaSchema(): Promise<any> {
     let schemaName = ppath.join(__dirname, "../src/dialogSchema.schema");
     if (!await fs.pathExists(schemaName)) {
         console.log("Generating dialogSchema.schema");
-        let baseName = ppath.join(__dirname, "../src/baseCogSchema.schema");
+        let baseName = ppath.join(__dirname, "../src/baseDialogSchema.schema");
         let schema = await fs.readJSON(baseName);
         let metaSchemaName = schema.$schema;
         let metaSchemaDef = await getURL(metaSchemaName);
