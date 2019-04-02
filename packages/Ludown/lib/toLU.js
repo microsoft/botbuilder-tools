@@ -170,9 +170,6 @@ const validateLUISJSON = async function(LUISJSON) {
     if(!LUISJSON.intents && !LUISJSON.entities) {
         return false;
     }
-    if(LUISJSON.composites && LUISJSON.composites.length !== 0) {
-        throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to composite entities. Cannot convert to .lu file.'));
-    }
     if(LUISJSON.regex_features && LUISJSON.regex_features.length !== 0) {
         throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, input LUIS JSON file has references to regex_features. Cannot convert to .lu file.'));
     }

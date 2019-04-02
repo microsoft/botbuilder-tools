@@ -82,6 +82,20 @@ const readerObj = {
             this.regexPattern = regexPattern ? regexPattern : '';
             this.roles = roles ? roles : [];
         }
+    },
+    compositeEntity: class {
+        constructor (name, children, roles) {
+            this.name = name ? name : '';
+            this.children = children ? children : [];
+            this.roles = roles ? roles : [];
+        }
+    },
+    utteranceEntity: class {
+        constructor (name, startPos, endPos, role) {
+            this.entity = name ? name : '';
+            this.startPos = startPos ? startPos : 0;
+            this.endPos = endPos ? endPos : 0
+        }
     }
 };
 

@@ -477,17 +477,6 @@ describe('The example lu files', function () {
         });
     });
 
-    it('Nested entity references in LUIS JSON models are skipped correctly', function (done) {
-        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/nested-luis-json.json -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
-            try {
-                assert.ok(stdout.includes('has nested entity references. This utterance will be skipped.'));
-                done();
-            } catch (err) {
-                done(err);
-            }
-        });
-    });
-
     it('Regex entity references in a model file can be refreshed correctly using ludown refresh', function (done) {
         exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/regexmodel.luis -s -n regexmodel.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
