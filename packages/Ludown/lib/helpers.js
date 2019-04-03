@@ -180,7 +180,7 @@ const helpers = {
                         middleOfSection = true;
                         currentSectionType = PARSERCONSTS.ENTITY;
                         currentSection = currentLine + NEWLINE;
-                    } else if(LUISBuiltInTypes.includes(entityType.trim()) || entityType.trim().toLowerCase().includes('simple')) {
+                    } else if(LUISBuiltInTypes.includes(entityType.trim()) || entityType.trim().toLowerCase() === 'simple') {
                         // this is a built in type definition. Just add it.
                         sectionsInFile.push(currentLine);
                         middleOfSection = false;

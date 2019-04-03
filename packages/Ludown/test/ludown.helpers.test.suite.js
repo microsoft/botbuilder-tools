@@ -195,4 +195,15 @@ describe('With helper functions', function() {
             done();
         }
     });
+
+    it('splitFileBySections should accept entity definitions containing "simple" in their name', function(done){
+        let testLu = `$ServiceName:simple-service=
+        - Simple Test`;
+        try {
+            helpers.splitFileBySections(testLu, false);
+            done();
+        } catch (err) {
+            done(new Error('Test failed: splitFileBySections invalid entity definition!'));
+        }
+    });
 });
