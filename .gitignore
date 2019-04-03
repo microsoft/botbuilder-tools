@@ -299,3 +299,6 @@ test/*.transcript
 /packages/LUISGen/LUISGenTestJS/src/Contoso_App.js
 /packages/LUISGen/LUISGenTestJS/src/Contoso_App.d.ts
 *.tgz
+
+#Lg tool lib
+/packages/MSLG/lib
