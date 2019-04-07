@@ -22,7 +22,7 @@ module.exports = {
     ],
     perLocaleAvailability: {
         "de-de": {
-            "datetimeV2": "datetime",
+            "datetime": "datetimeV2",
             "geographyV2": null,
             "personName": null
         },
@@ -35,18 +35,10 @@ module.exports = {
             "datetime": "datetimeV2"
         },
         "fr-fr": {
-            "datetime": "datetimeV2",
-            "geographyV2": null,
-            "personName": null
+            "datetime": "datetimeV2"
         },
         "fr-ca": {
-            "datetimeV2": "datetime",
-            "age": null,
-            "dimension": null,
-            "money": null,
-            "ordinal": null,
-            "percentage": null,
-            "temperature": null,
+            "datetime": "datetimeV2",
             "geographyV2": null,
             "personName": null
         },
@@ -78,7 +70,7 @@ module.exports = {
             "personName": null
         },
         "pt-br": {
-            "datetimeV2": "datetime",
+            "datetime": "datetimeV2",
             "geographyV2": null,
             "personName": null
         },
@@ -97,7 +89,9 @@ module.exports = {
         },
         "nl-nl": {
             "geographyV2": null,
-            "personName": null
+            "personName": null,
+            "datetimeV2": null,
+            "datetime": null
         }
     }
 }
