@@ -4,6 +4,13 @@
  */
 const pkg = require('../package.json');
 const intercept = require("intercept-stdout");
+import * as getStdinInner from 'get-stdin';
+const strip_bom = require('strip-bom');
+
+export async function getStdin() : Promise<string> {
+    var result = await getStdinInner();
+    return strip_bom(result);
+}
 
 export function uuidValidate(value: string): boolean {
     return /^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}$/.test(value);

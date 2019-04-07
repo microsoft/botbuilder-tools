@@ -64,6 +64,7 @@
     "read-text-file": "^1.1.0",
     "readline-sync": "^1.4.9",
     "semver": "^5.5.1",
+    "strip-bom": "^3.0.0",
     "uuid": "^3.2.1",
     "valid-url": "^1.0.9",
     "validator": "^9.4.1"
