@@ -1,0 +1,46 @@
+> # Intent definitions
+
+## AddToOrder
+- give me a {Item=big apple} and a large {Item=coffee} with two {Item=milk}
+
+
+> # Entity definitions
+
+$Item:simple
+
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:number
+
+
+> # Phrase list definitions
+
+$MenuItem:phraseList
+- hamburger,beefburger,fish filet,strawberry milkshake,chocolate flavor milkshake,strawberry flavor milkshake,vanilla milkshake,milkshake,coffee,hashbrowns,coke,diet coke,fanta,lemonade,french fries,cheese,bacon,burger,fries,chocolate,water,sprite,cheeseburger,ice cream,mcmuffin,double cheeseburger,hot fudge sundae,egg sandwich,breakfast burrito,sausage mcmuffin,bacon biscuit,hash browns,steak biscuit,breakfast sandwich,chicken sandwich,bacon cheeseburger,sausage sandwich,cheese burger,onion rings,double burger,mayo,ketchup,mustard,lettuce,mayonnaise,tomato,dressing,pickles,salt,onion,tomatoes,swiss cheese,american cheese,tartar sauce,chocolate latte,ice mocha shake,root beer,creams,ginger ale,milk,chicken,onions,pizza,eggs,cheddar,salad,fish,swiss cheese slice,sliced red onion,dijon mustard,teriyaki sauce,barbecue sauce,pickle,relish,cream cheese,jalapenos,jalapeÃ±os,mozzarella,avocado,capers,sour cream,jalepenos,cheddar cheese,surf n turf,iced tea,unsweetened iced tea,unsweet iced tea,orange juice,hot chocolate,cappuccino,tea,bottled water,green tea,dakota,cappucino,juice,dakota burger,grilled pet chicken sandwich,grilled pet chicken,fried pet chicken,fried pet chicken sandwich,angus,angus patty,sugar,cream
+
+> # List entities
+
+$size:small=
+- small
+- Small
+- smaller
+- tall
+
+$size:medium=
+- medium
+- grand
+- grande
+- Medium
+
+$size:large=
+- large
+- venti
+- Large
+
+$size:extra large=
+- extra large
+- trenta
+
+
+
