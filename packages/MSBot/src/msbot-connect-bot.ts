@@ -7,11 +7,10 @@
 import { BotConfiguration, BotService, EndpointService, IBotService, IConnectedService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import * as url from 'url';
 import { stdoutAsync } from './stdioAsync';
-import { uuidValidate } from './utils';
+import { getStdin, uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));

@@ -7,11 +7,10 @@
 import { BotConfiguration, IQnAService, QnaMakerService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import * as validurl from 'valid-url';
 import { stdoutAsync } from './stdioAsync';
-import { uuidValidate } from './utils';
+import { getStdin, uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -32,9 +31,9 @@ program
     .option('-n, --name <name>', 'name for the QNA knowledgebase')
     .option('-k, --kbId <kbId>', 'QnA Knowledgebase Id ')
     .option('--subscriptionKey <subscriptionKey>',
-            'Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)')
+        'Azure Cognitive Service subscriptionKey/accessKey for calling the QnA management API (from azure portal)')
     .option('--endpointKey <endpointKey>',
-            'endpointKey for calling the QnA service (from https://qnamaker.ai portal or qnamaker list endpointkeys command)')
+        'endpointKey for calling the QnA service (from https://qnamaker.ai portal or qnamaker list endpointkeys command)')
     .option('--hostname <url>', 'url for private QnA service (example: https://myqna.azurewebsites.net)')
 
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
@@ -92,13 +91,13 @@ async function processConnectQnaArgs(config: BotConfiguration): Promise<BotConfi
 
     if (!args.subscriptionKey || !uuidValidate(args.subscriptionKey)) {
         throw new Error('bad or missing --subscriptionKey');
-        }
+    }
     if (!args.endpointKey || !uuidValidate(args.endpointKey)) {
         throw new Error('bad or missing --endpointKey');
-        }
+    }
     if (!args.hostname || !validurl.isWebUri(args.hostname)) {
         throw new Error('bad or missing --hostname');
-        }
+    }
 
     // add the service
     const newService: QnaMakerService = new QnaMakerService({

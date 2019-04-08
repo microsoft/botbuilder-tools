@@ -7,10 +7,9 @@
 import { BlobStorageService, BotConfiguration, IBlobStorageService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import { stdoutAsync } from './stdioAsync';
-import { uuidValidate } from './utils';
+import { getStdin, uuidValidate } from './utils';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -34,7 +33,7 @@ program
     .option('--serviceName <serviceName>', 'Azure service name')
     .option('--connectionString <connectionString>', 'Blob storage connection string')
     .option('-c, --container <container>', 'blob container name')
-    
+
     .option('-b, --bot <path>', 'path to bot file.  If omitted, local folder will look for a .bot file')
     .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     .option('--secret <secret>', 'bot file secret password for encrypting service secrets')

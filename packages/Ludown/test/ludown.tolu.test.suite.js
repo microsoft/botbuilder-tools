@@ -23,17 +23,6 @@ describe('With toLU module', function() {
             .catch(err => done())
     });
 
-    // composites
-    it('throws when input file has composite entities', function(done) {
-        let invalidFile = resolvePath('test/testcases/InvalidLUISModel.json')
-        toLU.generateMarkdown({LUIS_File:invalidFile})
-            .then(() => done('Test fail! Did not throw when expected'))
-            .catch(err => {
-                assert.equal(new exception(err).errCode, retCode.errorCode.INVALID_INPUT_FILE);
-                done();
-            })
-    });
-
     it('throws when input file has regex features', function(done) {
         let invalidFile = resolvePath('test/testcases/InvalidLUISModel2.json')
         toLU.generateMarkdown({LUIS_File:invalidFile})

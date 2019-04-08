@@ -174,28 +174,39 @@ const helpers = {
                 if(currentLine.toLowerCase().includes(':')) {
                     // get entity name and type
                     let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
-                    let entityType = entityDef[1];
+                    let entityType = entityDef[1].trim();
                     // is entityType a phraseList? 
                     if(entityType.trim().toLowerCase().includes('phraselist') || entityType.trim().toLowerCase().includes('qna-alterations')) {
                         middleOfSection = true;
                         currentSectionType = PARSERCONSTS.ENTITY;
                         currentSection = currentLine + NEWLINE;
-                    } else if(LUISBuiltInTypes.includes(entityType.trim()) || entityType.trim().toLowerCase().includes('simple')) {
+                    } else if(LUISBuiltInTypes.includes(entityType.trim()) || entityType.trim().toLowerCase() === 'simple') {
                         // this is a built in type definition. Just add it.
                         sectionsInFile.push(currentLine);
                         middleOfSection = false;
                         currentSection = null;
                     } else if((currentLine.indexOf('=') >= 0)) {
+                        let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
+                        let entityType = entityDef[1].trim();
+                        let getRolesAndType = this.getRolesAndType(entityType);
                         // this is a list entity type
-                        if(currentLine.indexOf('=') === (currentLine.length - 1)){
+                        if(getRolesAndType.entityType.trim().endsWith('=')){
                             middleOfSection = true;
                             currentSectionType = PARSERCONSTS.ENTITY;
                             currentSection = currentLine + NEWLINE;
                         } else {
-                            throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR] Invalid list entity definition for ' + currentLine + '\n List entities follow $<entityName>:<normalizedValue>= notation'));
+                            // this has inline role definition
+                            sectionsInFile.push(currentLine);
+                            middleOfSection = false;
+                            currentSection = null;
                         }
                     } else if (entityType.startsWith('/') && entityType.endsWith('/')) {
                         // this is a regex entity.
+                        sectionsInFile.push(currentLine);
+                        middleOfSection = false;
+                        currentSection = null;
+                    } else if (entityType.startsWith('[') && entityType.endsWith(']')) {
+                        // this is a composite entity.
                         sectionsInFile.push(currentLine);
                         middleOfSection = false;
                         currentSection = null;
@@ -236,6 +247,25 @@ const helpers = {
         return srcList.filter(function(item) {
             return item[property] == searchValue;
         });
+    },
+    /**
+     * Helper function to get roles if defined via the entity type definition
+     * @param {String} entityType entity type definition passed in.
+     * @returns {Object} roles and entityType parsed out. roles is always a list even if no role definitions are found
+     */
+    getRolesAndType : function (entityType) {
+        let returnValue = {
+            roles : [],
+            entityType : ''
+        };
+        let RoleDetectionRegEx = new RegExp(/[Rr]ole[s]*[\s?]*=/g);
+        let RolesSplitRegEx = new RegExp(/[;,]/g);
+        let [parsedEntityType, parsedRoleDefinition] = entityType.split(RoleDetectionRegEx).map(item => item.trim());
+        returnValue.entityType = parsedEntityType;
+        if (parsedRoleDefinition !== undefined) {
+            returnValue.roles = parsedRoleDefinition.replace('[', '').replace(']', '').split(RolesSplitRegEx).map(item => item.trim());
+        }
+        return returnValue;
     }
 };
 

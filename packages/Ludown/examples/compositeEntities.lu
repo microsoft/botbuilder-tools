@@ -1,0 +1,22 @@
+# setThermostat
+> This utterance labels ‘thermostat to 72’ as composite entity deviceTemperature
+    - Please set {deviceTemperature = thermostat to 72}
+> This is an example utterance that labels ‘owen’ as customDevice (simple entity) and wraps ‘owen to 72’ with the ‘deviceTemperature’ composite entity
+    - Set {deviceTemperature = {customDevice = owen} to 72}
+
+> Define a composite entity ‘deviceTemperature’ that has device (list entity), customDevice (simple entity), temperature (pre-built entity) as children
+$deviceTemperature: [device, customDevice, temperature]
+
+$device : thermostat=
+    - Thermostat
+    - Heater
+    - AC
+    - Air conditioner
+
+$device : refrigerator=
+    - Fridge
+    - Cooler
+
+$customDevice : simple
+
+$PREBUILT : temperature
