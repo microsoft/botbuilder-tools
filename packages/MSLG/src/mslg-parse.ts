@@ -14,7 +14,7 @@ program.Command.prototype.unknownOption = function () {
 
 program
     .name("mslg parse")
-    .description(`Parse any provided .lg file and collate all .lg files into a single file.`)
+    .description(`Parse any provided .lg file and collate all .lg files into a single lg file.`)
     .usage('--in <.lg file> | --lg_folder <inputFolder> [-s] [-o <outputFolder>] [--out <outputFileName>] [--verbose]')
     .option('--in <lgFile>', '.lg file to parse')
     .option('-l, --lg_folder <inputFolder>', '[Optional] Folder that has the .lg file. By default mslg will only look at the current folder. To look at all subfolders, include -s')
@@ -24,7 +24,7 @@ program
     .option('--stdin', '[Optional] Read .lg file as stream from stdin to validate and collate')
     .option('--stdout', '[Optional] when set, write out the final file to stdout')
     .option('--verbose', '[Optional] Flag option used to request verbose output. With this option set, additional useful parse, validate and collate logs are written to stdout')
-    .option('-c, --collate', '[Optional] Collate and merge same templates across the .lg files into a single .lg file. If not set, same template name defintions across .lg files will throw exceptions.')
+    .option('-c, --collate', '[Optional] If not set, same template name across multiple .lg files will throw exceptions.')
     .parse(process.argv);
    
 if (process.argv.length < 3) {

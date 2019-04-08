@@ -5,14 +5,14 @@ import { helpers } from './helpers';
 import * as path from 'path';
 import * as txtfile from 'read-text-file';
 import * as chalk from 'chalk';
-import { LGReportMessage, LGReportMessageType } from 'botbuilder-ai/lib/lg/Exception';
-import { MSLGTool } from 'botbuilder-ai/lib/lg/MSLGTool';
+import { ReportEntry, ReportEntryType } from '../../../../botbuilder-js/libraries/botbuilder-lg/lib/staticChecker';
+import { MSLGTool } from '../../../../botbuilder-js/libraries/botbuilder-lg/lib/MSLGTool';
 
 const readlineSync = require('readline-sync');
 
 export class Parser {
     private tool: MSLGTool = new MSLGTool();
-    
+
     public async Parser(program: any) {
         let filesToParse: any[] = [];
         let folderStat: any;
@@ -39,7 +39,7 @@ export class Parser {
             }
         }
 
-        let errors: LGReportMessage[] = [];
+        let errors: ReportEntry[] = [];
 
         while (filesToParse.length > 0) {
             let file = filesToParse[0];
@@ -64,9 +64,8 @@ export class Parser {
             errors = errors.concat(this.parseStream(parsedJsonFromStdin, program.verbose));
         }
 
-        if (errors.filter(error => error.ReportType === LGReportMessageType.Error).length > 0) {
-            process.stdout.write(chalk.default.redBright("Errors happened when paring lg files" + '\n'));
-        } else {
+
+        if (errors.filter(error => error.Type === ReportEntryType.ERROR).length === 0) {
             let fileName: string;
             if (program.out) {
                 fileName = program.out + '_mslg.lg';
@@ -75,7 +74,7 @@ export class Parser {
             } else {
                 fileName = program.lg_folder + '_mslg.lg'
             }
-            
+
             let outFolder: string = process.cwd();
             if (program.out_folder) {
                 if (path.isAbsolute(program.out_folder)) {
@@ -89,38 +88,36 @@ export class Parser {
                 }
             }
 
-            if (program.collate) {
-                if(this.tool.MergerMessages.length > 0) {
-                    process.stdout.write(chalk.default.redBright("Errors happened when merging lg files" + '\n'));
-                    this.tool.MergerMessages.forEach(error => {
-                        if (error.ReportType === LGReportMessageType.Error) {
-                            process.stdout.write(chalk.default.redBright('Error: ' + error.Message + '\n'));
-                        } else {
-                            process.stdout.write(chalk.default.yellowBright('Warning: ' + error.Message + '\n'));
-                        }
-                    });
+            if (this.tool.MergerMessages.length > 0) {
+                process.stdout.write(chalk.default.redBright("Errors happened when merging lg files" + '\n'));
+                this.tool.MergerMessages.forEach(error => {
+                    if (error.Type === ReportEntryType.ERROR) {
+                        process.stdout.write(chalk.default.redBright('Error: ' + error.Message + '\n'));
+                    } else {
+                        process.stdout.write(chalk.default.yellowBright('Warning: ' + error.Message + '\n'));
+                    }
+                });
+            } else {
+                if (program.collate === undefined && this.tool.NameCollisions.length > 0) {
+                    process.stdout.write(chalk.default.redBright('Error: Below template names are defined in multiple files: ' + this.tool.NameCollisions.toString() + '\n'));
                 } else {
                     const mergedLgFileContent = this.generateLGFile(this.tool.MergedTemplates);
-                    const filePath = outFolder + '/' + fileName;
-                    // if(fs.existsSync(filePath)) {
-                    //     process.stdout.write(chalk.default.redBright(`Error: a file named ${fileName} already exists in the folder ${outFolder}.\n`));
-                    // } else {
+                    const filePath = outFolder + '\\' + fileName;
+                    if (fs.existsSync(filePath)) {
+                        process.stdout.write(chalk.default.redBright(`Error: a file named ${fileName} already exists in the folder ${outFolder}.\n`));
+                    } else {
                         fs.writeFileSync(filePath, mergedLgFileContent);
-                    // }
+                    }
 
                     if (program.stdout) {
                         process.stdout.write(chalk.default.whiteBright(mergedLgFileContent));
                     }
                 }
-            } else {
-                if (this.tool.NameCollisions.length > 0) {
-                    process.stdout.write(chalk.default.yellowBright('Warning: Below template names are defined in multiple files: ' + this.tool.NameCollisions.toString() + '\n'));
-                }
             }
         }
     }
 
-    private parseFile(fileName: string, verbose: boolean): LGReportMessage[] {
+    private parseFile(fileName: string, verbose: boolean): ReportEntry[] {
         if (!fs.existsSync(path.resolve(fileName))) {
             throw (new Exp.Exception(retCode.ErrorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + fileName + ']'));
         }
@@ -132,10 +129,10 @@ export class Parser {
 
         if (verbose) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + fileName + '\n'));
 
-        const errors: LGReportMessage[] = this.tool.ValidateFile(fileContent);
+        const errors: ReportEntry[] = this.tool.ValidateFile(fileContent);
         if (errors.length > 0) {
             errors.forEach(error => {
-                if (error.ReportType === LGReportMessageType.Error) {
+                if (error.Type === ReportEntryType.ERROR) {
                     process.stdout.write(chalk.default.redBright('Error: ' + error.Message + '\n'));
                 } else {
                     process.stdout.write(chalk.default.yellowBright('Warning: ' + error.Message + '\n'));
@@ -146,10 +143,10 @@ export class Parser {
         return errors;
     }
 
-    private parseStream(fileContent: string, verbose: boolean): LGReportMessage[] {
+    private parseStream(fileContent: string, verbose: boolean): ReportEntry[] {
         if (verbose) process.stdout.write(chalk.default.whiteBright('Parsing from stdin.\n'));
 
-        const errors: LGReportMessage[] = this.tool.ValidateFile(fileContent);
+        const errors: ReportEntry[] = this.tool.ValidateFile(fileContent);
         if (errors.length > 0) {
             errors.forEach(error => {
                 process.stdout.write(chalk.default.redBright(error + '\n'));
@@ -165,19 +162,14 @@ export class Parser {
             result += '# ' + template[0] + '\n';
             if (template[1] instanceof Array) {
                 (template[1] as string[]).forEach(templateStr => {
-                    result += '- ' + templateStr + '\n';
+                    result += templateStr.slice(0, 1) + ' ' + templateStr.slice(1) + '\n';
                 });
             } else if (template[1] instanceof Map) {
                 for (const condition of (template[1] as Map<string, string[]>)) {
                     const conditionStr = condition[0];
-                    if (conditionStr === 'DEFAULT') {
-                        result += '- DEFAULT:\n';
-                    } else {
-                        result += '- CASE: ' + conditionStr + '\n';
-                    }
-
+                    result += '- ' + conditionStr + '\n';
                     condition[1].forEach(templateStr => {
-                        result += '  - ' + templateStr + '\n';
+                        result += '   ' + templateStr.slice(0, 1) + ' ' + templateStr.slice(1) + '\n';
                     })
                 }
             } else {
@@ -188,5 +180,5 @@ export class Parser {
         }
 
         return result;
-    } 
+    }
 }

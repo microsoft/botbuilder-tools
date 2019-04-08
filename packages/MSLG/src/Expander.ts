@@ -4,8 +4,8 @@ import * as retCode from './CLI-errors';
 import * as path from 'path';
 import * as txtfile from 'read-text-file';
 import * as chalk from 'chalk';
-import { LGReportMessage, LGReportMessageType } from 'botbuilder-ai/lib/lg/Exception';
-import { MSLGTool } from 'botbuilder-ai/lib/lg/MSLGTool';
+import { ReportEntry, ReportEntryType } from '../../../../botbuilder-js/libraries/botbuilder-lg/lib/staticChecker';
+import { MSLGTool } from '../../../../botbuilder-js/libraries/botbuilder-lg/lib/MSLGTool';
 
 const readlineSync = require('readline-sync');
 
@@ -18,7 +18,7 @@ export class Expander {
             fileToExpand = program.in;
         }
 
-        let errors: LGReportMessage[] = [];
+        let errors: ReportEntry[] = [];
 
         try {
             errors = await this.parseFile(fileToExpand, program.inline);
@@ -29,7 +29,7 @@ export class Expander {
         if (this.tool.MergerMessages.length > 0) {
             process.stdout.write(chalk.default.redBright("Errors happened when collating lg templates." + '\n'));
             this.tool.MergerMessages.forEach(error => {
-                if (error.ReportType === LGReportMessageType.Error) {
+                if (error.Type === ReportEntryType.ERROR) {
                     process.stdout.write(chalk.default.redBright('Error: ' + error.Message + '\n'));
                 } else {
                     process.stdout.write(chalk.default.yellowBright('Warning: ' + error.Message + '\n'));
@@ -115,7 +115,7 @@ export class Expander {
         process.stdout.write(expandedTemplatesFile);
     }
 
-    private parseFile(fileName: string, inlineExpression: any = undefined): LGReportMessage[] {
+    private parseFile(fileName: string, inlineExpression: any = undefined): ReportEntry[] {
         let fileContent: string = '';
         if (fileName !== undefined) {
             if (!fs.existsSync(path.resolve(fileName))) {
@@ -134,10 +134,10 @@ export class Expander {
             fileContent += wrappedStr;
         }
 
-        const errors: LGReportMessage[] = this.tool.ValidateFile(fileContent);
+        const errors: ReportEntry[] = this.tool.ValidateFile(fileContent);
         if (errors.length > 0) {
             errors.forEach(error => {
-                if (error.ReportType === LGReportMessageType.Error) {
+                if (error.Type === ReportEntryType.ERROR) {
                     process.stdout.write(chalk.default.redBright('Error: ' + error.Message + '\n'));
                 } else {
                     process.stdout.write(chalk.default.yellowBright('Warning: ' + error.Message + '\n'));

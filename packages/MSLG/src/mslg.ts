@@ -15,9 +15,8 @@ program.Command.prototype.unknownOption = function () {
 
 program
     .version(pkg.version, '-v, --Version')
-    .usage('mslg [commander] [options]')
+    .usage('mslg [command] [options]')
     .description('MSLG is a command tool to take .lg files as input to parse lg files or collate and expand lg templates.')
-    .option('-g, --get', '1', null)
     .command('parse', 'Parse any provided .lg file and collate all .lg files into a single file.')
     .alias('p')
     .command('expand', 'Expand one or all templates found in a .lg file.')
