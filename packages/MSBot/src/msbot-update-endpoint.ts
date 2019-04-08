@@ -4,7 +4,7 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
-import { BotConfiguration, EndpointService, IEndpointService, ServiceTypes } from 'botframework-config';
+import { BotConfiguration, IEndpointService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as txtfile from 'read-text-file';
@@ -89,10 +89,23 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
         if (service.type === ServiceTypes.Endpoint) {
             const endpointService = <IEndpointService>service;
             if (endpointService.id === args.id || endpointService.endpoint === args.endpoint) {
-                const id = service.id;
-                const newService = new EndpointService(args);
+                let newService :Partial<IEndpointService> = {};
+                if (args.name) {
+                    newService.name = args.name
+                }
+
+                if (args.appId){
+                    newService.appId = args.appId;
+                }
+
+                if (args.appPassword){
+                    newService.appPassword = args.appPassword;
+                }
+
+                if (args.endpoint) {
+                    newService.endpoint = args.endpoint;
+                }
                 Object.assign(service, newService);
-                service.id = id;
                 await config.save(args.secret);
                 await stdoutAsync(JSON.stringify(endpointService, null, 2));
                 return config;
