@@ -544,10 +544,10 @@ async function runProgram() {
         case "suggest":
             switch (target) {
                 case "intents":
-                    result = await client.apps.publish(args.region, args.cloud, args.appId, requestBody, args);
+                    result = await client.model.getIntentSuggestions(args.region, args.cloud, args.appId, args.versionId, args.intentId, args);
                     break;
                 case "entities":
-                    result = await client.apps.publish(args.region, args.cloud, args.appId, requestBody, args);
+                    result = await client.model.getEntitySuggestions(args.region, args.cloud, args.appId, args.versionId, args.entityId, args);
                     break;
 
                 default:
