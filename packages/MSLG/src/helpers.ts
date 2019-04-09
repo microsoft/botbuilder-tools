@@ -20,3 +20,8 @@ export class helpers {
         return results;
     }
 }
+
+export enum ErrorType {
+    Error = '[ERROR]',
+    Warning = '[WARN]'
+}

@@ -1,11 +1,10 @@
 import * as fs from 'fs-extra';
 import * as Exp from './exception';
 import * as retCode from './CLI-errors';
-import { helpers } from './helpers';
+import { helpers, ErrorType } from './helpers';
 import * as path from 'path';
 import * as txtfile from 'read-text-file';
 import * as chalk from 'chalk';
-import { ReportEntry, ReportEntryType } from '../../../../botbuilder-js/libraries/botbuilder-lg/lib/staticChecker';
 import { MSLGTool } from '../../../../botbuilder-js/libraries/botbuilder-lg/lib/MSLGTool';
 
 const readlineSync = require('readline-sync');
@@ -39,7 +38,7 @@ export class Parser {
             }
         }
 
-        let errors: ReportEntry[] = [];
+        let errors: string[] = [];
 
         while (filesToParse.length > 0) {
             let file = filesToParse[0];
@@ -65,7 +64,7 @@ export class Parser {
         }
 
 
-        if (errors.filter(error => error.Type === ReportEntryType.ERROR).length === 0) {
+        if (errors.filter(error => error.startsWith(ErrorType.Error)).length === 0) {
             let fileName: string;
             if (program.out) {
                 fileName = program.out + '_mslg.lg';
@@ -91,20 +90,20 @@ export class Parser {
             if (this.tool.MergerMessages.length > 0) {
                 process.stdout.write(chalk.default.redBright("Errors happened when merging lg files" + '\n'));
                 this.tool.MergerMessages.forEach(error => {
-                    if (error.Type === ReportEntryType.ERROR) {
-                        process.stdout.write(chalk.default.redBright('Error: ' + error.Message + '\n'));
+                    if (error.startsWith(ErrorType.Error)) {
+                        process.stdout.write(chalk.default.redBright(error + '\n'));
                     } else {
-                        process.stdout.write(chalk.default.yellowBright('Warning: ' + error.Message + '\n'));
+                        process.stdout.write(chalk.default.yellowBright(error + '\n'));
                     }
                 });
             } else {
                 if (program.collate === undefined && this.tool.NameCollisions.length > 0) {
-                    process.stdout.write(chalk.default.redBright('Error: Below template names are defined in multiple files: ' + this.tool.NameCollisions.toString() + '\n'));
+                    process.stdout.write(chalk.default.redBright('[ERROR]: Below template names are defined in multiple files: ' + this.tool.NameCollisions.toString() + '\n'));
                 } else {
                     const mergedLgFileContent = this.generateLGFile(this.tool.MergedTemplates);
                     const filePath = outFolder + '\\' + fileName;
                     if (fs.existsSync(filePath)) {
-                        process.stdout.write(chalk.default.redBright(`Error: a file named ${fileName} already exists in the folder ${outFolder}.\n`));
+                        process.stdout.write(chalk.default.redBright(`A file named ${fileName} already exists in the folder ${outFolder}.\n`));
                     } else {
                         fs.writeFileSync(filePath, mergedLgFileContent);
                     }
@@ -117,7 +116,7 @@ export class Parser {
         }
     }
 
-    private parseFile(fileName: string, verbose: boolean): ReportEntry[] {
+    private parseFile(fileName: string, verbose: boolean): string[] {
         if (!fs.existsSync(path.resolve(fileName))) {
             throw (new Exp.Exception(retCode.ErrorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + fileName + ']'));
         }
@@ -129,13 +128,13 @@ export class Parser {
 
         if (verbose) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + fileName + '\n'));
 
-        const errors: ReportEntry[] = this.tool.ValidateFile(fileContent);
+        const errors: string[] = this.tool.ValidateFile(fileContent);
         if (errors.length > 0) {
             errors.forEach(error => {
-                if (error.Type === ReportEntryType.ERROR) {
-                    process.stdout.write(chalk.default.redBright('Error: ' + error.Message + '\n'));
+                if (error.startsWith(ErrorType.Error)) {
+                    process.stdout.write(chalk.default.redBright(error + '\n'));
                 } else {
-                    process.stdout.write(chalk.default.yellowBright('Warning: ' + error.Message + '\n'));
+                    process.stdout.write(chalk.default.yellowBright(error + '\n'));
                 }
             });
         }
@@ -143,10 +142,10 @@ export class Parser {
         return errors;
     }
 
-    private parseStream(fileContent: string, verbose: boolean): ReportEntry[] {
+    private parseStream(fileContent: string, verbose: boolean): string[] {
         if (verbose) process.stdout.write(chalk.default.whiteBright('Parsing from stdin.\n'));
 
-        const errors: ReportEntry[] = this.tool.ValidateFile(fileContent);
+        const errors: string[] = this.tool.ValidateFile(fileContent);
         if (errors.length > 0) {
             errors.forEach(error => {
                 process.stdout.write(chalk.default.redBright(error + '\n'));
