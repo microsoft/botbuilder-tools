@@ -5,6 +5,22 @@ mslg tool has the ability to parse a .LG file that adheres to the LG file format
 
 - [Node.js](https://nodejs.org/) version 8.5 or higher
 
+## Local Run
+- Install dependency on [botbuilder-lg](https://github.com/Microsoft/botbuilder-js/tree/4.next/libraries/botbuilder-lg/src) package
+  ```
+  1. clone the repo of botbuilder-js
+  2. switch to 4.next branch
+  3. lerna run build
+  4. import MSLGTool into Parser.ts and Expander.ts from botbuilder-js/libraries/botbuilder-lg/lib/MSLGTool
+  5. npm run build
+  ``` 
+  The dependency will be removed once the botbuilder-lg package is published.
+  
+- Run command by ts-node:
+  ```
+  ts-node src/mslg-parse.ts --in examples/exceptionExamples/EmptyTemplate.lg
+  ```
+
 ## Installation
 
 To install:
