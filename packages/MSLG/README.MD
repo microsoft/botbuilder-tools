@@ -21,13 +21,6 @@ mslg tool has the ability to parse a .LG file that adheres to the LG file format
   ts-node src/mslg-parse.ts --in examples/exceptionExamples/EmptyTemplate.lg
   ```
 
-## Installation
-
-To install:
-```bash
-npm i -g mslg
-```
-
 ## Commands
 ```
 >mslg
@@ -104,31 +97,4 @@ mslg parse -l validExamples -s --out finalResult -c    // parse and merge all te
  ### Expand
 ```bash
 mslg expand --in validExamples/simple.lg -t FinalGreeting    // basic usage of expand command.
-```
-
-## Use mslg as a library
-mslg can be used within a Node.js application as an imported library. Install locally:
-
-```bash
-npm install mslg --save
-```
-
-## Nightly builds
-
-Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
-
-You can get the latest nightly build of Ludown from the [BotBuilder MyGet](https://botbuilder.myget.org/gallery) feed. To install the nightly - 
-
-```shell
-npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
-```
-
-Install using npm:
-```shell
-npm i -g mslg
-```
-
-To reset registry:
-```shell
-npm config set registry https://registry.npmjs.org/
 ```
