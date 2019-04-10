@@ -87,9 +87,9 @@ export class Parser {
                 }
             }
 
-            if (this.tool.MergerMessages.length > 0) {
-                process.stdout.write(chalk.default.redBright("Errors happened when merging lg files" + '\n'));
-                this.tool.MergerMessages.forEach(error => {
+            if (this.tool.CollationMessages.length > 0) {
+                process.stdout.write(chalk.default.redBright("Errors happened when collating lg files" + '\n'));
+                this.tool.CollationMessages.forEach(error => {
                     if (error.startsWith(ErrorType.Error)) {
                         process.stdout.write(chalk.default.redBright(error + '\n'));
                     } else {
@@ -100,7 +100,10 @@ export class Parser {
                 if (program.collate === undefined && this.tool.NameCollisions.length > 0) {
                     process.stdout.write(chalk.default.redBright('[ERROR]: Below template names are defined in multiple files: ' + this.tool.NameCollisions.toString() + '\n'));
                 } else {
-                    const mergedLgFileContent = this.generateLGFile(this.tool.MergedTemplates);
+                    const mergedLgFileContent = this.tool.CollateTemplates();
+                    if (mergedLgFileContent === undefined || mergedLgFileContent === '') {
+                        process.stdout.write(chalk.default.redBright(`Error happened when generating collated lg file.\n`));
+                    }
                     const filePath = outFolder + '\\' + fileName;
                     if (fs.existsSync(filePath)) {
                         process.stdout.write(chalk.default.redBright(`A file named ${fileName} already exists in the folder ${outFolder}.\n`));
@@ -153,31 +156,5 @@ export class Parser {
         }
 
         return errors;
-    }
-
-    private generateLGFile(mergedTemplates: Map<string, any>): string {
-        let result: string = '';
-        for (const template of mergedTemplates) {
-            result += '# ' + template[0] + '\n';
-            if (template[1] instanceof Array) {
-                (template[1] as string[]).forEach(templateStr => {
-                    result += templateStr.slice(0, 1) + ' ' + templateStr.slice(1) + '\n';
-                });
-            } else if (template[1] instanceof Map) {
-                for (const condition of (template[1] as Map<string, string[]>)) {
-                    const conditionStr = condition[0];
-                    result += '- ' + conditionStr + '\n';
-                    condition[1].forEach(templateStr => {
-                        result += '   ' + templateStr.slice(0, 1) + ' ' + templateStr.slice(1) + '\n';
-                    })
-                }
-            } else {
-                process.stdout.write(chalk.default.redBright(`Error happened when generating merged lg file.\n`));
-            }
-
-            result += '\n'
-        }
-
-        return result;
     }
 }

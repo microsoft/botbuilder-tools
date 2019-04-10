@@ -26,9 +26,9 @@ export class Expander {
             throw err;
         }
 
-        if (this.tool.MergerMessages.length > 0) {
+        if (this.tool.CollationMessages.length > 0) {
             process.stdout.write(chalk.default.redBright("Errors happened when collating lg templates." + '\n'));
-            this.tool.MergerMessages.forEach(error => {
+            this.tool.CollationMessages.forEach(error => {
                 if (error.startsWith(ErrorType.Error)) {
                     process.stdout.write(chalk.default.redBright(error + '\n'));
                 } else {
@@ -37,7 +37,7 @@ export class Expander {
             });
         }
 
-        if (errors.length > 0 || this.tool.MergerMessages.length > 0) {
+        if (errors.length > 0 || this.tool.CollationMessages.length > 0) {
             process.stdout.write(chalk.default.redBright("Expand command stopped as errors happened when paring or collating lg templates." + '\n'));
         }
 
@@ -47,7 +47,7 @@ export class Expander {
         }
 
         if (program.all) {
-            templatesName = Array.from(new Set(templatesName.concat(this.getTemplatesName(this.tool.MergedTemplates))));
+            templatesName = Array.from(new Set(templatesName.concat(this.getTemplatesName(this.tool.CollatedTemplates))));
         }
 
         if (program.inline) {
@@ -166,9 +166,9 @@ export class Expander {
         return result;
     }
 
-    private getTemplatesName(mergedTemplates: Map<string, any>): string[] {
+    private getTemplatesName(collatedTemplates: Map<string, any>): string[] {
         let result: string[] = [];
-        for (const template of mergedTemplates) {
+        for (const template of collatedTemplates) {
             result.push(template[0]);
         }
 
