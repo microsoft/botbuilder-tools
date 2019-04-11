@@ -1051,6 +1051,15 @@ async function validateArguments(args, operation) {
                             break;
                     }
                     break;
+                case "appazureaccount":
+                    if (args.azureSubscriptionId && args.resourceGroup && args.accountName) {
+                        body = {
+                            azureSubscriptionId: `${args.azureSubscriptionId}`,
+                            resourceGroup: `${args.resourceGroup}`,
+                            accountName: `${args.accountName}`
+                        };
+                    }
+                    break;
 
                 default:
                     error.message = `The --in requires an input of type: ${operation.entityType}`;
