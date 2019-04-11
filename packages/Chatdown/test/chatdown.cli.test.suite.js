@@ -3,15 +3,32 @@ const {exec} = require('child_process');
 const semver = require('semver');
 const path = require('path');
 const pkg = require('../package.json');
+const latestVersion = require('latest-version');
 
 const chatdown = require.resolve('../bin/chatdown.js');
 
 describe('The Chatdown cli tool', () => {
     it('should print the help contents when --help is passed as an argument', done => {
-        exec(`node ${chatdown} --help`, (error, stdout, stderr) => {
-            assert.equal(stderr, "", "--help should not output error message");
-            assert(stdout.includes('--help') && stdout.includes('--version'));
-            done();
+        exec(`node ${chatdown} --help`, async (error, stdout, stderr) => {
+            try
+            {
+                let latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
+                .catch(error => pkg.version);
+                
+                if (semver.eq(latest, pkg.version)) {
+                    assert.equal(stderr, "", "--help should not output error message");
+                } else {
+                    assert(stderr.includes('Update available'));
+                }
+                
+                assert(stdout.includes('--help') && stdout.includes('--version'));
+                done();
+            }
+            catch(error)
+            {
+                done(error);
+                return;
+            }
         });
     });
 
@@ -32,7 +49,7 @@ describe('The Chatdown cli tool', () => {
 
     it('should throw when a malformed config options is encountered in the input', done => {
         exec(`echo bot=LuliBot=joe | node ${chatdown} `, (error, stdout, stderr) => {
-            assert(stderr.trim() === 'Error: Malformed configurations options detected. Options must be in the format optionName=optionValue');
+            assert(stderr.trim().indexOf('Error: Malformed configurations options detected. Options must be in the format optionName=optionValue') >= 0);
             done();
         });
     });
