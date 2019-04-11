@@ -265,7 +265,7 @@ async function runProgram() {
                                 return;
                             }
                         }
-                        result = await client.apps.deleteMethod(args.region, args.cloud, args.appId, args.force, args);
+                        result = await client.apps.deleteMethod(args.region, args.cloud, args.appId, { force: args.force }, args);
                     }
                     break;
 
