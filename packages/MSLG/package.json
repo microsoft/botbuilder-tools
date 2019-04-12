@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
   },
+  "bin": {
+    "mslg": "./bin/mslg"
+  },
   "keywords": [
     "LG"
   ],
