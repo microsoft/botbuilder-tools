@@ -18,7 +18,8 @@ mslg tool has the ability to parse a .LG file that adheres to the LG file format
 ```
   1. Replace the import path of MSLGTool in Parser.ts and Expander.ts to the right path of your botbuilder-js package like below
     import { MSLGTool } from '{path_to_your_botbuilder-lg_package}/lib/MSLGTool';
-  2. run tsc to build the tool
+  2. run npm install to install dependent packages
+  3. run tsc to build the tool
   3. run npm i -g to install this package locally
 ```
 - Run command
