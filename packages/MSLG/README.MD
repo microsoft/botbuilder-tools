@@ -20,6 +20,10 @@ mslg tool has the ability to parse a .LG file that adheres to the LG file format
   ```
   ts-node src/mslg-parse.ts --in examples/exceptionExamples/EmptyTemplate.lg
   ```
+- Run command by node:
+  ```
+  node lib/mslg.js parse --in examples/exceptionExamples/EmptyTemplate.lg
+  ```
 
 ## Commands
 ```
