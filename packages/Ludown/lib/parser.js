@@ -18,6 +18,7 @@ const filesToParseClass = require('./classes/filesToParse');
 const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
+const parserConsts = require('./enums/parserconsts');
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -43,6 +44,15 @@ const parser = {
         }
         // resolve uttereance deep references
         await resolveReferencesInUtterances(allParsedContent);
+
+        if (program.suggest_models) {
+            try {
+                await suggestModelsAndWriteToDisk(allParsedContent, program, cmd)
+            } catch (err) {
+                throw (err);
+            }
+            return;
+        }
         let finalLUISJSON, finalQnAJSON, finalQnAAlterations; 
         try {
             // pass only files that need to be collated.
@@ -236,9 +246,11 @@ const getFilesToParse = async function(program) {
             throw(new exception(retCode.errorCode.OUTPUT_FOLDER_INVALID, 'Sorry, ' + program.lu_folder + ' is not a folder or does not exist'));
         }
         if(program.subfolder) {
-            filesToParse = helpers.findLUFiles(program.lu_folder, true); 
+            filesToParse = helpers.findFiles(program.lu_folder, true, parserConsts.LUFILEEXTENSION); 
+            helpers.findFiles(program.lu_folder, true, parserConsts.QNAFILEEXTENSION).forEach(item => filesToParse.push(item));
         } else {
-            filesToParse = helpers.findLUFiles(program.lu_folder, false); 
+            filesToParse = helpers.findFiles(program.lu_folder, false, parserConsts.LUFILEEXTENSION); 
+            helpers.findFiles(program.lu_folder, false, parserConsts.QNAFILEEXTENSION).forEach(item => filesToParse.push(item));
         }
         if(filesToParse.length === 0) {
             throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Sorry, no .lu files found in the specified folder.'));                
@@ -286,7 +298,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
         } 
         parsedFiles.push(file);
         try {
-            if (haveLUISContent(parsedContent.LUISJsonStructure) && await parseFileContents.validateLUISBlob(parsedContent.LUISJsonStructure)) allParsedLUISContent.push(parserObject.create(parsedContent.LUISJsonStructure, undefined, undefined, file, filesToParse[0].includeInCollate));
+            if (haveLUISContent(parsedContent.LUISJsonStructure) && await parseFileContents.validateLUISBlob(parsedContent.LUISJsonStructure)) allParsedLUISContent.push(parserObject.create(parsedContent.LUISJsonStructure, undefined, undefined, file, filesToParse[0].includeInCollate, parsedContent.triggerIntent));
         } catch (err) {
             throw (err);
         }
@@ -309,7 +321,8 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
                         rootPath = path.resolve(parentFilePath, rootFolder);
                     } 
                     // Get LU files in this location
-                    const luFilesToAdd = helpers.findLUFiles(rootPath, isRecursive);
+                    let luFilesToAdd = helpers.findFiles(rootPath, isRecursive, parserConsts.LUFILEEXTENSION);
+                    helpers.findFiles(rootPath, isRecursive, parserConsts.QNAFILEEXTENSION).forEach(item => luFilesToAdd.push(item));
                     if(luFilesToAdd.length !== 0) {
                         // add these to filesToParse
                         luFilesToAdd.forEach(addFile => filesToParse.push(new filesToParseClass(addFile, file.includeInCollate)));
@@ -332,6 +345,56 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
         QnAContent: allParsedQnAContent,
         QnAAlterations: allParsedAlterationsContent
     };
+};
+/**
+ * Helper function to group parsed content by relative folder paths. 
+ * @param {Object} allParsedContent 
+ * @param {String} rootDialogFolderName 
+ * @param {String} baseFolderPath 
+ */
+const groupFilesByHierarchy = function(allParsedContent, rootDialogFolderName, baseFolderPath) {
+    let groupedFiles = {
+        "LUISContent": [],
+        "QnAContent": [],
+        "QnAAlterations": []
+    };
+    (allParsedContent.LUISContent || []).forEach(parsedObject => {
+        //let folderScope = parsedObject.srcFile.replace(baseFolderPath, '');
+        let relPath = path.relative(baseFolderPath, parsedObject.srcFile);
+        let relFolder = path.basename(path.dirname(relPath));
+        
+    })
+    return groupedFiles;
+}
+/**
+ * 
+ * @param {Object} allParsedContent 
+ * @param {object} program Content flushed out by commander
+ * @param {cmdEnum} cmd Parse to either LUIS or QnA 
+ * @returns {void}
+ * @throws {exception} Throws on errors. exception object includes errCode and text. 
+ */
+const suggestModelsAndWriteToDisk = async function(allParsedContent, program, cmd) {
+    let crossFeedModels = program.cross_feed_models
+    let rootDialogFolderName = program.rootDialog ? program.rootDialog : undefined;
+    let baseFolderPath = path.resolve(program.lu_folder);
+    let groupedObject = groupFilesByHierarchy(allParsedContent, rootDialogFolderName, baseFolderPath);
+    // From parsed content, group .lu and .qna files under specific folders into separate collections
+    // try {
+    //     // pass only files that need to be collated.
+    //     finalLUISJSON = await parseFileContents.collateLUISFiles(allParsedContent.LUISContent.filter(item => item.includeInCollate));
+    //     if(haveLUISContent(finalLUISJSON)) await parseFileContents.validateLUISBlob(finalLUISJSON);
+    //     finalQnAJSON = await parseFileContents.collateQnAFiles(allParsedContent.QnAContent.filter(item => item.includeInCollate));
+    //     finalQnAAlterations = await parseFileContents.collateQnAAlterations(allParsedContent.QnAAlterations.filter(item => item.includeInCollate));
+    // } catch (err) {
+    //     throw (err);
+    // }
+    // try {
+    //     writeOutFiles(program,finalLUISJSON,finalQnAJSON, finalQnAAlterations, rootFile, cmd); 
+    // } catch (err) {
+    //     throw(err);
+    // }
+
 }
 /**
  * Helper function to resolve lu file references in utterances

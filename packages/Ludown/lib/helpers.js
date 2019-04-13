@@ -29,15 +29,16 @@ const helpers = {
      * Helper function to recursively get all .lu files
      * @param {string} inputfolder input folder name
      * @param {boolean} getSubFolder indicates if we should recursively look in sub-folders as well
-     * @returns {Array} Array of .lu files found
+     * @param {string} file extension to use
+     * @returns {Array} Array of files found
     */
-    findLUFiles: function(inputFolder, getSubFolders) {
+    findFiles: function(inputFolder, getSubFolders, fileExtension) {
         let results = [];
-        const luExt = '.lu';
+        const luExt = fileExtension ? fileExtension : '.lu';
         fs.readdirSync(inputFolder).forEach(function(dirContent) {
             dirContent = path.resolve(inputFolder,dirContent);
             if(getSubFolders && fs.statSync(dirContent).isDirectory()) {
-                results = results.concat(helpers.findLUFiles(dirContent, getSubFolders));
+                results = results.concat(helpers.findFiles(dirContent, getSubFolders, fileExtension));
             }
             if(fs.statSync(dirContent).isFile()) {
                 if(dirContent.endsWith(luExt)) {

@@ -854,7 +854,16 @@ const parseAndHandleListEntity = function (parsedContent, chunkSplitByLine, enti
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
-    let intentName = chunkSplitByLine[0].substring(chunkSplitByLine[0].indexOf(' ') + 1);
+    let intentHeader = chunkSplitByLine[0].substring(chunkSplitByLine[0].indexOf(' ') + 1);
+    let triggerIntentRegex = /\[[T|t]rigger [I|i]ntent\]/g;
+    var triggerFound = intentHeader.split(triggerIntentRegex);
+    let intentName = triggerFound[0].trim();
+    if (triggerFound.length > 1) {
+        if (parsedContent.triggerIntent != undefined) {
+            throw (new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Multiple intents with [trigger intent] set: "' + parsedContent.triggerIntent + '" and "' + triggerFound[0] + '"'));
+        }
+        parsedContent.triggerIntent = intentName;
+    }
     // is this a QnA section? Qna sections have intent names that begin with ?
     if (intentName.trim().indexOf(PARSERCONSTS.QNA) === 0) {
         let questions = [];

@@ -31,6 +31,7 @@ class parserObject {
         this.qnaAlterations = new qnaAlterations.qnaAlterations();
         this.srcFile = undefined;
         this.includeInCollate = true;
+        this.triggerIntent = undefined;
     }
 }
 /**
@@ -40,8 +41,9 @@ class parserObject {
  * @param {Object} lQnaAlterations 
  * @param {Object} srcFile 
  * @param {Object} includeInCollate 
+ * @param {String} triggerIntent
  */
-parserObject.create = function(LUISJsonStructure, qnaJsonStructure, lQnaAlterations, srcFile, includeInCollate) {
+parserObject.create = function(LUISJsonStructure, qnaJsonStructure, lQnaAlterations, srcFile, includeInCollate, triggerIntent) {
     let parserObj = new parserObject();
     parserObj.LUISJsonStructure = (LUISJsonStructure || new LUIS());
     parserObj.qnaJsonStructure = (qnaJsonStructure || new QnA());
@@ -49,6 +51,7 @@ parserObject.create = function(LUISJsonStructure, qnaJsonStructure, lQnaAlterati
     parserObj.srcFile = (srcFile || undefined);
     if(includeInCollate === undefined) parserObj.includeInCollate = true;
     else parserObj.includeInCollate = includeInCollate;
+    if (triggerIntent !== undefined) parserObj.triggerIntent = triggerIntent;
     return parserObj;
 }
 
