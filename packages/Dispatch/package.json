@@ -1,6 +1,6 @@
 {
   "name": "botdispatch",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Tool to create LUIS model to dispatch intent among different bot components (multiple LUIS, QnA, etc)",
   "scripts": {
     "start": "dotnet bin/netcoreapp2.1/Dispatch.dll"
