@@ -692,7 +692,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
         let simpleEntityExists = (parsedContent.LUISJsonStructure.entities || []).find(item => item.name == entityName);
         if (simpleEntityExists !== undefined) { 
             // take and add any roles into the roles list
-            (simpleEntityExists.roles || []).forEach(role => entityRoles.push(role));
+            (simpleEntityExists.roles || []).forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
             // remove this simple entity definition
             for (var idx = 0; idx < parsedContent.LUISJsonStructure.entities.length; idx ++) {
                 if (parsedContent.LUISJsonStructure.entities[idx].name === simpleEntityExists.name) {

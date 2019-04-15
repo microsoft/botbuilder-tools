@@ -321,11 +321,15 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
                         rootPath = path.resolve(parentFilePath, rootFolder);
                     } 
                     // Get LU files in this location
-                    let luFilesToAdd = helpers.findFiles(rootPath, isRecursive, parserConsts.LUFILEEXTENSION);
-                    helpers.findFiles(rootPath, isRecursive, parserConsts.QNAFILEEXTENSION).forEach(item => luFilesToAdd.push(item));
-                    if(luFilesToAdd.length !== 0) {
-                        // add these to filesToParse
-                        luFilesToAdd.forEach(addFile => filesToParse.push(new filesToParseClass(addFile, file.includeInCollate)));
+                    try {
+                        let luFilesToAdd = helpers.findFiles(rootPath, isRecursive, parserConsts.LUFILEEXTENSION);
+                        helpers.findFiles(rootPath, isRecursive, parserConsts.QNAFILEEXTENSION).forEach(item => luFilesToAdd.push(item));
+                        if(luFilesToAdd.length !== 0) {
+                            // add these to filesToParse
+                            luFilesToAdd.forEach(addFile => filesToParse.push(new filesToParseClass(addFile, file.includeInCollate)));
+                        }
+                    } catch (err) {
+                        throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, err.message));
                     }
                 } else {
                     if(!path.isAbsolute(file.filePath)) file.filePath = path.resolve(parentFilePath, file.filePath);
@@ -361,7 +365,12 @@ const groupFilesByHierarchy = function(allParsedContent, rootDialogFolderName, b
     (allParsedContent.LUISContent || []).forEach(parsedObject => {
         //let folderScope = parsedObject.srcFile.replace(baseFolderPath, '');
         let relPath = path.relative(baseFolderPath, parsedObject.srcFile);
-        let relFolder = path.basename(path.dirname(relPath));
+        let relBaseFolder = relPath.split(new RegExp(/[\/\\]/g))[0];
+        if (groupedFiles.LUISContent.hasOwnProperty(relBaseFolder)) {
+
+        } else {
+            groupedFiles.LUISContent.push(JSON.parse(`"${relBaseFolder}": {${parsedObject}}`));
+        }
         
     })
     return groupedFiles;
