@@ -1,13 +1,15 @@
+#!/usr/bin/env node
 import * as msRest from '@azure/ms-rest-js';
 import * as fs from 'async-file';
 import * as chalk from 'chalk';
 import * as latestVersion from 'latest-version';
 import { LuisAuthoring } from 'luis-apis';
-import { AzureClouds, AzureRegions, LuisApp } from 'luis-apis/typings/lib/models';
+import { AppsAddResponse, AppsGetResponse, AzureClouds, AzureRegions, LuisApp } from 'luis-apis/typings/lib/models';
 import * as path from 'path';
 import * as process from 'process';
 import * as txtfile from 'read-text-file';
 import * as semver from 'semver';
+import { help } from './help';
 import { IConfig } from './IConfig';
 import { LuisRecognizer } from './LuisRecognizer';
 import { runCommand } from './utils';
@@ -50,7 +52,7 @@ async function runProgram() {
         args.h ||
         args['!'] ||
         args._.includes('help')) {
-        return help();
+        return help(process.stdout);
     }
 
     if (args.version || args.v) {
@@ -68,11 +70,14 @@ async function runProgram() {
     if (!args.environment) {
         args.environment = await username();
     }
-    console.log(`Target Environment:${args.environment}`);
 
     let json = await txtfile.read(args.config);
-    let config: IConfig = JSON.parse(json);
-    console.log(JSON.stringify(config, null, 4));
+    let config: IConfig;
+    try {
+        config = JSON.parse(json);
+    } catch (err) {
+        throw new Error(chalk.default.red(`Error parsing ${args.config}:\n${err}`));
+    }
 
     for (let path of config.models) {
         if (!await fs.exists(path)) {
@@ -95,26 +100,29 @@ async function runProgram() {
         throw new Error('missing name');
     }
 
-    if (!config.region) {
-        config.region = 'westus';
+    if (!config.authoringRegion) {
+        config.authoringRegion = 'westus';
+    } else {
+        if (config.authoringRegion != 'westus' &&
+            config.authoringRegion != 'westeurope' &&
+            config.authoringRegion != 'australiaeast') {
+            throw new Error(`${config.authoringRegion} is not a valid authoring region (westus|westeurope|australiaeast)`);
+        }
     }
 
     if (!config.folder) {
         config.folder = 'models';
     }
+    console.log(JSON.stringify(config, null, 4));
+
+    console.log(`Building models for environment [${chalk.default.bold(<string>config.environment)}] targeting authoring region [${chalk.default.bold(config.authoringRegion)}] `);
 
     await runBuild(config);
 }
 
-async function help() {
-    process.stdout.write('LUIS Command Line Interface - © 2018 Microsoft Corporation\n\n');
-    return;
-}
-
-
 async function error(message: string) {
-    process.stderr.write(chalk.default.red(message));
-    await help();
+    process.stderr.write(chalk.default.redBright(message) + '\n');
+    await help(process.stdout);
     return;
 }
 
@@ -123,12 +131,12 @@ async function runBuild(config: IConfig) {
     const client = new LuisAuthoring(<any>credentials);
 
     for (let modelPath of config.models) {
-        await processLuModelPath(client, config, modelPath);
+        await processLuFile(client, config, modelPath);
     }
 
 }
 
-async function processLuModelPath(client: LuisAuthoring, config: IConfig, modelPath: string): Promise<void> {
+async function processLuFile(client: LuisAuthoring, config: IConfig, modelPath: string): Promise<void> {
     let rootFolder = path.dirname(modelPath);
     let rootFile = path.basename(modelPath, '.lu');
 
@@ -149,105 +157,181 @@ async function processLuModelPath(client: LuisAuthoring, config: IConfig, modelP
     dialogFiles = await fs.readdir(config.folder || '');
 
     // let recognizers: { [key: string]: LuisRecognizer } = {};
-    for (var luFile of luFiles) {
-        let dialogFile = path.join(<string>config.folder, path.basename(luFile, '.lu') + '.dialog');
-        let recognizer = await LuisRecognizer.load(dialogFile);
-        if (recognizer.applicationId == null) {
-            // create the application
-            let culture = recognizer.getCulture();
-            let name = `${config.name}-${config.environment}-${config.region}-${culture}-${rootFile}.lu`;
-            console.log(`creating application: ${name}`)
-            let response = await client.apps.add(<AzureRegions>config.region,
-                <AzureClouds>"com", {
-                    "name": name,
-                    "description": `Model for ${config.name} app, targetting ${config.environment} for ${rootFile}.lu file`,
-                    "culture": recognizer.getCulture(),
-                    "usageScenario": "",
-                    "domain": "",
-                    "initialVersionId": "0000000000"
-                }, {});
-            recognizer.applicationId = response.body;
-            recognizer.endpoint = `https://${config.region}.api.cognitive.microsoft.com/`;
-            await recognizer.save();
-        } else {
-            await updateModel(config, client, luFiles, recognizer);
-        }
+    let environmentFolder = path.join(<string>config.folder, <string>config.environment);
+    if (!await fs.exists(environmentFolder)) {
+        await fs.createDirectory(environmentFolder);
     }
+
+    let recognizersToPublish: LuisRecognizer[] = [];
+    let apps = await client.apps.list(<AzureRegions>config.authoringRegion, <AzureClouds>"com");
+
+    for (var luFile of luFiles) {
+        let culture = getCultureFromPath(luFile);
+
+        let name = `${config.name}-${config.environment}-${config.authoringRegion}-${culture}-${rootFile}.lu`;
+        let dialogFile = path.join(environmentFolder, path.basename(luFile) + '.dialog');
+        let recognizer = await LuisRecognizer.load(luFile, dialogFile);
+
+        if (recognizer.applicationId == null) {
+            for (let app of apps) {
+                if (app.name == name) {
+                    recognizer.applicationId = <string>app.id;
+                    break;
+                }
+            }
+        }
+
+        let appInfo: AppsGetResponse;
+        try {
+            // get app info
+            appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.applicationId);
+        } catch (err) {
+            // create the application
+            await createApplication(name, client, config, rootFile, culture, recognizer);
+            
+            appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.applicationId );
+        }
+
+        recognizer.versionId = appInfo.activeVersion;
+        
+        let training = await updateModel(config, client, recognizer, appInfo);
+        if (training) {
+            recognizersToPublish.push(recognizer);
+        }
+        await recognizer.save();
+    }
+
+    // wait for training to complete and publish
+    for (let recognizer of recognizersToPublish) {
+        await publishModel(config, client, recognizer);
+    }
+
     return;
 }
 
 
-async function updateModel(config: IConfig, client: LuisAuthoring, luFiles: string[], recognizer: LuisRecognizer) {
+async function createApplication(name: string, client: LuisAuthoring, config: IConfig, rootFile: string, culture: string, recognizer: LuisRecognizer): Promise<AppsAddResponse> {
+    console.log(`${name} creating version:0000000000`);
+    let response = await client.apps.add(<AzureRegions>config.authoringRegion, <AzureClouds>"com", {
+        "name": name,
+        "description": `Model for ${config.name} app, targetting ${config.environment} for ${rootFile}.lu file`,
+        "culture": culture,
+        "usageScenario": "",
+        "domain": "",
+        "initialVersionId": "0000000000"
+    }, {});
+    recognizer.applicationId = response.body;
+    await recognizer.save();
+    await delay(1000);
+    return response;
+}
 
-    // get app info
-    let appInfo = await client.apps.get(<AzureRegions>config.region, <AzureClouds>"com", recognizer.applicationId || '');
+// returns true if it needs to be trained and published
+async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: LuisRecognizer, appInfo: AppsGetResponse): Promise<boolean> {
 
     // get activeVersion
-    //let activeVersion = await client.versions.exportMethod(<AzureRegions>config.region, <AzureClouds>"com", recognizer.applicationId || '', appInfo.activeVersion || '');
-    var activeVersionInfo = await client.versions.get(<AzureRegions>config.region, <AzureClouds>"com", recognizer.applicationId || '', appInfo.activeVersion || '');
+    var activeVersionInfo = await client.versions.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.applicationId || '', appInfo.activeVersion || '');
+    await delay(1000);
 
-    let luFile = recognizer.getLuFile(luFiles);
+    let luFile = recognizer.getLuFile();
 
     var stats = await fs.stat(<string>luFile);
 
     // if different, then update 
-    if (activeVersionInfo && <Date>activeVersionInfo.lastModifiedDateTime < stats.mtime) {
-        console.log(`${luFile} changed`);
+    if (config.force || recognizer.versionId == "0000000000" ||
+        (activeVersionInfo && <Date>activeVersionInfo.lastModifiedDateTime < stats.mtime)) {
+        console.log(`${luFile} updating`);
         let outFile = luFile + ".json";
 
         // run ludown on file
         await runCommand(`ludown parse ToLuis --in ${luFile} --out ${outFile}`);
         let newJson = await txtfile.read(outFile);
-        // await fs.delete(outFile);
+        await fs.delete(outFile);
 
         let newVersion = <LuisApp>JSON.parse(newJson);
         newVersion.name = appInfo.name;
         newVersion.desc = appInfo.description;
         newVersion.culture = appInfo.culture;
-        
+
         // increment version
         let newVersionId = pad(parseInt(<string>appInfo.activeVersion) + 1, 10);
         newVersion.versionId = newVersionId;
+        recognizer.versionId = newVersionId;
 
         // import new version
-        console.log(`${luFile} creating new version=${newVersionId}`);
-        await client.versions.importMethod(<AzureRegions>config.region, <AzureClouds>"com", <string>recognizer.applicationId, newVersion, { versionId: newVersionId });
+        console.log(`${luFile} creating version=${newVersionId}`);
+        await client.versions.importMethod(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.applicationId, newVersion, { versionId: newVersionId });
         // console.log(JSON.stringify(importResult.body));
+        await delay(1000);
 
         // train the version
-        console.log(`${luFile} training new version=${newVersionId}`);
-        let trainResult = await client.train.trainVersion(<AzureRegions>config.region, <AzureClouds>"com", recognizer.applicationId || '', newVersionId);
+        console.log(`${luFile} training version=${newVersionId}`);
+        await client.train.trainVersion(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.applicationId || '', newVersionId);
 
-        if (trainResult.status == 'Queued') {
-            let done = true;
-            do {
-                await delay(1000);
-                let trainingStatus = await client.train.getStatus(<AzureRegions>config.region, <AzureClouds>"com", recognizer.applicationId || '', newVersionId);
+        recognizer.save();
 
-                done = true;
-                for (let status of trainingStatus) {
-                    if (status.details) {
-                        if (status.details.status == 'InProgress') {
-                            done = false;
-                            break;
-                        }
-                    }
-                }
-            } while (!done);
-        }
-
-        // publish the version
-        console.log(`${luFile} publishing new version=${newVersionId}`);
-        let publishResult = await client.apps.publish(<AzureRegions>config.region, <AzureClouds>"com", recognizer.applicationId || '',
-            {
-                "versionId": newVersionId,
-                "isStaging": false
-            });
-        console.log(JSON.stringify(publishResult));
+        await delay(1000);
+        return true;
     } else {
         console.log(`${luFile} no changes`);
+        return false;
     }
 }
+
+async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: LuisRecognizer): Promise<void> {
+    process.stdout.write(`${recognizer.getLuFile()} waiting for training for version=${recognizer.versionId}...`);
+    let done = true;
+    do {
+        await delay(5000);
+        await process.stdout.write('.');
+        let trainingStatus = await client.train.getStatus(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.applicationId || '', <string>recognizer.versionId);
+
+        done = true;
+        for (let status of trainingStatus) {
+            if (status.details) {
+                if (status.details.status == 'InProgress') {
+                    done = false;
+                    break;
+                }
+            }
+        }
+    } while (!done);
+    process.stdout.write('done\n');
+
+    // publish the version
+    console.log(`${recognizer.getLuFile()} publishing version=${recognizer.versionId}`);
+    await client.apps.publish(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.applicationId || '',
+        {
+            "versionId": <string>recognizer.versionId,
+            "isStaging": false
+        });
+
+    console.log(`${recognizer.getLuFile()} finished`);
+}
+
+function getCultureFromPath(file: string): string {
+    let fn = path.basename(file, '.lu');
+    let lang = path.extname(fn).substring(1);
+    switch (lang.toLowerCase()) {
+        case 'en-us':
+        case 'zh-cn':
+        case 'nl-nl':
+        case 'fr-fr':
+        case 'fr-ca':
+        case 'de-de':
+        case 'it-it':
+        case 'ja-jp':
+        case 'ko-kr':
+        case 'pt-br':
+        case 'es-es':
+        case 'es-mx':
+        case 'tr-tr':
+            return lang;
+        default:
+            return 'en-us';
+    }
+}
+
 
 function pad(num: number, size: number) {
     return ('000000000000000' + num).substr(-size);

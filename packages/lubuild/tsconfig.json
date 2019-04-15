@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": "./src",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "alwaysStrict": true,
     "noImplicitAny": true,
     "preserveConstEnums": true,
@@ -15,7 +16,7 @@
     "strict": true,
     "strictNullChecks": true,
     "module": "commonjs",
-    "outDir": "./lib",
+    "outDir": "./bin",
     "declaration": true,
     "declarationDir": "./typings/lib",
     "lib": [ "dom", "dom.iterable", "es5", "es6", "es7", "esnext", "esnext.asynciterable", "es2015.iterable"]
@@ -25,6 +26,6 @@
     "node_modules"
   ],
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts", "bin/help.ts"
   ]
 }

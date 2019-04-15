@@ -1,14 +1,15 @@
 export declare class LuisRecognizer {
     private dialogPath;
-    constructor();
-    static load(dialogPath: string): Promise<LuisRecognizer>;
+    private luFile;
+    constructor(luFile: string);
+    static load(luFile: string, dialogPath: string): Promise<LuisRecognizer>;
     save(): Promise<void>;
     getCloud(): string | null;
     getRegion(): string | null;
-    getCulture(): string;
     getFileName(): string;
-    getLuFile(files: string[]): string | null;
-    applicationId: string | null;
-    endpoint: string | null;
-    endpointKey: string | null;
+    getLuFile(): string;
+    applicationId: string | undefined;
+    versionId: string | undefined;
+    endpoint: string | undefined;
+    endpointKey: string | undefined;
 }

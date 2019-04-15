@@ -2,13 +2,25 @@
   "name": "lubuild",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./bin/index.js",
+  "bin": { 
+    "lubuild": "./bin/index.js" 
+  },
+  "types": "bin/index.d.ts",
   "author": "",
   "scripts": {
     "test": "cd test/ && mocha --opts mocha.opts",
     "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",
     "build": "tsc"
   },
+  "directories": {
+    "bin": "bin",
+    "typings": "typings"
+  },
+  "files": [
+    "bin/",
+    "typings/"
+  ],
   "license": "MIT",
   "dependencies": {
     "@azure/ms-rest-js": "1.7.0",

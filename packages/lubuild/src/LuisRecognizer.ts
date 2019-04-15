@@ -4,32 +4,38 @@ import * as txtfile from 'read-text-file';
 import { URL } from 'url';
 
 export class LuisRecognizer {
-    private dialogPath: string;
+    private dialogPath: string | undefined;
+    private luFile: string;
 
-    constructor() {
-        (<any>this)['$type'] = 'Microsoft.LuisRecognizer';
-        this.dialogPath = '';
-        this.applicationId = null;
-        this.endpoint = null;
+    constructor(luFile: string) {
+        this.luFile = luFile;
+        this.applicationId = undefined;
+        this.versionId = '0000000000';
+        this.endpoint = `{settings.luis.endpointRegion}`;
         this.endpointKey = "{settings.luis.endpointKey}";
     }
 
-    static async load(dialogPath: string): Promise<LuisRecognizer> {
-
+    static async load(luFile: string, dialogPath: string): Promise<LuisRecognizer> {
         if (await fs.exists(dialogPath)) {
-            let recognizer = new LuisRecognizer();
+            let recognizer = new LuisRecognizer(luFile);
             recognizer.dialogPath = dialogPath;
             let json = await txtfile.read(dialogPath);
             Object.assign(recognizer, JSON.parse(json));
             return recognizer;
         }
-        var recognizer = new LuisRecognizer();
+        var recognizer = new LuisRecognizer(luFile);
         recognizer.dialogPath = dialogPath;
         return recognizer;
     }
 
     async save(): Promise<void> {
-        await fs.writeTextFile(this.dialogPath, JSON.stringify(this, null, 4), 'utf8');
+        let output = {
+            "$type": 'Microsoft.LuisRecognizer',
+            applicationId: this.applicationId,
+            endpoint: this.endpoint,
+            endpointKey: this.endpointKey
+        }
+        await fs.writeTextFile(<string>this.dialogPath, JSON.stringify(output, null, 4), 'utf8');
     }
 
     getCloud() {
@@ -48,43 +54,17 @@ export class LuisRecognizer {
         return null;
     }
 
-    getCulture(): string {
-        let fn = path.basename(this.dialogPath, '.dialog');
-        let lang = path.extname(fn).substring(1);
-        switch (lang.toLowerCase()) {
-            case 'en-us':
-            case 'zh-cn':
-            case 'nl-nl':
-            case 'fr-fr':
-            case 'fr-ca':
-            case 'de-de':
-            case 'it-it':
-            case 'ja-jp':
-            case 'ko-kr':
-            case 'pt-br':
-            case 'es-es':
-            case 'es-mx':
-            case 'tr-tr':
-                return lang;
-            default:
-                return 'en-us';
-        }
+    getFileName(): string {
+        return path.basename(<string>this.dialogPath);
     }
 
-    getFileName() : string {
-        return path.basename(this.dialogPath);
+    getLuFile() {
+        return this.luFile;
     }
 
-    getLuFile(files: string[]) {
-        for(let file of files) {
-            if (path.basename(file, '.lu') == path.basename(this.dialogPath, '.dialog'))
-                return file;
-        }
-        return null;
-    }
-
-    applicationId: string | null;
-    endpoint: string | null;
-    endpointKey: string | null;
+    applicationId: string | undefined;
+    versionId: string | undefined;
+    endpoint: string | undefined;
+    endpointKey: string | undefined;
 }
 

@@ -6,16 +6,16 @@ export interface IBuildArgs {
     name: string;
 
     // target environment (username, production, etc.)
-    environment: string | null;
+    environment: string | undefined;
 
     // cli override of authoringkey
-    authoringKey: string | null;
+    authoringKey: string | undefined;
 
     // authoring region
-    region: string|null;
+    authoringRegion: string | undefined;
 
     // alternate path to lubuild.config
-    config: string | null;
+    config: string | undefined;
 
     // build all languages (default:true)
     multilingual: boolean;
@@ -23,9 +23,9 @@ export interface IBuildArgs {
     // delete old version after successfully creating version (default:True)
     autodelete: boolean;
 
-    // publish to production (default:true, it will publish to staging slot)
-    production: boolean;
-
     // output folder (default: models)
-    folder: string | null;
+    folder: string | undefined;
+
+    // force update of models
+    force: boolean;
 }

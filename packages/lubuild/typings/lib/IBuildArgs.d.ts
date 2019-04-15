@@ -1,12 +1,12 @@
 export interface IBuildArgs {
     help: boolean;
     name: string;
-    environment: string | null;
-    authoringKey: string | null;
-    region: string | null;
-    config: string | null;
+    environment: string | undefined;
+    authoringKey: string | undefined;
+    authoringRegion: string | undefined;
+    config: string | undefined;
     multilingual: boolean;
     autodelete: boolean;
-    production: boolean;
-    folder: string | null;
+    folder: string | undefined;
+    force: boolean;
 }
