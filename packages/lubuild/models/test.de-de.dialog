@@ -1,0 +1,7 @@
+{
+    "$type": "Microsoft.LuisRecognizer",
+    "dialogPath": "models\\test.de-de.dialog",
+    "applicationId": "cba01414-634a-4298-8d55-be492341c966",
+    "endpoint": "https://westus.api.cognitive.microsoft.com/",
+    "endpointKey": "{settings.luis.endpointKey}"
+}

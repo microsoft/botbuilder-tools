@@ -1,0 +1,128 @@
+{
+  "intents": [
+    {
+      "name": "Book Table"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Einen Tisch reservieren",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Ich möchte einen Tisch reservieren",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Buchen Sie einen Tisch für 3",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Buchen Sie einen Tisch für 2 Personen im Redmond-Geschäft für den nächsten Donnerstag um 15 Uhr",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Buchen Sie einen Tisch für 3 Gäste in Seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Buchen Sie einen Tisch für den nächsten Donnerstag um 15 Uhr",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Buchen Sie einen Tisch für 3 Gäste in der Nähe von microsoft für den nächsten Donnerstag um 15 Uhr",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Können Sie einen Tisch für 3 Gäste buchen?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Mich einen Tisch für den nächsten Mittwoch",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Buchen Sie einen Tisch im seatac",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Können Sie bitte einen Tisch für 2 Gäste für dieses Wochenende buchen?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Einen Tisch für den nächsten Donnerstag",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Reservieren Sie einen Tisch für 4 bei SEA",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Können Sie mir einen Tisch besortigen",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Bitte helfen Sie, einen Tisch für 5 zu reservieren",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Kann ich einen Tisch für diesen Sonntag in der Seefattle bekommen?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Brauchen Sie einen Tisch in redmond",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Ich muss einen Tisch reservieren",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Ich muss reservieren",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Ich muss einen Tisch für 2 in Seattle reservieren",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Buchen Sie einen Tisch für 2 in Seattle",
+      "intent": "Book Table",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "test",
+  "desc": "",
+  "culture": "en-us"
+}
