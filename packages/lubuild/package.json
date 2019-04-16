@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "./bin/index.js",
-  "bin": { 
-    "lubuild": "./bin/index.js" 
+  "bin": {
+    "lubuild": "./bin/index.js"
   },
   "types": "bin/index.d.ts",
   "author": "",
@@ -37,5 +37,9 @@
     "semver": "^6.0.0",
     "username": "^4.1.0",
     "window-size": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^5.0.2",
+    "@types/semver": "^5.5.0"
   }
 }
