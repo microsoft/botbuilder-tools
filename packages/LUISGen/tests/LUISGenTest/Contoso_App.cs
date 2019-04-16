@@ -168,7 +168,7 @@ namespace Microsoft.Bot.Builder.Ai.LUIS.Tests
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<Contoso_App>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<Contoso_App>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;
