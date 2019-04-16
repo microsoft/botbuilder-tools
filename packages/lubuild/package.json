@@ -39,7 +39,7 @@
     "window-size": "^1.1.1"
   },
   "devDependencies": {
-    "@types/fs-extra": "^5.0.2",
+    "@types/fs-extra": "^5.0.5",
     "@types/semver": "^5.5.0"
   }
 }
