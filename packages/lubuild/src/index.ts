@@ -60,11 +60,11 @@ async function runProgram() {
     }
 
     if (!args.config) {
-        args.config = './models.config'
+        args.config = './luconfig.json'
     }
 
     if (!await fs.exists(args.config)) {
-        return error(`missing models.config file or --config argument`);
+        return error(`missing luconfig.json file or --config argument`);
     }
 
     if (!args.environment) {

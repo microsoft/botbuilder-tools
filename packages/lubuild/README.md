@@ -88,13 +88,14 @@ actually application ids you are connected to.
 You can override the environment via cli argument *--environment foo* or via the models.config
 file.
 
-## Models.config
-The Models.config file describes the configuration for **LUBuild**.  Any LU files add to this file 
+## Config file
+The **luconfig.json** file describes the configuration for **LUBuild**.  Any LU files add to this file 
 will be processed by **LUBuild** to create the published models you need to execute against.
 
 ```json
 {
     "name":"MyProject",
+    "defaultLanguage":"en-us",
     "models": [
         "test/test.lu",
         "test/sample/x/Contoso.Foo.lu"
@@ -103,15 +104,15 @@ will be processed by **LUBuild** to create the published models you need to exec
 ```
 Every .LU file which is added to the models collection will be processed by **LUBuild**.
 
-| properties      |            | description                                                                            |
-|-----------------|------------|----------------------------------------------------------------------------------------|
-| models          | (required) | collection of paths to .lu files and language variants                                 |
-| name            |            | project name                                                                           |
-| folder          |            | alternate folder to place generated .dialog files                                      |
-| environment     |            | environment to target (see environments section)                                       |
-| authoringRegion |            | authoring region to use [westu,westeurope,australiaeast]                               |
-| defaultLanguage |            | configures default language model to use if there is no language model (Default:en-us) |
+| properties      |            | description                                                                                           |
+|-----------------|------------|-------------------------------------------------------------------------------------------------------|
+| models          | (required) | collection of paths to .lu files and language variants                                                |
+| name            | (required) | project name                                                                                          |
+| folder          |            | alternate folder to place generated .dialog files                                                     |
+| environment     |            | environment to target (see environments section)                                                      |
+| authoringRegion |            | authoring region to use [westus,westeurope,australiaeast]                                             |
+| defaultLanguage |            | configures default language model to use if there is no culture code in the file name (Default:en-us) |
 
-All command line args can be placed in the models.config, and vice versa, except for the **models** collection itself
+All command line args can be placed in the config file, and vice versa, except for the **models** collection itself
 
 
