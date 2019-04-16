@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
+    "$role$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
     "properties": {
         "recognizers": {
             "type": "array",
@@ -9,6 +9,12 @@
         },
         "prompt": {
             "$type": "prompt"
+        },
+        "condition": {
+            "$role": "expression"
+        },
+        "property": {
+            "$role": "memoryPath"
         }
     },
     "required": [

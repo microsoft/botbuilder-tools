@@ -19,7 +19,7 @@ describe('Test schema merge and .dialog indexing library', async () => {
     let tracker = new dt.DialogTracker(schemas);
 
     before(async () => {
-        // If you want to regenerate the oracle *.schema and *.lg files, run schemas/makeschemas.cmd
+        // If you want to regenerate the oracle *.schema files, run schemas/makeschemas.cmd
         let tempDir = ppath.join(os.tmpdir(), "test.out");
         await fs.remove(tempDir);
         await fs.mkdirp(tempDir);
@@ -38,15 +38,12 @@ describe('Test schema merge and .dialog indexing library', async () => {
         await fs.move("packages/Newtonsoft.JSon", "node_modules/Newtonsoft.Json");
         
         await fs.remove("examples/app.schema");
-        await fs.remove("examples/app.lg");
-        await fs.remove("examples/app-en-us.lg");
-        await cs.mergeSchemas(["schemas/*.schema"], "examples/app.schema", true);
-        await cs.mergeSchemas(["schemas/prompt.schema"], "examples/promptOnly.schema", true);
-        await cs.mergeSchemas(["package.json", "projects/*"], "examples/packages.schema", true);
+        await cs.mergeSchemas(["schemas/*.schema"], "examples/app.schema");
+        await cs.mergeSchemas(["schemas/prompt.schema"], "examples/promptOnly.schema");
+        await cs.mergeSchemas(["package.json", "projects/*"], "examples/packages.schema");
 
         tracker.root = process.cwd();
         await tracker.addDialogFiles(["examples/*.dialog"]);
-        await tracker.writeLG("examples/app.lg");
     });
 
     it('packages', async () => {

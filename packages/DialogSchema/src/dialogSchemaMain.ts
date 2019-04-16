@@ -32,19 +32,14 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     process.exit(1);
 };
 
-function parseBool(val?: string): boolean {
-    return val === "true";
-}
-
 program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
     .option("-o, output <path>", "Output path and filename for unified schema and associated .lg files per locale.")
-    .option("-f, flat [boolean]", "Use flat (true) or hierarchical (false) naming for templates.", parseBool, true)
     .description(`The file regex matches .schema files or a project file like package.json, package.config or .csproj.  All the matched .schema files are merged them into a single schema file where $ref are included and allOf are merged. Will also use $role to define union types and lg properties.  All associated .lg files will be merged into a single .lg file per locale.  See readme.md for more information.`)
     .parse(process.argv);
 
-ds.mergeSchemas(program.args, program.output, program.flat)
+ds.mergeSchemas(program.args, program.output)
     .then((finished) => {
         if (!finished) program.help();
     });

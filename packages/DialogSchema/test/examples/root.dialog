@@ -5,6 +5,8 @@
     "$type": "prompt",
     "$copy": "myPromptCopy"
   },
+  "condition": "true",
+  "property": "foo.blah",
   "recognizers": [
     {
       "$type": "Recognizer",
