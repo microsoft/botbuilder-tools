@@ -20,8 +20,8 @@ const delay = require('await-delay');
 
 runProgram()
     .then(() => process.exit())
-    .catch(async (err) => {
-        await error(err.message);
+    .catch((err) => {
+        error(err.message);
         process.exit(1);
     });
 
@@ -122,7 +122,7 @@ async function runProgram() {
     await runBuild(config);
 }
 
-async function error(message: string) {
+function error(message: string) {
     process.stderr.write(chalk.default.redBright(message) + '\n');
     help(process.stdout);
     return;
