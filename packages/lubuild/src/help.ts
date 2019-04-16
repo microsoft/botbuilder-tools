@@ -13,7 +13,7 @@ const windowSize = require('window-size');
  * @param args The arguments input by the user
  * @returns {Promise<void>}
  */
-export async function help(output: NodeJS.WriteStream) {
+export function help(output: NodeJS.WriteStream) {
     if (!output)
         output = process.stdout;
 

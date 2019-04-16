@@ -124,7 +124,7 @@ async function runProgram() {
 
 async function error(message: string) {
     process.stderr.write(chalk.default.redBright(message) + '\n');
-    await help(process.stdout);
+    help(process.stdout);
     return;
 }
 
