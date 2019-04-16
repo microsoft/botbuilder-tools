@@ -99,6 +99,9 @@ async function runProgram() {
     if (!config.name) {
         throw new Error('missing name');
     }
+    if (!config.defaultLanguage) {
+        config.defaultLanguage = "en-us";
+    }
 
     if (!config.authoringRegion) {
         config.authoringRegion = 'westus';
@@ -113,9 +116,8 @@ async function runProgram() {
     if (!config.folder) {
         config.folder = 'models';
     }
-    console.log(JSON.stringify(config, null, 4));
 
-    console.log(`Building models for environment [${chalk.default.bold(<string>config.environment)}] targeting authoring region [${chalk.default.bold(config.authoringRegion)}] `);
+    console.log(`Building models for environment [${chalk.default.bold(<string>config.environment)}] targeting [${chalk.default.bold(config.authoringRegion)}] authoring region`);
 
     await runBuild(config);
 }
@@ -131,21 +133,26 @@ async function runBuild(config: IConfig) {
     const client = new LuisAuthoring(<any>credentials);
 
     for (let modelPath of config.models) {
-        await processLuFile(client, config, modelPath);
+        await processLuVariants(client, config, modelPath);
     }
 
 }
 
-async function processLuFile(client: LuisAuthoring, config: IConfig, modelPath: string): Promise<void> {
+async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPath: string): Promise<void> {
     let rootFolder = path.dirname(modelPath);
     let rootFile = path.basename(modelPath, '.lu');
+    let rootCulture = getCultureFromPath(modelPath) || config.defaultLanguage;
+    if (rootFile.indexOf(rootCulture) > 0) {
+        rootFile = rootFile.replace(rootCulture, '');
+    }
+
 
     // get all lu variations from same folder as the .lu file
     let dialogFiles = await fs.readdir(rootFolder);
-    let luFiles: string[] = [];
+    let luFileVariants: string[] = [];
     dialogFiles.forEach(file => {
         if (path.extname(file) == '.lu' && file.startsWith(rootFile)) {
-            luFiles.push(path.join(rootFolder, path.basename(file)));
+            luFileVariants.push(path.join(rootFolder, path.basename(file)));
         }
     })
 
@@ -162,23 +169,47 @@ async function processLuFile(client: LuisAuthoring, config: IConfig, modelPath: 
         await fs.createDirectory(environmentFolder);
     }
 
+    let authoringRegionFolder = path.join(environmentFolder, <string>config.authoringRegion);
+    if (!await fs.exists(authoringRegionFolder)) {
+        await fs.createDirectory(authoringRegionFolder);
+    }
+
     let recognizersToPublish: LuisRecognizer[] = [];
     let apps = await client.apps.list(<AzureRegions>config.authoringRegion, <AzureClouds>"com");
 
-    for (var luFile of luFiles) {
-        let culture = getCultureFromPath(luFile);
+    let multiRecognizer: any = {
+        "$type": "Microsoft.MultiLanguageRecognizer",
+        "recognizers": {
+        }
+    };
 
-        let name = `${config.name}-${config.environment}-${config.authoringRegion}-${culture}-${rootFile}.lu`;
-        let dialogFile = path.join(environmentFolder, path.basename(luFile) + '.dialog');
-        let recognizer = await LuisRecognizer.load(luFile, dialogFile);
+    for (var luFileVariant of luFileVariants) {
+        let culture = getCultureFromPath(luFileVariant) || config.defaultLanguage;
+        let targetFileName = path.basename(luFileVariant);
+        if (targetFileName.indexOf(culture) < 0) {
+            targetFileName = targetFileName.replace('.lu', `.${culture}.lu`);
+        }
+
+        // mybot-tomlm-dialog.en-us.lu
+        let appName = `${config.name}(${config.environment})-${targetFileName}`;
+        
+        // tomlm/authoringRegion-mybot-tomlm-dialog.en-us.lu.dialog
+        let dialogFile = path.join(authoringRegionFolder, `${targetFileName}.dialog`);
+        let recognizer = await LuisRecognizer.load(luFileVariant, dialogFile);
 
         if (recognizer.applicationId == null) {
             for (let app of apps) {
-                if (app.name == name) {
+                if (app.name == appName) {
                     recognizer.applicationId = <string>app.id;
                     break;
                 }
             }
+        }
+
+        // add to multiLanguageRecognizer
+        multiRecognizer.recognizers[culture] = path.basename(dialogFile, '.dialog');
+        if (culture.toLowerCase() === config.defaultLanguage.toLowerCase()) {
+            multiRecognizer.recognizers[''] = path.basename(dialogFile, '.dialog');
         }
 
         let appInfo: AppsGetResponse;
@@ -187,19 +218,23 @@ async function processLuFile(client: LuisAuthoring, config: IConfig, modelPath: 
             appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.applicationId);
         } catch (err) {
             // create the application
-            await createApplication(name, client, config, rootFile, culture, recognizer);
-            
-            appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.applicationId );
+            await createApplication(appName, client, config, rootFile, culture, recognizer);
+
+            appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.applicationId);
         }
 
         recognizer.versionId = appInfo.activeVersion;
-        
+
         let training = await updateModel(config, client, recognizer, appInfo);
         if (training) {
             recognizersToPublish.push(recognizer);
         }
         await recognizer.save();
     }
+
+    // save multirecognizer
+    let multiLanguageDialog = path.join(authoringRegionFolder, `${rootFile}.lu.dialog`);
+    await fs.writeTextFile(<string>multiLanguageDialog, JSON.stringify(multiRecognizer, null, 4), 'utf8');
 
     // wait for training to complete and publish
     for (let recognizer of recognizersToPublish) {
@@ -211,7 +246,7 @@ async function processLuFile(client: LuisAuthoring, config: IConfig, modelPath: 
 
 
 async function createApplication(name: string, client: LuisAuthoring, config: IConfig, rootFile: string, culture: string, recognizer: LuisRecognizer): Promise<AppsAddResponse> {
-    console.log(`${name} creating version:0000000000`);
+    console.log(`creating LUIS.ai application: ${name} version:0000000000`);
     let response = await client.apps.add(<AzureRegions>config.authoringRegion, <AzureClouds>"com", {
         "name": name,
         "description": `Model for ${config.name} app, targetting ${config.environment} for ${rootFile}.lu file`,
@@ -222,7 +257,7 @@ async function createApplication(name: string, client: LuisAuthoring, config: IC
     }, {});
     recognizer.applicationId = response.body;
     await recognizer.save();
-    await delay(1000);
+    await delay(500);
     return response;
 }
 
@@ -231,9 +266,9 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
 
     // get activeVersion
     var activeVersionInfo = await client.versions.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.applicationId || '', appInfo.activeVersion || '');
-    await delay(1000);
+    await delay(500);
 
-    let luFile = recognizer.getLuFile();
+    let luFile = recognizer.getLuPath();
 
     var stats = await fs.stat(<string>luFile);
 
@@ -262,7 +297,7 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
         console.log(`${luFile} creating version=${newVersionId}`);
         await client.versions.importMethod(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.applicationId, newVersion, { versionId: newVersionId });
         // console.log(JSON.stringify(importResult.body));
-        await delay(1000);
+        await delay(500);
 
         // train the version
         console.log(`${luFile} training version=${newVersionId}`);
@@ -270,7 +305,7 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
 
         recognizer.save();
 
-        await delay(1000);
+        await delay(500);
         return true;
     } else {
         console.log(`${luFile} no changes`);
@@ -279,7 +314,7 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
 }
 
 async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: LuisRecognizer): Promise<void> {
-    process.stdout.write(`${recognizer.getLuFile()} waiting for training for version=${recognizer.versionId}...`);
+    process.stdout.write(`${recognizer.getLuPath()} waiting for training for version=${recognizer.versionId}...`);
     let done = true;
     do {
         await delay(5000);
@@ -299,18 +334,18 @@ async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: 
     process.stdout.write('done\n');
 
     // publish the version
-    console.log(`${recognizer.getLuFile()} publishing version=${recognizer.versionId}`);
+    console.log(`${recognizer.getLuPath()} publishing version=${recognizer.versionId}`);
     await client.apps.publish(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.applicationId || '',
         {
             "versionId": <string>recognizer.versionId,
             "isStaging": false
         });
 
-    console.log(`${recognizer.getLuFile()} finished`);
+    console.log(`${recognizer.getLuPath()} finished`);
 }
 
-function getCultureFromPath(file: string): string {
-    let fn = path.basename(file, '.lu');
+function getCultureFromPath(file: string): string | null {
+    let fn = path.basename(file, path.extname(file));
     let lang = path.extname(fn).substring(1);
     switch (lang.toLowerCase()) {
         case 'en-us':
@@ -328,7 +363,7 @@ function getCultureFromPath(file: string): string {
         case 'tr-tr':
             return lang;
         default:
-            return 'en-us';
+            return null;
     }
 }
 

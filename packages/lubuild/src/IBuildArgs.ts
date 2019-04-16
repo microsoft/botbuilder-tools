@@ -17,9 +17,6 @@ export interface IBuildArgs {
     // alternate path to lubuild.config
     config: string | undefined;
 
-    // build all languages (default:true)
-    multilingual: boolean;
-
     // delete old version after successfully creating version (default:True)
     autodelete: boolean;
 
@@ -28,4 +25,7 @@ export interface IBuildArgs {
 
     // force update of models
     force: boolean;
+
+    // language to use if there is no indication of language (default:en-us)
+    defaultLanguage: string;
 }

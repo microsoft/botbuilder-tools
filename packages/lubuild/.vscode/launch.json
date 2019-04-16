@@ -8,14 +8,14 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/lib/index.js",
+            "program": "${workspaceFolder}/bin/index.js",
             "args": [
                 "--authoringKey",
                 "736465dedefd479093d666ab661d7b31"
             ],
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
-                "${workspaceFolder}/lib/**/*.js"
+                "${workspaceFolder}/bin/**/*.js"
             ]
         }
     ]
