@@ -49,7 +49,8 @@ export async function mergeSchemas(patterns: string[], output?: string): Promise
         for (let schemaPath of schemaPaths) {
             progress(`Parsing ${schemaPath}`);
             try {
-                let schema = allof(await parser.dereference(schemaPath));
+                let noref = await parser.dereference(schemaPath);
+                let schema = allof(noref);
                 if (schema.$id) {
                     warning(`  Skipping because of top-level $id:${schema.$id}.`);
                 } else {
@@ -261,14 +262,13 @@ function processRoles(definitions: any, metaSchema: any): void {
 function processRole(role: string, elt: any, type: string, definitions: any, metaSchema: any, key?: string): void {
     const prefix = "unionType(";
     if (role === "expression" || role === "lg" || role === "memoryPath") {
-        if (!key) {
-            errorMsg(type, `$role ${role} must be in a property defnition.`);
-        }
         if (elt.type) {
             errorMsg(type, `$role ${role} must not have a type.`);
         }
         for (let prop in metaSchema.definitions[role]) {
-            elt[prop] = metaSchema.definitions[role][prop];
+            if (!elt[prop]) {
+                elt[prop] = metaSchema.definitions[role][prop];
+            }
         }
     } else if (role === "unionType") {
         if (key) {
@@ -292,8 +292,7 @@ function processRole(role: string, elt: any, type: string, definitions: any, met
                 $ref: `#/definitions/${type}`
             });
         }
-    }
-    else {
+    } else {
         errorMsg(type, "Unknown $role");
     }
 }

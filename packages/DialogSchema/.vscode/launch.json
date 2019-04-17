@@ -41,14 +41,30 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Tom",
+            "name": "Launch Adaptive",
             "program": "${workspaceFolder}\\lib\\dialogSchemaMain.js",
             "args": [
-                "components/**/*.schema",
+                "**/*.schema",
                 "-o",
-                "app.schema"
+                "/tmp/app.schema"
             ],
-            "cwd": "${workspaceFolder}/../../../botbuilder-dotnet/tests/Microsoft.Bot.Builder.TestBot.Json/Schemas",
+            "cwd": "${workspaceFolder}/../../../botbuilder-dotnet/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Schemas",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/lib/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch ChoiceInput",
+            "program": "${workspaceFolder}\\lib\\dialogSchemaMain.js",
+            "args": [
+                "**/Microsoft.ChoiceInput.schema",
+                "-o",
+                "/tmp/app.schema"
+            ],
+            "cwd": "${workspaceFolder}/../../../botbuilder-dotnet/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Schemas",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"
