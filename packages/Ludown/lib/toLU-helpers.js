@@ -35,29 +35,27 @@ const toLUHelpers = {
                     if(utterance.entities.length >= 0) {
                         // update utterance for each entity
                         let text = utterance.text;
-                        let offSet = 0;
                         let sortedEntitiesList = objectSortByStartPos(utterance.entities);
-                        // Skip this utterance if it has nested entity references
-                        let doEntitiesOverlap = sortedEntitiesList.reduce((overlapBit, entity) => {
-                            if (overlapBit === undefined) return entity.endPos;
-                            if (overlapBit < 0) return overlapBit;
-                            if (overlapBit >= entity.startPos) return -1;
-                            return entity.endPos;
-                        }, undefined);
-
-                        if(doEntitiesOverlap < 0) {
-                            // Skip this utterance. It has nested entity references. 
-                            process.stdout.write('\nUtterance "' + utterance.text + '" has nested entity references. This utterance will be skipped.\n\n');
-                            return;
-                        }
-                        sortedEntitiesList.forEach(function(entity) {
-                            let label = text.substring(entity.startPos, entity.endPos + 1);
-                            let entityWithLabel = '{' + entity.entity + '=' + label + '}';
-                            let leftText = updatedText.substring(0, entity.startPos + offSet);
-                            let rightText = updatedText.substring(entity.endPos + 1 + offSet);
-                            updatedText = leftText + entityWithLabel + rightText;
-                            offSet += entityWithLabel.length - label.length;
+                        let tokenizedText = text.split('');
+                        let nonCompositesInUtterance = sortedEntitiesList.filter(entity => LUISJSON.composites.find(composite => composite.name == entity.entity) == undefined);
+                        nonCompositesInUtterance.forEach(entity => {
+                            if (entity.role !== undefined) {
+                                tokenizedText[parseInt(entity.startPos)] = `{${entity.entity}:${entity.role}=${tokenizedText[parseInt(entity.startPos)]}`;    
+                            } else {
+                                tokenizedText[parseInt(entity.startPos)] = `{${entity.entity}=${tokenizedText[parseInt(entity.startPos)]}`;    
+                            }
+                            tokenizedText[parseInt(entity.endPos)] += `}`;
                         })
+                        let compositeEntitiesInUtterance = sortedEntitiesList.filter(entity => LUISJSON.composites.find(composite => composite.name == entity.entity) != undefined);
+                        compositeEntitiesInUtterance.forEach(entity => {
+                            if (entity.role !== undefined) {
+                                tokenizedText[parseInt(entity.startPos)] = `{${entity.entity}:${entity.role}=${tokenizedText[parseInt(entity.startPos)]}`;
+                            } else {
+                                tokenizedText[parseInt(entity.startPos)] = `{${entity.entity}=${tokenizedText[parseInt(entity.startPos)]}`;
+                            }
+                            tokenizedText[parseInt(entity.endPos)] += `}`;
+                        })
+                        updatedText = tokenizedText.join(''); 
                     }
                     if(updatedText) fileContent += '- ' + updatedText + NEWLINE;
                 });
@@ -68,7 +66,11 @@ const toLUHelpers = {
         if(LUISJSON.entities && LUISJSON.entities.length >= 0) {
             fileContent += '> # Entity definitions' + NEWLINE + NEWLINE;
             LUISJSON.entities.forEach(function(entity) {
-                fileContent += '$' + entity.name + ':simple' + NEWLINE + NEWLINE;
+                fileContent += '$' + entity.name + ':simple';
+                if (entity.roles.length > 0) {
+                    fileContent += ` Roles=${entity.roles.join(', ')}`;
+                }
+                fileContent += NEWLINE + NEWLINE;
             });
             fileContent += NEWLINE;
         }
@@ -76,7 +78,11 @@ const toLUHelpers = {
         if(LUISJSON.prebuiltEntities && LUISJSON.prebuiltEntities.length >= 0){
             fileContent += '> # PREBUILT Entity definitions' + NEWLINE + NEWLINE;
             LUISJSON.prebuiltEntities.forEach(function(entity) {
-                fileContent += '$PREBUILT:' + entity.name + NEWLINE + NEWLINE;
+                fileContent += '$PREBUILT:' + entity.name;
+                if (entity.roles.length > 0) {
+                    fileContent += ` Roles=${entity.roles.join(', ')}`;
+                }
+                fileContent += NEWLINE + NEWLINE;
             });
             fileContent += NEWLINE;
         }
@@ -93,7 +99,11 @@ const toLUHelpers = {
             fileContent += '> # List entities' + NEWLINE + NEWLINE;
             LUISJSON.closedLists.forEach(function(ListItem) {
                 ListItem.subLists.forEach(function(list) {
-                    fileContent += '$' + ListItem.name + ':' + list.canonicalForm + '=' + NEWLINE;
+                    fileContent += '$' + ListItem.name + ':' + list.canonicalForm + '=';
+                    if (ListItem.roles.length > 0) {
+                        fileContent += ` Roles=${ListItem.roles.join(', ')}`;
+                    }
+                    fileContent += NEWLINE;
                     list.list.forEach(function(listItem) {
                         fileContent += '- ' + listItem + NEWLINE;
                     });
@@ -106,9 +116,25 @@ const toLUHelpers = {
         if(LUISJSON.regex_entities && LUISJSON.regex_entities.length >= 0) {
             fileContent += '> # RegEx entities' + NEWLINE + NEWLINE; 
             LUISJSON.regex_entities.forEach(function(regExEntity) {
-                fileContent += '$' + regExEntity.name + ':/' + regExEntity.regexPattern + '/' + NEWLINE; 
+                fileContent += '$' + regExEntity.name + ':/' + regExEntity.regexPattern + '/';
+                if (regExEntity.roles.length > 0) {
+                    fileContent += ` Roles=${regExEntity.roles.join(', ')}`;
+                }
+                fileContent += NEWLINE;
             });
             fileContent += NEWLINE;
+        }
+
+        // add composite entities if found in source LUIS JSON
+        if(LUISJSON.composites && LUISJSON.composites.length > 0) {
+            fileContent += '> # Composite entities' + NEWLINE + NEWLINE; 
+            LUISJSON.composites.forEach(composite => {
+                fileContent += '$' + composite.name + ':[' + composite.children.join(', ') + ']';
+                if (composite.roles.length > 0) {
+                    fileContent += ` Roles=${composite.roles.join(', ')}`;
+                }
+                fileContent += NEWLINE;
+            })
         }
         return fileContent;
     },

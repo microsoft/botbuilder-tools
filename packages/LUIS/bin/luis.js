@@ -265,7 +265,7 @@ async function runProgram() {
                                 return;
                             }
                         }
-                        result = await client.apps.deleteMethod(args.region, args.cloud, args.appId, args.force, args);
+                        result = await client.apps.deleteMethod(args.region, args.cloud, args.appId, { force: args.force }, args);
                     }
                     break;
 
@@ -544,10 +544,10 @@ async function runProgram() {
         case "suggest":
             switch (target) {
                 case "intents":
-                    result = await client.apps.publish(args.region, args.cloud, args.appId, requestBody, args);
+                    result = await client.model.getIntentSuggestions(args.region, args.cloud, args.appId, args.versionId, args.intentId, args);
                     break;
                 case "entities":
-                    result = await client.apps.publish(args.region, args.cloud, args.appId, requestBody, args);
+                    result = await client.model.getEntitySuggestions(args.region, args.cloud, args.appId, args.versionId, args.entityId, args);
                     break;
 
                 default:
@@ -1049,6 +1049,15 @@ async function validateArguments(args, operation) {
                                 }];
                             }
                             break;
+                    }
+                    break;
+                case "appazureaccount":
+                    if (args.azureSubscriptionId && args.resourceGroup && args.accountName) {
+                        body = {
+                            azureSubscriptionId: `${args.azureSubscriptionId}`,
+                            resourceGroup: `${args.resourceGroup}`,
+                            accountName: `${args.accountName}`
+                        };
                     }
                     break;
 

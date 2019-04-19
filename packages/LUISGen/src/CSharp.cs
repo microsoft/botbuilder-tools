@@ -225,7 +225,7 @@ namespace {space}
             w.IndentLine($"public void Convert(dynamic result)");
             w.IndentLine("{");
             w.Indent();
-            w.IndentLine($"var app = JsonConvert.DeserializeObject<{className}>(JsonConvert.SerializeObject(result));");
+            w.IndentLine($"var app = JsonConvert.DeserializeObject<{className}>(JsonConvert.SerializeObject(result, new JsonSerializerSettings {{ NullValueHandling = NullValueHandling.Ignore }}));");
             w.IndentLine($"Text = app.Text;");
             w.IndentLine("AlteredText = app.AlteredText;");
             w.IndentLine("Intents = app.Intents;");

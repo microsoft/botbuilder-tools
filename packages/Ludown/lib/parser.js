@@ -165,7 +165,9 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     }
     // write luis batch test file if requested
     if((cmd == cmdEnum.luis) && program.write_luis_batch_tests) {
-        let lBatchFile = JSON.stringify(finalLUISJSON.utterances, null, 2);
+        // catch and label list entities in utterances
+        let batchTestJson = tagListEntities(finalLUISJSON);
+        let lBatchFile = JSON.stringify(batchTestJson.utterances, null, 2);
         let LUISBatchFileName = program.lOutFile.endsWith('.json')?program.lOutFile.replace('.json','_LUISBatchTest.json'):program.lOutFile + '_LUISBatchTest.json';
         let lBFileName = path.join(outFolder, LUISBatchFileName);
         // write out the final LUIS Json
@@ -459,7 +461,41 @@ const haveLUISContent = function(blob) {
     (blob[LUISObjNameEnum.UTTERANCE].length > 0) ||
     (blob.prebuiltEntities.length > 0) ||
     (blob[LUISObjNameEnum.REGEX].length > 0) ||
-    (blob.model_features.length > 0));
+    (blob.model_features.length > 0) ||
+    (blob.composites.length > 0));
 };
+
+/**
+ * Helper function that identifies and tags uttearnces with list entities. 
+ * Used before writing out batch test output
+ * @param {Object} blob Contents of parsed luis blob
+ * @returns {Object} Updated blob that includes entity labels for lists
+ */
+const tagListEntities = function(blob) {
+    if(!blob || typeof blob != "object") return null;
+    if(!blob.closedLists || blob.closedLists.length == 0) return blob;
+    blob.closedLists.forEach(closedListItem => {
+        (closedListItem.subLists || []).forEach(subListItem => {
+            (subListItem.list || []).forEach(synonym => {
+                // go through all utterances and add this list entity if this synonym matchnes
+                let matchedUtternces = (blob.utterances || []).filter(function(item) {
+                    return item.text.includes(synonym);
+                });
+                (matchedUtternces || []).forEach(utterance => {
+                    // there could be more than one match. so just split the utterance
+                    let splitBySynonym = utterance.text.split(synonym);
+                    let endPos = 0;
+                    let startPos = 0;
+                    for(var idx = 0; idx < splitBySynonym.length - 1; idx++) {
+                        startPos = endPos + splitBySynonym[idx].length;
+                        endPos += splitBySynonym[idx].length + synonym.length;
+                        utterance.entities.push({'entity': closedListItem.name, 'startPos' : startPos, 'endPos' : endPos});
+                    }
+                })
+            })
+        })
+    });
+    return blob;
+}
 
 module.exports = parser;

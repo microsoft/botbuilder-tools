@@ -10,5 +10,6 @@ module.exports = {
     PREBUILT: "prebuiltEntities",
     UTTERANCE: "utterances",
     PATTERNS: "patterns",
-    REGEX: "regex_entities"
+    REGEX: "regex_entities",
+    COMPOSITES: "composites"
 };
