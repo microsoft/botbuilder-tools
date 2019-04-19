@@ -17,9 +17,11 @@ program
     .alias('toluis')
     .command('ToQna', 'Convert .lu file(s) into QnA Maker JSON files.')
     .alias('toqna')
+    .command('AndSuggestModels', 'Suggest LUIS and QnA models by analyzing files')
+    .alias('andsuggestmodels')
     .parse(process.argv);
    
-const commands = ['toluis', 'toqna']
+const commands = ['toluis', 'toqna', 'andsuggestmodels']
 if (!commands.includes(process.argv[2].toLowerCase())) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
     program.help();

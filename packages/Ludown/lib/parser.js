@@ -367,7 +367,7 @@ const groupFilesByHierarchy = function(allParsedContent, rootDialogFolderName, b
         let relPath = path.relative(baseFolderPath, parsedObject.srcFile);
         let relBaseFolder = relPath.split(new RegExp(/[\/\\]/g))[0];
         if (groupedFiles.LUISContent.hasOwnProperty(relBaseFolder)) {
-
+            // test
         } else {
             groupedFiles.LUISContent.push(JSON.parse(`"${relBaseFolder}": {${parsedObject}}`));
         }
