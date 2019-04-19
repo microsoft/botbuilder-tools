@@ -137,6 +137,12 @@ async function runBuild(config: IConfig) {
         await processLuVariants(client, config, modelPath);
     }
 
+    let endpointKeymsg = chalk.default.greenBright('luis:endpointKey');
+    console.log(chalk.default.cyanBright(`NOTE: You will need to add ${endpointKeymsg} setting to your environment for these models to work.`));
+    console.log(chalk.default.cyanBright(`For dotnet:`));
+    console.log(chalk.default.greenBright(`    dotnet user-secrets set "luis:endpointKey=${config.authoringKey}"`));
+    console.log(chalk.default.cyanBright(`For node, add to .env file:`));
+    console.log(chalk.default.greenBright(`    luis:endpointKey=${config.authoringKey}`));
 }
 
 async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPath: string): Promise<void> {
@@ -316,6 +322,8 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
 }
 
 async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: LuisRecognizer): Promise<void> {
+    let versions = await client.versions.list(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId());
+
     process.stdout.write(`${recognizer.getLuPath()} waiting for training for version=${recognizer.versionId}...`);
     let done = true;
     do {
@@ -342,6 +350,16 @@ async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: 
             "versionId": <string>recognizer.versionId,
             "isStaging": false
         });
+
+    if (config.autodelete) {
+        for (let version of versions) {
+            if (version.version != recognizer.versionId) {
+                console.log(`${recognizer.getLuPath()} deleting version=${version.version}...`);
+                await client.versions.deleteMethod(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(), <string>version.version);
+                await delay(500);
+            }
+        }
+    }
 
     console.log(`${recognizer.getLuPath()} finished`);
 }
