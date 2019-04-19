@@ -20,7 +20,7 @@ export interface IBuildArgs {
     // delete old version after successfully creating version (default:True)
     autodelete: boolean;
 
-    // output folder (default: models)
+    // settings folder (default: cwd)
     folder: string | undefined;
 
     // force update of models

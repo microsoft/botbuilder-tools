@@ -1,27 +1,30 @@
 import * as fs from 'async-file';
+import * as path from 'path';
 import * as txtfile from 'read-text-file';
+import { ILuisSettings } from './ILuisSettings';
 
 export class LuisRecognizer {
+    private appId: string;
     private dialogPath: string | undefined;
-    private luFile: string;
 
-    constructor(luFile: string) {
-        this.luFile = luFile;
-        this.applicationId = undefined;
-        this.versionId = '0000000000';
+    constructor(private luFile: string, targetFileName: string) {
+        this.appId = '';
+        this.applicationId = `{settings.luis.${targetFileName.split('.').join('_')}}`;
         this.endpoint = `{settings.luis.endpoint}`;
         this.endpointKey = "{settings.luis.endpointKey}";
+        this.versionId = '0000000000';
     }
 
-    static async load(luFile: string, dialogPath: string): Promise<LuisRecognizer> {
+    static async load(luFile: string, targetFileName: string, dialogPath: string, luisSettings: ILuisSettings): Promise<LuisRecognizer> {
         if (await fs.exists(dialogPath)) {
-            let recognizer = new LuisRecognizer(luFile);
+            let recognizer = new LuisRecognizer(luFile, targetFileName);
             recognizer.dialogPath = dialogPath;
             let json = await txtfile.read(dialogPath);
             Object.assign(recognizer, JSON.parse(json));
+            recognizer.setAppId(luisSettings.luis[path.basename(luFile).split('.').join('_')]);
             return recognizer;
         }
-        var recognizer = new LuisRecognizer(luFile);
+        var recognizer = new LuisRecognizer(luFile, targetFileName);
         recognizer.dialogPath = dialogPath;
         return recognizer;
     }
@@ -36,6 +39,14 @@ export class LuisRecognizer {
         await fs.writeTextFile(<string>this.dialogPath, JSON.stringify(output, null, 4), 'utf8');
     }
 
+    getAppId(): string {
+        return this.appId;
+    }
+
+    setAppId(appId: string) {
+        this.appId = appId;
+    }
+
     getDialogPath(): string {
         return <string>this.dialogPath;
     }
@@ -44,9 +55,9 @@ export class LuisRecognizer {
         return this.luFile;
     }
 
-    applicationId: string | undefined;
     versionId: string | undefined;
-    endpoint: string | undefined;
-    endpointKey: string | undefined;
+    readonly applicationId: string | undefined;
+    readonly endpoint: string | undefined;
+    readonly endpointKey: string | undefined;
 }
 

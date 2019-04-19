@@ -11,6 +11,7 @@ import * as txtfile from 'read-text-file';
 import * as semver from 'semver';
 import { help } from './help';
 import { IConfig } from './IConfig';
+import { ILuisSettings } from './ILuisSettings';
 import { LuisRecognizer } from './LuisRecognizer';
 import { runCommand } from './utils';
 const username = require('username');
@@ -114,7 +115,7 @@ async function runProgram() {
     }
 
     if (!config.folder) {
-        config.folder = 'models';
+        config.folder = '.';
     }
 
     console.log(`Building models for environment [${chalk.default.bold(<string>config.environment)}] targeting [${chalk.default.bold(config.authoringRegion)}] authoring region`);
@@ -146,11 +147,10 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
         rootFile = rootFile.replace(rootCulture, '');
     }
 
-
     // get all lu variations from same folder as the .lu file
-    let dialogFiles = await fs.readdir(rootFolder);
+    let files = await fs.readdir(rootFolder);
     let luFileVariants: string[] = [];
-    dialogFiles.forEach(file => {
+    files.forEach(file => {
         if (path.extname(file) == '.lu' && file.startsWith(rootFile)) {
             luFileVariants.push(path.join(rootFolder, path.basename(file)));
         }
@@ -161,17 +161,15 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
         await fs.createDirectory(<string>config.folder);
     }
 
-    dialogFiles = await fs.readdir(config.folder || '');
-
-    // let recognizers: { [key: string]: LuisRecognizer } = {};
-    let environmentFolder = path.join(<string>config.folder, <string>config.environment);
-    if (!await fs.exists(environmentFolder)) {
-        await fs.createDirectory(environmentFolder);
-    }
-
-    let authoringRegionFolder = path.join(environmentFolder, <string>config.authoringRegion);
-    if (!await fs.exists(authoringRegionFolder)) {
-        await fs.createDirectory(authoringRegionFolder);
+    // load settings
+    let luisSettings: ILuisSettings = <any>{
+        luis: {
+        }
+    };
+    let luisSettingsPath = path.join(<string>config.folder, `luis.settings.${config.environment}.${config.authoringRegion}.json`);
+    if (await fs.exists(luisSettingsPath)) {
+        let json = await fs.readTextFile(luisSettingsPath);
+        luisSettings = JSON.parse(json);
     }
 
     let recognizersToPublish: LuisRecognizer[] = [];
@@ -192,15 +190,14 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
 
         // mybot-tomlm-dialog.en-us.lu
         let appName = `${config.name}(${config.environment})-${targetFileName}`;
-        
-        // tomlm/authoringRegion-mybot-tomlm-dialog.en-us.lu.dialog
-        let dialogFile = path.join(authoringRegionFolder, `${targetFileName}.dialog`);
-        let recognizer = await LuisRecognizer.load(luFileVariant, dialogFile);
 
-        if (recognizer.applicationId == null) {
+        // tomlm/authoringRegion-mybot-tomlm-dialog.en-us.lu.dialog
+        let dialogFile = path.join(rootFolder, `${targetFileName}.dialog`);
+        let recognizer = await LuisRecognizer.load(luFileVariant, targetFileName, dialogFile, luisSettings);
+        if (!recognizer.getAppId()) {
             for (let app of apps) {
                 if (app.name == appName) {
-                    recognizer.applicationId = <string>app.id;
+                    recognizer.setAppId(<string>app.id);
                     break;
                 }
             }
@@ -215,12 +212,12 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
         let appInfo: AppsGetResponse;
         try {
             // get app info
-            appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.applicationId);
+            appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.getAppId());
         } catch (err) {
             // create the application
             await createApplication(appName, client, config, rootFile, culture, recognizer);
 
-            appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.applicationId);
+            appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.getAppId());
         }
 
         recognizer.versionId = appInfo.activeVersion;
@@ -230,11 +227,16 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
             recognizersToPublish.push(recognizer);
         }
         await recognizer.save();
+
+        luisSettings.luis[targetFileName.split('.').join('_')] = recognizer.getAppId();
     }
 
     // save multirecognizer
-    let multiLanguageDialog = path.join(authoringRegionFolder, `${rootFile}.lu.dialog`);
+    let multiLanguageDialog = path.join(rootFolder, `${rootFile}.lu.dialog`);
     await fs.writeTextFile(<string>multiLanguageDialog, JSON.stringify(multiRecognizer, null, 4), 'utf8');
+
+    // save settings
+    await fs.writeTextFile(luisSettingsPath, JSON.stringify(luisSettings, null, 4), 'utf8');
 
     // wait for training to complete and publish
     for (let recognizer of recognizersToPublish) {
@@ -255,7 +257,7 @@ async function createApplication(name: string, client: LuisAuthoring, config: IC
         "domain": "",
         "initialVersionId": "0000000000"
     }, {});
-    recognizer.applicationId = response.body;
+    recognizer.setAppId(response.body);
     await recognizer.save();
     await delay(500);
     return response;
@@ -265,7 +267,7 @@ async function createApplication(name: string, client: LuisAuthoring, config: IC
 async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: LuisRecognizer, appInfo: AppsGetResponse): Promise<boolean> {
 
     // get activeVersion
-    var activeVersionInfo = await client.versions.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.applicationId || '', appInfo.activeVersion || '');
+    var activeVersionInfo = await client.versions.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(), appInfo.activeVersion || '');
     await delay(500);
 
     let luFile = recognizer.getLuPath();
@@ -295,13 +297,13 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
 
         // import new version
         console.log(`${luFile} creating version=${newVersionId}`);
-        await client.versions.importMethod(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.applicationId, newVersion, { versionId: newVersionId });
+        await client.versions.importMethod(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.getAppId(), newVersion, { versionId: newVersionId });
         // console.log(JSON.stringify(importResult.body));
         await delay(500);
 
         // train the version
         console.log(`${luFile} training version=${newVersionId}`);
-        await client.train.trainVersion(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.applicationId || '', newVersionId);
+        await client.train.trainVersion(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(), newVersionId);
 
         recognizer.save();
 
@@ -319,7 +321,7 @@ async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: 
     do {
         await delay(5000);
         await process.stdout.write('.');
-        let trainingStatus = await client.train.getStatus(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.applicationId || '', <string>recognizer.versionId);
+        let trainingStatus = await client.train.getStatus(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(), <string>recognizer.versionId);
 
         done = true;
         for (let status of trainingStatus) {
@@ -335,7 +337,7 @@ async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: 
 
     // publish the version
     console.log(`${recognizer.getLuPath()} publishing version=${recognizer.versionId}`);
-    await client.apps.publish(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.applicationId || '',
+    await client.apps.publish(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(),
         {
             "versionId": <string>recognizer.versionId,
             "isStaging": false
