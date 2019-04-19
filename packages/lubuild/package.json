@@ -1,0 +1,45 @@
+{
+  "name": "lubuild",
+  "version": "1.0.0-preview",
+  "description": "",
+  "main": "./bin/index.js",
+  "bin": {
+    "lubuild": "./bin/index.js"
+  },
+  "types": "bin/index.d.ts",
+  "author": "",
+  "scripts": {
+    "test": "cd test/ && mocha --opts mocha.opts",
+    "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",
+    "build": "tsc"
+  },
+  "directories": {
+    "bin": "bin",
+    "typings": "typings"
+  },
+  "files": [
+    "bin/",
+    "typings/"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@azure/ms-rest-js": "1.7.0",
+    "async-file": "^2.0.2",
+    "await-delay": "^1.0.0",
+    "chalk": "^2.4.2",
+    "cli-position": "^1.0.1",
+    "cli-table3": "^0.5.1",
+    "fs-extra": "^7.0.1",
+    "latest-version": "^5.1.0",
+    "luis-apis": "^2.4.0",
+    "minimist": "^1.2.0",
+    "read-text-file": "^1.1.0",
+    "semver": "^6.0.0",
+    "username": "^4.1.0",
+    "window-size": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^5.0.5",
+    "@types/semver": "^5.5.0"
+  }
+}

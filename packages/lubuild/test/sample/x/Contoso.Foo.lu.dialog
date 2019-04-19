@@ -1,0 +1,10 @@
+{
+    "$type": "Microsoft.MultiLanguageRecognizer",
+    "recognizers": {
+        "es-es": "Contoso.Foo.es-es.lu",
+        "fr-fr": "Contoso.Foo.fr-fr.lu",
+        "ko-kr": "Contoso.Foo.ko-kr.lu",
+        "en-us": "Contoso.Foo.en-us.lu",
+        "": "Contoso.Foo.en-us.lu"
+    }
+}

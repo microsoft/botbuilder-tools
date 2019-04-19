@@ -1,0 +1,11 @@
+{
+    "luis": {
+        "test_de-de_lu": "55297226-b21c-4bf2-8ec0-eaf582635146",
+        "test_fr-fr_lu": "dcb79070-7ff0-4937-89f4-f7f83512cae5",
+        "test_en-us_lu": "537d1328-8eba-4067-8dfd-8edb95cb9525",
+        "Contoso_Foo_es-es_lu": "9104b91d-86cd-4038-9e81-1af3660b872b",
+        "Contoso_Foo_fr-fr_lu": "43d3aa8d-2027-40bd-978d-630fa3490033",
+        "Contoso_Foo_ko-kr_lu": "37c9a32e-dbca-4632-8b4d-a9da533b8fa6",
+        "Contoso_Foo_en-us_lu": "9347b984-6206-467d-abdf-7ad78284d060"
+    }
+}
