@@ -1,0 +1,8 @@
+{
+    "name":"MyBot",
+    "defaultLanguage":"en-us",
+    "models":[
+        "test/test.lu",
+        "test/sample/x/Contoso.Foo.lu"
+    ]
+}

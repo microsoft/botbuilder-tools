@@ -299,3 +299,9 @@ test/*.transcript
 /packages/LUISGen/LUISGenTestJS/src/Contoso_App.js
 /packages/LUISGen/LUISGenTestJS/src/Contoso_App.d.ts
 *.tgz
+
+# lubuild
+**/lubuild/bin/**
+**/lubuild/lib/**
+**/lubuild/typings/**
+**/lubuild/models/**

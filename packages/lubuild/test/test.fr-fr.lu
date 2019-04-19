@@ -1,0 +1,27 @@
+> Intent and entity definitions for book table scenario
+> Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
+
+# Book Table
+- Einen Tisch reservieren
+- Ich möchte einen Tisch reservieren
+- Buchen Sie einen Tisch für 3
+- Buchen Sie einen Tisch für 2 Personen im Redmond-Geschäft für den nächsten Donnerstag um 15 Uhr
+- Buchen Sie einen Tisch für 3 Gäste in Seattle
+- Buchen Sie einen Tisch für den nächsten Donnerstag um 15 Uhr
+- Buchen Sie einen Tisch für 3 Gäste in der Nähe von microsoft für den nächsten Donnerstag um 15 Uhr
+- Können Sie einen Tisch für 3 Gäste buchen?
+- Mich einen Tisch für den nächsten Mittwoch
+- Buchen Sie einen Tisch im seatac
+- Können Sie bitte einen Tisch für 2 Gäste für dieses Wochenende buchen?
+- Einen Tisch für den nächsten Donnerstag
+- Reservieren Sie einen Tisch für 4 bei SEA
+- Können Sie mir einen Tisch besortigen
+- Bitte helfen Sie, einen Tisch für 5 zu reservieren
+- Kann ich einen Tisch für diesen Sonntag in der Seefattle bekommen?
+- Brauchen Sie einen Tisch in redmond
+- Ich muss einen Tisch reservieren
+- Ich muss reservieren
+- Ich muss einen Tisch für 2 in Seattle reservieren
+- Buchen Sie einen Tisch für 2 in Seattle
+
+
