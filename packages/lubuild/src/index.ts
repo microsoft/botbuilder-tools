@@ -140,7 +140,7 @@ async function runBuild(config: IConfig) {
     let endpointKeymsg = chalk.default.greenBright('luis:endpointKey');
     console.log(chalk.default.cyanBright(`NOTE: You will need to add ${endpointKeymsg} setting to your environment for these models to work.`));
     console.log(chalk.default.cyanBright(`For dotnet:`));
-    console.log(chalk.default.greenBright(`    dotnet user-secrets set "luis:endpointKey=${config.authoringKey}"`));
+    console.log(chalk.default.greenBright(`    dotnet user-secrets set luis:endpointKey ${config.authoringKey}`));
     console.log(chalk.default.cyanBright(`For node, add to .env file:`));
     console.log(chalk.default.greenBright(`    luis:endpointKey=${config.authoringKey}`));
 }
