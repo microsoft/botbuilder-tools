@@ -13,7 +13,7 @@
       "headers": {},
       "body": {
         "isStaging": false,
-        "endpointUrl": "https://westus.api.dialognitive.microsoft.com/luis/v2.0/apps/11be6373fca44ded80fbe2afa8597c18",
+        "endpointUrl": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/11be6373fca44ded80fbe2afa8597c18",
         "assignedEndpointKey": "11be6373fca44ded80fbe2afa8597c18",
         "endpointRegion": "westus, cus",
         "failedRegions": null,
