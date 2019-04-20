@@ -101,38 +101,8 @@ const readerObj = {
         constructor (fileName, parsedObject) {
             if (fileName === undefined || parsedObject === undefined) return undefined;
             if (!(parsedObject instanceof Object)) return undefined;
-            this[fileName] = parsedObject;
-        }
-    },
-    filesPerLang: class {
-        constructor (lang, filesPerLang = []) {
-            if (lang === undefined) return undefined;
-            this[lang] = (filesPerLang || []);
-        }
-    },
-    filesPerFolder: class {
-        constructor (folderName) {
-            if (folderName === undefined) return undefined;
-            this[folderName] = [];
-        }
-
-        addFile (lang, file, parsedObject) {
-            if (folderName === undefined || lang === undefined || file === undefined || parsedObject === undefined) { 
-                return undefined;
-            }
-
-            if (this[folderName] === undefined || this[folderName][lang] === undefined) {
-                // add this as new instance.
-                let fParsedContent = new readerObj.fileParsedContent(file, parsedObject);
-                this[folderName] = new readerObj.filesPerLang(lang, [fParsedContent]);
-            } else {
-                // add this as a file if it does not exist
-                let fileExists = this[folderName][lang].find(item => item[file] == file); 
-                if (fileExists === undefined) {
-                    this[folderName][lang].push(new readerObj.fileParsedContent(file, parsedObject));
-                }
-            }
-            
+            this.fileName = fileName ? fileName : '';
+            this.parsedObject = parsedObject ? parsedObject : {};
         }
     }
 };

@@ -26,9 +26,6 @@ program
     .option('-i, --luis_versionId <luis_versionId>', '[Optional] LUIS app version', '0.1')
     .option('-c, --luis_culture <luis_appCulture>', '[Optional] LUIS app culture', 'en-us')
     .option('-t, --write_luis_batch_tests', '[Optional] Write out LUIS batch test json file')
-    .option('-g, --suggest_models', '[Optional] Write out suggested LUIS models based on project folder structure')
-    .option('-a, --root_dialog <rootDialog>', '[Optional] Root dialog folder name passed in as a string')
-    .option('-r, --cross_feed_models', '[Optional] Used with [-g | --suggest_models] to request cross feeding detected parent-child models')
     .option('--out <OutFileName>', '[Optional] Output file name for the LUIS model')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);

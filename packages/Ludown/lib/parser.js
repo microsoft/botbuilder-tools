@@ -20,7 +20,8 @@ const hClasses = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
 const parserConsts = require('./enums/parserconsts');
 const parseCommands = require('./enums/parsecommands');
-const parsedStruct = require('./enums/parsedStruct');
+const suggestModels = require('./suggestModels');
+const haveLUISContent = require('./classes/LUIS').haveLUISContent;
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -49,7 +50,7 @@ const parser = {
 
         if (cmd === parseCommands.suggestModels) {
             try {
-                await suggestModelsAndWriteToDisk(allParsedContent, program, cmd)
+                await suggestModels.suggestModelsAndWriteToDisk(allParsedContent, program, cmd);
             } catch (err) {
                 throw (err);
             }
@@ -353,93 +354,6 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
     };
 };
 /**
- * Helper to gather and group files based on requested type of content.
- * @param {Object} parsedObject 
- * @param {Object} groupedFiles 
- * @param {String} contentType 
- * @param {String} baseFolderPath 
- * @param {Object} program 
- * @returns {void}
- */
-const gatherAndGroupFiles = function(parsedObject, groupedFiles, contentType, baseFolderPath, program) {
-    //let folderScope = parsedObject.srcFile.replace(baseFolderPath, '');
-    let relPath = path.relative(baseFolderPath, parsedObject.srcFile);
-    let relBaseFolder = relPath.split(new RegExp(/[\/\\]/g))[0];
-    // get lang code for file 
-    let tokenizedFileName = path.basename(parsedObject.srcFile).split('.');
-    let lang = '';
-    if (tokenizedFileName.length === 2) {
-        // Go with the lang code passed in or default.
-        lang = program.luis_culture;
-    } else {
-        lang = tokenizedFileName[1];
-    }
-    let fParsed = new hClasses.fileParsedContent(parsedObject.srcFile, parsedObject[parsedStruct[contentType]]);
-    if (groupedFiles[contentType].hasOwnProperty(relBaseFolder)) {
-        // See if we already have a section for this lang
-        if (groupedFiles[contentType][relBaseFolder][lang] === undefined) {
-            groupedFiles[contentType][relBaseFolder][lang] = [fParsed];
-        } else {
-            // see if we have the specific file
-            let fileExits = (groupedFiles[contentType][relBaseFolder][lang] || []).forEach(item => item[parsedObject.srcFile] == item[parsedObject.srcFile]);
-            if (fileExits === undefined)  {
-                groupedFiles[contentType][relBaseFolder][lang].push(fParsed);
-            }
-        }
-    } else {
-        groupedFiles[contentType][relBaseFolder] = {};
-        groupedFiles[contentType][relBaseFolder][lang] = [fParsed];
-    }
-}
-/**
- * Helper function to group parsed content by relative folder paths. 
- * @param {Object} allParsedContent 
- * @param {String} baseFolderPath 
- * @param {Object} program
- * @returns {Object} grouped collection of files by folder hierarchy x language code.
- */
-const groupFilesByHierarchy = function(allParsedContent, baseFolderPath, program) {
-    let groupedFiles = {
-        "LUISContent": {},
-        "QnAContent": {},
-        "QnAAlterations": {}
-    };
-    (allParsedContent.LUISContent || []).forEach(parsedObject => {
-        gatherAndGroupFiles(parsedObject, groupedFiles, "LUISContent", baseFolderPath, program);
-    });
-    (allParsedContent.QnAContent || []).forEach(parsedObject => {
-        gatherAndGroupFiles(parsedObject, groupedFiles, "QnAContent", baseFolderPath, program);
-    });
-    (allParsedContent.QnAAlterations || []).forEach(parsedObject => {
-        gatherAndGroupFiles(parsedObject, groupedFiles, "QnAAlterations", baseFolderPath, program);
-    });
-    return groupedFiles;
-}
-/**
- * 
- * @param {Object} allParsedContent 
- * @param {object} program Content flushed out by commander
- * @param {cmdEnum} cmd Parse to either LUIS or QnA 
- * @returns {void}
- * @throws {exception} Throws on errors. exception object includes errCode and text. 
- */
-const suggestModelsAndWriteToDisk = async function(allParsedContent, program, cmd) {
-    let crossFeedModels = program.cross_feed_models
-    let rootDialogFolderName = program.root_dialog ? program.root_dialog : undefined;
-    let baseFolderPath = path.resolve(program.lu_folder);
-    let groupedObject = groupFilesByHierarchy(allParsedContent, baseFolderPath, program);
-    
-    // Extract rootDialog from collection
-
-    // Apply each rule as enabled to update two sets of objects - rootDialog and [childDialog]
-
-    // Collate all files in rootDialog and [childDialog] collections
-
-    // Generate .lu file for each collated json
-
-    // Write out .lu or .qna file for each collated json
-}
-/**
  * Helper function to resolve lu file references in utterances
  * @param {Object} allParsedContent 
  * @returns {void} Nothing
@@ -552,24 +466,6 @@ const updateParsedFiles = function(allParsedLUISContent, allParsedQnAContent, al
     let matchInAlterations = allParsedAlterationsContent.find(item => item.srcFile == file.filePath);
     if(matchInAlterations && (matchInAlterations.includeInCollate === false && file.includeInCollate === true)) matchInAlterations.includeInCollate = true;
 }
-/**
- * Helper function to see if we have any luis content in the blob
- * @param {object} blob Contents of parsed luis blob
- * @returns {boolean} true if there is any luis content in the blob
- */
-const haveLUISContent = function(blob) {
-    if(!blob) return false;
-    return ((blob[LUISObjNameEnum.INTENT].length > 0) ||
-    (blob[LUISObjNameEnum.ENTITIES].length > 0) || 
-    (blob[LUISObjNameEnum.CLOSEDLISTS].length > 0) ||
-    (blob[LUISObjNameEnum.PATTERNANYENTITY].length > 0) ||
-    (blob.patterns.length > 0) ||
-    (blob[LUISObjNameEnum.UTTERANCE].length > 0) ||
-    (blob.prebuiltEntities.length > 0) ||
-    (blob[LUISObjNameEnum.REGEX].length > 0) ||
-    (blob.model_features.length > 0) ||
-    (blob.composites.length > 0));
-};
 
 /**
  * Helper function that identifies and tags uttearnces with list entities. 
