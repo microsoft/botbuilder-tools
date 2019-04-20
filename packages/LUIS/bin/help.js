@@ -180,7 +180,7 @@ function getVerbHelp(verb, output) {
     case "query":
         output.write(chalk.cyan.bold("luis query --query <querytext> [--appId | --endpoint | --nologging | --region | --spellCheck | --staging | --subscriptionKey | --timezoneOffset | --timing |  --verbose]\n\n"))
         options.table.push([chalk.cyan.bold("--query <query>"), "Query to analyze with LUIS prediction."]);
-        options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "Endpoint to use for query like https://westus.api.cognitive.microsoft.com/luis/v2.0/apps, overrides region."]);
+        options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "Endpoint to use for query like https://westus.api.dialognitive.microsoft.com/luis/v2.0/apps, overrides region."]);
         options.table.push([chalk.cyan.bold("--nologging"), "Turn off query logging in LUIS."]);
         options.table.push([chalk.cyan.bold("--spellCheck <key>"), "Check spelling using your Bing spelling key."]);
         options.table.push([chalk.cyan.bold("--staging"), "Use the staging environtment rather than production."]);

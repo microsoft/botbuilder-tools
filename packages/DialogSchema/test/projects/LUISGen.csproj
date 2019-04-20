@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Version Condition=" '$(PackageVersion)' == '' ">2.0.1-local</Version>
+		<Version Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</Version>
+		<PackageVersion Condition=" '$(PackageVersion)' == '' ">2.0.1-local</PackageVersion>
+		<PackageVersion Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</PackageVersion>
+	</PropertyGroup>
+
+    <PropertyGroup>
+        <VersionPrefix>2.0.1</VersionPrefix>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <Authors>microsoft,BotFramework,nugetbotbuilder</Authors>
+        <Company>Microsoft</Company>
+        <Description>LUISGen is a tool for generating a strongly typed C# class or typescript interface to make consuming LUIS output easier in the Microsoft Bot Builder SDK.  This enables build-time error checking and intellisense against the intents and entities of your LUIS application model.</Description>
+        <Product>Microsoft Bot Framework</Product>
+        <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+        <PackageProjectUrl>https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUISGen</PackageProjectUrl>
+        <PackageIconUrl>http://docs.botframework.com/images/bot_icon.png</PackageIconUrl>
+        <PackageLicenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/Microsoft/botbuilder-tools</RepositoryUrl>
+        <LicenseUrl>https://github.com/Microsoft/BotBuilder-tools/blob/master/LICENSE</LicenseUrl>
+        <RepositoryType />
+        <PackageTags>bots;ai;botframework;botbuilder;luis</PackageTags>
+        <NeutralLanguage />
+
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>luisgen</ToolCommandName>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <SignAssembly>true</SignAssembly>
+        <DelaySign>true</DelaySign>
+        <AssemblyOriginatorKeyFile>..\..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    </ItemGroup>
+
+</Project>

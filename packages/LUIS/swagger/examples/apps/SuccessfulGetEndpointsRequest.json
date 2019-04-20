@@ -8,10 +8,10 @@
     "200": {
       "headers": {},
       "body": {
-        "westus": "https://westus.api.cognitive.microsoft.com/api/v2.0/apps/bb25e72c-2279-46bb-a99b-89fcb921b58a",
-        "eastus2": "https://eastus2.api.cognitive.microsoft.com/api/v2.0/apps/bb25e72c-2279-46bb-a99b-89fcb921b58a",
-        "westcentralus": "https://westcentralus.api.cognitive.microsoft.com/api/v2.0/apps/bb25e72c-2279-46bb-a99b-89fcb921b58a",
-        "southeastasia": "https://southeastasia.api.cognitive.microsoft.com/api/v2.0/apps/bb25e72c-2279-46bb-a99b-89fcb921b58a"
+        "westus": "https://westus.api.dialognitive.microsoft.com/api/v2.0/apps/bb25e72c-2279-46bb-a99b-89fcb921b58a",
+        "eastus2": "https://eastus2.api.dialognitive.microsoft.com/api/v2.0/apps/bb25e72c-2279-46bb-a99b-89fcb921b58a",
+        "westcentralus": "https://westcentralus.api.dialognitive.microsoft.com/api/v2.0/apps/bb25e72c-2279-46bb-a99b-89fcb921b58a",
+        "southeastasia": "https://southeastasia.api.dialognitive.microsoft.com/api/v2.0/apps/bb25e72c-2279-46bb-a99b-89fcb921b58a"
       }
     }
   }

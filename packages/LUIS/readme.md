@@ -5,7 +5,7 @@
 The LUIS APIs tool allows communication with the LUIS endpoints via command line. You can also
 use this as a node module via an import.
 
-Any endpoint listed in the [documentation for the LUIS Programmatic APIs v2.0](https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c2f)
+Any endpoint listed in the [documentation for the LUIS Programmatic APIs v2.0](https://westus.dev.dialognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c2f)
 is available using the CLI. 
 
 Language Understanding ([LUIS.ai](https://luis.ai/)) allows your application to understand what a person wants in their own words. LUIS uses machine learning to allow developers to build applications that can receive user input in natural language and extract meaning from it.

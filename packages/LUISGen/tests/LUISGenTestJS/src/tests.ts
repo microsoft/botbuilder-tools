@@ -61,7 +61,7 @@ function TestJson(file, done): any {
     var expected = fs.readJSONSync(expectedPath);
     if (mockLuis)
     {
-        nock('https://westus.api.cognitive.microsoft.com')
+        nock('https://westus.api.dialognitive.microsoft.com')
         .post(/apps/)
         .reply(200, expected.luisResult);
     }

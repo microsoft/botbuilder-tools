@@ -1,0 +1,4 @@
+.luisrc
+lib/
+typings/
+test.out/

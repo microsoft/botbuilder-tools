@@ -10,14 +10,16 @@ Bot Builder tools are a collection of cross-platform command line tools designed
 | [![npm version](https://badge.fury.io/js/qnamaker.svg)](https://badge.fury.io/js/qnamaker) |[QnAMaker](packages/QnAMaker) | Create and manage [QnAMaker.ai](http://qnamaker.ai) Knowledge Bases. |
 | [![npm version](https://badge.fury.io/js/botdispatch.svg)](https://badge.fury.io/js/botdispatch) | [Dispatch](packages/Dispatch) | Build language models allowing you to dispatch between disparate components (such as QnA, LUIS and custom code)|
 | [![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)| [LUISGen](packages/LUISGen) | Auto generate backing C#/Typescript classes for your LUIS intents and entities.|
-
+| [![npm version](https://badge.fury.io/js/dialogtracker.svg)](https://badge.fury.io/js/dialogtracker)| [DialogTracker](packages/DialogTracker) | Library for tracking .schema, .dialog and .lg files.|
+| [![npm version](https://badge.fury.io/js/dialogschema.svg)](https://badge.fury.io/js/dialogschema)| [DialogSchema](packages/DialogSchema) | Merge together and check .schema and .lg files into a composite .schema file.|
+| [![npm version](https://badge.fury.io/js/dialoglint.svg)](https://badge.fury.io/js/dialoglint)| [DialogLint](packages/DialogLint) | Check .dialog files for errors and compile .lg files.|
 ## Install CLI tools:
 Pre-requisite: 
 - [Node.js](https://nodejs.org/) version 8.5 or higher
 - [.NET Core SDK](https://www.microsoft.com/net/download) version 2.1.403 or higher
 
 ```
-npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
+npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen dialogtracker dialogschema dialoglint
 ```
 
 ## Overview

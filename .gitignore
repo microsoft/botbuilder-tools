@@ -301,7 +301,7 @@ test/*.transcript
 *.tgz
 
 # lubuild
-**/lubuild/bin/**
-**/lubuild/lib/**
-**/lubuild/typings/**
-**/lubuild/models/**
+packages/lubuild/bin/**
+packages/lubuild/lib/**
+packages/lubuild/typings/**
+

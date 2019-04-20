@@ -1,0 +1,65 @@
+{
+  "name": "dialoglint",
+  "version": "1.0.0-preview",
+  "description": "Merge together multiple JSON schemas with references and allof into a single simple schema.",
+  "main": "./lib/dialogLint.js",
+  "types": "./typing/lib/dialogLint.d.ts",
+  "bin": {
+    "dialoglint": "./lib/dialogLint.js"
+  },
+  "directories": {
+    "bin": "bin",
+    "doc": "docs",
+    "lib": "lib",
+    "typingse": "typings",
+    "examples": "examples"
+  },
+  "files": [
+    "bin/",
+    "docs/",
+    "lib/",
+    "examples/",
+    "typings/"
+  ],
+  "scripts": {
+    "test": "mocha -r node_modules/ts-node/register test/*.ts",
+    "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",
+    "build": "tsc"
+  },
+  "engines": {
+    "node": ">=8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Microsoft/botbuilder-tools/issues"
+  },
+  "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.18",
+    "@types/semver": "^5.5.0",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "ts-node": "^8.0.2",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^5.0.5",
+    "ajv": "^6.9.1",
+    "chalk": "^2.4.2",
+    "clone": "^2.1.2",
+    "dialogtracker": "^1.0.0-preview",
+    "commander": "^2.19.0",
+    "fs-extra": "^7.0.1",
+    "globby": "^9.1.0",
+    "process": "^0.11.10",
+    "semver": "^5.6.0"
+  }
+}

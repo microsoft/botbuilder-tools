@@ -1,0 +1,72 @@
+{
+  "name": "dialogschema",
+  "version": "1.0.1-preview",
+  "description": "Merge together multiple Bot Framework .dialog JSON schemas into a single schema.",
+  "main": "./lib/dialogSchemaMain.js",
+  "types": "./typings/lib/dialogSchema.d.ts",
+  "bin": {
+    "dialogschema": "./lib/dialogSchemaMain.js"
+  },
+  "directories": {
+    "bin": "bin",
+    "doc": "docs",
+    "lib": "lib",
+    "typings": "typings",
+    "examples": "examples"
+  },
+  "files": [
+    "bin/",
+    "docs/",
+    "lib/",
+    "examples/",
+    "typings/"
+  ],
+  "scripts": {
+    "test": "mocha",
+    "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",
+    "build": "tsc"
+  },
+  "engines": {
+    "node": ">=10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Microsoft/botbuilder-tools/issues"
+  },
+  "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/fs-extra": "^5.0.5",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^10.12.18",
+    "@types/semver": "^5.5.0",
+    "@types/xml2js": "^0.4.3",
+    "chai": "^4.2.0",
+    "dialogtracker": "^1.0.0-preview",
+    "mocha": "^6.0.2",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.3.4000"
+  },
+  "dependencies": {
+    "ajv": "^6.9.1",
+    "chalk": "^2.4.2",
+    "clone": "^2.1.2",
+    "commander": "^2.19.0",
+    "fs-extra": "^7.0.1",
+    "globby": "^9.1.0",
+    "json-schema-merge-allof": "^0.6.0",
+    "json-schema-ref-parser": "^6.0.3",
+    "log-prefix": "^0.1.1",
+    "os": "^0.1.1",
+    "path": "^0.12.7",
+    "process": "^0.11.10",
+    "readline": "^1.3.0",
+    "semver": "^5.6.0",
+    "xml2js": "^0.4.19"
+  }
+}
