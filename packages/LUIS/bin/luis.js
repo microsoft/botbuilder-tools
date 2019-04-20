@@ -1094,7 +1094,7 @@ async function handleQueryCommand(args, config) {
     } else {
         let region = args.region || config.region;
         if (region) {
-            uri = `https://${region}.api.dialognitive.microsoft.com/luis/v2.0/apps/${args.appId}`;
+            uri = `https://${region}.api.cognitive.microsoft.com/luis/v2.0/apps/${args.appId}`;
         }
         else {
             process.stderr.write(chalk.red.bold(`missing --region or --endpointBasePath\n`));

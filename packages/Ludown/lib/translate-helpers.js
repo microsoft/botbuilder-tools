@@ -351,7 +351,7 @@ const translateHelpers = {
      */
     translateText: async function(text, subscriptionKey, to_lang, from_lang) {
         let payload = Array.isArray(text) ? text : [{'Text' : text}];
-        let tUri = 'https://api.dialognitive.microsofttranslator.com/translate?api-version=3.0&to=' + to_lang + '&includeAlignment=true';
+        let tUri = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=' + to_lang + '&includeAlignment=true';
         if(from_lang) tUri += '&from=' + from_lang;
         const options = {
             method: 'POST',
