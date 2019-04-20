@@ -1,6 +1,6 @@
 {
   "name": "dialoglint",
-  "version": "1.2.0",
+  "version": "1.0.0-preview",
   "description": "Merge together multiple JSON schemas with references and allof into a single simple schema.",
   "main": "./lib/dialogLint.js",
   "types": "./typing/lib/dialogLint.d.ts",
@@ -55,7 +55,7 @@
     "ajv": "^6.9.1",
     "chalk": "^2.4.2",
     "clone": "^2.1.2",
-    "dialogtracker": "^1.0.0",
+    "dialogtracker": "^1.0.0-preview",
     "commander": "^2.19.0",
     "fs-extra": "^7.0.1",
     "globby": "^9.1.0",

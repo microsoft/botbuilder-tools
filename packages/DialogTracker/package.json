@@ -1,6 +1,6 @@
 {
   "name": "dialogtracker",
-  "version": "1.0.0",
+  "version": "1.0.0-preview",
   "description": "Utilities for reading, validating, indexing, modifying and writing Bot Framework .schema, .dialog and .lg files.",
   "main": "./lib/dialogTracker.js",
   "types": "./typings/lib/dialogTracker.d.ts",

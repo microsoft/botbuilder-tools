@@ -1,6 +1,6 @@
 {
   "name": "luis-apis",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Tooling for connectivity with LUIS APIs",
   "main": "./lib/luisAuthoring.js",
   "types": "./typings/lib/luisAuthoring.d.ts",
