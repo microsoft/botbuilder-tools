@@ -491,7 +491,7 @@ describe('The example lu files', function () {
     it('Ludown batch test output generation can handle list entities', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/ListEntityAndBatchtestsProblem.lu -t -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/ListEntityAndBatchtestsProblem_LUISBatchTest.json'), txtfile.readSync(TEST_ROOT + '/verified/ListEntityAndBatchtestsProblem_LUISBatchTest.json'));
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/ListEntityAndBatchtestsProblem_LUISBatchTest.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/ListEntityAndBatchtestsProblem_LUISBatchTest.json'))));
                 done();
             } catch (err) {
                 done(err);
@@ -502,7 +502,7 @@ describe('The example lu files', function () {
     it('Ludown batch test output generation can handle multiple list entity matches in utterances', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/ListEntityAndBatchtestsProblem.1.lu -t -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/ListEntityAndBatchtestsProblem.1_LUISBatchTest.json'), txtfile.readSync(TEST_ROOT + '/verified/ListEntityAndBatchtestsProblem.1_LUISBatchTest.json'));
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/ListEntityAndBatchtestsProblem.1_LUISBatchTest.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/ListEntityAndBatchtestsProblem.1_LUISBatchTest.json'))));
                 done();
             } catch (err) {
                 done(err);
@@ -513,17 +513,18 @@ describe('The example lu files', function () {
     it('Ludown batch test output generation can handle list entity matches across intents/ utterances', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/ListEntityAndBatchtestsProblem.2.lu -t -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/ListEntityAndBatchtestsProblem.2_LUISBatchTest.json'), txtfile.readSync(TEST_ROOT + '/verified/ListEntityAndBatchtestsProblem.2_LUISBatchTest.json'));
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/ListEntityAndBatchtestsProblem.2_LUISBatchTest.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/ListEntityAndBatchtestsProblem.2_LUISBatchTest.json'))));
                 done();
             } catch (err) {
                 done(err);
             }
         });
-    });
+    }); 
+    
     it('Pre-built entities are resolved correctly when mixed case culture is specified', function (done) {
         exec(`node ${ludown} parse toluis -c EN-US --in ${TEST_ROOT}/testcases/prebuilt-entity.lu -o ${TEST_ROOT}/output -n prebuilt-entity --out prebuilt-entity.json`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/prebuilt-entity.json'), txtfile.readSync(TEST_ROOT + '/verified/prebuilt-entity.json'));
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/prebuilt-entity.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/prebuilt-entity.json'))));
                 done();
             } catch (err) {
                 done(err);
