@@ -19,6 +19,7 @@ const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
 const parserConsts = require('./enums/parserconsts');
+const parseCommands = require('./enums/parsecommands');
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -45,7 +46,7 @@ const parser = {
         // resolve uttereance deep references
         await resolveReferencesInUtterances(allParsedContent);
 
-        if (program.suggest_models) {
+        if (cmd === parseCommands.suggestModels) {
             try {
                 await suggestModelsAndWriteToDisk(allParsedContent, program, cmd)
             } catch (err) {
@@ -356,20 +357,40 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
  * @param {String} rootDialogFolderName 
  * @param {String} baseFolderPath 
  */
-const groupFilesByHierarchy = function(allParsedContent, rootDialogFolderName, baseFolderPath) {
+const groupFilesByHierarchy = function(allParsedContent, rootDialogFolderName, baseFolderPath, program) {
     let groupedFiles = {
-        "LUISContent": [],
-        "QnAContent": [],
-        "QnAAlterations": []
+        "LUISContent": {},
+        "QnAContent": {},
+        "QnAAlterations": {}
     };
     (allParsedContent.LUISContent || []).forEach(parsedObject => {
         //let folderScope = parsedObject.srcFile.replace(baseFolderPath, '');
         let relPath = path.relative(baseFolderPath, parsedObject.srcFile);
         let relBaseFolder = relPath.split(new RegExp(/[\/\\]/g))[0];
-        if (groupedFiles.LUISContent.hasOwnProperty(relBaseFolder)) {
-            // test
+        // get lang code for file 
+        let tokenizedFileName = path.basename(parsedObject.srcFile).split('.');
+        let lang = '';
+        if (tokenizedFileName.length === 2) {
+            // Go with the lang code passed in or default.
+            lang = program.luis_culture;
         } else {
-            groupedFiles.LUISContent.push(JSON.parse(`"${relBaseFolder}": {${parsedObject}}`));
+            lang = tokenizedFileName[1];
+        }
+        let fParsed = new hClasses.fileParsedContent(parsedObject.srcFile, parsedObject.LUISJsonStructure);
+        if (groupedFiles.LUISContent.hasOwnProperty(relBaseFolder)) {
+            // See if we already have a section for this lang
+            if (groupedFiles.LUISContent[relBaseFolder][lang] === undefined) {
+                groupedFiles.LUISContent[relBaseFolder][lang] = [fParsed];
+            } else {
+                // see if we have the specific file
+                let fileExits = (groupedFiles.LUISContent[relBaseFolder][lang] || []).forEach(item => item[parsedObject.srcFile] == item[parsedObject.srcFile]);
+                if (fileExits === undefined)  {
+                    groupedFiles.LUISContent[relBaseFolder][lang].push(fParsed);
+                }
+            }
+        } else {
+            groupedFiles.LUISContent[relBaseFolder] = {};
+            groupedFiles.LUISContent[relBaseFolder][lang] = [fParsed];
         }
         
     })
@@ -385,9 +406,9 @@ const groupFilesByHierarchy = function(allParsedContent, rootDialogFolderName, b
  */
 const suggestModelsAndWriteToDisk = async function(allParsedContent, program, cmd) {
     let crossFeedModels = program.cross_feed_models
-    let rootDialogFolderName = program.rootDialog ? program.rootDialog : undefined;
+    let rootDialogFolderName = program.root_dialog ? program.root_dialog : undefined;
     let baseFolderPath = path.resolve(program.lu_folder);
-    let groupedObject = groupFilesByHierarchy(allParsedContent, rootDialogFolderName, baseFolderPath);
+    let groupedObject = groupFilesByHierarchy(allParsedContent, rootDialogFolderName, baseFolderPath, program);
     // From parsed content, group .lu and .qna files under specific folders into separate collections
     // try {
     //     // pass only files that need to be collated.

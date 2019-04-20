@@ -4,6 +4,19 @@
 ludown parse toSuggestModels [-l|--lu_folder] <folder> [-s|--subfolder] [-o|--out] <outFolder> [-a|--root_dialog] <folderRootDialog> [-r|--cross_feed_models] [-c|--use_qna_pairs]
 ```
 
+For given parsed content, generate a list of files by this structure. All folder names are at peer to the folder at which 'rootDialog' is at. 
+
+| folderName | lang x locale | fullFilePath | 
+
+{
+    "folderName": {
+        "en-us": [
+            "fileName": {}
+            "fileName2": {}
+        ]
+    },
+}
+
 rootDialog
     - All .lu files are found under rootDialog are collated with 'trigger intents' from all non-root folders. 
     - There will always be only one \<rootDialog\>-\<locale\> model suggested
@@ -19,3 +32,12 @@ DialogName
     - File names will need to follow \<RelativeRootFolderName\>-\<locale\>.lu structure to be grouped into sub-models.
     - One QnA model suggested per \<bot\>-\<locale\>
     - If more than one language files are found, then [-c|--luis_culture] can be set to reflect the root dialog's language code. If not specified, rootDialog's culture will default to en-US
+
+
+{
+    "name":"MyProject",
+    "defaultLanguage":"en-us",
+    "models": [
+        "./examples/all.lu"        
+    ]
+}

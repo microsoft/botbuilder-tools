@@ -5,22 +5,21 @@
  */
 require('./utils');
 const program = require('commander');
-const fParser = require('../lib/parser');
+const fParser = require('./parser');
 const chalk = require('chalk');
-const retCode = require('../lib/enums/CLI-errors');
-const cmdEnum = require('../lib/enums/parsecommands.js');
+const retCode = require('./enums/CLI-errors');
+const cmdEnum = require('./enums/parsecommands.js');
 program.Command.prototype.unknownOption = function () {
     process.stderr.write(chalk.default.redBright(`\n  Unknown arguments: ${process.argv.slice(2).join(' ')}\n`));
     program.help();
 };
 program
-    .name("ludown parse AndSuggestModels")
-    .description(`Suggests one or more LUIS and/or QnA maker applications. This command will look at both .lu and .qna files.`)
-    .usage('--folder <inputFolder> --root_dialog <rootDialogName> [-s] [-w] [-o] [-c] [-e] [-q] [-u]')
-    .option('-f, --folder <inputFolder>', '[Required] Folder that has the .lu files. By default ludown will only look at the current folder. To look at all subfolders, include -s')
+    .name("ludown parse ToLUBuild")
+    .description(`Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications. Outputs a lubuild.json config and suggested model files for LUIS and QnA.`)
+    .usage('--lu_folder <inputFolder> --root_dialog <rootDialogName> [-s] [-o] [-c] [-e] [-q] [-u]')
+    .option('-f, --lu_folder <inputFolder>', '[Required] Folder that has the .lu files. By default ludown will only look at the current folder. To look at all subfolders, include -s')
     .option('-r, --root_dialog <rootDialogName>', '[Required] Name of folder that contains the root dialog')
     .option('-s, --subfolder', '[Optional] Include sub-folders as well when looking for .lu files')
-    .option('-w, --write_lubuild_config', '[Optional] Write out a config.json for LUBuild CLI to consume')
     .option('-o, --out_folder <outputFolder>', '[Optional] Output folder for all files the tool will generate')
     .option('-c, --luis_culture <luis_appCulture>', '[Optional] LUIS app culture of the rootDialog. Defaults to en-us if not specified.', 'en-us')
     .option('-e, --cross_feed_models', '[Optional] When set, NONE intent for child models will be cross trained with other trigger intents.')
@@ -40,7 +39,7 @@ if (process.argv.length < 5) {
             process.stderr.write(chalk.default.yellowBright(`\nWARN: Unrecognized LUIS locale. Supported locales are - ${LUISLocales.toString()} \n\n`));
         }
     }
-    if (!program.folder || !program.root_dialog) {
+    if (!program.lu_folder || !program.root_dialog) {
         process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
         program.help();
     }
