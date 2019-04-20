@@ -1,0 +1,11 @@
+{
+    "$schema": "./app.schema",
+    "$type": "root",
+    "recognizers": [
+        {
+            "$type": "Recognizer",
+            "$copy": "root#inlineRecognizer",
+            "$comment": "Refer to id in another file."
+        }
+    ]
+}

@@ -52,7 +52,7 @@ async function runProgram() {
     }
 
     let latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
-        .catch(error => pkg.version);
+        .catch(() => pkg.version);
     if (semver.gt(latest, pkg.version)) {
         process.stderr.write(chalk.default.white(`\n     Update available `));
         process.stderr.write(chalk.default.grey(`${pkg.version}`));
@@ -300,8 +300,8 @@ async function runProgram() {
                                 return;
                             }
                         }
-                        var options = Object.assign({}, { azureAccountInfoObject: requestBody }, args);
-                        result = await client.azureAccounts.removeFromApp(args.region, args.cloud, args.appId, options);
+                        var azureOptions = Object.assign({}, { azureAccountInfoObject: requestBody }, args);
+                        result = await client.azureAccounts.removeFromApp(args.region, args.cloud, args.appId, azureOptions);
                     }
                     break;
 
@@ -674,7 +674,7 @@ async function runProgram() {
 
     if (verb != "package") {
         if (result.readableStreamBody) {
-            result = await new Promise((resolve, reject) => {
+            result = await new Promise((resolve) => {
                 var body = '';
                 var stream = result.readableStreamBody;
                 stream.on('readable', () => body += stream.read());
@@ -690,7 +690,7 @@ async function runProgram() {
     else {
         // Packaging APIs
         if (result.readableStreamBody) {
-            result = await new Promise((resolve, reject) => {
+            result = await new Promise((resolve) => {
                 var stream = result.readableStreamBody;
                 let body = [];
                 stream.on('readable', function() {
@@ -844,6 +844,7 @@ async function waitForTrainingToComplete(client, args) {
         modelMap[model.id] = { name: model.name, type: model.readableType };
     }
 
+    let loop = true;
     do {
         let result = await client.train.getStatus(args.region, args.cloud, args.appId, args.versionId, args);
 
@@ -881,7 +882,7 @@ async function waitForTrainingToComplete(client, args) {
         if (!(args.q || args.quiet)) {
             pos.moveUp(result.length + 1);
         }
-    } while (true);
+    } while (loop);
 }
 
 /**
@@ -1093,7 +1094,7 @@ async function handleQueryCommand(args, config) {
     } else {
         let region = args.region || config.region;
         if (region) {
-            uri = `https://${region}.api.cognitive.microsoft.com/luis/v2.0/apps/${args.appId}`;
+            uri = `https://${region}.api.dialognitive.microsoft.com/luis/v2.0/apps/${args.appId}`;
         }
         else {
             process.stderr.write(chalk.red.bold(`missing --region or --endpointBasePath\n`));
@@ -1130,9 +1131,9 @@ async function handleQueryCommand(args, config) {
             let min = Number.MAX_VALUE;
             let max = Number.MIN_VALUE;
             let values = [];
-            for (i = 0; i <= samples; ++i) {
+            for (let i = 0; i <= samples; ++i) {
                 let start = performance.now();
-                let result = await request(options);
+                await request(options);
                 let elapsed = performance.now() - start;
                 console.log(`${i}: ${elapsed} ms`);
                 if (i > 0) {

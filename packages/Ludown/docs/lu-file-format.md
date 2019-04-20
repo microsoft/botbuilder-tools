@@ -300,7 +300,7 @@ Here's an example of question and answer definitions. The LUDown tool will autom
 ### ? How do I programmatically update my KB?
 	```markdown
 	You can use our REST apis to manage your KB. 
-	\#1. See here for details: https://westus.dev.cognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa
+	\#1. See here for details: https://westus.dev.dialognitive.microsoft.com/docs/services/58994a073d9e04097c7ba6fe/operations/58994a073d9e041ad42d9baa
 	```
 ```
 

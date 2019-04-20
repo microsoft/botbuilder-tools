@@ -1,0 +1,31 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/LUIS\\bin\\luis.js",
+            "args": [
+                "query",
+                "-q",
+                "3+ bedroom house",
+                "--appId",
+                "2ed4b2bb-0af7-47a8-9f83-d793854f4c40",
+                "--subscriptionKey",
+                "5b74025092d343a7b1d4fd34cf6d6a35",
+                "--region",
+                "westus",
+                "--endpoint", "http://localhost:5000/luis/v2.0/apps", 
+                "--timing", "11"
+                // , "8"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        }
+    ]
+}

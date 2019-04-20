@@ -1,0 +1,60 @@
+{
+  "$schema": "./app.schema",
+  "$type": "root",
+  "prompt": {
+    "$type": "prompt",
+    "$copy": "myPromptCopy"
+  },
+  "condition": "true",
+  "property": "foo.blah",
+  "recognizers": [
+    {
+      "$type": "Recognizer",
+      "$copy": "#inlineRecognizer",
+      "req": "forward ref"
+    },
+    {
+      "$type": "Recognizer",
+      "$id": "inlineRecognizer",
+      "req": "inline id"
+    },
+    {
+      "$type": "Recognizer",
+      "$copy": "externalRecognizer",
+      "req": "external whole file reference"
+    },
+    {
+      "$type": "Recognizer",
+      "$copy": "missingRecognizer",
+      "$comment": "reference does not exist"
+    },
+    {
+      "$type": "Recognizer",
+      "$comment": "type error because missing $copy/$req"
+    },
+    {
+      "$copy": "externalRecognizer",
+      "$comment": "missing $type"
+    },
+    {
+      "$type": "Recognizer",
+      "$copy": "typeMismatch",
+      "req": "this type does not match ref type"
+    },
+    {
+      "$type": "Recognizer",
+      "$id": "multiplyDefined",
+      "req": "multiply defined in this file"
+    },
+    {
+      "$type": "Recognizer",
+      "$id": "multiplyDefined",
+      "req": "multiply defined in this file"
+    },
+    {
+      "$type":"Recognizer",
+      "$copy": "#inlineRecognizer",
+      "$comment": "after reference"
+    }
+  ]
+}

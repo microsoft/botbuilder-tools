@@ -32,7 +32,7 @@ export class LuisAuthoringContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "https://{AzureRegion}.api.cognitive.microsoft.{AzureCloud}";
+    this.baseUri = "https://{AzureRegion}.api.dialognitive.microsoft.{AzureCloud}";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 

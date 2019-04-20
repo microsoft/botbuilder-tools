@@ -299,7 +299,7 @@
   "responses": {
     "201": {
       "headers": {
-        "Location": "https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/374fac89-ae12-4afd-8c21-8a6424ce1c1f"
+        "Location": "https://westus.api.dialognitive.microsoft.com/luis/api/v2.0/apps/374fac89-ae12-4afd-8c21-8a6424ce1c1f"
       },
       "body": "374fac89-ae12-4afd-8c21-8a6424ce1c1f"
     }

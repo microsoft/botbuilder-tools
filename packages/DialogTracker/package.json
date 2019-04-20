@@ -1,0 +1,60 @@
+{
+  "name": "dialogtracker",
+  "version": "1.0.0-preview",
+  "description": "Utilities for reading, validating, indexing, modifying and writing Bot Framework .schema, .dialog and .lg files.",
+  "main": "./lib/dialogTracker.js",
+  "types": "./typings/lib/dialogTracker.d.ts",
+  "bin": {
+    "dialogtracker": "./lib/dialogTracker.js"
+  },
+  "directories": {
+    "bin": "bin",
+    "doc": "docs",
+    "lib": "lib",
+    "typings": "typings"
+  },
+  "files": [
+    "bin/",
+    "docs/",
+    "lib/",
+    "typings/"
+  ],
+  "scripts": {
+    "test": "echo run tests in ../DialogSchema",
+    "clean": "erase /Q /s lib\\* && erase /Q /s typings\\* && erase /Q /s docs\\*",
+    "build": "tsc",
+    "docs": "rd /s /q docs && typedoc --out docs src"
+  },
+  "engines": {
+    "node": ">=8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Microsoft/botbuilder-tools/issues"
+  },
+  "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/fs-extra": "^5.0.5",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.18",
+    "@types/semver": "^5.5.0",
+    "chai": "^4.2.0",
+    "chalk": "^2.4.2",
+    "mocha": "^5.2.0",
+    "ts-node": "^8.0.2",
+    "typedoc": "^0.14.2"
+  },
+  "dependencies": {
+    "ajv": "^6.9.1",
+    "clone": "^2.1.2",
+    "fs-extra": "^7.0.1",
+    "globby": "^9.1.0",
+    "semver": "^5.6.0"
+  }
+}

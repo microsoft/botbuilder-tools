@@ -49,7 +49,7 @@ class ServiceBase {
         if (this.useEndpoint)
             requestEndpoint = params.hostname;
         else
-            requestEndpoint = params.legacy ? "https://westus.api.cognitive.microsoft.com/qnamaker/v3.0" : "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0";
+            requestEndpoint = params.legacy ? "https://westus.api.dialognitive.microsoft.com/qnamaker/v3.0" : "https://westus.api.dialognitive.microsoft.com/qnamaker/v4.0";
 
         const tokenizedUrl = requestEndpoint + relativeEndpoint + pathFragment;
         // Order is important since we want to allow the user to
