@@ -1,5 +1,9 @@
 [![npm version](https://badge.fury.io/js/msbot.svg)](https://badge.fury.io/js/dialogLint)
 
+> *NOTE: This is a **preview** tool and breaking changes may happen before it is released*.
+>
+> This tool is for working with **Bot Framework SDK 4.5 preview** .dialog files 
+
 # DialogLint Command Line tool
 
 DialogLint is a command line tool that analyzes JSON .dialog files created for the Bot Framework.  It builds an index of dialog components and how they relate to each other using $type, $id and $copy.  From this information it prints out information about types and any errors including: 

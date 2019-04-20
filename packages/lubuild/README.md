@@ -1,3 +1,5 @@
+> *NOTE: This is a **preview** tool and breaking changes may happen before it is released*
+
 # **LUBuild**
 The **LUBuild** tool makes it easy for you to manage working with multiple model definitions among a team members across data centers and languages.
 

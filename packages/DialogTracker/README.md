@@ -1,5 +1,9 @@
 [![npm version](https://badge.fury.io/js/msbot.svg)](https://badge.fury.io/js/dialogLint)
 
+> *NOTE: This is a **preview** tool and breaking changes may happen before it is released*.
+>
+> This tool is for working with **Bot Framework SDK 4.5 preview** .dialog files 
+
 # DialogTracker 
 
 This library allows reading, validating, indexing, modifying and writing [Bot Framework](https://dev.botframework.com/) .schema, .dialog and .lg files utilizing an in-memory cache.  It reads in dialog files and captures errors in them so that they can be presented as issues to be fixed.  It also provides indexing to help tools maniuplate the information in the files.  It builds an index of .dialog components and how they relate to each other using $type, $role, $id and $copy.  It captures:

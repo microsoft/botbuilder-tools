@@ -1,5 +1,9 @@
 [![npm version](https://badge.fury.io/js/msbot.svg)](https://badge.fury.io/js/dialogSchema)
 
+> *NOTE: This is a **preview** tool and breaking changes may happen before it is released*.
+>
+> This tool is for working with **Bot Framework SDK 4.5 preview** .dialog files 
+
 # DialogSchema Command Line tool
 
 DialogSchema tool is a command line tool designed to merge together [Microsoft Bot Builder](https://github.com/Microsoft/BotBuilder) .schema JSON schema files into a single JSON schema file. You can point to the files either directly with a glob pattern or indirectly through a glob pattern that matches a package.json, packages.config or *.csproj file.  The .schema files should have a unique filename that is used to refer to that type using `$type`.  The .schema files can optionally include a `$schema: "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema"` which defines the schema they are validated against.  Within a schema definition you can use `$role:"unionType(<type>)` to project the type definition into union types defined using `$role:"unionType"` while merging.  To refer to a type in a property, just use `"$type":"<type>"`.  The merger combines all of the component .schema files into a single .schema file that has resolved all external `$ref`, merged `allOf` and connected together schemas through `$role` and `$type`. 
