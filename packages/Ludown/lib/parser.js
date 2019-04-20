@@ -20,6 +20,7 @@ const hClasses = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
 const parserConsts = require('./enums/parserconsts');
 const parseCommands = require('./enums/parsecommands');
+const parsedStruct = require('./enums/parsedStruct');
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -352,48 +353,66 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
     };
 };
 /**
+ * Helper to gather and group files based on requested type of content.
+ * @param {Object} parsedObject 
+ * @param {Object} groupedFiles 
+ * @param {String} contentType 
+ * @param {String} baseFolderPath 
+ * @param {Object} program 
+ * @returns {void}
+ */
+const gatherAndGroupFiles = function(parsedObject, groupedFiles, contentType, baseFolderPath, program) {
+    //let folderScope = parsedObject.srcFile.replace(baseFolderPath, '');
+    let relPath = path.relative(baseFolderPath, parsedObject.srcFile);
+    let relBaseFolder = relPath.split(new RegExp(/[\/\\]/g))[0];
+    // get lang code for file 
+    let tokenizedFileName = path.basename(parsedObject.srcFile).split('.');
+    let lang = '';
+    if (tokenizedFileName.length === 2) {
+        // Go with the lang code passed in or default.
+        lang = program.luis_culture;
+    } else {
+        lang = tokenizedFileName[1];
+    }
+    let fParsed = new hClasses.fileParsedContent(parsedObject.srcFile, parsedObject[parsedStruct[contentType]]);
+    if (groupedFiles[contentType].hasOwnProperty(relBaseFolder)) {
+        // See if we already have a section for this lang
+        if (groupedFiles[contentType][relBaseFolder][lang] === undefined) {
+            groupedFiles[contentType][relBaseFolder][lang] = [fParsed];
+        } else {
+            // see if we have the specific file
+            let fileExits = (groupedFiles[contentType][relBaseFolder][lang] || []).forEach(item => item[parsedObject.srcFile] == item[parsedObject.srcFile]);
+            if (fileExits === undefined)  {
+                groupedFiles[contentType][relBaseFolder][lang].push(fParsed);
+            }
+        }
+    } else {
+        groupedFiles[contentType][relBaseFolder] = {};
+        groupedFiles[contentType][relBaseFolder][lang] = [fParsed];
+    }
+}
+/**
  * Helper function to group parsed content by relative folder paths. 
  * @param {Object} allParsedContent 
- * @param {String} rootDialogFolderName 
  * @param {String} baseFolderPath 
+ * @param {Object} program
+ * @returns {Object} grouped collection of files by folder hierarchy x language code.
  */
-const groupFilesByHierarchy = function(allParsedContent, rootDialogFolderName, baseFolderPath, program) {
+const groupFilesByHierarchy = function(allParsedContent, baseFolderPath, program) {
     let groupedFiles = {
         "LUISContent": {},
         "QnAContent": {},
         "QnAAlterations": {}
     };
     (allParsedContent.LUISContent || []).forEach(parsedObject => {
-        //let folderScope = parsedObject.srcFile.replace(baseFolderPath, '');
-        let relPath = path.relative(baseFolderPath, parsedObject.srcFile);
-        let relBaseFolder = relPath.split(new RegExp(/[\/\\]/g))[0];
-        // get lang code for file 
-        let tokenizedFileName = path.basename(parsedObject.srcFile).split('.');
-        let lang = '';
-        if (tokenizedFileName.length === 2) {
-            // Go with the lang code passed in or default.
-            lang = program.luis_culture;
-        } else {
-            lang = tokenizedFileName[1];
-        }
-        let fParsed = new hClasses.fileParsedContent(parsedObject.srcFile, parsedObject.LUISJsonStructure);
-        if (groupedFiles.LUISContent.hasOwnProperty(relBaseFolder)) {
-            // See if we already have a section for this lang
-            if (groupedFiles.LUISContent[relBaseFolder][lang] === undefined) {
-                groupedFiles.LUISContent[relBaseFolder][lang] = [fParsed];
-            } else {
-                // see if we have the specific file
-                let fileExits = (groupedFiles.LUISContent[relBaseFolder][lang] || []).forEach(item => item[parsedObject.srcFile] == item[parsedObject.srcFile]);
-                if (fileExits === undefined)  {
-                    groupedFiles.LUISContent[relBaseFolder][lang].push(fParsed);
-                }
-            }
-        } else {
-            groupedFiles.LUISContent[relBaseFolder] = {};
-            groupedFiles.LUISContent[relBaseFolder][lang] = [fParsed];
-        }
-        
-    })
+        gatherAndGroupFiles(parsedObject, groupedFiles, "LUISContent", baseFolderPath, program);
+    });
+    (allParsedContent.QnAContent || []).forEach(parsedObject => {
+        gatherAndGroupFiles(parsedObject, groupedFiles, "QnAContent", baseFolderPath, program);
+    });
+    (allParsedContent.QnAAlterations || []).forEach(parsedObject => {
+        gatherAndGroupFiles(parsedObject, groupedFiles, "QnAAlterations", baseFolderPath, program);
+    });
     return groupedFiles;
 }
 /**
@@ -408,23 +427,17 @@ const suggestModelsAndWriteToDisk = async function(allParsedContent, program, cm
     let crossFeedModels = program.cross_feed_models
     let rootDialogFolderName = program.root_dialog ? program.root_dialog : undefined;
     let baseFolderPath = path.resolve(program.lu_folder);
-    let groupedObject = groupFilesByHierarchy(allParsedContent, rootDialogFolderName, baseFolderPath, program);
-    // From parsed content, group .lu and .qna files under specific folders into separate collections
-    // try {
-    //     // pass only files that need to be collated.
-    //     finalLUISJSON = await parseFileContents.collateLUISFiles(allParsedContent.LUISContent.filter(item => item.includeInCollate));
-    //     if(haveLUISContent(finalLUISJSON)) await parseFileContents.validateLUISBlob(finalLUISJSON);
-    //     finalQnAJSON = await parseFileContents.collateQnAFiles(allParsedContent.QnAContent.filter(item => item.includeInCollate));
-    //     finalQnAAlterations = await parseFileContents.collateQnAAlterations(allParsedContent.QnAAlterations.filter(item => item.includeInCollate));
-    // } catch (err) {
-    //     throw (err);
-    // }
-    // try {
-    //     writeOutFiles(program,finalLUISJSON,finalQnAJSON, finalQnAAlterations, rootFile, cmd); 
-    // } catch (err) {
-    //     throw(err);
-    // }
+    let groupedObject = groupFilesByHierarchy(allParsedContent, baseFolderPath, program);
+    
+    // Extract rootDialog from collection
 
+    // Apply each rule as enabled to update two sets of objects - rootDialog and [childDialog]
+
+    // Collate all files in rootDialog and [childDialog] collections
+
+    // Generate .lu file for each collated json
+
+    // Write out .lu or .qna file for each collated json
 }
 /**
  * Helper function to resolve lu file references in utterances
