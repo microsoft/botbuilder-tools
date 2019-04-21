@@ -12,6 +12,9 @@ const retCode = require('./enums/CLI-errors');
 const exception = require('./classes/exception');
 const chalk = require('chalk');
 const LUIS = require('./classes/LUIS');
+const addItemOrRoleIfNotPresent = require('./parseFileContents').addItemOrRoleIfNotPresent;
+const LUISObjEnum = require('./enums/luisobjenum');
+const utterance = require('./classes/hclasses').uttereances;
 const suggestModels = {
     /**
      * 
@@ -22,13 +25,10 @@ const suggestModels = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     suggestModelsAndWriteToDisk : async function(allParsedContent, program, cmd) {
-        // out_folder
-        // cross_feed_models
-        // use_qna_pairs
-        // auto_add_qna_metadata
-        // verbose
         if (program.verbose) process.stdout.write(chalk.default.whiteBright("Analyzing parsed files... \n"));
-        let crossFeedModels = program.cross_feed_models
+        let crossFeedModelsReq = program.cross_feed_models;
+        let add_qna_pairs = program.add_qna_pairs;
+        let auto_add_qna_metadata = program.auto_add_qna_metadata;
         let rootDialogFolderName = program.root_dialog ? program.root_dialog : undefined;
         let baseFolderPath = path.resolve(program.lu_folder);
         let groupedObject = await groupFilesByHierarchy(allParsedContent, baseFolderPath, program);
@@ -57,31 +57,172 @@ const suggestModels = {
         await identifyTriggerIntentForAllChildren(collatedObj.LUISContent);
 
         // Rule 2 - rootDialog model has all trigger intents + referenced entities from all child models, de-duped
-        await updateRootDialogModelWithTriggerIntents(rootDialogModels.LUISContent, collatedObj.LUISContent);
-        
         // Rule 3 - remove trigger model from child dialogs
-
-        // Rule 4 - remove child model suggestion if the only intent in the child is the trigger intent
+        await updateRootDialogModelWithTriggerIntents(rootDialogModels.LUISContent, collatedObj.LUISContent);
 
         // Rule 5 - With cross_feed_models option specified, all child model's NONE intent has all other child model's trigger intents
-
-        // Rule 6 - with use_qna_pairs, all questions for that lang's model is automatically added to none intent of all models
+        if (crossFeedModelsReq) {
+            await crossFeedModels(rootDialogModels.LUISContent, collatedObj.LUISContent);
+        }
+        // Rule 6 - with use_qna_pairs, all questions for that lang's model is automatically 
+        // added to 'QnA' intent of all models including the root model.
+        if (add_qna_pairs) {
+            await addQnAPairsToModels(rootDialogModels, collatedObj);
+        }
 
         // Rule 7 - with auto_add_qna_metadata, all qna pairs for .qna found under a dialog folder automatically have dialogName = folderName added as meta-data.
-        
-        // Generate .lu file for each collated json
-        // End result 
-        // One QnA model suggested per Bot x lang
-        // One LUIS model suggested per Dialog x lang (if applicable)
+        if (auto_add_qna_metadata) {
+            await autoAddQnAMetaData(rootDialogModels.QnAContent, collatedObj.QnAContent);
+        }
+
+        // Remove *ludown* markers from root models
+        await removeLUDownMarkers(rootDialogModels.LUISContent);
+
+        // Rule 4 - remove child model suggestion if the only intent in the child is the trigger intent
+        await cleanUpChildWithNoIntentsLeft(collatedObj.LUISContent);
 
         // Delete 'triggerIntent' property from all LUIS models
-        
+        await deleteTriggerIntent(rootDialogModels.LUISContent, collatedObj.LUISContent);
+
+        // Collate all child QnA models to one per lang
+        await collateQnAModelsToOnePerLang(rootDialogModels.QnAContent, collatedObj.QnAContent);
+        let x = 10;
         // Write out .lu or .qna file for each collated json
+        // Generate .lu file for each collated json
+        // End result 
+        // One QnA model suggested per lang
+        // One LUIS model suggested per Dialog x lang (if applicable)
     }
 };
 
 module.exports = suggestModels;
 
+/**
+ * Helper to remove *ludown* off root model's intent markers
+ * @param {Object} rootModels 
+ */
+const removeLUDownMarkers = async function(rootModels) {
+    for (let lKey in rootModels) {
+        rootModels[lKey].intents.forEach(intent => {
+            if (intent.name.includes("*ludown*")) {
+                intent.name = intent.name.replace("*ludown*", '');
+            }
+        })
+    }
+}
+/**
+ * Helper to delete trigger intent property off all child models and root models.
+ * @param {Object} childLUISContent 
+ */
+const deleteTriggerIntent = async function(rootModels, childLUISContent) {
+    for (let fKey in childLUISContent) {
+        for (let lKey in childLUISContent[fKey]) {
+            if (childLUISContent[fKey][lKey].triggerIntent !== undefined) {
+                delete childLUISContent[fKey][lKey].triggerIntent;
+            }
+            if (rootModels[lKey].triggerIntent != undefined) {
+                delete rootModels[lKey].triggerIntent;
+            }
+        }
+    }
+}
+/**
+ * Helper to automatically add 'dialogName':'folderName' to qna pairs found under a specific folder.
+ * @param {Object} rootQnAContent 
+ * @param {Object} childQnACollection 
+ */
+const autoAddQnAMetaData = async function(rootQnAContent, childQnACollection) {
+    for (let fKey in childQnACollection) {
+        for (let lKey in childQnACollection[fKey]) {
+            (childQnACollection[fKey][lKey].qnaList || []).forEach(qaPair => {
+                let mdExists = qaPair.metadata.find(item => item.name == 'dialogName');
+                if (mdExists === undefined) {
+                    qaPair.metadata.push({"name": "dialogName", "value": fKey});
+                }
+            })
+        }
+    }
+}
+/**
+ * Helper to add QnA pairs found under a dialog x lang automatically to 'QnA' intent for that child.
+ * 
+ * @param {Object} rootDialogModels 
+ * @param {Object} collatedObj 
+ */
+const addQnAPairsToModels = async function(rootDialogModels, collatedObj) {
+    let rootLUISModels = rootDialogModels.LUISContent;
+    let rootQnAModels = rootDialogModels.QnAContent;
+    let childLUISModels = collatedObj.LUISContent;
+    let childQnAModels = collatedObj.QnAContent;
+
+    
+    for (let lKey in rootQnAModels) {
+        if (rootQnAModels[lKey].qnaList.length !== 0) {
+            let questions = [];
+            rootQnAModels[lKey].qnaList.forEach(item => item.questions.forEach(q => questions.push(q)));
+            if (rootLUISModels[lKey] !== undefined) {
+                questions.forEach(question => {
+                    rootLUISModels[lKey].utterances.push(new utterance(question, 'QnA', []));
+                })
+            }
+        }
+    }
+
+    for (let cfKey in childQnAModels) {
+        for (let clKey in childQnAModels[cfKey]) {
+            if (childQnAModels[cfKey][clKey].qnaList.length !== 0) {
+                let questions = [];
+                childQnAModels[cfKey][clKey].qnaList.forEach(item => item.questions.forEach(q => questions.push(q)));
+                if (childLUISModels[cfKey][clKey] !== undefined) {
+                    questions.forEach(question => {
+                        childLUISModels[cfKey][clKey].utterances.push(new utterance(question, 'QnA', []));
+                    })
+                }
+            }
+        }
+    }
+}
+/**
+ * Helper to cross feed models. All child model's None intent will have all trigger utterances of all other models.
+ * @param {Object} rootLUISModel 
+ * @param {Object} childLUISModelCollection 
+ */
+const crossFeedModels = async function(rootLUISModel, childLUISModelCollection) {
+    for (let fKey in childLUISModelCollection) {
+        for (let lKey in childLUISModelCollection[fKey]) {
+
+            // Find all utterances in root model that is not the child's trigger intent
+            let otherTriggerUtterancesInRoot = rootLUISModel[lKey].utterances.filter(item => {
+                if (!(item.intent.includes('*ludown*'))) return false;
+                return item.intent != childLUISModelCollection[fKey][lKey].triggerIntent + '*ludown*';
+            });
+
+            (otherTriggerUtterancesInRoot || []).forEach(utterance => {
+                utterance.intent = "None";
+                utterance.entities = [];
+                if (utterance.role !== undefined) utterance.role = '';
+                childLUISModelCollection[fKey][lKey].utterances.push(utterance);
+            })
+        }
+    }
+}
+/**
+ * Helper function to clear out child with no intents
+ * @param {Object} childLUISModelCollection 
+ */
+const cleanUpChildWithNoIntentsLeft = async function(childLUISModelCollection) {
+    for (let fKey in childLUISModelCollection) {
+        for (let lKey in childLUISModelCollection[fKey]) {
+            if (childLUISModelCollection[fKey][lKey].intents.length === 0) {
+                // delete this child model
+                delete childLUISModelCollection[fKey][lKey]
+            }
+        }
+        if (Object.keys(childLUISModelCollection[fKey]).length === 0) {
+            delete childLUISModelCollection[fKey];
+        }
+    }
+}
 /**
  * Helper to update rootLUIS model with trigger intents and related entities from all child models
  * @param {Object} rootLUISModel 
@@ -99,20 +240,174 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
                 rootLUISModel[lKey] = new LUIS();
             }
 
-            // Examine utterances in child models and pull entities referred to in utterances to root (simple, composite entities).
+            // Add Child's trigger intent to root if it does not exist
+            let triggerIntentInRoot = rootLUISModel[lKey].intents.find(item => item.name == childLUISModelCollection[fKey][lKey].triggerIntent);
+            if (triggerIntentInRoot === undefined) {
+                rootLUISModel[lKey].intents.push({"name": childLUISModelCollection[fKey][lKey].triggerIntent});
+            }
 
+            // Examine utterances in child models and add them to root dialog. For each labelled utterance, add simple and composite entities to parent
+            let triggerUtterancesInChild = childLUISModelCollection[fKey][lKey].utterances.filter(utterance => utterance.intent == childLUISModelCollection[fKey][lKey].triggerIntent);
 
+            triggerUtterancesInChild.forEach(utterance => {
+                // Add *ludown* marker so we know this intent was added by ludown.
+                // This will be removed before the models are written out.
+                utterance.intent += '*ludown*';
+                rootLUISModel[lKey].utterances.push(utterance);
+                if (utterance.entities.length !== 0) {
+                    utterance.entities.forEach(entityInUtterance => {
+                        // Find the labelled entity in simple or composite
+                        let simpleEntityMatch = childLUISModelCollection[fKey][lKey].entities.find(entity => entity.name == entityInUtterance.entity);
+                        if (simpleEntityMatch !== undefined) {
+                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.ENTITIES, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
+                        } else {
+                            // Find the composite entity and add it.
+                            let compositeEntityMatch = childLUISModelCollection[fKey][lKey].composites.find(entity => entity.name == entityInUtterance.entity);
+                            if (compositeEntityMatch !== undefined) {
+                                addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.COMPOSITES, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
+                            } else {
+                                // see if we have a new role
+                                if (!compositeEntityMatch[0].roles.includes(entityInUtterance.role)) {
+                                    compositeEntityMatch[0].roles.push(entityInUtterance.role);
+                                } else {
+                                    throw (new exception(retCode.errorCode.INVALID_COMPOSITE_ENTITY, `No matching entity definition found for '${entityInUtterance.entity}' under '${fKey}' for language '${lKey}'.`));
+                                }
+                                // throw
+                            }
+                        }
+                    })
+                }
+            });
+
+            // Examine and pull patterns forward.
+            let patternsForTriggerIntent = childLUISModelCollection[fKey][lKey].patterns.filter(item => 
+                item.intent == childLUISModelCollection[fKey][lKey].triggerIntent);
+
+            if (patternsForTriggerIntent.length !== 0) {
+                patternsForTriggerIntent.forEach(cPattern => {
+                    let patternExistsInRoot = rootLUISModel[lKey].patterns.find(item => item.pattern == cPattern.pattern);
+                    if (patternExistsInRoot === undefined) {
+                        rootLUISModel[lKey].patterns.push(cPattern);
+                    } else {
+                        if (cPattern.intent !== patternExistsInRoot.intent) {
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, `Pattern '${cPattern.pattern}' has duplicate intent definitions. '${patternExistsInRoot.intent}' in rootDialog and '${cPattern.intent}' in child dialog.`));
+                        }
+                    }
+                });
+            } else {
+                if (triggerUtterancesInChild.length === 0) {
+                    // No utterances found in child.
+                    throw (new exception(retCode.errorCode.INVALID_INPUT, `No utterances or patterns found for trigger intent ${childLUISModelCollection[fKey][lKey].triggerIntent}`));
+                }
+            }
+
+            // Handle all other entities in child model
             // Pre-built entities in child model can be safely pulled up to root.
-            // All entity names are treated globally unique and they need to be namespaced if they require to be distinct between root and child.
-            // List entities in child model can be safely pulled up to root and namespaced as 'child'.'name'
-            // RegEx entities in child model can be safely pulled up to root and namespaced as 'child'.'name'
-            // Phraselist entities in child model can be safely pulled up to root and namespaced as 'child'.'name'
-            // Examining patterns in child models can pull any and all type of entities with role definitions.
+            (childLUISModelCollection[fKey][lKey].prebuiltEntities || []).forEach(prebuiltEntity => {
+                addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.PREBUILT, prebuiltEntity.name, prebuiltEntity.roles);
+            });
             
+            // Pull up List entities
+            (childLUISModelCollection[fKey][lKey].closedLists || []).forEach(listEntity => {
+                let rootHasListEntity = (rootLUISModel[lKey].closedLists || []).find(item => item.name == listEntity.name);
+                if (rootHasListEntity === undefined) {
+                    rootLUISModel[lKey].closedLists.push(listEntity);
+                } else {
+                    // Deal with sub-list match and synonyms match
+                    listEntity.subLists.forEach(subList => {
+                        let subListExists = rootHasListEntity.subLists.find(item => item.canonicalForm == subList.canonicalForm);
+                        if (subListExists === undefined) {
+                            rootHasListEntity.subLists.push(subList);
+                        } else {
+                            subList.list.forEach(synonym => {
+                                if (!subListExists.list.includes(synonym)){
+                                    subListExists.list.push(synonym);
+                                }
+                            })
+                        }
+                    });
+
+                    // Add roles if needed
+                    listEntity.roles.forEach(role => {
+                        if(!rootHasListEntity.roles.includes(role)) {
+                            rootHasListEntity.roles.push(role);
+                        }
+                    })
+                }
+            });
+
+            // Handle regex entities
+            (childLUISModelCollection[fKey][lKey].regex_entities || []).forEach(regexEntity => {
+                let rootHasRegExEntity = rootLUISModel[lKey].regex_entities.find(item => item.name == regexEntity.name);
+                if (rootHasRegExEntity === undefined) {
+                    rootLUISModel[lKey].regex_entities.push(regexEntity);
+                } else {
+                    // throw an error if patterns are different
+                    if (regexEntity.regexPattern !== rootHasRegExEntity.regexPattern) {
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, `Regex entity '${regexEntity.name}' has invalid definition '${regexEntity.regexPattern}' under '${fKey}' for language '${lKey}' and '${rootHasRegExEntity.regexPattern}' under rootDialog.`));
+                    } else {
+                        // verify roles are pulled up
+                        regexEntity.roles.forEach(role => {
+                            if (!rootHasRegExEntity.roles.includes(role)) {
+                                rootHasRegExEntity.roles.push(role);
+                            }
+                        })
+                    }
+                }
+            });
+
+            // Handle pattern.any entities
+            (childLUISModelCollection[fKey][lKey].patternAnyEntities || []).forEach(paEntity => {
+                let rootHasPAEntity = rootLUISModel[lKey].patternAnyEntities.find(item => item.name == paEntity.name);
+                if (rootHasPAEntity === undefined) {
+                    rootLUISModel[lKey].patternAnyEntities.push(paEntity);
+                } else {
+                    paEntity.roles.forEach(role => {
+                        if (!rootHasPAEntity.roles.includes(role)) {
+                            rootHasPAEntity.roles.push(role);
+                        }
+                    })
+                }
+            });
+
+            // Handle Phraselist entities
+            (childLUISModelCollection[fKey][lKey].model_features || []).forEach(plEntity => {
+                let rootHasPlEntity = rootLUISModel[lKey].model_features.find(item => item.name == plEntity.name);
+                if (rootHasPlEntity === undefined) {
+                    rootLUISModel[lKey].model_features.push(plEntity);
+                } else {
+                    // verify words are same
+                    let rootwords = rootHasPlEntity.words.split(',').map(item => item.trim());
+                    let childwords = plEntity.words.split(',').map(item => item.trim());
+                    (childwords || []).forEach(word => {
+                        if (!rootwords.includes(word)) {
+                            rootHasPlEntity.words += `,${word}`;
+                        }
+                    });
+                }
+            });
+
+            // Remove trigger intent from child model
+            let childIdx = -1;
+            childLUISModelCollection[fKey][lKey].intents.find((item, idx) => {
+                if (item.name === childLUISModelCollection[fKey][lKey].triggerIntent) {
+                    childIdx = idx;
+                    return true;
+                }
+                return false;
+            });
+
+            childLUISModelCollection[fKey][lKey].intents.splice(childIdx, 1);
+
+            // Remove all utterances that refer to trigger model in child
+            childLUISModelCollection[fKey][lKey].utterances = childLUISModelCollection[fKey][lKey].utterances.filter(utterance => 
+                utterance.intent != childLUISModelCollection[fKey][lKey].triggerIntent);
+
+            // Remove all patterns that refer to trigger intent in child
+            childLUISModelCollection[fKey][lKey].patterns = childLUISModelCollection[fKey][lKey].patterns.filter(item => 
+                item.intent != childLUISModelCollection[fKey][lKey].triggerIntent);
         }
     }
-    
-    
 }
 /**
  * Helper function that identifies trigger intent for each parsed child model.
@@ -137,7 +432,7 @@ const identifyTriggerIntentForAllChildren = async function(LUISContentCollection
                     // No trigger intent found. 
                     throw (new exception(retCode.errorCode.INVALID_INPUT, `No trigger intent found under '${fKey}' for language '${lKey}'. \n Trigger intent is identified by a .lu file under the '${fKey}' folder with '*.${lKey}.lu' in file name that has either - \n    an intent named '${fKey}' or \n    an intent definition that includes "[trigger intent]"\n Note: Spaces in an intent definition in your .lu file are replaced with '_'.`));
                 } else {
-                    LUISContentCollection[fKey][lKey].triggerIntent = intentExists;
+                    LUISContentCollection[fKey][lKey].triggerIntent = intentExists.name;
                 }
             }
         }

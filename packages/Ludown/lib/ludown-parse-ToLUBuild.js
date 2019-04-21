@@ -23,7 +23,7 @@ program
     .option('-o, --out_folder <outputFolder>', '[Optional] Output folder for all files the tool will generate')
     .option('-c, --luis_culture <luis_appCulture>', '[Optional] LUIS app culture of the rootDialog. Defaults to en-us if not specified.', 'en-us')
     .option('-e, --cross_feed_models', '[Optional] When set, NONE intent for child models will be cross trained with other trigger intents.')
-    .option('-q, --use_qna_pairs', '[Optional] Instructs parser to add questions to QnA or None intent')
+    .option('-q, --add_qna_pairs', '[Optional] Instructs parser to add questions to a QnA intent.')
     .option('-u, --auto_add_qna_metadata', '[Optional] Automatically set QnA meta data to include child dialog name')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
