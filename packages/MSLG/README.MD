@@ -93,15 +93,15 @@ Parse any provided .lg file and collate all .lg files into a single file.
 
  ### Parse
 ```bash
-mslg parse --in exceptionExamples/EmptyTemplate.lg    // parse the specific lg file.
+mslg parse --in examples/exceptionExamples/EmptyTemplate.lg    // parse the specific lg file.
 ```
 
  ### Collate
 ```bash
-mslg parse -l validExamples -s --out finalResult -c    // parse and merge all templates under folder validExamples into single finalResult file.
+mslg parse -l examples/validExamples -s --out finalResult -c    // parse and merge all templates under folder validExamples into single finalResult file.
 ```
 
  ### Expand
 ```bash
-mslg expand --in validExamples/simple.lg -t FinalGreeting    // basic usage of expand command.
+mslg expand --in examples/validExamples/simple.lg -t FinalGreeting    // basic usage of expand command.
 ```
