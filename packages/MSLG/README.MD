@@ -1,4 +1,5 @@
 # mslg
+## Please notice that this package is still in Preview.
 mslg tool has the ability to parse a .LG file that adheres to the LG file format. CLI tool should report an error on an statically detectable invalid .LG file. MSLG tool should also have the ability to generate a collated .LG file by parsing all provided (or found) .LG files. MSLG tool can also list all possible template expansions for a given template and test data for entity references.
 
 ## Prerequisite
