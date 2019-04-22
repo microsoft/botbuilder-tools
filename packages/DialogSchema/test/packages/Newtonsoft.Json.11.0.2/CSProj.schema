@@ -1,0 +1,5 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
+    "title": "Microsoft Nothing",
+    "description": "Definition of a union type with no implementations."
+}

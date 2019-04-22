@@ -1,10 +1,10 @@
 [
   {
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "9",
-    "timestamp": "2018-12-07T18:14:54.300Z",
+    "timestamp": "2019-04-20T19:48:47.300Z",
     "type": "conversationUpdate",
     "channelId": "chatdown",
     "membersAdded": [
@@ -18,7 +18,7 @@
   },
   {
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "10",
     "recipient": {
@@ -32,13 +32,13 @@
       "role": "user"
     },
     "text": "Hi!",
-    "timestamp": "2018-12-07T18:14:56.300Z",
+    "timestamp": "2019-04-20T19:48:49.300Z",
     "type": "message",
     "channelId": "chatdown"
   },
   {
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "11",
     "recipient": {
@@ -52,7 +52,7 @@
       "role": "bot"
     },
     "text": "Hello there!",
-    "timestamp": "2018-12-07T18:14:58.300Z",
+    "timestamp": "2019-04-20T19:48:51.300Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -116,7 +116,7 @@
       }
     ],
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "12",
     "recipient": {
@@ -130,13 +130,13 @@
       "role": "bot"
     },
     "text": "",
-    "timestamp": "2018-12-07T18:15:00.300Z",
+    "timestamp": "2019-04-20T19:48:53.300Z",
     "type": "message",
     "channelId": "chatdown"
   },
   {
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "14",
     "recipient": {
@@ -149,7 +149,7 @@
       "name": "LulaBot",
       "role": "bot"
     },
-    "timestamp": "2018-12-07T18:15:00.400Z",
+    "timestamp": "2019-04-20T19:48:53.400Z",
     "type": "typing",
     "channelId": "chatdown"
   },
@@ -161,7 +161,7 @@
       }
     ],
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "13",
     "recipient": {
@@ -175,7 +175,7 @@
       "role": "bot"
     },
     "text": "web page attachment",
-    "timestamp": "2018-12-07T18:15:05.400Z",
+    "timestamp": "2019-04-20T19:48:58.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -199,7 +199,7 @@
       }
     ],
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "15",
     "recipient": {
@@ -213,7 +213,7 @@
       "role": "bot"
     },
     "text": "Here are some pictures",
-    "timestamp": "2018-12-07T18:15:07.400Z",
+    "timestamp": "2019-04-20T19:49:00.400Z",
     "type": "message",
     "channelId": "chatdown",
     "attachmentLayout": "carousel"
@@ -226,7 +226,7 @@
       }
     ],
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "16",
     "recipient": {
@@ -240,7 +240,7 @@
       "role": "bot"
     },
     "text": "Here's card1",
-    "timestamp": "2018-12-07T18:15:09.400Z",
+    "timestamp": "2019-04-20T19:49:02.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -252,7 +252,7 @@
       }
     ],
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "17",
     "recipient": {
@@ -266,7 +266,7 @@
       "role": "bot"
     },
     "text": "Here's card2",
-    "timestamp": "2018-12-07T18:15:11.400Z",
+    "timestamp": "2019-04-20T19:49:04.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -404,7 +404,7 @@
       }
     ],
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "18",
     "recipient": {
@@ -418,7 +418,7 @@
       "role": "bot"
     },
     "text": "Here's adaptive card from disk",
-    "timestamp": "2018-12-07T18:15:13.400Z",
+    "timestamp": "2019-04-20T19:49:06.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
@@ -556,7 +556,7 @@
       }
     ],
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "19",
     "recipient": {
@@ -570,13 +570,13 @@
       "role": "bot"
     },
     "text": "Here's json attachment from disk",
-    "timestamp": "2018-12-07T18:15:15.400Z",
+    "timestamp": "2019-04-20T19:49:08.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
   {
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "20",
     "recipient": {
@@ -590,13 +590,13 @@
       "role": "user"
     },
     "text": "I would like some cheese.",
-    "timestamp": "2018-12-07T18:15:17.400Z",
+    "timestamp": "2019-04-20T19:49:10.400Z",
     "type": "message",
     "channelId": "chatdown"
   },
   {
     "conversation": {
-      "id": "nXYwlFLY8P2BAos6NdhYy07Rz/U="
+      "id": "RuMT/Z9TMNVd+f1BBAPdlPBAC2g="
     },
     "id": "21",
     "recipient": {
@@ -609,8 +609,8 @@
       "name": "LulaBot",
       "role": "bot"
     },
-    "text": "# cheese choices\n1. cheese 1 \n2. cheese 2\n3. cheese 3",
-    "timestamp": "2018-12-07T18:15:19.400Z",
+    "text": "# cheese choices\r\n1. cheese 1 \r\n2. cheese 2\r\n3. cheese 3",
+    "timestamp": "2019-04-20T19:49:12.400Z",
     "type": "message",
     "channelId": "chatdown",
     "suggestedActions": {

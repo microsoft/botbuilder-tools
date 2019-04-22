@@ -302,3 +302,9 @@ test/*.transcript
 
 #Lg tool lib
 /packages/MSLG/lib
+
+# lubuild
+packages/lubuild/bin/**
+packages/lubuild/lib/**
+packages/lubuild/typings/**
+

@@ -7,9 +7,9 @@
 import { BotConfiguration, IDispatchService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as getStdin from 'get-stdin';
 import * as txtfile from 'read-text-file';
 import { stdoutAsync } from './stdioAsync';
+import { getStdin } from './utils';
 
 program.Command.prototype.unknownOption = (flag: string): void => {
     console.error(chalk.default.redBright(`Unknown arguments: ${flag}`));
@@ -32,7 +32,7 @@ program
     .option('-a, --appId <appid>', 'LUID AppId for the dispatch app')
     .option('--version <version>', 'version for the dispatch app, (example: 0.1)')
     .option('--authoringKey <authoringkey>', 'authoring key for using manipulating the dispatch model via the LUIS authoring API\n')
-    .option('r, --region <region>', 'region to use (defaults to westus)')
+    .option('r, --region <region>', 'region to use (example: westus)')
     .option('--subscriptionKey <subscriptionKey>', '(OPTIONAL) subscription key used for querying the dispatch model')
     .option('--ids <ids>',
         '(OPTIONAL) comma delimited list of service ids in this bot (qna or luis) to build a dispatch model over.')
