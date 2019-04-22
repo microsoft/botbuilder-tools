@@ -1,6 +1,4 @@
 import * as fs from 'fs-extra';
-import * as Exp from './exception';
-import * as retCode from './CLI-errors';
 import * as path from 'path';
 import * as txtfile from 'read-text-file';
 import * as chalk from 'chalk';
@@ -22,15 +20,19 @@ export class Expander {
 
         try {
             errors = await this.parseFile(fileToExpand, program.inline);
+            if (errors === undefined) {
+                return;
+            }
         } catch (err) {
-            throw err;
+            process.stderr.write(chalk.default.redBright(err + '\n'));
+            return;
         }
 
         if (this.tool.CollationMessages.length > 0) {
-            process.stdout.write(chalk.default.redBright("Errors happened when collating lg templates." + '\n'));
+            process.stderr.write(chalk.default.redBright("Errors happened when collating lg templates." + '\n'));
             this.tool.CollationMessages.forEach(error => {
                 if (error.startsWith(ErrorType.Error)) {
-                    process.stdout.write(chalk.default.redBright(error + '\n'));
+                    process.stderr.write(chalk.default.redBright(error + '\n'));
                 } else {
                     process.stdout.write(chalk.default.yellowBright(error + '\n'));
                 }
@@ -38,7 +40,7 @@ export class Expander {
         }
 
         if (errors.length > 0 || this.tool.CollationMessages.length > 0) {
-            process.stdout.write(chalk.default.redBright("Expand command stopped as errors happened when paring or collating lg templates." + '\n'));
+            process.stderr.write(chalk.default.redBright("Expand command stopped as errors happened when paring or collating lg templates." + '\n'));
         }
 
         let templatesName: string[] = [];
@@ -80,6 +82,8 @@ export class Expander {
                         }
                     }
                 }
+            } else {
+                return;
             }
 
             const variableObj: any = this.generateVariableObj(variablesValue)
@@ -91,7 +95,6 @@ export class Expander {
 
         let fileName: string = program.in;
         if (fileName !== undefined) {
-            fileName = fileName.replace('.lg', '_expanded.lg');
             let outFolder: string = process.cwd();
             if (program.out_folder) {
                 if (path.isAbsolute(program.out_folder)) {
@@ -101,10 +104,18 @@ export class Expander {
                 }
 
                 if (!fs.existsSync(outFolder)) {
-                    throw (new Exp.Exception(retCode.ErrorCode.OUTPUT_FOLDER_INVALID, 'Output folder ' + outFolder + ' does not exist'))
+                    process.stderr.write(chalk.default.redBright('Output folder ' + outFolder + ' does not exist'));
+                    return;
                 }
             }
-            const filePath = outFolder + '/' + fileName;
+
+            if(!path.isAbsolute(fileName)) {
+                fileName = path.resolve('', fileName);
+            }
+
+            fileName = fileName.split('\\').pop().replace('.lg', '_expanded.lg');
+
+            const filePath = outFolder + '\\' + fileName;
             fs.writeFileSync(filePath, expandedTemplatesFile);
         }
         else
@@ -119,12 +130,14 @@ export class Expander {
         let fileContent: string = '';
         if (fileName !== undefined) {
             if (!fs.existsSync(path.resolve(fileName))) {
-                throw (new Exp.Exception(retCode.ErrorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + fileName + ']'));
+                process.stderr.write(chalk.default.redBright('Sorry unable to open [' + fileName + ']'));
+                return undefined;
             }
 
             fileContent = txtfile.readSync(fileName);
             if (!fileContent) {
-                throw (new Exp.Exception(retCode.ErrorCode.FILE_OPEN_ERROR, 'Sorry, error reading file:' + fileName));
+                process.stderr.write(chalk.default.redBright('Sorry, error reading file:' + fileName));
+                return undefined;
             }
         }
 
@@ -138,7 +151,7 @@ export class Expander {
         if (errors.length > 0) {
             errors.forEach(error => {
                 if (error.startsWith(ErrorType.Error)) {
-                    process.stdout.write(chalk.default.redBright(error + '\n'));
+                    process.stderr.write(chalk.default.redBright(error + '\n'));
                 } else {
                     process.stdout.write(chalk.default.yellowBright(error + '\n'));
                 }
@@ -176,24 +189,25 @@ export class Expander {
     }
 
     private getVariableValues(testFileName: string, expectedVariables: string[], userInputValues: Map<string, any>): Map<string, any> {
-        let result: Map<string, any>;
+        let result: Map<string, any> = new Map<string, any>();;
         let variablesObj: any;
         if (testFileName !== undefined) {
             const filePath: string = path.resolve(testFileName);
             if (!fs.existsSync(filePath)) {
-                throw (new Exp.Exception(retCode.ErrorCode.FILE_OPEN_ERROR, 'Sorry unable to open ' + filePath));
+                process.stderr.write(chalk.default.redBright('Sorry unable to open ' + filePath));
+                return undefined;
             }
 
             let fileContent = txtfile.readSync(filePath);
             if (!fileContent) {
-                throw (new Exp.Exception(retCode.ErrorCode.FILE_OPEN_ERROR, 'Sorry, error reading file: ' + filePath));
+                process.stderr.write(chalk.default.redBright('Sorry, error reading file: ' + filePath));
+                return undefined;
             }
 
             variablesObj = JSON.parse(fileContent);
         }
 
         if (expectedVariables !== undefined) {
-            result = new Map<string, any>();
             for (const variable of expectedVariables) {
                 if (variablesObj !== undefined && variablesObj[variable] !== undefined) {
                     result.set(variable, variablesObj[variable]);

@@ -1,6 +1,4 @@
 import * as fs from 'fs-extra';
-import * as Exp from './exception';
-import * as retCode from './CLI-errors';
 import { helpers, ErrorType } from './helpers';
 import * as path from 'path';
 import * as txtfile from 'read-text-file';
@@ -23,10 +21,12 @@ export class Parser {
             try {
                 folderStat = fs.statSync(program.lg_folder);
             } catch (err) {
-                throw (new Exp.Exception(retCode.ErrorCode.INPUT_FOLDER_INVALID, 'Sorry, ' + program.lg_folder + ' is not a folder or does not exist'));
+                process.stderr.write(chalk.default.redBright('Sorry, ' + program.lg_folder + ' is not a folder or does not exist'));
+                return;
             }
             if (!folderStat.isDirectory()) {
-                throw (new Exp.Exception(retCode.ErrorCode.INPUT_FOLDER_INVALID, 'Sorry, ' + program.lg_folder + ' is not a folder or does not exist'));
+                process.stderr.write(chalk.default.redBright('Sorry, ' + program.lg_folder + ' is not a folder or does not exist'));
+                return;
             }
             if (program.subfolder) {
                 filesToParse = helpers.findLGFiles(program.lg_folder, true);
@@ -34,8 +34,14 @@ export class Parser {
                 filesToParse = helpers.findLGFiles(program.lg_folder, false);
             }
             if (filesToParse.length === 0) {
-                throw (new Exp.Exception(retCode.ErrorCode.NO_LG_FILES_FOUND, 'Sorry, no .lg files found in the specified folder.'));
+                process.stderr.write(chalk.default.redBright('Sorry, no .lg files found in the specified folder.'));
+                return;
             }
+        }
+
+        if ((filesToParse === undefined || filesToParse.length === 0) && program.stdin === undefined) {
+            process.stderr.write(chalk.default.redBright(`Sorry, no .lg files are provided.` + '\n'));
+            return;
         }
 
         let errors: string[] = [];
@@ -43,9 +49,15 @@ export class Parser {
         while (filesToParse.length > 0) {
             let file = filesToParse[0];
             try {
-                errors = errors.concat(await this.parseFile(file, program.verbose));
+                const parseRes = await this.parseFile(file, program.verbose);
+                if (parseRes === undefined) {
+                    return;
+                }
+
+                errors = errors.concat(parseRes);
             } catch (err) {
-                throw err;
+                process.stderr.write(err);
+                return;
             }
 
             filesToParse.splice(0, 1);
@@ -57,7 +69,8 @@ export class Parser {
                 let value = readlineSync.question(`Please enter the lg file content: `);
                 parsedJsonFromStdin = JSON.parse(value);
             } catch (err) {
-                throw (new Exp.Exception(retCode.ErrorCode.INVALID_INPUT, `Sorry, unable to parse stdin as JSON! \n\n ${JSON.stringify(err, null, 2)}\n\n`));
+                process.stderr.write(chalk.default.redBright(`Sorry, unable to parse stdin as JSON! \n\n ${JSON.stringify(err, null, 2)}\n\n`));
+                return;
             }
 
             errors = errors.concat(this.parseStream(parsedJsonFromStdin, program.verbose));
@@ -69,9 +82,23 @@ export class Parser {
             if (program.out) {
                 fileName = program.out + '_mslg.lg';
             } else if (program.in) {
-                fileName = program.in + '_mslg.lg';
+                if(!path.isAbsolute(program.in)) {
+                    fileName = path.resolve('', program.in);
+                }
+                else {
+                    fileName = program.in;
+                }
+
+                fileName = fileName.split('\\').pop().replace('.lg', '') + '_mslg.lg';
             } else {
-                fileName = program.lg_folder + '_mslg.lg'
+                if(!path.isAbsolute(program.lg_folder)) {
+                    fileName = path.resolve('', program.lg_folder);
+                }
+                else {
+                    fileName = program.lg_folder;
+                }
+
+                fileName = fileName.split('\\').pop() + '_mslg.lg'
             }
 
             let outFolder: string = process.cwd();
@@ -83,31 +110,33 @@ export class Parser {
                 }
 
                 if (!fs.existsSync(outFolder)) {
-                    throw (new Exp.Exception(retCode.ErrorCode.OUTPUT_FOLDER_INVALID, 'Output folder ' + outFolder + ' does not exist'))
+                    process.stderr.write(chalk.default.redBright('Output folder ' + outFolder + ' does not exist'));
+                    return;
                 }
             }
 
             if (this.tool.CollationMessages.length > 0) {
-                process.stdout.write(chalk.default.redBright("Errors happened when collating lg files" + '\n'));
+                process.stderr.write(chalk.default.redBright("Errors happened when collating lg files" + '\n'));
                 this.tool.CollationMessages.forEach(error => {
                     if (error.startsWith(ErrorType.Error)) {
-                        process.stdout.write(chalk.default.redBright(error + '\n'));
+                        process.stderr.write(chalk.default.redBright(error + '\n'));
                     } else {
                         process.stdout.write(chalk.default.yellowBright(error + '\n'));
                     }
                 });
             } else {
                 if (program.collate === undefined && this.tool.NameCollisions.length > 0) {
-                    process.stdout.write(chalk.default.redBright('[ERROR]: Below template names are defined in multiple files: ' + this.tool.NameCollisions.toString() + '\n'));
+                    process.stderr.write(chalk.default.redBright('[ERROR]: Below template names are defined in multiple files: ' + this.tool.NameCollisions.toString() + '\n'));
                 } else {
                     const mergedLgFileContent = this.tool.CollateTemplates();
                     if (mergedLgFileContent === undefined || mergedLgFileContent === '') {
-                        process.stdout.write(chalk.default.redBright(`Error happened when generating collated lg file.\n`));
+                        process.stderr.write(chalk.default.redBright(`Error happened when generating collated lg file.\n`));
                     }
                     const filePath = outFolder + '\\' + fileName;
                     if (fs.existsSync(filePath)) {
-                        process.stdout.write(chalk.default.redBright(`A file named ${fileName} already exists in the folder ${outFolder}.\n`));
+                        process.stderr.write(chalk.default.redBright(`A file named ${fileName} already exists in the folder ${outFolder}.\n`));
                     } else {
+                        process.stdout.write(chalk.default.whiteBright(`Collated successfully here ${filePath}.\n`));
                         fs.writeFileSync(filePath, mergedLgFileContent);
                     }
 
@@ -121,12 +150,14 @@ export class Parser {
 
     private parseFile(fileName: string, verbose: boolean): string[] {
         if (!fs.existsSync(path.resolve(fileName))) {
-            throw (new Exp.Exception(retCode.ErrorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + fileName + ']'));
+            process.stderr.write(chalk.default.redBright('Sorry unable to open [' + fileName + ']'));
+            return undefined;
         }
 
         let fileContent = txtfile.readSync(fileName);
         if (!fileContent) {
-            throw (new Exp.Exception(retCode.ErrorCode.FILE_OPEN_ERROR, 'Sorry, error reading file:' + fileName));
+            process.stderr.write(chalk.default.redBright('Sorry, error reading file:' + fileName));
+            return undefined;
         }
 
         if (verbose) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + fileName + '\n'));
@@ -135,7 +166,7 @@ export class Parser {
         if (errors.length > 0) {
             errors.forEach(error => {
                 if (error.startsWith(ErrorType.Error)) {
-                    process.stdout.write(chalk.default.redBright(error + '\n'));
+                    process.stderr.write(chalk.default.redBright(error + '\n'));
                 } else {
                     process.stdout.write(chalk.default.yellowBright(error + '\n'));
                 }
@@ -151,7 +182,7 @@ export class Parser {
         const errors: string[] = this.tool.ValidateFile(fileContent);
         if (errors.length > 0) {
             errors.forEach(error => {
-                process.stdout.write(chalk.default.redBright(error + '\n'));
+                process.stderr.write(chalk.default.redBright(error + '\n'));
             });
         }
 

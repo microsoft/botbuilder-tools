@@ -4,7 +4,9 @@
   "description": "Parse, collate and expand lg files.",
   "main": "./lib/mslg.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "tsc && mocha test/ --timeout 60000",
+    "clean": "erase /q /s .\\lib"
   },
   "repository": {
     "type": "git",
