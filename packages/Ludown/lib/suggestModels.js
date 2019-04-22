@@ -18,6 +18,7 @@ const utterance = require('./classes/hclasses').uttereances;
 const getOutputFolder = require('./helpers').getOutputFolder;
 const toLUHelpers = require('./toLU-helpers');
 const haveQnAContent = require('./classes/qna').haveQnAContent;
+const fs = require('fs');
 const suggestModels = {
     /**
      * 
@@ -57,40 +58,50 @@ const suggestModels = {
         // Apply each rule as enabled to update two sets of objects - rootDialog and [childDialog]
 
         // Rule 1 - identify triggerIntent from each child model collection.
+        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Idetifying trigger intents for each child model... \n"));
         await identifyTriggerIntentForAllChildren(collatedObj.LUISContent);
 
         // Rule 2 - rootDialog model has all trigger intents + referenced entities from all child models, de-duped
         // Rule 3 - remove trigger model from child dialogs
+        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Updating root dialog model with trigger intent and utterances... \n"));
         await updateRootDialogModelWithTriggerIntents(rootDialogModels.LUISContent, collatedObj.LUISContent);
 
         // Rule 5 - With cross_feed_models option specified, all child model's NONE intent has all other child model's trigger intents
         if (crossFeedModelsReq) {
+            if (program.verbose) process.stdout.write(chalk.default.whiteBright("Cross feeding models... \n"));
             await crossFeedModels(rootDialogModels.LUISContent, collatedObj.LUISContent);
         }
         // Rule 6 - with use_qna_pairs, all questions for that lang's model is automatically 
         // added to 'QnA' intent of all models including the root model.
         if (add_qna_pairs) {
+            if (program.verbose) process.stdout.write(chalk.default.whiteBright("Adding QnA pairs to 'QnA' intents... \n"));
             await addQnAPairsToModels(rootDialogModels, collatedObj);
         }
 
         // Rule 7 - with auto_add_qna_metadata, all qna pairs for .qna found under a dialog folder automatically have dialogName = folderName added as meta-data.
         if (auto_add_qna_metadata) {
+            if (program.verbose) process.stdout.write(chalk.default.whiteBright("Adding QnA metadata dialogName... \n"));
             await autoAddQnAMetaData(rootDialogModels.QnAContent, collatedObj.QnAContent);
         }
 
         // Remove *ludown* markers from root models
+        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Removing parser markers from models... \n"));
         await removeLUDownMarkers(rootDialogModels.LUISContent);
 
         // Rule 4 - remove child model suggestion if the only intent in the child is the trigger intent
+        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Removing child models with no intents... \n"));
         await cleanUpChildWithNoIntentsLeft(collatedObj.LUISContent);
 
         // Delete 'triggerIntent' property from all LUIS models
+        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Removing trigger intents from child models... \n"));
         await deleteTriggerIntent(rootDialogModels.LUISContent, collatedObj.LUISContent);
 
         // Collate all child QnA models to one per lang
+        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Collating QnA models to one per language... \n"));
         await collateQnAModelsToOnePerLang(rootDialogModels.QnAContent, collatedObj.QnAContent);
         
         // Collate all child QnA alternations to one per lang
+        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Collating QnA alterations to one per language... \n"));
         await collateQnAAlterationsPerLang(rootDialogModels.QnAAlterations, collatedObj.QnAAlterations);
         
         // Final content structure for lufiles and luisModels is folder x lang
@@ -103,6 +114,7 @@ const suggestModels = {
             "qnaModels": {},
             "qnaAlterations": {}
         }
+        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Preparing models to flush to disk... \n"));
         await getModelsAsLUContent(rootDialogModels, collatedObj, contentToFlushToDisk, rootDialogFolderName);
 
         // Write out .lu or .qna file for each collated json
@@ -110,13 +122,20 @@ const suggestModels = {
         // End result 
         // One QnA model suggested per lang
         // One LUIS model suggested per Dialog x lang (if applicable)
-
-        await writeModelsToDisk(rootDialogModels, collatedObj, program);
+        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Writing models to disk... \n"));
+        await writeModelsToDisk(contentToFlushToDisk, program);
     }
 };
 
 module.exports = suggestModels;
 
+/**
+ * Helper to prep LU content and model content to flush to disk.
+ * @param {Object} rootModels 
+ * @param {Object} childModels 
+ * @param {Object} retPayload 
+ * @param {Object} rootDialogName 
+ */
 const getModelsAsLUContent = async function(rootModels, childModels, retPayload, rootDialogName) {
     for (let rlKey in rootModels.LUISContent) {
         if (haveLUISContent(rootModels.LUISContent[rlKey])) {
@@ -149,7 +168,7 @@ const getModelsAsLUContent = async function(rootModels, childModels, retPayload,
         for (let clKey in childModels.LUISContent[cFKey]) {
             if (haveLUISContent(childModels.LUISContent[cFKey][clKey])) {
                 let luPayload = {
-                    "DialogName" : rootDialogName,
+                    "DialogName" : cFKey,
                     "payload" : await toLUHelpers.constructMdFromLUISJSON(childModels.LUISContent[cFKey][clKey])
                 }
                 if (retPayload.luFiles[clKey] === undefined) {
@@ -178,23 +197,167 @@ const getModelsAsLUContent = async function(rootModels, childModels, retPayload,
  * @param {Object} childModels 
  * @param {Object} program 
  */
-const writeModelsToDisk = async function(rootModels, childModels, program) {
+const writeModelsToDisk = async function(finalPayload, program) {
     let outFolder;
     try {
         outFolder = getOutputFolder(program)
     } catch (err) {
         throw (err);
     }
-    let versionId = "0.1";
-    let luis_schema_version = "3.0.0";
+    let lubuild_config = {
+        "name":path.basename(process.cwd()),
+        "defaultLanguage":program.luis_culture,
+        "models": [
+        ]
+    }
     
-    // name
-    // desc
-    // culture
+    for (let lLUKey in finalPayload.luFiles) {
+        finalPayload.luFiles[lLUKey].forEach(item => {
+            lubuild_config.models.push(writeContentToDisk(item.DialogName,
+                item.payload,
+                lLUKey,
+                program.luis_culture,
+                outFolder,
+                '.lu',
+                'LU',
+                program.verbose));
+        })
+    }
 
-    // QnA - name
+    for (let lLUISKey in finalPayload.luisModels) {
+        finalPayload.luisModels[lLUISKey].forEach(item => {
+            writeContentToDisk(item.DialogName,
+                item.payload,
+                lLUISKey,
+                program.luis_culture,
+                outFolder,
+                '.luis.json',
+                'LUIS model',
+                program.verbose);
+            })
+    }
 
+    for (let lQAFKey in finalPayload.qnaAlterationFiles) {
+        finalPayload.qnaAlterationFiles[lQAFKey].forEach(item => {
+            writeContentToDisk(path.basename(process.cwd()),
+                item,
+                lQAFKey,
+                program.luis_culture,
+                outFolder,
+                '.qnaAlterations',
+                'QnA Alterations file',
+                program.verbose);
+            });
+        
+    }
+
+    for (let lQAMKey in finalPayload.qnaAlterations) {
+        finalPayload.qnaAlterations[lQAMKey].forEach(item => {
+            writeContentToDisk(path.basename(process.cwd()),
+            item.payload,
+            lQAMKey,
+            program.luis_culture,
+            outFolder,
+            '.qnaAlterations.json',
+            'QnA Alterations json model',
+            program.verbose);
+        });
+    }
+
+    for (let lQnAFKey in finalPayload.qnaFiles) {
+        finalPayload.qnaFiles[lQnAFKey].forEach(item => {
+            writeContentToDisk(path.basename(process.cwd()),
+                item,
+                lQnAFKey,
+                program.luis_culture,
+                outFolder,
+                '.qna',
+                'QnA',
+                program.verbose);
+            })
+    }
+
+    for (let lQnAMKey in finalPayload.qnaModels) {
+        finalPayload.qnaModels[lQnAMKey].forEach(item => {
+            writeContentToDisk(path.basename(process.cwd()),
+                item,
+                lQnAMKey,
+                program.luis_culture,
+                outFolder,
+                '.qna.json',
+                'QnA model json',
+                program.verbose);
+            })
+    };
+
+    // write luconfig.json
+    let filePath = path.join(outFolder, 'luconfig.json')
+    try {
+        fs.writeFileSync(filePath, JSON.stringify(lubuild_config, null, 2), 'utf-8');
+    } catch (err) {
+        throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE,'Unable to write LUBuild config file - ' + filePath));
+    }
+    if(program.verbose) process.stdout.write(chalk.default.italic('Successfully wrote LUBuild config file ' + filePath + '\n'));  
     
+}
+
+/**
+ * Helper function to write content out to disk.
+ * @param {String} fileName 
+ * @param {Object} payload 
+ * @param {String} lang 
+ * @param {String} srcLang 
+ * @param {String} outFolder 
+ * @param {String} contentType 
+ * @param {String} errInFixMessage 
+ * @param {Boolean} verbose 
+ */
+const writeContentToDisk = function(fileName, payload, lang, srcLang, outFolder, contentType, errInFixMessage, verbose) {
+    if (lang !== srcLang) {
+        fileName += `.${lang}${contentType}`;
+    } else {
+        fileName += `${contentType}`;
+    }
+    
+    if (contentType === '.luis.json') {
+        payload.versionId = "0.1";
+        payload.luis_schema_version = "3.0.0";
+        payload.culture = lang;
+        payload.desc = "Automatically generated by LUDown and LUBuild";
+    }
+    if (contentType === '.qna.json' || contentType === '.luis.json') {
+        payload.name = fileName.replace(contentType, '');
+        payload = JSON.stringify(payload, null, 2);
+    }
+    let filePath, fileDir;
+    if (contentType.includes('.json')) {
+        fileDir = path.join(outFolder, 'cognitiveModels');
+    } else {
+        fileDir = path.join(outFolder, 'LUFiles');
+    }
+    // Create directory if it does not exist.
+    if (!fs.existsSync(fileDir)){
+        fs.mkdirSync(fileDir);
+    }
+    if (contentType.includes('.lu')) {
+        fileDir = path.join(fileDir, 'LU');
+    } else if (contentType.includes('.qnaAlteration')) {
+        fileDir = path.join(fileDir, 'QnA Alteration');
+    } else if (contentType.includes('.qna')) {
+        fileDir = path.join(fileDir, 'QnA');
+    }
+    filePath = path.join(fileDir, fileName);
+    // Create directory if it does not exist.
+    if (!fs.existsSync(fileDir)){
+        fs.mkdirSync(fileDir);
+    }
+    try {
+        fs.writeFileSync(filePath, payload, 'utf-8');
+    } catch (err) {
+        throw(new exception(retCode.errorCode.UNABLE_TO_WRITE_FILE,'Unable to write ' + errInFixMessage + ' file - ' + filePath));
+    }
+    if(verbose) process.stdout.write(chalk.default.italic('Successfully wrote ' + errInFixMessage + ' file ' + filePath + '\n'));  
+    return filePath;
 }
 /**
  * Helper to collate QnA alternations to one per lang.
@@ -346,7 +509,12 @@ const addQnAPairsToModels = async function(rootDialogModels, collatedObj) {
             if (rootLUISModels[lKey] !== undefined) {
                 questions.forEach(question => {
                     rootLUISModels[lKey].utterances.push(new utterance(question, 'QnA', []));
-                })
+                });
+                // Add QnA intent
+                let QnAIntentExists = rootLUISModels[lKey].intents.find(item => item.name == 'QnA');
+                if (QnAIntentExists === undefined) {
+                    rootLUISModels[lKey].intents.push({"name": "QnA"});
+                }
             }
         }
     }
@@ -356,10 +524,15 @@ const addQnAPairsToModels = async function(rootDialogModels, collatedObj) {
             if (childQnAModels[cfKey][clKey].qnaList.length !== 0) {
                 let questions = [];
                 childQnAModels[cfKey][clKey].qnaList.forEach(item => item.questions.forEach(q => questions.push(q)));
-                if (childLUISModels[cfKey][clKey] !== undefined) {
+                if (childLUISModels[cfKey] !== undefined && childLUISModels[cfKey][clKey] !== undefined) {
                     questions.forEach(question => {
                         childLUISModels[cfKey][clKey].utterances.push(new utterance(question, 'QnA', []));
-                    })
+                    });
+                    // Add QnA intent
+                    let QnAIntentExists = childLUISModels[cfKey][clKey].intents.find(item => item.name == 'QnA');
+                    if (QnAIntentExists === undefined) {
+                        childLUISModels[cfKey][clKey].intents.push({"name": "QnA"});
+                    }
                 }
             }
         }
