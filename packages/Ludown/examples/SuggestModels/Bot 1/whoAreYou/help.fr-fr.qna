@@ -30,9 +30,6 @@ I need your name to be able to address you correctly!
 I need your first name only. You can say 'My name is <your first name>' to introduce yourself to me.
 ```
 
-# None
-- test one two three
-
 $botframework : qna-alterations=
 - bot framework
 - Microsoft bot framework

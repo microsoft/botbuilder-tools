@@ -9,6 +9,11 @@
 > # QnA pairs
 
 > Source: qna_chitchat_the_friend.tsv
+
+$botframework21 : qna-alterations=
+- bot framework21
+- Microsoft bot framework21
+
 ## ? What's your age?
 - Are you young?
 - When were you born?

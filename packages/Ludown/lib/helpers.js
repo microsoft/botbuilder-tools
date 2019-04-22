@@ -267,6 +267,26 @@ const helpers = {
             returnValue.roles = parsedRoleDefinition.replace('[', '').replace(']', '').split(RolesSplitRegEx).map(item => item.trim());
         }
         return returnValue;
+    },
+    /**
+     * Helper function to get output folder
+     * @param {object} program Parsed program object from commander
+     * @returns {string} Output folder
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    getOutputFolder : function(program) {
+        let outFolder = process.cwd();
+        if(program.out_folder) {
+            if(path.isAbsolute(program.out_folder)) {
+                outFolder = program.out_folder;
+            } else {
+                outFolder = path.resolve('', program.out_folder);
+            }
+            if(!fs.existsSync(outFolder)) {
+                throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Output folder ' + outFolder + ' does not exist'));     
+            }
+        }
+        return outFolder;
     }
 };
 

@@ -15,6 +15,9 @@ const LUIS = require('./classes/LUIS');
 const addItemOrRoleIfNotPresent = require('./parseFileContents').addItemOrRoleIfNotPresent;
 const LUISObjEnum = require('./enums/luisobjenum');
 const utterance = require('./classes/hclasses').uttereances;
+const getOutputFolder = require('./helpers').getOutputFolder;
+const toLUHelpers = require('./toLU-helpers');
+const haveQnAContent = require('./classes/qna').haveQnAContent;
 const suggestModels = {
     /**
      * 
@@ -86,16 +89,186 @@ const suggestModels = {
 
         // Collate all child QnA models to one per lang
         await collateQnAModelsToOnePerLang(rootDialogModels.QnAContent, collatedObj.QnAContent);
-        let x = 10;
+        
+        // Collate all child QnA alternations to one per lang
+        await collateQnAAlterationsPerLang(rootDialogModels.QnAAlterations, collatedObj.QnAAlterations);
+        
+        // Final content structure for lufiles and luisModels is folder x lang
+        // Final content structure for all qna is one per lang
+        let contentToFlushToDisk = {
+            "luFiles" : {},
+            "qnaFiles": {},
+            "qnaAlterationFiles": {},
+            "luisModels": {},
+            "qnaModels": {},
+            "qnaAlterations": {}
+        }
+        await getModelsAsLUContent(rootDialogModels, collatedObj, contentToFlushToDisk, rootDialogFolderName);
+
         // Write out .lu or .qna file for each collated json
         // Generate .lu file for each collated json
         // End result 
         // One QnA model suggested per lang
         // One LUIS model suggested per Dialog x lang (if applicable)
+
+        await writeModelsToDisk(rootDialogModels, collatedObj, program);
     }
 };
 
 module.exports = suggestModels;
+
+const getModelsAsLUContent = async function(rootModels, childModels, retPayload, rootDialogName) {
+    for (let rlKey in rootModels.LUISContent) {
+        if (haveLUISContent(rootModels.LUISContent[rlKey])) {
+            retPayload.luFiles[rlKey] = new Array({
+                "DialogName" : rootDialogName,
+                "payload" : await toLUHelpers.constructMdFromLUISJSON(rootModels.LUISContent[rlKey])
+            });
+            retPayload.luisModels[rlKey] = new Array({
+                "DialogName": rootDialogName,
+                "payload": rootModels.LUISContent[rlKey]
+            })
+        }
+    }
+
+    for (let rqKey in rootModels.QnAContent) {
+        if (haveQnAContent(rootModels.QnAContent[rqKey])) {
+            retPayload.qnaFiles[rqKey] = new Array(await toLUHelpers.constructMdFromQnAJSON(rootModels.QnAContent[rqKey]))
+            retPayload.qnaModels[rqKey] = new Array(rootModels.QnAContent[rqKey])
+        }
+    }
+
+    for (let rAKey in rootModels.QnAAlterations) {
+        if (rootModels.QnAAlterations[rAKey].wordAlterations.length > 0) {
+            retPayload.qnaAlterationFiles[rAKey] = new Array(await toLUHelpers.constructMdFromQnAAlterationJSON(rootModels.QnAAlterations[rAKey]))
+            retPayload.qnaAlterations[rAKey] = new Array(rootModels.QnAAlterations[rAKey])
+        }
+    }
+
+    for (let cFKey in childModels.LUISContent) {
+        for (let clKey in childModels.LUISContent[cFKey]) {
+            if (haveLUISContent(childModels.LUISContent[cFKey][clKey])) {
+                let luPayload = {
+                    "DialogName" : rootDialogName,
+                    "payload" : await toLUHelpers.constructMdFromLUISJSON(childModels.LUISContent[cFKey][clKey])
+                }
+                if (retPayload.luFiles[clKey] === undefined) {
+                    retPayload.luFiles[clKey] = new Array(luPayload);
+                } else {
+                    retPayload.luFiles[clKey].push(luPayload);
+                }
+                if (retPayload.luisModels[clKey] === undefined) {
+                    retPayload.luisModels[clKey] = new Array({
+                        "DialogName": rootDialogName,
+                        "payload": childModels.LUISContent[cFKey][clKey]
+                    })
+                } else {
+                    retPayload.luisModels[clKey].push({
+                        "DialogName": rootDialogName,
+                        "payload": childModels.LUISContent[cFKey][clKey]
+                    })
+                }                
+            }
+        }
+    }
+}
+/**
+ * Helper to write files to disk.
+ * @param {Object} rootModels 
+ * @param {Object} childModels 
+ * @param {Object} program 
+ */
+const writeModelsToDisk = async function(rootModels, childModels, program) {
+    let outFolder;
+    try {
+        outFolder = getOutputFolder(program)
+    } catch (err) {
+        throw (err);
+    }
+    let versionId = "0.1";
+    let luis_schema_version = "3.0.0";
+    
+    // name
+    // desc
+    // culture
+
+    // QnA - name
+
+    
+}
+/**
+ * Helper to collate QnA alternations to one per lang.
+ * @param {Object} rootQnAModels 
+ * @param {Object} childQnAModels 
+ */
+const collateQnAAlterationsPerLang = async function(rootQnAModels, childQnAModels) {
+    let QnACollectionPerLang = {};
+    for (let fKey in childQnAModels) {
+        for (let lKey in childQnAModels[fKey]) {
+            if (QnACollectionPerLang[lKey] === undefined) {
+                QnACollectionPerLang[lKey] = [{"qnaAlterations": childQnAModels[fKey][lKey]}];
+            } else {
+                QnACollectionPerLang[lKey].push({"qnaAlterations": childQnAModels[fKey][lKey]});
+            }
+        }
+    }
+
+    for (let rlKey in rootQnAModels) {
+        if (QnACollectionPerLang[rlKey] === undefined) {
+            QnACollectionPerLang[rlKey] = [{"qnaAlterations": rootQnAModels[rlKey]}];
+        } else {
+            QnACollectionPerLang[rlKey].push({"qnaAlterations": rootQnAModels[rlKey]});
+        }
+    }
+
+    for (let clKey in QnACollectionPerLang) {
+        if (QnACollectionPerLang[clKey].length !== 1) {
+            // Collate and flatten collection per lang.
+            QnACollectionPerLang[clKey] = await parseFileContents.collateQnAAlterations(QnACollectionPerLang[clKey]);
+        } else {
+            QnACollectionPerLang[clKey] = QnACollectionPerLang[clKey][0].qnaAlterations;
+        }
+    }
+    Object.assign(rootQnAModels, QnACollectionPerLang);
+    childQnAModels = undefined;
+}
+
+/**
+ * Helper function to collate all QnA models to one per lang.
+ * @param {Object} rootQnAModels 
+ * @param {Object} childQnAModels 
+ */
+const collateQnAModelsToOnePerLang = async function(rootQnAModels, childQnAModels) {
+    let QnACollectionPerLang = {};
+    for (let fKey in childQnAModels) {
+        for (let lKey in childQnAModels[fKey]) {
+            if (QnACollectionPerLang[lKey] === undefined) {
+                QnACollectionPerLang[lKey] = [{"qnaJsonStructure": childQnAModels[fKey][lKey]}];
+            } else {
+                QnACollectionPerLang[lKey].push({"qnaJsonStructure": childQnAModels[fKey][lKey]});
+            }
+        }
+    }
+
+    for (let rlKey in rootQnAModels) {
+        if (QnACollectionPerLang[rlKey] === undefined) {
+            QnACollectionPerLang[rlKey] = [{"qnaJsonStructure": rootQnAModels[rlKey]}];
+        } else {
+            QnACollectionPerLang[rlKey].push({"qnaJsonStructure": rootQnAModels[rlKey]});
+        }
+    }
+
+    for (let clKey in QnACollectionPerLang) {
+        if (QnACollectionPerLang[clKey].length !== 1) {
+            // Collate and flatten collection per lang.
+            QnACollectionPerLang[clKey] = await parseFileContents.collateQnAFiles(QnACollectionPerLang[clKey]);
+        } else {
+            QnACollectionPerLang[clKey] = QnACollectionPerLang[clKey][0].qnaJsonStructure;
+        }
+    }
+    Object.assign(rootQnAModels, QnACollectionPerLang);
+    childQnAModels = undefined;
+}
 
 /**
  * Helper to remove *ludown* off root model's intent markers
@@ -108,7 +281,14 @@ const removeLUDownMarkers = async function(rootModels) {
                 intent.name = intent.name.replace("*ludown*", '');
             }
         })
+
+        rootModels[lKey].utterances.forEach(utterance => {
+            if (utterance.intent.includes("*ludown*")) {
+                utterance.intent = utterance.intent.replace("*ludown*", "");
+            }
+        })
     }
+
 }
 /**
  * Helper to delete trigger intent property off all child models and root models.
@@ -120,9 +300,12 @@ const deleteTriggerIntent = async function(rootModels, childLUISContent) {
             if (childLUISContent[fKey][lKey].triggerIntent !== undefined) {
                 delete childLUISContent[fKey][lKey].triggerIntent;
             }
-            if (rootModels[lKey].triggerIntent != undefined) {
-                delete rootModels[lKey].triggerIntent;
-            }
+        }
+    }
+
+    for (let rlKey in rootModels) {
+        if (rootModels[rlKey].triggerIntent != undefined) {
+            delete rootModels[rlKey].triggerIntent;
         }
     }
 }
@@ -243,7 +426,7 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
             // Add Child's trigger intent to root if it does not exist
             let triggerIntentInRoot = rootLUISModel[lKey].intents.find(item => item.name == childLUISModelCollection[fKey][lKey].triggerIntent);
             if (triggerIntentInRoot === undefined) {
-                rootLUISModel[lKey].intents.push({"name": childLUISModelCollection[fKey][lKey].triggerIntent});
+                rootLUISModel[lKey].intents.push({"name": childLUISModelCollection[fKey][lKey].triggerIntent + '*ludown*'});
             }
 
             // Examine utterances in child models and add them to root dialog. For each labelled utterance, add simple and composite entities to parent
@@ -285,6 +468,7 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
 
             if (patternsForTriggerIntent.length !== 0) {
                 patternsForTriggerIntent.forEach(cPattern => {
+                    //cPattern.intent += '*ludown*';
                     let patternExistsInRoot = rootLUISModel[lKey].patterns.find(item => item.pattern == cPattern.pattern);
                     if (patternExistsInRoot === undefined) {
                         rootLUISModel[lKey].patterns.push(cPattern);
@@ -401,7 +585,7 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
 
             // Remove all utterances that refer to trigger model in child
             childLUISModelCollection[fKey][lKey].utterances = childLUISModelCollection[fKey][lKey].utterances.filter(utterance => 
-                utterance.intent != childLUISModelCollection[fKey][lKey].triggerIntent);
+                utterance.intent != childLUISModelCollection[fKey][lKey].triggerIntent + '*ludown*');
 
             // Remove all patterns that refer to trigger intent in child
             childLUISModelCollection[fKey][lKey].patterns = childLUISModelCollection[fKey][lKey].patterns.filter(item => 

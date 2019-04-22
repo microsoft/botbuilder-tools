@@ -87,7 +87,7 @@ const parser = {
 const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlterations, rootFile, cmd) {
     let outFolder;
     try {
-        outFolder = getOutputFolder(program)
+        outFolder = helpers.getOutputFolder(program)
     } catch (err) {
         throw (err);
     }
@@ -206,26 +206,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
         if(program.verbose) console.log(chalk.default.italic('Successfully wrote QnA Alterations JSON file to ' + qAFileName + '\n'));
     }
 }
-/**
- * Helper function to get output folder
- * @param {object} program Parsed program object from commander
- * @returns {string} Output folder
- * @throws {exception} Throws on errors. exception object includes errCode and text. 
- */
-const getOutputFolder = function(program) {
-    let outFolder = process.cwd();
-    if(program.out_folder) {
-        if(path.isAbsolute(program.out_folder)) {
-            outFolder = program.out_folder;
-        } else {
-            outFolder = path.resolve('', program.out_folder);
-        }
-        if(!fs.existsSync(outFolder)) {
-            throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Output folder ' + outFolder + ' does not exist'));     
-        }
-    }
-    return outFolder;
-}
+
 /**
  * Helper function to get list of lu files to parse
  * @param {object} program Parsed program object from commander
