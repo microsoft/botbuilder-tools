@@ -84,8 +84,9 @@ function getHelpContents() {
             [chalk.default.cyan.bold('--authoringRegion [westus|westeurope|australiaeast]'), '(OPTIONAL) overrides models.config with the authoring region for all requests. (Default:westus)'],
             [chalk.default.cyan.bold('--config [folder]'), '(OPTIONAL) specifies the models file (Default: ./models.config)'],
             [chalk.default.cyan.bold('--name [projectname]'), '(OPTIONAL) overrides config file with project name '],
-            [chalk.default.cyan.bold('--folder [foldernmae]'), '(OPTIONAL) overrides config file with output folder name'],
+            [chalk.default.cyan.bold('--folder [foldername]'), '(OPTIONAL) overrides config file with output folder name'],
             [chalk.default.cyan.bold('--force'), '(OPTIONAL) Force all models to be updated '],
+            [chalk.default.cyan.bold('--endpointKeys [groupname]'), '(OPTIONAL) export all LUIS endpoint keys from the named group in the current AZ CLI subscription'],
         ]
     });
 

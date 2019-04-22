@@ -9,4 +9,5 @@ export interface IBuildArgs {
     folder: string | undefined;
     force: boolean;
     defaultLanguage: string;
+    endpointKeys: string;
 }

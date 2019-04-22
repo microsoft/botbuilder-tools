@@ -60,6 +60,12 @@ async function runProgram() {
         return process.stdout.write(require(path.join(__dirname, '../package.json')).version + "\n");
     }
 
+    if (args.endpointKeys) {
+
+        await exportEndpointKeys(args.endpointKeys);
+        return;
+    }
+
     if (!args.config) {
         args.config = './luconfig.json'
     }
@@ -287,7 +293,7 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
         let outFile = luFile + ".json";
 
         // run ludown on file
-        await runCommand(`ludown parse ToLuis --in ${luFile} --out ${outFile}`);
+        await runCommand(`ludown parse ToLuis --in ${luFile} --out ${outFile}`, true);
         let newJson = await txtfile.read(outFile);
         await fs.delete(outFile);
 
@@ -319,6 +325,39 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
         console.log(`${luFile} no changes`);
         return false;
     }
+}
+
+async function exportEndpointKeys(group: string): Promise<void> {
+    let settings: any = {
+        'luis': {
+            'endpointKeys': {
+            }
+        }
+    };
+
+    let cognitiveServices: any = await runCommand(`az cognitiveservices account list  -g ${group}`, false);
+    let commands: { [key: string]: Promise<any> } = {};
+    let promises: Promise<any>[] = [];
+
+    for (let cognitiveService of cognitiveServices) {
+        if (cognitiveService.kind == "LUIS") {
+            commands[cognitiveService.location] = runCommand(`az cognitiveservices account keys list -g ${group} -n ${cognitiveService.name}`, false);
+            promises.push(commands[cognitiveService.location]);
+        }
+    }
+
+    await Promise.all(promises);
+
+    for (let location in commands) {
+        let command = commands[location];
+        let keys = await command;
+        let setting = `luis:endpointKeys:${location}=${keys.key1}`;
+        settings.luis.endpointKeys[location] = keys.key1;
+        console.log(setting);
+    }
+
+    await fs.writeTextFile("luis.endpointKeys.json", JSON.stringify(settings, null, 4));
+    return;
 }
 
 async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: LuisRecognizer): Promise<void> {
@@ -391,3 +430,4 @@ function getCultureFromPath(file: string): string | null {
 function pad(num: number, size: number) {
     return ('000000000000000' + num).substr(-size);
 }
+

@@ -1,1 +1,1 @@
-export declare function runCommand(command: string): Promise<any>;
+export declare function runCommand(command: string, log: boolean): Promise<any>;
