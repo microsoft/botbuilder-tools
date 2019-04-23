@@ -284,10 +284,11 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
     if (config.force || recognizer.versionId == "0000000000" ||
         (activeVersionInfo && <Date>activeVersionInfo.lastModifiedDateTime < stats.mtime)) {
         console.log(`${luFile} updating`);
-        let outFile = luFile + ".json";
-
+        let outFolder = path.dirname(luFile);
+        let outFileName = path.basename(luFile) + ".json";
+        let outFile = path.join(outFolder, outFileName);
         // run ludown on file
-        await runCommand(`ludown parse ToLuis --in ${luFile} --out ${outFile}`);
+        await runCommand(`ludown parse ToLuis --in ${luFile} -o ${outFolder} --out ${outFileName}`);
         let newJson = await txtfile.read(outFile);
         await fs.delete(outFile);
 
