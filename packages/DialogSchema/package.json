@@ -5,7 +5,7 @@
   "main": "./lib/dialogSchemaMain.js",
   "types": "./typings/lib/dialogSchema.d.ts",
   "bin": {
-    "dialogschema": "./lib/dialogSchemaMain.js"
+    "dialogschema": "./lib/dialogSchema.js"
   },
   "directories": {
     "bin": "bin",
