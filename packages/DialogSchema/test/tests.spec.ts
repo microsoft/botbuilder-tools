@@ -12,7 +12,7 @@ import glob from 'globby';
 import 'mocha';
 import * as os from 'os';
 import * as ppath from 'path';
-import * as cs from '../src/dialogSchema';
+import * as cs from '../src/dialogSchemaLib';
 
 describe('Test schema merge and .dialog indexing library', async () => {
     let schemas = new dt.SchemaTracker();

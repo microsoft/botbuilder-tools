@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\lib\\dialogSchemaMain.js",
+            "program": "${workspaceFolder}\\lib\\dialogSchema.js",
             "args": [
                 "schemas/*.schema",
                 "projects/*.csproj",
@@ -42,7 +42,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Adaptive",
-            "program": "${workspaceFolder}\\lib\\dialogSchemaMain.js",
+            "program": "${workspaceFolder}\\lib\\dialogSchema.js",
             "args": [
                 "**/*.schema",
                 "-o",
@@ -58,7 +58,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch ChoiceInput",
-            "program": "${workspaceFolder}\\lib\\dialogSchemaMain.js",
+            "program": "${workspaceFolder}\\lib\\dialogSchema.js",
             "args": [
                 "**/Microsoft.ChoiceInput.schema",
                 "-o",
@@ -73,8 +73,24 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch AdaptiveDialog",
+            "program": "${workspaceFolder}\\lib\\dialogSchema.js",
+            "args": [
+                "AdaptiveBot.csproj",
+                "-o",
+                "/tmp/app.schema"
+            ],
+            "cwd": "${workspaceFolder}/../../../botbuilder-samples/samples/csharp_dotnetcore/60.AdaptiveBot",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/lib/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch OBI",
-            "program": "${workspaceFolder}\\lib\\dialogSchemaMain.js",
+            "program": "${workspaceFolder}\\lib\\dialogSchema.js",
             "args": [
                 "*.schema"
             ],
@@ -88,7 +104,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch dialogLint",
-            "program": "${workspaceFolder}\\lib\\dialogSchemaMain.js",
+            "program": "${workspaceFolder}\\lib\\dialogSchema.js",
             "args": [
                 "*.schema",
                 "-o",
