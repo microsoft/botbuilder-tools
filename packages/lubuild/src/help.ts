@@ -90,6 +90,14 @@ function getHelpContents() {
     });
 
     sections.push({
+        head: chalk.default.bold(`Commands:`),
+        table: [
+            [chalk.default.cyan.bold('add [lufile]'), 'Adds LUFile to the luconfig.json in the current folder or parent folders'],
+            [chalk.default.cyan.bold('remove [lufile]'), 'Removes LUFile from the luconfig.json in the current folder or parent folders'],
+        ]
+    });
+
+    sections.push({
         head: 'Global Arguments:',
         table: [
             [chalk.default.cyan.bold('--help,    -h'), `Prints this help file. `],
