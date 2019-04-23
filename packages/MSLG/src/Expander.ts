@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as txtfile from 'read-text-file';
 import * as chalk from 'chalk';
 import { ErrorType } from './helpers';
-import { MSLGTool } from '../../../../botbuilder-js/libraries/botbuilder-lg/lib/MSLGTool';
+import { MSLGTool } from 'botbuilder-lg';
 
 const readlineSync = require('readline-sync');
 
