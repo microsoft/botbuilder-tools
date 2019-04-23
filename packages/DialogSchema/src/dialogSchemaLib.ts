@@ -140,7 +140,7 @@ export async function mergeSchemas(patterns: string[], output?: string): Promise
 async function* expandPackages(paths: string[], progress: (msg: string) => void): AsyncIterable<string> {
     for (let path of paths) {
         if (path.endsWith(".schema")) {
-            yield path;
+            yield prettyPath(path);
         } else {
             let references: string[] = [];
             let name = ppath.basename(path);
@@ -159,10 +159,10 @@ async function* expandPackages(paths: string[], progress: (msg: string) => void)
                                 let pkgPath = ppath.join(packages, pkgName);
                                 let versions: string[] = [];
                                 for (let version of fs.readdirSync(pkgPath)) {
-                                    versions.push(version);
+                                    versions.push(version.toLowerCase());
                                 }
                                 let baseVersion = pkg.Version || "0.0.0";
-                                let version = semver.minSatisfying(versions, `>= ${baseVersion}`);
+                                let version = semver.minSatisfying(versions, `>=${baseVersion.toLowerCase()}`);
                                 references.push(ppath.join(packages, pkgName, version, "/**/*.schema"));
                             }
                             done = true;
@@ -196,12 +196,22 @@ async function* expandPackages(paths: string[], progress: (msg: string) => void)
             }
             for (let ref of references) {
                 for (let expandedRef of await glob(ref)) {
-                    yield ppath.relative(process.cwd(), expandedRef);
+                    yield prettyPath(expandedRef);
                 }
             }
         }
     }
     return [];
+}
+
+function prettyPath(path: string): string 
+{
+    var newPath = ppath.relative(process.cwd(), path);
+    if (newPath.startsWith('..'))
+    {
+        newPath = path;
+    }
+    return newPath;
 }
 
 async function findGlobalNuget(): Promise<string> {
