@@ -450,6 +450,12 @@ const removeLUDownMarkers = async function(rootModels) {
                 utterance.intent = utterance.intent.replace("*ludown*", "");
             }
         })
+
+        rootModels[lKey].patterns.forEach(pattern => {
+            if (pattern.intent.includes("*ludown*")) {
+                pattern.intent = pattern.intent.replace("*ludown*", "");
+            }
+        })
     }
 
 }
@@ -550,14 +556,16 @@ const crossFeedModels = async function(rootLUISModel, childLUISModelCollection) 
             // Find all utterances in root model that is not the child's trigger intent
             let otherTriggerUtterancesInRoot = rootLUISModel[lKey].utterances.filter(item => {
                 if (!(item.intent.includes('*ludown*'))) return false;
-                return item.intent != childLUISModelCollection[fKey][lKey].triggerIntent + '*ludown*';
+                return item.intent != (childLUISModelCollection[fKey][lKey].triggerIntent + '*ludown*');
             });
 
             (otherTriggerUtterancesInRoot || []).forEach(utterance => {
-                utterance.intent = "None";
-                utterance.entities = [];
-                if (utterance.role !== undefined) utterance.role = '';
-                childLUISModelCollection[fKey][lKey].utterances.push(utterance);
+                let uCopy = {};
+                Object.assign(uCopy, utterance);
+                uCopy.intent = "None";
+                uCopy.entities = [];
+                if (utterance.role !== undefined) uCopy.role = '';
+                childLUISModelCollection[fKey][lKey].utterances.push(uCopy);
             })
         }
     }
@@ -608,8 +616,11 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
             triggerUtterancesInChild.forEach(utterance => {
                 // Add *ludown* marker so we know this intent was added by ludown.
                 // This will be removed before the models are written out.
+                let uCopy = {};
+                Object.assign(uCopy, utterance);
+                uCopy.intent += '*ludown*';
+                rootLUISModel[lKey].utterances.push(uCopy);
                 utterance.intent += '*ludown*';
-                rootLUISModel[lKey].utterances.push(utterance);
                 if (utterance.entities.length !== 0) {
                     utterance.entities.forEach(entityInUtterance => {
                         // Find the labelled entity in simple or composite
@@ -628,7 +639,6 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
                                 } else {
                                     throw (new exception(retCode.errorCode.INVALID_COMPOSITE_ENTITY, `No matching entity definition found for '${entityInUtterance.entity}' under '${fKey}' for language '${lKey}'.`));
                                 }
-                                // throw
                             }
                         }
                     })
@@ -641,10 +651,13 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
 
             if (patternsForTriggerIntent.length !== 0) {
                 patternsForTriggerIntent.forEach(cPattern => {
-                    //cPattern.intent += '*ludown*';
+                    let pCopy = {};
+                    Object.assign(pCopy, cPattern);
+                    pCopy.intent += '*ludown*';
+                    cPattern.intent += '*ludown*';
                     let patternExistsInRoot = rootLUISModel[lKey].patterns.find(item => item.pattern == cPattern.pattern);
                     if (patternExistsInRoot === undefined) {
-                        rootLUISModel[lKey].patterns.push(cPattern);
+                        rootLUISModel[lKey].patterns.push(pCopy);
                     } else {
                         if (cPattern.intent !== patternExistsInRoot.intent) {
                             throw (new exception(retCode.errorCode.INVALID_INPUT, `Pattern '${cPattern.pattern}' has duplicate intent definitions. '${patternExistsInRoot.intent}' in rootDialog and '${cPattern.intent}' in child dialog.`));
@@ -762,7 +775,7 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
 
             // Remove all patterns that refer to trigger intent in child
             childLUISModelCollection[fKey][lKey].patterns = childLUISModelCollection[fKey][lKey].patterns.filter(item => 
-                item.intent != childLUISModelCollection[fKey][lKey].triggerIntent);
+                item.intent != childLUISModelCollection[fKey][lKey].triggerIntent + '*ludown*');
         }
     }
 }
@@ -786,8 +799,13 @@ const identifyTriggerIntentForAllChildren = async function(LUISContentCollection
                     return intent.name.replace(/ /g, '_').toLowerCase() == fKey.toLowerCase()
                 });
                 if (intentExists === undefined) {
-                    // No trigger intent found. 
-                    throw (new exception(retCode.errorCode.INVALID_INPUT, `No trigger intent found under '${fKey}' for language '${lKey}'. \n Trigger intent is identified by a .lu file under the '${fKey}' folder with '*.${lKey}.lu' in file name that has either - \n    an intent named '${fKey}' or \n    an intent definition that includes "[trigger intent]"\n Note: Spaces in an intent definition in your .lu file are replaced with '_'.`));
+                    // If there is only one intent defined in the child model, treat that as trigger intent
+                    if (LUISContentCollection[fKey][lKey].intents.length === 1) {
+                        LUISContentCollection[fKey][lKey].triggerIntent = LUISContentCollection[fKey][lKey].intents[0].name;
+                    } else {
+                        // No trigger intent found. 
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, `No trigger intent found under '${fKey}' for language '${lKey}'. \n Trigger intent is identified by a .lu file under the '${fKey}' folder with '*.${lKey}.lu' in file name that has either - \n    an intent named '${fKey}' or \n    an intent definition that includes "[trigger intent]"\n Note: Spaces in an intent definition in your .lu file are replaced with '_'.`));
+                    }
                 } else {
                     LUISContentCollection[fKey][lKey].triggerIntent = intentExists.name;
                 }
