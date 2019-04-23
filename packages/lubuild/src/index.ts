@@ -7,6 +7,7 @@ import { LuisAuthoring } from 'luis-apis';
 import { AppsAddResponse, AppsGetResponse, AzureClouds, AzureRegions, LuisApp } from 'luis-apis/typings/lib/models';
 import * as path from 'path';
 import * as process from 'process';
+import { env } from 'process';
 import * as txtfile from 'read-text-file';
 import * as semver from 'semver';
 import { help } from './help';
@@ -46,6 +47,40 @@ async function runProgram() {
     }
 
     let argvFragment = process.argv.slice(2);
+    if (argvFragment.length == 2 && argvFragment[0] == 'add') {
+        let luFile = path.join(process.cwd(), argvFragment[1]);
+
+        // look for luconfig.json
+        return patchConfig(luFile, (config, relativePath) => {
+            for (let model of config.models) {
+                if (model == relativePath) {
+                    console.log(`${relativePath} already in luconfig.json`);
+                    return false;
+                }
+            }
+            config.models.push(relativePath);
+            console.log(`${relativePath} added to luconfig.json`);
+            return true;
+        });
+    }
+
+    if (argvFragment.length == 2 && argvFragment[0] == 'remove') {
+        let luFile = path.join(process.cwd(), argvFragment[1]);
+
+        // look for luconfig.json
+        return patchConfig(luFile, (config, relativePath) => {
+            for (let i =0; i < config.models.length; i++) {
+                let model = config.models[i];
+                if (model == relativePath) {
+                    config.models.splice(i, 1);
+                    console.log(`${relativePath} removed from luconfig.json`);
+                    return true;
+                }
+            }
+            console.log(`${relativePath} wasn't in luconfig.json`);
+            return false;
+        });
+    }
 
     let args = minimist(argvFragment, { string: ['versionId'] });
 
@@ -94,7 +129,20 @@ async function runProgram() {
     }
 
     if (!config.authoringKey) {
-        throw new Error('missing authoringkey');
+        // try environment
+        if (env.LUIS_AUTHORING_KEY) {
+            config.authoringKey = env.LUIS_AUTHORING_KEY;
+        } else {
+            try {
+                let luisrcJson = JSON.parse(await txtfile.read(path.join(process.cwd(), '.luisrc')));
+                config.authoringKey = luisrcJson.authoringKey;
+            } catch (e) {
+                // Do nothing
+            }
+            if (!config.authoringKey) {
+                throw new Error('missing authoringkey');
+            }
+        }
     }
 
     if (!config.name) {
@@ -391,4 +439,36 @@ function getCultureFromPath(file: string): string | null {
 
 function pad(num: number, size: number) {
     return ('000000000000000' + num).substr(-size);
+}
+
+async function patchConfig(luFile: string, patch: { (config: IConfig, relative: string): boolean }): Promise<void> {
+    let found = false;
+    let cd = process.cwd();
+    while (!found) {
+        let configPath = path.join(cd, "luconfig.json");
+        if (await fs.exists(configPath)) {
+            found = true;
+
+            let json = await txtfile.read(configPath);
+            let config: IConfig;
+            try {
+                config = JSON.parse(json);
+                let relativePath = path.relative(cd, luFile).replace(/\\/g, '/');
+                if (patch(config, relativePath)) {
+                    await fs.writeTextFile(configPath, JSON.stringify(config, null, 4), "utf8");
+                }
+                return;
+            } catch (err) {
+                throw new Error(chalk.default.red(`Error parsing ${configPath}:\n${err}`));
+            }
+        }
+        else {
+            // go to parent folder
+            cd = path.dirname(cd);
+            if (!cd || cd.length <= 3) {
+                throw new Error("no luconfig.json file was found in this folder or parent folders");
+            }
+        }
+    }
+
 }
