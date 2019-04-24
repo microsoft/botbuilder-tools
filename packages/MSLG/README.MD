@@ -1,32 +1,21 @@
-# mslg
-## Please notice that this package is still in Preview.
-mslg tool has the ability to parse a .LG file that adheres to the LG file format. CLI tool should report an error on an statically detectable invalid .LG file. MSLG tool should also have the ability to generate a collated .LG file by parsing all provided (or found) .LG files. MSLG tool can also list all possible template expansions for a given template and test data for entity references.
+> *NOTE: This is a **preview** tool and breaking changes may happen before it is released*.
+
+# MSLG Command Line tool
+MSLG is a command line tool that parses .lg files which adheres to the [LG file format](https://github.com/Microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/lg-file-format.md). MSLG CLI tool can:
+- Report an error on invalid .lg file. All errors that are statically detectable are reported.
+- Generate a collated .lg file by parsing and analyzing more than one .lg files.
+- Expand any given template (or all templates in a file) based on test values for entity references.
 
 ## Prerequisite
 
 - [Node.js](https://nodejs.org/) version 8.5 or higher
 
-## Local Run
-- Install dependency on [botbuilder-lg](https://github.com/Microsoft/botbuilder-js/tree/4.next/libraries/botbuilder-lg/src) package
-  ```
-  1. clone the repo of botbuilder-js
-  2. switch to 4.next branch
-  3. npm install and npm run build
-  ``` 
-  The dependency will be removed once the botbuilder-lg package is published.
+## Installation
 
-- Switch to MSLG tool package
+To install:
+```bash
+npm i -g mslg
 ```
-  1. Replace the import path of MSLGTool in Parser.ts and Expander.ts to the right path of your botbuilder-js package like below
-    import { MSLGTool } from '{path_to_your_botbuilder-lg_package}/lib/MSLGTool';
-  2. run npm install to install dependent packages
-  3. run tsc to build the tool
-  3. run npm i -g to install this package locally
-```
-- Run command
-  ```
-  mslg parse --in examples/exceptionExamples/EmptyTemplate.lg
-  ```
 
 ## Commands
 ```

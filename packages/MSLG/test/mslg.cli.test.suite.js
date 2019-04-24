@@ -54,7 +54,7 @@ describe('The mslg cli tool', function () {
         it('should print an error when an invalid command is passed to mslg parse', function (done) {
             exec(`node ${mslg} parse k`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stderr.includes('Sorry, no .lg files are provided.'), true, stderr);
+                    assert.equal(stderr.includes('Unknown command: k'), true, stderr);
                     done();
                 } catch (err) {
                     done(err);
@@ -104,7 +104,7 @@ describe('The mslg cli tool', function () {
             exec(`node ${mslg} parse -l ${filePath} -s --out finalResult -c`, (error, stdout, stderr) => {
                 try {
                     fs.unlinkSync(resolvePath('finalResult_mslg.lg'));
-                    assert.equal(stdout.includes('Collated successfully here'), true);
+                    assert.equal(stdout.includes('Collated lg file is generated here'), true);
                     done();
                 } catch (err) {
                     done(err);
@@ -116,7 +116,22 @@ describe('The mslg cli tool', function () {
             let filePath = resolvePath('examples/validExamples/simple.lg');
             exec(`node ${mslg} expand --in ${filePath} -t FinalGreeting`, (error, stdout, stderr) => {
                 try {
-                    fs.unlinkSync(resolvePath('simple_expanded.lg'));
+                    assert.equal(stdout.includes('# FinalGreeting'), true);
+                    assert.equal(stdout.includes('- Hi Morning'), true);
+                    assert.equal(stdout.includes('- Hi Evening'), true);
+                    assert.equal(stdout.includes('- Hello Morning'), true);
+                    assert.equal(stdout.includes('- Hello Evening'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+
+        it('should expand inline expression successfully', function (done) {
+            let filePath = resolvePath('examples/validExamples/simple.lg');
+            exec(`node ${mslg} expand --in ${filePath} -t FinalGreeting`, (error, stdout, stderr) => {
+                try {
                     assert.equal(stdout.includes('# FinalGreeting'), true);
                     assert.equal(stdout.includes('- Hi Morning'), true);
                     assert.equal(stdout.includes('- Hi Evening'), true);

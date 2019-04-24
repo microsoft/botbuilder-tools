@@ -10,37 +10,17 @@ const readlineSync = require('readline-sync');
 export class Expander {
     private tool: MSLGTool = new MSLGTool();
 
-    public async Expand(program: any) {
+    public Expand(program: any) {
         let fileToExpand: any;
         if (program.in) {
             fileToExpand = program.in;
         }
 
         let errors: string[] = [];
+        errors = this.parseFile(fileToExpand, program.inline);
 
-        try {
-            errors = await this.parseFile(fileToExpand, program.inline);
-            if (errors === undefined) {
-                return;
-            }
-        } catch (err) {
-            process.stderr.write(chalk.default.redBright(err + '\n'));
-            return;
-        }
-
-        if (this.tool.CollationMessages.length > 0) {
-            process.stderr.write(chalk.default.redBright("Errors happened when collating lg templates." + '\n'));
-            this.tool.CollationMessages.forEach(error => {
-                if (error.startsWith(ErrorType.Error)) {
-                    process.stderr.write(chalk.default.redBright(error + '\n'));
-                } else {
-                    process.stdout.write(chalk.default.yellowBright(error + '\n'));
-                }
-            });
-        }
-
-        if (errors.length > 0 || this.tool.CollationMessages.length > 0) {
-            process.stderr.write(chalk.default.redBright("Expand command stopped as errors happened when paring or collating lg templates." + '\n'));
+        if (errors.filter(error => error.startsWith(ErrorType.Error)).length > 0) {
+            throw new Error("parsing lg file or inline expression failed.");
         }
 
         let templatesName: string[] = [];
@@ -62,28 +42,23 @@ export class Expander {
         for (const templateName of templatesName) {
             const expectedVariables = this.tool.GetTemplateVariables(templateName);
             variablesValue = this.getVariableValues(program.testInput, expectedVariables, userInputValues);
-            if (variablesValue !== undefined) {
-                for (const variableValue of variablesValue) {
-                    if (variableValue[1] === undefined) {
-                        if (program.interactive) {
-                            let value = readlineSync.question(`Please enter variable value of ${variableValue[0]} in template ${templateName}: `);
-                            let valueObj: any;
-                            try
-                            { 
-                                valueObj = JSON.parse(value);
-                            }
-                            catch
-                            {
-                                valueObj = value;
-                            }
-
-                            variablesValue.set(variableValue[0], valueObj);
-                            userInputValues.set(variableValue[0], valueObj);
+            for (const variableValue of variablesValue) {
+                if (variableValue[1] === undefined) {
+                    if (program.interactive) {
+                        let value = readlineSync.question(`Please enter variable value of ${variableValue[0]} in template ${templateName}: `);
+                        let valueObj: any;
+                        try {
+                            valueObj = JSON.parse(value);
                         }
+                        catch
+                        {
+                            valueObj = value;
+                        }
+
+                        variablesValue.set(variableValue[0], valueObj);
+                        userInputValues.set(variableValue[0], valueObj);
                     }
                 }
-            } else {
-                return;
             }
 
             const variableObj: any = this.generateVariableObj(variablesValue)
@@ -91,53 +66,30 @@ export class Expander {
             expandedTemplates.set(templateName, expandedTemplate);
         }
 
+        if(expandedTemplates === undefined || expandedTemplates.size === 0) {
+            throw new Error('expanding templates or inline expression failed');
+        }
+
         let expandedTemplatesFile: string = this.generateExpandedTemplatesFile(expandedTemplates)
 
         let fileName: string = program.in;
-        if (fileName !== undefined) {
-            let outFolder: string = process.cwd();
-            if (program.out_folder) {
-                if (path.isAbsolute(program.out_folder)) {
-                    outFolder = program.out_folder;
-                } else {
-                    outFolder = path.resolve('', program.out_folder);
-                }
-
-                if (!fs.existsSync(outFolder)) {
-                    process.stderr.write(chalk.default.redBright('Output folder ' + outFolder + ' does not exist'));
-                    return;
-                }
-            }
-
-            if(!path.isAbsolute(fileName)) {
-                fileName = path.resolve('', fileName);
-            }
-
-            fileName = fileName.split('\\').pop().replace('.lg', '_expanded.lg');
-
-            const filePath = outFolder + '\\' + fileName;
-            fs.writeFileSync(filePath, expandedTemplatesFile);
-        }
-        else
-        {
+        if (fileName === undefined) {
             expandedTemplatesFile = expandedTemplatesFile.replace('# __temp__\n- ', '');
         }
 
-        process.stdout.write(expandedTemplatesFile);
+        process.stdout.write(expandedTemplatesFile + '\n');
     }
 
     private parseFile(fileName: string, inlineExpression: any = undefined): string[] {
         let fileContent: string = '';
         if (fileName !== undefined) {
             if (!fs.existsSync(path.resolve(fileName))) {
-                process.stderr.write(chalk.default.redBright('Sorry unable to open [' + fileName + ']'));
-                return undefined;
+                throw new Error('unable to open file: ' + fileName);
             }
 
             fileContent = txtfile.readSync(fileName);
             if (!fileContent) {
-                process.stderr.write(chalk.default.redBright('Sorry, error reading file:' + fileName));
-                return undefined;
+                throw new Error('unable to read file: ' + fileName);
             }
         }
 
@@ -170,7 +122,7 @@ export class Expander {
                     result += '- ' + templateStr + '\n';
                 });
             } else {
-                process.stdout.write(chalk.default.redBright(`Error happened when generating merged lg file.\n`));
+                throw new Error(`generating expanded lg file failed`);
             }
 
             result += '\n'
@@ -194,14 +146,12 @@ export class Expander {
         if (testFileName !== undefined) {
             const filePath: string = path.resolve(testFileName);
             if (!fs.existsSync(filePath)) {
-                process.stderr.write(chalk.default.redBright('Sorry unable to open ' + filePath));
-                return undefined;
+                throw new Error('unable to open file: ' + filePath);
             }
 
             let fileContent = txtfile.readSync(filePath);
             if (!fileContent) {
-                process.stderr.write(chalk.default.redBright('Sorry, error reading file: ' + filePath));
-                return undefined;
+                throw new Error('unable to read file: ' + filePath);
             }
 
             variablesObj = JSON.parse(fileContent);

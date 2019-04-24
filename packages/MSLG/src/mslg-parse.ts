@@ -30,6 +30,22 @@ program
 if (process.argv.length < 3) {
     program.help();
 } else {
-    let parser: any = new Parser();
-    parser.Parser(program);
+    if (!process.argv[2].startsWith('-') && !process.argv[2].startsWith('--')) {
+        process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
+        program.help();
+    }
+
+    if (!program.in && !program.lg_folder && !program.stdin) {
+        process.stderr.write(chalk.default.redBright(`\n  No lg input file or folder or stdin argument specified.\n`));
+        program.help();
+    }
+
+    try {
+        let parser: any = new Parser();
+        parser.Parser(program);
+    } catch(e) {
+        process.stderr.write(chalk.default.redBright('\n[ERROR]: ' + e.message + '\n'));
+        process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
+        process.exit();
+    }
 }

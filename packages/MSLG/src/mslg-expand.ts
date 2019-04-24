@@ -22,12 +22,32 @@ program
     .option('--all', '[Optional] Flag option to request that all templates in the .lg file be expanded.')
     .option('-i, --interactive', '[Optional] Flag option to request that all missing entity value references be obtained through interactive prompts.')
     .option('-j, --testInput <testInputJSONFile>', '[Optional] full or relative path to a JSON file containing test input for all variable references.')
-    .option('-o, --out_folder <outputFolder>', '[Optional] Output folder for all files the tool will generate')
     .parse(process.argv);
    
 if (process.argv.length < 3) {
     program.help();
 } else {
-    let expander: any = new Expander();
-    expander.Expand(program);
+    if (!process.argv[2].startsWith('-') && !process.argv[2].startsWith('--')) {
+        process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
+        program.help();
+    }
+
+    if (!program.in && !program.inline) {
+        process.stderr.write(chalk.default.redBright(`\n  No lg input file or inline expression argument specified.\n`));
+        program.help();
+    }
+
+    if (program.in && !program.template) {
+        process.stderr.write(chalk.default.redBright(`\n  No template argument specified.\n`));
+        program.help();
+    }
+
+    try {
+        let expander: any = new Expander();
+        expander.Expand(program);
+    } catch(e) {
+        process.stderr.write(chalk.default.redBright(e.message + '\n'));
+        process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
+        process.exit();
+    }
 }
