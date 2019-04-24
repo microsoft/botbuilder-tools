@@ -16,11 +16,13 @@ Foreach LU file (and it's language variants) **LUBuild** will
 ```npm install -g lubuild```
 
 ## Usage
-1. create a models.config with **name** and **models** configured to your root .LU files
+1. create a luconfig.json with **name** and **models** configured to your root .LU files
 2. Get LUIS.ai authoringKey
 3. invoke 
      
     ```lubuild --authoringKey YOURKEY```
+
+> NOTE: --authoringKey is not needed if you have LUIS_AUTHORING_KEY environment variable or a .luisrc file with the authoringKey in it
 
 **LUBuild** will create all of the assets you need from your local .LU files
 
@@ -87,7 +89,7 @@ simply create and work with local changes.
 The environment is placed in *settings.luis.environment* configuration to control which
 actually application ids you are connected to.
 
-You can override the environment via cli argument *--environment foo* or via the models.config
+You can override the environment via cli argument *--environment foo* or via the luconfig.json
 file.
 
 ## Config file
