@@ -950,7 +950,7 @@ function validateConfig(config) {
 
     assert(typeof authoringKey === 'string', `The authoringKey  ${messageTail}`);
     assert(typeof region === 'string', `The region ${messageTail}`);
-    assert(args.region == "westus" || args.region == 'westeurope' || args.region == 'australiaeast' || args.region == 'virginia', `${args.region} is not a valid authoring region.  Valid values are [westus|westeuerope|australiaest]`);
+    assert(args.region == 'westus' || args.region == 'westeurope' || args.region == 'australiaeast' || args.region == 'virginia', `${args.region} is not a valid authoring region.  Valid values are [westus|westeurope|australiaeast|virginia]`);
 }
 
 /**
