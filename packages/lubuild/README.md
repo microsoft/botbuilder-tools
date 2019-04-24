@@ -6,10 +6,11 @@ The **LUBuild** tool makes it easy for you to manage working with multiple model
 Foreach LU file (and it's language variants) **LUBuild** will
 1. if there isn't a LUIS AppId for the model, it will create one
 2. it runs ludown tool to generate the model
-3. it uploads the model to the appid
-4. it trains the model
-5. it publishes it
-6. it then outputs a .dialog definition of a LuisRecognizer configured to use that model.
+3. it uploads the model to the appid as a new versionId (incremented)
+4. it trains the version of the model 
+5. it publishes the version as the new model
+6. (OPTIONAL) it deletes the old version
+7. (OPTIONAL) it outputs a .dialog definition of a LuisRecognizer configured to use that model.
 
 ## Installation
 
@@ -54,31 +55,6 @@ Example:
 ```
 The same application name will be used in each azure region, with endpoints internal to it.
 
-## Generated .Dialog file for each lu file
-All language variations of a .LU files with the same prefix will get a .dialog file created
-which is a LUIS recognizer configured for it. 
-
-Example:
-```
-    models/tomlm/westus/Contoso.GetAddresss.lu.dialog <-- MultiLanguageRecognizer configured to use all of the languages 
-    models/tomlm/westus/Contoso.GetAddresss.en-us.lu.dialog <-- LuisRecognizer 
-    models/tomlm/westus/Contoso.GetAddresss.fr-fr.lu.dialog <-- LuisRecognizer 
-    models/tomlm/westus/Contoso.GetAddresss.de-de.lu.dialog <-- LuisRecognizer 
-```
-
-The net reslut is that to consome all of the language models in a dialog you simply can do this:
-Example:
-```json
-{
-    "$type":"Microsoft.AdaptiveDialog",
-    "recognizer": "Contoso.GetAddresss.lu"  <-- this will be the multilanguage model with all variations
-}
-```
-
-This will configure your recognizer to a LURecognizer("Contsoso.GetAddresss.lu") which internally
-will use your memory *settings.luis.projectname* and *settings.luis.environment* settings to
-bind to the correct .dialog file for your model and runtime environment.
-
 ## Environments
 When multiple people are working with models you want to be able to work with models
 independently from each other tied to the source control.  **LUBuild**
@@ -118,5 +94,51 @@ Every .LU file which is added to the models collection will be processed by **LU
 | defaultLanguage |            | configures default language model to use if there is no culture code in the file name (Default:en-us) |
 
 All command line args can be placed in the config file, and vice versa, except for the **models** collection itself
+
+## Generated Settings file
+The output of LUBuild includes a settings file per environment which contains the mapping of lu file variants to the LUIS applicationID for the model.
+
+Example for user **tomlm** targeting authoring region **westus** 
+
+**luis.settings.tomlm.westus.json**
+```json
+{
+    "luis": {
+        "test_de-de_lu": "55297226-b21c-4bf2-8ec0-eaf582635146",
+        "test_fr-fr_lu": "dcb79070-7ff0-4937-89f4-f7f83512cae5",
+        "test_en-us_lu": "537d1328-8eba-4067-8dfd-8edb95cb9525",
+        "Contoso_Foo_es-es_lu": "9104b91d-86cd-4038-9e81-1af3660b872b",
+        "Contoso_Foo_fr-fr_lu": "43d3aa8d-2027-40bd-978d-630fa3490033",
+        "Contoso_Foo_ko-kr_lu": "37c9a32e-dbca-4632-8b4d-a9da533b8fa6",
+        "Contoso_Foo_en-us_lu": "9347b984-6206-467d-abdf-7ad78284d060"
+    }
+}
+```
+
+## Generated .Dialog file for each lu file
+All language variations of a .LU files with the same prefix will get a .dialog file created
+which is a LUIS recognizer configured for it. 
+
+Example:
+```
+    models/tomlm/westus/Contoso.GetAddresss.lu.dialog <-- MultiLanguageRecognizer configured to use all of the languages 
+    models/tomlm/westus/Contoso.GetAddresss.en-us.lu.dialog <-- LuisRecognizer 
+    models/tomlm/westus/Contoso.GetAddresss.fr-fr.lu.dialog <-- LuisRecognizer 
+    models/tomlm/westus/Contoso.GetAddresss.de-de.lu.dialog <-- LuisRecognizer 
+```
+
+The net result is that to consome all of the language models in a dialog you simply can do this:
+Example:
+```json
+{
+    "$type":"Microsoft.AdaptiveDialog",
+    "recognizer": "Contoso.GetAddresss.lu"  <-- this will be the multilanguage model with all variations
+}
+```
+
+This will configure your recognizer to a LURecognizer("Contsoso.GetAddresss.lu") which internally
+will use your memory *settings.luis.projectname* and *settings.luis.environment* settings to
+bind to the correct .dialog file for your model and runtime environment.
+
 
 
