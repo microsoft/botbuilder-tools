@@ -467,6 +467,9 @@ async function runProgram() {
                 case "applications":
                     result = await client.apps.list(args.region, args.cloud, args);
                     break;
+                case "endpoints":
+                    result = await client.apps.listEndpoints(args.region, args.cloud, args.appId, args);
+                    break;
                 case "examples":
                     result = await client.examples.list(args.region, args.cloud, args.appId, args.versionId, args);
                     break;

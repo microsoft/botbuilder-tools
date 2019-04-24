@@ -28,4 +28,7 @@ export interface IBuildArgs {
 
     // language to use if there is no indication of language (default:en-us)
     defaultLanguage: string;
+
+    // export endpointKeys from azure group
+    endpointKeys: string;
 }
