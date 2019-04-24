@@ -14,8 +14,8 @@ program.Command.prototype.unknownOption = function () {
 
 program
     .name("mslg parse")
-    .description(`Parse any provided .lg file and collate all .lg files into a single lg file.`)
-    .usage('--in <.lg file> | --lg_folder <inputFolder> [-s] [-o <outputFolder>] [--out <outputFileName>] [--verbose]')
+    .description(`Parse any provided .lg file and collate them into a single lg file.`)
+    .usage('--in <.lg file> | --lg_folder <inputFolder> [-s] [-o <outputFolder>] [--out <outputFileName>] [--stdin] [--stdout] [--verbose][--collate]')
     .option('--in <lgFile>', '.lg file to parse')
     .option('-l, --lg_folder <inputFolder>', '[Optional] Folder that has the .lg file. By default mslg will only look at the current folder. To look at all subfolders, include -s')
     .option('-s, --subfolder', '[Optional] Include sub-folders as well when looking for .lg files')

@@ -14,7 +14,7 @@ program.Command.prototype.unknownOption = function () {
 
 program
     .name("mslg expand")
-    .description(`Expand one or all templates found in a .lg file.`)
+    .description(`Expand one or all templates in a .lg file or an inline expression.`)
     .usage('--in <.lg file name> -t <templateName> [-e <inlineExpression>] [-j <testInputJSONFile>] [-i] [--all]')
     .option('--in <lgFile>', 'lg file to expand')
     .option('-t, --template <templateName>', 'Name of the template to expand. Template names with spaces must be enclosed in quotes.')
