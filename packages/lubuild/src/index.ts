@@ -342,7 +342,7 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
         let outFileName = path.basename(luFile) + ".json";
         let outFile = path.join(outFolder, outFileName);
         // run ludown on file
-        await runCommand(`ludown parse ToLuis --in ${luFile} -o ${outFolder} --out ${outFileName}`);
+        await runCommand(`ludown parse ToLuis --in ${luFile} -o ${outFolder} --out ${outFileName}`, true);
         let newJson = await txtfile.read(outFile);
         await fs.delete(outFile);
 
