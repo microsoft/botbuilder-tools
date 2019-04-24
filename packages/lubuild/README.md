@@ -27,6 +27,11 @@ Foreach LU file (and it's language variants) **LUBuild** will
 
 **LUBuild** will create all of the assets you need from your local .LU files
 
+### Adding and removing LU files to your luconfig.json
+You can use **lubuild add** and **lubuild remove** to easily add/remove a luf file to your luconfig.json models
+
+```lubuild add file.lu```
+
 ## LU and language varations files
 Every LU file can have multiple language variations.  **LUBuild** will build a model for each one.  
 
