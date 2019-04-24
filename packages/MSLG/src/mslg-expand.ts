@@ -37,7 +37,7 @@ if (process.argv.length < 3) {
         program.help();
     }
 
-    if (program.in && !program.template) {
+    if (program.in && !program.template && !program.all) {
         process.stderr.write(chalk.default.redBright(`\n  No template argument specified.\n`));
         program.help();
     }
