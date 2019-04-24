@@ -48,9 +48,9 @@ LUIS application names will
 
 Example:
 ```
-    MyProject(tomlm)-Contoso.dialog1.en-us.lu
-    MyProject(tomlm)-Contoso.dialog1.fr-fr.lu
-    MyProject(tomlm)-Contoso.dialog1.de-de.lu
+    MyProject(tomlm)-Contoso.GetAddresss.en-us.lu
+    MyProject(tomlm)-Contoso.GetAddresss.fr-fr.lu
+    MyProject(tomlm)-Contoso.GetAddresss.de-de.lu
 ```
 The same application name will be used in each azure region, with endpoints internal to it.
 
@@ -60,10 +60,10 @@ which is a LUIS recognizer configured for it.
 
 Example:
 ```
-    models/tomlm/westus/Contoso.dialog1.lu.dialog <-- MultiLanguageRecognizer configured to use all of the languages 
-    models/tomlm/westus/Contoso.dialog1.en-us.lu.dialog <-- LuisRecognizer 
-    models/tomlm/westus/Contoso.dialog1.fr-fr.lu.dialog <-- LuisRecognizer 
-    models/tomlm/westus/Contoso.dialog1.de-de.lu.dialog <-- LuisRecognizer 
+    models/tomlm/westus/Contoso.GetAddresss.lu.dialog <-- MultiLanguageRecognizer configured to use all of the languages 
+    models/tomlm/westus/Contoso.GetAddresss.en-us.lu.dialog <-- LuisRecognizer 
+    models/tomlm/westus/Contoso.GetAddresss.fr-fr.lu.dialog <-- LuisRecognizer 
+    models/tomlm/westus/Contoso.GetAddresss.de-de.lu.dialog <-- LuisRecognizer 
 ```
 
 The net reslut is that to consome all of the language models in a dialog you simply can do this:
@@ -71,11 +71,11 @@ Example:
 ```json
 {
     "$type":"Microsoft.AdaptiveDialog",
-    "recognizer": "Contoso.dialog1.lu"  <-- this will be the multilanguage model with all variations
+    "recognizer": "Contoso.GetAddresss.lu"  <-- this will be the multilanguage model with all variations
 }
 ```
 
-This will configure your recognizer to a LURecognizer("Contsoso.Dialog1.lu") which internally
+This will configure your recognizer to a LURecognizer("Contsoso.GetAddresss.lu") which internally
 will use your memory *settings.luis.projectname* and *settings.luis.environment* settings to
 bind to the correct .dialog file for your model and runtime environment.
 
