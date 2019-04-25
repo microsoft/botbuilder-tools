@@ -567,6 +567,12 @@ const crossFeedModels = async function(rootLUISModel, childLUISModelCollection) 
                 if (utterance.role !== undefined) uCopy.role = '';
                 childLUISModelCollection[fKey][lKey].utterances.push(uCopy);
             })
+            
+            // Add 'None' intent to child if it does not exist
+            let noneInChild = childLUISModelCollection[fKey][lKey].intents.find(item => item.name == 'None');
+            if (noneInChild === undefined) {
+                childLUISModelCollection[fKey][lKey].intents.push({"name": "None"});
+            }
         }
     }
 }
@@ -577,9 +583,13 @@ const crossFeedModels = async function(rootLUISModel, childLUISModelCollection) 
 const cleanUpChildWithNoIntentsLeft = async function(childLUISModelCollection) {
     for (let fKey in childLUISModelCollection) {
         for (let lKey in childLUISModelCollection[fKey]) {
+            let noneIntentInChild = childLUISModelCollection[fKey][lKey].intents.find(item => item.name == 'None');
             if (childLUISModelCollection[fKey][lKey].intents.length === 0) {
                 // delete this child model
-                delete childLUISModelCollection[fKey][lKey]
+                delete childLUISModelCollection[fKey][lKey];
+            } else if (childLUISModelCollection[fKey][lKey].intents.length === 1 && (noneIntentInChild !== undefined)) {
+                // delete this child model
+                delete childLUISModelCollection[fKey][lKey];
             }
         }
         if (Object.keys(childLUISModelCollection[fKey]).length === 0) {

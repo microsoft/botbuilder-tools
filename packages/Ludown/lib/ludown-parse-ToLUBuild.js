@@ -40,8 +40,11 @@ if (process.argv.length < 5) {
             process.exit();
         }
     }
-    if (!program.lu_folder || !program.root_dialog) {
+    if (!program.lu_folder) {
         process.stderr.write(chalk.default.redBright(`\n  No .lu file or folder specified.\n`));
+        program.help();
+    } else if (!program.root_dialog) {
+        program.stderr.write(chalk.default.redBright(`\n No Root folder name specified \n`));
         program.help();
     }
     fParser.handleFile(program, cmdEnum.suggestModels)

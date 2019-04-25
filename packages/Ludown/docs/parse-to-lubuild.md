@@ -1,7 +1,9 @@
-# Suggest models
+# Parse to LUBuild
+
+[LUBuild][1] is a command line utility that makes it easy for you to work with multiple model definitions. 
 
 ``` bash
-ludown parse toSuggestModels [-l|--lu_folder] <folder> [-s|--subfolder] [-o|--out] <outFolder> [-a|--root_dialog] <folderRootDialog> [-r|--cross_feed_models] [-c|--use_qna_pairs]
+ludown parse toSuggestModels [-f|--lu_folder] <folder> [-s|--subfolder] [-o|--out] <outFolder> [-a|--root_dialog] <folderRootDialog> [-r|--cross_feed_models] [-c|--use_qna_pairs]
 ```
 
 For given parsed content, generate a list of files by this structure. All folder names are at peer to the folder at which 'rootDialog' is at. 
