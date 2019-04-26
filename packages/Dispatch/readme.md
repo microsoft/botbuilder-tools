@@ -237,7 +237,7 @@ With the following options
 | --luisSubscriptionRegion| (optional) Cognitive Service LUIS region from portal.azure.com  |
 | --dispatch              | (optional) .dispatch file path    |
 | --dataFolder            | (optional) Dispatch working directory |
-| --doAutoActiveLearning  | (optional) Default to false. If true, will also run 'test' against the local model created during the auto active learning process |
+| --doAutoActiveLearning  | (optional) Default to false. If true, will also run 'predict' using the local model created during the auto active learning process |
 | -h, --help              | Output usage information |
 
 You'll then be prompted to enter the utterance you'd like to run prediction on.
