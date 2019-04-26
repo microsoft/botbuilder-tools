@@ -140,12 +140,12 @@ Options:
 | --publishToStaging     | [Optional] Default to false. Publish to LUIS staging instead of production platform |
 | --dedupeTrainingSet    |  [Optional] Default to false. If false, Dispatch won't dedupe duplicated training instances |
 | --doAutoActiveLearning | [Optional] Default to false. LUIS limit on training-set size is 15000. When a LUIS app has much more utterances for training, Dispatch's auto active learning process can intelligently down sample the utterances |
-| --aalNumberOfInstancesPerIteration         [Optional] Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration |
-| --aalMaxNumberOfActiveLearningIterations   [Optional] Default to -1. Max number of auto active learning iterations, each processes a fixed batch of instances. Negative setting enables scanning through all available instances. |
-| --aalFixedNumberOfActiveLearningIterations [Optional] Default to -1. Fixed number of iterations to process all available instances. Number of instance batch in each instance is calaulated based on this parameter. |
-| --aalInitialNumberOfSamplesPerIntent       [Optional] Default to 20. Initial #instances randomly sampled for each intent before kicking off the auto-active-learning down-sampling process. |
-| --aalInitialNumberOfInstancesPerIteration  [Optional] Default to 200. #instance per iteration can be configured to grow until reaching aalNumberOfInstancesPerIteration. |
-| --aalNumberOfSamplesPerIntentGrowthRatio   [Optional] Default to 1.5. The growth rate of #instances per auto-active-learning iteration. |
+| --aalNumberOfInstancesPerIteration         | [Optional] Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration |
+| --aalMaxNumberOfActiveLearningIterations   | [Optional] Default to -1. Max number of auto active learning iterations, each processes a fixed batch of instances. Negative setting enables scanning through all available instances. |
+| --aalFixedNumberOfActiveLearningIterations | [Optional] Default to -1. Fixed number of iterations to process all available instances. Number of instance batch in each instance is calaulated based on this parameter. |
+| --aalInitialNumberOfSamplesPerIntent       | [Optional] Default to 20. Initial #instances randomly sampled for each intent before kicking off the auto-active-learning down-sampling process. |
+| --aalInitialNumberOfInstancesPerIteration  | [Optional] Default to 200. #instance per iteration can be configured to grow until reaching aalNumberOfInstancesPerIteration. |
+| --aalNumberOfSamplesPerIntentGrowthRatio   | [Optional] Default to 1.5. The growth rate of #instances per auto-active-learning iteration. |
 | -h, --help             | Output usage information |
 
 This command creates a brand new LUIS application.
@@ -189,13 +189,13 @@ Options:
 | --dispatch               | (optional) .dispatch file path    |
 | --dataFolder             | (optional) Dispatch working directory |
 | --doAutoActiveLearning | [Optional] Default to false. LUIS limit on training-set size is 15000. When a LUIS app has much more utterances for training, Dispatch's auto active learning process can intelligently down sample the utterances |
-| --aalNumberOfInstancesPerIteration         [Optional] Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration |
-| --aalMaxNumberOfActiveLearningIterations   [Optional] Default to -1. Max number of auto active learning iterations, each processes a fixed batch of instances. Negative setting enables scanning through all available instances. |
-| --aalFixedNumberOfActiveLearningIterations [Optional] Default to -1. Fixed number of iterations to process all available instances. Number of instance batch in each instance is calaulated based on this parameter. |
-| --aalInitialNumberOfSamplesPerIntent       [Optional] Default to 20. Initial #instances randomly sampled for each intent before kicking off the auto-active-learning down-sampling process. |
-| --aalInitialNumberOfInstancesPerIteration  [Optional] Default to 200. #instance per iteration can be configured to grow until reaching aalNumberOfInstancesPerIteration. |
-| --aalNumberOfSamplesPerIntentGrowthRatio   [Optional] Default to 1.5. The growth rate of #instances per auto-active-learning iteration. |
-| --aalTestingInstancesDownsamplingRatio     [Optional] Default to 1. Ratio of test instances that will be used for evaluating the model. |
+| --aalNumberOfInstancesPerIteration         | [Optional] Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration |
+| --aalMaxNumberOfActiveLearningIterations   | [Optional] Default to -1. Max number of auto active learning iterations, each processes a fixed batch of instances. Negative setting enables scanning through all available instances. |
+| --aalFixedNumberOfActiveLearningIterations | [Optional] Default to -1. Fixed number of iterations to process all available instances. Number of instance batch in each instance is calaulated based on this parameter. |
+| --aalInitialNumberOfSamplesPerIntent       | [Optional] Default to 20. Initial #instances randomly sampled for each intent before kicking off the auto-active-learning down-sampling process. |
+| --aalInitialNumberOfInstancesPerIteration  | [Optional] Default to 200. #instance per iteration can be configured to grow until reaching aalNumberOfInstancesPerIteration. |
+| --aalNumberOfSamplesPerIntentGrowthRatio   | [Optional] Default to 1.5. The growth rate of #instances per auto-active-learning iteration. |
+| --aalTestingInstancesDownsamplingRatio     | [Optional] Default to 1. Ratio of test instances that will be used for evaluating the model. |
 | -h, --help               | Output usage information|
 
 If no options are supplied, the tool will prompt for the required information it needs to run model evaluation.
