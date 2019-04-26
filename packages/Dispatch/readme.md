@@ -127,15 +127,26 @@ dispatch create --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
 
 Options:
 
-| Option               | Description                                                  |
-| ----------------     | ------------------------------------------------------------ |
-| -b, --bot            | (optional) .bot file path          |
-| -s, --secret         | (optional) .bot file secret        |
-| -c, --culture        | (optional) Used to set LUIS app culture for dispatch. Required if none of dispatch source(s) is LUIS app. |
-| --dispatch           | (optional) .dispatch file path    |
-| --dataFolder         | (optional) Dispatch working directory |
-| --hierarchical       | (optional) Default to true, set to false when evaluating a single LUIS model |
-| -h, --help           | Output usage information |
+| Option                 | Description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| -b, --bot              | (optional) Path to .bot file or bot services json file |
+| -s, --secret           | (optional) Secret used to encrypt/decrypt .bot file |
+| -c, --culture          | (optional) Used to set LUIS app culture for dispatch. Required if none of dispatch source(s) is LUIS app. |
+| --dispatch             | (optional) Path to .dispatch file |
+| --dataFolder           | (optional) Dispatch working directory |
+| --hierarchical         | (optional) Default to true, set to false when evaluating a single LUIS model |
+| --useAllTrainingData   | (optional) Default to false. LUIS UseAllTrainingData flag (see https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/versions-update-application-version-settings) |
+| --dontReviseUtterance  | (optional) Default to false. Dispatch sometimes minorly revises an utterance for generalization. If false, utterances won't be revised |
+| --publishToStaging     | (optional) Default to false. Publish to LUIS staging instead of production platform |
+| --dedupeTrainingSet    |  (optional) Default to false. If false, Dispatch won't dedupe duplicated training instances |
+| --doAutoActiveLearning | (optional) Default to false. LUIS limit on training-set size is 15000. When a LUIS app has much more utterances for training, Dispatch's auto active learning process can intelligently down sample the utterances |
+| --aalNumberOfInstancesPerIteration         | (optional) Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration |
+| --aalMaxNumberOfActiveLearningIterations   | (optional) Default to -1. Max number of auto active learning iterations, each processes a fixed batch of instances. Negative setting enables scanning through all available instances. |
+| --aalFixedNumberOfActiveLearningIterations | (optional) Default to -1. Fixed number of iterations to process all available instances. Number of instance batch in each instance is calaulated based on this parameter. |
+| --aalInitialNumberOfSamplesPerIntent       | (optional) Default to 20. Initial #instances randomly sampled for each intent before kicking off the auto-active-learning down-sampling process. |
+| --aalInitialNumberOfInstancesPerIteration  | (optional) Default to 200. #instance per iteration can be configured to grow until reaching aalNumberOfInstancesPerIteration. |
+| --aalNumberOfSamplesPerIntentGrowthRatio   | (optional) Default to 1.5. The growth rate of #instances per auto-active-learning iteration. |
+| -h, --help             | Output usage information |
 
 This command creates a brand new LUIS application.
 
@@ -177,6 +188,14 @@ Options:
 | --luisSubscriptionRegion | (optional, will be prompted) Cognitive Service LUIS region from portal.azure.com  |
 | --dispatch               | (optional) .dispatch file path    |
 | --dataFolder             | (optional) Dispatch working directory |
+| --doAutoActiveLearning | (optional) Default to false. LUIS limit on training-set size is 15000. When a LUIS app has much more utterances for training, Dispatch's auto active learning process can intelligently down sample the utterances |
+| --aalNumberOfInstancesPerIteration         | (optional) Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration |
+| --aalMaxNumberOfActiveLearningIterations   | (optional) Default to -1. Max number of auto active learning iterations, each processes a fixed batch of instances. Negative setting enables scanning through all available instances. |
+| --aalFixedNumberOfActiveLearningIterations | (optional) Default to -1. Fixed number of iterations to process all available instances. Number of instance batch in each instance is calaulated based on this parameter. |
+| --aalInitialNumberOfSamplesPerIntent       | (optional) Default to 20. Initial #instances randomly sampled for each intent before kicking off the auto-active-learning down-sampling process. |
+| --aalInitialNumberOfInstancesPerIteration  | (optional) Default to 200. #instance per iteration can be configured to grow until reaching aalNumberOfInstancesPerIteration. |
+| --aalNumberOfSamplesPerIntentGrowthRatio   | (optional) Default to 1.5. The growth rate of #instances per auto-active-learning iteration. |
+| --aalTestingInstancesDownsamplingRatio     | (optional) Default to 1. Ratio of test instances that will be used for evaluating the model. |
 | -h, --help               | Output usage information|
 
 If no options are supplied, the tool will prompt for the required information it needs to run model evaluation.
@@ -198,6 +217,7 @@ Options:
 | --luisSubscriptionRegion| (optional) Cognitive Service LUIS region from portal.azure.com  |
 | --dispatch              | (optional) .dispatch file path    |
 | --dataFolder            | (optional) Dispatch working directory |
+| --doAutoActiveLearning  | (optional) Default to false. If true, will also run 'test' against the local model created during the auto active learning process |
 | -h, --help              | Output usage information |
 
 
@@ -217,6 +237,7 @@ With the following options
 | --luisSubscriptionRegion| (optional) Cognitive Service LUIS region from portal.azure.com  |
 | --dispatch              | (optional) .dispatch file path    |
 | --dataFolder            | (optional) Dispatch working directory |
+| --doAutoActiveLearning  | (optional) Default to false. If true, will also run 'predict' using the local model created during the auto active learning process |
 | -h, --help              | Output usage information |
 
 You'll then be prompted to enter the utterance you'd like to run prediction on.
