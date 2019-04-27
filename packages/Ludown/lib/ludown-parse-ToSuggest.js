@@ -14,8 +14,8 @@ program.Command.prototype.unknownOption = function () {
     program.help();
 };
 program
-    .name("ludown parse ToLUBuild")
-    .description(`Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications. Outputs a lubuild.json config and suggested model files for LUIS and QnA.`)
+    .name("ludown parse ToSuggest")
+    .description(`Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications. \nOutputs a lubuild.json config and suggested model files for LUIS and QnA.`)
     .usage('--lu_folder <inputFolder> --root_dialog <rootDialogName> [-s] [-o] [-c] [-e] [-q] [-u]')
     .option('-f, --lu_folder <inputFolder>', '[Required] Folder that has the .lu files. By default ludown will only look at the current folder. To look at all subfolders, include -s')
     .option('-r, --root_dialog <rootDialogName>', '[Required] Name of folder that contains the root dialog')
