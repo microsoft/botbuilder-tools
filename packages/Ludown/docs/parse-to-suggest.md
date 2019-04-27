@@ -32,7 +32,8 @@ This command will also automatically write out a **luconfig.json** configuration
 ## Detecting locale
 The parser assumes that lang x locale is encoded on each .lu or .qna maker file via \<name\>.**\<locale\>**.lu or \<name\>.**\<locale\>**.qna
 
-e.g. 
+Example - 
+
 | FileName | Interpretation |
 |----------|----------------|
 | rootDialog.lu | No locale inferred unless -c is explicitly specified. Note: parse command will default to en-us |
