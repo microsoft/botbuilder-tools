@@ -27,19 +27,16 @@ Convert .lu file(s) into LUIS JSON OR QnA Maker JSON files.
 ```
 >ludown parse
 
-  Usage: ludown parse [options] [command]
-
   Convert .lu file(s) into LUIS JSON, QnA Maker JSON files.
 
-  Options:
-    --prefix       append [ludown] prefix to all messages
-    -h, --help     output usage information
+Options:
+  -h, --help           output usage information
 
-  Commands:
-
-    ToLuis|toluis  Convert .lu file(s) into LUIS JSON file.
-    ToQna|toqna    Convert .lu file(s) into QnA Maker JSON files.
-    help [cmd]     display help for [cmd]
+Commands:
+  ToLuis|toluis        Convert .lu file(s) into LUIS JSON file.
+  ToQna|toqna          Convert .lu file(s) into QnA Maker JSON files.
+  ToSuggest|tosuggest  Suggest LUIS and QnA models by analyzing .lu and .qna files
+  help [cmd]           display help for [cmd]
 ```
 
 ### Parse ToLuis command
@@ -92,6 +89,29 @@ Convert .lu file(s) into QnA Maker JSON file.
     --verbose                        [Optional] Get verbose messages from parser
     --prefix                         [Optional] append [ludown] prefix to all messages
     -h, --help                       output usage information
+
+```
+### Parse ToSuggest command
+Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications.
+Outputs a lubuild.json config and suggested model files for LUIS and QnA.
+
+```
+>ludown parse tosuggest
+Usage: ludown parse ToSuggest --lu_folder <inputFolder> --root_dialog <rootDialogName> [-o] [-c] [-e] [-q] [-u]
+
+Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications.
+Outputs a lubuild.json config and suggested model files for LUIS and QnA.
+
+Options:
+  -f, --lu_folder <inputFolder>         [Required] Folder that has the .lu files. By default ludown will only look at the current folder. To look at all subfolders, include -s
+  -r, --root_dialog <rootDialogName>    [Required] Name of folder that contains the root dialog
+  -o, --out_folder <outputFolder>       [Optional] Output folder for all files the tool will generate
+  -c, --luis_culture <luis_appCulture>  [Optional] LUIS app culture of the rootDialog. Defaults to en-us if not specified. (default: "en-us")
+  -e, --cross_feed_models               [Optional] When set, NONE intent for child models will be cross trained with other trigger intents.
+  -q, --add_qna_pairs                   [Optional] Instructs parser to add questions to a QnA intent.
+  -u, --auto_add_qna_metadata           [Optional] Automatically set QnA meta data to include child dialog name
+  --verbose                             [Optional] Get verbose messages from parser
+  -h, --help                            output usage information
 
 ```
 

@@ -16,10 +16,9 @@ program.Command.prototype.unknownOption = function () {
 program
     .name("ludown parse ToSuggest")
     .description(`Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications. \nOutputs a lubuild.json config and suggested model files for LUIS and QnA.`)
-    .usage('--lu_folder <inputFolder> --root_dialog <rootDialogName> [-s] [-o] [-c] [-e] [-q] [-u]')
+    .usage('--lu_folder <inputFolder> --root_dialog <rootDialogName> [-o] [-c] [-e] [-q] [-u]')
     .option('-f, --lu_folder <inputFolder>', '[Required] Folder that has the .lu files. By default ludown will only look at the current folder. To look at all subfolders, include -s')
     .option('-r, --root_dialog <rootDialogName>', '[Required] Name of folder that contains the root dialog')
-    .option('-s, --subfolder', '[Optional] Include sub-folders as well when looking for .lu files')
     .option('-o, --out_folder <outputFolder>', '[Optional] Output folder for all files the tool will generate')
     .option('-c, --luis_culture <luis_appCulture>', '[Optional] LUIS app culture of the rootDialog. Defaults to en-us if not specified.', 'en-us')
     .option('-e, --cross_feed_models', '[Optional] When set, NONE intent for child models will be cross trained with other trigger intents.')

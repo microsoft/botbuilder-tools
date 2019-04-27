@@ -39,6 +39,7 @@ Also see the [here](ChitChat) to add Small talk/ chit-chat capabilities to your 
 - [Machine translating .lu files](docs/translate-command.md)
 - [Adding small talk/ chit-chat capabilities to your bot](ChitChat/README.MD)
 - [Ludown as a library](docs/ludown-library.md)
+- [Suggest models](docs/parse-to-suggest.md)
 
 ## Use ludown as a library
 Ludown can be used within a Node.js application as an imported library. Install locally:

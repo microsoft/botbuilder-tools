@@ -34,6 +34,7 @@ const parser = {
     handleFile: async function(program, cmd) {
         let filesToParse;
         try {
+            if (cmd === parseCommands.suggestModels) program.subfolder = true;
             filesToParse = await getFilesToParse(program);
         } catch (err) {
             throw (err);
