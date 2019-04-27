@@ -93,14 +93,14 @@ Convert .lu file(s) into QnA Maker JSON file.
 ```
 ### Parse ToSuggest command
 Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications.
-Outputs a lubuild.json config and suggested model files for LUIS and QnA.
+Outputs a luconfig.json config and suggested model files for LUIS and QnA.
 
 ```
 >ludown parse tosuggest
 Usage: ludown parse ToSuggest --lu_folder <inputFolder> --root_dialog <rootDialogName> [-o] [-c] [-e] [-q] [-u]
 
 Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications.
-Outputs a lubuild.json config and suggested model files for LUIS and QnA.
+Outputs a luconfig.json config and suggested model files for LUIS and QnA.
 
 Options:
   -f, --lu_folder <inputFolder>         [Required] Folder that has the .lu files. By default ludown will only look at the current folder. To look at all subfolders, include -s

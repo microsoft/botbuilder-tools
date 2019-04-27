@@ -6,7 +6,7 @@ Parse to suggest command examines every single .lu and .qna files and suggests o
 Usage: ludown parse ToSuggest --lu_folder <inputFolder> --root_dialog <rootDialogName> [-o] [-c] [-e] [-q] [-u]
 
 Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications.
-Outputs a lubuild.json config and suggested model files for LUIS and QnA.
+Outputs a luconfig.json config and suggested model files for LUIS and QnA.
 
 Options:
   -f, --lu_folder <inputFolder>         [Required] Folder that has the .lu files. By default ludown will only look at the current folder. To look at all subfolders, include -s
@@ -27,7 +27,7 @@ Given a folder structure with .lu and or .qna files, this command will suggest a
 - one QnA Maker application per locale
 - one QnA Maker alternations model per locale
 
-This command will also automatically write out a **lubuild.json** configuration that you can use with the [LUBuild CLI tool][3].
+This command will also automatically write out a **luconfig.json** configuration that you can use with the [LUBuild CLI tool][3].
 
 ## Detecting locale
 The parser assumes that lang x locale is encoded on each .lu or .qna maker file via \<name\>.**\<locale\>**.lu or \<name\>.**\<locale\>**.qna
