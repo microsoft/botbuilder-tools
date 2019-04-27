@@ -2,7 +2,7 @@
 
 Parse to suggest command examines every single .lu and .qna files and suggests one or more [LUIS][1] and or [QnA Maker][2] models. 
 
-``` bash
+``` 
 Usage: ludown parse ToSuggest --lu_folder <inputFolder> --root_dialog <rootDialogName> [-o] [-c] [-e] [-q] [-u]
 
 Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications.
