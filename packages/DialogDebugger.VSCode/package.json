@@ -24,7 +24,7 @@
     "onDebug"
   ],
   "scripts": {
-    "build": "tsc && vsce package"
+    "build": "tsc"
   },
   "devDependencies": {
     "typescript": "3.4.3",
