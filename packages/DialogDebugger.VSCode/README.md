@@ -7,7 +7,7 @@ This extension adds a dialog debugger for debugging Bot Framework dialogs.
 * inspect user, conversation, dialog state
 * inspect dialog call stack
 
-![screenshot](https://raw.githubusercontent.com/Microsoft/botbuilder-tools/master/packages/DialogDebugger/VisualStudioCode/screenshot.gif)
+![screenshot](https://raw.githubusercontent.com/Microsoft/botbuilder-tools/master/packages/DialogDebugger.VSCode/screenshot.gif)
 
 ## Background
 Bots are stateless web services made up of a graph of objects which a given conversation is executed over.
