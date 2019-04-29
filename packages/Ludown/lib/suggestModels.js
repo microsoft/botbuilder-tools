@@ -84,25 +84,26 @@ const suggestModels = {
         
         // Apply each rule as enabled to update two sets of objects - rootDialog and [childDialog]
 
-        // Rule 1 - identify triggerIntent from each child model collection.
+        // Identify triggerIntent from each child model collection.
         if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Idetifying trigger intents for each child model... \n"));
         await identifyTriggerIntentForAllChildren(collatedObj.LUISContent);
 
-        // Rule 2 - rootDialog model has all trigger intents + referenced entities from all child models, de-duped
+        // rootDialog model has all trigger intents + referenced entities from all child models, de-duped
         // Rule 3 - remove trigger model from child dialogs
         if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Updating root dialog model with trigger intent and utterances... \n"));
         await updateRootDialogModelWithTriggerIntents(rootDialogModels.LUISContent, collatedObj.LUISContent);
 
-        // Rule 5 - With cross_feed_models option specified, all child model's NONE intent has all other child model's trigger intents
-        if (crossFeedModelsReq) {
-            if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Cross feeding models... \n"));
-            await crossFeedModels(rootDialogModels.LUISContent, collatedObj.LUISContent);
-        }
         // Rule 6 - with use_qna_pairs, all questions for that lang's model is automatically 
         // added to 'QnA' intent of all models including the root model.
         if (add_qna_pairs) {
             if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Adding QnA pairs to 'QnA' intents... \n"));
             await addQnAPairsToModels(rootDialogModels, collatedObj);
+        }
+
+        // Rule 5 - With cross_feed_models option specified, all child model's NONE intent has all other child model's trigger intents
+        if (crossFeedModelsReq) {
+            if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Cross feeding models... \n"));
+            await crossFeedModels(rootDialogModels.LUISContent, collatedObj.LUISContent);
         }
 
         // Rule 7 - with auto_add_qna_metadata, all qna pairs for .qna found under a dialog folder automatically have dialogName = folderName added as meta-data.
@@ -498,6 +499,14 @@ const deleteTriggerIntent = async function(rootModels, childLUISContent) {
  * @param {Object} childQnACollection 
  */
 const autoAddQnAMetaData = async function(rootQnAContent, childQnACollection) {
+    for (let lKey in rootQnAContent) {
+        (rootQnAContent[lKey].qnaList || []).forEach(qnaPair => {
+            let mdExists = qaPair.metadata.find(item => item.name == 'dialogName');
+            if (mdExists === undefined) {
+                qaPair.metadata.push({"name": "dialogName", "value": "rootDialog"});
+            }
+        })
+    }
     for (let fKey in childQnACollection) {
         for (let lKey in childQnACollection[fKey]) {
             (childQnACollection[fKey][lKey].qnaList || []).forEach(qaPair => {
@@ -569,7 +578,10 @@ const crossFeedModels = async function(rootLUISModel, childLUISModelCollection) 
 
             // Find all utterances in root model that is not the child's trigger intent
             let otherTriggerUtterancesInRoot = rootLUISModel[lKey].utterances.filter(item => {
-                if (!(item.intent.includes('*ludown*'))) return false;
+                // This line is excluded so not only the child's trigger intents are captured 
+                // But any additional intents directly defined in the root dialog is also captured.
+                //if (!(item.intent.includes('*ludown*'))) return false;
+
                 return item.intent != (childLUISModelCollection[fKey][lKey].triggerIntent + '*ludown*');
             });
 
@@ -684,7 +696,7 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
                         rootLUISModel[lKey].patterns.push(pCopy);
                     } else {
                         if (cPattern.intent !== patternExistsInRoot.intent) {
-                            throw (new exception(retCode.errorCode.INVALID_INPUT, `Pattern '${cPattern.pattern}' has duplicate intent definitions. '${patternExistsInRoot.intent}' in rootDialog and '${cPattern.intent}' in child dialog.`));
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, `Pattern '${cPattern.pattern}' has duplicate intent definitions. '${patternExistsInRoot.intent}' in rootDialog and '${cPattern.intent.replace('*ludown*','')}' in child dialog.`));
                         }
                     }
                 });
