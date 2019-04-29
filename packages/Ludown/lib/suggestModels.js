@@ -19,8 +19,11 @@ const getOutputFolder = require('./helpers').getOutputFolder;
 const toLUHelpers = require('./toLU-helpers');
 const haveQnAContent = require('./classes/qna').haveQnAContent;
 const fs = require('fs');
+const suggestModelsObj = require('./classes/suggestModels');
+const modelsSuggestedObj = require('./classes/ModelsSuggested');
 const suggestModels = {
     /**
+     * Async function to suggest models and write content out to disk
      * 
      * @param {Object} allParsedContent 
      * @param {object} program Content flushed out by commander
@@ -29,14 +32,38 @@ const suggestModels = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     suggestModelsAndWriteToDisk : async function(allParsedContent, program, cmd) {
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Analyzing parsed files... \n"));
-        let crossFeedModelsReq = program.cross_feed_models;
-        let add_qna_pairs = program.add_qna_pairs;
-        let auto_add_qna_metadata = program.auto_add_qna_metadata;
-        let rootDialogFolderName = program.root_dialog ? program.root_dialog : undefined;
-        let baseFolderPath = path.resolve(program.lu_folder);
-        let groupedObject = await groupFilesByHierarchy(allParsedContent, baseFolderPath, program);
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Grouped files by folder x lang hierarchy... \n"));
+        let contentToFlushToDisk = await suggestModels.suggestModels(new suggestModelsObj(allParsedContent, 
+            program.root_dialog, 
+            program.lu_folder,
+            program.cross_feed_models,
+            program.add_qna_pairs,
+            program.auto_add_qna_metadata,
+            program.luis_culture,
+            program.verbose));
+        // Write out .lu or .qna file for each collated json
+        // Generate .lu file for each collated json
+        // End result 
+        // One QnA model suggested per lang
+        // One LUIS model suggested per Dialog x lang (if applicable)
+        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Writing models to disk... \n"));
+        await writeModelsToDisk(contentToFlushToDisk, program);
+    },
+    /**
+     * Async function to suggest models based on parsed input files provided.
+     * 
+     * @param {SuggestModels} suggestModelsObj 
+     * @returns {ModelsSuggested}
+     * @throws {exception} Throws on errors. exception object includes errCode and text.
+     */
+    suggestModels : async function (suggestModelsObj) {
+        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Analyzing parsed files... \n"));
+        let crossFeedModelsReq = suggestModelsObj.cross_feed_models;
+        let add_qna_pairs = suggestModelsObj.add_qna_pairs;
+        let auto_add_qna_metadata = suggestModelsObj.auto_add_qna_metadata;
+        let rootDialogFolderName = suggestModelsObj.root_dialog ? suggestModelsObj.root_dialog : undefined;
+        let baseFolderPath = path.resolve(suggestModelsObj.baseFolderPath);
+        let groupedObject = await groupFilesByHierarchy(suggestModelsObj.allParsedContent, baseFolderPath, suggestModelsObj.base_culture);
+        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Grouped files by folder x lang hierarchy... \n"));
         
         // Collate and validate root as well as all child models
         let collatedObj = await collateAndValidateByFolderAndLang(groupedObject);
@@ -58,72 +85,59 @@ const suggestModels = {
         // Apply each rule as enabled to update two sets of objects - rootDialog and [childDialog]
 
         // Rule 1 - identify triggerIntent from each child model collection.
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Idetifying trigger intents for each child model... \n"));
+        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Idetifying trigger intents for each child model... \n"));
         await identifyTriggerIntentForAllChildren(collatedObj.LUISContent);
 
         // Rule 2 - rootDialog model has all trigger intents + referenced entities from all child models, de-duped
         // Rule 3 - remove trigger model from child dialogs
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Updating root dialog model with trigger intent and utterances... \n"));
+        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Updating root dialog model with trigger intent and utterances... \n"));
         await updateRootDialogModelWithTriggerIntents(rootDialogModels.LUISContent, collatedObj.LUISContent);
 
         // Rule 5 - With cross_feed_models option specified, all child model's NONE intent has all other child model's trigger intents
         if (crossFeedModelsReq) {
-            if (program.verbose) process.stdout.write(chalk.default.whiteBright("Cross feeding models... \n"));
+            if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Cross feeding models... \n"));
             await crossFeedModels(rootDialogModels.LUISContent, collatedObj.LUISContent);
         }
         // Rule 6 - with use_qna_pairs, all questions for that lang's model is automatically 
         // added to 'QnA' intent of all models including the root model.
         if (add_qna_pairs) {
-            if (program.verbose) process.stdout.write(chalk.default.whiteBright("Adding QnA pairs to 'QnA' intents... \n"));
+            if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Adding QnA pairs to 'QnA' intents... \n"));
             await addQnAPairsToModels(rootDialogModels, collatedObj);
         }
 
         // Rule 7 - with auto_add_qna_metadata, all qna pairs for .qna found under a dialog folder automatically have dialogName = folderName added as meta-data.
         if (auto_add_qna_metadata) {
-            if (program.verbose) process.stdout.write(chalk.default.whiteBright("Adding QnA metadata dialogName... \n"));
+            if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Adding QnA metadata dialogName... \n"));
             await autoAddQnAMetaData(rootDialogModels.QnAContent, collatedObj.QnAContent);
         }
 
         // Remove *ludown* markers from root models
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Removing parser markers from models... \n"));
+        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Removing parser markers from models... \n"));
         await removeLUDownMarkers(rootDialogModels.LUISContent);
 
         // Rule 4 - remove child model suggestion if the only intent in the child is the trigger intent
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Removing child models with no intents... \n"));
+        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Removing child models with no intents... \n"));
         await cleanUpChildWithNoIntentsLeft(collatedObj.LUISContent);
 
         // Delete 'triggerIntent' property from all LUIS models
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Removing trigger intents from child models... \n"));
+        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Removing trigger intents from child models... \n"));
         await deleteTriggerIntent(rootDialogModels.LUISContent, collatedObj.LUISContent);
 
         // Collate all child QnA models to one per lang
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Collating QnA models to one per language... \n"));
+        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Collating QnA models to one per language... \n"));
         await collateQnAModelsToOnePerLang(rootDialogModels.QnAContent, collatedObj.QnAContent);
         
         // Collate all child QnA alternations to one per lang
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Collating QnA alterations to one per language... \n"));
+        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Collating QnA alterations to one per language... \n"));
         await collateQnAAlterationsPerLang(rootDialogModels.QnAAlterations, collatedObj.QnAAlterations);
         
         // Final content structure for lufiles and luisModels is folder x lang
         // Final content structure for all qna is one per lang
-        let contentToFlushToDisk = {
-            "luFiles" : {},
-            "qnaFiles": {},
-            "qnaAlterationFiles": {},
-            "luisModels": {},
-            "qnaModels": {},
-            "qnaAlterations": {}
-        }
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Preparing models to flush to disk... \n"));
+        let contentToFlushToDisk = new modelsSuggestedObj();
+        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Preparing models to flush to disk... \n"));
         await getModelsAsLUContent(rootDialogModels, collatedObj, contentToFlushToDisk, rootDialogFolderName);
 
-        // Write out .lu or .qna file for each collated json
-        // Generate .lu file for each collated json
-        // End result 
-        // One QnA model suggested per lang
-        // One LUIS model suggested per Dialog x lang (if applicable)
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Writing models to disk... \n"));
-        await writeModelsToDisk(contentToFlushToDisk, program);
+        return contentToFlushToDisk;
     }
 };
 
@@ -829,10 +843,10 @@ const identifyTriggerIntentForAllChildren = async function(LUISContentCollection
  * @param {Object} groupedFiles 
  * @param {String} contentType 
  * @param {String} baseFolderPath 
- * @param {Object} program 
+ * @param {String} base_culture 
  * @returns {void}
  */
-const gatherAndGroupFiles = function(parsedObject, groupedFiles, contentType, baseFolderPath, program) {
+const gatherAndGroupFiles = function(parsedObject, groupedFiles, contentType, baseFolderPath, base_culture) {
     //let folderScope = parsedObject.srcFile.replace(baseFolderPath, '');
     let relPath = path.relative(baseFolderPath, parsedObject.srcFile);
     let relBaseFolder = relPath.split(new RegExp(/[\/\\]/g))[0];
@@ -841,7 +855,7 @@ const gatherAndGroupFiles = function(parsedObject, groupedFiles, contentType, ba
     let lang = '';
     if (tokenizedFileName.length === 2) {
         // Go with the lang code passed in or default.
-        lang = program.luis_culture;
+        lang = base_culture;
     } else {
         lang = tokenizedFileName[1];
     }
@@ -866,23 +880,23 @@ const gatherAndGroupFiles = function(parsedObject, groupedFiles, contentType, ba
  * Helper function to group parsed content by relative folder paths. 
  * @param {Object} allParsedContent 
  * @param {String} baseFolderPath 
- * @param {Object} program
+ * @param {String} base_culture
  * @returns {Object} grouped collection of files by folder hierarchy x language code.
  */
-const groupFilesByHierarchy = async function(allParsedContent, baseFolderPath, program) {
+const groupFilesByHierarchy = async function(allParsedContent, baseFolderPath, base_culture) {
     let groupedFiles = {
         "LUISContent": {},
         "QnAContent": {},
         "QnAAlterations": {}
     };
     (allParsedContent.LUISContent || []).forEach(parsedObject => {
-         gatherAndGroupFiles(parsedObject, groupedFiles, "LUISContent", baseFolderPath, program);
+         gatherAndGroupFiles(parsedObject, groupedFiles, "LUISContent", baseFolderPath, base_culture);
     });
     (allParsedContent.QnAContent || []).forEach(parsedObject => {
-         gatherAndGroupFiles(parsedObject, groupedFiles, "QnAContent", baseFolderPath, program);
+         gatherAndGroupFiles(parsedObject, groupedFiles, "QnAContent", baseFolderPath, base_culture);
     });
     (allParsedContent.QnAAlterations || []).forEach(parsedObject => {
-         gatherAndGroupFiles(parsedObject, groupedFiles, "QnAAlterations", baseFolderPath, program);
+         gatherAndGroupFiles(parsedObject, groupedFiles, "QnAAlterations", baseFolderPath, base_culture);
     });
     return groupedFiles;
 };
