@@ -6,6 +6,7 @@ const modules = {
     parser: {
         parseFile: require('./parseFileContents').parseFile,
         validateLUISBlob: require('./parseFileContents').validateLUISBlob,
+        parseAllFiles: require('./parser').parseAllFiles,
         suggestModels: require('./suggestModels').suggestModels
     },
     refresh: {
@@ -27,7 +28,8 @@ const modules = {
         QnA: require('./classes/qna'),
         Parser: require('./classes/parserObject'),
         SuggestModels: require('./classes/suggestModels'),
-        ModelsSuggested: require('./classes/ModelsSuggested')
+        ModelsSuggested: require('./classes/ModelsSuggested'),
+        AllParsedContent: require('./classes/allParsedContent')
     }
 };
 module.exports = modules;
