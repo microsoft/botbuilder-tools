@@ -467,6 +467,9 @@ async function runProgram() {
                 case "applications":
                     result = await client.apps.list(args.region, args.cloud, args);
                     break;
+                case "endpoints":
+                    result = await client.apps.listEndpoints(args.region, args.cloud, args.appId, args);
+                    break;
                 case "examples":
                     result = await client.examples.list(args.region, args.cloud, args.appId, args.versionId, args);
                     break;
@@ -950,7 +953,7 @@ function validateConfig(config) {
 
     assert(typeof authoringKey === 'string', `The authoringKey  ${messageTail}`);
     assert(typeof region === 'string', `The region ${messageTail}`);
-    assert(args.region == "westus" || args.region == 'westeurope' || args.region == 'australiaeast' || args.region == 'virginia', `${args.region} is not a valid authoring region.  Valid values are [westus|westeuerope|australiaest]`);
+    assert(args.region == 'westus' || args.region == 'westeurope' || args.region == 'australiaeast' || args.region == 'virginia', `${args.region} is not a valid authoring region.  Valid values are [westus|westeurope|australiaeast|virginia]`);
 }
 
 /**
