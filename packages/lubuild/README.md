@@ -15,9 +15,7 @@ For each LU file (and its language variants) **LUBuild** will do the following:
 
 ## Installation
 
-```bash
-npm install -g lubuild
-```
+**LUBuild** is not currently available for installation
 
 ## Usage
 
