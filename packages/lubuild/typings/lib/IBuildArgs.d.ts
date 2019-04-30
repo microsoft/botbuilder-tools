@@ -10,4 +10,5 @@ export interface IBuildArgs {
     force: boolean;
     defaultLanguage: string;
     endpointKeys: string;
+    dialogs: boolean;
 }

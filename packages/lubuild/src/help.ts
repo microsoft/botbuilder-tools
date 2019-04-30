@@ -87,6 +87,7 @@ function getHelpContents() {
             [chalk.default.cyan.bold('--folder [foldername]'), '(OPTIONAL) overrides config file with output folder name'],
             [chalk.default.cyan.bold('--force'), '(OPTIONAL) Force all models to be updated '],
             [chalk.default.cyan.bold('--endpointKeys [groupname]'), '(OPTIONAL) export all LUIS endpoint keys from the named group in the current AZ CLI subscription'],
+            [chalk.default.cyan.bold('--dialogs'), '(OPTIONAL) overrides config file with flag to generate .dialog files for recognizers that are built using lubuild (default is false)'],
         ]
     });
 
