@@ -31,4 +31,7 @@ export interface IBuildArgs {
 
     // export endpointKeys from azure group
     endpointKeys: string;
+
+    // create .dialog files for .lu applications
+    dialogs: boolean;
 }

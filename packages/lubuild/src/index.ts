@@ -69,7 +69,7 @@ async function runProgram() {
 
         // look for luconfig.json
         return patchConfig(luFile, (config, relativePath) => {
-            for (let i =0; i < config.models.length; i++) {
+            for (let i = 0; i < config.models.length; i++) {
                 let model = config.models[i];
                 if (model == relativePath) {
                     config.models.splice(i, 1);
@@ -286,14 +286,20 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
         if (training) {
             recognizersToPublish.push(recognizer);
         }
-        await recognizer.save();
+
+        // only save if they asked us to
+        if (config.dialogs) {
+            await recognizer.save();
+        }
 
         luisSettings.luis[targetFileName.split('.').join('_')] = recognizer.getAppId();
     }
 
     // save multirecognizer
-    let multiLanguageDialog = path.join(rootFolder, `${rootFile}.lu.dialog`);
-    await fs.writeTextFile(<string>multiLanguageDialog, JSON.stringify(multiRecognizer, null, 4), 'utf8');
+    if (config.dialogs) {
+        let multiLanguageDialog = path.join(rootFolder, `${rootFile}.lu.dialog`);
+        await fs.writeTextFile(<string>multiLanguageDialog, JSON.stringify(multiRecognizer, null, 4), 'utf8');
+    } 
 
     // save settings
     await fs.writeTextFile(luisSettingsPath, JSON.stringify(luisSettings, null, 4), 'utf8');
@@ -318,7 +324,6 @@ async function createApplication(name: string, client: LuisAuthoring, config: IC
         "initialVersionId": "0000000000"
     }, {});
     recognizer.setAppId(response.body);
-    await recognizer.save();
     await delay(500);
     return response;
 }
@@ -365,8 +370,6 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
         // train the version
         console.log(`${luFile} training version=${newVersionId}`);
         await client.train.trainVersion(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(), newVersionId);
-
-        recognizer.save();
 
         await delay(500);
         return true;
