@@ -7,6 +7,114 @@ const assert = chai.assert;
 const parser = require('../lib/parseFileContents');
 const toLU = require('../lib/toLU-helpers').constructMdFromLUISJSON;
 describe('Roles in LU files', function() {
+    it('Correctly parses prebuilt entity with roles defined via labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {geographyV2:fromCity=london} to {geographyV2:toCity=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $PREBUILT:geographyV2`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.prebuiltEntities.length, 2);
+                assert.equal(res.LUISJsonStructure.prebuiltEntities[0].roles.length, 1);
+                assert.equal(res.LUISJsonStructure.prebuiltEntities[1].roles.length, 2);
+                assert.equal(res.LUISJsonStructure.entities.length, 0);
+                done();
+            })
+            .catch(err => done(err));
+    })
+
+    it('Correctly parses list entity with roles defined via labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {city:fromCity=london} to {city:toCity=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $city:london=
+        - london
+        - big apple
+        
+        $city:paris=
+        - paris`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.prebuiltEntities.length, 1);
+                assert.equal(res.LUISJsonStructure.prebuiltEntities[0].roles.length, 1);
+                assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                assert.equal(res.LUISJsonStructure.closedLists[0].roles.length, 2)
+                assert.equal(res.LUISJsonStructure.entities.length, 0);
+                done();
+            })
+            .catch(err => done(err));
+    })
+
+    it('Correctly parses regex entity with roles defined via labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {city:fromCity=london} to {city:toCity=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $city:/[a-A][0-9]/`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.prebuiltEntities.length, 1);
+                assert.equal(res.LUISJsonStructure.prebuiltEntities[0].roles.length, 1);
+                assert.equal(res.LUISJsonStructure.regex_entities.length, 1);
+                assert.equal(res.LUISJsonStructure.regex_entities[0].roles.length, 2)
+                assert.equal(res.LUISJsonStructure.entities.length, 0);
+                done();
+            })
+            .catch(err => done(err));
+    })
+
+    it('Correctly throws on prebuilt entity (without roles) defined via labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {geographyV2=london} to {geographyV2=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $PREBUILT:geographyV2`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => done(`Did not throw when expected - ${res}`))
+            .catch(err => done());
+    })
+
+    it('Correctly throws on list entity (without roles) defined via labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {city=london} to {city=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $city:london=
+        - london
+        - big apple
+        
+        $city:paris=
+        - paris`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => done(`Did not throw when expected - ${res}`))
+            .catch(err => done());
+    })
+
+    it('Correctly thows with regex entity (without roles) in labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {city=london} to {city=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $city:/[a-A][0-9]/`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => done(`Did not throw when expected - ${res}`))
+            .catch(err => done());
+    })
+
     it('Corretly parses simple roles in LU files', function(done){
         let fileContent = `# getUserName
         - call me {name:userName}`;
@@ -180,9 +288,9 @@ describe('Roles in LU files', function() {
 
     it ('explicit prebuilt entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
         let testLU = `# test
-        - this is a test of {datetimeV2:fromTime = 7AM}
+        - this is a test of {datetimeV2 = 7AM}
         
-        $PREBUILT:datetimeV2`;
+        $PREBUILT:datetimeV2 Roles=fromTime`;
 
         parser.parseFile(testLU, false, null)
             .then (res => done(`Test failed - ${JSON.stringify(res)}`))
@@ -191,9 +299,9 @@ describe('Roles in LU files', function() {
 
     it ('explicit list entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
         let testLU = `# test
-        - this is a test of {time:fromTime = 7AM}
+        - this is a test of {time = 7AM}
         
-        $time:morning=
+        $time:morning= Roles=fromTime
         - 7AM`;
 
         parser.parseFile(testLU, false, null)
@@ -203,9 +311,9 @@ describe('Roles in LU files', function() {
 
     it ('explicit regex entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
         let testLU = `# test
-        - this is a test of {time:fromTime = 7AM}
+        - this is a test of {time = 7AM}
         
-        $time:/[0-9]/`;
+        $time:/[0-9]/ Roles=fromTime`;
 
         parser.parseFile(testLU, false, null)
             .then (res => done(`Test failed - ${JSON.stringify(res)}`))

@@ -4,7 +4,8 @@
  */
 const cmdEnum = {
     luis: 'luis',
-    qna: 'qna'
+    qna: 'qna',
+    suggestModels: 'suggestModels'
 };
 
 module.exports = cmdEnum;

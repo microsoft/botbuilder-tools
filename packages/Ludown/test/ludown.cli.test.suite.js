@@ -528,6 +528,55 @@ describe('The ludown cli tool', function() {
             });
         });
     });
+    
+    describe('With parse tosuggest command', function() {
+        it('should print an error when an invalid folder is specified', function(done){
+            exec(`node ${ludown} parse tosuggest -f \\testFolder -r rootDialog`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.includes('does not exist'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+
+        it('should print an error when rootFolder name is not specified', function(done) {
+            exec(`node ${ludown} parse tosuggest -f \\testFolder`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.includes('Usage: ludown parse ToSuggest'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+                
+            });
+        });
+
+        it('should print an error when no input folder is specified', function(done) {
+            exec(`node ${ludown} parse tosuggest -r rootDialog`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.includes('Usage: ludown parse ToSuggest'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+                
+            });
+        });
+
+        it('should print an error when invalid locale is specified', function(done) {
+            exec(`node ${ludown} parse tosuggest -r rootDialog -f ../examples -c fr-dx`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.includes('Unrecognized locale'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+                
+            });
+        })
+    });
 
     describe('With refresh command', function() {
         it('should print an error when an invalid json is passed in with stdin option set', function(done) {

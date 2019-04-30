@@ -4,25 +4,29 @@
  * Licensed under the MIT License.
  */
 require('./utils');
+const chalk = require('chalk');
+const url = require('url');
+const deepEqual = require('deep-equal');
+const NEWLINE = require('os').EOL;
+const fetch = require('node-fetch');
+const txtfile = require('read-text-file');
 const LUISObjNameEnum = require('./enums/luisobjenum');
 const PARSERCONSTS = require('./enums/parserconsts');
 const builtInTypes = require('./enums/luisbuiltintypes');
-const helpers = require('./helpers');
-const chalk = require('chalk');
-const url = require('url');
 const retCode = require('./enums/CLI-errors');
+const helpers = require('./helpers');
 const parserObj = require('./classes/parserObject');
 const qnaListObj = require('./classes/qnaList');
 const qnaMetaDataObj = require('./classes/qnaMetaData');
 const helperClass = require('./classes/hclasses');
-const deepEqual = require('deep-equal');
 const qna = require('./classes/qna');
 const exception = require('./classes/exception');
 const qnaAlterations = require('./classes/qnaAlterations');
-const NEWLINE = require('os').EOL;
-const fetch = require('node-fetch');
 const qnaFile = require('../lib/classes/qnaFiles');
-const fileToParse = require('../lib/classes/filesToParse');
+const fileToParse =  require('../lib/classes/filesToParse');
+const parserObject = require('./classes/parserObject');
+const allParsedContent = require('./classes/allParsedContent');
+
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
@@ -109,7 +113,7 @@ const parseFileContentsModule = {
             if (entityFound.length === 0) {
                 entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['prebuilt']));
             } else {
-                entityFound[0].type.push('composite');
+                entityFound[0].type.push('prebuilt');
             }
         })
         
@@ -692,7 +696,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
         let simpleEntityExists = (parsedContent.LUISJsonStructure.entities || []).find(item => item.name == entityName);
         if (simpleEntityExists !== undefined) { 
             // take and add any roles into the roles list
-            (simpleEntityExists.roles || []).forEach(role => entityRoles.push(role));
+            (simpleEntityExists.roles || []).forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
             // remove this simple entity definition
             for (var idx = 0; idx < parsedContent.LUISJsonStructure.entities.length; idx ++) {
                 if (parsedContent.LUISJsonStructure.entities[idx].name === simpleEntityExists.name) {
@@ -741,7 +745,9 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
     let simpleEntityExists = (parsedContent.LUISJsonStructure.entities || []).find(item => item.name == entityName);
     if (simpleEntityExists !== undefined) { 
         // take and add any roles into the roles list
-        (simpleEntityExists.roles || []).forEach(role => entityRoles.push(role));
+        (simpleEntityExists.roles || []).forEach(role => {
+            if (!entityRoles.includes(role)) entityRoles.push(role)
+        });
         // remove this simple entity definition
         for (var idx = 0; idx < parsedContent.LUISJsonStructure.entities.length; idx ++) {
             if (parsedContent.LUISJsonStructure.entities[idx].name === simpleEntityExists.name) {
@@ -757,7 +763,19 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
     });
 
     if (entityExistsInUtteranceLabel !== undefined) {
-        throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
+        if (entityType === 'Phrase List') {
+            throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
+        }
+        let entityMatch = entityExistsInUtteranceLabel.entities.filter(item => item.entity == entityName);
+        entityMatch.forEach(entity => {
+            if (entity.role !== undefined) {
+                if (!entityRoles.includes(entity.role)) {
+                    entityRoles.push(entity.role);
+                }
+            } else {
+                throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
+            }
+        });
     }
     return entityRoles;
 }
@@ -854,7 +872,16 @@ const parseAndHandleListEntity = function (parsedContent, chunkSplitByLine, enti
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
-    let intentName = chunkSplitByLine[0].substring(chunkSplitByLine[0].indexOf(' ') + 1);
+    let intentHeader = chunkSplitByLine[0].substring(chunkSplitByLine[0].indexOf(' ') + 1);
+    let triggerIntentRegex = /\[[T|t]rigger [I|i]ntent\]/g;
+    var triggerFound = intentHeader.split(triggerIntentRegex);
+    let intentName = triggerFound[0].trim();
+    if (triggerFound.length > 1) {
+        if (parsedContent.triggerIntent != undefined) {
+            throw (new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Multiple intents with [trigger intent] set: "' + parsedContent.triggerIntent + '" and "' + triggerFound[0] + '"'));
+        }
+        parsedContent.triggerIntent = intentName;
+    }
     // is this a QnA section? Qna sections have intent names that begin with ?
     if (intentName.trim().indexOf(PARSERCONSTS.QNA) === 0) {
         let questions = [];
@@ -1038,19 +1065,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
 
                     // add entities
                     entitiesFound.forEach(entity => {
-                        // throw an error if a prebuilt, regex, pattern.any, phraselist or list entity is explicitly labelled in an utterance
-                        let nonAllowedPreBuiltEntityInUtterance = (parsedContent.LUISJsonStructure.prebuiltEntities || []).find(item => item.name == entity.entity);
-                        if (nonAllowedPreBuiltEntityInUtterance !== undefined) {
-                            throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to prebuilt entity "${nonAllowedPreBuiltEntityInUtterance.name}". Pre-built entities cannot be given an explicit labelled value.`));
-                        }
-                        let nonAllowedListEntityInUtterance = (parsedContent.LUISJsonStructure.closedLists || []).find(item => item.name == entity.entity);
-                        if (nonAllowedListEntityInUtterance !== undefined) {
-                            throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to list entity "${nonAllowedListEntityInUtterance.name}". List entities cannot be given an explicit labelled value.`));
-                        }
-                        let nonAllowedRegexEntityInUtterance = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entity.entity);
-                        if (nonAllowedRegexEntityInUtterance !== undefined) {
-                            throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to regex entity "${nonAllowedRegexEntityInUtterance.name}". RegEx entities cannot be given an explicit labelled value.`));
-                        }
+                        // throw an error if pattern.any, phraselist entity is explicitly labelled in an utterance
                         let nonAllowedPatternAnyEntityInUtterance = (parsedContent.LUISJsonStructure.patternAnyEntities || []).find(item => item.name == entity.entity);
                         if (nonAllowedPatternAnyEntityInUtterance !== undefined) {
                             throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to Pattern.Any entity "${nonAllowedPatternAnyEntityInUtterance.name}". Pattern.Any entities cannot be given an explicit labelled value.`));
@@ -1060,21 +1075,42 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                             throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`));
                         }
 
-                        // do not add entities that might have already been added as composite
+                        // only add this entity if it has not already been defined as composite, list, prebuilt, regex
                         let compositeExists = (parsedContent.LUISJsonStructure.composites || []).find(item => item.name == entity.entity);
-                        if (compositeExists === undefined) {
+                        let listExists = (parsedContent.LUISJsonStructure.closedLists || []).find(item => item.name == entity.entity);
+                        let prebuiltExists = (parsedContent.LUISJsonStructure.prebuiltEntities || []).find(item => item.name == entity.entity);
+                        let regexExists = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entity.entity);
+                        if (compositeExists === undefined && listExists === undefined && prebuiltExists === undefined && regexExists === undefined) {
                             if (entity.role !== '') {
                                 addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity, [entity.role.trim()]);
                             } else {
                                 addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity)
                             }
                         } else {
-                            if (entity.role !== '') {
-                                // add the role to composite
-                                addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.COMPOSITES, entity.entity, [entity.role.trim()]);
+                            if (compositeExists !== undefined) {
+                                if (entity.role != '') {
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.COMPOSITES, entity.entity, [entity.role.trim()]);
+                                } 
+                            } else if (listExists !== undefined) {
+                                if (entity.role != '') {
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.CLOSEDLISTS, entity.entity, [entity.role.trim()]);
+                                } else {
+                                    throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: ${entity.entity} has been defined as a LIST entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`))
+                                }
+                            } else if (prebuiltExists !== undefined) {
+                                if (entity.role != '') {
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entity.entity, [entity.role.trim()]);
+                                } else {
+                                    throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: ${entity.entity} has been defined as a PREBUILT entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`))
+                                }
+                            } else if (regexExists !== undefined) {
+                                if (entity.role != '') {
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.REGEX, entity.entity, [entity.role.trim()]);
+                                } else {
+                                    throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: ${entity.entity} has been defined as a Regex entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`))
+                                }
                             }
                         }
-                        
                     });
 
                     // add utterance
