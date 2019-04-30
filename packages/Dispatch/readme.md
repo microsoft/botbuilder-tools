@@ -139,8 +139,9 @@ Options:
 | --dontReviseUtterance  | (optional) Default to false. Dispatch sometimes minorly revises an utterance for generalization. If false, utterances won't be revised |
 | --publishToStaging     | (optional) Default to false. Publish to LUIS staging instead of production platform |
 | --dedupeTrainingSet    |  (optional) Default to false. If false, Dispatch won't dedupe duplicated training instances |
-| --doAutoActiveLearning | (optional) Default to false. LUIS limit on training-set size is 15000. When a LUIS app has much more utterances for training, Dispatch's auto active learning process can intelligently down sample the utterances |
-| --aalNumberOfInstancesPerIteration         | (optional) Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration |
+| --doAutoActiveLearning                     | (optional) Default to false. LUIS limit on training-set size is 15000. When a LUIS app has much more utterances for training, Dispatch's auto active learning process can intelligently down sample the utterances. |
+| --aalUseSubwordFeatures                    | [Optional] Default to false. Enable auto-active-learning to use subword features. |
+| --aalNumberOfInstancesPerIteration         | (optional) Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration. |
 | --aalMaxNumberOfActiveLearningIterations   | (optional) Default to -1. Max number of auto active learning iterations, each processes a fixed batch of instances. Negative setting enables scanning through all available instances. |
 | --aalFixedNumberOfActiveLearningIterations | (optional) Default to -1. Fixed number of iterations to process all available instances. Number of instance batch in each instance is calaulated based on this parameter. |
 | --aalInitialNumberOfSamplesPerIntent       | (optional) Default to 20. Initial #instances randomly sampled for each intent before kicking off the auto-active-learning down-sampling process. |
@@ -168,6 +169,19 @@ With the following options
 | -s, --secret         | (optional) .bot file secret       |
 | --dispatch           | (optional) .dispatch file path    |
 | --dataFolder         | (optional) Dispatch working directory |
+| --hierarchical         | (optional) Default to true, set to false when evaluating a single LUIS model |
+| --useAllTrainingData   | (optional) Default to false. LUIS UseAllTrainingData flag (see https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/versions-update-application-version-settings) |
+| --dontReviseUtterance  | (optional) Default to false. Dispatch sometimes minorly revises an utterance for generalization. If false, utterances won't be revised |
+| --publishToStaging     | (optional) Default to false. Publish to LUIS staging instead of production platform |
+| --dedupeTrainingSet    |  (optional) Default to false. If false, Dispatch won't dedupe duplicated training instances |
+| --doAutoActiveLearning                     | (optional) Default to false. LUIS limit on training-set size is 15000. When a LUIS app has much more utterances for training, Dispatch's auto active learning process can intelligently down sample the utterances. |
+| --aalUseSubwordFeatures                    | [Optional] Default to false. Enable auto-active-learning to use subword features. |
+| --aalNumberOfInstancesPerIteration         | (optional) Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration. |
+| --aalMaxNumberOfActiveLearningIterations   | (optional) Default to -1. Max number of auto active learning iterations, each processes a fixed batch of instances. Negative setting enables scanning through all available instances. |
+| --aalFixedNumberOfActiveLearningIterations | (optional) Default to -1. Fixed number of iterations to process all available instances. Number of instance batch in each instance is calaulated based on this parameter. |
+| --aalInitialNumberOfSamplesPerIntent       | (optional) Default to 20. Initial #instances randomly sampled for each intent before kicking off the auto-active-learning down-sampling process. |
+| --aalInitialNumberOfInstancesPerIteration  | (optional) Default to 200. #instance per iteration can be configured to grow until reaching aalNumberOfInstancesPerIteration. |
+| --aalNumberOfSamplesPerIntentGrowthRatio   | (optional) Default to 1.5. The growth rate of #instances per auto-active-learning iteration. |
 | -h, --help           | Output usage information |
 
 This command updates existing LUIS application in .dispatch file.
@@ -188,8 +202,9 @@ Options:
 | --luisSubscriptionRegion | (optional, will be prompted) Cognitive Service LUIS region from portal.azure.com  |
 | --dispatch               | (optional) .dispatch file path    |
 | --dataFolder             | (optional) Dispatch working directory |
-| --doAutoActiveLearning | (optional) Default to false. LUIS limit on training-set size is 15000. When a LUIS app has much more utterances for training, Dispatch's auto active learning process can intelligently down sample the utterances |
-| --aalNumberOfInstancesPerIteration         | (optional) Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration |
+| --doAutoActiveLearning                     | (optional) Default to false. LUIS limit on training-set size is 15000. When a LUIS app has much more utterances for training, Dispatch's auto active learning process can intelligently down sample the utterances. |
+| --aalUseSubwordFeatures                    | [Optional] Default to false. Enable auto-active-learning to use subword features. |
+| --aalNumberOfInstancesPerIteration         | (optional) Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration. |
 | --aalMaxNumberOfActiveLearningIterations   | (optional) Default to -1. Max number of auto active learning iterations, each processes a fixed batch of instances. Negative setting enables scanning through all available instances. |
 | --aalFixedNumberOfActiveLearningIterations | (optional) Default to -1. Fixed number of iterations to process all available instances. Number of instance batch in each instance is calaulated based on this parameter. |
 | --aalInitialNumberOfSamplesPerIntent       | (optional) Default to 20. Initial #instances randomly sampled for each intent before kicking off the auto-active-learning down-sampling process. |
@@ -217,7 +232,8 @@ Options:
 | --luisSubscriptionRegion| (optional) Cognitive Service LUIS region from portal.azure.com  |
 | --dispatch              | (optional) .dispatch file path    |
 | --dataFolder            | (optional) Dispatch working directory |
-| --doAutoActiveLearning  | (optional) Default to false. If true, will also run 'test' against the local model created during the auto active learning process |
+| --doAutoActiveLearning                     | (optional) Default to false. If true, will also run 'test' against the local model created during the auto active learning process. |
+| --aalUseSubwordFeatures                    | [Optional] Default to false. Enable auto-active-learning to use subword features. |
 | -h, --help              | Output usage information |
 
 
@@ -237,7 +253,26 @@ With the following options
 | --luisSubscriptionRegion| (optional) Cognitive Service LUIS region from portal.azure.com  |
 | --dispatch              | (optional) .dispatch file path    |
 | --dataFolder            | (optional) Dispatch working directory |
-| --doAutoActiveLearning  | (optional) Default to false. If true, will also run 'predict' using the local model created during the auto active learning process |
+| --doAutoActiveLearning                     | (optional) Default to false. If true, will also run 'predict' using the local model created during the auto active learning process. |
+| --aalUseSubwordFeatures                    | [Optional] Default to false. Enable auto-active-learning to use subword features. |
+| -h, --help              | Output usage information |
+
+You'll then be prompted to enter the utterance you'd like to run prediction on.
+
+### Explain prediction using a locally trained ML.Net dispatch model
+
+To explain prediction against your a locally trained ML.Net dispatch model, run
+
+```shell
+dispatch explain [options]
+```
+
+With the following options
+
+| Option                  | Description                                                  |
+| ----------------------- | ------------------------------------------------------------ |
+| --doAutoActiveLearning                     | (optional) Default to false. If true, will also run 'predict' using the local model created during the auto active learning process. |
+| --aalUseSubwordFeatures                    | [Optional] Default to false. Enable auto-active-learning to use subword features. |
 | -h, --help              | Output usage information |
 
 You'll then be prompted to enter the utterance you'd like to run prediction on.
