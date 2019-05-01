@@ -1,80 +1,87 @@
 > *NOTE: This is a **preview** tool and breaking changes may happen before it is released*
 
 # **LUBuild**
-The **LUBuild** tool makes it easy for you to manage working with multiple model definitions among a team members across data centers and languages.
+The **LUBuild** tool makes it easy for you to manage working with multiple model definitions among team members across data centers and languages.
 
-Foreach LU file (and it's language variants) **LUBuild** will
-1. if there isn't a LUIS AppId for the model, it will create one
-2. it runs ludown tool to generate the model
-3. it uploads the model to the appid as a new versionId (incremented)
-4. it trains the version of the model 
-5. it publishes the version as the new model
-6. (OPTIONAL) it deletes the old version
-7. (OPTIONAL) it outputs a .dialog definition of a LuisRecognizer configured to use that model.
+For each LU file (and its language variants) **LUBuild** will do the following:
+
+1. If there isn't a LUIS AppId for the model, it will create one
+2. It runs ludown tool to generate the model
+3. It uploads the model to the appid as a new versionId (incremented)
+4. It trains the version of the model 
+5. It publishes the version as the new model
+6. (OPTIONAL) It deletes the old version
+7. (OPTIONAL) It outputs a .dialog definition of a LuisRecognizer configured to use that model.
 
 ## Installation
 
-```npm install -g lubuild```
+**LUBuild** is not currently available for installation
 
 ## Usage
-1. create a luconfig.json with **name** and **models** configured to your root .LU files
-2. Get LUIS.ai authoringKey
-3. invoke 
-     
-    ```lubuild --authoringKey YOURKEY```
 
-> NOTE: --authoringKey is not needed if you have LUIS_AUTHORING_KEY environment variable or a .luisrc file with the authoringKey in it
+1. Create a luconfig.json with **name** and **models** configured to your root .LU files
+2. Get LUIS.ai authoringKey
+3. Invoke `lubuild --authoringKey YOURKEY`
+
+> NOTE: `--authoringKey` is not needed if you have LUIS_AUTHORING_KEY environment variable or a .luisrc file with the authoringKey in it
 
 **LUBuild** will create all of the assets you need from your local .LU files
 
-### Adding and removing LU files to your luconfig.json
-You can use **lubuild add** and **lubuild remove** to easily add/remove a luf file to your luconfig.json models
+### Adding and removing LU files from your luconfig.json
+You can use **lubuild add** and **lubuild remove** to easily add/remove a .lu file to your luconfig.json models
 
-```lubuild add file.lu```
+```bash
+lubuild add file.lu
+```
 
-## LU and language varations files
+## LU and language variations files
 Every LU file can have multiple language variations.  **LUBuild** will build a model for each one.  
 
 The pattern for .LU files and the language variants are
-```json
+
+```
 example.en-us.lu
 example.fr-fr.lu
 example.de-de.lu
 etc.
 ````
-Each one of these .lu files will have a language specific model created fo rit.
+
+Each one of these .lu files will have a language specific model created for it.
 
 ## LUIS Applications 
 
-Every combination of project, environment, and file name (With locale) will be used
-to name the application created on your behalf.
+Every combination of project, environment, and file name (with locale) will be used to name the application created on your behalf.
 
-LUIS application names will 
+LUIS application names will use this format:
+
 > {projectname}-{environment}-{LUfilename}
 
 Example:
+
 ```
-    MyProject(tomlm)-Contoso.GetAddresss.en-us.lu
-    MyProject(tomlm)-Contoso.GetAddresss.fr-fr.lu
-    MyProject(tomlm)-Contoso.GetAddresss.de-de.lu
+MyProject(tomlm)-Contoso.GetAddresss.en-us.lu
+MyProject(tomlm)-Contoso.GetAddresss.fr-fr.lu
+MyProject(tomlm)-Contoso.GetAddresss.de-de.lu
 ```
+
 The same application name will be used in each azure region, with endpoints internal to it.
 
 ## Environments
-When multiple people are working with models you want to be able to work with models
-independently from each other tied to the source control.  **LUBuild**
 
-By default, **LUBuild** uses the logged in user alias as the enviornment, so that you can
+When multiple people are working with models you want to be able to work with models
+independently from each other tied to the source control.
+
+By default, **LUBuild** uses the logged in user alias as the environment, so that you can
 simply create and work with local changes.  
 
-The environment is placed in *settings.luis.environment* configuration to control which
-actually application ids you are connected to.
+The environment is placed in the *settings.luis.environment* configuration to control which
+actual application ids you are connected to.
 
 You can override the environment via cli argument *--environment foo* or via the luconfig.json
 file.
 
 ## Config file
-The **luconfig.json** file describes the configuration for **LUBuild**.  Any LU files add to this file 
+The **luconfig.json** file describes the configuration for **LUBuild**.  Any LU files added to this file 
 will be processed by **LUBuild** to create the published models you need to execute against.
 
 ```json
@@ -87,6 +94,7 @@ will be processed by **LUBuild** to create the published models you need to exec
     ]
 }
 ```
+
 Every .LU file which is added to the models collection will be processed by **LUBuild**.
 
 | properties      |            | description                                                                                           |
@@ -106,6 +114,7 @@ The output of LUBuild includes a settings file per environment which contains th
 Example for user **tomlm** targeting authoring region **westus** 
 
 **luis.settings.tomlm.westus.json**
+
 ```json
 {
     "luis": {
@@ -121,19 +130,21 @@ Example for user **tomlm** targeting authoring region **westus**
 ```
 
 ## Generated .Dialog file for each lu file
+
 All language variations of a .LU files with the same prefix will get a .dialog file created
 which is a LUIS recognizer configured for it. 
 
 Example:
+
 ```
-    models/tomlm/westus/Contoso.GetAddresss.lu.dialog <-- MultiLanguageRecognizer configured to use all of the languages 
-    models/tomlm/westus/Contoso.GetAddresss.en-us.lu.dialog <-- LuisRecognizer 
-    models/tomlm/westus/Contoso.GetAddresss.fr-fr.lu.dialog <-- LuisRecognizer 
-    models/tomlm/westus/Contoso.GetAddresss.de-de.lu.dialog <-- LuisRecognizer 
+models/tomlm/westus/Contoso.GetAddresss.lu.dialog <-- MultiLanguageRecognizer configured to use all of the languages 
+models/tomlm/westus/Contoso.GetAddresss.en-us.lu.dialog <-- LuisRecognizer 
+models/tomlm/westus/Contoso.GetAddresss.fr-fr.lu.dialog <-- LuisRecognizer 
+models/tomlm/westus/Contoso.GetAddresss.de-de.lu.dialog <-- LuisRecognizer 
 ```
 
-The net result is that to consome all of the language models in a dialog you simply can do this:
-Example:
+The net result is that to consume all of the language models in a dialog you simply can do this:
+
 ```json
 {
     "$type":"Microsoft.AdaptiveDialog",
@@ -144,6 +155,3 @@ Example:
 This will configure your recognizer to a LURecognizer("Contsoso.GetAddresss.lu") which internally
 will use your memory *settings.luis.projectname* and *settings.luis.environment* settings to
 bind to the correct .dialog file for your model and runtime environment.
-
-
-
