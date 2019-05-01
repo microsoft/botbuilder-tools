@@ -1,7 +1,7 @@
 > *NOTE: This is a **preview** tool and breaking changes may happen before it is released*.
 
 # MSLG Command Line tool
-MSLG is a command line tool that parses .lg files which adheres to the [LG file format](https://github.com/Microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/lg-file-format.md). MSLG CLI tool can:
+MSLG is a command line tool that parses .lg files which adheres to the [LG file format](https://github.com/Microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/docs/lg-file-format.md). MSLG CLI tool can:
 - Report an error on invalid .lg file. All errors that are statically detectable are reported.
 - Generate a collated .lg file by parsing and analyzing more than one .lg files.
 - Expand any given template (or all templates in a file) based on test values for entity references.
