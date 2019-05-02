@@ -20,5 +20,16 @@ class AllParsedContent {
         this.QnAContent = qnaContent;
         this.QnAAlterations = qnaAlterations;
     }
+
+    /**
+     * 
+     * @param {AllParsedContent} obj 
+     * @returns {Boolean}
+     */
+    hasValue(obj) {
+        if (!(obj instanceof AllParsedContent)) return false;
+        return ((obj.LUISContent.length !== 0) || (obj.QnAAlterations.length !== 0) || (obj.QnAContent.length !== 0));
+    }
 }
+
 module.exports = AllParsedContent;

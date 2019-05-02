@@ -128,7 +128,7 @@ describe('The ludown cli tool', function() {
         it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
             exec(`node ${ludown} parse -x --prefix`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stderr.startsWith(`[${package.name}]`), true);
+                    assert.equal(stderr.includes(`[${package.name}]`), true);
                     done(); 
                 } catch (err) {
                     done(err);
@@ -261,7 +261,7 @@ describe('The ludown cli tool', function() {
         it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
             exec(`node ${ludown} translate -k --prefix`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stderr.startsWith(`[${package.name}]`), true);
+                    assert.equal(stderr.includes(`[${package.name}]`), true);
                     done(); 
                 } catch (err) {
                     done(err);
@@ -395,7 +395,7 @@ describe('The ludown cli tool', function() {
             let luFile = resolvePath('examples/1.lu');
             exec(`node ${ludown} parse toluis -o ${exampleLu}\\testFolder --in ${luFile} --prefix`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stderr.startsWith(`[${package.name}]`), true);
+                    assert.equal(stderr.includes(`[${package.name}]`), true);
                     done(); 
                 } catch (err) {
                     done(err);
@@ -520,7 +520,7 @@ describe('The ludown cli tool', function() {
             let luFile = resolvePath('examples/1.lu');
             exec(`node ${ludown} parse toqna -o ${exampleLu}\\testFolder --in ${luFile} --prefix`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stderr.startsWith(`[${package.name}]`), true);
+                    assert.equal(stderr.includes(`[${package.name}]`), true);
                     done(); 
                 } catch (err) {
                     done(err);
@@ -529,7 +529,7 @@ describe('The ludown cli tool', function() {
         });
     });
     
-    describe('With parse tosuggest command', function() {
+    describe('With parse tosuggest command', function() {  
         it('should print an error when an invalid folder is specified', function(done){
             exec(`node ${ludown} parse tosuggest -f \\testFolder -r rootDialog`, (error, stdout, stderr) => {
                 try {
@@ -542,9 +542,10 @@ describe('The ludown cli tool', function() {
         });
 
         it('should print an error when rootFolder name is not specified', function(done) {
-            exec(`node ${ludown} parse tosuggest -f \\testFolder`, (error, stdout, stderr) => {
+            let folderPath = path.resolve(`${process.cwd()}/examples/suggestModels/Bot 0`);
+            exec(`node ${ludown} parse tosuggest -f "${folderPath}"`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stdout.includes('Usage: ludown parse ToSuggest'), true);
+                    assert.equal(stdout.toLowerCase().includes('usage: ludown parse tosuggest'), true);
                     done();
                 } catch (err) {
                     done(err);
@@ -556,7 +557,7 @@ describe('The ludown cli tool', function() {
         it('should print an error when no input folder is specified', function(done) {
             exec(`node ${ludown} parse tosuggest -r rootDialog`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stdout.includes('Usage: ludown parse ToSuggest'), true);
+                    assert.equal(stdout.toLowerCase().includes('usage: ludown parse tosuggest'), true);
                     done();
                 } catch (err) {
                     done(err);
@@ -566,7 +567,8 @@ describe('The ludown cli tool', function() {
         });
 
         it('should print an error when invalid locale is specified', function(done) {
-            exec(`node ${ludown} parse tosuggest -r rootDialog -f ../examples -c fr-dx`, (error, stdout, stderr) => {
+            let folderPath = path.resolve(`${process.cwd()}/examples/suggestModels/Bot 0`);
+            exec(`node ${ludown} parse tosuggest -r rootDialog -f "${folderPath}" -c fr-dx`, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('Unrecognized locale'), true);
                     done();
@@ -696,7 +698,7 @@ describe('The ludown cli tool', function() {
             let luFile = resolvePath('examples/1.lu');
             exec(`node ${ludown} refresh -o ${exampleLu}\\testFolder --in ${luFile} --prefix`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stderr.startsWith(`[${package.name}]`), true);
+                    assert.equal(stderr.includes(`[${package.name}]`), true);
                     done(); 
                 } catch (err) {
                     done(err);

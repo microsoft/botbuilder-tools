@@ -40,7 +40,7 @@ class SuggestModels {
      */
     validate() {
 
-        if (this.baseFolderPath === undefined && this.allParsedContent === undefined) {
+        if (this.baseFolderPath === undefined && !this.allParsedContent.hasValue()) {
             throw (new exception(retCode.UNKNOWN_OPTIONS, `No Input content provided. Use -f to set input folder or update lusuggest.json to include base folder path.\n`));
         }
 
