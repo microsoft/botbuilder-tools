@@ -19,7 +19,7 @@ This will parse all .lu files referenced in the root_file.lu and output **ONE** 
 ## using command line 
 You can use the new LUIS JSON file to create a new LUIS application using this command.
 ```bash
-luis import application --in _LUISApp.json --authoringKey "" --endpointBasePath ""
+luis import application --in _LUISApp.json --authoringKey "" --endpoint ""
 ```
 Note: You can install LUIS CLI from [here](../../LUIS). If you are using LUIS CLI, you might see the option to provide a versionId, application name directly in the LUIS CLI. You can also provide this information to the Ludown tool to generate your LUIS JSON model as well. Information explicitly specified in the LUIS CLI will override any information captured by Ludown tool. 
 

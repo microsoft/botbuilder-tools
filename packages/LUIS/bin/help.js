@@ -108,6 +108,7 @@ let configSection = {
         [chalk.cyan.bold('--subscriptionKey'), 'Specifies the LUIS subscriptionKey. Overrides the .luisrc value and the LUIS_SUBSCRIPTION_KEY environment variable.'],
         [chalk.cyan.bold('--versionId'), 'Specifies the version id. Overrides the .luisrc value and the LUIS_VERSION_ID environment variable.'],
         [chalk.cyan.bold('--region'), 'Specifies the authoring region for all requests. [westus|westeurope|australiaeast] Overrides the .luisrc value and the LUIS_REGION environment variable.'],
+        [chalk.cyan.bold('--authoringEndpoint'), 'Specifies an explicit authoring endpoint like https://westus.api.cognitive.microsoft.com/luis/api/v2.0  to use for authoring operations overriding the region.'],
         [chalk.cyan.bold('--stdin'), 'Pull in service keys from stdin in the format of that is the output of: msbot get service'],
         [chalk.cyan.bold('--prefix'), 'Appends [luis-apis] prefix to all messages']
     ]
@@ -193,12 +194,13 @@ function getVerbHelp(verb, output) {
         return sections;
 
     case "set":
-        output.write(chalk.cyan.bold("luis set <appIdOrName> [--appId|--versionId|--authoringKey|--endpoint] <value>\n\n"))
+        output.write(chalk.cyan.bold("luis set <appIdOrName> [--appId|--versionId|--authoringKey|--authoringEndpoint|--endpoint] <value>\n\n"))
         options.table.push([chalk.cyan.bold("<appIdOrName>"), "change the active application by looking it up by name or id"]);
         options.table.push([chalk.cyan.bold("--appId <appId>"), "change the active application id "]);
         options.table.push([chalk.cyan.bold("--versionId <version>"), "change the active version id "]);
-        options.table.push([chalk.cyan.bold("--authoringKey <authoringKey>"), "change the active authoringKey◘"]);
-        options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "change the active endpointBasePath url"]);
+        options.table.push([chalk.cyan.bold("--authoringKey <authoringKey>"), "change the active authoringKey "]);
+        options.table.push([chalk.cyan.bold("--authoringEndpoint <authoringEndpointUrl>"), "change the active authoring endpoint like https://westus.api.cognitive.microsoft.com/luis/api/v2.0"]),
+        options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "change the active query endpoint like https://westus.api.cognitive.microsoft.com/luis/v2.0/apps"]);
         sections.push(options);
         sections.push(configSection);
         sections.push(globalArgs);

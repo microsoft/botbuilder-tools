@@ -7,12 +7,12 @@
             "name": "Launch LUIS",
             "program": "${workspaceFolder}\\packages\\LUIS\\bin\\luis.js",
             "args": [
-                "list",
-                "apps",
-                "--appId",
-                "00000000-0000-0000-0000-000000000000",
-                "--authoringKey",
-                "00000000000000000000000000000000",
+                "import",
+                "application",
+                "--in",
+                "c:/tmp/vishwac.json",
+                "--appName",
+                "vish-test",
                 "--region",
                 "westus"
             ]

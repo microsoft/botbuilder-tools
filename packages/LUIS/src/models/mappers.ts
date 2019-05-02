@@ -33,6 +33,12 @@ export const EntityLabelObject: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      role: {
+        serializedName: "role",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -223,6 +229,12 @@ export const JSONEntity: msRest.CompositeMapper = {
       entity: {
         required: true,
         serializedName: "entity",
+        type: {
+          name: "String"
+        }
+      },
+      role: {
+        serializedName: "role",
         type: {
           name: "String"
         }
@@ -911,13 +923,13 @@ export const PrebuiltDomainObject: msRest.CompositeMapper = {
     name: "Composite",
     className: "PrebuiltDomainObject",
     modelProperties: {
-      domain_name: {
+      domainName: {
         serializedName: "domain_name",
         type: {
           name: "String"
         }
       },
-      model_name: {
+      modelName: {
         serializedName: "model_name",
         type: {
           name: "String"
@@ -1205,7 +1217,7 @@ export const LuisApp: msRest.CompositeMapper = {
           }
         }
       },
-      regex_entities: {
+      regexEntities: {
         serializedName: "regex_entities",
         type: {
           name: "Sequence",
@@ -1229,7 +1241,7 @@ export const LuisApp: msRest.CompositeMapper = {
           }
         }
       },
-      regex_features: {
+      regexFeatures: {
         serializedName: "regex_features",
         type: {
           name: "Sequence",
@@ -1241,7 +1253,7 @@ export const LuisApp: msRest.CompositeMapper = {
           }
         }
       },
-      model_features: {
+      modelFeatures: {
         serializedName: "model_features",
         type: {
           name: "Sequence",
@@ -1311,6 +1323,18 @@ export const EntityLabel: msRest.CompositeMapper = {
         serializedName: "endTokenIndex",
         type: {
           name: "Number"
+        }
+      },
+      role: {
+        serializedName: "role",
+        type: {
+          name: "String"
+        }
+      },
+      roleId: {
+        serializedName: "roleId",
+        type: {
+          name: "Uuid"
         }
       }
     }
@@ -1935,7 +1959,7 @@ export const CompositeEntityExtractor: msRest.CompositeMapper = {
 };
 
 export const ClosedListEntityExtractor: msRest.CompositeMapper = {
-  serializedName: "Closed List Entity Extractor",
+  serializedName: "List Entity Extractor",
   type: {
     name: "Composite",
     className: "ClosedListEntityExtractor",
