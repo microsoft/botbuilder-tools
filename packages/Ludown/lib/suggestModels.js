@@ -33,43 +33,40 @@ const suggestModels = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     suggestModelsAndWriteToDisk : async function(allParsedContent, program, cmd) {
-        let configObj = new suggestModelsObj(allParsedContent, 
-            program.root_dialog, 
-            program.lu_folder,
-            program.cross_feed_models,
-            program.add_qna_pairs,
-            program.auto_add_qna_metadata,
-            program.cross_train_intent_name,
-            program.qna_intent_name,
-            program.luis_culture,
-            program.verbose);
+        let configObj = new suggestModelsObj();
         if (program.config !== undefined) {
-            let configFileContent
+            let configFileContent;
+            if (program.config === "true") {
+                program.config = path.join(process.cwd(), 'lusuggest.json');
+            }
             try {
-                if (program.config === true) {
-                    program.config = path.join(process.cwd(), 'lusuggest.json');
-                }
                 configFileContent = txtFile.readSync(program.config);
-                configFileContent = JSON.parse(configFileContent);
-                configObj.fromJSON(configFileContent);
             } catch (err) {
-                if (err.errCode !== undefined) throw (err);
                 throw (new exception(retCode.errorCode.INVALID_INPUT_FILE, `Sorry, unable to open ${program.config}. Please verify the file name and path`));
             }
-        } else {
-            configObj.validate();
+            try {
+                configFileContent = JSON.parse(configFileContent);
+            } catch (err) {
+                throw (new exception(retCode.errorCode.INVALID_INPUT_FILE, `Sorry, ${program.config} did not have valid JSON content. Please verify file content.`));
+            }
+            configObj = suggestModelsObj.fromJSON(configFileContent);
         }
+        // update with what's explicitly passed in through options
+        configObj.fromJSON(program);
+        configObj.allParsedContent = allParsedContent;
+        // validate input
+        configObj.validate();
+
+        // Suggest models based on input.
+        if (configObj.verbose) process.stdout.write(chalk.default.whiteBright("Analyzing input .lu and .qna files... \n"));
         let contentToFlushToDisk = await suggestModels.suggestModels(configObj);
+
         // Write out .lu or .qna file for each collated json
-        // Generate .lu file for each collated json
-        // End result 
-        // One QnA model suggested per lang
-        // One LUIS model suggested per Dialog x lang (if applicable)
-        if (program.verbose) process.stdout.write(chalk.default.whiteBright("Writing models to disk... \n"));
+        if (configObj.verbose) process.stdout.write(chalk.default.whiteBright("Writing models to disk... \n"));
         await writeModelsToDisk(contentToFlushToDisk, program);
     },
     /**
-     * Async function to suggest models based on parsed input files provided.
+     * Async function to suggest models based on parsed (.lu or .qna) input provided.
      * 
      * @param {SuggestModels} suggestModelsObj 
      * @returns {ModelsSuggested}

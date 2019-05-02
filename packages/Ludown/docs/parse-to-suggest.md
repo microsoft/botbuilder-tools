@@ -139,7 +139,7 @@ You can provide a `.json` configuration file for most options the command presen
 
 If no explicit file name is specified, the command defaults to `lusuggest.json` in the current working directory. 
 
-**Note:** Any configuration found in the json configuration **overwrites** any configuration explicitly specified as options to the CLI.
+**Note:** Any configuration explicitly specified as command line argument **overwrites** any configuration set via the config json file.
 
 ```json
 {

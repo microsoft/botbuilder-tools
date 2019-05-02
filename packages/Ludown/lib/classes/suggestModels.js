@@ -73,15 +73,28 @@ class SuggestModels {
      */
     fromJSON(obj) {
         if (obj.root_dialog !== undefined) this.root_dialog = obj.root_dialog;
-        if (obj.base_folder_path !== undefined) this.baseFolderPath = obj.base_folder_path;
+        if (obj.lu_folder !== undefined) this.baseFolderPath = obj.lu_folder;
         if (obj.cross_feed_models !== undefined) this.cross_feed_models = (obj.cross_feed_models == "true");
         if (obj.add_qna_pairs !== undefined) this.add_qna_pairs = (obj.add_qna_pairs == "true");
         if (obj.auto_add_qna_metadata !== undefined) this.auto_add_qna_metadata = (obj.auto_add_qna_metadata == "true");
         if (obj.cross_train_intent_name !== undefined) this.cross_train_intent_name = obj.cross_train_intent_name;
         if (obj.qna_intent_name !== undefined) this.qna_intent_name = obj.qna_intent_name;
-        if (obj.base_culture !== undefined) this.base_culture = obj.base_culture;
-        this.validate();        
+        if (obj.luis_culture !== undefined) this.base_culture = obj.luis_culture;
+        if (obj.verbose !== undefined) this.verbose = obj.verbose;
     }
+}
+
+/** 
+ * Static method to create an object from JSON
+ * @param {Object} obj lusuggest.json configuration
+ * @returns {SuggestModels} object
+ */
+SuggestModels.fromJSON = function(obj) {
+    if (obj.base_folder_path !== undefined) {
+        obj.baseFolderPath = obj.base_folder_path;
+        delete obj.base_folder_path;
+    }
+    return Object.assign(new SuggestModels(), obj);
 }
 
 module.exports = SuggestModels;

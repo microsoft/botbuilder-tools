@@ -16,7 +16,7 @@ program.Command.prototype.unknownOption = function () {
 program
     .name("ludown parse ToSuggest")
     .description(`Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications. \nOutputs a luconfig.json config and suggested model files for LUIS and QnA.`)
-    .usage('--config <lusuggest.json> | --lu_folder <inputFolder> --root_dialog <rootDialogName> [-o] [-c] [-e] [-q] [-u]')
+    .usage('--config <path to lusuggest.json> | --lu_folder <inputFolder> --root_dialog <rootDialogName> [-o] [-c] [-e] [-q] [-u]')
     .option('-f, --lu_folder <inputFolder>', '[Required] Folder that has the .lu files. By default ludown will only look at the current folder. You can also specify this using --config option.')
     .option('-r, --root_dialog <rootDialogName>', '[Required] Name of folder that contains the root dialog. You can also specify this using --config option. ')
     .option('-o, --out_folder <outputFolder>', '[Optional] Output folder for all files the tool will generate')
@@ -26,7 +26,7 @@ program
     .option('-q, --add_qna_pairs', '[Optional] Instructs parser to add questions to the suggested LUIS application. Intent name set via -')
     .option('--qna_intent_name <qna_intent_name>', '[Optional] Used with -q --add_qna_pairs option to denote the Intent name to use under which questions from QnA pairs are added.', 'QnA')
     .option('-u, --auto_add_qna_metadata', '[Optional] Automatically set QnA meta data to include child dialog name')
-    .option('--config', 'lusuggest.json config file that contains the configuration for the suggest command. File needs to be in the current working directory.')
+    .option('--config <config_file_path>', 'lusuggest.json config file that contains the configuration for the suggest command.')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
 
