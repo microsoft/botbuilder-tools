@@ -958,7 +958,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
             // Deep references must have [link name](link-value) notation
             if (utterance.indexOf('[') == 0) {
                 let linkExp = (utterance || '').trim().match(new RegExp(/\(.*?\)/g));
-                if (linkExp && linkExp.length !== 0) {
+                if (linkExp && linkExp.length !== 0 && linkExp[0].split('|').length <= 1) {
                     let parsedLinkUriInUtterance = helpers.parseLinkURI(utterance);
                     // examine and add these to filestoparse list.
                     parsedContent.additionalFilesToParse.push(new fileToParse(parsedLinkUriInUtterance.luFile, false));
