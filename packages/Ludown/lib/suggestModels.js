@@ -19,6 +19,7 @@ const getOutputFolder = require('./helpers').getOutputFolder;
 const toLUHelpers = require('./toLU-helpers');
 const haveQnAContent = require('./classes/qna').haveQnAContent;
 const fs = require('fs');
+const txtFile = require('read-text-file');
 const suggestModelsObj = require('./classes/suggestModels');
 const modelsSuggestedObj = require('./classes/ModelsSuggested');
 const suggestModels = {
@@ -32,14 +33,33 @@ const suggestModels = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     suggestModelsAndWriteToDisk : async function(allParsedContent, program, cmd) {
-        let contentToFlushToDisk = await suggestModels.suggestModels(new suggestModelsObj(allParsedContent, 
+        let configObj = new suggestModelsObj(allParsedContent, 
             program.root_dialog, 
             program.lu_folder,
             program.cross_feed_models,
             program.add_qna_pairs,
             program.auto_add_qna_metadata,
+            program.cross_train_intent_name,
+            program.qna_intent_name,
             program.luis_culture,
-            program.verbose));
+            program.verbose);
+        if (program.config !== undefined) {
+            let configFileContent
+            try {
+                if (program.config === true) {
+                    program.config = path.join(process.cwd(), 'lusuggest.json');
+                }
+                configFileContent = txtFile.readSync(program.config);
+                configFileContent = JSON.parse(configFileContent);
+                configObj.fromJSON(configFileContent);
+            } catch (err) {
+                if (err.errCode !== undefined) throw (err);
+                throw (new exception(retCode.errorCode.INVALID_INPUT_FILE, `Sorry, unable to open ${program.config}. Please verify the file name and path`));
+            }
+        } else {
+            configObj.validate();
+        }
+        let contentToFlushToDisk = await suggestModels.suggestModels(configObj);
         // Write out .lu or .qna file for each collated json
         // Generate .lu file for each collated json
         // End result 

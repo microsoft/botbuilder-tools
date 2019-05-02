@@ -97,21 +97,24 @@ Outputs a luconfig.json config and suggested model files for LUIS and QnA.
 
 ```
 >ludown parse tosuggest
-Usage: ludown parse ToSuggest --lu_folder <inputFolder> --root_dialog <rootDialogName> [-o] [-c] [-e] [-q] [-u]
+Usage: ludown parse ToSuggest --config <lusuggest.json> | --lu_folder <inputFolder> --root_dialog <rootDialogName> [-o] [-c] [-e] [-q] [-u]
 
 Looks at your .lu and .qna files and suggests one or more LUIS and/or QnA maker applications.
 Outputs a luconfig.json config and suggested model files for LUIS and QnA.
 
 Options:
-  -f, --lu_folder <inputFolder>         [Required] Folder that has the .lu files. By default ludown will only look at the current folder. To look at all subfolders, include -s
-  -r, --root_dialog <rootDialogName>    [Required] Name of folder that contains the root dialog
-  -o, --out_folder <outputFolder>       [Optional] Output folder for all files the tool will generate
-  -c, --luis_culture <luis_appCulture>  [Optional] LUIS app culture of the rootDialog. Defaults to en-us if not specified. (default: "en-us")
-  -e, --cross_feed_models               [Optional] When set, NONE intent for child models will be cross trained with other trigger intents.
-  -q, --add_qna_pairs                   [Optional] Instructs parser to add questions to a QnA intent.
-  -u, --auto_add_qna_metadata           [Optional] Automatically set QnA meta data to include child dialog name
-  --verbose                             [Optional] Get verbose messages from parser
-  -h, --help                            output usage information
+  -f, --lu_folder <inputFolder>                         [Required] Folder that has the .lu files. By default ludown will only look at the current folder. You can also specify this using --config option.
+  -r, --root_dialog <rootDialogName>                    [Required] Name of folder that contains the root dialog. You can also specify this using --config option.
+  -o, --out_folder <outputFolder>                       [Optional] Output folder for all files the tool will generate
+  -c, --luis_culture <luis_appCulture>                  [Optional] LUIS app culture of the rootDialog. Defaults to en-us if not specified. (default: "en-us")
+  -e, --cross_feed_models                               [Optional] When set, child models will be cross trained with other trigger intents. Intent name set via -ei <intent name>, defaults to "None" intent
+  --cross_train_intent_name <interruption_intent_name>  [Optional] Used with -e --cross_feed_models option to denote the Intent name to use for the cross fed utterances into child models. (default: "None")
+  -q, --add_qna_pairs                                   [Optional] Instructs parser to add questions to the suggested LUIS application. Intent name set via -
+  --qna_intent_name <qna_intent_name>                   [Optional] Used with -q --add_qna_pairs option to denote the Intent name to use under which questions from QnA pairs are added. (default: "QnA")
+  -u, --auto_add_qna_metadata                           [Optional] Automatically set QnA meta data to include child dialog name
+  --config                                              lusuggest.json config file that contains the configuration for the suggest command. File needs to be in the current workinrrent working directory.
+  --verbose                                             [Optional] Get verbose messages from parser
+  -h, --help                                            output usage information
 
 ```
 
