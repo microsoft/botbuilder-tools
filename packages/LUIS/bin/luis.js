@@ -103,22 +103,14 @@ async function runProgram() {
     args.appId = args.appId || args.applicationId || args.a || serviceIn.appId || config.appId;
     args.versionId = args.versionId || args.version || serviceIn.versionId || config.versionId || serviceIn.version;
     args.region = args.region || serviceIn.region || config.region || "westus";
-    args.cloud = args.cloud || serviceIn.cloud || config.cloud;
+    args.cloud = args.cloud || serviceIn.cloud || config.cloud || (args.region == "virginia" ? "us" : "com");
     args.customHeaders = { "accept-language": "en-US" };
-    args.endpoint = args.endpoint || serviceIn.endpoint || config.endpoint;
-    args.authoringEndpoint = args.authoringEndpoint || serviceIn.authoringEndpoint || config.authoringEndpoint || `https://${args.region}.api.cognitive.microsoft.com/luis/api/v2.0/`;
+    args.endpoint = args.endpoint || serviceIn.endpoint || config.endpoint || `https://${args.region}.api.cognitive.microsoft.${args.cloud}`;
 
     validateConfig(args);
 
-    if (args.region == "virginia") {
-        args.cloud = "us";
-    }
-
     let credentials = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": args.authoringKey } });
-    let urlParts = msRest.URLBuilder.parse(args.authoringEndpoint);
-    let base = `${urlParts.getScheme()}://${urlParts.getHost()}`;
-    let path = urlParts.getPath();
-    const client = new LuisAuthoring(base, credentials);
+    const client = new LuisAuthoring(args.endpoint, credentials);
 
     // NOTE: This should not be necessary to do. It is required because the swagger file defines a template of
     // x-ms-parameterized-host/hostTemplate: "{Endpoint}/luis/api/v2.0" which does not seem to be picked up
@@ -126,7 +118,7 @@ async function runProgram() {
     // assume the presence of luis/api/v2.0 so you are missing the middle part of the URL.
     // Instead of using autorest here, we should be using the officially supported client and that client
     // should take in the full authoring endpoint.
-    client.baseUri = `{Endpoint}${path}`;
+    client.baseUri = `{Endpoint}/luis/api/v2.0`;
 
     // special non-operation commands
     switch (args._[0]) {
@@ -668,7 +660,7 @@ async function runProgram() {
                 case "settings":
                     result = await client.apps.updateSettings(args.appId, requestBody, args);
                     break;
-                case "versionsettings": 
+                case "versionsettings":
                     result = await client.settings.update(args.appId, args.versionId, requestBody, args);
                     break;
                 case "sublist":
@@ -709,7 +701,7 @@ async function runProgram() {
             result = await new Promise((resolve) => {
                 var stream = result.readableStreamBody;
                 let body = [];
-                stream.on('readable', function() {
+                stream.on('readable', function () {
                     let chunk;
                     while ((chunk = stream.read()) != null) {
                         body.push(chunk);
@@ -720,7 +712,7 @@ async function runProgram() {
                     resolve(buffer);
                 });
             });
-    
+
             await fs.writeFile(outputFilePath, result);
 
             await stdoutAsync(`Package file successfully written in: ${outputFilePath}`);
@@ -990,7 +982,7 @@ async function validateArguments(args, operation) {
         throw error;
     }
 
-    switch (operation.target[0]){
+    switch (operation.target[0]) {
         case "userazureaccounts":
         case "appazureaccounts":
             switch (operation.methodAlias) {
@@ -999,18 +991,18 @@ async function validateArguments(args, operation) {
                         args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
                     }
                     break;
-                }
-                break;
-                case "appazureaccount":
-                    switch (operation.methodAlias) {
-                        case "add":
-                        case "delete":
-                            if (args.hasOwnProperty("armToken")) {
-                                args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
-                            }
-                            break;
-                        }
-                        break;
+            }
+            break;
+        case "appazureaccount":
+            switch (operation.methodAlias) {
+                case "add":
+                case "delete":
+                    if (args.hasOwnProperty("armToken")) {
+                        args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
+                    }
+                    break;
+            }
+            break;
     }
 
     const entitySpecified = typeof args.in === 'string';
@@ -1106,11 +1098,10 @@ async function handleQueryCommand(args, config) {
     }
     let uri;
     if (args.endpoint) {
-        uri = `${args.endpoint}/${args.appId}`;
+        uri = `${args.endpoint}/luis/v2.0/apps/${args.appId}`;
     } else {
-        let region = args.region || config.region;
-        if (region) {
-            uri = `https://${region}.api.cognitive.microsoft.com/luis/v2.0/apps/${args.appId}`;
+        if (args.region && args.cloud) {
+            uri = `https://${args.region}.api.cognitive.microsoft.${args.cloud}/luis/v2.0/apps/${args.appId}`;
         }
         else {
             process.stderr.write(chalk.red.bold(`missing --region or --endpoint\n`));
@@ -1175,8 +1166,8 @@ async function handleQueryCommand(args, config) {
 }
 
 async function handleSetCommand(args, config, client) {
-    if (args.length == 1 && !(args.a || args.appId || args.applicationId || args.versionId || args.authoringKey || args.region || args.versionId || args.endpoint || args.authoringEndpoint)) {
-        process.stderr.write(chalk.red.bold(`missing .luisrc argument name: [-appId|--applicationId|--versionId|--region|--authoringKey|--authoringEndpoint|--endpoint]\n`));
+    if (args.length == 1 && !(args.a || args.appId || args.applicationId || args.versionId || args.authoringKey || args.region || args.versionId || args.endpoint)) {
+        process.stderr.write(chalk.red.bold(`missing .luisrc argument name: [-appId|--applicationId|--versionId|--region|--authoringKey || --endpoint]\n`));
         return help(args);
     }
     config.region = args.region || config.region;
@@ -1184,7 +1175,6 @@ async function handleSetCommand(args, config, client) {
     config.versionId = args.versionId || config.versionId;
     config.appId = args.appId || args.applicationId || config.appId;
     if (args.endpoint) config.endpoint = args.endpoint;
-    if (args.authoringEndpoint) config.authoringEndpoint = args.authoringEndpoint;
     if (args._.length > 1) {
         let targetAppName = args._[1].toLowerCase();
         if (targetAppName) {
