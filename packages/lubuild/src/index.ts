@@ -4,7 +4,7 @@ import * as fs from 'async-file';
 import * as chalk from 'chalk';
 import * as latestVersion from 'latest-version';
 import { LuisAuthoring } from 'luis-apis';
-import { AppsAddResponse, AppsGetResponse, AzureClouds, AzureRegions, LuisApp } from 'luis-apis/typings/lib/models';
+import { AppsAddResponse, AppsGetResponse, LuisApp } from 'luis-apis/typings/lib/models';
 import * as path from 'path';
 import * as process from 'process';
 import { env } from 'process';
@@ -185,7 +185,10 @@ function error(message: string) {
 
 async function runBuild(config: IConfig) {
     let credentials = new msRest.ApiKeyCredentials({ inHeader: { "Ocp-Apim-Subscription-Key": config.authoringKey } });
-    const client = new LuisAuthoring(<any>credentials);
+    let endpoint = `https://${config.authoringRegion}.api.cognitive.microsoft.com`;
+    let client = new LuisAuthoring(endpoint, <any>credentials);
+    // NOTE: This should be using the actual LUIS SDK instead of relying on our own autorest
+    (<any>client).baseUri = "{Endpoint}/luis/api/v2.0";
 
     for (let modelPath of config.models) {
         await processLuVariants(client, config, modelPath);
@@ -233,7 +236,7 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
     }
 
     let recognizersToPublish: LuisRecognizer[] = [];
-    let apps = await client.apps.list(<AzureRegions>config.authoringRegion, <AzureClouds>"com");
+    let apps = await client.apps.list();
 
     let multiRecognizer: any = {
         "$type": "Microsoft.MultiLanguageRecognizer",
@@ -272,12 +275,12 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
         let appInfo: AppsGetResponse;
         try {
             // get app info
-            appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.getAppId());
+            appInfo = await client.apps.get(<string>recognizer.getAppId());
         } catch (err) {
             // create the application
             await createApplication(appName, client, config, rootFile, culture, recognizer);
 
-            appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.getAppId());
+            appInfo = await client.apps.get(<string>recognizer.getAppId());
         }
 
         recognizer.versionId = appInfo.activeVersion;
@@ -315,7 +318,7 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
 
 async function createApplication(name: string, client: LuisAuthoring, config: IConfig, rootFile: string, culture: string, recognizer: LuisRecognizer): Promise<AppsAddResponse> {
     console.log(`creating LUIS.ai application: ${name} version:0000000000`);
-    let response = await client.apps.add(<AzureRegions>config.authoringRegion, <AzureClouds>"com", {
+    let response = await client.apps.add({
         "name": name,
         "description": `Model for ${config.name} app, targetting ${config.environment} for ${rootFile}.lu file`,
         "culture": culture,
@@ -332,7 +335,7 @@ async function createApplication(name: string, client: LuisAuthoring, config: IC
 async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: LuisRecognizer, appInfo: AppsGetResponse): Promise<boolean> {
 
     // get activeVersion
-    var activeVersionInfo = await client.versions.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(), appInfo.activeVersion || '');
+    var activeVersionInfo = await client.versions.get(recognizer.getAppId(), appInfo.activeVersion || '');
     await delay(500);
 
     let luFile = recognizer.getLuPath();
@@ -363,13 +366,13 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
 
         // import new version
         console.log(`${luFile} creating version=${newVersionId}`);
-        await client.versions.importMethod(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.getAppId(), newVersion, { versionId: newVersionId });
+        await client.versions.importMethod(<string>recognizer.getAppId(), newVersion, { versionId: newVersionId });
         // console.log(JSON.stringify(importResult.body));
         await delay(500);
 
         // train the version
         console.log(`${luFile} training version=${newVersionId}`);
-        await client.train.trainVersion(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(), newVersionId);
+        await client.train.trainVersion(recognizer.getAppId(), newVersionId);
 
         await delay(500);
         return true;
@@ -413,14 +416,14 @@ async function exportEndpointKeys(group: string): Promise<void> {
 }
 
 async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: LuisRecognizer): Promise<void> {
-    let versions = await client.versions.list(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId());
+    let versions = await client.versions.list(recognizer.getAppId());
 
     process.stdout.write(`${recognizer.getLuPath()} waiting for training for version=${recognizer.versionId}...`);
     let done = true;
     do {
         await delay(5000);
         await process.stdout.write('.');
-        let trainingStatus = await client.train.getStatus(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(), <string>recognizer.versionId);
+        let trainingStatus = await client.train.getStatus(recognizer.getAppId(), <string>recognizer.versionId);
 
         done = true;
         for (let status of trainingStatus) {
@@ -436,7 +439,7 @@ async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: 
 
     // publish the version
     console.log(`${recognizer.getLuPath()} publishing version=${recognizer.versionId}`);
-    await client.apps.publish(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(),
+    await client.apps.publish(recognizer.getAppId(),
         {
             "versionId": <string>recognizer.versionId,
             "isStaging": false
@@ -446,7 +449,7 @@ async function publishModel(config: IConfig, client: LuisAuthoring, recognizer: 
         for (let version of versions) {
             if (version.version != recognizer.versionId) {
                 console.log(`${recognizer.getLuPath()} deleting version=${version.version}...`);
-                await client.versions.deleteMethod(<AzureRegions>config.authoringRegion, <AzureClouds>"com", recognizer.getAppId(), <string>version.version);
+                await client.versions.deleteMethod(recognizer.getAppId(), <string>version.version);
                 await delay(500);
             }
         }
