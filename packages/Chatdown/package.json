@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo ChatDown tests disabled",
+    "test": "echo ChatDown tests disabled because failing",
     "testoriginal": "cd test/ && mocha --opts mocha.opts"
   },
   "engines": {
