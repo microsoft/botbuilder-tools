@@ -1,0 +1,193 @@
+{
+  "Text": "fly from seattle to dallas at 3pm",
+  "Intents": {
+    "Travel": {
+      "score": 0.173909724
+    },
+    "EntityTests": {
+      "score": 0.0316923745
+    },
+    "Weather_GetForecast": {
+      "score": 0.0191699825
+    },
+    "None": {
+      "score": 0.01595562
+    },
+    "search": {
+      "score": 0.0102642216
+    },
+    "Cancel": {
+      "score": 0.008125137
+    },
+    "Delivery": {
+      "score": 0.007052841
+    },
+    "Help": {
+      "score": 0.004829098
+    },
+    "SpecifyName": {
+      "score": 0.004233925
+    },
+    "Greeting": {
+      "score": 0.004032739
+    }
+  },
+  "Entities": {
+    "To": [
+      "dallas"
+    ],
+    "From": [
+      "seattle"
+    ],
+    "datetime": [
+      {
+        "type": "time",
+        "timex": [
+          "T15"
+        ]
+      }
+    ],
+    "dimension": [
+      {
+        "number": 3.0,
+        "units": "Picometer"
+      }
+    ],
+    "$instance": {
+      "To": [
+        {
+          "startIndex": 20,
+          "endIndex": 26,
+          "text": "dallas",
+          "score": 0.924876869,
+          "type": "City::To"
+        }
+      ],
+      "From": [
+        {
+          "startIndex": 9,
+          "endIndex": 16,
+          "text": "seattle",
+          "score": 0.9904319,
+          "type": "City::From"
+        }
+      ],
+      "datetime": [
+        {
+          "startIndex": 30,
+          "endIndex": 33,
+          "text": "3pm",
+          "type": "builtin.datetimeV2.time"
+        }
+      ],
+      "dimension": [
+        {
+          "startIndex": 30,
+          "endIndex": 33,
+          "text": "3pm",
+          "type": "builtin.dimension"
+        }
+      ]
+    }
+  },
+  "sentiment": {
+    "label": "neutral",
+    "score": 0.5
+  },
+  "luisResult": {
+    "query": "fly from seattle to dallas at 3pm",
+    "alteredQuery": null,
+    "topScoringIntent": {
+      "intent": "Travel",
+      "score": 0.173909724
+    },
+    "intents": [
+      {
+        "intent": "Travel",
+        "score": 0.173909724
+      },
+      {
+        "intent": "EntityTests",
+        "score": 0.0316923745
+      },
+      {
+        "intent": "Weather.GetForecast",
+        "score": 0.0191699825
+      },
+      {
+        "intent": "None",
+        "score": 0.01595562
+      },
+      {
+        "intent": "search",
+        "score": 0.0102642216
+      },
+      {
+        "intent": "Cancel",
+        "score": 0.008125137
+      },
+      {
+        "intent": "Delivery",
+        "score": 0.007052841
+      },
+      {
+        "intent": "Help",
+        "score": 0.004829098
+      },
+      {
+        "intent": "SpecifyName",
+        "score": 0.004233925
+      },
+      {
+        "intent": "Greeting",
+        "score": 0.004032739
+      }
+    ],
+    "entities": [
+      {
+        "entity": "dallas",
+        "type": "City::To",
+        "startIndex": 20,
+        "endIndex": 25,
+        "score": 0.924876869
+      },
+      {
+        "entity": "seattle",
+        "type": "City::From",
+        "startIndex": 9,
+        "endIndex": 15,
+        "score": 0.9904319
+      },
+      {
+        "entity": "3pm",
+        "type": "builtin.datetimeV2.time",
+        "startIndex": 30,
+        "endIndex": 32,
+        "resolution": {
+          "values": [
+            {
+              "timex": "T15",
+              "type": "time",
+              "value": "15:00:00"
+            }
+          ]
+        }
+      },
+      {
+        "entity": "3pm",
+        "type": "builtin.dimension",
+        "startIndex": 30,
+        "endIndex": 32,
+        "resolution": {
+          "unit": "Picometer",
+          "value": "3"
+        }
+      }
+    ],
+    "compositeEntities": null,
+    "sentimentAnalysis": {
+      "label": "neutral",
+      "score": 0.5
+    }
+  }
+}
