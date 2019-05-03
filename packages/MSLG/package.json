@@ -5,7 +5,7 @@
   "main": "./lib/mslg.js",
   "scripts": {
     "build": "tsc",
-    "test": "echo MSLG tests disabled because failing",
+    "test": "echo MSLG tests disabled because failing (build 135)",
     "testoriginal": "tsc && mocha test/ --timeout 60000",
     "clean": "erase /q /s .\\lib"
   },
