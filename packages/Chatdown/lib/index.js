@@ -159,6 +159,9 @@ function initConversation(args, conversationId, activities) {
             args.accounts.user = args.accounts[user.toLowerCase()];
         }
     }
+    conversationUpdate.recipient = args.accounts.bot;
+    conversationUpdate.from = args.accounts.user;
+
     // define matching statements regex for users
     args.newMessageRegEx = new RegExp(`^(${args.users.join('|')}|${args.bot}|bot|user)(->(${args.users.join('|')}))??:`, 'i');
     activities.push(conversationUpdate);
