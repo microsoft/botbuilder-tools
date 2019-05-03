@@ -172,6 +172,13 @@ describe('Testing all classes', function() {
     });
 
     describe('ModelsSuggested class', function() {
+        it('can create a new instance with values passed in', function() {
+            assert.deepEqual(new modelsSuggested(), {"luFiles": "test", "qnaFiles": "test", 
+        "qnaAlterationFiles" : {}, "luisModels" : {}, "qnaModels": {}, "qnaAlterations": {}});
+        });
+    });
+
+    describe('SuggestModels class', function() {
         it('can create a new instance with no values passed in', function() {
             assert.equal(new suggestModels().allParsedContent, undefined);
         });

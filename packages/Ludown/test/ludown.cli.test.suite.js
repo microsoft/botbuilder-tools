@@ -578,6 +578,18 @@ describe('The ludown cli tool', function() {
                 
             });
         })
+
+        it('should print an error when invalid args are passed in', function(done) {
+            exec(`node ${ludown} parse tosuggest -w`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stderr.includes('Unknown arguments'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+                
+            });
+        })
     });
 
     describe('With refresh command', function() {

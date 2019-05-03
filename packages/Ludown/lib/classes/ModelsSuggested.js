@@ -5,7 +5,8 @@
  */
 class ModelsSuggested { 
     /**
-     * Output strcutre of suggestModels API. luFiles and luisModels -> {"lang" : [{dialogName: "", payload: ""}]}; Rest -> {"lang": []}
+     * Output structure of suggestModels API. luFiles and luisModels -> {"lang" : [{dialogName: "", payload: ""}]}; Rest -> {"lang": []}
+     * 
      * @param {Object} luFiles 
      * @param {Object} qnaFiles
      * @param {Object} qnaAlterationFiles 
@@ -13,14 +14,6 @@ class ModelsSuggested {
      * @param {Object} qnaModels 
      * @param {Object} qnaAlterations 
      */
-    constuctor (luFiles, qnaFiles, qnaAlterationFiles, luisModels, qnaModels, qnaAlterations) {
-        this.luFiles = luFiles ? luFiles : {};
-        this.qnaFiles = qnaFiles ? qnaFiles : {};
-        this.qnaAlterationFiles = qnaAlterationFiles ? qnaAlterationFiles : {};
-        this.luisModels = luisModels ? luisModels : {};
-        this.qnaModels = qnaModels ? qnaModels : {};
-        this.qnaAlterations = qnaAlterations ? qnaAlterations : {};
-    };
     constructor () {
         this.luFiles = {};
         this.qnaFiles = {};
