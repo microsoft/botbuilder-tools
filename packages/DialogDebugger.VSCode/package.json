@@ -13,7 +13,7 @@
   "icon": "icon.png",
   "preview": true,
   "version": "1.0.3",
-  "publisher": "tomlm",
+  "publisher": "Microsoft",
   "license": "SEE LICENSE file",
   "engines": {
     "vscode": "^1.0.0"
