@@ -15,11 +15,8 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/lib",
-                "-g",
-                "LUISGen"
+                "${workspaceFolder}/src/tests.js",
             ],
-            // ${workspaceFolder}\\lib\\tests.js",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"

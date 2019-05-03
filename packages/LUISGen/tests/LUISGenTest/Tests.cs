@@ -22,7 +22,7 @@ namespace LUISGenTest
     [TestClass]
     public class Tests
     {
-        private readonly string _appId = TestUtilities.GetKey("LUISAPPID", "ab48996d-abe2-4785-8eff-f18d15fc3560");
+        private readonly string _appId = TestUtilities.GetKey("LUISAPPID", "38330cad-f768-4619-96f9-69ea333e594b");
         private readonly string _endpointKey = TestUtilities.GetKey("LUISAPPKEY", null);
         private readonly string _endpoint = TestUtilities.GetKey("LUISENDPOINT", "https://westus.api.cognitive.microsoft.com");
         // Changing this to false will cause running against the actual LUIS service.
