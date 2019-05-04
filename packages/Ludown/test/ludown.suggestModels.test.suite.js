@@ -378,6 +378,53 @@ describe('Suggest Models in LU files', function() {
             .catch(err => done(err));
     });
 
+    it ('simple, regex entities are pulled up correctly and roles merged', function(done){
+        let rootFolder = `${TEST_ROOT}/testcases/suggestModels/Bot 7`;
+        let filesToParse = findFiles(rootFolder, true, parserConsts.LUFILEEXTENSION);
+        findFiles(rootFolder, true, parserConsts.QNAFILEEXTENSION).forEach(item => filesToParse.push(item));
+
+        parseAllFiles(filesToParse, false, null)
+            .then(res => {
+                suggestModels(new suggestModelArgs(res, 'rootDialog', rootFolder, true, true, true, undefined, undefined, undefined, false))
+                .then(res => {
+                    assert.equal(res.luisModels["en-us"][0].payload.entities.length, 2);
+                    assert.equal(res.luisModels["en-us"][0].payload.entities[0].roles.length, 2);
+                    assert.equal(res.luisModels["en-us"][0].payload.regex_entities.length, 1);
+                    assert.equal(res.luisModels["en-us"][0].payload.regex_entities[0].roles.length, 2);
+                    assert.equal(res.luisModels["en-us"][0].payload.prebuiltEntities.length, 2);
+                    assert.equal(res.luisModels["en-us"][0].payload.prebuiltEntities[0].roles.length, 2);
+                    assert.equal(res.luisModels["en-us"][0].payload.patternAnyEntities.length, 1);
+                    assert.equal(res.luisModels["en-us"][0].payload.patternAnyEntities[0].roles.length, 2);
+                    done();
+                })
+                .catch(err => done(err))
+            })
+            .catch(err => done(err));
+    });
+
+    it ('composite, list and phrase list entities are correctly pulled up and merged', function(done){
+        let rootFolder = `${TEST_ROOT}/testcases/suggestModels/Bot 8`;
+        let filesToParse = findFiles(rootFolder, true, parserConsts.LUFILEEXTENSION);
+        findFiles(rootFolder, true, parserConsts.QNAFILEEXTENSION).forEach(item => filesToParse.push(item));
+
+        parseAllFiles(filesToParse, false, null)
+            .then(res => {
+                suggestModels(new suggestModelArgs(res, 'rootDialog', rootFolder, true, true, true, undefined, undefined, undefined, false))
+                .then(res => {
+                    assert.equal(res.luisModels["en-us"][0].payload.closedLists.length, 1);
+                    assert.equal(res.luisModels["en-us"][0].payload.closedLists[0].subLists.length, 2);
+                    assert.equal(res.luisModels["en-us"][0].payload.closedLists[0].subLists[0].list.length, 2);
+                    assert.equal(res.luisModels["en-us"][0].payload.closedLists[0].roles.length, 2);
+                    assert.equal(res.luisModels["en-us"][0].payload.composites[0].children.length, 2);
+                    assert.equal(res.luisModels["en-us"][0].payload.composites[0].roles.length, 2);
+                    assert.equal(res.luisModels["en-us"][0].payload.model_features[0].words, "2,1");
+                    done();
+                })
+                .catch(err => done(err))
+            })
+            .catch(err => done(err));
+    });
+
     describe ('Negative tests', function() {
         it ('Multiple trigger intents throws an error', function(done) {
             let rootFolder = `${TEST_ROOT}/testcases/suggestModels/NegativeTests/Bot 2`;
@@ -437,6 +484,34 @@ describe('Suggest Models in LU files', function() {
 
         it ('No trigger intent in child throws', function(done) {
             let rootFolder = `${TEST_ROOT}/testcases/suggestModels/NegativeTests/Bot 6`;
+            let filesToParse = findFiles(rootFolder, true, parserConsts.LUFILEEXTENSION);
+            findFiles(rootFolder, true, parserConsts.QNAFILEEXTENSION).forEach(item => filesToParse.push(item));
+
+            parseAllFiles(filesToParse, false, null)
+                .then(res => {
+                    suggestModels(new suggestModelArgs(res, 'rootDialog', rootFolder, true, true, true, undefined, undefined, undefined, false))
+                        .then(res => done(res))
+                        .catch(err => done());
+                })
+                .catch(err => done(err));
+        });
+
+        it ('Duplicate composite entity definition throws', function(done) {
+            let rootFolder = `${TEST_ROOT}/testcases/suggestModels/NegativeTests/Bot 8`;
+            let filesToParse = findFiles(rootFolder, true, parserConsts.LUFILEEXTENSION);
+            findFiles(rootFolder, true, parserConsts.QNAFILEEXTENSION).forEach(item => filesToParse.push(item));
+
+            parseAllFiles(filesToParse, false, null)
+                .then(res => {
+                    suggestModels(new suggestModelArgs(res, 'rootDialog', rootFolder, true, true, true, undefined, undefined, undefined, false))
+                        .then(res => done(res))
+                        .catch(err => done());
+                })
+                .catch(err => done(err));
+        });
+
+        it ('Invalid locale in file names throws', function(done) {
+            let rootFolder = `${TEST_ROOT}/testcases/suggestModels/NegativeTests/Bot 9`;
             let filesToParse = findFiles(rootFolder, true, parserConsts.LUFILEEXTENSION);
             findFiles(rootFolder, true, parserConsts.QNAFILEEXTENSION).forEach(item => filesToParse.push(item));
 

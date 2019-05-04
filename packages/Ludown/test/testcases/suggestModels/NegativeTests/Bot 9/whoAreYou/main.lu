@@ -1,5 +1,5 @@
 > Trigger into this dialog
-# WhoAreYou
+# WhoAreYou [trigger intent]
 - Who are you?
 - What is your name?
 - how should I address you? 
@@ -10,15 +10,6 @@
 - I'm {userName_patternAny}
 - You can call me {userName_patternAny}
 - call me {userName_patternAny}
-- [please] call me {userName_patternAny:firstName}
+- [please] call me {userName_patternAny}
 - {userName_patternAny} is my name
 - my name is {userName = vishwac}
-- move me from {city:fromCity=seattle}
-- pull {number:first=one}
-
-$ HRF-number : /[0-9]/ Roles=from
-
-$ PREBUILT : number
-
-$ PREBUILT : datetimeV2
-

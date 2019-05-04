@@ -706,16 +706,16 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
                         let listEntityMatch = childLUISModelCollection[fKey][lKey].closedLists.find(entity => entity.name == entityInUtterance.entity);
                         let prebuiltEntityMatch = childLUISModelCollection[fKey][lKey].prebuiltEntities.find(entity => entity.name == entityInUtterance.entity);
                         if (simpleEntityMatch !== undefined) {
-                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.ENTITIES, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
+                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.ENTITIES, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : [entityInUtterance.role]));
                         }
                         if (compositeEntityMatch !== undefined) {
-                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.COMPOSITES, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
+                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.COMPOSITES, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : [entityInUtterance.role]));
                         }
                         if (listEntityMatch !== undefined) {
-                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.CLOSEDLISTS, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
+                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.CLOSEDLISTS, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : [entityInUtterance.role]));
                         }
                         if (prebuiltEntityMatch !== undefined) {
-                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.PREBUILT, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
+                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.PREBUILT, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : [entityInUtterance.role]));
                         }
                     })
                 }
@@ -833,6 +833,31 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
                 }
             });
 
+            // Handle composite entities
+            (childLUISModelCollection[fKey][lKey].composites || []).forEach(composite => {
+                let rootHasComposite = (rootLUISModel[lKey].composites || []).find(item => item.name == composite.name);
+                if (rootHasComposite === undefined) {
+                    rootLUISModel[lKey].composites.push(composite);
+                } else {
+                    if (composite.children.sort().toString() !== rootHasComposite.children.sort().toString()) {
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, `Composite entity '${composite.name}' has duplicate definitions with different children '${composite.children.join(",")}' under '${fKey}' for language '${lKey}' and '${rootHasComposite.children.join(",")}' under rootDialog.`));
+                    }
+                    // Deal with sub-list match and synonyms match
+                    composite.children.forEach(child => {
+                        if (!rootHasComposite.children.includes(child)) {
+                            rootHasComposite.children.push(child);
+                        }
+                    })
+
+                    // Add roles if needed
+                    composite.roles.forEach(role => {
+                        if(!rootHasComposite.roles.includes(role)) {
+                            rootHasComposite.roles.push(role);
+                        }
+                    })
+                }
+            });
+
             // Remove trigger intent from child model
             let childIdx = -1;
             childLUISModelCollection[fKey][lKey].intents.find((item, idx) => {
@@ -910,6 +935,10 @@ const gatherAndGroupFiles = function(parsedObject, groupedFiles, contentType, ba
         lang = base_culture;
     } else {
         lang = tokenizedFileName[1];
+        const LUISLocales = ['en-us', 'fr-ca', 'zh-cn', 'nl-nl', 'fr-fr', 'de-de', 'it-it', 'ja-jp', 'ko-kr', 'pt-br', 'es-es', 'es-mx'];
+        if (!(LUISLocales.includes(lang.toLowerCase()))) {
+            throw (new exception(retCode.errorCode.INVALID_INPUT, `Unrecognized locale "${lang}". Supported locales are - ${LUISLocales.toString()}\n`));
+        }
     }
     let fParsed = new hClasses.fileParsedContent(parsedObject.srcFile, parsedObject);
     if (groupedFiles[contentType].hasOwnProperty(relBaseFolder)) {
@@ -942,13 +971,25 @@ const groupFilesByHierarchy = async function(allParsedContent, baseFolderPath, b
         "QnAAlterations": {}
     };
     (allParsedContent.LUISContent || []).forEach(parsedObject => {
-         gatherAndGroupFiles(parsedObject, groupedFiles, "LUISContent", baseFolderPath, base_culture);
+        try {
+            gatherAndGroupFiles(parsedObject, groupedFiles, "LUISContent", baseFolderPath, base_culture);
+        } catch (err) {
+            throw (new exception(err.errCode, `\n[ERROR]: ${err.text} \n  File: ${parsedObject.srcFile}\n`))
+        }
     });
     (allParsedContent.QnAContent || []).forEach(parsedObject => {
-         gatherAndGroupFiles(parsedObject, groupedFiles, "QnAContent", baseFolderPath, base_culture);
+        try {
+            gatherAndGroupFiles(parsedObject, groupedFiles, "QnAContent", baseFolderPath, base_culture);
+        } catch (err) {
+            throw (new exception(err.errCode, `\n[ERROR]: ${err.text} \n  File: ${parsedObject.srcFile}\n`))
+        }
     });
     (allParsedContent.QnAAlterations || []).forEach(parsedObject => {
-         gatherAndGroupFiles(parsedObject, groupedFiles, "QnAAlterations", baseFolderPath, base_culture);
+        try {
+            gatherAndGroupFiles(parsedObject, groupedFiles, "QnAAlterations", baseFolderPath, base_culture);
+        } catch (err) {
+            throw (new exception(err.errCode, `\n[ERROR]: ${err.text} \n  File: ${parsedObject.srcFile}\n`))
+        }
     });
     return groupedFiles;
 };

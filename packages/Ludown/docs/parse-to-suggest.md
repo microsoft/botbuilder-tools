@@ -84,7 +84,7 @@ e.g. with `-c fr-fr` passed in, this file `bookFlight.lu` will be treated as it 
 This option defaults to `en-us` when no value is specified.
 
 ### -e, --cross_feed_models
-With this option set, 'None' LUIS intent for all child models (models found under folders other than the `rootDialog` folder) will be cross trained with trigger intents of other children.
+With this option set, 'None' (or intent name specified via --cross_train_intent_name) LUIS intent for all child models (models found under folders other than the `rootDialog` folder) will be cross trained with utterances from **trigger intents of other children**.
 
 As an example, given this folder structure - 
 ```
@@ -106,7 +106,7 @@ with the --cross_feed_models option specified, the child LUIS application for `w
 See [here](#Trigger-intent) for an explanation of how the trigger intent is determined. 
 
 ### -q, --add_qna_pairs 
-With this option set, the parser will add any found questions from `QnA pairs` found under the specific scenario folder to a `'QnA'` intent in that scenario's LUIS application (if suggested).
+With this option set, the parser will add any found questions from `QnA pairs` found under the specific scenario folder to a `'QnA'` intent (or intent name explicitly specified via --qna_intent_name) in that scenario's LUIS application (if suggested).
 
 As an example, given this folder structure - 
 ```
@@ -118,7 +118,9 @@ As an example, given this folder structure -
          weather.qna
 ```
 
-with the --add_qna_pairs option set, the LUIS application for `weather` will include a `'QnA'` intent definition that has all the questions found in `weather.qna` as example utterances.
+with the --add_qna_pairs option set, the LUIS application for `weather` (if suggested) and `rootDialog` will include a `'QnA'` intent definition that has all the questions found in `weather.qna` as example utterances.
+
+**Note:** `rootDialog` will always include all questions from all QnA pairs found for each locale.  
 
 ### -u, --auto_add_qna_metadata
 With this option set, the parser will automatically add `dialogName=\<scenarioName\>` as [QnA maker meta-data][5] to all QnA pairs under a specific scenario.
@@ -136,8 +138,6 @@ with the --auto_add_qna_metadata option set, the QnA maker model suggested will 
 
 ### Using --config
 You can provide a `.json` configuration file for most options the command presents. 
-
-If no explicit file name is specified, the command defaults to `lusuggest.json` in the current working directory. 
 
 **Note:** Any configuration explicitly specified as command line argument **overwrites** any configuration set via the config json file.
 

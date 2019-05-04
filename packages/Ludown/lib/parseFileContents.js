@@ -431,6 +431,9 @@ const parseFileContentsModule = {
             if (type == LUISObjNameEnum.PATTERNANYENTITY) {
                 itemObj.explicitList = [];
             }
+            if (type == LUISObjNameEnum.COMPOSITES) {
+                itemObj.children = [];
+            }
             if (type !== LUISObjNameEnum.INTENT) {
                 itemObj.roles = roles;
             }

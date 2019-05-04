@@ -1,0 +1,12 @@
+# Help
+- test {mylist:to=2}
+- test {c1:R1={a1=from} and {b1=to}}
+
+
+$ mylist:one = 
+- 1
+
+$ testPL : phraselist = 
+- 2
+
+$ c1 : [a1, b1]

@@ -1,0 +1,17 @@
+> Trigger into this dialog
+# WhoAreYou
+- test
+- test {mylist:from=one}
+- test {c1:R1={a=from} and {b=to}}
+
+$ mylist : one =
+- 3
+- 1
+
+$ mylist : two = 
+- 2
+
+$ testPL : PhraseList
+- 1
+
+$ c1 : [a, b]
