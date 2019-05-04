@@ -74,7 +74,7 @@ const parser = {
     },
     /**
      * Helper function to loop through and parse all files
-     * @param {Array} filesToParse List of input .lu files to parse
+     * @param {string[]} filesToParse List of input .lu files to parse
      * @param {boolean} log If true, write verbose log messages to stdout
      * @param {string} luis_culture LUIS language code
      * @returns {AllParsedContent} Object cotaining arrays of all parsed LUIS and QnA content found in the files

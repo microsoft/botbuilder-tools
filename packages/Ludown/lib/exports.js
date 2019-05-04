@@ -27,7 +27,7 @@ const modules = {
         LUIS: require('./classes/LUIS'),
         QnA: require('./classes/qna'),
         Parser: require('./classes/parserObject'),
-        SuggestModels: require('./classes/suggestModels'),
+        SuggestModelArgs: require('./classes/suggestModelArgs'),
         ModelsSuggested: require('./classes/ModelsSuggested'),
         AllParsedContent: require('./classes/allParsedContent')
     }

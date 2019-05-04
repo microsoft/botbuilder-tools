@@ -1,0 +1,9 @@
+{
+    "root_dialog":       "rootDialog",                     
+    "cross_feed_models": "true",  
+    "cross_train_intent_name" : "fooBar",
+    "add_qna_pairs":     "true",    
+    "qna_intent_name": "testqna",
+    "auto_add_qna_metadata" : "true",
+    "base_culture" : "fr-fr"
+}

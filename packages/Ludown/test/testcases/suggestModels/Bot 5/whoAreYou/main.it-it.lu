@@ -1,0 +1,21 @@
+> Trigger into this dialog
+# Il tuo [trigger intent]
+- Chi sei?
+- Come ti chiami?
+- come dovrei rivolgermi a te? 
+- Come ti chiami?
+- come puoi aiutarmi?
+- cosa puoi fare per me?
+- Il mio [primo] nome [è] {userName_patternAny}
+- Sono {userName_patternAny}
+- Puoi chiamarmi {userName_patternAny}
+- Chiamami {userName_patternAny}
+- [per favore] chiamami {userName_patternAny}
+- {userName_patternAny} è il mio nome
+
+$ userName:vishwac = 
+- vishwac
+- vishwac sena kannan
+- vishwac kannan
+
+$HRF-number:/hrf-[0-9]{6}/

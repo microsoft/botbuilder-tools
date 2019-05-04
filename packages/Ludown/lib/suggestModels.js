@@ -20,7 +20,7 @@ const toLUHelpers = require('./toLU-helpers');
 const haveQnAContent = require('./classes/qna').haveQnAContent;
 const fs = require('fs');
 const txtFile = require('read-text-file');
-const suggestModelsObj = require('./classes/suggestModels');
+const suggestModelsObj = require('./classes/suggestModelArgs');
 const modelsSuggestedObj = require('./classes/ModelsSuggested');
 const suggestModels = {
     /**
@@ -52,7 +52,7 @@ const suggestModels = {
             configObj = suggestModelsObj.fromJSON(configFileContent);
         }
         // update with what's explicitly passed in through options
-        configObj.fromJSON(program);
+        configObj.fromProgramObject(program);
         configObj.allParsedContent = allParsedContent;
         // validate input
         configObj.validate();
@@ -92,6 +92,10 @@ const suggestModels = {
             "QnAAlterations": Object.assign({}, collatedObj.QnAAlterations[rootDialogFolderName])
         };
 
+        if (Object.keys(rootDialogModels.LUISContent).length === 0 && Object.keys(rootDialogModels.QnAContent).length === 0 && Object.keys(rootDialogModels.QnAAlterations).length === 0) {
+            if (suggestModelsObj.verbose) process.stdout.write(chalk.default.yellowBright(`\n  WARN: No content found for root dialog: "${rootDialogFolderName}.\n\n`));
+        }
+        
         // delete root dialog from groupedObject
         try {
             delete collatedObj.LUISContent[rootDialogFolderName];
@@ -114,13 +118,13 @@ const suggestModels = {
         // added to 'QnA' intent of all models including the root model.
         if (add_qna_pairs) {
             if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Adding QnA pairs to 'QnA' intents... \n"));
-            await addQnAPairsToModels(rootDialogModels, collatedObj);
+            await addQnAPairsToModels(rootDialogModels, collatedObj, suggestModelsObj.qna_intent_name);
         }
 
         // Rule 5 - With cross_feed_models option specified, all child model's NONE intent has all other child model's trigger intents
         if (crossFeedModelsReq) {
             if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Cross feeding models... \n"));
-            await crossFeedModels(rootDialogModels.LUISContent, collatedObj.LUISContent, suggestModelsObj.verbose);
+            await crossFeedModels(rootDialogModels.LUISContent, collatedObj.LUISContent, suggestModelsObj.cross_train_intent_name, suggestModelsObj.verbose);
         }
 
         // Rule 7 - with auto_add_qna_metadata, all qna pairs for .qna found under a dialog folder automatically have dialogName = folderName added as meta-data.
@@ -210,12 +214,12 @@ const getModelsAsLUContent = async function(rootModels, childModels, retPayload,
                 }
                 if (retPayload.luisModels[clKey] === undefined) {
                     retPayload.luisModels[clKey] = new Array({
-                        "DialogName": rootDialogName,
+                        "DialogName": cFKey,
                         "payload": childModels.LUISContent[cFKey][clKey]
                     })
                 } else {
                     retPayload.luisModels[clKey].push({
-                        "DialogName": rootDialogName,
+                        "DialogName": cFKey,
                         "payload": childModels.LUISContent[cFKey][clKey]
                     })
                 }                
@@ -518,9 +522,9 @@ const deleteTriggerIntent = async function(rootModels, childLUISContent) {
 const autoAddQnAMetaData = async function(rootQnAContent, childQnACollection) {
     for (let lKey in rootQnAContent) {
         (rootQnAContent[lKey].qnaList || []).forEach(qnaPair => {
-            let mdExists = qaPair.metadata.find(item => item.name == 'dialogName');
+            let mdExists = qnaPair.metadata.find(item => item.name == 'dialogName');
             if (mdExists === undefined) {
-                qaPair.metadata.push({"name": "dialogName", "value": "rootDialog"});
+                qnaPair.metadata.push({"name": "dialogName", "value": "rootDialog"});
             }
         })
     }
@@ -541,7 +545,7 @@ const autoAddQnAMetaData = async function(rootQnAContent, childQnACollection) {
  * @param {Object} rootDialogModels 
  * @param {Object} collatedObj 
  */
-const addQnAPairsToModels = async function(rootDialogModels, collatedObj) {
+const addQnAPairsToModels = async function(rootDialogModels, collatedObj, qnaIntentName) {
     let rootLUISModels = rootDialogModels.LUISContent;
     let rootQnAModels = rootDialogModels.QnAContent;
     let childLUISModels = collatedObj.LUISContent;
@@ -554,12 +558,12 @@ const addQnAPairsToModels = async function(rootDialogModels, collatedObj) {
             rootQnAModels[lKey].qnaList.forEach(item => item.questions.forEach(q => questions.push(q)));
             if (rootLUISModels[lKey] !== undefined) {
                 questions.forEach(question => {
-                    rootLUISModels[lKey].utterances.push(new utterance(question, 'QnA', []));
+                    rootLUISModels[lKey].utterances.push(new utterance(question, qnaIntentName, []));
                 });
                 // Add QnA intent
-                let QnAIntentExists = rootLUISModels[lKey].intents.find(item => item.name == 'QnA');
+                let QnAIntentExists = rootLUISModels[lKey].intents.find(item => item.name == qnaIntentName);
                 if (QnAIntentExists === undefined) {
-                    rootLUISModels[lKey].intents.push({"name": "QnA"});
+                    rootLUISModels[lKey].intents.push({"name": qnaIntentName});
                 }
             }
         }
@@ -572,15 +576,27 @@ const addQnAPairsToModels = async function(rootDialogModels, collatedObj) {
                 childQnAModels[cfKey][clKey].qnaList.forEach(item => item.questions.forEach(q => questions.push(q)));
                 if (childLUISModels[cfKey] !== undefined && childLUISModels[cfKey][clKey] !== undefined) {
                     questions.forEach(question => {
-                        childLUISModels[cfKey][clKey].utterances.push(new utterance(question, 'QnA', []));
+                        childLUISModels[cfKey][clKey].utterances.push(new utterance(question, qnaIntentName, []));
                     });
                     // Add QnA intent
-                    let QnAIntentExists = childLUISModels[cfKey][clKey].intents.find(item => item.name == 'QnA');
+                    let QnAIntentExists = childLUISModels[cfKey][clKey].intents.find(item => item.name == qnaIntentName);
                     if (QnAIntentExists === undefined) {
-                        childLUISModels[cfKey][clKey].intents.push({"name": "QnA"});
+                        childLUISModels[cfKey][clKey].intents.push({"name": qnaIntentName});
+                    }
+                }
+                // Add QnA pair to the root model
+                if (rootLUISModels[clKey] !== undefined) {
+                    questions.forEach(question => {
+                        rootLUISModels[clKey].utterances.push(new utterance(question, qnaIntentName, []));
+                    });
+                    // Add QnA intent
+                    let QnAIntentExists = rootLUISModels[clKey].intents.find(item => item.name == qnaIntentName);
+                    if (QnAIntentExists === undefined) {
+                        rootLUISModels[clKey].intents.push({"name": qnaIntentName});
                     }
                 }
             }
+            
         }
     }
 }
@@ -590,7 +606,7 @@ const addQnAPairsToModels = async function(rootDialogModels, collatedObj) {
  * @param {Object} childLUISModelCollection 
  * @param {Boolean} verbose
  */
-const crossFeedModels = async function(rootLUISModel, childLUISModelCollection, verbose = false) {
+const crossFeedModels = async function(rootLUISModel, childLUISModelCollection, intentName, verbose = false) {
     for (let fKey in childLUISModelCollection) {
         for (let lKey in childLUISModelCollection[fKey]) {
 
@@ -608,7 +624,7 @@ const crossFeedModels = async function(rootLUISModel, childLUISModelCollection, 
                 let intentInChild = childLUISModelCollection[fKey][lKey].intents.find(item => item.name.toLowerCase().trim() == utterance.intent.toLowerCase().trim());
                 if (intentInChild === undefined) {
                     // If the intent in root dialog does not exist in Child, then add the utterance under 'None' intent.
-                    uCopy.intent = 'None';
+                    uCopy.intent = intentName;
                 } else {
                     // If it exists, add it under the child's intent name.
                     // This will help capture scenarios like global help utterances being added into child's models.
@@ -619,9 +635,9 @@ const crossFeedModels = async function(rootLUISModel, childLUISModelCollection, 
             })
             
             // Add 'None' intent to child if it does not exist
-            let noneInChild = childLUISModelCollection[fKey][lKey].intents.find(item => item.name == 'None');
+            let noneInChild = childLUISModelCollection[fKey][lKey].intents.find(item => item.name == intentName);
             if (noneInChild === undefined) {
-                childLUISModelCollection[fKey][lKey].intents.push({"name": "None"});
+                childLUISModelCollection[fKey][lKey].intents.push({"name": intentName});
             }
         }
     }
@@ -683,23 +699,23 @@ const updateRootDialogModelWithTriggerIntents = async function(rootLUISModel, ch
                 utterance.intent += '*ludown*';
                 if (utterance.entities.length !== 0) {
                     utterance.entities.forEach(entityInUtterance => {
+                        // simple, composite, list, prebuilt
                         // Find the labelled entity in simple or composite
                         let simpleEntityMatch = childLUISModelCollection[fKey][lKey].entities.find(entity => entity.name == entityInUtterance.entity);
+                        let compositeEntityMatch = childLUISModelCollection[fKey][lKey].composites.find(entity => entity.name == entityInUtterance.entity);
+                        let listEntityMatch = childLUISModelCollection[fKey][lKey].closedLists.find(entity => entity.name == entityInUtterance.entity);
+                        let prebuiltEntityMatch = childLUISModelCollection[fKey][lKey].prebuiltEntities.find(entity => entity.name == entityInUtterance.entity);
                         if (simpleEntityMatch !== undefined) {
                             addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.ENTITIES, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
-                        } else {
-                            // Find the composite entity and add it.
-                            let compositeEntityMatch = childLUISModelCollection[fKey][lKey].composites.find(entity => entity.name == entityInUtterance.entity);
-                            if (compositeEntityMatch !== undefined) {
-                                addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.COMPOSITES, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
-                            } else {
-                                // see if we have a new role
-                                if (!compositeEntityMatch[0].roles.includes(entityInUtterance.role)) {
-                                    compositeEntityMatch[0].roles.push(entityInUtterance.role);
-                                } else {
-                                    throw (new exception(retCode.errorCode.INVALID_COMPOSITE_ENTITY, `No matching entity definition found for '${entityInUtterance.entity}' under '${fKey}' for language '${lKey}'.`));
-                                }
-                            }
+                        }
+                        if (compositeEntityMatch !== undefined) {
+                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.COMPOSITES, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
+                        }
+                        if (listEntityMatch !== undefined) {
+                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.CLOSEDLISTS, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
+                        }
+                        if (prebuiltEntityMatch !== undefined) {
+                            addItemOrRoleIfNotPresent(rootLUISModel[lKey], LUISObjEnum.PREBUILT, entityInUtterance.entity, (entityInUtterance.role === undefined ? [] : entityInUtterance.role));
                         }
                     })
                 }

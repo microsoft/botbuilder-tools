@@ -26,11 +26,11 @@ const helpers = {
     },
 
     /**
-     * Helper function to recursively get all .lu files
-     * @param {string} inputfolder input folder name
+     * Helper function to recursively get all files of specified fileExtension (defaults to .lu)
+     * @param {string} inputfolder fully resolved folder path
      * @param {boolean} getSubFolder indicates if we should recursively look in sub-folders as well
      * @param {string} file extension to use
-     * @returns {Array} Array of files found
+     * @returns {string[]} Array of files found
     */
     findFiles: function(inputFolder, getSubFolders, fileExtension) {
         let results = [];

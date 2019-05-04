@@ -124,16 +124,16 @@ const parseFileContentsModule = {
             }
         });
 
-        // do we have utterances with labelled list entities or phraselist entities? 
+        // do we have utterances with phraselist entities? 
         if (LUISJSONBlob.utterances.length > 0) {
             LUISJSONBlob.utterances.forEach(function (utterance) {
                 if (utterance.entities.length > 0) {
                     utterance.entities.forEach(function (entity) {
                         let entityInList = helpers.filterMatch(entitiesList, 'name', entity.entity);
                         if (entityInList.length > 0) {
-                            if (entityInList[0].type.includes('list')) {
-                                throw (new exception(retCode.errorCode.INVALID_INPUT, 'Utterance "' + utterance.text + '", has reference to List entity type. \r\n\t' + 'You cannot have utterances with List entity type references in them'));
-                            }
+                            // if (entityInList[0].type.includes('list')) {
+                            //     throw (new exception(retCode.errorCode.INVALID_INPUT, 'Utterance "' + utterance.text + '", has reference to List entity type. \r\n\t' + 'You cannot have utterances with List entity type references in them'));
+                            // }
                             if (entityInList[0].type.includes('phraseList')) {
                                 throw (new exception(retCode.errorCode.INVALID_INPUT, 'Utterance "' + utterance.text + '", has reference to PhraseList. \r\n\t' + 'You cannot have utterances with phraselist references in them'));
                             }
@@ -293,7 +293,7 @@ const parseFileContentsModule = {
                     } else {
                         // verify that the pattern is the same
                         if (entityExistsInFinal.regexPattern !== regexEntity.regexPattern) {
-                            throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity : ${regExEntity.name} has inconsistent pattern definitions. \n 1. ${regexEntity.regexPattern} \n 2. ${entityExistsInFinal.regexPattern}`));
+                            throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity : ${regexEntity.name} has inconsistent pattern definitions. \n 1. ${regexEntity.regexPattern} \n 2. ${entityExistsInFinal.regexPattern}`));
                         }
                         // merge roles
                         if (entityExistsInFinal.roles.length > 0) {

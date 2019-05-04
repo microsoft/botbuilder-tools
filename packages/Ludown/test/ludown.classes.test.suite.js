@@ -10,7 +10,7 @@ const QnAList = require('../lib/classes/qnaList');
 const QnAMetadata = require('../lib/classes/qnaMetaData');
 const hClasses = require('../lib/classes/hclasses');
 const modelsSuggested = require('../lib/classes/ModelsSuggested');
-const suggestModels = require('../lib/classes/suggestModels');
+const suggestModels = require('../lib/classes/suggestModelArgs');
 const allParsedContent = require('../lib/classes/allParsedContent');
 describe('Testing all classes', function() {
     describe('Exception class', function() {
@@ -168,13 +168,6 @@ describe('Testing all classes', function() {
     describe('ModelsSuggested class', function() {
         it('can create a new instance with no values passed in', function() {
             assert.deepEqual(new modelsSuggested().luFiles, {});
-        });
-    });
-
-    describe('ModelsSuggested class', function() {
-        it('can create a new instance with values passed in', function() {
-            assert.deepEqual(new modelsSuggested(), {"luFiles": "test", "qnaFiles": "test", 
-        "qnaAlterationFiles" : {}, "luisModels" : {}, "qnaModels": {}, "qnaAlterations": {}});
         });
     });
 

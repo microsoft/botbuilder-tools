@@ -9,6 +9,8 @@ const { exec } = require('child_process');
 const { platform } = require('os')
 const ludown = require.resolve('../bin/ludown');
 const package = require('../package.json');
+const TEST_ROOT = path.join(__dirname);
+const PATH_TO_OUTPUT_FOLDER = path.resolve(TEST_ROOT + '/output');
 
 const LUDOWN_ROOT = path.join(__dirname, '../');
 const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
@@ -530,6 +532,40 @@ describe('The ludown cli tool', function() {
     });
     
     describe('With parse tosuggest command', function() {  
+        before(function () {
+            try {
+                if (!fs.existsSync(PATH_TO_OUTPUT_FOLDER)) {
+                    fs.mkdirSync(PATH_TO_OUTPUT_FOLDER);
+                }
+            } catch (err) {
+                console.log('Unable to create test\\output folder. The tests will fail');
+            }
+        });
+        it ('should successfully parse and write out suggested content', function(done) {
+            let folderPath = path.resolve(`${TEST_ROOT}/testcases/suggestModels/Bot 10`);
+            exec(`node ${ludown} parse tosuggest -f "${folderPath}" -r rootDialog -o ${PATH_TO_OUTPUT_FOLDER} --verbose -e -q -u`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.includes('Successfully wrote'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+
+        it ('Args can be passed in via a config file', function(done) {
+            let folderPath = path.resolve(`${TEST_ROOT}/testcases/suggestModels/Bot 10`);
+            let configPath = path.resolve(`${TEST_ROOT}/testcases/suggestModels/lusuggest.json`);
+            exec(`node ${ludown} parse tosuggest -o "${PATH_TO_OUTPUT_FOLDER}" --config "${configPath}" -f "${folderPath}" --verbose`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.includes('Successfully wrote'), true);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+        
         it('should print an error when an invalid folder is specified', function(done){
             exec(`node ${ludown} parse tosuggest -f \\testFolder -r rootDialog`, (error, stdout, stderr) => {
                 try {
@@ -541,8 +577,9 @@ describe('The ludown cli tool', function() {
             });
         });
 
+
         it('should print an error when rootFolder name is not specified', function(done) {
-            let folderPath = path.resolve(`${process.cwd()}/examples/suggestModels/Bot 0`);
+            let folderPath = path.resolve(`${TEST_ROOT}/testcases/suggestModels/Bot 0`);
             exec(`node ${ludown} parse tosuggest -f "${folderPath}"`, (error, stdout, stderr) => {
                 try {
                     assert.equal(stdout.toLowerCase().includes('usage: ludown parse tosuggest'), true);
@@ -567,7 +604,7 @@ describe('The ludown cli tool', function() {
         });
 
         it('should print an error when invalid locale is specified', function(done) {
-            let folderPath = path.resolve(`${process.cwd()}/examples/suggestModels/Bot 0`);
+            let folderPath = path.resolve(`${TEST_ROOT}/testcases/suggestModels/Bot 0`);
             exec(`node ${ludown} parse tosuggest -r rootDialog -f "${folderPath}" -c fr-dx`, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.includes('Unrecognized locale'), true);

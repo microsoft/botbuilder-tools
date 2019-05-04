@@ -1,0 +1,22 @@
+> Trigger into this dialog
+# WhoAreYou
+- Who are you?
+- What is your name?
+- how should I address you? 
+- What's your name?
+- how can you help me?
+- what can you do for me?
+- My [first] name [is] {userName_patternAny}
+- I'm {userName_patternAny}
+- You can call me {userName_patternAny}
+- call me {userName_patternAny}
+- [please] call me {userName_patternAny:firstName}
+- {userName_patternAny} is my name
+- my name is {userName = vishwac}
+- move me from {city:fromCity=seattle}
+
+$ city : seattle = 
+- seattle
+
+$ HRF-number : /[0-9]/ Roles=from
+

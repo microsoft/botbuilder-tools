@@ -7,7 +7,7 @@ const exception = require('./exception');
 const retCode = require('../enums/CLI-errors').errorCode;
 const fs = require('fs');
 const path = require('path');
-class SuggestModels {
+class SuggestModelArgs {
     /**
      * Input object to pass to suggest models API.
      * 
@@ -71,12 +71,12 @@ class SuggestModels {
      * @param {Object} obj
      * @throws {exception}
      */
-    fromJSON(obj) {
+    fromProgramObject(obj) {
         if (obj.root_dialog !== undefined) this.root_dialog = obj.root_dialog;
         if (obj.lu_folder !== undefined) this.baseFolderPath = obj.lu_folder;
-        if (obj.cross_feed_models !== undefined) this.cross_feed_models = (obj.cross_feed_models == "true");
-        if (obj.add_qna_pairs !== undefined) this.add_qna_pairs = (obj.add_qna_pairs == "true");
-        if (obj.auto_add_qna_metadata !== undefined) this.auto_add_qna_metadata = (obj.auto_add_qna_metadata == "true");
+        if (obj.cross_feed_models !== undefined) this.cross_feed_models = obj.cross_feed_models;
+        if (obj.add_qna_pairs !== undefined) this.add_qna_pairs = obj.add_qna_pairs;
+        if (obj.auto_add_qna_metadata !== undefined) this.auto_add_qna_metadata = obj.auto_add_qna_metadata;
         if (obj.cross_train_intent_name !== undefined) this.cross_train_intent_name = obj.cross_train_intent_name;
         if (obj.qna_intent_name !== undefined) this.qna_intent_name = obj.qna_intent_name;
         if (obj.luis_culture !== undefined) this.base_culture = obj.luis_culture;
@@ -87,14 +87,14 @@ class SuggestModels {
 /** 
  * Static method to create an object from JSON
  * @param {Object} obj lusuggest.json configuration
- * @returns {SuggestModels} object
+ * @returns {SuggestModelArgs} object
  */
-SuggestModels.fromJSON = function(obj) {
+SuggestModelArgs.fromJSON = function(obj) {
     if (obj.base_folder_path !== undefined) {
         obj.baseFolderPath = obj.base_folder_path;
         delete obj.base_folder_path;
     }
-    return Object.assign(new SuggestModels(), obj);
+    return Object.assign(new SuggestModelArgs(), obj);
 }
 
-module.exports = SuggestModels;
+module.exports = SuggestModelArgs;
