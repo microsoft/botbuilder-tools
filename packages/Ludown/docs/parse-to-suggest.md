@@ -141,7 +141,7 @@ You can provide a `.json` configuration file for most options the command presen
 
 **Note:** Any configuration explicitly specified as command line argument **overwrites** any configuration set via the config json file.
 
-```json
+```jsonc
 {
     // Absolute or relative path of the folder that contains all dialogs
     "base_folder_path":  "<relative-or-absolute-path>",
