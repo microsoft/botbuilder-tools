@@ -12,8 +12,8 @@
   ],
   "icon": "icon.png",
   "preview": true,
-  "version": "1.0.3",
-  "publisher": "tomlm",
+  "version": "1.0.4",
+  "publisher": "Microsoft",
   "license": "SEE LICENSE file",
   "engines": {
     "vscode": "^1.0.0"

@@ -5,12 +5,12 @@ const fs = require('fs-extra');
 const { TestAdapter, TurnContext } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 const nock = require('nock');
-const luisAppId = "6209a76f-e836-413b-ba92-a5772d1b2087";
+const luisAppId = "38330cad-f768-4619-96f9-69ea333e594b";
 const endpointKey = process.env.LUISAPPKEY || "MockedKey";
 // If this is false the actual LUIS service will be hit and if there is a difference from
 // the expected oracle, there will be a new oracle files that can be compared.
 // If this is true the http response comes from the oracle file.
-const mockLuis = true;
+const mockLuis = false;
 import 'mocha'
 import { Contoso_App } from './Contoso_App';
 
