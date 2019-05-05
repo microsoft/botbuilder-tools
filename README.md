@@ -7,6 +7,9 @@
 
 The Bot Framework tools are a collection of cross-platform command line tools designed to cover end-to-end bot development workflow. This repo is part the [Microsoft Bot Framework](https://github.com/Microsoft/botframework) -  a comprehensive framework for building enterprise-grade conversational AI experiences.
 
+This repo is part the [Microsoft Bot Framework](https://github.com/microsoft/botframework) - a comprehensive framework for building enterprise-grade conversational AI experiences.
+
+
 | Stable release   | Tool | Description |
 |-----------------|------|--------------|
 | [![npm version](https://badge.fury.io/js/chatdown.svg)](https://badge.fury.io/js/chatdown) | [Chatdown](packages/Chatdown) | Prototype mock conversations in markdown and convert the markdown to transcripts you can load and view in the new V4 Bot Framework Emulator |
