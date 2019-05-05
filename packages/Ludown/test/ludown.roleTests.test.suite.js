@@ -223,7 +223,7 @@ describe('Roles in LU files', function() {
             .catch (err => done())
     }); 
 
-    it ('Pattern.Any entities cannot be explicitly labelled in utterances', function(done){
+    it ('Pattern.Any entities when labelled are automatically converted to simple entities', function(done){
         let testLU = `
         # test1
         - book a flight to {location}
@@ -232,8 +232,12 @@ describe('Roles in LU files', function() {
         - book a flight to {location=redmond}`;
 
         parser.parseFile(testLU, false, null) 
-            .then (res => done (`Test failed - ${JSON.stringify(res)}`))
-            .catch (err => done())
+            .then (res => {
+                assert.equal(res.LUISJsonStructure.entities.length, 1);
+                assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 0);
+                done ();
+            })
+            .catch (err => done(err))
     }); 
 
     it ('RegEx entities cannot be explicitly labelled in utterances', function(done){
@@ -320,7 +324,7 @@ describe('Roles in LU files', function() {
             .catch (err => done ())
     })
 
-    it ('implicit pattern any entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
+    it ('implicit pattern any entity type definition after adding it implicitly via a labelled value is handled correctly', function(done){
         let testLU = `# test 2
         - this is a {test}
 
@@ -330,8 +334,13 @@ describe('Roles in LU files', function() {
         `;
 
         parser.parseFile(testLU, false, null)
-            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
-            .catch (err => done ())
+            .then (res => {
+                assert.equal(res.LUISJsonStructure.entities.length, 1);
+                assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 0);
+                assert.equal(res.LUISJsonStructure.entities[0].roles.length, 1);
+                done ();
+            })
+            .catch (err => done (err))
     })
 
     it ('explicit phrase list entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){

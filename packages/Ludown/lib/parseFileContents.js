@@ -1013,12 +1013,12 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                         captureEntityName = false;
                         captureEntityValue = false;
                         captureEntityRole = false;
-                    } else if (char === '=') {
+                    } else if (char === '=' && (captureEntityName || captureEntityRole)) {
                         captureEntityValue = true;
                         captureEntityName = false;
                         captureEntityRole = false;
                         entityBuffer[entityBuffer.length - 1].type = 'labelled';
-                    } else if (char === ':') {
+                    } else if (char === ':' && captureEntityName) {
                         captureEntityValue = false;
                         captureEntityName = false;
                         captureEntityRole = true;
@@ -1036,14 +1036,14 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                 });
                 // throw exception on unclosed entity definition
                 if (entityBuffer.length !== 0) {
-                    throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance ${utterance} has invalid entity definition. Please verify that all parenthesis {curly brackets} are closed.`));
+                    throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid entity definition. Please verify that all parenthesis {curly brackets} are closed.`));
                 }
                 // there cannot be a mix of patternAny and non patternAny entities in utterances
                 let havePatternAnyEntity = entitiesFound.find(item => item.type == LUISObjNameEnum.PATTERNANYENTITY);
                 if (havePatternAnyEntity !== undefined) {
                     let mixedEntity = entitiesFound.filter(item => item.type != LUISObjNameEnum.PATTERNANYENTITY);
                     if (mixedEntity.length !== 0) {
-                        throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance ${utterance} has mix of entites with labelled values and ones without. Please update utterance to either include labelled values for all entities or remove labelled values from all entities.`));
+                        throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has mix of entites with labelled values and ones without. Please update utterance to either include labelled values for all entities or remove labelled values from all entities.`));
                     }
                     // add this utterance to pattern if it does not already exist
                     let newPattern = new helperClass.pattern(utteranceWithoutEntityLabel, intentName);
@@ -1068,11 +1068,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
 
                     // add entities
                     entitiesFound.forEach(entity => {
-                        // throw an error if pattern.any, phraselist entity is explicitly labelled in an utterance
-                        let nonAllowedPatternAnyEntityInUtterance = (parsedContent.LUISJsonStructure.patternAnyEntities || []).find(item => item.name == entity.entity);
-                        if (nonAllowedPatternAnyEntityInUtterance !== undefined) {
-                            throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to Pattern.Any entity "${nonAllowedPatternAnyEntityInUtterance.name}". Pattern.Any entities cannot be given an explicit labelled value.`));
-                        }
+                        // throw an error if phraselist entity is explicitly labelled in an utterance
                         let nonAllowedPhrseListEntityInUtterance = (parsedContent.LUISJsonStructure.model_features || []).find(item => item.name == entity.entity);
                         if (nonAllowedPhrseListEntityInUtterance !== undefined) {
                             throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`));
@@ -1083,7 +1079,8 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                         let listExists = (parsedContent.LUISJsonStructure.closedLists || []).find(item => item.name == entity.entity);
                         let prebuiltExists = (parsedContent.LUISJsonStructure.prebuiltEntities || []).find(item => item.name == entity.entity);
                         let regexExists = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entity.entity);
-                        if (compositeExists === undefined && listExists === undefined && prebuiltExists === undefined && regexExists === undefined) {
+                        let patternAnyExists = (parsedContent.LUISJsonStructure.patternAnyEntities || []).find(item => item.name == entity.entity);
+                        if (compositeExists === undefined && listExists === undefined && prebuiltExists === undefined && regexExists === undefined && patternAnyExists === undefined) {
                             if (entity.role !== '') {
                                 addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity, [entity.role.trim()]);
                             } else {
@@ -1112,6 +1109,25 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                                 } else {
                                     throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: ${entity.entity} has been defined as a Regex entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`))
                                 }
+                            } else if (patternAnyExists !== undefined) {
+                                if (entity.labelledValue != '') {
+                                    // Verify and add this as simple entity.
+                                    let roles = (entity.role.trim() !== "") ? [entity.role.trim()] : [];
+                                    patternAnyExists.roles.forEach(role => roles.push(role));
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity, roles);
+                                    let patternAnyIdx = -1;
+                                    (parsedContent.LUISJsonStructure.entities || []).find((item, idx) => {
+                                        if (item.name === entity.entity) {
+                                            patternAnyIdx = idx;
+                                            return true;
+                                        }
+                                        return false;
+                                    });
+                                    // delete pattern any entity
+                                    parsedContent.LUISJsonStructure.patternAnyEntities.splice(patternAnyIdx, 1);
+                                } else if (entity.role != '') {
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()]);
+                                } 
                             }
                         }
                     });
