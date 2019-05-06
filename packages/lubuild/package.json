@@ -9,7 +9,7 @@
   "types": "bin/index.d.ts",
   "author": "",
   "scripts": {
-    "test": "echo lubuild tests disabled because no test files found (build 137)",
+    "test": "echo lubuild tests disabled because no test files found - build 137",
     "testoriginal": "cd test/ && mocha --opts mocha.opts",
     "clean": "erase /Q /s lib\\* && erase /Q /s typings\\*",
     "build": "tsc"
