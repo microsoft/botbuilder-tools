@@ -983,12 +983,12 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                         captureEntityName = false;
                         captureEntityValue = false;
                         captureEntityRole = false;
-                    } else if (char === '=') {
+                    } else if (char === '=' && (captureEntityName || captureEntityRole)) {
                         captureEntityValue = true;
                         captureEntityName = false;
                         captureEntityRole = false;
                         entityBuffer[entityBuffer.length - 1].type = 'labelled';
-                    } else if (char === ':') {
+                    } else if (char === ':' && captureEntityName) {
                         captureEntityValue = false;
                         captureEntityName = false;
                         captureEntityRole = true;
@@ -1050,10 +1050,6 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                         let nonAllowedRegexEntityInUtterance = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entity.entity);
                         if (nonAllowedRegexEntityInUtterance !== undefined) {
                             throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to regex entity "${nonAllowedRegexEntityInUtterance.name}". RegEx entities cannot be given an explicit labelled value.`));
-                        }
-                        let nonAllowedPatternAnyEntityInUtterance = (parsedContent.LUISJsonStructure.patternAnyEntities || []).find(item => item.name == entity.entity);
-                        if (nonAllowedPatternAnyEntityInUtterance !== undefined) {
-                            throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to Pattern.Any entity "${nonAllowedPatternAnyEntityInUtterance.name}". Pattern.Any entities cannot be given an explicit labelled value.`));
                         }
                         let nonAllowedPhrseListEntityInUtterance = (parsedContent.LUISJsonStructure.model_features || []).find(item => item.name == entity.entity);
                         if (nonAllowedPhrseListEntityInUtterance !== undefined) {
