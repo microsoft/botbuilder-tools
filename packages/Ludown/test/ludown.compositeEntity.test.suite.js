@@ -5,13 +5,9 @@
 const chai = require('chai');
 const assert = chai.assert;
 const parseFile = require('../lib/parseFileContents').parseFile;
-const retCode = require('../lib/enums/CLI-errors').errorCode;
 const hClasses = require('../lib/classes/hclasses');
 const collateLUISFiles = require('../lib/parseFileContents').collateLUISFiles;
 const LUFromLUISJson = require('../lib/toLU-helpers').constructMdFromLUISJSON;
-const translateHelpers = require('../lib/translate-helpers');
-const TRANSLATE_KEY = process.env.TRANSLATOR_KEY;
-const helpers = require('../lib/helpers');
 const NEWLINE = require('os').EOL;
 const validateLUISModel = require('../lib/parseFileContents').validateLUISBlob;
 function sanitizeContent(fileContent) {
@@ -410,5 +406,33 @@ $deviceTemperature:simple`;
           done();
         })
         .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
-    }) 
+    });
+
+    it ('Nested composites are not allowed', function(done) {
+      let luFile = `# Test
+      - {a = b {c = d {e = f}}}`;
+      parseFile(luFile, false)
+        .then(res => done(`Test failed - did not throw when expected. ${res}`))
+        .catch(err => done())
+    });
+
+    it ('Correctly parses composites with text in between labels', function(done){
+      let luFile = `# Test
+      - zero {foo = one {one = two} three} four
+      
+      $ foo : [one]`;
+      parseFile(luFile, false) 
+        .then(res => {
+          assert.equal(res.LUISJsonStructure.composites.length, 1);
+          assert.equal(res.LUISJsonStructure.utterances.length, 1);
+          assert.equal(res.LUISJsonStructure.utterances[0].text, "zero one two three four");
+          assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 2);
+          assert.equal(res.LUISJsonStructure.utterances[0].entities[0].startPos, 9);
+          assert.equal(res.LUISJsonStructure.utterances[0].entities[0].endPos, 11);
+          assert.equal(res.LUISJsonStructure.utterances[0].entities[1].startPos, 5);
+          assert.equal(res.LUISJsonStructure.utterances[0].entities[1].endPos, 17);
+          done();
+        })
+        .catch(err => done(err))
+    })
 });

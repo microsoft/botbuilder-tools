@@ -127,6 +127,31 @@ describe('Roles in LU files', function() {
             .catch(err => done(err));
     });
 
+    it('colon usage in utterance text outside of roles is parsed correctly', function (done) {
+        let fileContent = `# testIntent
+        - this is a : test intent {userName=vishwac}`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.entities[0].name, 'userName');
+                assert.equal(res.LUISJsonStructure.utterances.length, 1);
+                assert.equal(res.LUISJsonStructure.utterances[0].text, "this is a : test intent vishwac");
+                done();
+            })
+            .catch(err => done(err));
+    });
+
+    it('equal usage in utterance text outside of roles is parsed correctly', function (done) {
+        let fileContent = `# testIntent
+        - this is a = test intent {userName=vishwac}`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.entities[0].name, 'userName');
+                assert.equal(res.LUISJsonStructure.utterances.length, 1);
+                assert.equal(res.LUISJsonStructure.utterances[0].text, "this is a = test intent vishwac");
+                done();
+            })
+            .catch(err => done(err));
+    })
     it('Correctly parses roles with explict type definition in LU files', function(done) {
         let fileContent = `# getUserName
         - call me {name:userName}

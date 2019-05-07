@@ -978,6 +978,11 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                 // walk through the utterance and handle all entities
                 utterance.split('').forEach(char => {
                     if (char === '{') {
+                        // Handle cases where we are dealing with composites
+                        if (entityBuffer.length > 1) {
+                            // Nested composites are not supported. Throw.
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: Utterance "${utterance}" has nested composite references. e.g. {a = {b = x}} is valid but {a = {b = {c = x}}} is invalid.`));
+                        }
                         entityBuffer.push({
                             startPos: utteranceWithoutEntityLabel.length,
                             entity: '',
@@ -1004,6 +1009,13 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                             }
                             
                         } else {
+                            if (entityBuffer.length > 1) {
+                                // add first entity's labelled value (if any to utterance)
+                                utteranceWithoutEntityLabel += entityBuffer[0].labelledValue.trimLeft();
+                                entityBuffer[0].labelledValue = "";
+                                // re-compute start position
+                                entityBuffer[entityBuffer.length - 1].startPos = utteranceWithoutEntityLabel.length;
+                            } 
                             utteranceWithoutEntityLabel += entityBuffer[entityBuffer.length - 1].labelledValue.trim();
                             entityBuffer[entityBuffer.length - 1].endPos = utteranceWithoutEntityLabel.length - 1;
                             entityBuffer[entityBuffer.length - 1].labelledValue = entityBuffer[entityBuffer.length - 1].labelledValue.trim();
