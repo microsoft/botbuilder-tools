@@ -9,7 +9,6 @@ const url = require('url');
 const deepEqual = require('deep-equal');
 const NEWLINE = require('os').EOL;
 const fetch = require('node-fetch');
-const txtfile = require('read-text-file');
 const LUISObjNameEnum = require('./enums/luisobjenum');
 const PARSERCONSTS = require('./enums/parserconsts');
 const builtInTypes = require('./enums/luisbuiltintypes');
@@ -24,8 +23,6 @@ const exception = require('./classes/exception');
 const qnaAlterations = require('./classes/qnaAlterations');
 const qnaFile = require('../lib/classes/qnaFiles');
 const fileToParse =  require('../lib/classes/filesToParse');
-const parserObject = require('./classes/parserObject');
-const allParsedContent = require('./classes/allParsedContent');
 
 const parseFileContentsModule = {
     /**

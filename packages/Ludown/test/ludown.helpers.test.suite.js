@@ -30,7 +30,7 @@ describe('With helper functions', function() {
         let rootPath = resolvePath('examples/suggestModels/Bot 10/chitChat');
         let findFilesInRootFolder = helpers.findFiles(rootPath, false, parserConsts.QNAFILEEXTENSION);
         try {
-            assert.equal(findFilesInRootFolder.length, 1);
+            assert.equal(findFilesInRootFolder.length, 2);
             done();
         } catch (err) {
             done(err);
@@ -41,7 +41,7 @@ describe('With helper functions', function() {
         let rootPath = resolvePath('examples/suggestModels/Bot 10');
         let findFilesInRootFolder = helpers.findFiles(rootPath, true, parserConsts.QNAFILEEXTENSION);
         try {
-            assert.equal(findFilesInRootFolder.length, 4);
+            assert.equal(findFilesInRootFolder.length, 5);
             done();
         } catch (err) {
             done(err);
