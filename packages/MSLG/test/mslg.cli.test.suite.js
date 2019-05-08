@@ -113,10 +113,9 @@ describe('The mslg cli tool', function () {
     describe('should output correctly', function () {
         it('should collate templates successfully', function (done) {
             let filePath = resolvePath('examples/validExamples');
-            let generatedFilePath = resolvePath('.');
             exec(`node ${mslg} parse -l ${filePath} --out finalResult -c`, (error, stdout, stderr) => {
                 try {
-                    fs.unlinkSync(generatedFilePath + '/finalResult_mslg.lg');
+                    // fs.unlinkSync(generatedFilePath + '/finalResult_mslg.lg');
                     assert.equal(stdout.includes('Collated lg file is generated here'), true);
                     done();
                 } catch (err) {
@@ -139,10 +138,9 @@ describe('The mslg cli tool', function () {
 
         it('should write collated lg file to specific folder', function (done) {
             let filePath = resolvePath('examples/validExamples/simple.lg');
-            let generatedFilePath = resolvePath('examples/validExamples/subValidExamples');
             exec(`node ${mslg} parse --in ${filePath} --out finalResult -o examples/validExamples/subValidExamples`, (error, stdout, stderr) => {
                 try {
-                    fs.unlinkSync(generatedFilePath + '/finalResult_mslg.lg');
+                    // fs.unlinkSync(generatedFilePath + '/finalResult_mslg.lg');
                     assert.equal(stdout.includes('Collated lg file is generated here'), true);
                     done();
                 } catch (err) {
