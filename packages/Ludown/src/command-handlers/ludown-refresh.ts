@@ -51,9 +51,12 @@ export const execute = async (refreshCommand: Command) => {
 async function readFiles(refreshCommand: Command): Promise<ITypedFile[]> {
 	const files: ITypedFile[] = [];
 
-	if (refreshCommand['lu_file']) {
-		const luFiles = (await fileReaderFactory().read(refreshCommand['lu_file'])).map(file => ({ ...file, fileType: FILE_TYPE.LUIS }));
-		files.push(...luFiles);
+	if (refreshCommand['luis_file']) {
+		const luisFiles = (await fileReaderFactory().read(refreshCommand['luis_file'])).map(file => ({
+			...file,
+			fileType: FILE_TYPE.LUIS
+		}));
+		files.push(...luisFiles);
 	}
 
 	if (refreshCommand['qna_file']) {
@@ -166,7 +169,8 @@ async function writeFiles(refreshCommand: Command, files: ITypedFile[], writer: 
 		fileName = files
 			.map(file => file.name)
 			.map(name => path.basename(name, path.extname(name)))
-			.reduce((finalName, name) => finalName.concat(name), '');
+			.reduce((finalName, name) => finalName.concat(name), '')
+			.concat('.lu');
 	}
 
 	await fileWriterFactory(directoryPath, fileName).write(writer.render());

@@ -11,7 +11,7 @@ export const utteranceImporter: (state) => IUtterance[] = state => {
 		text: u.text,
 		intent: u.intent,
 		entities: u.entities.map(entity => ({
-			name: entity.name,
+			name: entity.entity,
 			startPosition: entity.startPos,
 			endPosition: entity.endPos
 		}))
