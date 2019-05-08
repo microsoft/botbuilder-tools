@@ -115,7 +115,6 @@ describe('The mslg cli tool', function () {
             let filePath = resolvePath('examples/validExamples');
             exec(`node ${mslg} parse -l ${filePath} --out finalResult -c`, (error, stdout, stderr) => {
                 try {
-                    // fs.unlinkSync(generatedFilePath + '/finalResult_mslg.lg');
                     assert.equal(stdout.includes('Collated lg file is generated here'), true);
                     done();
                 } catch (err) {
@@ -140,7 +139,6 @@ describe('The mslg cli tool', function () {
             let filePath = resolvePath('examples/validExamples/simple.lg');
             exec(`node ${mslg} parse --in ${filePath} --out finalResult -o examples/validExamples/subValidExamples`, (error, stdout, stderr) => {
                 try {
-                    // fs.unlinkSync(generatedFilePath + '/finalResult_mslg.lg');
                     assert.equal(stdout.includes('Collated lg file is generated here'), true);
                     done();
                 } catch (err) {
