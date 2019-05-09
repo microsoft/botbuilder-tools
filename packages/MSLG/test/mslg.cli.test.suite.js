@@ -115,7 +115,6 @@ describe('The mslg cli tool', function () {
             let filePath = resolvePath('examples/validExamples');
             exec(`node ${mslg} parse -l ${filePath} --out finalResult -c`, (error, stdout, stderr) => {
                 try {
-                    fs.unlinkSync(resolvePath('finalResult_mslg.lg'));
                     assert.equal(stdout.includes('Collated lg file is generated here'), true);
                     done();
                 } catch (err) {
@@ -126,7 +125,7 @@ describe('The mslg cli tool', function () {
 
         it('should collate templates from subfolder successfully', function (done) {
             let filePath = resolvePath('examples/validExamples');
-            exec(`node ${mslg} parse -l ${filePath} -s --out finalResult -c --stdout`, (error, stdout, stderr) => {
+            exec(`node ${mslg} parse -l ${filePath} -s -c --stdout`, (error, stdout, stderr) => {
                 try {
                     assert.equal(stdout.includes('# Byebye'), true);
                     done();
@@ -140,7 +139,6 @@ describe('The mslg cli tool', function () {
             let filePath = resolvePath('examples/validExamples/simple.lg');
             exec(`node ${mslg} parse --in ${filePath} --out finalResult -o examples/validExamples/subValidExamples`, (error, stdout, stderr) => {
                 try {
-                    fs.unlinkSync(resolvePath('examples/validExamples/subValidExamples/finalResult_mslg.lg'));
                     assert.equal(stdout.includes('Collated lg file is generated here'), true);
                     done();
                 } catch (err) {
