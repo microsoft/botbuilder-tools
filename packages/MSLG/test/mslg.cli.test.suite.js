@@ -10,7 +10,7 @@ const { exec } = require('child_process');
 const txtfile = require('read-text-file');
 const mslg = require.resolve('../bin/mslg');
 const MSLG_ROOT = path.join(__dirname, '../');
-const TRANSLATE_KEY = '3763b87c03b64c88a9d5c718cf8c2abf';
+const TRANSLATE_KEY = undefined;
 
 function resolvePath(relativePath) {
     return path.join(MSLG_ROOT, relativePath);
