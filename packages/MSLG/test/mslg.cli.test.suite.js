@@ -7,12 +7,19 @@ var assert = chai.assert;
 const fs = require('fs');
 var path = require('path');
 const { exec } = require('child_process');
+const txtfile = require('read-text-file');
 const mslg = require.resolve('../bin/mslg');
-
 const MSLG_ROOT = path.join(__dirname, '../');
+const TRANSLATE_KEY = '3763b87c03b64c88a9d5c718cf8c2abf';
 
 function resolvePath(relativePath) {
     return path.join(MSLG_ROOT, relativePath);
+}
+
+function compareFiles(actualPath, expectedPath) {
+    let expected = fs.existsSync(actualPath) ? txtfile.readSync(actualPath) : actualPath;
+    let actual = fs.existsSync(expectedPath) ? txtfile.readSync(expectedPath) : expectedPath;
+    assert.deepEqual(actual.split(/\r?\n/), expected.split(/\r?\n/));
 }
 
 describe('The mslg cli tool', function () {
@@ -219,5 +226,43 @@ describe('The mslg cli tool', function () {
                 }
             });
         });
+
+        it('should translate a specific lg file', function (done) {
+            if (!TRANSLATE_KEY) {
+                this.skip();
+            }
+
+            let filePath = resolvePath('examples/validExamples/translator.lg');
+            exec(`node ${mslg} translate -k ${TRANSLATE_KEY} -t zh-Hans --in ${filePath} -o ${MSLG_ROOT}/test -c --verbose`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.includes('Parsing file: '), true);
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/translator.lg', MSLG_ROOT + 'test/expected/zh-Hans/translator.lg');
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        })
+
+        it('should translate all files from a specific folder', function (done) {
+            if (!TRANSLATE_KEY) {
+                this.skip();
+            }
+
+            let filePath = resolvePath('examples/validExamples');
+            exec(`node ${mslg} translate -k ${TRANSLATE_KEY} -t zh-Hans -l ${filePath} -s -o ${MSLG_ROOT}/test -c --verbose`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.includes('Parsing file: '), true);
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/subSimple.lg', MSLG_ROOT + 'test/expected/zh-Hans/subSimple.lg');
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/simple.lg', MSLG_ROOT + 'test/expected/zh-Hans/simple.lg');
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/simple2.lg', MSLG_ROOT + 'test/expected/zh-Hans/simple2.lg');
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/simpleWithVariables.lg', MSLG_ROOT + 'test/expected/zh-Hans/simpleWithVariables.lg');
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/translator.lg', MSLG_ROOT + 'test/expected/zh-Hans/translator.lg');
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        })
     });
 });

@@ -21,9 +21,11 @@ program
     .alias('p')
     .command('expand', 'Expand one or all templates in a .lg file or an inline expression.')
     .alias('e')
+    .command('translate', 'Translate .lg files to a target language by microsoft translation API.')
+    .alias('t')
     .parse(process.argv);
 
-const commands = ['parse', 'p', 'expand', 'e'];
+const commands = ['parse', 'p', 'expand', 'e', 'translate', 't'];
 
 if (!commands.includes(process.argv[2].toLowerCase())) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));
