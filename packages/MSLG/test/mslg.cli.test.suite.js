@@ -28,7 +28,7 @@ describe('The mslg cli tool', function () {
         it('should print the help contents when no command is passed', function (done) {
             exec(`node ${mslg}`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stdout.includes('MSLG is a command line tool to parse and collate lg files or expand lg templates.'), true);
+                    assert.equal(stdout.includes('MSLG is a command line tool to parse, collate, expand and translate lg files.'), true);
                     done();
                 } catch (err) {
                     done(err);
