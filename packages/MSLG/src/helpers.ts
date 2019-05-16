@@ -28,8 +28,13 @@ export class helpers {
 }
 
 export enum ErrorType {
-    Error = '[Error]',
-    Warning = '[Warning]'
+    Error = '[ERROR]',
+    Warning = '[WARN]'
+}
+
+export enum BlockType {
+    Expression = 'Expression',
+    Reference = 'Reference'
 }
 
 export class Block {
