@@ -95,8 +95,7 @@ describe('The mslg cli tool', function () {
             let filePath = resolvePath('examples/exceptionExamples/EmptyTemplate.lg');
             exec(`node ${mslg} parse --in ${filePath}`, (error, stdout, stderr) => {
                 try {
-
-                    assert.equal(stderr.includes('[ERROR]: There is no template body in template template'), true);
+                    assert.equal(stderr.includes('[Error] line 1:0 - line 1:2: There is no template body in template template'), true);
                     done();
                 } catch (err) {
                     done(err);
