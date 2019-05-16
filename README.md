@@ -23,6 +23,7 @@ This repo is part the [Microsoft Bot Framework](https://github.com/microsoft/bot
 | [![npm version](https://badge.fury.io/js/dialogtracker.svg)](https://badge.fury.io/js/dialogtracker)| [DialogTracker](packages/DialogTracker) | PREVIEW - Library for tracking .schema, .dialog and .lg files.|
 | [![npm version](https://badge.fury.io/js/dialogschema.svg)](https://badge.fury.io/js/dialogschema)| [DialogSchema](packages/DialogSchema) | PREVIEW - Merge together and check .schema and .lg files into a composite .schema file.|
 | [![npm version](https://badge.fury.io/js/dialoglint.svg)](https://badge.fury.io/js/dialoglint)| [DialogLint](packages/DialogLint) | PREVIEW - Check .dialog files for errors and compile .lg files.|
+| [![npm version](https://badge.fury.io/js/mslg.svg)](https://badge.fury.io/js/mslg)| [MSLG](packages/MSLG) | PREVIEW - Langauge Generation.|
 ## Install CLI tools:
 Pre-requisite:
 - [Node.js](https://nodejs.org/) version 10.14.1 or higher
@@ -30,9 +31,9 @@ Pre-requisite:
 
 ```
 npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
+```
 
 ## Overview
-
 - Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-to-end bot development workflow.
 - Please see [here](./tools-overview.md) for an overview of using Bot Builder tools throughout various phases of bot development.
 
