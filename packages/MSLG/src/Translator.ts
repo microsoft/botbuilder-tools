@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra';
-import { helpers, Block, TranslateLine, PARSERCONSTS } from './helpers';
+import { helpers, Block, BlockType, TranslateLine, PARSERCONSTS } from './helpers';
 import * as path from 'path';
 import * as txtfile from 'read-text-file';
 import * as chalk from 'chalk';
