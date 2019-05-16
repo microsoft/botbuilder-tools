@@ -1,0 +1,24 @@
+> Translate basic weather
+# Weather
+- How about the weather today
+- What is the weather today
+
+> Not translate reference and expression
+# TimeOfDayWithCondition
+- IF: {time == 'morning'}
+    - Hi, good {time}, [Weather]
+- ELSEIF: {time == 'evening'}
+    - Hi, good {time}, [Weather]
+- ELSE:
+    - Hi, good {time}, [Weather]
+
+> Not translate multi line body
+# MultiLineTemplate
+- ```
+[Herocard   
+    title=Cheese gromit!
+    subtitle=Hero Card
+    text=This is some text describing the card, it's cool because it's cool
+    images=https://memegenerator.net/img/instances/500x/73055378/cheese-gromit.jpg
+    buttons=Option 1| Option 2| Option 3]
+```

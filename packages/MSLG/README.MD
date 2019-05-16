@@ -5,6 +5,7 @@ MSLG is a command line tool that parses .lg files which adheres to the [LG file 
 - Report an error on invalid .lg file. All errors that are statically detectable are reported.
 - Generate a collated .lg file by parsing and analyzing more than one .lg files.
 - Expand any given template (or all templates in a file) based on test values for entity references.
+- Translate .lg files to a target language by microsoft translation API.
 
 ## Prerequisite
 
@@ -23,7 +24,7 @@ npm i -g mslg
 
   Usage: mslg [command] [options]
 
-  mslg is a command line tool to parse and collate lg files or expand lg templates.
+  MSLG is a command line tool to parse, collate, expand and translate lg files.
 
   Options:
 
@@ -34,6 +35,7 @@ npm i -g mslg
 
     parse|p        Parse any provided .lg file and collate them into a single file.
     expand|d       Expand one or all templates in a .lg file or an inline expression.
+    translate|t    Translate .lg files to a target language by microsoft translation API.
     help [cmd]     display help for [cmd]
 ```
 
@@ -75,6 +77,24 @@ npm i -g mslg
   -h, --help                           output usage information
 ```
 
+  ### Translate command
+```
+  Usage: mslg translate [options]
+
+  Translate .lg files to a target language by microsoft translation API.
+
+  Options:
+  -k, --translate_key <translatorKey>  Microsoft translation API key
+  -t, --target_lang <targetLang>       Target language to localize content to. See https://aka.ms/translate-langs for list of supported languages and codes. You can also specify comma or space delimited list of target languages.
+  --in <lgFile>                        A direct .lg file passed in
+  -l, --lg_folder <folder_name>        [Optional] Relative or absolute path to a folder containing .lg files
+  -s, --subfolder                      [Optional] Flag option used to denote that subfolders need to be recursively checked to find .lg files
+  -o, --out_folder <output_folder>     [Optional] output folder to write out the final .lg file
+  -c, --translate_comments             [Optional] Flag option to indicate if comments in the input file is also translated. Default is set to false
+  --verbose                            [Optional] Flag option used to request verbose output. With this option set, additional useful parse, validate and collate logs are written to stdout
+  -h, --help                           output usage information
+```
+
 ## Sample Usage
 - [More Samples](examples/samples.md)
 
@@ -91,4 +111,8 @@ mslg parse -l examples/validExamples -s --out finalResult -c    // parse and mer
  ### Expand
 ```bash
 mslg expand --in examples/validExamples/simple.lg -t FinalGreeting    // basic usage of expand command.
+```
+ ### Translate
+```
+mslg translate -k your_translate_Key -t your_target_lang --in examples/validExamples/translator.lg -c    // basic usage of translate command.
 ```
