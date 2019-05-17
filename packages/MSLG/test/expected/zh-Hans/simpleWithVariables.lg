@@ -1,0 +1,11 @@
+# Greeting
+- 嘿
+- 你好
+
+# TimeOfDayWithCondition
+- IF: {time == 'morning'}
+    - [Greeting]早上
+- ELSEIF: {time == 'evening'}
+    - [Greeting]晚上
+- ELSE:
+    - [Greeting]下午

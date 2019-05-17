@@ -7,12 +7,19 @@ var assert = chai.assert;
 const fs = require('fs');
 var path = require('path');
 const { exec } = require('child_process');
+const txtfile = require('read-text-file');
 const mslg = require.resolve('../bin/mslg');
-
 const MSLG_ROOT = path.join(__dirname, '../');
+const TRANSLATE_KEY = undefined;
 
 function resolvePath(relativePath) {
     return path.join(MSLG_ROOT, relativePath);
+}
+
+function compareFiles(actualPath, expectedPath) {
+    let expected = fs.existsSync(actualPath) ? txtfile.readSync(actualPath) : actualPath;
+    let actual = fs.existsSync(expectedPath) ? txtfile.readSync(expectedPath) : expectedPath;
+    assert.deepEqual(actual.split(/\r?\n/), expected.split(/\r?\n/));
 }
 
 describe('The mslg cli tool', function () {
@@ -21,7 +28,7 @@ describe('The mslg cli tool', function () {
         it('should print the help contents when no command is passed', function (done) {
             exec(`node ${mslg}`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stdout.includes('MSLG is a command line tool to parse and collate lg files or expand lg templates.'), true);
+                    assert.equal(stdout.includes('MSLG is a command line tool to parse, collate, expand and translate lg files.'), true);
                     done();
                 } catch (err) {
                     done(err);
@@ -88,8 +95,7 @@ describe('The mslg cli tool', function () {
             let filePath = resolvePath('examples/exceptionExamples/EmptyTemplate.lg');
             exec(`node ${mslg} parse --in ${filePath}`, (error, stdout, stderr) => {
                 try {
-
-                    assert.equal(stderr.includes('[ERROR]: There is no template body in template template'), true);
+                    assert.equal(stderr.includes('[Error] line 1:0 - line 1:2: There is no template body in template template'), true);
                     done();
                 } catch (err) {
                     done(err);
@@ -219,5 +225,43 @@ describe('The mslg cli tool', function () {
                 }
             });
         });
+
+        it('should translate a specific lg file', function (done) {
+            if (!TRANSLATE_KEY) {
+                this.skip();
+            }
+
+            let filePath = resolvePath('examples/validExamples/translator.lg');
+            exec(`node ${mslg} translate -k ${TRANSLATE_KEY} -t zh-Hans --in ${filePath} -o ${MSLG_ROOT}/test -c --verbose`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.includes('Parsing file: '), true);
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/translator.lg', MSLG_ROOT + 'test/expected/zh-Hans/translator.lg');
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        })
+
+        it('should translate all files from a specific folder', function (done) {
+            if (!TRANSLATE_KEY) {
+                this.skip();
+            }
+
+            let filePath = resolvePath('examples/validExamples');
+            exec(`node ${mslg} translate -k ${TRANSLATE_KEY} -t zh-Hans -l ${filePath} -s -o ${MSLG_ROOT}/test -c --verbose`, (error, stdout, stderr) => {
+                try {
+                    assert.equal(stdout.includes('Parsing file: '), true);
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/subSimple.lg', MSLG_ROOT + 'test/expected/zh-Hans/subSimple.lg');
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/simple.lg', MSLG_ROOT + 'test/expected/zh-Hans/simple.lg');
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/simple2.lg', MSLG_ROOT + 'test/expected/zh-Hans/simple2.lg');
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/simpleWithVariables.lg', MSLG_ROOT + 'test/expected/zh-Hans/simpleWithVariables.lg');
+                    compareFiles(MSLG_ROOT + 'test/zh-Hans/translator.lg', MSLG_ROOT + 'test/expected/zh-Hans/translator.lg');
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        })
     });
 });

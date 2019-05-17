@@ -16,14 +16,16 @@ program.Command.prototype.unknownOption = function () {
 program
     .version(pkg.version, '-v, --Version')
     .usage('[command] [options]')
-    .description('MSLG is a command line tool to parse and collate lg files or expand lg templates.')
+    .description('MSLG is a command line tool to parse, collate, expand and translate lg files.')
     .command('parse', 'Parse any provided .lg file and collate them into a single file.')
     .alias('p')
     .command('expand', 'Expand one or all templates in a .lg file or an inline expression.')
     .alias('e')
+    .command('translate', 'Translate .lg files to a target language by microsoft translation API.')
+    .alias('t')
     .parse(process.argv);
 
-const commands = ['parse', 'p', 'expand', 'e'];
+const commands = ['parse', 'p', 'expand', 'e', 'translate', 't'];
 
 if (!commands.includes(process.argv[2].toLowerCase())) {
     process.stderr.write(chalk.default.redBright(`\n  Unknown command: ${process.argv.slice(2).join(' ')}\n`));

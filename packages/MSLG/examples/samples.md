@@ -47,3 +47,14 @@ mslg expand --in validExamples/simepleWithVariables.lg --all -j variables.json  
 ```bash
 mslg expand --in validExamples/simepleWithVariables.lg --all -i    // expand all the templates and get the variable values from stdin prompts.
 ```
+
+## Translate
+Translate .lg files to a target language by microsoft translation API.
+
+```bash
+mslg translate -k your_translate_Key -t your_target_lang --in validExamples/translator.lg -c    // translate specific lg file to target language, including comments.
+```
+
+```bash
+mslg translate -k your_translate_Key -t your_target_lang -l validExamples -s -o validExamples/output --verbose    // translate all lg files from a specific folder, including sub folders and output the generated files to a specific folder.
+```
