@@ -14,7 +14,7 @@
   "composites": [],
   "closedLists": [],
   "patternAnyEntities": [],
-  "regex_entities": [],
+  "regexEntities": [],
   "prebuiltEntities": [],
   "model_features": [],
   "regex_features": [],

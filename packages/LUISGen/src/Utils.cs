@@ -121,7 +121,7 @@ namespace LUISGen
             }
             WriteInstances(app.prebuiltEntities, writeInstance);
             WriteInstances(app.closedLists, writeInstance);
-            WriteInstances(app.regex_entities, writeInstance);
+            WriteInstances(app.regexEntities, writeInstance);
             WriteInstances(app.patternAnyEntities, writeInstance);
             WriteInstances(app.composites, writeInstance);
         }
