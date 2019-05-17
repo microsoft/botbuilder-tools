@@ -21,8 +21,9 @@ class SuggestModelArgs {
      * @param {String} qna_intent_name
      * @param {String} base_culture
      * @param {Boolean} verbose 
+     * @param {Boolean} keep_child
      */
-    constructor(allParsedContent, root_dialog, baseFolderPath, cross_feed_models, add_qna_pairs, auto_add_qna_metadata, cross_train_intent_name = 'None', qna_intent_name = 'QnA', base_culture = 'en-us', verbose = false) {
+    constructor(allParsedContent, root_dialog, baseFolderPath, cross_feed_models, add_qna_pairs, auto_add_qna_metadata, cross_train_intent_name = 'None', qna_intent_name = 'QnA', base_culture = 'en-us', verbose = false, keep_child = false) {
         this.allParsedContent = allParsedContent ? allParsedContent : undefined;
         this.root_dialog = root_dialog ? root_dialog : undefined;
         this.baseFolderPath = baseFolderPath ? baseFolderPath : undefined;
@@ -33,6 +34,7 @@ class SuggestModelArgs {
         this.qna_intent_name = qna_intent_name;
         this.base_culture = base_culture;
         this.verbose = verbose;
+        this.keep_child = keep_child;
     }
     /** 
      * Validate object
@@ -81,6 +83,7 @@ class SuggestModelArgs {
         if (obj.qna_intent_name !== undefined) this.qna_intent_name = obj.qna_intent_name;
         if (obj.luis_culture !== undefined) this.base_culture = obj.luis_culture;
         if (obj.verbose !== undefined) this.verbose = obj.verbose;
+        if (obj.keep_child !== undefined) this.keep_child = obj.keep_child;
     }
 }
 

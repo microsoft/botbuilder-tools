@@ -138,8 +138,8 @@ const suggestModels = {
         await removeLUDownMarkers(rootDialogModels.LUISContent);
 
         // Rule 4 - remove child model suggestion if the only intent in the child is the trigger intent
-        if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Removing child models with no intents... \n"));
-        await cleanUpChildWithNoIntentsLeft(collatedObj.LUISContent);
+        if (suggestModelsObj.verbose && !suggestModelsObj.keep_child) process.stdout.write(chalk.default.whiteBright("Removing child models with no intents... \n"));
+        if (!suggestModelsObj.keep_child) await cleanUpChildWithNoIntentsLeft(collatedObj.LUISContent);
 
         // Delete 'triggerIntent' property from all LUIS models
         if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Removing trigger intents from child models... \n"));

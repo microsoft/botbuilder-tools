@@ -27,6 +27,7 @@ program
     .option('--qna_intent_name <qna_intent_name>', '[Optional] Used with -q --add_qna_pairs option to denote the Intent name to use under which questions from QnA pairs are added.', 'QnA')
     .option('-u, --auto_add_qna_metadata', '[Optional] Automatically set QnA meta data to include child dialog name')
     .option('--config <config_file_path>', 'lusuggest.json config file that contains the configuration for the suggest command.')
+    .option('-k, --keep_child', '[Optional] Keep child models even if they only have the trigger intent')
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .parse(process.argv);
 
