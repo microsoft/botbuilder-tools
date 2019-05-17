@@ -4,7 +4,8 @@
         "build": "lerna bootstrap && lerna run build",
         "test": "lerna run test",
         "coverage": "nyc npm test",
-        "coveralls": "npm run coverage && nyc report --reporter=text-lcov | coveralls",
+        "coveralls": "npm run coverage",
+        "upload-coveralls": "nyc report --reporter=text-lcov | coveralls",
         "eslint": "eslint --format \"node_modules/eslint-friendly-formatter\" \"./packages/@(LUIS|LUISGen|QnAMaker)/bin/*\"",
         "tslint": "tslint ./packages/*/src/**/*.ts -t verbose"
     },
