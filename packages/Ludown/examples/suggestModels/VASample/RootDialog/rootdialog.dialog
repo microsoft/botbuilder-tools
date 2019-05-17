@@ -1,0 +1,27 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "autoEndDialog": false,
+    "recognizer": "help.lu",
+    "rules": [
+    {
+      "$type": "Microsoft.IntentRule",
+      "intent": "Help",
+      "steps": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "activity": "Hi, this is the help intent in root dialog"
+        }
+      ]
+    },
+    {
+      "$type": "Microsoft.UnknownIntentRule",
+      "steps": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "activity": "This is the None intent in root dialog "
+        }
+      ]
+    }
+  ]
+}
