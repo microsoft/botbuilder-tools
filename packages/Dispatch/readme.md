@@ -65,6 +65,7 @@ and add each of the services it can dispatch to .dispatch file.  Currently, a ma
 dispatch add -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n TestLuisApp -v 0.1 -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dispatch add -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n TestLuisApp --intentName foo -v 0.1 -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --includeAnswersForTraining
 dispatch add -t file -n TestModule -f c:\src\testmodule.tsv
 dispatch add -t file -n TestModule2 -f c:\src\testmodule2.txt
 dispatch add -t file -n TestModule3 -f c:\src\testmodule3.json
@@ -83,6 +84,7 @@ Arguments
 | --intentName  | (optional) Dispatch intent name for this source, name param value will be used otherwise |
 | --includedIntents  | (optional) Comma separated list of intents to be included in the Dispatch model, all intents are included otherwise |
 | --ignoreWordAlterations | (optional) Disable expansions of QnA kb questions with QnA word alterations |
+| --includeAnswersForTraining | (optional for QnA only) If set to true, QnA KB answers will be included in the training set |
 | --dispatch    | (optional) Path to .dispatch file |
 | --dataFolder  | (optional) Dispatch working directory |
 | -h, --help    | Output usage information |
