@@ -148,3 +148,39 @@ ludown.translate.parseAndTranslate(luContent, subscriptionKey, targetLanguage, '
     })
 
 ```
+
+## Suggesting models
+
+You can have ludown suggest LUIS and QnA Maker models based on provided input. 
+
+```js
+const ludown = require('ludown');
+const CT_INTENT = 'Interruption';
+const QA_INTENT = 'QnA Intent';
+const BASE_CULTURE = 'fr-fr';
+// This is the root folder containing all your .lu and .qna files.
+// Please see to learn more about supported folder structure for the suggest command
+let rootFolder = `<my content folder path>`;
+// String array of fully resolved .lu and .qna file paths to parse.
+let filesToParse = []; 
+ludown.parser.parseAllFiles(filesToParse, false, null)
+    .then(res => {
+        let suggestArgs = new ludown.helperClasses.SuggestModelArgs(res,
+            'rootDialog', /* folder name that contains your root dialog */
+            rootFolder,   /* root folder name that contains all your .lu and .qna files. */
+            true,         /* indicates if models should be cross-fed */ 
+            true,         /* Indicates if questions from QnA pairs should be added as utterances under an intent specified via qna_intent_name argument */
+            true,         /* Indicates if QnA pairs should be updated with dialogName=scenarioName metadata filter */
+            CT_INTENT,    /* Name of the intent to add cross-fed uttereances to; defaults to 'None' */
+            QA_INTENT,    /* Name of the intent to add questions from QnA pairs to; defaults to 'QnA' */
+            BASE_CULTURE  /* Base lang x locale name; defaults to 'en-us' */
+        );
+
+        ludown.parser.suggestModels(suggestArgs)
+            .then(res => { 
+                /* result is an instance of ludown.helperClasses.ModelsSuggested */
+            })
+            .catch(err => { /* error will include errCode and text */ });
+    })
+    .catch(err => done(err));
+```

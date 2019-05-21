@@ -96,6 +96,14 @@ const readerObj = {
             this.startPos = startPos ? startPos : 0;
             this.endPos = endPos ? endPos : 0
         }
+    },
+    fileParsedContent: class {
+        constructor (fileName, parsedObject) {
+            if (fileName === undefined || parsedObject === undefined) return undefined;
+            if (!(parsedObject instanceof Object)) return undefined;
+            this.fileName = fileName ? fileName : '';
+            this.parsedObject = parsedObject ? parsedObject : {};
+        }
     }
 };
 

@@ -17,6 +17,13 @@ class QnA {
         this.qnaList = qnaList?qnaList:[];
         this.files = files?files:[];
     }
+};
+
+QnA.haveQnAContent = function(blob) {
+    if(!blob) return false;
+    return (blob.urls.length > 0 || 
+        blob.qnaList.length > 0 ||
+        blob.files.length > 0);
 }
 
 module.exports = QnA;

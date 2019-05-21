@@ -5,7 +5,9 @@
 const modules = {
     parser: {
         parseFile: require('./parseFileContents').parseFile,
-        validateLUISBlob: require('./parseFileContents').validateLUISBlob
+        validateLUISBlob: require('./parseFileContents').validateLUISBlob,
+        parseAllFiles: require('./parser').parseAllFiles,
+        suggestModels: require('./suggestModels').suggestModels
     },
     refresh: {
         constructMdFromLUIS: require('./toLU-helpers').constructMdFromLUISJSON,
@@ -24,7 +26,10 @@ const modules = {
         Exception: require('./classes/exception'),
         LUIS: require('./classes/LUIS'),
         QnA: require('./classes/qna'),
-        Parser: require('./classes/parserObject')
+        Parser: require('./classes/parserObject'),
+        SuggestModelArgs: require('./classes/suggestModelArgs'),
+        ModelsSuggested: require('./classes/ModelsSuggested'),
+        AllParsedContent: require('./classes/allParsedContent')
     }
 };
 module.exports = modules;

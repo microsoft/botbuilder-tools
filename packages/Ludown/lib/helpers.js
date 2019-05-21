@@ -26,18 +26,19 @@ const helpers = {
     },
 
     /**
-     * Helper function to recursively get all .lu files
-     * @param {string} inputfolder input folder name
+     * Helper function to recursively get all files of specified fileExtension (defaults to .lu)
+     * @param {string} inputfolder fully resolved folder path
      * @param {boolean} getSubFolder indicates if we should recursively look in sub-folders as well
-     * @returns {Array} Array of .lu files found
+     * @param {string} file extension to use
+     * @returns {string[]} Array of files found
     */
-    findLUFiles: function(inputFolder, getSubFolders) {
+    findFiles: function(inputFolder, getSubFolders, fileExtension) {
         let results = [];
-        const luExt = '.lu';
+        const luExt = fileExtension ? fileExtension : '.lu';
         fs.readdirSync(inputFolder).forEach(function(dirContent) {
             dirContent = path.resolve(inputFolder,dirContent);
             if(getSubFolders && fs.statSync(dirContent).isDirectory()) {
-                results = results.concat(helpers.findLUFiles(dirContent, getSubFolders));
+                results = results.concat(helpers.findFiles(dirContent, getSubFolders, fileExtension));
             }
             if(fs.statSync(dirContent).isFile()) {
                 if(dirContent.endsWith(luExt)) {
@@ -266,6 +267,26 @@ const helpers = {
             returnValue.roles = parsedRoleDefinition.replace('[', '').replace(']', '').split(RolesSplitRegEx).map(item => item.trim());
         }
         return returnValue;
+    },
+    /**
+     * Helper function to get output folder
+     * @param {object} program Parsed program object from commander
+     * @returns {string} Output folder
+     * @throws {exception} Throws on errors. exception object includes errCode and text. 
+     */
+    getOutputFolder : function(program) {
+        let outFolder = process.cwd();
+        if(program.out_folder) {
+            if(path.isAbsolute(program.out_folder)) {
+                outFolder = program.out_folder;
+            } else {
+                outFolder = path.resolve('', program.out_folder);
+            }
+            if(!fs.existsSync(outFolder)) {
+                throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Output folder ' + outFolder + ' does not exist'));     
+            }
+        }
+        return outFolder;
     }
 };
 

@@ -1,0 +1,19 @@
+# Help
+- not sure what I can say
+- I need help
+- please help
+- help
+- what are my options
+- what can i say
+- what can you do?
+- help me
+- can you please help me? not sure what I can say
+- I'm stuck
+- move me to {city:toCity=seattle}
+- [please] call me {userName_patternAny:lastName}
+- pull {number:second=one}
+
+
+$ HRF-number : /[0-9]/ Roles=to
+
+$ PREBUILT : number

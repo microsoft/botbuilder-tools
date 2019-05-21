@@ -6,6 +6,7 @@ const chai = require('chai');
 const assert = chai.assert;
 const helpers = require('../lib/helpers');
 const path = require('path');
+const parserConsts = require('../lib/enums/parserconsts');
 
 const LUDOWN_ROOT = path.join(__dirname, '../');
 function resolvePath(relativePath) {
@@ -13,12 +14,34 @@ function resolvePath(relativePath) {
 }
 
 describe('With helper functions', function() {
-    it('findLUFiles should recursively find subfolders', function(done) {
+    it('findFiles should recursively find subfolders', function(done) {
         let rootPath = resolvePath('examples');
-        let findFilesIncludingSubfolders = helpers.findLUFiles(rootPath, true);
-        let findFilesInRootFolder = helpers.findLUFiles(rootPath, false);
+        let findFilesIncludingSubfolders = helpers.findFiles(rootPath, true, parserConsts.LUFILEEXTENSION);
+        let findFilesInRootFolder = helpers.findFiles(rootPath, false, parserConsts.LUFILEEXTENSION);
         try {
             assert.notEqual(findFilesIncludingSubfolders.length, findFilesInRootFolder.length);
+            done();
+        } catch (err) {
+            done(err);
+        }
+    });
+
+    it('findFiles should find .qna files', function(done) {
+        let rootPath = resolvePath('examples/suggestModels/Bot 10/chitChat');
+        let findFilesInRootFolder = helpers.findFiles(rootPath, false, parserConsts.QNAFILEEXTENSION);
+        try {
+            assert.equal(findFilesInRootFolder.length, 2);
+            done();
+        } catch (err) {
+            done(err);
+        }
+    });
+
+    it('findFiles should find .qna files recursively', function(done) {
+        let rootPath = resolvePath('examples/suggestModels/Bot 10');
+        let findFilesInRootFolder = helpers.findFiles(rootPath, true, parserConsts.QNAFILEEXTENSION);
+        try {
+            assert.equal(findFilesInRootFolder.length, 5);
             done();
         } catch (err) {
             done(err);

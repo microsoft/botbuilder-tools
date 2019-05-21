@@ -13,5 +13,7 @@ module.exports = {
     QNATABLE: "|",
     ANSWER: "```",
     FILTER: "**",
-    QNAALTERATIONS: "qna-alterations"
+    QNAALTERATIONS: "qna-alterations",
+    LUFILEEXTENSION: ".lu",
+    QNAFILEEXTENSION: ".qna"
 };

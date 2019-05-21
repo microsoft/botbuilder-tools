@@ -9,7 +9,9 @@ const QnA = require('../lib/classes/qna');
 const QnAList = require('../lib/classes/qnaList');
 const QnAMetadata = require('../lib/classes/qnaMetaData');
 const hClasses = require('../lib/classes/hclasses');
-
+const modelsSuggested = require('../lib/classes/ModelsSuggested');
+const suggestModels = require('../lib/classes/suggestModelArgs');
+const allParsedContent = require('../lib/classes/allParsedContent');
 describe('Testing all classes', function() {
     describe('Exception class', function() {
         it('can create a new instance from a valid object', function() {
@@ -154,6 +156,30 @@ describe('Testing all classes', function() {
     describe('composite entity class', function() {
         it('can create a new instance with no values passed in', function() {
             assert.equal(new hClasses.compositeEntity().name, '');
+        });
+    });
+
+    describe('file parsed content  class', function() {
+        it('can create a new instance with no values passed in', function() {
+            assert.equal(new hClasses.fileParsedContent().fileName, undefined);
+        });
+    });
+
+    describe('ModelsSuggested class', function() {
+        it('can create a new instance with no values passed in', function() {
+            assert.deepEqual(new modelsSuggested().luFiles, {});
+        });
+    });
+
+    describe('SuggestModels class', function() {
+        it('can create a new instance with no values passed in', function() {
+            assert.equal(new suggestModels().allParsedContent, undefined);
+        });
+    });
+
+    describe('allParsedContent class', function() {
+        it('can create a new instance with no values passed in', function() {
+            assert.deepEqual(new allParsedContent(), {});
         });
     });
 });
