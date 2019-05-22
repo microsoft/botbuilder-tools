@@ -1,0 +1,88 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "LG",
+	"patterns": [
+		{"include": "#strings"},
+		{"include": "#templateDefinition"},
+		{"include": "#comments"}
+	],
+	"repository": {
+		"comments":{
+			"patterns": [{
+			"name": "comment.line.keywords",
+			"match": "^\\s*>.*?\n$"
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double.strings",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.strings",
+					"match": "\\\\."
+				}
+			]
+		},
+		"templateDefinition": {
+			"patterns": [
+				{"include": "#templateNameLine"},
+				{"include": "#templateBody"}
+			],
+			"repository":{
+				"templateNameLine": {
+					"name": "markup.bold.templateNameLine",
+					"begin":"#",
+					"end":"\n",
+					"patterns": [
+					{
+						"name": "entity.name.function.functionName",
+						"match": "(?<=#).*?(?=\\(|\n)"
+					},
+					{
+						"name": "variable.parameter.parameters",
+						"match": "(?<=\\().*?(?=\\))"
+					}]
+				},
+				"templateBody": {
+					"begin":"-",
+					"end":"\n",
+					"patterns": [
+					{
+						"name": "variable.other.templateRef",
+						"match": "\\[.*?(\\(.*?(\\[.+\\])?\\))?\\]"
+					},
+					{
+						"name": "entity.name.function.expression",
+						"match": "(?<=\\{).*?(?=\\})"
+					},
+					{
+						"name": "keyword.control.keyword",
+						"match": "\\b(IF|if|ELSE|else|ELSEIF|elseif|SWITCH|switch|CASE|case|default|DEFAULT)\\b"
+					},
+					{
+						"begin":"```",
+						"end":"```",
+						"patterns": [
+						{
+							"name": "entity.name.function.expression",
+							"match": "(?<=@\\{).*?(?=\\})"
+						},
+						{
+							"name": "string.quoted.double.strings",
+							"begin": "\"",
+							"end": "\"",
+							"patterns": [
+								{
+									"name": "constant.character.escape.strings",
+									"match": "\\\\."
+								}
+								]
+							}]
+					}]
+				}
+			}
+		}
+	},
+	"scopeName": "source.lg"
+}

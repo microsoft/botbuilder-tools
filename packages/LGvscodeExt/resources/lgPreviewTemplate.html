@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lg debug</title>
+</head>
+<body>
+    Please input the scope
+    <br/>
+    <form>
+        template name: <input id="templateName" type="text" name="templateName" />
+        <br/>
+        scope: <input id="scopeValue" type="text" name="scopeValue" /> example:{"name":"ms"}
+        <br/>
+    </form>
+    <br/>
+    <button id="btn-submit" onclick="submitScope()">Submit</button>
+    <br/>
+    result:
+    <p id='evaluateresult'></p>
+    <script>
+        var vscode = undefined;
+        function submitScope() {
+            const scopeValue = document.getElementById('scopeValue').value;
+            const templateName = document.getElementById('templateName').value;
+            const resultEl = document.getElementById('evaluateresult');
+            if(vscode === undefined) {
+                vscode = acquireVsCodeApi();
+            }
+
+            resultEl.innerHTML = '';
+
+            vscode.postMessage({
+                command: 'passScope',
+                scopeValue: scopeValue,
+                templateName: templateName
+            });
+        }
+
+        // Handle the message inside the webview
+        window.addEventListener('message', event => {
+            const resultEl = document.getElementById('evaluateresult');
+            const message = event.data; // The JSON data our extension sent
+
+            switch (message.command) {
+                case 'evaluateResult':
+                    resultEl.innerHTML = message.text;
+            }
+        });
+    </script>
+</body>
+</html>
