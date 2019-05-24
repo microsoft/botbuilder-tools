@@ -15,9 +15,9 @@
     "contributes": {
         "commands": [
             {
-                "command": "lgLivingTest.start",
+                "command": "lgLiveTest.start",
                 "title": "Start LG debug",
-                "category": "LG Living Test"
+                "category": "LG Live Test"
             }
         ],
         "languages": [

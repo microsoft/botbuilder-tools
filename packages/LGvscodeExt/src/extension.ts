@@ -23,7 +23,7 @@ import { LG_MODE } from './lgMode';
  */
 export function activate(context: vscode.ExtensionContext) {
     // LG debug webview window
-    context.subscriptions.push(vscode.commands.registerCommand('lgLivingTest.start', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('lgLiveTest.start', () => {
        LGDebugPanel.createOrShow(context.extensionPath);
     }));
 
