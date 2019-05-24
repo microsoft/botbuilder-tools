@@ -36,6 +36,9 @@
         <ToolCommandName>luisgen</ToolCommandName>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <AssemblyVersion>2.1.1.0</AssemblyVersion>
+        <FileVersion>2.1.1.0</FileVersion>
+        <Version>2.1.1-local</Version>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

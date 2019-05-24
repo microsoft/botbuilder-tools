@@ -18,7 +18,7 @@ namespace LUISGen
         public static bool IsPrebuilt(dynamic name, dynamic app)
         {
             bool isPrebuilt = false;
-            if (app.prebuiltEntities != null)
+            if (app?.prebuiltEntities != null)
             {
                 foreach (var child in app.prebuiltEntities)
                 {
@@ -35,16 +35,16 @@ namespace LUISGen
         public static bool IsList(dynamic name, dynamic app)
         {
             bool isList = false;
-            if (app.closedLists != null)
+            if (app?.closedLists != null)
             {
-                foreach(var list in app.closedLists)
+                foreach (var list in app.closedLists)
                 {
                     if (list.name == name)
                     {
                         isList = true;
                         break;
                     }
-                    foreach(var role in list.roles)
+                    foreach (var role in list.roles)
                     {
                         if (role == name)
                         {
@@ -73,8 +73,8 @@ namespace LUISGen
         public static void EntityApply(JObject entity, Action<string> action)
         {
             dynamic dynEntity = entity;
-            action((string) dynEntity.name);
-            if (dynEntity.roles != null)
+            action((string)dynEntity.name);
+            if (dynEntity?.roles != null)
             {
                 foreach (string role in dynEntity.roles)
                 {
@@ -104,26 +104,29 @@ namespace LUISGen
 
         public static void WriteInstances(JObject obj, Action<string> writeInstance)
         {
-            dynamic app = obj;
-            if (app.entities != null)
+            if (obj != null)
             {
-                foreach (var entity in app.entities)
+                dynamic app = obj;
+                if (app?.entities != null)
                 {
-                    Utils.EntityApply((JObject)entity, writeInstance);
-                    if (entity.children != null)
+                    foreach (var entity in app.entities)
                     {
-                        foreach (var child in entity.children)
+                        Utils.EntityApply((JObject)entity, writeInstance);
+                        if (entity?.children != null)
                         {
-                            writeInstance((string)child);
+                            foreach (var child in entity.children)
+                            {
+                                writeInstance((string)child);
+                            }
                         }
                     }
                 }
+                WriteInstances(app?.prebuiltEntities, writeInstance);
+                WriteInstances(app?.closedLists, writeInstance);
+                WriteInstances(app?.regex_entities, writeInstance);
+                WriteInstances(app?.patternAnyEntities, writeInstance);
+                WriteInstances(app?.composites, writeInstance);
             }
-            WriteInstances(app.prebuiltEntities, writeInstance);
-            WriteInstances(app.closedLists, writeInstance);
-            WriteInstances(app.regex_entities, writeInstance);
-            WriteInstances(app.patternAnyEntities, writeInstance);
-            WriteInstances(app.composites, writeInstance);
         }
     }
 }
