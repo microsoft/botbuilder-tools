@@ -8,7 +8,6 @@
 
 import * as vscode from 'vscode';
 import * as constants from '../constants';
-import * as util from '../util';
 
 /**
  * Code completions provide context sensitive suggestions to the user.
@@ -22,9 +21,6 @@ export class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         position: vscode.Position,
         token: vscode.CancellationToken,
         context: vscode.CompletionContext): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
-        if(!util.IsLgFile(document.fileName)) {
-            return [];
-        }
         return constants.buildInfunctionNames.map(item => new vscode.CompletionItem(item));
     }
 }

@@ -12,6 +12,7 @@ import * as util from './util';
 import {LGDebugPanel} from './providers/lgDebugPanel';
 import {LGCompletionItemProvider} from './providers/lgCompletionItemProvider';
 import {LGDefinitionProvider} from './providers/lgDefinitionProvider';
+import { LG_MODE } from './lgMode';
 
 
 /**
@@ -38,11 +39,11 @@ export function activate(context: vscode.ExtensionContext) {
     
     // code complete feature
     let buildinFunctionsCompletionItemProvider: vscode.Disposable =
-    vscode.languages.registerCompletionItemProvider({ pattern: '**'}, new LGCompletionItemProvider());
+    vscode.languages.registerCompletionItemProvider(LG_MODE, new LGCompletionItemProvider());
     context.subscriptions.push(buildinFunctionsCompletionItemProvider);
     
     // Show Definitions of a template symbol
-    //context.subscriptions.push(vscode.languages.registerDefinitionProvider({ pattern: '**' }, new LGDefinitionProvider()));
+    context.subscriptions.push(vscode.languages.registerDefinitionProvider(LG_MODE, new LGDefinitionProvider()));
 }
 
 function updateDiagnostics(document: vscode.TextDocument, collection: vscode.DiagnosticCollection): void {

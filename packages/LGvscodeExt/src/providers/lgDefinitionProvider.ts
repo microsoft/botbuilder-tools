@@ -7,7 +7,7 @@
  */
 
 import * as vscode from 'vscode';
-import * as util from '../util';
+import { TemplateEngine, LGTemplate, Position } from 'botbuilder-lg';
 
 /**
  * Allow the user to see the definition of variables/functions/methods right where the variables/functions/methods are being used.
@@ -18,10 +18,49 @@ import * as util from '../util';
  */
 export class LGDefinitionProvider implements vscode.DefinitionProvider{
     provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<vscode.Definition> {
-        if(!util.IsLgFile(document.fileName)) {
+        return new vscode.Location(document.uri, this.getReference(document, position));
+    }
+
+    private getReference(document: vscode.TextDocument, position: vscode.Position): vscode.Position {
+        try {
+            const lineText: string = document.lineAt(position.line).text;
+            var templateName: string = this.findTemplateName(lineText, position.character);
+            let engine: TemplateEngine = TemplateEngine.fromText(document.getText());
+            const templates: LGTemplate[] = engine.templates;
+            const template: LGTemplate = templates.find(u=>u.Name === templateName);
+            if (template === undefined)
+                return undefined;
+
+            const lineNumber: number = template.ParseTree.start.line - 1;
+            const columnNumber: number = template.ParseTree.start.charPositionInLine;
+            return new vscode.Position(lineNumber, columnNumber);
+        } catch(e){
             return undefined;
+       }
+    }
+
+    private findTemplateName(lineText: string, column: number): string {
+        let startIndex: number = column;
+        while (startIndex >= 0 
+            && lineText[startIndex] !== '[' 
+            && lineText[startIndex] !== '('
+            && lineText[startIndex] !== ')'
+            && lineText[startIndex] !== ']') {
+            startIndex--;
         }
-        // TODO
+        if (startIndex < 0 || lineText[startIndex] !== '[') return undefined;
+
+        let endIndex: number = column;
+        while (endIndex <= lineText.length 
+            && lineText[endIndex] !== '[' 
+            && lineText[endIndex] !== '('
+            && lineText[endIndex] !== ')'
+            && lineText[endIndex] !== ']') {
+                endIndex++;
+        }
+        if (endIndex >= lineText.length || lineText[endIndex] === ')' || lineText[endIndex] === '[' ) return undefined;
+
+        return lineText.substring(startIndex + 1, endIndex);
     }
 
 }
