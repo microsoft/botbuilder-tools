@@ -4,6 +4,10 @@
     "description": "lg file",
     "version": "0.2.0",
     "publisher": "bot-framework",
+    "repository": { 
+        "type" : "git",
+        "url" : "https://github.com/microsoft/botbuilder-tools.git"
+    },
     "engines": {
         "vscode": "^1.25.0"
     },

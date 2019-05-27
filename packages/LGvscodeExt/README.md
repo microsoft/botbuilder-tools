@@ -9,7 +9,7 @@ lg language extension, provide:
 
 # how to use for customer
 - `npm install` to install packages
-- use `vsce package --baseImagesUrl https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt` to export vsix file
+- use `vsce package` to export vsix file
 - open vscode, and extension tab
 - select 'install from VSIX...'
 - select vsix file, and reopen vscode
@@ -18,19 +18,19 @@ lg language extension, provide:
 
 # features show
 Highlight
-![highlight](./images/Highlight.png)
+![highlight](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Highlight.png?raw=true)
 
 Snippet
-![Snippet](./images/Snippets.gif)
+![Snippet](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Snippets.gif?raw=true)
 
 Code Completion
-![CodeCompletion](./images/CodeCompletion.gif)
+![CodeCompletion](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/CodeCompletion.gif?raw=true)
 
 Show Definitions
-![ShowDefinitions](./images/ShowDefinitions.gif)
+![ShowDefinitions](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/ShowDefinitions.gif?raw=true)
 
 Diagnostic
-![Diagnostic](./images/Diagnostic.gif)
+![Diagnostic](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Diagnostic.gif?raw=true)
 
 Live Test Tool
-![TestTool](./images/TestTool.gif)
+![TestTool](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/TestTool.gif?raw=true)
