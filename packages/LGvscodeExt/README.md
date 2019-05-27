@@ -8,7 +8,8 @@ lg language extension, provide:
 - diagnostic show
 
 # how to use for customer
-- use `vsce package` to export vsix file
+- `npm install` to install packages
+- use `vsce package --baseImagesUrl https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt` to export vsix file
 - open vscode, and extension tab
 - select 'install from VSIX...'
 - select vsix file, and reopen vscode
