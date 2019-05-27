@@ -19,7 +19,7 @@ Pre-requisite:
 - [.NET Core SDK](https://www.microsoft.com/net/download) version 2.1.403 or higher
 
 ```
-npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen dialogtracker dialogschema dialoglint
+npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
 ```
 
 ## Overview
