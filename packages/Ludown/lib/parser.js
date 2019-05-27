@@ -112,12 +112,12 @@ const parser = {
             } 
             parsedFiles.push(file);
             try {
-                if (haveLUISContent(parsedContent.LUISJsonStructure) && await parseFileContents.validateLUISBlob(parsedContent.LUISJsonStructure)) allParsedLUISContent.push(parserObject.create(parsedContent.LUISJsonStructure, undefined, undefined, file, filesToParse[0].includeInCollate, parsedContent.triggerIntent));
+                if (haveLUISContent(parsedContent.LUISJsonStructure) && await parseFileContents.validateLUISBlob(parsedContent.LUISJsonStructure)) allParsedLUISContent.push(parserObject.create(parsedContent.LUISJsonStructure, undefined, undefined, file, filesToParse[0].includeInCollate, parsedContent.triggerIntent, parsedContent.filesInCollate));
             } catch (err) {
                 throw (err);
             }
-            allParsedQnAContent.push(parserObject.create(undefined, parsedContent.qnaJsonStructure, undefined, file, filesToParse[0].includeInCollate));
-            allParsedAlterationsContent.push(parserObject.create(undefined, undefined, parsedContent.qnaAlterations, file, filesToParse[0].includeInCollate));
+            allParsedQnAContent.push(parserObject.create(undefined, parsedContent.qnaJsonStructure, undefined, file, filesToParse[0].includeInCollate, undefined, parsedContent.filesInCollate));
+            allParsedAlterationsContent.push(parserObject.create(undefined, undefined, parsedContent.qnaAlterations, file, filesToParse[0].includeInCollate, undefined, parsedContent.filesInCollate));
             // remove this file from the list
             let parentFile = filesToParse.splice(0,1);
             let parentFilePath = path.parse(path.resolve(parentFile[0].filePath)).dir;

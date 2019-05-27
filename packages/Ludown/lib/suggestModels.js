@@ -80,6 +80,9 @@ const suggestModels = {
         let rootDialogFolderName = suggestModelsObj.root_dialog ? suggestModelsObj.root_dialog : undefined;
         let baseFolderPath = path.resolve(suggestModelsObj.baseFolderPath);
         let groupedObject = await groupFilesByHierarchy(suggestModelsObj.allParsedContent, baseFolderPath, suggestModelsObj.base_culture);
+        // Include files to collate in the right place hierarchically
+        await includeFilesToCollate(groupedObject, suggestModelsObj.base_culture, baseFolderPath);
+
         if (suggestModelsObj.verbose) process.stdout.write(chalk.default.whiteBright("Grouped files by folder x lang hierarchy... \n"));
         
         // Collate and validate root as well as all child models
@@ -165,6 +168,99 @@ const suggestModels = {
 
 module.exports = suggestModels;
 
+/**
+ * Helper function to walk through grouped files and expand/ copy file references that should be included in collation.
+ * 
+ * @param {Object} groupedFiles 
+ * @param {string} base_culture
+ * @param {string} baseFolderPath
+ */
+const includeFilesToCollate = async function(groupedFiles, base_culture, baseFolderPath) {
+    updateContentForCollateIncludes('LUISContent', groupedFiles, base_culture, baseFolderPath);
+    updateContentForCollateIncludes('QnAAlterations', groupedFiles, base_culture, baseFolderPath);
+    updateContentForCollateIncludes('QnAContent', groupedFiles, base_culture, baseFolderPath);
+};
+
+/**
+ * Helper to update specific grouped file scope based on file references that should be included in collation.
+ * @param {String} contentType 
+ * @param {Object} groupedFiles 
+ * @param {string} base_culture
+ * @param {string} baseFolderPath
+ */
+const updateContentForCollateIncludes = function(contentType, groupedFiles, base_culture, baseFolderPath) {
+    for (let fKey in groupedFiles[contentType]) {
+        for (let lKey in groupedFiles[contentType][fKey]) {
+            (groupedFiles[contentType][fKey][lKey] || []).forEach(item => {
+                if (item.parsedObject.filesInCollate !== undefined && item.parsedObject.filesInCollate.length > 0) {
+                    (item.parsedObject.filesInCollate || []).forEach(file => {
+                        // get the fKey, lKey for each reference
+                        let filePath = file;
+                        if(!path.isAbsolute(file)) {
+                            filePath = path.join(path.dirname(item.fileName), file);
+                        }
+                        let relPath = path.relative(baseFolderPath, filePath);
+                        let lfKey = relPath.split(new RegExp(/[\/\\]/g))[0];
+                        // get lang code for file 
+                        let tokenizedFileName = path.basename(filePath).split('.');
+                        let llKey = '';
+                        if (tokenizedFileName.length === 2) {
+                            // Go with the lang code passed in or default.
+                            llKey = base_culture;
+                        } else {
+                            llKey = tokenizedFileName[1];
+                        }
+
+                        // find this item under different groups. 
+                        let itemFound = findParsedObject(groupedFiles, filePath, lfKey, llKey);
+
+                        if (itemFound === undefined) {
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: Unable to find file "${file}" referred to in "${item.fileName}"`));
+                        }
+                        // make a copy of this item and add it here.
+                        groupedFiles[contentType][fKey][lKey].push(Object.assign({}, itemFound));
+                    })
+                }
+            })
+        }
+    }
+}
+
+/**
+ * Helper to find specific parsed file content.
+ * 
+ * @param {String} contentType 
+ * @param {Object} groupedFiles 
+ * @param {String} filePath 
+ * @param {String} fKey 
+ * @param {String} lKey 
+ */
+const findContent = function(contentType, groupedFiles, filePath, fKey, lKey) {
+    if (groupedFiles[contentType] !== undefined && 
+        groupedFiles[contentType][fKey] !== undefined && 
+        groupedFiles[contentType][fKey][lKey] !== undefined) {
+            let found = (groupedFiles[contentType][fKey][lKey] || []).find(item => item.fileName == filePath);
+            if (found !== undefined) return found;
+    }
+};
+
+/**
+ * Helper to find parsed object in respective groups
+ * 
+ * @param {Object} groupedFiles 
+ * @param {String} filePath 
+ * @param {String} fKey 
+ * @param {String} lKey 
+ */
+const findParsedObject = function(groupedFiles, filePath, fKey, lKey) {
+    let found = undefined;
+    found = findContent('LUISContent', groupedFiles, filePath, fKey, lKey);
+    if (found !== undefined) return found;
+    found = findContent('QnAAlterations', groupedFiles, filePath, fKey, lKey);
+    if (found !== undefined) return found;
+    found = findContent('QnAContent', groupedFiles, filePath, fKey, lKey);
+    if (found !== undefined) return found;
+};
 /**
  * Helper to prep LU content and model content to flush to disk.
  * @param {Object} rootModels 
@@ -924,7 +1020,6 @@ const identifyTriggerIntentForAllChildren = async function(LUISContentCollection
  * @returns {void}
  */
 const gatherAndGroupFiles = function(parsedObject, groupedFiles, contentType, baseFolderPath, base_culture) {
-    //let folderScope = parsedObject.srcFile.replace(baseFolderPath, '');
     let relPath = path.relative(baseFolderPath, parsedObject.srcFile);
     let relBaseFolder = relPath.split(new RegExp(/[\/\\]/g))[0];
     // get lang code for file 

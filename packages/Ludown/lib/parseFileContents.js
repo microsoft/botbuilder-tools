@@ -1195,6 +1195,7 @@ const parseURLOrFileRef = async function (parsedContent, chunkSplitByLine) {
 
     } else {
         parsedContent.additionalFilesToParse.push(new fileToParse(linkValue));
+        parsedContent.filesInCollate.push(linkValue);
     }
 }
 

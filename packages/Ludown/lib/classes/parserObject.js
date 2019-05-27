@@ -27,6 +27,9 @@ class parserObject {
     /**
      * @property {string} triggerIntent
      */
+    /**
+     * @property {string []} filesInCollate
+     */
     constructor() {
         this.additionalFilesToParse = [];
         this.LUISJsonStructure = new LUIS();
@@ -35,6 +38,7 @@ class parserObject {
         this.srcFile = undefined;
         this.includeInCollate = true;
         this.triggerIntent = undefined;
+        this.filesInCollate = [];
     }
 }
 /**
@@ -45,16 +49,18 @@ class parserObject {
  * @param {Object} srcFile 
  * @param {Object} includeInCollate 
  * @param {String} triggerIntent
+ * @param {string []} filesInCollate
  */
-parserObject.create = function(LUISJsonStructure, qnaJsonStructure, lQnaAlterations, srcFile, includeInCollate, triggerIntent) {
+parserObject.create = function(LUISJsonStructure, qnaJsonStructure, lQnaAlterations, srcFile, includeInCollate, triggerIntent, filesInCollate) {
     let parserObj = new parserObject();
     parserObj.LUISJsonStructure = (LUISJsonStructure || new LUIS());
     parserObj.qnaJsonStructure = (qnaJsonStructure || new QnA());
     parserObj.qnaAlterations = (lQnaAlterations || new qnaAlterations.qnaAlterations());
     parserObj.srcFile = (srcFile || undefined);
-    if(includeInCollate === undefined) parserObj.includeInCollate = true;
+    if (includeInCollate === undefined) parserObj.includeInCollate = true;
     else parserObj.includeInCollate = includeInCollate;
     if (triggerIntent !== undefined) parserObj.triggerIntent = triggerIntent;
+    if (filesInCollate !== undefined) parserObj.filesInCollate = filesInCollate;
     return parserObj;
 }
 
