@@ -1,30 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lg debug</title>
+  <title>Language Generation Tester</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css"> 
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: rgba(33,33,33,1);
+      color: rgba(200,200,200,1);
+      font-family: 'Helvetica';
+      padding: 0;
+    }
+
+    header {
+      padding: 1rem;
+    }
+
+    h1 {
+      font-weight: normal;
+      padding: 0;
+      margin: 0;
+    }
+
+    a { color: rgba(53,153,253,1); }
+
+    input[type="submit"] {
+      background: rgba(43,103,212,1);
+      color: #FFF;
+      border: none;
+      padding: 0.5rem 3rem;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    input[type="text"] {
+      font-size: 1.5rem;
+    }
+
+    .panes > div {
+      flex-basis: 50%;
+      margin: 1rem;
+    }
+
+    .results {
+      border-top: 2px dashed #666;
+      padding-top: 1rem;
+      margin: 0;
+      margin-top: 1rem;
+    }
+
+    .results li {
+      margin-bottom: 1rem;
+    }
+
+    .error {
+      background: #FFFFCC;
+      color: #000;
+      padding: 1rem;
+    }
+  </style> 
 </head>
+
 <body>
-    Please input the scope
-    <br/>
-    <form>
-        template name: <input id="templateName" type="text" name="templateName" />
-        <br/>
-        scope: <input id="scopeValue" type="text" name="scopeValue" /> example:{"name":"ms"}
-        <br/>
-    </form>
-    <br/>
-    <button id="btn-submit" onclick="submitScope()">Submit</button>
-    <br/>
-    result:
-    <p id='evaluateresult'></p>
-    <script>
+  <header>
+      <h1>
+        Language Generation Tester
+      </h1>
+      <p>
+        Preview the <a href="https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation" target="_new">experimental Bot Framework language generation library</a> 
+        with this interactive tool that will use your LG rules to generate example language.
+        This library is intended for use in generating personalized, contextual responses for bots and other conversational software.
+      </p>
+    </header>
+
+    <div class="panes">
+    <div>
+      <p>
+        <label for="json">Values used to evaluate expressions (must be valid json)</label>
+        <textarea name="json" rows="15" id="json">{"name":"ms"}</textarea>
+      </p>
+      <p>
+        <label for="text">Template Name</label>
+        <input type="text" name="text" id="template" placeholder="The name of a template from the LG file" value="" onkeypress="document.getElementById('freetext').value='';"/>
+      </p>
+      <p>
+        <label for="text">Free Text</label>
+        <input type="text" name="freetext" id="freetext" placeholder="Text to evaluate as a template" value="" onkeypress="document.getElementById('template').value='';"/>
+      </p>
+      <p>
+        <label for="interations">Generate # of variants:</label>
+        <input type="number" id="iterations" name="iterations" value="1"/>
+      </p>
+
+      <input type="submit" onclick="submitScope()" value="Generate">
+
+      <div class="results">
+        <label>Generated Language</label>
+
+        <ol>
+          <div id="evaluateresults"> </div>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
         var vscode = undefined;
         function submitScope() {
-            const scopeValue = document.getElementById('scopeValue').value;
-            const templateName = document.getElementById('templateName').value;
-            const resultEl = document.getElementById('evaluateresult');
+            const scopeValue = document.getElementById('json').value;
+            const templateName = document.getElementById('template').value;
+            const inlineText = document.getElementById('freetext').value;
+            const iterations = document.getElementById('iterations').value;
+            const resultEl = document.getElementById('evaluateresults');
+            console.log(scopeValue)
             if(vscode === undefined) {
                 vscode = acquireVsCodeApi();
             }
@@ -34,18 +128,25 @@
             vscode.postMessage({
                 command: 'passScope',
                 scopeValue: scopeValue,
-                templateName: templateName
+                templateName: templateName,
+                inlineText: inlineText,
+                iterations: iterations
             });
         }
 
         // Handle the message inside the webview
         window.addEventListener('message', event => {
-            const resultEl = document.getElementById('evaluateresult');
+            const resultEl = document.getElementById('evaluateresults');
             const message = event.data; // The JSON data our extension sent
 
             switch (message.command) {
-                case 'evaluateResult':
-                    resultEl.innerHTML = message.text;
+                case 'evaluateResults': {
+                   var arr = message.results;
+                   resultEl.innerHTML = '';
+                    arr.forEach(function(e) {
+       		 		        resultEl.innerHTML = resultEl.innerHTML + "<li>" + e + "</li>";
+           		      })
+                }
             }
         });
     </script>

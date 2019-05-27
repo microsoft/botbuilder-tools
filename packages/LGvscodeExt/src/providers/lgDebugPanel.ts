@@ -78,13 +78,23 @@ export class LGDebugPanel {
                     try {
                         const scope:any = JSON.parse(message.scopeValue);
                         const templateName: string = message.templateName;
-
-                        // currently use vscode.window.visibleTextEditors[0].document.getText()
+                        const inlineText: string = message.inlineText;
+                        const iterations:number = message.iterations;
+                        
+                        let results = [];
                         let engine: TemplateEngine = TemplateEngine.fromText(vscode.window.visibleTextEditors[0].document.getText());
-                        const result: string = engine.evaluateTemplate(templateName, scope);
-
+                        for (var x = 0; x < iterations; x++) {
+                            // first evaluate this as a template
+                            let text: string;
+                            if (inlineText === undefined || inlineText.length === 0) {
+                                text = engine.evaluateTemplate(templateName, scope);
+                            } else {
+                                text = engine.evaluate(inlineText, scope);
+                            }
+                            results.push(text);
+                        }
                         // send result to webview
-                        this._panel.webview.postMessage({ command: 'evaluateResult', text: result });
+                        this._panel.webview.postMessage({ command: 'evaluateResults', results: results });
                     } catch(e){
                         vscode.window.showErrorMessage(e.message);
                    }
@@ -95,7 +105,7 @@ export class LGDebugPanel {
 
     private _update():void {
         this._panel.webview.html = this._getHtmlForWebview();
-        this._panel.title = vscode.window.activeTextEditor.document.fileName + 'Preview';
+        this._panel.title = vscode.window.activeTextEditor.document.fileName + ' tester';
     }
 
     private _getHtmlForWebview(): string {
