@@ -9,6 +9,7 @@
 import * as vscode from 'vscode';
 import * as constants from '../constants';
 import { TemplateEngine } from 'botbuilder-lg';
+import * as util from '../util';
 
 /**
  * Code completions provide context sensitive suggestions to the user.
@@ -22,6 +23,10 @@ export class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         position: vscode.Position,
         token: vscode.CancellationToken,
         context: vscode.CompletionContext): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
+        if (!util.IsLgFile(document.fileName)) {
+            return;
+        }
+
         const buildInfunctionItem: vscode.CompletionItem[] = constants.buildInfunctionNames.map(item => new vscode.CompletionItem(item));
         let engine: TemplateEngine = TemplateEngine.fromText(document.getText());
 

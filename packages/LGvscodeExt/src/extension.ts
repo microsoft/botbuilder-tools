@@ -12,8 +12,6 @@ import * as util from './util';
 import {LGDebugPanel} from './providers/lgDebugPanel';
 import {LGCompletionItemProvider} from './providers/lgCompletionItemProvider';
 import {LGDefinitionProvider} from './providers/lgDefinitionProvider';
-import { LG_MODE } from './lgMode';
-
 
 /**
  * Main vs code Extension code part
@@ -38,12 +36,10 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(e => updateDiagnostics(e, collection)));
     
     // code complete feature
-    let buildinFunctionsCompletionItemProvider: vscode.Disposable =
-    vscode.languages.registerCompletionItemProvider(LG_MODE, new LGCompletionItemProvider());
-    context.subscriptions.push(buildinFunctionsCompletionItemProvider);
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider()));
     
     // Show Definitions of a template symbol
-    context.subscriptions.push(vscode.languages.registerDefinitionProvider(LG_MODE, new LGDefinitionProvider()));
+    context.subscriptions.push(vscode.languages.registerDefinitionProvider('*', new LGDefinitionProvider()));
 }
 
 function updateDiagnostics(document: vscode.TextDocument, collection: vscode.DiagnosticCollection): void {

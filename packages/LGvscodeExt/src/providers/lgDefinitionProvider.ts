@@ -8,6 +8,7 @@
 
 import * as vscode from 'vscode';
 import { TemplateEngine, LGTemplate, Position } from 'botbuilder-lg';
+import * as util from '../util';
 
 /**
  * Allow the user to see the definition of variables/functions/methods right where the variables/functions/methods are being used.
@@ -18,6 +19,10 @@ import { TemplateEngine, LGTemplate, Position } from 'botbuilder-lg';
  */
 export class LGDefinitionProvider implements vscode.DefinitionProvider{
     provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<vscode.Definition> {
+        if (!util.IsLgFile(document.fileName)) {
+            return;
+        }
+        
         return new vscode.Location(document.uri, this.getReference(document, position));
     }
 
