@@ -10,6 +10,7 @@ import * as vscode from 'vscode';
 import { TemplateEngine } from 'botbuilder-lg';
 import * as path from 'path';
 import * as fs from 'fs';
+import { DataStorage } from '../dataStorage';
 
 /**
  * VebView for LG debugger
@@ -37,12 +38,12 @@ export class LGDebugPanel {
     public static createOrShow(extensionPath: string): void {
         // If already have a panel, show it.
         if (LGDebugPanel.currentPanel) {
-            LGDebugPanel.currentPanel._panel.reveal(vscode.ViewColumn.Two);
+            LGDebugPanel.currentPanel._panel.reveal(vscode.ViewColumn.Beside);
             return;
         }
 
         // If not, create one.
-        const panel = vscode.window.createWebviewPanel(LGDebugPanel.viewType, "LG debug", vscode.ViewColumn.Two, {
+        const panel = vscode.window.createWebviewPanel(LGDebugPanel.viewType, "LG debug", vscode.ViewColumn.Beside, {
             enableScripts: true
         });
 
@@ -82,19 +83,23 @@ export class LGDebugPanel {
                         const iterations:number = message.iterations;
                         
                         let results = [];
-                        let engine: TemplateEngine = TemplateEngine.fromText(vscode.window.visibleTextEditors[0].document.getText());
-                        for (var x = 0; x < iterations; x++) {
-                            // first evaluate this as a template
-                            let text: string;
-                            if (inlineText === undefined || inlineText.length === 0) {
-                                text = engine.evaluateTemplate(templateName, scope);
-                            } else {
-                                text = engine.evaluate(inlineText, scope);
+                        let engine: TemplateEngine = DataStorage.engine;
+                        if(engine === undefined) {
+                            vscode.window.showErrorMessage("please fix warning/errors first.");
+                        } else {
+                            for (var x = 0; x < iterations; x++) {
+                                // first evaluate this as a template
+                                let text: string;
+                                if (inlineText === undefined || inlineText.length === 0) {
+                                    text = engine.evaluateTemplate(templateName, scope);
+                                } else {
+                                    text = engine.evaluate(inlineText, scope);
+                                }
+                                results.push(text);
                             }
-                            results.push(text);
+                            // send result to webview
+                            this._panel.webview.postMessage({ command: 'evaluateResults', results: results });
                         }
-                        // send result to webview
-                        this._panel.webview.postMessage({ command: 'evaluateResults', results: results });
                     } catch(e){
                         vscode.window.showErrorMessage(e.message);
                    }
@@ -105,7 +110,7 @@ export class LGDebugPanel {
 
     private _update():void {
         this._panel.webview.html = this._getHtmlForWebview();
-        this._panel.title = vscode.window.activeTextEditor.document.fileName + ' tester';
+        this._panel.title = 'Language Generation Tester';
     }
 
     private _getHtmlForWebview(): string {

@@ -13,6 +13,7 @@ import {LGDebugPanel} from './providers/lgDebugPanel';
 import {LGCompletionItemProvider} from './providers/lgCompletionItemProvider';
 import {LGDefinitionProvider} from './providers/lgDefinitionProvider';
 import { TemplateEngine } from 'botbuilder-lg';
+import { DataStorage } from './dataStorage';
 
 /**
  * Main vs code Extension code part
@@ -28,25 +29,24 @@ export function activate(context: vscode.ExtensionContext) {
 
     // language diagnostic feature
     const collection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('lg');
-    const compItems: vscode.CompletionItem[] = [];
-
 	if (vscode.window.activeTextEditor && util.IsLgFile(vscode.window.activeTextEditor.document.fileName)) {
         updateDiagnostics(vscode.window.activeTextEditor.document, collection);
-        updateInitCompletionItems(compItems);
+        triggerLGFileFinder();
     }
 
     // if you want to trigger the event for each text change, use: vscode.workspace.onDidChangeTextDocument
     context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(e => {
         updateDiagnostics(e, collection);
-        updateInitCompletionItems(compItems);
+        triggerLGFileFinder();
     }));
 
     context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(e => {
-        updateDiagnostics(e, collection);updateInitCompletionItems(compItems);
+        updateDiagnostics(e, collection);
+        triggerLGFileFinder();
     }));
 
     // code complete feature
-    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(compItems)));
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider()));
     
     // Show Definitions of a template symbol
     context.subscriptions.push(vscode.languages.registerDefinitionProvider('*', new LGDefinitionProvider()));
@@ -75,27 +75,46 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     }
 }
 
-function updateInitCompletionItems(compItems: vscode.CompletionItem[]) {
+function triggerLGFileFinder() {
     try {
-        var templateNames: string[] = [];
         vscode.workspace.findFiles('**/*.lg').then(uris => {
-            compItems.splice(0);
-            uris.forEach(u => {
-                const path: string =  u.path.substring(1); 
-                const engine: TemplateEngine = TemplateEngine.fromFiles(path);
-                const tempTemplateNames: string[] = engine.templates.map(u => u.Name);
-                templateNames.forEach(u => {
-                    if (tempTemplateNames.includes(u)) {
-                        vscode.window.showWarningMessage(`template ${u} is duplicated.`);
-                    }
-                });
-                templateNames = templateNames.concat(tempTemplateNames);
-            });
-            templateNames = Array.from(new Set(templateNames));
-            templateNames.map(u => compItems.push(new vscode.CompletionItem(u)));
+            updateInitCompletionItem(uris);
+            updateTemplateEngine(uris);
         });
     } catch(e) {
         vscode.window.showErrorMessage(e.message);
+    }
+}
+
+function updateInitCompletionItem(uris: vscode.Uri[]) {
+    var templateNames: string[] = [];
+    uris.forEach(u => {
+        const path: string =  u.fsPath;
+        try {
+            const engine: TemplateEngine = TemplateEngine.fromFiles(path);
+            const tempTemplateNames: string[] = engine.templates.map(u => u.Name);
+            templateNames.forEach(u => {
+                if (tempTemplateNames.includes(u)) {
+                    vscode.window.showWarningMessage(`template ${u} is duplicated.`);
+                }
+            });
+            templateNames = templateNames.concat(tempTemplateNames);
+        }
+        catch(e)
+        {
+            // ignore error lg file
+        }
+    });
+    templateNames = Array.from(new Set(templateNames));
+    DataStorage.compItems = templateNames.map(u => new vscode.CompletionItem(u));
+}
+
+function updateTemplateEngine(uris: vscode.Uri[]) {
+    try {
+        DataStorage.engine = TemplateEngine.fromFiles(...uris.map(u => u.fsPath));
+    } catch(e)
+    {
+        DataStorage.engine = undefined;
     }
 }
 
