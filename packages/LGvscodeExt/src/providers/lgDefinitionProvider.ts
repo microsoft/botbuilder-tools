@@ -22,7 +22,7 @@ export class LGDefinitionProvider implements vscode.DefinitionProvider{
         if (!util.IsLgFile(document.fileName)) {
             return;
         }
-        
+
         return new vscode.Location(document.uri, this.getReference(document, position));
     }
 
@@ -46,26 +46,18 @@ export class LGDefinitionProvider implements vscode.DefinitionProvider{
 
     private findTemplateName(lineText: string, column: number): string {
         let startIndex: number = column;
-        while (startIndex >= 0 
-            && lineText[startIndex] !== '[' 
-            && lineText[startIndex] !== '('
-            && lineText[startIndex] !== ')'
-            && lineText[startIndex] !== ']') {
+        const borderCharacters: string[] = ['[',']','(',')'];
+        while (startIndex >= 0 && !borderCharacters.includes(lineText[startIndex])) {
             startIndex--;
         }
         if (startIndex < 0 || lineText[startIndex] !== '[') return undefined;
 
         let endIndex: number = column;
-        while (endIndex <= lineText.length 
-            && lineText[endIndex] !== '[' 
-            && lineText[endIndex] !== '('
-            && lineText[endIndex] !== ')'
-            && lineText[endIndex] !== ']') {
+        while (endIndex <= lineText.length && !borderCharacters.includes(lineText[startIndex])) {
                 endIndex++;
         }
         if (endIndex >= lineText.length || lineText[endIndex] === ')' || lineText[endIndex] === '[' ) return undefined;
 
         return lineText.substring(startIndex + 1, endIndex);
     }
-
 }

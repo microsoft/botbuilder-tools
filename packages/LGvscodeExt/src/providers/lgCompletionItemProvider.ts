@@ -19,6 +19,10 @@ import * as util from '../util';
  * @implements [CompletionItemProvider](#vscode.CompletionItemProvider)
  */
 export class LGCompletionItemProvider implements vscode.CompletionItemProvider {
+    private initItems: vscode.CompletionItem[];
+    constructor(initItems:vscode.CompletionItem[] = []) {
+        this.initItems = initItems;
+    }
     provideCompletionItems(document: vscode.TextDocument,
         position: vscode.Position,
         token: vscode.CancellationToken,
@@ -28,10 +32,7 @@ export class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         }
 
         const buildInfunctionItem: vscode.CompletionItem[] = constants.buildInfunctionNames.map(item => new vscode.CompletionItem(item));
-        let engine: TemplateEngine = TemplateEngine.fromText(document.getText());
 
-        const templateNameItem: vscode.CompletionItem[] = engine.templates.map(item => new vscode.CompletionItem(item.Name));
-
-        return [...buildInfunctionItem, ...templateNameItem];
+        return [...buildInfunctionItem, ...this.initItems];
     }
 }
