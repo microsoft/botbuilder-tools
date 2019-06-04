@@ -743,7 +743,9 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
     let simpleEntityExists = (parsedContent.LUISJsonStructure.entities || []).find(item => item.name == entityName);
     if (simpleEntityExists !== undefined) { 
         // take and add any roles into the roles list
-        (simpleEntityExists.roles || []).forEach(role => entityRoles.push(role));
+        (simpleEntityExists.roles || []).forEach(role => {
+            if (!entityRoles.includes(role)) entityRoles.push(role)
+        });
         // remove this simple entity definition
         // Fix for #1137.
         // Current behavior does not allow for simple and phrase list entities to have the same name. 
@@ -763,7 +765,19 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
     });
 
     if (entityExistsInUtteranceLabel !== undefined) {
-        throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
+        if (entityType === 'Phrase List') {
+            throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
+        }
+        let entityMatch = entityExistsInUtteranceLabel.entities.filter(item => item.entity == entityName);
+        entityMatch.forEach(entity => {
+            if (entity.role !== undefined) {
+                if (!entityRoles.includes(entity.role)) {
+                    entityRoles.push(entity.role);
+                }
+            } else {
+                throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
+            }
+        });
     }
     return entityRoles;
 }
