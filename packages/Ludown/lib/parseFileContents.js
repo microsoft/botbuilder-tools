@@ -128,9 +128,6 @@ const parseFileContentsModule = {
                     utterance.entities.forEach(function (entity) {
                         let entityInList = helpers.filterMatch(entitiesList, 'name', entity.entity);
                         if (entityInList.length > 0) {
-                            // if (entityInList[0].type.includes('list')) {
-                            //     throw (new exception(retCode.errorCode.INVALID_INPUT, 'Utterance "' + utterance.text + '", has reference to List entity type. \r\n\t' + 'You cannot have utterances with List entity type references in them'));
-                            // }
                             if (entityInList[0].type.includes('phraseList')) {
                                 throw (new exception(retCode.errorCode.INVALID_INPUT, 'Utterance "' + utterance.text + '", has reference to PhraseList. \r\n\t' + 'You cannot have utterances with phraselist references in them'));
                             }
@@ -834,7 +831,11 @@ const parseAndHandleListEntity = function (parsedContent, chunkSplitByLine, enti
     try {
         let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'List');
         if (rolesImport.length !== 0) {
-            rolesImport.forEach(role => entityRoles.push(role));
+            rolesImport.forEach(role => {
+                if (!entityRoles.includes(role)) {
+                    entityRoles.push(role)
+                }
+            });
         }
     } catch (err) { 
         throw (err);
