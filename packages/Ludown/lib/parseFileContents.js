@@ -51,14 +51,14 @@ const parseFileContentsModule = {
         let entityFound = '';
         if (LUISJSONBlob.entities.length > 0) {
             LUISJSONBlob.entities.forEach(function (entity) {
-                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['simple']));
+                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['simple'], entity.roles));
             });
         }
         if (LUISJSONBlob.closedLists.length > 0) {
             LUISJSONBlob.closedLists.forEach(function (entity) {
                 entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
                 if (entityFound.length === 0) {
-                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['list']));
+                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['list'], entity.roles));
                 } else {
                     entityFound[0].type.push('list');
                 }
@@ -68,7 +68,7 @@ const parseFileContentsModule = {
             LUISJSONBlob.patternAnyEntities.forEach(function (entity) {
                 entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
                 if (entityFound.length === 0) {
-                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['patternAny']));
+                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['patternAny'], entity.roles));
                 } else {
                     entityFound[0].type.push('patternAny');
                 }
@@ -79,7 +79,7 @@ const parseFileContentsModule = {
             LUISJSONBlob.regex_entities.forEach(function (entity) {
                 entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
                 if (entityFound.length === 0) {
-                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, [`regEx:/${entity.regexPattern}/`]));
+                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, [`regEx:/${entity.regexPattern}/`], entity.roles));
                 } else {
                     if (entityFound[0].regexPattern !== undefined) {
                         if (entityFound[0].regexPattern !== entity.regexPattern)
@@ -96,7 +96,7 @@ const parseFileContentsModule = {
         compositesEnt.forEach(entity => {
             entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
             if (entityFound.length === 0) {
-                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['composite']));
+                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['composite'], entity.roles));
             } else {
                 entityFound[0].type.push('composite');
             }
@@ -107,7 +107,7 @@ const parseFileContentsModule = {
         prebuiltEnt.forEach(entity => {
             entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
             if (entityFound.length === 0) {
-                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['prebuilt']));
+                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['prebuilt'], entity.roles));
             } else {
                 entityFound[0].type.push('prebuilt');
             }
@@ -151,9 +151,23 @@ const parseFileContentsModule = {
 
                 // composite entity definitions must have valid child entity type definitions. 
                 composite.children.forEach(child => {
-                    let compositeChildEntityFound = (entitiesList || []).find(entity => entity.name == child);
+                    // Fix for #1165
+                    // Current implementation does not account for explicit role included in a child
+                    let childEntityName = child;
+                    let childEntityRole = '';
+                    if(child.includes(':')) {
+                        let childSplit = child.split(':').map(item => item.trim());
+                        childEntityName = childSplit[0];
+                        childEntityRole = childSplit[1];
+                    }
+                    let compositeChildEntityFound = (entitiesList || []).find(entity => entity.name == childEntityName);
                     if (compositeChildEntityFound === undefined) {
-                        throw (new exception(retCode.errorCode.INVALID_INPUT, 'Composite entity "' + composite.name + '" includes an undefined child entity "' + child + '".\r\n\tAll children of composite entities must be explicitly defined or implicitly defined via an utterance or a pattern'));
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, 'Composite entity "' + composite.name + '" includes an undefined child entity "' + childEntityName + '".\r\n\tAll children of composite entities must be explicitly defined or implicitly defined via an utterance or a pattern'));
+                    }
+                    if (childEntityRole != '') {
+                        if (!compositeChildEntityFound.roles.includes(childEntityRole)) {
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, 'Composite entity "' + composite.name + '" includes an undefined child entity role "' + childEntityName + ':' + childEntityRole + '".\r\n\tAll children of composite entities must be explicitly defined or implicitly defined via an utterance or a pattern'));
+                        }
                     }
                 })
                 

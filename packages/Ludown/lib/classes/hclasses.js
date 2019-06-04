@@ -37,9 +37,10 @@ const readerObj = {
         }
     }, 
     validateLUISBlobEntity: class {
-        constructor(name, type) {
+        constructor(name, type, roles) {
             this.name = name?name:'';
             this.type = type?type:[];
+            this.roles = roles?roles:[];
         }
     }, 
     pattern: class {
