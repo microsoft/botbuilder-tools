@@ -173,8 +173,10 @@ const helpers = {
                 // only list entity and phrase list entity types can have multi-line definition
                 if(currentLine.toLowerCase().includes(':')) {
                     // get entity name and type
-                    let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
-                    let entityType = entityDef[1].trim();
+                    // Fix for #1137. 
+                    // Current code did not account for ':' in normalized values of list entities
+                    let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '');
+                    let entityType = entityDef.slice(entityDef.indexOf(':') + 1).trim();
                     // is entityType a phraseList? 
                     if(entityType.trim().toLowerCase().includes('phraselist') || entityType.trim().toLowerCase().includes('qna-alterations')) {
                         middleOfSection = true;
@@ -186,8 +188,6 @@ const helpers = {
                         middleOfSection = false;
                         currentSection = null;
                     } else if((currentLine.indexOf('=') >= 0)) {
-                        let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
-                        let entityType = entityDef[1].trim();
                         let getRolesAndType = this.getRolesAndType(entityType);
                         // this is a list entity type
                         if(getRolesAndType.entityType.trim().endsWith('=')){
