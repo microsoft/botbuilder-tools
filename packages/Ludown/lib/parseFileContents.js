@@ -830,7 +830,11 @@ const parseAndHandleListEntity = function (parsedContent, chunkSplitByLine, enti
     try {
         let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'List');
         if (rolesImport.length !== 0) {
-            rolesImport.forEach(role => entityRoles.push(role));
+            rolesImport.forEach(role => {
+                if (!entityRoles.includes(role)) {
+                    entityRoles.push(role)
+                }
+            });
         }
     } catch (err) { 
         throw (err);

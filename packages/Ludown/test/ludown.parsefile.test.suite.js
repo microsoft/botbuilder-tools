@@ -317,4 +317,38 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
 
         });
 
+        it('Test for #1164', function(done) {
+                let luFile = `# Test
+                - one {product:from=something}
+                
+                $product:test=
+                - test`;
+    
+            parseFile.parseFile(luFile) 
+                    .then(res => {
+                            assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                            assert.equal(res.LUISJsonStructure.closedLists[0].roles.length, 1);
+                            done();
+                    })
+                    .catch((err) => done(err))
+
+        });
+
+        it('Test for #1164 (with roles)', function(done) {
+                let luFile = `## None
+                - here's an utterance {aListEntity:ThisIsARole=avalue} with a role in it
+                
+                $aListEntity:some value= Roles=ThisIsARole
+                - avalue
+                `;
+    
+            parseFile.parseFile(luFile) 
+                    .then(res => {
+                            assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                            assert.equal(res.LUISJsonStructure.closedLists[0].roles.length, 1);
+                            done();
+                    })
+                    .catch((err) => done(err))
+
+        });
 });
