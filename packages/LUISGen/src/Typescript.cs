@@ -88,7 +88,7 @@ import {{DateTimeSpec, IntentData, InstanceData, NumberWithUnits}} from 'botbuil
         static void Entities(dynamic app, Writer w)
         {
             // Composite instance and data
-            if (app.composites != null)
+            if (app?.composites != null)
             {
                 foreach (var composite in app.composites)
                 {
@@ -129,13 +129,13 @@ import {{DateTimeSpec, IntentData, InstanceData, NumberWithUnits}} from 'botbuil
             w.WriteLine();
             w.IndentLine("export interface _Entities {");
             w.Indent();
-            if (app.entities != null && app.entities.Count > 0)
+            if (app?.entities != null && app.entities.Count > 0)
             {
                 w.IndentLine("// Simple entities");
                 foreach (var entity in app.entities)
                 {
                     WriteEntity(entity, entity.name, app, w);
-                    if (entity.children != null)
+                    if (entity?.children != null)
                     {
                         // Hierarchical
                         foreach (var child in entity.children)
@@ -151,7 +151,7 @@ import {{DateTimeSpec, IntentData, InstanceData, NumberWithUnits}} from 'botbuil
             WriteEntities(app.patternAnyEntities, app, "Pattern.any", w);
 
             // Composites
-            if (app.composites != null && app.composites.Count > 0)
+            if (app?.composites != null && app.composites.Count > 0)
             {
                 w.WriteLine();
                 w.IndentLine("// Composites");

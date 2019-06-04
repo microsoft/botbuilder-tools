@@ -532,9 +532,11 @@ const mergeResults_closedlists = function (blob, finalCollection, type) {
  */
 const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, log) {
     // we have an entity definition
-    let entityDef = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '').split(':');
-    let entityName = entityDef[0].trim();
-    let entityType = entityDef[1].trim();
+    // Fix for #1137. 
+    // Current code did not account for ':' in normalized values of list entities
+    let entityDef = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '');
+    let entityType = entityDef.slice(entityDef.indexOf(':') + 1).trim();
+    let entityName = entityDef.split(':')[0].trim();
     // call helper to get roles
     let parsedRoleAndType = helpers.getRolesAndType(entityType);
     let entityRoles = parsedRoleAndType.roles;
@@ -749,9 +751,13 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
             if (!entityRoles.includes(role)) entityRoles.push(role)
         });
         // remove this simple entity definition
-        for (var idx = 0; idx < parsedContent.LUISJsonStructure.entities.length; idx ++) {
-            if (parsedContent.LUISJsonStructure.entities[idx].name === simpleEntityExists.name) {
-                parsedContent.LUISJsonStructure.entities.splice(idx, 1);
+        // Fix for #1137.
+        // Current behavior does not allow for simple and phrase list entities to have the same name. 
+        if (entityType != 'Phrase List') {
+            for (var idx = 0; idx < parsedContent.LUISJsonStructure.entities.length; idx ++) {
+                if (parsedContent.LUISJsonStructure.entities[idx].name === simpleEntityExists.name) {
+                    parsedContent.LUISJsonStructure.entities.splice(idx, 1);
+                }
             }
         }
     }
@@ -812,7 +818,11 @@ const parseAndHandleQnAAlterations = function (parsedContent, chunkSplitByLine) 
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
 const parseAndHandleListEntity = function (parsedContent, chunkSplitByLine, entityRoles) {
-    let [entityName, entityType] = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '').split(':').map(item => item.trim());
+    // Fix for #1137. 
+    // Current code did not account for ':' in normalized values of list entities
+    let entityDef = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '');
+    let entityType = entityDef.slice(entityDef.indexOf(':') + 1).trim();
+    let entityName = entityDef.split(':')[0].trim();
     let parsedEntityTypeAndRole = helpers.getRolesAndType(entityType);
     entityType = parsedEntityTypeAndRole.entityType;
     (parsedEntityTypeAndRole.roles || []).forEach(role => {
@@ -1080,7 +1090,18 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                         // throw an error if phraselist entity is explicitly labelled in an utterance
                         let nonAllowedPhrseListEntityInUtterance = (parsedContent.LUISJsonStructure.model_features || []).find(item => item.name == entity.entity);
                         if (nonAllowedPhrseListEntityInUtterance !== undefined) {
-                            throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`));
+                            // Fix for #1137
+                            // Phrase list entity can have the same name as other entity types. Only throw if the phrase list has no other type definition and is labelled in an utterance.
+                            let otherEntities = (parsedContent.LUISJsonStructure.entities || []).concat(
+                                (parsedContent.LUISJsonStructure.prebuiltEntities || []),
+                                (parsedContent.LUISJsonStructure.closedLists || []),
+                                (parsedContent.LUISJsonStructure.regex_entities || []),
+                                (parsedContent.LUISJsonStructure.model_features || []),
+                                (parsedContent.LUISJsonStructure.composites || [])
+                            );
+                            if ((otherEntities || []).find(item => item.name == entity.entity) === undefined) {
+                                throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`));
+                            }
                         }
 
                         // only add this entity if it has not already been defined as composite, list, prebuilt, regex

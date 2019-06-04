@@ -128,6 +128,193 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
             })
             .catch(() => done('Test fail. parseFile threw when it was not expected!'))
     });
+    it('parseFile correctly parses normalized list entity values with : in them', function(done) {
+        let luFile = `$three : test :: a =
+        - foo
+        - bar
+    `;
+
+    parseFile.parseFile(luFile) 
+            .then(res => {
+                    assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                    assert.equal(res.LUISJsonStructure.closedLists[0].subLists[0].canonicalForm, 'test :: a');
+                    done();
+            })
+            .catch((err) => done(err))
+});
+
+it('parseFile correctly parses normalized list entity values with = in them', function(done) {
+    let luFile = `$three : test = a =
+    - foo
+    - bar
+`;
+
+parseFile.parseFile(luFile) 
+        .then(res => {
+                assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                assert.equal(res.LUISJsonStructure.closedLists[0].subLists[0].canonicalForm, 'test = a');
+                done();
+        })
+        .catch((err) => done(err))
+
+    });
+
+    it('parseFile correctly parses normalized list entity values with : in them and inline role definition', function(done) {
+            let luFile = `$three : test :: a = Roles=[from,to]
+            - foo
+            - bar
+        `;
+
+        parseFile.parseFile(luFile) 
+                .then(res => {
+                        assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                        assert.equal(res.LUISJsonStructure.closedLists[0].subLists[0].canonicalForm, 'test :: a');
+                        assert.equal(res.LUISJsonStructure.closedLists[0].roles.length, 2);
+                        done();
+                })
+                .catch((err) => done(err))
+
+    });
+
+    it('phraseList entity does not overrite simple entity definition. Both can have same name', function(done) {
+            let luFile = `$product : simple
+
+            $product : phraseList
+                - one
+                - two
+        `;
+
+        parseFile.parseFile(luFile) 
+                .then(res => {
+                        assert.equal(res.LUISJsonStructure.entities.length, 1);
+                        assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                        done();
+                })
+                .catch((err) => done(err))
+
+    });
+
+    it('phraseList entity does not overrite simple entity definition. Both can have same name', function(done) {
+            let luFile = `
+
+            $product : phraseList
+                - one
+                - two
+
+                $product : simple
+        `;
+
+        parseFile.parseFile(luFile) 
+                .then(res => {
+                        assert.equal(res.LUISJsonStructure.entities.length, 1);
+                        assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                        done();
+                })
+                .catch((err) => done(err))
+
+    });
+
+    it('Labelled simple entity in an utterance that conflicts with a phrase list name is valid', function(done) {
+            let luFile = `
+
+            $product : phraseList
+                - one
+                - two
+
+                # test
+                - this is {product = one}
+        `;
+
+        parseFile.parseFile(luFile) 
+                .then(res => {
+                        assert.equal(res.LUISJsonStructure.entities.length, 1);
+                        assert.equal(res.LUISJsonStructure.entities[0].name, 'product');
+                        assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                        done();
+                })
+                .catch((err) => done(err))
+
+    });
+
+    it('Labelled composite entity in an utterance that conflicts with a phrase list name is valid', function(done) {
+            let luFile = `
+
+            $product : phraseList
+                - one
+                - two
+
+                # test
+                - this is {product = {type=sandwich}}
+
+                $product : [type]
+        `;
+
+        parseFile.parseFile(luFile) 
+                .then(res => {
+                        assert.equal(res.LUISJsonStructure.entities.length, 1);
+                        assert.equal(res.LUISJsonStructure.entities[0].name, 'type');
+                        assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                        assert.equal(res.LUISJsonStructure.composites.length, 1);
+                        assert.equal(res.LUISJsonStructure.composites[0].name, 'product');
+                        done();
+                })
+                .catch((err) => done(err))
+
+    });
+
+    it('Test for #1137', function(done) {
+            let luFile = `
+
+            $product : simple
+            
+            $PREBUILT : number
+
+            $drinks:phraseList
+                    - tea, latte, milk
+            
+            $product:phraseList
+                    - a, b, c
+            $EspressoType:Blonde ::201=
+                    - blonde
+                    - blond
+        `;
+
+        parseFile.parseFile(luFile) 
+                .then(res => {
+                        assert.equal(res.LUISJsonStructure.entities.length, 1);
+                        assert.equal(res.LUISJsonStructure.entities[0].name, 'product');
+                        assert.equal(res.LUISJsonStructure.model_features.length, 2);
+                        assert.equal(res.LUISJsonStructure.model_features[0].name, 'drinks');
+                        done();
+                })
+                .catch((err) => done(err))
+
+    });
+
+    it('Test for #1151', function(done) {
+            let luFile = `
+
+            $project : simple
+            
+            $project:phraseList
+                    - a, b, c
+
+            # Test
+            - this is a test {project=foo} utterance
+        `;
+
+        parseFile.parseFile(luFile) 
+                .then(res => {
+                        assert.equal(res.LUISJsonStructure.entities.length, 1);
+                        assert.equal(res.LUISJsonStructure.entities[0].name, 'project');
+                        assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                        assert.equal(res.LUISJsonStructure.model_features[0].name, 'project');
+                        assert.equal(res.LUISJsonStructure.utterances.length, 1);
+                        done();
+                })
+                .catch((err) => done(err))
+
+    });
 });
 
 describe('parseFile correctly parses utterances', function() {

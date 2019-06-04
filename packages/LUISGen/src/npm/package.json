@@ -1,6 +1,6 @@
 {
   "name": "luisgen",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "LUISGen is a tool for generating C# class or Typescript interface for a LUIS app to make consuming LUIS output easier.",
   "repository": {
     "type": "git",
@@ -18,8 +18,8 @@
   ],
   "scripts": {
     "preinstall": "node dotnetpreinstall.js",
-    "install": "dotnet tool install  --tool-path tools LUISGen",
-    "uninstall": "dotnet tool uninstall --tool-path tools LUISGen"
+    "install": "dotnet tool install -g LUISGen",
+    "uninstall": "dotnet tool uninstall -g LUISGen"
   },
   "dependencies": {}
 }
