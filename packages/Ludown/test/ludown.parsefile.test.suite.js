@@ -263,4 +263,58 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
 
         });
 
+        it('Test for #1137', function(done) {
+                let luFile = `
+
+                $product : simple
+                
+                $PREBUILT : number
+
+                $drinks:phraseList
+                        - tea, latte, milk
+                
+                $product:phraseList
+                        - a, b, c
+                $EspressoType:Blonde ::201=
+                        - blonde
+                        - blond
+            `;
+    
+            parseFile.parseFile(luFile) 
+                    .then(res => {
+                            assert.equal(res.LUISJsonStructure.entities.length, 1);
+                            assert.equal(res.LUISJsonStructure.entities[0].name, 'product');
+                            assert.equal(res.LUISJsonStructure.model_features.length, 2);
+                            assert.equal(res.LUISJsonStructure.model_features[0].name, 'drinks');
+                            done();
+                    })
+                    .catch((err) => done(err))
+
+        });
+
+        it('Test for #1151', function(done) {
+                let luFile = `
+
+                $project : simple
+                
+                $project:phraseList
+                        - a, b, c
+
+                # Test
+                - this is a test {project=foo} utterance
+            `;
+    
+            parseFile.parseFile(luFile) 
+                    .then(res => {
+                            assert.equal(res.LUISJsonStructure.entities.length, 1);
+                            assert.equal(res.LUISJsonStructure.entities[0].name, 'project');
+                            assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                            assert.equal(res.LUISJsonStructure.model_features[0].name, 'project');
+                            assert.equal(res.LUISJsonStructure.utterances.length, 1);
+                            done();
+                    })
+                    .catch((err) => done(err))
+
+        });
+
 });
