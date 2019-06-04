@@ -9,6 +9,7 @@ lg language extension, provide:
 
 # how to use for customer
 - `npm install` to install packages
+- `npm run compile`
 - use `vsce package` to export vsix file
 - open vscode, and extension tab
 - select 'install from VSIX...'

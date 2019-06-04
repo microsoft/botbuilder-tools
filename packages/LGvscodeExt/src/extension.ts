@@ -36,13 +36,24 @@ export function activate(context: vscode.ExtensionContext) {
 
     // if you want to trigger the event for each text change, use: vscode.workspace.onDidChangeTextDocument
     context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(e => {
-        updateDiagnostics(e, collection);
-        triggerLGFileFinder();
+        if (util.IsLgFile(vscode.window.activeTextEditor.document.fileName))
+        {
+            updateDiagnostics(e, collection);
+            triggerLGFileFinder();
+        }
     }));
 
     context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(e => {
-        updateDiagnostics(e, collection);
-        triggerLGFileFinder();
+        if (util.IsLgFile(vscode.window.activeTextEditor.document.fileName))
+        {
+            updateDiagnostics(e, collection);
+        }
+    }));
+
+    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => {
+        if (util.IsLgFile(vscode.window.activeTextEditor.document.fileName)) {
+            triggerLGFileFinder();
+        }
     }));
 
     // code complete feature

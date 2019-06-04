@@ -58,7 +58,7 @@
 					},
 					{
 						"name": "keyword.control.keyword",
-						"match": "\\b(IF|if|ELSE|else|ELSEIF|elseif|SWITCH|switch|CASE|case|default|DEFAULT)\\b"
+						"match": "(?i)\\b(IF|ELSE|ELSEIF|SWITCH|CASE|DEFAULT)\\b"
 					},
 					{
 						"begin":"```",
