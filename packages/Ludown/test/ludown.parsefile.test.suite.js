@@ -372,4 +372,21 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
                     .catch((err) => done(err))
 
         });
+
+        it('Test for #1166 ', function(done) {
+                let luFile = `$Country|Office:Argentina|ar::chc=
+                - Chaco
+                - chaco
+                `;
+    
+            parseFile.parseFile(luFile) 
+                    .then(res => {
+                            assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                            assert.equal(res.LUISJsonStructure.closedLists[0].name, 'Country|Office');
+                            assert.equal(res.LUISJsonStructure.closedLists[0].subLists[0].canonicalForm, 'Argentina|ar::chc');
+                            done();
+                    })
+                    .catch((err) => done(err))
+
+        });
 });

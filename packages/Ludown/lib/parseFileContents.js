@@ -986,15 +986,13 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                 let captureEntityName = false;
                 let captureEntityValue = false;
                 let captureEntityRole = false;
+                let nestedEntity = false;
                 let entitiesFound = [];
+                let uttBuffer = '';
+                let nestedValue = '';
                 // walk through the utterance and handle all entities
                 utterance.split('').forEach(char => {
                     if (char === '{') {
-                        // Handle cases where we are dealing with composites
-                        if (entityBuffer.length > 1) {
-                            // Nested composites are not supported. Throw.
-                            throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: Utterance "${utterance}" has nested composite references. e.g. {a = {b = x}} is valid but {a = {b = {c = x}}} is invalid.`));
-                        }
                         entityBuffer.push({
                             startPos: utteranceWithoutEntityLabel.length,
                             entity: '',
@@ -1022,15 +1020,31 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                             
                         } else {
                             if (entityBuffer.length > 1) {
-                                // add first entity's labelled value (if any to utterance)
-                                utteranceWithoutEntityLabel += entityBuffer[0].labelledValue.trimLeft();
-                                entityBuffer[0].labelledValue = "";
-                                // re-compute start position
+                                // Fix for #1167 - allow nested entity references
+                                let lstrBuffer = '';
+                                for (let idx = 0; idx < entityBuffer.length - 1; idx++) {
+                                    lstrBuffer += entityBuffer[idx].labelledValue.trimLeft();
+                                }
+                                // get start position based on tUtterance text
+                                entityBuffer[entityBuffer.length - 1].startPos = utteranceWithoutEntityLabel.length + lstrBuffer.length;
+                                // add current utterance
+                                uttBuffer = entityBuffer[entityBuffer.length - 1].labelledValue.trimLeft() + uttBuffer;
+                                // set end position
+                                entityBuffer[entityBuffer.length - 1].endPos = utteranceWithoutEntityLabel.length + lstrBuffer.length + uttBuffer.length - 1;
+                                nestedEntity = true;
+                            } else {
+                                // get start position based on tUtterance text
                                 entityBuffer[entityBuffer.length - 1].startPos = utteranceWithoutEntityLabel.length;
-                            } 
-                            utteranceWithoutEntityLabel += entityBuffer[entityBuffer.length - 1].labelledValue.trim();
-                            entityBuffer[entityBuffer.length - 1].endPos = utteranceWithoutEntityLabel.length - 1;
-                            entityBuffer[entityBuffer.length - 1].labelledValue = entityBuffer[entityBuffer.length - 1].labelledValue.trim();
+
+                                utteranceWithoutEntityLabel = utteranceWithoutEntityLabel + entityBuffer[entityBuffer.length - 1].labelledValue.trimLeft() + uttBuffer + nestedValue;
+
+                                entityBuffer[entityBuffer.length - 1].endPos = utteranceWithoutEntityLabel.length - 1;
+
+                                uttBuffer = '';
+                                nestedEntity = false;
+                                nestedValue = '';
+                            }
+                            
                         }
                         entitiesFound.push(entityBuffer[entityBuffer.length - 1]);
                         entityBuffer.pop();
@@ -1053,8 +1067,10 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                             entityBuffer[entityBuffer.length - 1].labelledValue += char;
                         } else if (captureEntityRole) {
                             entityBuffer[entityBuffer.length - 1].role += char;
-                        } else {
+                        } else if (!nestedEntity){
                             utteranceWithoutEntityLabel += char;
+                        } else {
+                            nestedValue += char;
                         }
                     }
                 });
