@@ -408,6 +408,14 @@ $deviceTemperature:simple`;
         .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
     });
 
+    it ('composites cannot include pattern.any entity', function(done) {
+      let luFile = `# Test
+      - {p = {q}}`;
+      parseFile(luFile, false)
+        .then(res => done(`Test failed - did not throw when expected. ${res}`))
+        .catch(err => done())
+    });
+    
     it ('Correctly parses composites with text in between labels', function(done){
       let luFile = `# Test
       - zero {foo = one {one = two} three} four
