@@ -315,40 +315,6 @@ describe('Roles in LU files', function() {
             .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
     });
 
-    it ('explicit prebuilt entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
-        let testLU = `# test
-        - this is a test of {datetimeV2 = 7AM}
-        
-        $PREBUILT:datetimeV2 Roles=fromTime`;
-
-        parser.parseFile(testLU, false, null)
-            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
-            .catch (err => done ())
-    })
-
-    it ('explicit list entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
-        let testLU = `# test
-        - this is a test of {time = 7AM}
-        
-        $time:morning= Roles=fromTime
-        - 7AM`;
-
-        parser.parseFile(testLU, false, null)
-            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
-            .catch (err => done ())
-    })
-
-    it ('explicit regex entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
-        let testLU = `# test
-        - this is a test of {time = 7AM}
-        
-        $time:/[0-9]/ Roles=fromTime`;
-
-        parser.parseFile(testLU, false, null)
-            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
-            .catch (err => done ())
-    })
-
     it ('implicit pattern any entity type definition after adding it implicitly via a labelled value is handled correctly', function(done){
         let testLU = `# test 2
         - this is a {test}
@@ -366,7 +332,7 @@ describe('Roles in LU files', function() {
                 done ();
             })
             .catch (err => done (err))
-    })
+    });
 
     it ('explicit phrase list entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
         let testLU = `# test

@@ -262,7 +262,85 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
 
         });
 
-        it('Test for #1137', function (done) {
+        it('Labelled prebuilt entity in an utterance that conflicts with a phrase list name is valid', function(done) {
+                let luFile = `
+
+                $number : phraseList
+                    - one
+                    - two
+
+                    # test
+                    - this is {number:first = one}
+
+                    $PREBUILT : number
+            `;
+    
+            parseFile.parseFile(luFile) 
+                    .then(res => {
+                            
+                            assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                            assert.equal(res.LUISJsonStructure.prebuiltEntities.length, 1);
+                            assert.equal(res.LUISJsonStructure.prebuiltEntities[0].roles.length, 1);
+                            done();
+                    })
+                    .catch((err) => done(err))
+
+        });
+
+        it('Labelled closed list entity in an utterance that conflicts with a phrase list name is valid', function(done) {
+                let luFile = `
+
+                $number : phraseList
+                    - one
+                    - two
+
+                    # test
+                    - this is {number:first = one}
+
+                    $number : test=
+                    - one
+                    - two
+            `;
+    
+            parseFile.parseFile(luFile) 
+                    .then(res => {
+                            
+                            assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                            assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                            assert.equal(res.LUISJsonStructure.closedLists[0].roles.length, 1);
+                            done();
+                    })
+                    .catch((err) => done(err))
+
+        });
+
+        it('Labelled regex entity in an utterance that conflicts with a phrase list name is valid', function(done) {
+                let luFile = `
+
+                $number : phraseList
+                    - one
+                    - two
+
+                    # test
+                    - this is {number:first = one}
+
+                    $number : /one/
+            `;
+    
+            parseFile.parseFile(luFile) 
+                    .then(res => {
+                            
+                            assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                            assert.equal(res.LUISJsonStructure.regex_entities.length, 1);
+                            assert.equal(res.LUISJsonStructure.regex_entities[0].roles.length, 1);
+                            done();
+                    })
+                    .catch((err) => done(err))
+
+        });
+
+
+        it('Test for #1137', function(done) {
                 let luFile = `
 
             $product : simple
@@ -351,7 +429,45 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
 
         });
 
+        it('Test for #1165 (with roles)', function(done) {
+                let luFile = `## None
+                - here's an utterance avalue with a role in it
+                
+                $aListEntity:some value= Roles=ThisIsARole
+                - avalue
+                
+                $MyComposite:[aListEntity:ThisIsARole]
+                `;
+    
+            parseFile.parseFile(luFile) 
+                    .then(res => {
+                            assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                            assert.equal(res.LUISJsonStructure.closedLists[0].roles.length, 1);
+                            assert.equal(res.LUISJsonStructure.composites.length, 1);
+                            done();
+                    })
+                    .catch((err) => done(err))
+
+        });
+
+        it('Test for #1166 ', function(done) {
+                let luFile = `$Country|Office:Argentina|ar::chc=
+                - Chaco
+                - chaco
+                `;
+    
+            parseFile.parseFile(luFile) 
+                    .then(res => {
+                            assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                            assert.equal(res.LUISJsonStructure.closedLists[0].name, 'Country|Office');
+                            assert.equal(res.LUISJsonStructure.closedLists[0].subLists[0].canonicalForm, 'Argentina|ar::chc');
+                            done();
+                    })
+                    .catch((err) => done(err))
+
+        });
 });
+
 
 describe('parseFile correctly parses utterances', function () {
         it('correctly parses an utterance with no entities', function (done) {
@@ -379,6 +495,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.entities.length, 1);
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses an utterance with one labelled entity', function (done) {
@@ -394,6 +511,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.entities.length, 1);
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses a pattern with pattern.any entity', function (done) {
@@ -409,6 +527,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities[0].name, "foodType");
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses an utterance with multiple labelled entities', function (done) {
@@ -426,6 +545,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.entities.length, 1);
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses an utterance with multiple labelled entities', function (done) {
@@ -443,6 +563,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.entities.length, 1);
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses a pattern with multiple pattern.any entities', function (done) {
@@ -458,6 +579,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities[0].name, "foodType");
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses an utterance with only labelled entity', function (done) {
@@ -473,6 +595,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.entities.length, 1);
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses an utterance with only labelled entity', function (done) {
@@ -488,6 +611,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.entities.length, 1);
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses pattern with only pattern.any entity in it.', function (done) {
@@ -503,6 +627,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities[0].name, "userName");
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses utterance with composite entities', function (done) {
@@ -522,6 +647,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities[0].endPos, 2);
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses utterance with composite entities with one child label', function (done) {
@@ -543,6 +669,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities[1].endPos, 20);
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses utterance with composite entities with multiple children', function (done) {
@@ -566,6 +693,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities[2].endPos, 35);
                                 done();
                         })
+                        .catch(err => done(err))
         })
 
         it('correctly parses utterance with composite entities', function (done) {
@@ -593,6 +721,161 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities[4].endPos, 38);
                                 done();
                         })
+                        .catch(err => done(err))
+        })
+
+        it('correctly parses nested simple entities', function(done) {
+                let testLU = `# test
+                - 1 {a = {b = {c = 2}}}`;
+
+                parseFile.parseFile(testLU)
+                        .then(res => {
+                                assert.equal(res.LUISJsonStructure.entities.length, 3);
+                                assert.equal(res.LUISJsonStructure.utterances.length, 1);
+                                assert.equal(res.LUISJsonStructure.utterances[0].text, '1 2');
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 3);
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[0], {
+                                        "entity": "c",
+                                        "startPos": 2,
+                                        "endPos": 2
+                                      });
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[1], {
+                                        "entity": "b",
+                                        "startPos": 2,
+                                        "endPos": 2
+                                      })
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[2], {
+                                        "entity": "a",
+                                        "startPos": 2,
+                                        "endPos": 2
+                                      })
+                                done();
+                        })
+                        .catch(err => done(err));
+        })
+
+        it('correctly parses composites with nested simple entities', function(done) {
+                let testLU = `# test
+                - 1 {a = {b = {c = 2}}}
+                $a:[b]`;
+
+                parseFile.parseFile(testLU)
+                        .then(res => {
+                                assert.equal(res.LUISJsonStructure.entities.length, 2);
+                                assert.equal(res.LUISJsonStructure.utterances.length, 1);
+                                assert.equal(res.LUISJsonStructure.utterances[0].text, '1 2');
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 3);
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[0], {
+                                        "entity": "c",
+                                        "startPos": 2,
+                                        "endPos": 2
+                                      });
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[1], {
+                                        "entity": "b",
+                                        "startPos": 2,
+                                        "endPos": 2
+                                      })
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[2], {
+                                        "entity": "a",
+                                        "startPos": 2,
+                                        "endPos": 2
+                                      })
+                                assert.equal(res.LUISJsonStructure.composites.length, 1);
+                                assert.deepEqual(res.LUISJsonStructure.composites[0].children, ["b"]);
+                                done();
+                        })
+                        .catch(err => done(err));
+        });
+
+        it ('Roles specified in composite nested simple child entities are parsed correcly', function(done){
+                let testLU = `## None
+                - {MyComposite:c1=here's an {Entity2:t1=utterance {Entity1:t2=avalue}}} with a composite in it
+                > here's an utterance avalue with a composite in it
+                > MyComposite:0,25; Entity2:10,25, Entity1:20,25
+                $Entity1:simple
+                
+                $Entity2:simple
+               
+                $MyComposite:[Entity1, Entity2]`;
+
+                parseFile.parseFile(testLU)
+                        .then(res => {
+                                assert.equal(res.LUISJsonStructure.entities.length, 2);
+                                assert.equal(res.LUISJsonStructure.utterances.length, 1);
+                                assert.equal(res.LUISJsonStructure.utterances[0].text, "here's an utterance avalue with a composite in it");
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 3);
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[0], {
+                                        "entity": "Entity1",
+                                        "startPos": 20,
+                                        "endPos": 25,
+                                        "role": "t2"
+                                      });
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[1], {
+                                        "entity": "Entity2",
+                                        "startPos": 10,
+                                        "endPos": 25,
+                                        "role": "t1"
+                                      })
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[2], {
+                                        "entity": "MyComposite",
+                                        "startPos": 0,
+                                        "endPos": 25,
+                                        "role": "c1"
+                                      })
+                                assert.equal(res.LUISJsonStructure.composites.length, 1);
+                                assert.deepEqual(res.LUISJsonStructure.composites[0].children, [
+                                        "Entity1",
+                                        "Entity2"
+                                      ]);
+                                assert.equal(res.LUISJsonStructure.composites[0].name, "MyComposite")
+                                done();
+                        })
+                        .catch(err => done(err))
+
+        });
+
+        it ('test for #1167', function(done){
+                let testLU = `## None
+                - {MyComposite=here's an {Entity2=utterance {Entity1=avalue}}} with a composite in it
+                > here's an utterance avalue with a composite in it
+                > MyComposite:0,25; Entity2:10,25, Entity1:20,25
+                $Entity1:simple
+                
+                $Entity2:simple
+               
+                $MyComposite:[Entity1, Entity2]`;
+
+                parseFile.parseFile(testLU)
+                        .then(res => {
+                                assert.equal(res.LUISJsonStructure.entities.length, 2);
+                                assert.equal(res.LUISJsonStructure.utterances.length, 1);
+                                assert.equal(res.LUISJsonStructure.utterances[0].text, "here's an utterance avalue with a composite in it");
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 3);
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[0], {
+                                        "entity": "Entity1",
+                                        "startPos": 20,
+                                        "endPos": 25
+                                      });
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[1], {
+                                        "entity": "Entity2",
+                                        "startPos": 10,
+                                        "endPos": 25
+                                      })
+                                assert.deepEqual(res.LUISJsonStructure.utterances[0].entities[2], {
+                                        "entity": "MyComposite",
+                                        "startPos": 0,
+                                        "endPos": 25
+                                      })
+                                assert.equal(res.LUISJsonStructure.composites.length, 1);
+                                assert.deepEqual(res.LUISJsonStructure.composites[0].children, [
+                                        "Entity1",
+                                        "Entity2"
+                                      ]);
+                                assert.equal(res.LUISJsonStructure.composites[0].name, "MyComposite")
+                                done();
+                        })
+                        .catch(err => done(err))
+
         })
 
 })

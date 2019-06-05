@@ -52,14 +52,14 @@ const parseFileContentsModule = {
         let entityFound = '';
         if (LUISJSONBlob.entities.length > 0) {
             LUISJSONBlob.entities.forEach(function (entity) {
-                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['simple']));
+                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['simple'], entity.roles));
             });
         }
         if (LUISJSONBlob.closedLists.length > 0) {
             LUISJSONBlob.closedLists.forEach(function (entity) {
                 entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
                 if (entityFound.length === 0) {
-                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['list']));
+                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['list'], entity.roles));
                 } else {
                     entityFound[0].type.push('list');
                 }
@@ -69,7 +69,7 @@ const parseFileContentsModule = {
             LUISJSONBlob.patternAnyEntities.forEach(function (entity) {
                 entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
                 if (entityFound.length === 0) {
-                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['patternAny']));
+                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['patternAny'], entity.roles));
                 } else {
                     entityFound[0].type.push('patternAny');
                 }
@@ -80,7 +80,7 @@ const parseFileContentsModule = {
             LUISJSONBlob.regex_entities.forEach(function (entity) {
                 entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
                 if (entityFound.length === 0) {
-                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, [`regEx:/${entity.regexPattern}/`]));
+                    entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, [`regEx:/${entity.regexPattern}/`], entity.roles));
                 } else {
                     if (entityFound[0].regexPattern !== undefined) {
                         if (entityFound[0].regexPattern !== entity.regexPattern)
@@ -97,7 +97,7 @@ const parseFileContentsModule = {
         compositesEnt.forEach(entity => {
             entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
             if (entityFound.length === 0) {
-                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['composite']));
+                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['composite'], entity.roles));
             } else {
                 entityFound[0].type.push('composite');
             }
@@ -108,7 +108,7 @@ const parseFileContentsModule = {
         prebuiltEnt.forEach(entity => {
             entityFound = helpers.filterMatch(entitiesList, 'name', entity.name);
             if (entityFound.length === 0) {
-                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['prebuilt']));
+                entitiesList.push(new helperClass.validateLUISBlobEntity(entity.name, ['prebuilt'], entity.roles));
             } else {
                 entityFound[0].type.push('prebuilt');
             }
@@ -152,9 +152,23 @@ const parseFileContentsModule = {
 
                 // composite entity definitions must have valid child entity type definitions. 
                 composite.children.forEach(child => {
-                    let compositeChildEntityFound = (entitiesList || []).find(entity => entity.name == child);
+                    // Fix for #1165
+                    // Current implementation does not account for explicit role included in a child
+                    let childEntityName = child;
+                    let childEntityRole = '';
+                    if(child.includes(':')) {
+                        let childSplit = child.split(':').map(item => item.trim());
+                        childEntityName = childSplit[0];
+                        childEntityRole = childSplit[1];
+                    }
+                    let compositeChildEntityFound = (entitiesList || []).find(entity => entity.name == childEntityName);
                     if (compositeChildEntityFound === undefined) {
-                        throw (new exception(retCode.errorCode.INVALID_INPUT, 'Composite entity "' + composite.name + '" includes an undefined child entity "' + child + '".\r\n\tAll children of composite entities must be explicitly defined or implicitly defined via an utterance or a pattern'));
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, 'Composite entity "' + composite.name + '" includes an undefined child entity "' + childEntityName + '".\r\n\tAll children of composite entities must be explicitly defined or implicitly defined via an utterance or a pattern'));
+                    }
+                    if (childEntityRole != '') {
+                        if (!compositeChildEntityFound.roles.includes(childEntityRole)) {
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, 'Composite entity "' + composite.name + '" includes an undefined child entity role "' + childEntityName + ':' + childEntityRole + '".\r\n\tAll children of composite entities must be explicitly defined or implicitly defined via an utterance or a pattern'));
+                        }
                     }
                 })
                 
@@ -977,93 +991,13 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
             }
             // handle entities in the utterance
             if (utterance.includes("{")) {
-                let utteranceWithoutEntityLabel = '';
-                let entityBuffer = [];
-                let captureEntityName = false;
-                let captureEntityValue = false;
-                let captureEntityRole = false;
-                let entitiesFound = [];
-                // walk through the utterance and handle all entities
-                utterance.split('').forEach(char => {
-                    if (char === '{') {
-                        // Handle cases where we are dealing with composites
-                        if (entityBuffer.length > 1) {
-                            // Nested composites are not supported. Throw.
-                            throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: Utterance "${utterance}" has nested composite references. e.g. {a = {b = x}} is valid but {a = {b = {c = x}}} is invalid.`));
-                        }
-                        entityBuffer.push({
-                            startPos: utteranceWithoutEntityLabel.length,
-                            entity: '',
-                            labelledValue: '',
-                            type:'',
-                            endPos: 0,
-                            role: ''
-                        });
-                        captureEntityName = true;
-                        captureEntityValue = false;
-                        captureEntityRole = false;
-                    } else if (char === '}') {
-                        if (captureEntityValue && entityBuffer[entityBuffer.length - 1].labelledValue.length === 0) {
-                            throw (new exception(retCode.errorCode.MISSING_LABELLED_VALUE, '[ERROR]: No labelled value found for entity: "' + entityBuffer[entityBuffer.length - 1].entity + '" in utterance: ' + utterance));
-                        }
-                        entityBuffer[entityBuffer.length - 1].entity = entityBuffer[entityBuffer.length - 1].entity.trim();
-                        // we have hit an entity end token and no labelled value
-                        if (entityBuffer[entityBuffer.length - 1].labelledValue === '' && entityBuffer[entityBuffer.length - 1].type !== 'labelled') {
-                            entityBuffer[entityBuffer.length - 1].type = LUISObjNameEnum.PATTERNANYENTITY;
-                            if (entityBuffer[entityBuffer.length - 1].role === '') {
-                                utteranceWithoutEntityLabel += `{${entityBuffer[entityBuffer.length - 1].entity}}`;
-                            } else {
-                                utteranceWithoutEntityLabel += `{${entityBuffer[entityBuffer.length - 1].entity}:${entityBuffer[entityBuffer.length - 1].role}}`;
-                            }
-                            
-                        } else {
-                            if (entityBuffer.length > 1) {
-                                // add first entity's labelled value (if any to utterance)
-                                utteranceWithoutEntityLabel += entityBuffer[0].labelledValue.trimLeft();
-                                entityBuffer[0].labelledValue = "";
-                                // re-compute start position
-                                entityBuffer[entityBuffer.length - 1].startPos = utteranceWithoutEntityLabel.length;
-                            } 
-                            utteranceWithoutEntityLabel += entityBuffer[entityBuffer.length - 1].labelledValue.trim();
-                            entityBuffer[entityBuffer.length - 1].endPos = utteranceWithoutEntityLabel.length - 1;
-                            entityBuffer[entityBuffer.length - 1].labelledValue = entityBuffer[entityBuffer.length - 1].labelledValue.trim();
-                        }
-                        entitiesFound.push(entityBuffer[entityBuffer.length - 1]);
-                        entityBuffer.pop();
-                        captureEntityName = false;
-                        captureEntityValue = false;
-                        captureEntityRole = false;
-                    } else if (char === '=' && (captureEntityName || captureEntityRole)) {
-                        captureEntityValue = true;
-                        captureEntityName = false;
-                        captureEntityRole = false;
-                        entityBuffer[entityBuffer.length - 1].type = 'labelled';
-                    } else if (char === ':' && captureEntityName) {
-                        captureEntityValue = false;
-                        captureEntityName = false;
-                        captureEntityRole = true;
-                    } else {
-                        if (captureEntityName) {
-                            entityBuffer[entityBuffer.length - 1].entity += char;
-                        } else if (captureEntityValue) {
-                            entityBuffer[entityBuffer.length - 1].labelledValue += char;
-                        } else if (captureEntityRole) {
-                            entityBuffer[entityBuffer.length - 1].role += char;
-                        } else {
-                            utteranceWithoutEntityLabel += char;
-                        }
-                    }
-                });
-                // throw exception on unclosed entity definition
-                if (entityBuffer.length !== 0) {
-                    throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid entity definition. Please verify that all parenthesis {curly brackets} are closed.`));
-                }
+                let {entitiesFound, utteranceWithoutEntityLabel} = getEntities(utterance);
                 // there cannot be a mix of patternAny and non patternAny entities in utterances
                 let havePatternAnyEntity = entitiesFound.find(item => item.type == LUISObjNameEnum.PATTERNANYENTITY);
                 if (havePatternAnyEntity !== undefined) {
                     let mixedEntity = entitiesFound.filter(item => item.type != LUISObjNameEnum.PATTERNANYENTITY);
                     if (mixedEntity.length !== 0) {
-                        throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has mix of entites with labelled values and ones without. Please update utterance to either include labelled values for all entities or remove labelled values from all entities.`));
+                        throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has mix of entities with labelled values and ones without. Please update utterance to either include labelled values for all entities or remove labelled values from all entities.`));
                     }
                     // add this utterance to pattern if it does not already exist
                     let newPattern = new helperClass.pattern(utteranceWithoutEntityLabel, intentName);
@@ -1141,7 +1075,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                                     throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: ${entity.entity} has been defined as a Regex entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`))
                                 }
                             } else if (patternAnyExists !== undefined) {
-                                if (entity.labelledValue != '') {
+                                if (entity.value != '') {
                                     // Verify and add this as simple entity.
                                     let roles = (entity.role.trim() !== "") ? [entity.role.trim()] : [];
                                     patternAnyExists.roles.forEach(role => roles.push(role));
@@ -1180,7 +1114,129 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
             }
         });
     }
-}
+};
+
+/**
+ * Helper function to pull out entities from given utterance text as well as any found entities
+ * @param {string} utterance 
+ * @returns {Object} {entitiesFound, utteranceWithoutEntityLabel}
+ * @throws {exception} Throws on errors. exception object includes errCode and text.  
+ */
+const getEntities = function (utterance) {
+    let retObj = {
+        entitiesFound : [], 
+        utteranceWithoutEntityLabel: ''
+    };
+    let root = {
+        value: [],
+        parent: undefined
+    };
+    let currentList = root;
+    let newList = undefined;
+    let captureRole = false;
+    let captureEntityName = false;
+    let captureEntityValue = false;
+    utterance.split('').forEach(char => {
+        if (char === '{') {
+            newList = new helperClass.parserEntity(currentList);
+            currentList.value.push(newList);
+            currentList = newList;
+            captureEntityName = true;
+            captureRole = false;
+            captureEntityValue = false;
+        } else if (char === '}') {
+            if (captureEntityValue && currentList.value.length === 0) {
+                throw (new exception(retCode.errorCode.MISSING_LABELLED_VALUE, '[ERROR]: No labelled value found for entity: "' + currentList.entity.trim + '" in utterance: ' + utterance));
+            }
+            currentList = currentList.parent;
+            captureEntityName = false;
+            captureRole = false;
+            captureEntityValue = false;
+        } else if (char === '=' && (captureEntityName || captureRole)) {
+            captureRole = false;
+            captureEntityName = false;
+            captureEntityValue = true;
+        } else if (char === ':' && captureEntityName) {
+            captureRole = true;
+            captureEntityName = false;
+            captureEntityValue = false;
+        } else {
+            if (captureEntityName) {
+                currentList.entity += char;
+            } else if (captureRole) {
+                currentList.role += char;
+            } else {
+                currentList.value.push(char);
+            }
+        }
+    });
+    if (currentList.parent !== undefined) {
+        throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid entity definition. Please verify that all parenthesis {curly brackets} are closed.`));
+    }
+    let offset = 0;
+    // recursive function to walkthrough list
+    root.value.forEach((item, idx) => {
+        if (item instanceof helperClass.parserEntity) {
+            let valuesToInsert = flattenLists(item, retObj, idx + offset);
+            if (valuesToInsert.length > 0) {
+                retObj.utteranceWithoutEntityLabel += valuesToInsert.join('');
+                offset += valuesToInsert.length - 1;
+            } 
+        } else {
+            retObj.utteranceWithoutEntityLabel += item;
+        }
+    });
+    
+    return retObj;
+};
+
+/**
+ * Helper function to recursively pull entities from parsed utterance text
+ * @param {parserEntity} list
+ * @param {Object} retObj {entitiesFound, utteranceWithoutEntityLabel}
+ * @param {number} parentIdx index where this list occurs in the parent
+ * @returns {string[]} resolved values to add to the parent list
+ * @throws {exception} Throws on errors. exception object includes errCode and text.  
+ */
+const flattenLists = function(list, retObj, parentIdx) {
+    let retValue = []
+    if (list.entity !== undefined) list.entity = list.entity.trim();
+    if (list.role !== undefined) list.role = list.role.trim();
+    if (list.startPos !== undefined) list.startPos = parentIdx;
+    let offset = 0;
+    list.value.forEach((item, idx) => {
+        if (item instanceof helperClass.parserEntity) {
+            let valuesToInsert = flattenLists(item, retObj, offset + parentIdx);
+            if (valuesToInsert.length > 0) {
+                retValue = retValue.concat(valuesToInsert);
+                offset += valuesToInsert.length;
+            }
+        } else {
+            retValue.push(item);
+            if (item === ' ') {
+                if (idx !== 0 && idx !== (list.value.length - 1)) {
+                    offset ++;
+                }
+            } else {
+                offset ++;
+            }
+        }
+    });
+    if (list.value.length === 0) {
+        list.type = LUISObjNameEnum.PATTERNANYENTITY;
+        if (list.role != '') {
+            retValue = `{${list.entity}:${list.role}}`.split('');
+        } else {
+            retValue = `{${list.entity}}`.split('');
+        }
+    } else {
+        list.type = LUISObjNameEnum.ENTITIES;
+    }
+    retValue = retValue.join('').trim();
+    if (list.endPos !== undefined) list.endPos = parentIdx + retValue.length - 1;
+    retObj.entitiesFound.push(new helperClass.parserEntity(undefined, list.startPos, list.entity, retValue, list.endPos, list.type, list.role));
+    return retValue.split('');
+};
 
 /**
  * Helper function to parse and handle URL or file references in lu files
