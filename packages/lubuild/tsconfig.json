@@ -18,7 +18,7 @@
     "strict": true,
     "strictNullChecks": true,
     "module": "commonjs",
-    "outDir": "./bin",
+    "outDir": "./lib",
     "declaration": true,
     "declarationDir": "./typings/lib",
     "lib": [ "dom", "dom.iterable", "es5", "es6", "es7", "esnext", "esnext.asynciterable", "es2015.iterable"]

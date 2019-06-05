@@ -2,11 +2,11 @@
   "name": "lubuild",
   "version": "1.0.0-preview",
   "description": "",
-  "main": "./bin/index.js",
+  "main": "./lib/index.js",
   "bin": {
-    "lubuild": "./bin/index.js"
+    "lubuild": "./bin/lubuild"
   },
-  "types": "bin/index.d.ts",
+  "types": "./typings/lib/index.d.ts",
   "author": "",
   "scripts": {
     "test": "cd test/ && mocha --opts mocha.opts",
