@@ -4,7 +4,6 @@ pool:
 name: Experimental-Push-$(Date:yyyyMMdd)$(Rev:.r)
 variables:
   var1: value1
-
 jobs:
 - job: Job_1
   displayName: Packages
