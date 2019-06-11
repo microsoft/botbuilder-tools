@@ -93,9 +93,7 @@ jobs:
       serviceConnection: 'SDK_v4 release REST API'
       method: GET
       urlSuffix: '/releases/599/tags?api-version=5.0-preview'
-  - script: echo $(job1PackDescription)
-    name: echovar
-
+  
 
 - job: Job_3
   displayName: Push
