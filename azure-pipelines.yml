@@ -1,0 +1,152 @@
+jobs:
+
+- job: Job_1
+  displayName: Packages
+  condition: succeeded()
+  pool:
+    name: Hosted VS2017
+#Your build pipeline references an undefined variable named ‘PACKAGESDESCRIPTION’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG0’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG1’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG2’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG3’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG4’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG5’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG6’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG7’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG8’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG9’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG10’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG11’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG12’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘PKG13’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+
+  steps:
+- checkout: none
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download Build Artifacts'
+    inputs:
+      buildType: specific
+      project: '86659c66-c9df-418a-a371-7de7aed35064'
+      pipeline: 467
+      downloadType: specific
+
+  - powershell: |  
+       [string[]]$outvar = (Get-ChildItem *.tgz -Path $(System.ArtifactsDirectory)\drop ).Name;
+       [int] $j = $outvar.Length;
+       $PackagesDescription = "Pushing $j packages";
+       Write-Host $PackagesDescription
+       "##vso[task.setvariable variable=PackagesDescription;]$PackagesDescription";
+       
+       for ($i = 0; $i -lt $outvar.Length; $i++ ) {
+           $p = $outvar[$i];
+           "##vso[task.setvariable variable=pkg$i;]$p";
+           Write-Host $p
+       }
+       for ($i = $outvar.Length; $i -lt 15; $i++ ) {
+           "##vso[task.setvariable variable=pkg$i;]";
+       }
+    displayName: 'Get package names'
+
+  - powershell: 'Get-ChildItem env:* | sort-object name | Format-Table -Autosize'
+    displayName: 'Display env vars'
+    continueOnError: true
+    condition: succeededOrFailed()
+
+  - task: colinsalmcorner.colinsalmcorner-buildtasks.tag-build-task.tagBuildOrRelease@0
+    displayName: 'Tag Build with package names'
+    inputs:
+      tags: |  
+       $(PACKAGESDESCRIPTION)
+       $(PKG0)
+       $(PKG1)
+       $(PKG2)
+       $(PKG3)
+       $(PKG4)
+       $(PKG5)
+       $(PKG6)
+       $(PKG7)
+       $(PKG8)
+       $(PKG9)
+       $(PKG10)
+       $(PKG11)
+       $(PKG12)
+       $(PKG13)
+       $(PKG14)
+    continueOnError: true
+
+  - powershell: |  
+       pushd ..
+       Get-ChildItem -Recurse -Force
+    displayName: 'Dir workspace'
+    continueOnError: true
+    condition: succeededOrFailed()
+
+  - powershell: |  
+       pushd $(Agent.TempDirectory)
+       Get-ChildItem -Recurse -Force
+    displayName: 'Dir $(Agent.TempDirectory)'
+    enabled: false
+    continueOnError: true
+    condition: succeededOrFailed()
+
+
+- job: Job_3
+  displayName: Verify
+  dependsOn: Job_1
+  condition: succeeded()
+  pool: server
+  steps:
+- checkout: none
+  - task: InvokeRESTAPI@1
+    displayName: 'View packages to be pushed'
+    inputs:
+      serviceConnection: 'SDK_v4 release REST API'
+      method: GET
+      urlSuffix: '/releases/599/tags?api-version=5.0-preview'
+
+
+- job: Job_2
+  displayName: Push
+  dependsOn: Job_3
+  condition: succeeded()
+  pool:
+    name: Hosted VS2017
+  steps:
+- checkout: none
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download Build Artifacts copy'
+    inputs:
+      buildType: specific
+      project: '86659c66-c9df-418a-a371-7de7aed35064'
+      pipeline: 467
+      downloadType: specific
+
+  - powershell: |  
+       Set-Location -Path "$(System.ArtifactsDirectory)\drop";
+       New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://botbuilder.myget.org/F/scratch/npm/";
+    displayName: 'Create .npmrc for MyGet scratch publish'
+
+  - task: npmAuthenticate@0
+    displayName: 'Authenticate for NPM publish'
+    inputs:
+      workingFile: '$(System.ArtifactsDirectory)\drop\.npmrc'
+      customEndpoint: 'MyGet scratch npm feed'
+
+  - powershell: |  
+       Set-Location -Path "$(System.ArtifactsDirectory)\drop";
+       Get-ChildItem . -Filter *.tgz | 
+       Foreach-Object {
+           Write-Host "Pushing:" $_.FullName;
+           npm publish $_.FullName;
+       }
+    displayName: 'Publish *.tgz '
+    enabled: false
+
+  - powershell: |  
+       pushd ..
+       Get-ChildItem -Recurse -Force
+    displayName: 'Dir workspace copy'
+    continueOnError: true
+    condition: succeededOrFailed()
+
