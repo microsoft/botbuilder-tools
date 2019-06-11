@@ -79,7 +79,6 @@ jobs:
   condition: succeeded()
   pool: server
   steps:
-- checkout: none
   - task: InvokeRESTAPI@1
     displayName: 'View packages to be pushed'
     inputs:
@@ -95,7 +94,6 @@ jobs:
   pool:
     name: Hosted VS2017
   steps:
-- checkout: none
   - task: DownloadBuildArtifacts@0
     displayName: 'Download Build Artifacts copy'
     inputs:
