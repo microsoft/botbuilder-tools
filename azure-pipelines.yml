@@ -2,7 +2,7 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 variables:
   var1: value1
 jobs:
-- job: One
+- job: Job_1
   steps:
   - script: echo First step!
   - task: DownloadBuildArtifacts@0
