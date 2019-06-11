@@ -1,5 +1,7 @@
+name: Hi-there-builder
+variables:
+  var1: value1
 jobs:
-
 - job: Job_1
   displayName: Packages
   condition: succeeded()
