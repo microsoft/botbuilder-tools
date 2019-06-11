@@ -93,6 +93,8 @@ jobs:
 
 - job: Job_2
   displayName: Push
+  pool:
+    name: Hosted VS2017
   dependsOn: Job_3
   condition: succeeded()
   steps:
