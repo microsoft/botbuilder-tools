@@ -59,7 +59,7 @@ ludown.parser.parseFile(luContent1, log, locale)
         // Parsed LUIS object
         console.log(JSON.stringify(parsedContent.LUISJsonStructure, 2, null));
         // Parsed QnA content
-        console.log(JSON.stringify(parsedContent.additionalFilesToParse, 2, null));
+        console.log(JSON.stringify(parsedContent.qnaJsonStructure, 2, null));
         // Additional files to parse
         console.log(JSON.stringify(parsedContent.additionalFilesToParse, 2, null));
     })
