@@ -1,11 +1,11 @@
-pool:
-  name: Hosted VS2017
 name: Experimental-Push-$(Date:yyyyMMdd)$(Rev:.r)
 variables:
   var1: value1
 jobs:
 - job: Job_1
   displayName: Packages
+  pool:
+    name: Hosted VS2017
   condition: succeeded()
   steps:
   - script: echo First step!
