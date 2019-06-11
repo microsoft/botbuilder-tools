@@ -62,6 +62,9 @@ jobs:
        $(PKG14)
     continueOnError: true
 
+  - powershell: 'gci env:* | sort-object name'
+    displayName: 'Display env vars'
+
   - powershell: |  
        pushd ..
        Get-ChildItem -Recurse -Force
@@ -104,6 +107,8 @@ jobs:
   variables:
     job1PackDescription: $[ dependencies.Job_1.outputs['getPackageNames.PackagesDescription'] ]
   steps:
+  - powershell: 'gci env:* | sort-object name'
+    displayName: 'Display env vars'
   - script: echo $(job1PackDescription)
     name: echovar
   - task: DownloadBuildArtifacts@0
