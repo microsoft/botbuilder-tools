@@ -125,7 +125,7 @@ jobs:
            npm publish $_.FullName;
        }
     displayName: 'Publish *.tgz '
-    enabled: false
+    enabled: true
 
   - powershell: |  
        pushd ..
