@@ -1,23 +1,7 @@
-name: $(Build.BuildId)
-trigger:
-  batch: true
-  branches:
-    include:
-      - master
-queue:
-  name: Hosted VS2017
-  timeoutInMinutes: 75
-variables:
-  excludePdbsFromDeploy: false
-  targetProfile: Scratch
-  configuration: Debug
-
-
-
 jobs:
 
 - job: Job_1
-  displayName: Agent job 1 
+  displayName: Packages
   condition: succeeded()
   pool:
     name: Hosted VS2017
@@ -108,7 +92,8 @@ jobs:
 
 
 - job: Job_3
-  displayName: Agentless job
+  displayName: Verify
+  dependsOn: Job_1
   condition: succeeded()
   pool: server
   steps:
@@ -122,25 +107,34 @@ jobs:
 
 
 - job: Job_2
-  displayName: Agent job
+  displayName: Push
+  dependsOn: Job_3
   condition: succeeded()
   pool:
     name: Hosted VS2017
   steps:
 - checkout: none
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download Build Artifacts copy'
+    inputs:
+      buildType: specific
+      project: '86659c66-c9df-418a-a371-7de7aed35064'
+      pipeline: 467
+      downloadType: specific
+
   - powershell: |  
        Set-Location -Path "$(System.ArtifactsDirectory)\drop";
-       New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://registry.npmjs.com/";
-    displayName: 'Create .npmrc for PROD NPM publish'
+       New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://botbuilder.myget.org/F/scratch/npm/";
+    displayName: 'Create .npmrc for MyGet scratch publish'
 
   - task: npmAuthenticate@0
     displayName: 'Authenticate for NPM publish'
     inputs:
-      workingFile: '"$(System.ArtifactsDirectory)\drop\.npmrc"'
-      customEndpoint: 'npmjs.com feed'
+      workingFile: '$(System.ArtifactsDirectory)\drop\.npmrc'
+      customEndpoint: 'MyGet scratch npm feed'
 
   - powershell: |  
-       Set-Location -Path "$(System.ArtifactsDirectory)\$(Release.PrimaryArtifactSourceAlias)\drop";
+       Set-Location -Path "$(System.ArtifactsDirectory)\drop";
        Get-ChildItem . -Filter *.tgz | 
        Foreach-Object {
            Write-Host "Pushing:" $_.FullName;
@@ -148,4 +142,11 @@ jobs:
        }
     displayName: 'Publish *.tgz '
     enabled: false
+
+  - powershell: |  
+       pushd ..
+       Get-ChildItem -Recurse -Force
+    displayName: 'Dir workspace copy'
+    continueOnError: true
+    condition: succeededOrFailed()
 
