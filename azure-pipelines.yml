@@ -3,6 +3,8 @@ variables:
   var1: value1
 jobs:
 - job: Job_1
+  displayName: Packages
+  condition: succeeded()
   steps:
   - script: echo First step!
   - task: DownloadBuildArtifacts@0
