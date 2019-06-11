@@ -5,7 +5,6 @@ jobs:
 - job: One
   steps:
   - script: echo First step!
-- checkout: none
   - task: DownloadBuildArtifacts@0
     displayName: 'Download Build Artifacts'
     inputs:
