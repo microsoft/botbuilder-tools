@@ -206,4 +206,75 @@ describe('With helper functions', function() {
             done(new Error('Test failed: splitFileBySections invalid entity definition!'));
         }
     });
+
+    it('split should not drop left-over substring if limit is less than possible parts', function(done){
+        const runTest = function (string, separator, limit, expectedParts) {
+            const inputs = `String: ${JSON.stringify(string)} Separator: ${JSON.stringify(separator)} Limit: ${limit}`;
+            const actualParts = helpers.split(string, separator, limit);
+            assert.deepEqual(actualParts, expectedParts,
+                    `${inputs} Expected: ${JSON.stringify(expectedParts)} Actual: ${JSON.stringify(actualParts)}`);
+            for (const prop in actualParts) {
+                assert((typeof prop) === 'number' || !isNaN(prop), `${inputs} Expected all properties of the returned array to be numbers, actual: ${JSON.stringify(prop)}`);
+                assert(prop >= 0, `${inputs} Expected all indices of the returned array to be non-negative, actual: ${JSON.stringify(prop)}`);
+            }
+        };
+
+        try {
+            runTest('', '', undefined, []);
+            runTest('', '', 0, []);
+            runTest('', '', 99, []);
+            runTest('', ':', undefined, ['']);
+            runTest('', ':', 0, []);
+            runTest('', ':', 99, ['']);
+            runTest('abc', '', undefined, ['a', 'b', 'c']);
+            runTest('abc', '', 0, []);
+            runTest('abc', '', 1, ['abc']);
+            runTest('abc', '', 2, ['a', 'bc']);
+            runTest('abc', '', 3, ['a', 'b', 'c']);
+            runTest('abc', '', 99, ['a', 'b', 'c']);
+            runTest('abc', ':', undefined, ['abc']);
+            runTest('abc', ':', 0, []);
+            runTest('abc', ':', 1, ['abc']);
+            runTest('abc', ':', 99, ['abc']);
+            runTest('a:b:c', ':', undefined, ['a', 'b', 'c']);
+            runTest('a:b:c', ':', 0, []);
+            runTest('a:b:c', ':', 1, ['a:b:c']);
+            runTest('a:b:c', ':', 2, ['a', 'b:c']);
+            runTest('a:b:c', ':', 3, ['a', 'b', 'c']);
+            runTest('a:b:c', ':', 99, ['a', 'b', 'c']);
+            runTest('a:b:', ':', undefined, ['a', 'b', '']);
+            runTest('a:b:', ':', 0, []);
+            runTest('a:b:', ':', 1, ['a:b:']);
+            runTest('a:b:', ':', 2, ['a', 'b:']);
+            runTest('a:b:', ':', 3, ['a', 'b', '']);
+            runTest('a:b:', ':', 99, ['a', 'b', '']);
+            runTest('a::c', ':', undefined, ['a', '', 'c']);
+            runTest('a::c', ':', 0, []);
+            runTest('a::c', ':', 1, ['a::c']);
+            runTest('a::c', ':', 2, ['a', ':c']);
+            runTest('a::c', ':', 3, ['a', '', 'c']);
+            runTest('a::c', ':', 99, ['a', '', 'c']);
+            runTest(':b:c', ':', undefined, ['', 'b', 'c']);
+            runTest(':b:c', ':', 0, []);
+            runTest(':b:c', ':', 1, [':b:c']);
+            runTest(':b:c', ':', 2, ['', 'b:c']);
+            runTest(':b:c', ':', 3, ['', 'b', 'c']);
+            runTest(':b:c', ':', 99, ['', 'b', 'c']);
+            runTest('a:/:/b:/:/c', ':/:/', undefined, ['a', 'b', 'c']);
+            runTest('a:/:/b:/:/c', ':/:/', 0, []);
+            runTest('a:/:/b:/:/c', ':/:/', 1, ['a:/:/b:/:/c']);
+            runTest('a:/:/b:/:/c', ':/:/', 2, ['a', 'b:/:/c']);
+            runTest('a:/:/b:/:/c', ':/:/', 3, ['a', 'b', 'c']);
+            runTest('a:/:/b:/:/c', ':/:/', 99, ['a', 'b', 'c']);
+            runTest('a:/:/:/:/c', ':/:/', undefined, ['a', '', 'c']);
+            runTest('a:/:/:/:/c', ':/:/', 0, []);
+            runTest('a:/:/:/:/c', ':/:/', 1, ['a:/:/:/:/c']);
+            runTest('a:/:/:/:/c', ':/:/', 2, ['a', ':/:/c']);
+            runTest('a:/:/:/:/c', ':/:/', 3, ['a', '', 'c']);
+            runTest('a:/:/:/:/c', ':/:/', 99, ['a', '', 'c']);
+            done();
+        } catch (err) {
+            done(new Error(`Test failed: ${err}`));
+        }
+    });
 });
