@@ -128,7 +128,7 @@ jobs:
   - powershell: 'gci env:* | sort-object name'
     displayName: 'Display env vars'
   - script: echo $(job1PackDescription)
-    name: echovar
+    name: echovar2
   - task: DownloadBuildArtifacts@0
     displayName: 'Download Build Artifacts copy'
     inputs:
