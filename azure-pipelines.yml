@@ -115,7 +115,6 @@ jobs:
   displayName: Push
   pool:
     name: Hosted VS2017
-  dependsOn: Job_1
   dependsOn: Job_2
   condition: succeeded()
   variables:
