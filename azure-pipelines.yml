@@ -115,7 +115,7 @@ jobs:
   displayName: Push
   pool:
     name: Hosted VS2017
-  dependsOn: Job_2
+  dependsOn: Job_1
   condition: succeeded()
   variables:
     myVarFromJobA: $[ dependencies.Job_1.outputs['setvarStep.myOutputVar'] ]  # map in the variable
@@ -123,6 +123,8 @@ jobs:
     job1PackDescription: $[ dependencies.Job_1.outputs['getPackageNames.PackagesDescriptionO'] ]
     job1Pkg0: $[ dependencies.Job_1.outputs['getPackageNames.PKG0O'] ]
   steps:
+  - script: echo $(myVarFromJobA)
+    name: echovar
   - powershell: 'gci env:* | sort-object name'
     displayName: 'Display env vars'
   - script: echo $(job1PackDescription)
