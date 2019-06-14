@@ -115,6 +115,7 @@ jobs:
        1) Click View logs.
        2) Click View packages.
        To see detailed logs, click View logs, then the Packages job.
+    enabled: false
     timeoutInMinutes: 5  
 
 - job: Job_3
