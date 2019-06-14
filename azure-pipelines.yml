@@ -1,4 +1,4 @@
-name: Experimental-Push-$(Date:yyyyMMdd)$(Rev:.r)
+name: Test-Yaml-Push-$(Date:yyyyMMdd)$(Rev:.r)
 variables:
   var1: value1
 jobs:
