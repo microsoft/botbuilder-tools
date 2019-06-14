@@ -30,7 +30,9 @@ jobs:
        
        for ($i = 0; $i -lt $outvar.Length; $i++ ) {
            $p = "pkg$i"
+           Write-Host $p
            $pO = "pkg$iO"
+           Write-Host $pO
            $n = $outvar[$i];
            "##vso[task.setvariable variable=$p;]$n";
            "##vso[task.setvariable variable=$pO;isOutput=true;]$n";
@@ -127,6 +129,7 @@ jobs:
     job1Pkg0: $[ dependencies.Job_1.outputs['getPackageNames.pkg0'] ]
     job1PackDescriptionO: $[ dependencies.Job_1.outputs['getPackageNames.PackagesDescriptionO'] ]
     job1Pkg0O: $[ dependencies.Job_1.outputs['getPackageNames.PKG0O'] ]
+
   steps:
   - script: echo $(myVarFromJobA)
     name: echovar
