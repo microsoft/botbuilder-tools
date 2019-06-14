@@ -1,5 +1,5 @@
 name: Test-Yaml-Push-$(Date:yyyyMMdd)$(Rev:.r)
-description: This demonstrates passing variables between jobs. A study for improving the instruction given by the manual intervention task in releases.
+comment: This demonstrates passing variables between jobs. A study for improving the instruction given by the manual intervention task in releases.
 variables:
   var1: value1
 jobs:
