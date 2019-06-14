@@ -107,7 +107,15 @@ jobs:
       serviceConnection: 'SDK_v4 release REST API'
       method: GET
       urlSuffix: '/releases/599/tags?api-version=5.0-preview'
-  
+  - task: ManualIntervention@8
+    displayName: 'Waiting for user'
+    inputs:
+      instructions: |
+       To review the packages to be pushed: 
+       1) Click View logs.
+       2) Click View packages.
+       To see detailed logs, click View logs, then the Packages job.
+    timeoutInMinutes: 5  
 
 - job: Job_3
   displayName: Push
