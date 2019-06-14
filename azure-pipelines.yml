@@ -25,33 +25,26 @@ jobs:
        [int] $j = $outvar.Length;
        $PackagesDescription = "Pushing $j packages";
        Write-Host $PackagesDescription
-       "##vso[task.setvariable variable=PackagesDescription;]$PackagesDescription";
-       "##vso[task.setvariable variable=PackagesDescriptionO;isOutput=true;]$PackagesDescription";
+       "##vso[task.setvariable variable=PackagesDescription;isOutput=true;]$PackagesDescription";
        
        for ($i = 0; $i -lt $outvar.Length; $i++ ) {
            $p = "pkg$i"
-           Write-Host $p
-           $pO = $p + "O"
-           Write-Host $pO
            $n = $outvar[$i];
-           "##vso[task.setvariable variable=$p;]$n";
-           "##vso[task.setvariable variable=$pO;isOutput=true;]$n";
-           Write-Host $n
+           "##vso[task.setvariable variable=$p;isOutput=true;]$n";
+           Write-Host "$p = $n"
        }
        for ($i = $outvar.Length; $i -lt 15; $i++ ) {
            $p = "pkg$i"
-           $pO = "pkg$iO"
-           "##vso[task.setvariable variable=$p;]";
-           "##vso[task.setvariable variable=$pO;isOutput=true;]";
+           "##vso[task.setvariable variable=$p;isOutput=true;]";
        }
     name: getPackageNames
     displayName: 'Get package names'
 
   - script: |  
        echo $(setvarStep.myOutputVar)
-       echo $(getPackageNames.PackagesDescriptionO)
-       echo $(getPackageNames.pkg0O)
-       echo $(getPackageNames.pkg1O)
+       echo $(getPackageNames.PackagesDescription)
+       echo $(getPackageNames.pkg0)
+       echo $(getPackageNames.pkg1)
     name: echovar
   - powershell: 'Get-ChildItem env:* | sort-object name | Format-Table -Autosize'
     displayName: 'Display env vars'
@@ -123,22 +116,30 @@ jobs:
   dependsOn: [Job_1,Job_2]
   condition: succeeded()
   variables:
-    myVarFromJobA: $[ dependencies.Job_1.outputs['setvarStep.myOutputVar'] ]  # map in the variable
-    testvar3: "testVal3"
-    job1PackDescription: $[ dependencies.Job_1.outputs['getPackageNames.PackagesDescription'] ]
-    job1Pkg0: $[ dependencies.Job_1.outputs['getPackageNames.pkg0'] ]
-    job1PackDescriptionO: $[ dependencies.Job_1.outputs['getPackageNames.PackagesDescriptionO'] ]
-    job1Pkg0O: $[ dependencies.Job_1.outputs['getPackageNames.PKG0O'] ]
+    PackagesDescription: $[ dependencies.Job_1.outputs['getPackageNames.PackagesDescription'] ]
+    Pkg0: $[ dependencies.Job_1.outputs['getPackageNames.PKG0'] ]
+    Pkg1: $[ dependencies.Job_1.outputs['getPackageNames.PKG1'] ]
+    Pkg2: $[ dependencies.Job_1.outputs['getPackageNames.PKG2'] ]
+    Pkg3: $[ dependencies.Job_1.outputs['getPackageNames.PKG3'] ]
+    Pkg4: $[ dependencies.Job_1.outputs['getPackageNames.PKG4'] ]
+    Pkg5: $[ dependencies.Job_1.outputs['getPackageNames.PKG5'] ]
+    Pkg6: $[ dependencies.Job_1.outputs['getPackageNames.PKG6'] ]
+    Pkg7: $[ dependencies.Job_1.outputs['getPackageNames.PKG7'] ]
+    Pkg8: $[ dependencies.Job_1.outputs['getPackageNames.PKG8'] ]
+    Pkg9: $[ dependencies.Job_1.outputs['getPackageNames.PKG9'] ]
+    Pkg10: $[ dependencies.Job_1.outputs['getPackageNames.PKG10'] ]
+    Pkg11: $[ dependencies.Job_1.outputs['getPackageNames.PKG11'] ]
+    Pkg12: $[ dependencies.Job_1.outputs['getPackageNames.PKG12'] ]
+    Pkg13: $[ dependencies.Job_1.outputs['getPackageNames.PKG13'] ]
+    Pkg14: $[ dependencies.Job_1.outputs['getPackageNames.PKG14'] ]
+    PkgList: "$(Pkg0), $(Pkg1), $(Pkg2)"
 
   steps:
-  - script: echo $(myVarFromJobA)
-    name: echovar
   - powershell: 'gci env:* | sort-object name'
     displayName: 'Display env vars'
   - script: |  
-      echo $(job1PackDescriptionO)
-      echo $(job1Pkg0O)
-      echo "$[ dependencies.Job_1.outputs['getPackageNames.PKG0O'] ]"  
+      echo $(PackagesDescription)
+      echo $(Pkg0)
     name: echovar2
   - task: DownloadBuildArtifacts@0
     displayName: 'Download Build Artifacts copy'
