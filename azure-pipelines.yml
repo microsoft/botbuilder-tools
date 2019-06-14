@@ -31,7 +31,7 @@ jobs:
        for ($i = 0; $i -lt $outvar.Length; $i++ ) {
            $p = "pkg$i"
            Write-Host $p
-           $pO = "$pO"
+           $pO = $p + "O"
            Write-Host $pO
            $n = $outvar[$i];
            "##vso[task.setvariable variable=$p;]$n";
