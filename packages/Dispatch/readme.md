@@ -65,7 +65,7 @@ and add each of the services it can dispatch to .dispatch file.  Currently, a ma
 dispatch add -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n TestLuisApp -v 0.1 -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dispatch add -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n TestLuisApp --intentName foo -v 0.1 -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --includeAnswersForTraining
+dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --includeAnswersForTraining true
 dispatch add -t file -n TestModule -f c:\src\testmodule.tsv
 dispatch add -t file -n TestModule2 -f c:\src\testmodule2.txt
 dispatch add -t file -n TestModule3 -f c:\src\testmodule3.json
