@@ -545,9 +545,9 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
     // we have an entity definition
     // Fix for #1137. 
     // Current code did not account for ':' in normalized values of list entities
-    let entityDef = chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, '');
-    let entityType = entityDef.slice(entityDef.indexOf(':') + 1).trim();
-    let entityName = entityDef.split(':')[0].trim();
+    let entityDef = helpers.split(chunkSplitByLine[0].replace(PARSERCONSTS.ENTITY, ''), ':', 2);
+    let entityName = entityDef[0].trim();
+    let entityType = entityDef[1].trim();
     // call helper to get roles
     let parsedRoleAndType = helpers.getRolesAndType(entityType);
     let entityRoles = parsedRoleAndType.roles;
@@ -610,7 +610,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
             }
             // handle regex entity 
             let regex = entityType.slice(1).slice(0, entityType.length - 2);
-            if (regex === '') throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} has empty regex pattern defined.`));
+            if (regex === '') throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${entityName} has empty regex pattern defined.`));
             // add this as a regex entity if it does not exist
             let regExEntity = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entityName);
             if (regExEntity === undefined) {
