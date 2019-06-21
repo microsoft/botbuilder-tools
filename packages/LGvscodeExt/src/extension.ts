@@ -22,7 +22,7 @@ import * as definition from './providers/definition';
  */
 export function activate(context: vscode.ExtensionContext) {
     activeLGExt(context);
-
+    
     // LG debug webview window
     context.subscriptions.push(vscode.commands.registerCommand('lgLiveTest.start', () => {
        LGDebugPanel.createOrShow(context.extensionPath);

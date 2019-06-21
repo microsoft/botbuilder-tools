@@ -4,14 +4,27 @@
 	"patterns": [
 		{"include": "#strings"},
 		{"include": "#templateDefinition"},
-		{"include": "#comments"}
+		{"include": "#comments"},
+		{"include": "#imports"}
 	],
 	"repository": {
-		"comments":{
+		"comments": {
 			"patterns": [{
 			"name": "comment.line.keywords",
 			"match": "^\\s*>.*?\n$"
 			}]
+		},
+		"imports": {
+			"captures": {
+				"1": {
+					"name": "string.other.link.title.lg"
+				},
+				"2": {
+					"name": "markup.underline.link.lg"
+				}
+			},
+			"match": "\\[([\\w\\W]+?)\\]\\(([\\w\\W]+?)\\)",
+			"name": "meta.link.reference.def.lg"
 		},
 		"strings": {
 			"name": "string.quoted.double.strings",

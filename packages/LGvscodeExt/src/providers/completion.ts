@@ -9,6 +9,8 @@
 import * as vscode from 'vscode';
 import * as util from '../util';
 import { DataStorage } from '../dataStorage';
+import { LGTemplate, LGParser } from 'botbuilder-lg';
+import * as path from 'path';
 
 /**
  * Code completions provide context sensitive suggestions to the user.
@@ -30,22 +32,47 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         if (!util.IsLgFile(document.fileName)) {
             return;
         }
-
+       
         const lineTextBefore = document.lineAt(position.line).text.substring(0, position.character);
         const lineTextAfter = document.lineAt(position.line).text.substring(position.character);
         
-        // TODO
-        // 1. when add a template from another file, should add [import](filepath)
-        // 2. give suggestion for import feature
-
-        // input [ ] prompt template suggestion
-        if (/\[[^\]]*$/.test(lineTextBefore)) {
+        // []() suggestion
+        if (/\[[^\]]*\]\([^\)]*$/.test(lineTextBefore)) {
             return new Promise((res, _) => {
-                let templates: string[] = [];
-                DataStorage.templateEngineMap.forEach(u => templates = templates.concat(u.templates.map(k => k.Name)));
+                let paths: string[] = [];
+
+                DataStorage.templateEngineMap.forEach(u => paths = paths.concat(u.templates.map(u => u.Source)));
+                paths = Array.from(new Set(paths));
+
+                const headingCompletions = paths.reduce((prev, curr) => {
+                    var relativePath = path.relative(document.uri.fsPath, curr).replace('\\','/');
+                    let item = new vscode.CompletionItem(relativePath, vscode.CompletionItemKind.Reference);
+                    item.detail = curr;
+                    prev.push(item);
+                    return prev;
+                }, []);
+
+                res(headingCompletions);
+            });
+        } else if (/\[[^\]]*$/.test(lineTextBefore)) {
+            // input [ ] prompt template suggestion
+            return new Promise((res, _) => {
+                let templates: LGTemplate[] = [];
+
+                DataStorage.templateEngineMap.forEach(u => templates = templates.concat(u.templates));
 
                 const headingCompletions = templates.reduce((prev, curr) => {
-                    let item = new vscode.CompletionItem(curr, vscode.CompletionItemKind.Reference);
+                    let item = new vscode.CompletionItem(curr.Name, vscode.CompletionItemKind.Reference);
+                    
+                    item.detail = `${curr.Source}`;
+                    
+                    const lgParser = LGParser.Parse(document.getText());
+                    var relativePath = path.relative(document.uri.fsPath, curr.Source).replace('\\','/');
+
+                    if (curr.Source !== document.uri.fsPath && !lgParser.Imports.map(u => u.Id).includes(relativePath)) {
+                        var edit =  vscode.TextEdit.insert(new vscode.Position(0,0), `[import](${relativePath})\r\n`);
+                        item.additionalTextEdits = [edit];
+                    }
                     if (!prev.includes(item)) {
                         prev.push(item);
                     }
