@@ -1,5 +1,4 @@
-import { commands, ExtensionContext, Position, Range, Selection, TextEditor, window, workspace, WorkspaceEdit } from 'vscode';
-import { isInFencedCodeBlock } from './util';
+import { commands, ExtensionContext, Position, window, workspace} from 'vscode';
 
 export function activate(context: ExtensionContext) {
     context.subscriptions.push(
@@ -17,7 +16,7 @@ function onEnterKey(modifiers?: string) {
 
     let lineBreakPos = cursorPos;
 
-    let matches;
+    let matches: RegExpExecArray | { replace: (arg0: string, arg1: string) => void; }[];
     if ((matches = /^(\s*[#-] +)/.exec(textBeforeCursor)) !== null) {
         // in '- ' or '# ' line
         return editor.edit(editBuilder => {

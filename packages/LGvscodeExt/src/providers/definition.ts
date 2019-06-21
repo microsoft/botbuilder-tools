@@ -9,6 +9,12 @@
 import * as vscode from 'vscode';
 import { TemplateEngine, LGTemplate, Position } from 'botbuilder-lg';
 import * as util from '../util';
+import { DataStorage } from '../dataStorage';
+
+
+export function activate(context: vscode.ExtensionContext) {
+    context.subscriptions.push(vscode.languages.registerDefinitionProvider('*', new LGDefinitionProvider()));
+}
 
 /**
  * Allow the user to see the definition of variables/functions/methods right where the variables/functions/methods are being used.
@@ -17,7 +23,7 @@ import * as util from '../util';
  * @class LGDefinitionProvider
  * @implements {vscode.DefinitionProvider}
  */
-export class LGDefinitionProvider implements vscode.DefinitionProvider{
+class LGDefinitionProvider implements vscode.DefinitionProvider{
     provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<vscode.Definition> {
         if (!util.IsLgFile(document.fileName)) {
             return;
@@ -30,7 +36,11 @@ export class LGDefinitionProvider implements vscode.DefinitionProvider{
         try {
             const lineText: string = document.lineAt(position.line).text;
             var templateName: string = this.findTemplateName(lineText, position.character);
-            let engine: TemplateEngine = TemplateEngine.fromText(document.getText());
+            let engine: TemplateEngine = DataStorage.templateEngineMap.get(document.uri.fsPath);
+            if (engine === undefined) {
+                return undefined;
+            }
+
             const templates: LGTemplate[] = engine.templates;
             const template: LGTemplate = templates.find(u=>u.Name === templateName);
             if (template === undefined)
