@@ -10,12 +10,13 @@ lg language extension, provide:
 # how to use for customer
 - `npm install` to install packages
 - `npm run compile`
+- if `vsce` is not installed globally, please use `npm install -g vsce` to install it.
 - use `vsce package` to export vsix file
 - open vscode, and extension tab
 - select 'install from VSIX...'
 - select vsix file, and reopen vscode
 - edit a lg file, try some features.
-- input `LG live test` in `F1` space, try lgfile webview test (just framework now)
+- input `LG live test` in `F1` space, try lgfile webview test
 
 # features show
 Highlight

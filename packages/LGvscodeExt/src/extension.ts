@@ -10,10 +10,11 @@ import * as vscode from 'vscode';
 import {LGDiagnostics} from './lgDiagnostics';
 import * as util from './util';
 import {LGDebugPanel} from './providers/lgDebugPanel';
-import {LGCompletionItemProvider} from './providers/lgCompletionItemProvider';
 import {LGDefinitionProvider} from './providers/lgDefinitionProvider';
 import { TemplateEngine } from 'botbuilder-lg';
 import { DataStorage } from './dataStorage';
+import * as listEditing from './listEditing';
+import * as completion from './providers/completion';
 
 /**
  * Main vs code Extension code part
@@ -22,6 +23,7 @@ import { DataStorage } from './dataStorage';
  * @param {vscode.ExtensionContext} context
  */
 export function activate(context: vscode.ExtensionContext) {
+    activeLGExt(context);
     // LG debug webview window
     context.subscriptions.push(vscode.commands.registerCommand('lgLiveTest.start', () => {
        LGDebugPanel.createOrShow(context.extensionPath);
@@ -55,12 +57,14 @@ export function activate(context: vscode.ExtensionContext) {
             triggerLGFileFinder();
         }
     }));
-
-    // code complete feature
-    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider()));
     
     // Show Definitions of a template symbol
     context.subscriptions.push(vscode.languages.registerDefinitionProvider('*', new LGDefinitionProvider()));
+}
+
+function activeLGExt(context: vscode.ExtensionContext) {
+    listEditing.activate(context);
+    completion.activate(context);
 }
 
 function updateDiagnostics(document: vscode.TextDocument, collection: vscode.DiagnosticCollection): void {
@@ -117,7 +121,7 @@ function updateInitCompletionItem(uris: vscode.Uri[]) {
         }
     });
     templateNames = Array.from(new Set(templateNames));
-    DataStorage.compItems = templateNames.map(u => new vscode.CompletionItem(u));
+    DataStorage.templateNames = templateNames;
 }
 
 function updateTemplateEngine(uris: vscode.Uri[]) {
