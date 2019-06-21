@@ -46,7 +46,10 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
 
                 const headingCompletions = templates.reduce((prev, curr) => {
                     let item = new vscode.CompletionItem(curr, vscode.CompletionItemKind.Reference);
-                    prev.push(item);
+                    if (!prev.includes(item)) {
+                        prev.push(item);
+                    }
+                    
                     return prev;
                 }, []);
 
