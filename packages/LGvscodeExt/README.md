@@ -1,11 +1,8 @@
 # lg-language README
 
-lg language extension, provide:
-- Syntax Highlight
-- if/switch/template Snippet
-- buildin functions Code Completion Proposals
-- init webview show of lgfile
-- diagnostic show
+Language Generation vscode extension. 
+
+Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder-Samples/tree/master/experimental/language-generation)
 
 # how to use for customer
 - `npm install` to install packages
@@ -17,6 +14,12 @@ lg language extension, provide:
 - select vsix file, and reopen vscode
 - edit a lg file, try some features.
 - input `LG live test` in `F1` space, try lgfile webview test
+
+# how to use for developer
+- `npm install` to install packages
+- press `F5` to debug
+- open lg file to debug
+- reference doc: [vscode extesion](https://code.visualstudio.com/api/language-extensions/overview)
 
 # features show
 #### Highlight
@@ -41,7 +44,7 @@ lg language extension, provide:
 - template (work in the current LG file now.)
 - buildin function (doing)
 
-![highlight](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Hover.png?raw=true)
+![highlight](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Hover.gif?raw=true)
 
 #### Code Completion (Suggestion)
 - building function name
