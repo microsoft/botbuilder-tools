@@ -38,7 +38,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         const lineTextAfter = document.lineAt(position.line).text.substring(position.character);
         
         // []() suggestion
-        if (/\[[^\]]*\]\([^\)]*$/.test(lineTextBefore)) {
+        if (/\[[^\]]*\]\([^\)]*$/.test(lineTextBefore) && !util.isInFencedCodeBlock(document, position)) {
             return new Promise((res, _) => {
                 let paths: string[] = [];
 
@@ -55,7 +55,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
 
                 res(headingCompletions);
             });
-        } else if (/\[[^\]]*$/.test(lineTextBefore)) {
+        } else if (/\[[^\]]*$/.test(lineTextBefore) && !util.isInFencedCodeBlock(document, position)) {
             // input [ ] prompt template suggestion
             return new Promise((res, _) => {
                 let templates: LGTemplate[] = [];
