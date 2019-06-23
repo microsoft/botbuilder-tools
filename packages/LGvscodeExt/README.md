@@ -19,14 +19,14 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 - `npm install` to install packages
 - press `F5` to debug
 - open lg file to debug
-- reference doc: [vscode extesion](https://code.visualstudio.com/api/language-extensions/overview)
+- reference doc: [vscode extension](https://code.visualstudio.com/api/language-extensions/overview)
 
 # features show
 #### Highlight
 - keyword
 - template name and parameters
 - template reference
-- expresion
+- expression
 - multiline text
 - comments
 
@@ -75,3 +75,4 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 - support "Show Definitions" of buildin functions
 - add "Argument position and type suggestion" feature for building functions
 - make "Show Definitions" and "Hover" cross files
+- polish color scheme of multiline code 
