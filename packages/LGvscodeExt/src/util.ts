@@ -16,9 +16,9 @@ export function IsLgFile(fileName: string): boolean {
     return true;
 }
 
-export function isInFencedCodeBlock(doc: TextDocument, lineNum: number): boolean {
-    let textBefore = doc.getText(new Range(new Position(0, 0), new Position(lineNum, 0)));
-    let matches = textBefore.match(/^```[\w ]*$/gm);
+export function isInFencedCodeBlock(doc: TextDocument, position: Position): boolean {
+    let textBefore = doc.getText(new Range(new Position(0, 0), position));
+    let matches = textBefore.match(/```[\w ]*$/gm);
     if (matches == null) {
         return false;
     } else {

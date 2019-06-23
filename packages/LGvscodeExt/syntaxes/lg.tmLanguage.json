@@ -2,17 +2,17 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "LG",
 	"patterns": [
-		{"include": "#strings"},
-		{"include": "#templateDefinition"},
+		{"include": "#template_name_line"},
 		{"include": "#comments"},
-		{"include": "#imports"}
+		{"include": "#imports"},
+		{"include": "#fence_block"},
+		{"include": "#template_body"}
 	],
 	"repository": {
 		"comments": {
-			"patterns": [{
-			"name": "comment.line.keywords",
-			"match": "^\\s*>.*?\n$"
-			}]
+			"begin": "^\\s*>",
+			"end":"\n",
+			"name":"comment.line.keywords"
 		},
 		"imports": {
 			"captures": {
@@ -26,75 +26,71 @@
 			"match": "\\[([\\w\\W]+?)\\]\\(([\\w\\W]+?)\\)",
 			"name": "meta.link.reference.def.lg"
 		},
-		"strings": {
-			"name": "string.quoted.double.strings",
-			"begin": "\"",
-			"end": "\"",
+		"fence_block": {
+			"begin": "(^-)(\\s*)(`{3})\\s*",
+			"beginCaptures": {
+				"3": {
+					"name": "punctuation.definition.lg"
+				}
+			},
+			"end": "(^)(\\2|\\s{0,3})(\\3)\\s*$",
+			"endCaptures": {
+				"3": {
+					"name": "punctuation.definition.lg"
+				}
+			},
+			"name": "constant.character.escape.multiline",
 			"patterns": [
 				{
-					"name": "constant.character.escape.strings",
-					"match": "\\\\."
-				}
-			]
-		},
-		"templateDefinition": {
-			"patterns": [
-				{"include": "#templateNameLine"},
-				{"include": "#templateBody"}
-			],
-			"repository":{
-				"templateNameLine": {
-					"name": "markup.bold.templateNameLine",
-					"begin":"#",
-					"end":"\n",
-					"patterns": [
-					{
-						"name": "entity.name.function.functionName",
-						"match": "(?<=#).*?(?=\\(|\n)"
-					},
-					{
-						"name": "variable.parameter.parameters",
-						"match": "(?<=\\().*?(?=\\))"
-					}]
+					"include": "#expression"
 				},
-				"templateBody": {
-					"begin":"-",
-					"end":"\n",
-					"patterns": [
-					{
-						"name": "variable.other.templateRef",
-						"match": "\\[.*?(\\(.*?(\\[.+\\])?\\))?\\]"
-					},
-					{
-						"name": "entity.name.function.expression",
-						"match": "(?<=\\{).*?(?=\\})"
-					},
-					{
-						"name": "keyword.control.keyword",
-						"match": "(?i)\\b(IF|ELSE|ELSEIF|SWITCH|CASE|DEFAULT)\\b"
-					},
-					{
-						"begin":"```",
-						"end":"```",
-						"patterns": [
-						{
-							"name": "entity.name.function.expression",
-							"match": "(?<=@\\{).*?(?=\\})"
-						},
-						{
-							"name": "string.quoted.double.strings",
-							"begin": "\"",
-							"end": "\"",
-							"patterns": [
-								{
-									"name": "constant.character.escape.strings",
-									"match": "\\\\."
-								}
-								]
-							}]
-					}]
+				{
+					"include": "#inline_string"
+				}]
+		},
+		"expression": {
+			"name": "entity.name.function.expression",
+			"match": "(?<=\\{).*?(?=\\})"
+		},
+		"inline_string": {
+			"match": "(\").+?(\")",
+			"name":"string.quoted.double.lg"
+		},
+		"template_ref": {
+			"match": "\\[(.*?)(\\(.*?(\\[.+\\])?\\))?\\]",
+			"captures": {
+				"1": {
+					"name": "entity.name.function.functionName"
+				},
+				"2": {
+					"name": "variable.parameter.parameters"
 				}
 			}
+		},
+		"keyword": {
+			"name": "keyword.control.keyword",
+			"match": "(?i)(IF|ELSE|ELSEIF|SWITCH|CASE|DEFAULT)\\s*:"
+		},
+		"template_name_line":{
+			"match": "^(#)\\s+([\\w\\d\\-_\\.]+)(\\(([\\w\\d\\-_\\.]+,\\s*)*([\\w\\d\\-_\\.]+)\\))?",
+			"captures": {
+				"2": {
+					"name": "entity.name.function.functionName"
+				},
+				"3": {
+					"name": "variable.parameter.parameters"
+				}
+			},
+			"name":"markup.heading.lg"
+		},
+		"template_body": {
+			"begin":"^\\s*-",
+			"end":"\n",
+			"patterns": [
+				{"include": "#template_ref"},
+				{"include": "#expression"},
+				{"include": "#keyword"}
+			]
 		}
 	},
 	"scopeName": "source.lg"

@@ -63,7 +63,7 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
         if (startIndex < 0 || lineText[startIndex] !== '[') return undefined;
 
         let endIndex: number = column;
-        while (endIndex <= lineText.length && !borderCharacters.includes(lineText[startIndex])) {
+        while (endIndex <= lineText.length && !borderCharacters.includes(lineText[endIndex])) {
                 endIndex++;
         }
         if (endIndex >= lineText.length || lineText[endIndex] === ')' || lineText[endIndex] === '[' ) return undefined;

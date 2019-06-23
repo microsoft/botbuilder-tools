@@ -1,35 +1,42 @@
 {
     "condition body": {
-		"prefix": "if",
-		"body": [
-            "IF: {${1:condition1}}",
-            "    - ${2:output1}",
-            "- ELSEIF: {${3:condition2}}",
-            "    - ${4:output2}",
-            "- ELSE:",
-            "    - ${5:final output}"
-		],
-		"description": "Construct condition body"
+      "prefix": "if",
+      "body": [
+              "IF: {${1:condition1}}",
+              "    - ${2:output1}",
+              "- ELSEIF: {${3:condition2}}",
+              "    - ${4:output2}",
+              "- ELSE:",
+              "    - ${5:final output}"
+      ],
+      "description": "Construct condition body"
     },
     "switch body": {
-		"prefix": "switch",
-		"body": [
-			"SWITCH:{${1:case}}",
-            "- CASE: {${2:case1}}",
-            "    - ${3:output1}",
-            "- CASE: {${4:case2}}",
-            "    - ${5:output2}",
-            "- DEFAULT:",
-            "   - ${6:final output}"
-		],
-		"description": "Construct switch body"
+      "prefix": "switch",
+      "body": [
+        "SWITCH:{${1:case}}",
+              "- CASE: {${2:case1}}",
+              "    - ${3:output1}",
+              "- CASE: {${4:case2}}",
+              "    - ${5:output2}",
+              "- DEFAULT:",
+              "   - ${6:final output}"
+      ],
+      "description": "Construct switch body"
     },
     "new template": {
-		"prefix": "template",
-		"body": [
-			"# ${1:template name}(${2:optional parameters})",
-			"- hi"
-		],
-		"description": "Start new template"
+      "prefix": "template",
+      "body": [
+        "# ${1:template name}(${2:optional parameters})",
+        "- hi"
+      ],
+      "description": "Start new template"
+    },
+    "import": {
+      "prefix": "import",
+      "body": [
+        "[import](${1:relative path of extra lg file})"
+      ],
+      "description": "new import"
     }
 }

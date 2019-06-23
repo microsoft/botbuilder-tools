@@ -36,3 +36,4 @@ Diagnostic
 
 Live Test Tool
 ![TestTool](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/TestTool.gif?raw=true)
+
