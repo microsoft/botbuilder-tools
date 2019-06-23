@@ -27,7 +27,7 @@
     "new template": {
       "prefix": "template",
       "body": [
-        "# ${1:template name}(${2:optional parameters})",
+        "# ${1:template_name}(${2:optional_parameters})",
         "- hi"
       ],
       "description": "Start new template"

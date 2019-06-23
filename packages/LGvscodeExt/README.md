@@ -19,21 +19,56 @@ lg language extension, provide:
 - input `LG live test` in `F1` space, try lgfile webview test
 
 # features show
-Highlight
+#### Highlight
+- keyword
+- template name and parameters
+- template reference
+- expresion
+- multiline text
+- comments
+
 ![highlight](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Highlight.png?raw=true)
 
-Snippet
+#### Snippet
+- import
+- switch
+- if
+- template
+
 ![Snippet](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Snippets.gif?raw=true)
 
-Code Completion
+#### Hover
+- template (work in the current LG file now.)
+- buildin function (doing)
+
+![highlight](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Hover.png?raw=true)
+
+#### Code Completion (Suggestion)
+- building function name
+- template reference
+- imports
+
 ![CodeCompletion](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/CodeCompletion.gif?raw=true)
 
-Show Definitions
+#### Show Definitions
+- template definition (work in the current LG file now.)
 ![ShowDefinitions](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/ShowDefinitions.gif?raw=true)
 
-Diagnostic
+#### Diagnostic
+- Error
+- Warning
+
 ![Diagnostic](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Diagnostic.gif?raw=true)
 
-Live Test Tool
+#### Live Test Tool
+- template evaluation
+- inline evaluation
+- multi files/ addFiles api (not support.)
+
 ![TestTool](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/TestTool.gif?raw=true)
 
+# TODO
+- support building function with a different color scheme
+- support "Show Definitions" of buildin functions
+- add "Argument position and type suggestion" feature for building functions
+- make "Show Definitions" and "Hover" cross files
