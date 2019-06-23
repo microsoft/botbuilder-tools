@@ -10,6 +10,10 @@ import * as vscode from 'vscode';
 import { LGTemplate, StaticChecker, Diagnostic, LGParser, Position, Range} from 'botbuilder-lg';
 import * as util from '../util';
 
+/**
+ * Diagnostics are a way to indicate issues with the code.
+ * @see https://code.visualstudio.com/api/language-extensions/programmatic-language-features#provide-diagnostics
+ */
 export function activate(context: vscode.ExtensionContext) {
     const collection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('lg');
 	if (vscode.window.activeTextEditor && util.IsLgFile(vscode.window.activeTextEditor.document.fileName)) {

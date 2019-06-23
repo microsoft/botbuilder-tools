@@ -7,7 +7,7 @@
  */
 
 import * as vscode from 'vscode';
-import { TemplateEngine, LGTemplate, Position } from 'botbuilder-lg';
+import { TemplateEngine, LGTemplate} from 'botbuilder-lg';
 import * as util from '../util';
 import { DataStorage } from '../dataStorage';
 
@@ -35,7 +35,12 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
     private getReference(document: vscode.TextDocument, position: vscode.Position): vscode.Position {
         try {
             const lineText: string = document.lineAt(position.line).text;
-            var templateName: string = this.findTemplateName(lineText, position.character);
+            const wordRange = document.getWordRangeAtPosition(position);
+            if (!wordRange) {
+                return undefined;
+            }
+            const templateName = document.getText(wordRange);
+            
             let engine: TemplateEngine = DataStorage.templateEngineMap.get(document.uri.fsPath);
             if (engine === undefined) {
                 return undefined;
@@ -52,22 +57,5 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
         } catch(e){
             return undefined;
        }
-    }
-
-    private findTemplateName(lineText: string, column: number): string {
-        let startIndex: number = column;
-        const borderCharacters: string[] = ['[',']','(',')'];
-        while (startIndex >= 0 && !borderCharacters.includes(lineText[startIndex])) {
-            startIndex--;
-        }
-        if (startIndex < 0 || lineText[startIndex] !== '[') return undefined;
-
-        let endIndex: number = column;
-        while (endIndex <= lineText.length && !borderCharacters.includes(lineText[endIndex])) {
-                endIndex++;
-        }
-        if (endIndex >= lineText.length || lineText[endIndex] === ')' || lineText[endIndex] === '[' ) return undefined;
-
-        return lineText.substring(startIndex + 1, endIndex);
     }
 }

@@ -1,5 +1,3 @@
-import { TextDocument, Range, Position, workspace } from "vscode";
-
 /**
  * @module botbuilder-lg-vscode
  */
@@ -8,6 +6,7 @@ import { TextDocument, Range, Position, workspace } from "vscode";
  * Licensed under the MIT License.
  */
 
+import { TextDocument, Range, Position, workspace } from "vscode";
 
 export function IsLgFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.endsWith('.lg')) {

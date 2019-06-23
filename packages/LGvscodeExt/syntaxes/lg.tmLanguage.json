@@ -72,7 +72,7 @@
 			"match": "(?i)(IF|ELSE|ELSEIF|SWITCH|CASE|DEFAULT)\\s*:"
 		},
 		"template_name_line":{
-			"match": "^(#)\\s+([\\w\\d\\-_\\.]+)(\\(([\\w\\d\\-_\\.]+,\\s*)*([\\w\\d\\-_\\.]+)\\))?",
+			"match": "^(#)\\s+([\\w\\d\\-_\\.]+)(\\(([\\w\\d\\-_\\.]+\\s*,\\s*)*([\\w\\d\\-_\\.]+)\\))?",
 			"captures": {
 				"2": {
 					"name": "entity.name.function.functionName"

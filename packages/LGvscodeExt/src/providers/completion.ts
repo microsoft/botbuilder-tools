@@ -11,6 +11,7 @@ import * as util from '../util';
 import { DataStorage } from '../dataStorage';
 import { LGTemplate, LGParser } from 'botbuilder-lg';
 import * as path from 'path';
+import { buildInfunctionNames } from '../buildinFunctions';
 
 /**
  * Code completions provide context sensitive suggestions to the user.
@@ -84,25 +85,14 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             });
         } else if (/\{[^\}]*$/.test(lineTextBefore)) {
             // buildin function prompt in expression
-            const buildInfunctionItem: vscode.CompletionItem[] = this.buildInfunctionNames.map(item => new vscode.CompletionItem(item));
+            const buildInfunctionItem: vscode.CompletionItem[] = buildInfunctionNames.map(item => new vscode.CompletionItem(item));
             return [...buildInfunctionItem];
         } else {
             return[];
         }
     }
 
-    buildInfunctionNames: string[] = [
-        'min','max','average','sum','exists','length','replace','replaceIgnoreCase','split','substring','toLower','toUpper',
-        'trim','count','contains','contains','join','first','last','foreach','addDays','addHours','addMinutes','addSeconds',
-        'dayOfMonth','dayOfWeek','dayOfYear','month','date','year','utcNow','formatDateTime','subtractFromTime','dateReadBack',
-        'getTimeOfDay','float','int','string','bool','Accessor','Element','createArray','Constant','Lambda','if','rand','json',
-        'getProperty','addProperty','removeProperty','setProperty','endsWith','startsWith','countWord','addOrdinal','guid',
-        'indexOf','lastIndexOf','union','intersection ','skip','take','filterNotEqual','subArray','array','binary','dataUri',
-        'dataUriToBinary','dataUriToString','decodeUriComponent','base64','base64ToBinary','base64ToString','uriComponent',
-        'uriComponentToString','xml','range','getFutureTime','getPastTime','addToTime','convertFromUtc','convertTimeZone',
-        'convertToUtc','startOfDay','startOfHour','startOfMonth','ticks','uriHost','uriPath','uriPathAndQuery','uriPort',
-        'uriQuery','uriScheme','coalesce','xpath',
-    ];
+    
 }
 
 
