@@ -7,6 +7,114 @@ const assert = chai.assert;
 const parser = require('../lib/parseFileContents');
 const toLU = require('../lib/toLU-helpers').constructMdFromLUISJSON;
 describe('Roles in LU files', function() {
+    it('Correctly parses prebuilt entity with roles defined via labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {geographyV2:fromCity=london} to {geographyV2:toCity=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $PREBUILT:geographyV2`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.prebuiltEntities.length, 2);
+                assert.equal(res.LUISJsonStructure.prebuiltEntities[0].roles.length, 1);
+                assert.equal(res.LUISJsonStructure.prebuiltEntities[1].roles.length, 2);
+                assert.equal(res.LUISJsonStructure.entities.length, 0);
+                done();
+            })
+            .catch(err => done(err));
+    })
+
+    it('Correctly parses list entity with roles defined via labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {city:fromCity=london} to {city:toCity=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $city:london=
+        - london
+        - big apple
+        
+        $city:paris=
+        - paris`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.prebuiltEntities.length, 1);
+                assert.equal(res.LUISJsonStructure.prebuiltEntities[0].roles.length, 1);
+                assert.equal(res.LUISJsonStructure.closedLists.length, 1);
+                assert.equal(res.LUISJsonStructure.closedLists[0].roles.length, 2)
+                assert.equal(res.LUISJsonStructure.entities.length, 0);
+                done();
+            })
+            .catch(err => done(err));
+    })
+
+    it('Correctly parses regex entity with roles defined via labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {city:fromCity=london} to {city:toCity=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $city:/[a-A][0-9]/`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.prebuiltEntities.length, 1);
+                assert.equal(res.LUISJsonStructure.prebuiltEntities[0].roles.length, 1);
+                assert.equal(res.LUISJsonStructure.regex_entities.length, 1);
+                assert.equal(res.LUISJsonStructure.regex_entities[0].roles.length, 2)
+                assert.equal(res.LUISJsonStructure.entities.length, 0);
+                done();
+            })
+            .catch(err => done(err));
+    })
+
+    it('Correctly throws on prebuilt entity (without roles) defined via labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {geographyV2=london} to {geographyV2=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $PREBUILT:geographyV2`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => done(`Did not throw when expected - ${res}`))
+            .catch(err => done());
+    })
+
+    it('Correctly throws on list entity (without roles) defined via labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {city=london} to {city=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $city:london=
+        - london
+        - big apple
+        
+        $city:paris=
+        - paris`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => done(`Did not throw when expected - ${res}`))
+            .catch(err => done());
+    })
+
+    it('Correctly thows with regex entity (without roles) in labelled utterance', function(done) {
+        let fileContent = `> # Intent definitions
+        ## Book flight
+        - book flight from {city=london} to {city=paris} on {datetimeV2:date=feb 14th}
+        
+        > # Entity definitions
+        $PREBUILT:datetimeV2
+        $city:/[a-A][0-9]/`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => done(`Did not throw when expected - ${res}`))
+            .catch(err => done());
+    })
+
     it('Corretly parses simple roles in LU files', function(done){
         let fileContent = `# getUserName
         - call me {name:userName}`;
@@ -140,7 +248,22 @@ describe('Roles in LU files', function() {
             .catch (err => done())
     }); 
 
-    
+    it ('Pattern.Any entities when labelled are automatically converted to simple entities', function(done){
+        let testLU = `
+        # test1
+        - book a flight to {location}
+        
+        # testIntent
+        - book a flight to {location=redmond}`;
+
+        parser.parseFile(testLU, false, null) 
+            .then (res => {
+                assert.equal(res.LUISJsonStructure.entities.length, 1);
+                assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 0);
+                done ();
+            })
+            .catch (err => done(err))
+    }); 
 
     it ('RegEx entities cannot be explicitly labelled in utterances', function(done){
         let testLU = `
@@ -192,41 +315,24 @@ describe('Roles in LU files', function() {
             .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
     });
 
-    it ('explicit prebuilt entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
-        let testLU = `# test
-        - this is a test of {datetimeV2:fromTime = 7AM}
+    it ('implicit pattern any entity type definition after adding it implicitly via a labelled value is handled correctly', function(done){
+        let testLU = `# test 2
+        - this is a {test}
+
+        # test
+        - this is a test of {test:fromTime = 7AM}
         
-        $PREBUILT:datetimeV2`;
+        `;
 
         parser.parseFile(testLU, false, null)
-            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
-            .catch (err => done ())
-    })
-
-    it ('explicit list entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
-        let testLU = `# test
-        - this is a test of {time:fromTime = 7AM}
-        
-        $time:morning=
-        - 7AM`;
-
-        parser.parseFile(testLU, false, null)
-            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
-            .catch (err => done ())
-    })
-
-    it ('explicit regex entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
-        let testLU = `# test
-        - this is a test of {time:fromTime = 7AM}
-        
-        $time:/[0-9]/`;
-
-        parser.parseFile(testLU, false, null)
-            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
-            .catch (err => done ())
-    })
-
-    
+            .then (res => {
+                assert.equal(res.LUISJsonStructure.entities.length, 1);
+                assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 0);
+                assert.equal(res.LUISJsonStructure.entities[0].roles.length, 1);
+                done ();
+            })
+            .catch (err => done (err))
+    });
 
     it ('explicit phrase list entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
         let testLU = `# test

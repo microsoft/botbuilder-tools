@@ -37,9 +37,10 @@ const readerObj = {
         }
     }, 
     validateLUISBlobEntity: class {
-        constructor(name, type) {
+        constructor(name, type, roles) {
             this.name = name?name:'';
             this.type = type?type:[];
+            this.roles = roles?roles:[];
         }
     }, 
     pattern: class {
@@ -95,6 +96,17 @@ const readerObj = {
             this.entity = name ? name : '';
             this.startPos = startPos ? startPos : 0;
             this.endPos = endPos ? endPos : 0
+        }
+    },
+    parserEntity: class {
+        constructor (parent, startPos, entity, value, endPos, type, role) {
+            this.entity = entity ? entity : '';
+            this.value = value ? value : [],
+            this.startPos = startPos ? startPos : 0,
+            this.endPos = endPos ? endPos : 0,
+            this.type = type ? type : 'simple';
+            this.role = role ? role : '';
+            this.parent = parent ? parent : undefined;
         }
     }
 };
