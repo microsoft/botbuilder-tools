@@ -27,7 +27,7 @@ Options:
 ```
 
 ## Encrypt a .bot file
-To encrypt an decrypted bot file, use
+To encrypt a decrypted bot file, use
 
 ```shell
 msbot secret --new

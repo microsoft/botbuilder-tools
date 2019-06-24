@@ -266,7 +266,43 @@ const helpers = {
             returnValue.roles = parsedRoleDefinition.replace('[', '').replace(']', '').split(RolesSplitRegEx).map(item => item.trim());
         }
         return returnValue;
-    }
+    },
+
+    /**
+     * Custom implementation of the String.split() function that does not drop parts of the string if a limit is used.
+     * If a string can be split into more substrings than the provided limit,
+     * the left-over text is returned as part of the last array element.
+     * @param {String} string The string to split.
+     * @param {String} separator The separator string to split on.
+     * @param {Number} limit The maximum number of substrings to return.
+     */
+    split: function (string, separator, limit) {
+        const parts = [];
+        let i = 0;
+        if (separator.length === 0) {
+            while (i < string.length && (limit === undefined || parts.length < limit)) {
+                parts.push(string.substring(i, i + 1));
+                ++i;
+            }
+            if (i < string.length && parts.length !== 0) {
+                parts[parts.length - 1] += string.substring(i);
+            }
+        } else {
+            let found;
+            while (i < string.length
+                    && (limit === undefined || parts.length < limit)
+                    && (found = string.indexOf(separator, i)) >= 0) {
+                parts.push(string.substring(i, found));
+                i = found + separator.length;
+            }
+            if (limit === undefined || parts.length < limit) {
+                parts.push(string.substring(i));
+            } else if (parts.length !== 0) {
+                parts[parts.length - 1] += string.substring(i - separator.length);
+            }
+        }
+        return parts;
+    },
 };
 
 /**
