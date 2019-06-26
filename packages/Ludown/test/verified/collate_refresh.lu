@@ -89,7 +89,7 @@ $PREBUILT:datetimeV2
 
 $ChocolateType:phraseList
 - m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
-$question:phraseList
+$question:phraseList interchangeable
 - are you,you are
 
 > # List entities

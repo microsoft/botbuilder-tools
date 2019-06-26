@@ -90,7 +90,7 @@ const toLUHelpers = {
         if(LUISJSON.model_features && LUISJSON.model_features.length >= 0) {
             fileContent += '> # Phrase list definitions' + NEWLINE + NEWLINE;
             LUISJSON.model_features.forEach(function(entity) {
-                fileContent += '$' + entity.name + ':phraseList' + NEWLINE;
+                fileContent += '$' + entity.name + ':phraseList' + (entity.mode ? ' interchangeable' : '') + NEWLINE;
                 fileContent += '- ' + entity.words + NEWLINE;
             });
             fileContent += NEWLINE;
