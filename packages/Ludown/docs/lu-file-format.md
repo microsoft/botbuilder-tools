@@ -280,10 +280,12 @@ See this [example](..\examples\patterns.lu) for more details.
 ## Question and Answer pairs
 .lu file (and the parser) supports question and answer definitions as well. You can this notation to describe them:
 
-\# ? Question
-\[list of question variations]
 ```markdown
-	Answer
+# ? Question
+    [list of question variations]
+    ```markdown
+    Answer
+    ```
 ```
 
 Here's an example of question and answer definitions. The LUDown tool will automatically separate question and answers into a qnamaker JSON file that you can then use to create your new [QnaMaker.ai](http://qnamaker.ai) knowledge base article.
