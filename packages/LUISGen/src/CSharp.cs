@@ -27,7 +27,7 @@ namespace {space}
             // Main class
             w.IndentLine($"public partial class {className}: IRecognizerConvert");
             w.IndentLine("{");
-            w.WriteLine();
+            w.Indent();
 
             // Text
             w.IndentLine("[JsonProperty(\"text\")]");
@@ -66,23 +66,12 @@ namespace {space}
             return Utils.JsonPropertyName(name, app);
         }
 
-        static void AddJsonProperty(dynamic name, dynamic app, Writer w)
-        {
-            /*
-            if (Utils.IsPrebuilt(name, app) || name as string == "datetime")
-            {
-                w.IndentLine($"[JsonProperty(\"builtin_{name}\")]");
-            }
-            */
-        }
-
         static void WriteEntity(dynamic entity, dynamic type, dynamic app, Writer w)
         {
             Utils.EntityApply((JObject)entity,
                 (name) =>
                 {
                     var realName = PropertyName(name, app);
-                    AddJsonProperty(realName, app, w);
                     switch ((string)type)
                     {
                         case "age":
@@ -205,7 +194,6 @@ namespace {space}
                     foreach (var child in composite.children)
                     {
                         var childName = PropertyName(child, app);
-                        AddJsonProperty(childName, app, w);
                         w.IndentLine($"public InstanceData[] {childName};");
                     }
                     w.Outdent();
@@ -234,7 +222,6 @@ namespace {space}
             Utils.WriteInstances((JObject)app, (name) =>
             {
                 var realName = PropertyName(name, app);
-                AddJsonProperty(realName, app, w);
                 w.IndentLine($"public InstanceData[] {realName};");
             });
             w.Outdent();
