@@ -27,10 +27,13 @@ namespace {space}
             // Main class
             w.IndentLine($"public partial class {className}: IRecognizerConvert");
             w.IndentLine("{");
-            w.Indent();
+            w.WriteLine();
 
             // Text
+            w.IndentLine("[JsonProperty(\"text\")]");
             w.IndentLine("public string Text;");
+            w.WriteLine();
+            w.IndentLine("[JsonProperty(\"alteredText\")]");
             w.IndentLine("public string AlteredText;");
         }
 
@@ -54,6 +57,7 @@ namespace {space}
             w.WriteLine();
             w.Outdent();
             w.IndentLine("};"); // Intent enum
+            w.IndentLine("[JsonProperty(\"intents\")]");
             w.IndentLine("public Dictionary<Intent, IntentScore> Intents;");
         }
 
@@ -62,7 +66,7 @@ namespace {space}
             return Utils.JsonPropertyName(name, app);
         }
 
-        static void AddJSonProperty(dynamic name, dynamic app, Writer w)
+        static void AddJsonProperty(dynamic name, dynamic app, Writer w)
         {
             /*
             if (Utils.IsPrebuilt(name, app) || name as string == "datetime")
@@ -78,17 +82,29 @@ namespace {space}
                 (name) =>
                 {
                     var realName = PropertyName(name, app);
-                    AddJSonProperty(realName, app, w);
+                    AddJsonProperty(realName, app, w);
                     switch ((string)type)
                     {
                         case "age":
                             w.IndentLine($"public Age[] {realName};");
                             break;
+                        case "datetimeV2":
+                            w.IndentLine($"public DateTimeSpec[] {realName};");
+                            break;
                         case "dimension":
                             w.IndentLine($"public Dimension[] {realName};");
                             break;
+                        case "geographyV2":
+                            w.IndentLine($"public GeographyV2[] {realName};");
+                            break;
+                        case "list":
+                            w.IndentLine($"public string[][] {realName};");
+                            break;
                         case "money":
                             w.IndentLine($"public Money[] {realName};");
+                            break;
+                        case "ordinalV2":
+                            w.IndentLine($"public OrdinalV2[] {realName};");
                             break;
                         case "temperature":
                             w.IndentLine($"public Temperature[] {realName};");
@@ -97,12 +113,6 @@ namespace {space}
                         case "ordinal":
                         case "percentage":
                             w.IndentLine($"public double[] {realName};");
-                            break;
-                        case "datetimeV2":
-                            w.IndentLine($"public DateTimeSpec[] {realName};");
-                            break;
-                        case "list":
-                            w.IndentLine($"public string[][] {realName};");
                             break;
                         default:
                             w.IndentLine($"public string[] {realName};");
@@ -118,8 +128,17 @@ namespace {space}
             {
                 w.WriteLine();
                 w.IndentLine($"// {description}");
+                var first = true;
                 foreach (var entity in entities)
                 {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        w.WriteLine();
+                    }
                     WriteEntity(entity, Utils.IsList(entity.name, app) ? "list" : entity.name, app, w);
                 }
             }
@@ -132,11 +151,20 @@ namespace {space}
             w.IndentLine("public class _Entities");
             w.IndentLine("{");
             w.Indent();
-            if (app?.entities != null && app.entities.Count > 0)
+            if (app.entities != null && app.entities.Count > 0)
             {
                 w.IndentLine("// Simple entities");
+                var first = true;
                 foreach (var entity in app.entities)
                 {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        w.WriteLine();
+                    }
                     WriteEntity(entity, entity.name, app, w);
                     if (entity?.children != null)
                     {
@@ -155,7 +183,7 @@ namespace {space}
             WriteEntities(app.patternAnyEntities, app, "Pattern.any", w);
 
             // Composites
-            if (app?.composites != null && app.composites.Count > 0)
+            if (app.composites != null && app.composites.Count > 0)
             {
                 w.WriteLine();
                 w.IndentLine("// Composites");
@@ -177,7 +205,7 @@ namespace {space}
                     foreach (var child in composite.children)
                     {
                         var childName = PropertyName(child, app);
-                        AddJSonProperty(childName, app, w);
+                        AddJsonProperty(childName, app, w);
                         w.IndentLine($"public InstanceData[] {childName};");
                     }
                     w.Outdent();
@@ -206,7 +234,7 @@ namespace {space}
             Utils.WriteInstances((JObject)app, (name) =>
             {
                 var realName = PropertyName(name, app);
-                AddJSonProperty(realName, app, w);
+                AddJsonProperty(realName, app, w);
                 w.IndentLine($"public InstanceData[] {realName};");
             });
             w.Outdent();
@@ -216,6 +244,7 @@ namespace {space}
 
             w.Outdent();
             w.IndentLine("}"); // Entities
+            w.IndentLine("[JsonProperty(\"entities\")]");
             w.IndentLine("public _Entities Entities;");
         }
 
@@ -266,6 +295,7 @@ namespace {space}
             Console.WriteLine($"Generating file {outName} that contains class {space}.{className}.");
             var w = new Writer(outName);
             Header(description, space, className, w);
+            w.WriteLine();
             Intents(app.intents, w);
             Entities(app, w);
 
