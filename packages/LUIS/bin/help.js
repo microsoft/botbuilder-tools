@@ -108,6 +108,7 @@ let configSection = {
         [chalk.cyan.bold('--subscriptionKey'), 'Specifies the LUIS subscriptionKey. Overrides the .luisrc value and the LUIS_SUBSCRIPTION_KEY environment variable.'],
         [chalk.cyan.bold('--versionId'), 'Specifies the version id. Overrides the .luisrc value and the LUIS_VERSION_ID environment variable.'],
         [chalk.cyan.bold('--region'), 'Specifies the authoring region for all requests. [westus|westeurope|australiaeast] Overrides the .luisrc value and the LUIS_REGION environment variable.'],
+        [chalk.cyan.bold('--cloud'), 'Specifies the cloud region for all requests. [com|us] Overrides the .luisrc value and the LUIS_CLOUD environment variable.'],
         [chalk.cyan.bold('--stdin'), 'Pull in service keys from stdin in the format of that is the output of: msbot get service'],
         [chalk.cyan.bold('--prefix'), 'Appends [luis-apis] prefix to all messages']
     ]
@@ -180,7 +181,7 @@ function getVerbHelp(verb, output) {
     case "query":
         output.write(chalk.cyan.bold("luis query --query <querytext> [--appId | --endpoint | --nologging | --region | --spellCheck | --staging | --subscriptionKey | --timezoneOffset | --timing |  --verbose]\n\n"))
         options.table.push([chalk.cyan.bold("--query <query>"), "Query to analyze with LUIS prediction."]);
-        options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "Endpoint to use for query like https://westus.api.cognitive.microsoft.com/luis/v2.0/apps, overrides region."]);
+        options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "Endpoint to use for query like https://westus.api.cognitive.microsoft.com, overrides region and cloud."]);
         options.table.push([chalk.cyan.bold("--nologging"), "Turn off query logging in LUIS."]);
         options.table.push([chalk.cyan.bold("--spellCheck <key>"), "Check spelling using your Bing spelling key."]);
         options.table.push([chalk.cyan.bold("--staging"), "Use the staging environtment rather than production."]);
@@ -197,8 +198,8 @@ function getVerbHelp(verb, output) {
         options.table.push([chalk.cyan.bold("<appIdOrName>"), "change the active application by looking it up by name or id"]);
         options.table.push([chalk.cyan.bold("--appId <appId>"), "change the active application id "]);
         options.table.push([chalk.cyan.bold("--versionId <version>"), "change the active version id "]);
-        options.table.push([chalk.cyan.bold("--authoringKey <authoringKey>"), "change the active authoringKey◘"]);
-        options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "change the active endpointBasePath url"]);
+        options.table.push([chalk.cyan.bold("--authoringKey <authoringKey>"), "change the active authoringKey "]);
+        options.table.push([chalk.cyan.bold("--endpoint <endpointUrl>"), "change the endpoint like https://westus.api.cognitive.microsoft.com"]);
         sections.push(options);
         sections.push(configSection);
         sections.push(globalArgs);
