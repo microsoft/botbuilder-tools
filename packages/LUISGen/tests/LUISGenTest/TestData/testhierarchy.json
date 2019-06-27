@@ -2,43 +2,40 @@
   "Text": "fly from seattle to dallas at 3pm",
   "Intents": {
     "Travel": {
-      "score": 0.173909724
+      "score": 0.161714122
+    },
+    "Roles": {
+      "score": 0.151287466
     },
     "EntityTests": {
-      "score": 0.0316923745
+      "score": 0.0506851934
     },
     "Weather_GetForecast": {
-      "score": 0.0191699825
-    },
-    "None": {
-      "score": 0.01595562
+      "score": 0.0193017349
     },
     "search": {
-      "score": 0.0102642216
+      "score": 0.0152128823
     },
-    "Cancel": {
-      "score": 0.008125137
-    },
-    "Delivery": {
-      "score": 0.007052841
-    },
-    "Help": {
-      "score": 0.004829098
+    "None": {
+      "score": 0.0103601217
     },
     "SpecifyName": {
-      "score": 0.004233925
+      "score": 0.005363467
+    },
+    "Cancel": {
+      "score": 0.004270212
+    },
+    "Delivery": {
+      "score": 0.00377701526
+    },
+    "Help": {
+      "score": 0.002744808
     },
     "Greeting": {
-      "score": 0.004032739
+      "score": 0.00215623132
     }
   },
   "Entities": {
-    "To": [
-      "dallas"
-    ],
-    "From": [
-      "seattle"
-    ],
     "datetime": [
       {
         "type": "time",
@@ -53,25 +50,37 @@
         "units": "Picometer"
       }
     ],
+    "Composite2": [
+      {
+        "From": [
+          "seattle"
+        ],
+        "To": [
+          "dallas"
+        ],
+        "$instance": {
+          "From": [
+            {
+              "startIndex": 9,
+              "endIndex": 16,
+              "text": "seattle",
+              "score": 0.99461599999999994,
+              "type": "City::From"
+            }
+          ],
+          "To": [
+            {
+              "startIndex": 20,
+              "endIndex": 26,
+              "text": "dallas",
+              "score": 0.9392901,
+              "type": "City::To"
+            }
+          ]
+        }
+      }
+    ],
     "$instance": {
-      "To": [
-        {
-          "startIndex": 20,
-          "endIndex": 26,
-          "text": "dallas",
-          "score": 0.924876869,
-          "type": "City::To"
-        }
-      ],
-      "From": [
-        {
-          "startIndex": 9,
-          "endIndex": 16,
-          "text": "seattle",
-          "score": 0.9904319,
-          "type": "City::From"
-        }
-      ],
       "datetime": [
         {
           "startIndex": 30,
@@ -87,6 +96,15 @@
           "text": "3pm",
           "type": "builtin.dimension"
         }
+      ],
+      "Composite2": [
+        {
+          "startIndex": 0,
+          "endIndex": 33,
+          "text": "fly from seattle to dallas at 3pm",
+          "score": 0.59796983,
+          "type": "Composite2"
+        }
       ]
     }
   },
@@ -98,48 +116,52 @@
     "query": "fly from seattle to dallas at 3pm",
     "topScoringIntent": {
       "intent": "Travel",
-      "score": 0.173909724
+      "score": 0.161714122
     },
     "intents": [
       {
         "intent": "Travel",
-        "score": 0.173909724
+        "score": 0.161714122
+      },
+      {
+        "intent": "Roles",
+        "score": 0.151287466
       },
       {
         "intent": "EntityTests",
-        "score": 0.0316923745
+        "score": 0.0506851934
       },
       {
         "intent": "Weather.GetForecast",
-        "score": 0.0191699825
-      },
-      {
-        "intent": "None",
-        "score": 0.01595562
+        "score": 0.0193017349
       },
       {
         "intent": "search",
-        "score": 0.0102642216
+        "score": 0.0152128823
       },
       {
-        "intent": "Cancel",
-        "score": 0.008125137
-      },
-      {
-        "intent": "Delivery",
-        "score": 0.007052841
-      },
-      {
-        "intent": "Help",
-        "score": 0.004829098
+        "intent": "None",
+        "score": 0.0103601217
       },
       {
         "intent": "SpecifyName",
-        "score": 0.004233925
+        "score": 0.005363467
+      },
+      {
+        "intent": "Cancel",
+        "score": 0.004270212
+      },
+      {
+        "intent": "Delivery",
+        "score": 0.00377701526
+      },
+      {
+        "intent": "Help",
+        "score": 0.002744808
       },
       {
         "intent": "Greeting",
-        "score": 0.004032739
+        "score": 0.00215623132
       }
     ],
     "entities": [
@@ -148,14 +170,21 @@
         "type": "City::To",
         "startIndex": 20,
         "endIndex": 25,
-        "score": 0.924876869
+        "score": 0.9392901
       },
       {
         "entity": "seattle",
         "type": "City::From",
         "startIndex": 9,
         "endIndex": 15,
-        "score": 0.9904319
+        "score": 0.99461599999999994
+      },
+      {
+        "entity": "fly from seattle to dallas at 3pm",
+        "type": "Composite2",
+        "startIndex": 0,
+        "endIndex": 32,
+        "score": 0.59796983
       },
       {
         "entity": "3pm",
@@ -181,6 +210,22 @@
           "unit": "Picometer",
           "value": "3"
         }
+      }
+    ],
+    "compositeEntities": [
+      {
+        "parentType": "Composite2",
+        "value": "fly from seattle to dallas at 3pm",
+        "children": [
+          {
+            "type": "City::From",
+            "value": "seattle"
+          },
+          {
+            "type": "City::To",
+            "value": "dallas"
+          }
+        ]
       }
     ],
     "sentimentAnalysis": {

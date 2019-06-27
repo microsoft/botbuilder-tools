@@ -19,6 +19,31 @@ describe('Roles in LU files', function() {
             .catch(err => done(err));
     });
 
+    it('colon usage in utterance text outside of roles is parsed correctly', function (done) {
+        let fileContent = `# testIntent
+        - this is a : test intent {userName=vishwac}`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.entities[0].name, 'userName');
+                assert.equal(res.LUISJsonStructure.utterances.length, 1);
+                assert.equal(res.LUISJsonStructure.utterances[0].text, "this is a : test intent vishwac");
+                done();
+            })
+            .catch(err => done(err));
+    });
+
+    it('equal usage in utterance text outside of roles is parsed correctly', function (done) {
+        let fileContent = `# testIntent
+        - this is a = test intent {userName=vishwac}`;
+        parser.parseFile(fileContent, false, null) 
+            .then(res => {
+                assert.equal(res.LUISJsonStructure.entities[0].name, 'userName');
+                assert.equal(res.LUISJsonStructure.utterances.length, 1);
+                assert.equal(res.LUISJsonStructure.utterances[0].text, "this is a = test intent vishwac");
+                done();
+            })
+            .catch(err => done(err));
+    })
     it('Correctly parses roles with explict type definition in LU files', function(done) {
         let fileContent = `# getUserName
         - call me {name:userName}
@@ -115,18 +140,7 @@ describe('Roles in LU files', function() {
             .catch (err => done())
     }); 
 
-    it ('Pattern.Any entities cannot be explicitly labelled in utterances', function(done){
-        let testLU = `
-        # test1
-        - book a flight to {location}
-        
-        # testIntent
-        - book a flight to {location=redmond}`;
-
-        parser.parseFile(testLU, false, null) 
-            .then (res => done (`Test failed - ${JSON.stringify(res)}`))
-            .catch (err => done())
-    }); 
+    
 
     it ('RegEx entities cannot be explicitly labelled in utterances', function(done){
         let testLU = `
@@ -212,19 +226,7 @@ describe('Roles in LU files', function() {
             .catch (err => done ())
     })
 
-    it ('implicit pattern any entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
-        let testLU = `# test 2
-        - this is a {test}
-
-        # test
-        - this is a test of {test:fromTime = 7AM}
-        
-        `;
-
-        parser.parseFile(testLU, false, null)
-            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
-            .catch (err => done ())
-    })
+    
 
     it ('explicit phrase list entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
         let testLU = `# test
