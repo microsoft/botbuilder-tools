@@ -923,13 +923,13 @@ export const PrebuiltDomainObject: msRest.CompositeMapper = {
     name: "Composite",
     className: "PrebuiltDomainObject",
     modelProperties: {
-      domainName: {
+      domain_name: {
         serializedName: "domain_name",
         type: {
           name: "String"
         }
       },
-      modelName: {
+      model_name: {
         serializedName: "model_name",
         type: {
           name: "String"
@@ -1217,7 +1217,7 @@ export const LuisApp: msRest.CompositeMapper = {
           }
         }
       },
-      regexEntities: {
+      regex_entities: {
         serializedName: "regex_entities",
         type: {
           name: "Sequence",
@@ -1241,7 +1241,7 @@ export const LuisApp: msRest.CompositeMapper = {
           }
         }
       },
-      regexFeatures: {
+      regex_features: {
         serializedName: "regex_features",
         type: {
           name: "Sequence",
@@ -1253,7 +1253,7 @@ export const LuisApp: msRest.CompositeMapper = {
           }
         }
       },
-      modelFeatures: {
+      model_features: {
         serializedName: "model_features",
         type: {
           name: "Sequence",
@@ -1959,7 +1959,7 @@ export const CompositeEntityExtractor: msRest.CompositeMapper = {
 };
 
 export const ClosedListEntityExtractor: msRest.CompositeMapper = {
-  serializedName: "List Entity Extractor",
+  serializedName: "Closed List Entity Extractor",
   type: {
     name: "Composite",
     className: "ClosedListEntityExtractor",
