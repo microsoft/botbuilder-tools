@@ -43,7 +43,7 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     }
     
 	if (util.IsLgFile(document.fileName)) {
-        var diagnostics = getLGDiagnostics(document.getText());
+        var diagnostics = getLGDiagnostics(document);
         var vscodeDiagnostics: vscode.Diagnostic[] = diagnostics.map(u => 
             new vscode.Diagnostic(
                 new vscode.Range(
@@ -59,28 +59,53 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     }
 }
 
-function getLGDiagnostics(lgFileContent: string): Diagnostic[] {
+function getLGDiagnostics(document: vscode.TextDocument): Diagnostic[] {
     let diagnostics: Diagnostic[] = [];
     let templates: LGTemplate[] = [];
-    const parseResult: { isValid: boolean; templates: LGTemplate[]; error: Diagnostic } = LGParser.TryParse(lgFileContent);
+    
+    const parseResult: { isValid: boolean; templates: LGTemplate[]; error: Diagnostic } = LGParser.TryParse(document.getText());
     if (parseResult.isValid) {
         // Get static check diagnostics
         templates = parseResult.templates;
         if (templates !== undefined && templates.length > 0) {
             diagnostics = new StaticChecker(templates).Check();
         }
+
+        // remove templatename not found errors with default importResolver
+        if (diagnostics !== undefined && diagnostics.length > 0) {
+            diagnostics = diagnostics.filter((diagnostic) => {
+                if (diagnostic === undefined) {
+                    return false;
+                } else if (!diagnostic.Message.endsWith('template not found')) {
+                    return true;
+                } else {
+                    const templateNameResult: RegExpExecArray = /\[([^)]*)\]/.exec(diagnostic.Message);
+                    if (templateNameResult === null || templateNameResult === undefined) {
+                        return true;
+                    }
+
+                    const templateName: string = templateNameResult[1];
+                    const templates = util.GetAllTemplatesFromCurrentLGFile(document.uri.fsPath);
+                    if (templates.map(u=>u.Name).includes(templateName)) {
+                        // this template is exist in the import file
+                        return false;
+                    }
+                    return true;
+                }
+              });
+        }
     } else {
-    // Get parser diagnostic
-    const start: Position = parseResult.error.Range.Start;
-    const end: Position = parseResult.error.Range.End;
-    const error: Diagnostic = new Diagnostic(
-        new Range(
-            new Position(start.Line, start.Character),
-            new Position(end.Line, end.Character)),
-        parseResult.error.Message,
-        parseResult.error.Severity);
-    
-        diagnostics = diagnostics.concat(error);
+        // Get parser diagnostic
+        const start: Position = parseResult.error.Range.Start;
+        const end: Position = parseResult.error.Range.End;
+        const error: Diagnostic = new Diagnostic(
+            new Range(
+                new Position(start.Line, start.Character),
+                new Position(end.Line, end.Character)),
+            parseResult.error.Message,
+            parseResult.error.Severity);
+        
+            diagnostics = diagnostics.concat(error);
     }
 
     return diagnostics;

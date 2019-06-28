@@ -29,31 +29,28 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             return;
         }
 
-        return new vscode.Location(document.uri, this.getReference(document, position));
+        return this.getReference(document, position);
     }
 
-    private getReference(document: vscode.TextDocument, position: vscode.Position): vscode.Position {
+    private getReference(document: vscode.TextDocument, position: vscode.Position): vscode.Location {
         try {
+
             const lineText: string = document.lineAt(position.line).text;
             const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_ \-\.]+/);
             if (!wordRange) {
                 return undefined;
             }
             const templateName = document.getText(wordRange);
-            
-            let engine: TemplateEngine = DataStorage.templateEngineMap.get(document.uri.fsPath);
-            if (engine === undefined) {
-                return undefined;
-            }
 
-            const templates: LGTemplate[] = engine.templates;
+            const templates: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri.fsPath);
             const template: LGTemplate = templates.find(u=>u.Name === templateName);
             if (template === undefined)
                 return undefined;
-
+            
+            
             const lineNumber: number = template.ParseTree.start.line - 1;
             const columnNumber: number = template.ParseTree.start.charPositionInLine;
-            return new vscode.Position(lineNumber, columnNumber);
+            return new vscode.Location(document.uri, new vscode.Position(lineNumber, columnNumber));
         } catch(e){
             return undefined;
        }

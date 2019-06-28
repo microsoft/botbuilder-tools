@@ -22,7 +22,7 @@ export const buildInfunctionNames: string[] = [
 
 export const buildInfunctions: functionItem[] = [
     // todo. it is a long time work....
-]
+];
 
 class functionItem {
     public name: string; // function name

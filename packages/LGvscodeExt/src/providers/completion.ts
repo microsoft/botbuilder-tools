@@ -58,9 +58,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         } else if (/\[[^\]]*$/.test(lineTextBefore) && !util.isInFencedCodeBlock(document, position)) {
             // input [ ] prompt template suggestion
             return new Promise((res, _) => {
-                let templates: LGTemplate[] = [];
-
-                DataStorage.templateEngineMap.forEach(u => templates = templates.concat(u.templates));
+                let templates: LGTemplate[] = util.GetAllTemplateFromCurrentWorkspace();
 
                 const headingCompletions = templates.reduce((prev, curr) => {
                     let item = new vscode.CompletionItem(curr.Name, vscode.CompletionItemKind.Reference);
