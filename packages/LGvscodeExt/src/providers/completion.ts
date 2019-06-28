@@ -46,7 +46,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                 paths = Array.from(new Set(paths));
 
                 const headingCompletions = paths.reduce((prev, curr) => {
-                    var relativePath = path.relative(document.uri.fsPath, curr).replace('\\','/');
+                    var relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
                     let item = new vscode.CompletionItem(relativePath, vscode.CompletionItemKind.Reference);
                     item.detail = curr;
                     prev.push(item);
@@ -68,7 +68,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                     item.detail = `${curr.Source}`;
                     
                     const lgParser = LGParser.Parse(document.getText());
-                    var relativePath = path.relative(document.uri.fsPath, curr.Source).replace('\\','/');
+                    var relativePath = path.relative(path.dirname(document.uri.fsPath), curr.Source);
 
                     if (curr.Source !== document.uri.fsPath && !lgParser.Imports.map(u => u.Id).includes(relativePath)) {
                         var edit =  vscode.TextEdit.insert(new vscode.Position(0,0), `[import](${relativePath})\r\n`);

@@ -35,7 +35,7 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
     private getReference(document: vscode.TextDocument, position: vscode.Position): vscode.Position {
         try {
             const lineText: string = document.lineAt(position.line).text;
-            const wordRange = document.getWordRangeAtPosition(position);
+            const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_ \-\.]+/);
             if (!wordRange) {
                 return undefined;
             }
