@@ -35,4 +35,4 @@ If you want to run live tests against the LUIS service you must make changes in 
 1) Set mockLuis = false and endpointKey to a LUIS endpoint key. 
 2) Run the tests.  This will go against the LUIS service and if there are changes from the checked in oracle files they will be added to LUISGenTestJS\src\TestData as `<test>.json.new`.
 3) If there are failures run LUISGenTestJS\src\TestData\review.cmd to look at the changes and approve them as new oracle file.
-4) When all oracles are correct, make sure mockLuis = true and reset endpointKey.
+4) When all oracles are correct, make sure mockLuis = true and reset endpointKey. 
