@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder.AI.Luis;
 using Newtonsoft.Json;
 using Microsoft.Bot.Builder;
 using Newtonsoft.Json.Linq;
-using Microsoft.Bot.Builder.Ai.LUIS.Tests;
+using Microsoft.Bot.Builder.AI.Luis.Tests;
 using RichardSzalay.MockHttp;
 using System.Net.Http;
 using Microsoft.Bot.Builder.Adapters;

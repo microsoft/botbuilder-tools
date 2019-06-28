@@ -6,21 +6,25 @@
     "configurations": [
         {
             "type": "node",
+            "protocol": "inspector",
             "request": "launch",
-            "name": "Run tests",
+            "name": "LUISGenTestJS Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
+                "-r",
+                "node_modules/ts-node/register",
+                "-r",
+                "node_modules/source-map-support/register",
+                "src/*.ts",
                 "-u",
                 "tdd",
                 "--timeout",
                 "999999",
-                "--colors",
-                "${workspaceFolder}/src/tests.js",
+                "--colors"
             ],
-            "preLaunchTask": "tsc: build - tsconfig.json",
-            "outFiles": [
-                "${workspaceFolder}/lib/**/*.js"
-            ]
+            "internalConsoleOptions": "openOnSessionStart",
+            "cwd": "${workspaceFolder}",
+            "outFiles": []
         }
     ]
 }
