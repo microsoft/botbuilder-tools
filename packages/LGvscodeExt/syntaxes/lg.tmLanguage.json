@@ -27,19 +27,9 @@
 			"name": "meta.link.reference.def.lg"
 		},
 		"fence_block": {
-			"begin": "(^-)(\\s*)(`{3})\\s*",
-			"beginCaptures": {
-				"3": {
-					"name": "punctuation.definition.lg"
-				}
-			},
-			"end": "(^)(\\2|\\s{0,3})(\\3)\\s*$",
-			"endCaptures": {
-				"3": {
-					"name": "punctuation.definition.lg"
-				}
-			},
-			"name": "constant.character.escape.multiline",
+			"begin": "(^-\\s*`{3})\\s*",
+			"end": "(^\\s*`{3})\\s*$",
+			"contentName": "constant.character.escape.multiline",
 			"patterns": [
 				{
 					"include": "#expression"
@@ -49,8 +39,9 @@
 				}]
 		},
 		"expression": {
-			"name": "entity.name.function.expression",
-			"match": "(?<=\\{).*?(?=\\})"
+			"contentName": "entity.name.function.expression",
+			"begin": "{",
+			"end": "}"
 		},
 		"inline_string": {
 			"match": "(\").+?(\")",
