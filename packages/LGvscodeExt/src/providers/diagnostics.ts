@@ -17,7 +17,7 @@ import * as util from '../util';
 export function activate(context: vscode.ExtensionContext) {
     const collection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('lg');
 	if (vscode.window.activeTextEditor && util.IsLgFile(vscode.window.activeTextEditor.document.fileName)) {
-        updateDiagnostics(vscode.window.activeTextEditor.document, collection);
+        setInterval(() => updateDiagnostics(vscode.window.activeTextEditor.document, collection), 3000);
     }
 
     // if you want to trigger the event for each text change, use: vscode.workspace.onDidChangeTextDocument
@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
             updateDiagnostics(e, collection);
         }
     }));
-
+    
     context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(e => {
         if (util.IsLgFile(e.fileName))
         {
@@ -61,14 +61,21 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
 
 function getLGDiagnostics(document: vscode.TextDocument): Diagnostic[] {
     let diagnostics: Diagnostic[] = [];
-    let templates: LGTemplate[] = [];
+    let templatesWithoutImport: LGTemplate[] = [];
+    let templatesWithImport: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri.fsPath);
     
+    if (templatesWithImport === undefined || templatesWithImport.length === 0) {
+        return diagnostics;
+    }
+
     const parseResult: { isValid: boolean; templates: LGTemplate[]; error: Diagnostic } = LGParser.TryParse(document.getText());
     if (parseResult.isValid) {
         // Get static check diagnostics
-        templates = parseResult.templates;
-        if (templates !== undefined && templates.length > 0) {
-            diagnostics = new StaticChecker(templates).Check();
+        // templates does not includes import items. So if you use a template reference does not in current lg file, error result
+        // will poped up.
+        templatesWithoutImport = parseResult.templates;
+        if (templatesWithoutImport !== undefined && templatesWithoutImport.length > 0) {
+            diagnostics = new StaticChecker(templatesWithoutImport).Check();
         }
 
         // remove templatename not found errors with default importResolver
@@ -85,8 +92,7 @@ function getLGDiagnostics(document: vscode.TextDocument): Diagnostic[] {
                     }
 
                     const templateName: string = templateNameResult[1];
-                    const templates = util.GetAllTemplatesFromCurrentLGFile(document.uri.fsPath);
-                    if (templates.map(u=>u.Name).includes(templateName)) {
+                    if (templatesWithImport.map(u=>u.Name).includes(templateName)) {
                         // this template is exist in the import file
                         return false;
                     }

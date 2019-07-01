@@ -47,13 +47,16 @@ function updateTemplateEngineMap(uris: vscode.Uri[]) {
 }
 
 function updateTemplateEngine(uri: vscode.Uri) {
+    let engine: TemplateEngine = new TemplateEngine();
+
     try {
-        const engine: TemplateEngine = new TemplateEngine().addFile(uri.fsPath);
-        DataStorage.templateEngineMap.set(uri.fsPath, engine);
+        engine = engine.addFile(uri.fsPath);
     }
     catch(e)
     {
         // ignore it
         //vscode.window.showWarningMessage(e.message);
     }
+
+    DataStorage.templateEngineMap.set(uri.fsPath, engine);
 }
