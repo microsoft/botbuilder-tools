@@ -8,7 +8,8 @@
 
 import { TextDocument, Range, Position, workspace } from "vscode";
 import { LGTemplate, TemplateEngine } from "botbuilder-lg";
-import { DataStorage } from "./dataStorage";
+import { DataStorage, TemplateEngineEntity } from "./dataStorage";
+import * as vscode from 'vscode';
 
 export function IsLgFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.endsWith('.lg')) {
@@ -27,19 +28,19 @@ export function isInFencedCodeBlock(doc: TextDocument, position: Position): bool
     }
 }
 
-export function GetAllTemplatesFromCurrentLGFile(lgPath: string) :LGTemplate[] {
-    let engine: TemplateEngine = DataStorage.templateEngineMap.get(lgPath);
-    if (engine === undefined) {
+export function GetAllTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) :LGTemplate[] {
+    let engineEntity: TemplateEngineEntity = DataStorage.templateEngineMap.get(lgFileUri.fsPath);
+    if (engineEntity === undefined || engineEntity.templateEngine === undefined) {
         return [];
     }
 
-    return engine.templates;
+    return engineEntity.templateEngine.templates;
 }
 
 export function GetAllTemplateFromCurrentWorkspace() :LGTemplate[] {
     let templates: LGTemplate[] = [];
 
-    DataStorage.templateEngineMap.forEach(u => templates = templates.concat(u.templates));
+    DataStorage.templateEngineMap.forEach(u => templates = templates.concat(u.templateEngine.templates));
 
     templates = templates.filter((resource: LGTemplate, index: number, self: LGTemplate[]) =>
         index === self.findIndex((t: LGTemplate) => (

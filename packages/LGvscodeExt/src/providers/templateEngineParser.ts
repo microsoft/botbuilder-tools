@@ -9,7 +9,7 @@
 import * as vscode from 'vscode';
 import { TemplateEngine } from 'botbuilder-lg';
 import * as util from '../util';
-import { DataStorage } from '../dataStorage';
+import { DataStorage, TemplateEngineEntity } from '../dataStorage';
 
 export function activate(context: vscode.ExtensionContext) {
     if (vscode.window.activeTextEditor && util.IsLgFile(vscode.window.activeTextEditor.document.fileName)) {
@@ -58,5 +58,5 @@ function updateTemplateEngine(uri: vscode.Uri) {
         //vscode.window.showWarningMessage(e.message);
     }
 
-    DataStorage.templateEngineMap.set(uri.fsPath, engine);
+    DataStorage.templateEngineMap.set(uri.fsPath, new TemplateEngineEntity(uri, engine));
 }

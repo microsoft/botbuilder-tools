@@ -83,7 +83,7 @@ export class LGDebugPanel {
                         const iterations:number = message.iterations;
                         
                         let results = [];
-                        let engine: TemplateEngine = DataStorage.templateEngineMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
+                        let engine: TemplateEngine = DataStorage.templateEngineMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath).templateEngine;
                         
                         if(engine === undefined) {
                             vscode.window.showErrorMessage("please fix warning/errors first.");

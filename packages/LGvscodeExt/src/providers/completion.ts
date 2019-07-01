@@ -42,7 +42,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             return new Promise((res, _) => {
                 let paths: string[] = [];
 
-                DataStorage.templateEngineMap.forEach(u => paths = paths.concat(u.templates.map(u => u.Source)));
+                DataStorage.templateEngineMap.forEach(u => paths = paths.concat(u.templateEngine.templates.map(u => u.Source)));
                 paths = Array.from(new Set(paths));
 
                 const headingCompletions = paths.reduce((prev, curr) => {

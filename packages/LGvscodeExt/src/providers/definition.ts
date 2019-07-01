@@ -34,7 +34,6 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
 
     private getReference(document: vscode.TextDocument, position: vscode.Position): vscode.Location {
         try {
-
             const lineText: string = document.lineAt(position.line).text;
             const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_ \-\.]+/);
             if (!wordRange) {
@@ -42,7 +41,7 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             }
             const templateName = document.getText(wordRange);
 
-            const templates: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri.fsPath);
+            const templates: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri);
             const template: LGTemplate = templates.find(u=>u.Name === templateName);
             if (template === undefined)
                 return undefined;
@@ -50,7 +49,20 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             
             const lineNumber: number = template.ParseTree.start.line - 1;
             const columnNumber: number = template.ParseTree.start.charPositionInLine;
-            return new vscode.Location(document.uri, new vscode.Position(lineNumber, columnNumber));
+            const definitionPosition: vscode.Position = new vscode.Position(lineNumber, columnNumber);
+
+            let definitionUri: vscode.Uri = undefined;
+            DataStorage.templateEngineMap.forEach((value, key) => {
+                if (template.Source === key) {
+                    definitionUri = value.uri;
+                }
+            });
+
+            if (definitionUri === undefined) {
+                return undefined;
+            }
+
+            return new vscode.Location(definitionUri, definitionPosition);
         } catch(e){
             return undefined;
        }

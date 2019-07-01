@@ -16,9 +16,13 @@ import * as util from '../util';
  */
 export function activate(context: vscode.ExtensionContext) {
     const collection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('lg');
-	if (vscode.window.activeTextEditor && util.IsLgFile(vscode.window.activeTextEditor.document.fileName)) {
-        setInterval(() => updateDiagnostics(vscode.window.activeTextEditor.document, collection), 3000);
-    }
+
+    setInterval(() => {
+        const editer = vscode.window.activeTextEditor;
+        if (editer !== undefined && util.IsLgFile(editer.document.fileName)) {
+            updateDiagnostics(editer.document, collection);
+         }
+    }, 3000);
 
     // if you want to trigger the event for each text change, use: vscode.workspace.onDidChangeTextDocument
     context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(e => {
@@ -32,6 +36,13 @@ export function activate(context: vscode.ExtensionContext) {
         if (util.IsLgFile(e.fileName))
         {
             updateDiagnostics(e, collection);
+        }
+    }));
+
+    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => {
+        if (util.IsLgFile(e.document.fileName))
+        {
+            updateDiagnostics(e.document, collection);
         }
     }));
 }
@@ -62,7 +73,7 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
 function getLGDiagnostics(document: vscode.TextDocument): Diagnostic[] {
     let diagnostics: Diagnostic[] = [];
     let templatesWithoutImport: LGTemplate[] = [];
-    let templatesWithImport: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri.fsPath);
+    let templatesWithImport: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri);
     
     if (templatesWithImport === undefined || templatesWithImport.length === 0) {
         return diagnostics;

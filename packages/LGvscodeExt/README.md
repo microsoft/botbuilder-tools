@@ -54,7 +54,7 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 ![CodeCompletion](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/CodeCompletion.gif?raw=true)
 
 #### Show Definitions
-- template definition (work in the current LG file now.)
+- template definition
 ![ShowDefinitions](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/ShowDefinitions.gif?raw=true)
 
 #### Diagnostic
@@ -74,5 +74,4 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 - support building function with a different color scheme
 - support "Show Definitions" of buildin functions
 - add "Argument position and type suggestion" feature for building functions
-- make "Show Definitions" and "Hover" cross files
 - polish color scheme of multiline code 

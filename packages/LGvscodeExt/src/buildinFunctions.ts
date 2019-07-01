@@ -16,7 +16,7 @@ export const buildInfunctionNames: string[] = [
     'indexOf','lastIndexOf','union','intersection ','skip','take','filterNotEqual','subArray','array','binary','dataUri',
     'dataUriToBinary','dataUriToString','decodeUriComponent','base64','base64ToBinary','base64ToString','uriComponent',
     'uriComponentToString','xml','range','getFutureTime','getPastTime','addToTime','convertFromUtc', 'convertToUtc','startOfDay',
-    'startOfHour','startOfMonth','ticks','uriHost','uriPath','uriPathAndQuery','uriPort',
+    'startOfHour','startOfMonth','ticks','uriHost','uriPath','uriPathAndQuery','uriPort','isMatch',
     'uriQuery','uriScheme','coalesce','xpath',
 ];
 
