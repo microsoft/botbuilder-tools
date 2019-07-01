@@ -15,6 +15,7 @@ import * as templateEngineParser from './providers/templateEngineParser';
 import * as definition from './providers/definition';
 import * as hover from './providers/hover';
 import * as signature from './providers/signature';
+import * as debugPanel from './providers/debugPanel';
 
 /**
  * Main vs code Extension code part
@@ -23,15 +24,6 @@ import * as signature from './providers/signature';
  * @param {vscode.ExtensionContext} context
  */
 export function activate(context: vscode.ExtensionContext) {
-    activeLGExt(context);
-    
-    // LG debug webview window
-    context.subscriptions.push(vscode.commands.registerCommand('lgLiveTest.start', () => {
-       LGDebugPanel.createOrShow(context.extensionPath);
-    }));
-}
-
-function activeLGExt(context: vscode.ExtensionContext) {
     keyBinding.activate(context);
     completion.activate(context);
     diagnostics.activate(context);
@@ -39,4 +31,5 @@ function activeLGExt(context: vscode.ExtensionContext) {
     definition.activate(context);
     hover.activate(context);
     signature.activate(context);
+    debugPanel.activate(context);
 }

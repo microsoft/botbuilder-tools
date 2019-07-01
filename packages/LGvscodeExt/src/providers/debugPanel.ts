@@ -12,6 +12,12 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { DataStorage, TemplateEngineEntity } from '../dataStorage';
 
+export function activate(context: vscode.ExtensionContext) {
+    context.subscriptions.push(vscode.commands.registerCommand('lgLiveTest.start', () => {
+        LGDebugPanel.createOrShow(context.extensionPath);
+     }));
+}
+
 /**
  * VebView for LG debugger
  *
