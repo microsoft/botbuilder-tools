@@ -41,7 +41,7 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 ![Snippet](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Snippets.gif?raw=true)
 
 #### Hover
-- template (work in the current LG file now.)
+- template
 - buildin function (doing)
 
 ![highlight](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Hover.gif?raw=true)
