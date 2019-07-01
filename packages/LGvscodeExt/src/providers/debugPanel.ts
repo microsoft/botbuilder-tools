@@ -83,6 +83,8 @@ export class LGDebugPanel {
                         const iterations:number = message.iterations;
                         
                         let results = [];
+                        const map = DataStorage.templateEngineMap;
+                        const path = vscode.window.visibleTextEditors[0].document.uri.fsPath;
                         let engine: TemplateEngine = DataStorage.templateEngineMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath).templateEngine;
                         
                         if(engine === undefined) {

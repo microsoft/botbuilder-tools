@@ -71,5 +71,6 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 ![TestTool](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/TestTool.gif?raw=true)
 
 # TODO
+
 - multi line code: polish color scheme
 - buildin function: hover, color scheme, argument position and type suggestion

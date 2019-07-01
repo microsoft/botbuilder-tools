@@ -30,6 +30,13 @@ export function activate(context: vscode.ExtensionContext) {
             updateTemplateEngine(e.uri);
         }
     }));
+
+    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => {
+        if (util.IsLgFile(e.document.fileName))
+        {
+            updateTemplateEngine(e.document.uri);
+        }
+    }));
 }
 
 function triggerLGFileFinder() {
