@@ -5,7 +5,6 @@
 		{"include": "#template_name_line"},
 		{"include": "#comments"},
 		{"include": "#imports"},
-		{"include": "#fence_block"},
 		{"include": "#template_body"}
 	],
 	"repository": {
@@ -27,15 +26,12 @@
 			"name": "meta.link.reference.def.lg"
 		},
 		"fence_block": {
-			"begin": "(^-\\s*`{3})\\s*",
+			"begin": "(`{3})\\s*",
 			"end": "(^\\s*`{3})\\s*$",
 			"contentName": "constant.character.escape.multiline",
 			"patterns": [
 				{
-					"include": "#expression"
-				},
-				{
-					"include": "#params"
+					"include": "#expression_in_fence_block"
 				}]
 		},
 		"expression": {
@@ -79,12 +75,21 @@
 			"patterns": [
 				{"include": "#template_ref"},
 				{"include": "#expression"},
-				{"include": "#keyword"}
+				{"include": "#keyword"},
+				{"include": "#fence_block"}
 			]
 		},
 		"params": {
 			"match": "\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\)",
 			"name":"variable.parameter.parameters"
+		},
+		"expression_in_fence_block": {
+			"contentName": "entity.name.function.expression",
+			"begin": "@{",
+			"end": "}",
+			"patterns": [
+				{"include": "#params"}
+			]
 		}
 	},
 	"scopeName": "source.lg"
