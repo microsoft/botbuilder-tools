@@ -35,13 +35,16 @@
 					"include": "#expression"
 				},
 				{
-					"include": "#inline_string"
+					"include": "#params"
 				}]
 		},
 		"expression": {
 			"contentName": "entity.name.function.expression",
 			"begin": "{",
-			"end": "}"
+			"end": "}",
+			"patterns": [
+				{"include": "#params"}
+			]
 		},
 		"inline_string": {
 			"match": "(\").+?(\")",
@@ -63,16 +66,12 @@
 			"match": "(?i)(IF|ELSE|ELSEIF|SWITCH|CASE|DEFAULT)\\s*:"
 		},
 		"template_name_line":{
-			"match": "^(#)\\s+([\\w\\d\\-_\\.]+)(\\(([\\w\\d\\-_\\.]+\\s*,\\s*)*([\\w\\d\\-_\\.]+)\\))?",
-			"captures": {
-				"2": {
-					"name": "entity.name.function.functionName"
-				},
-				"3": {
-					"name": "variable.parameter.parameters"
-				}
-			},
-			"name":"markup.heading.lg"
+			"begin": "^\\s*#",
+			"end":"\n",
+			"name":"markup.bold.lg",
+			"patterns": [
+				{"include": "#params"}
+			]
 		},
 		"template_body": {
 			"begin":"^\\s*-",
@@ -82,6 +81,10 @@
 				{"include": "#expression"},
 				{"include": "#keyword"}
 			]
+		},
+		"params": {
+			"match": "\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\)",
+			"name":"variable.parameter.parameters"
 		}
 	},
 	"scopeName": "source.lg"

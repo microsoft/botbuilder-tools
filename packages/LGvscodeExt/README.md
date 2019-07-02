@@ -71,8 +71,8 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 ![TestTool](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/TestTool.gif?raw=true)
 
 #### Signatures
-- buildin function (R0 and R1)
+- buildin function
 
 
 # TODO
-- buildin function: color scheme
+- R2 buildin function
