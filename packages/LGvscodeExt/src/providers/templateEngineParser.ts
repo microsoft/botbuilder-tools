@@ -12,29 +12,21 @@ import * as util from '../util';
 import { DataStorage, TemplateEngineEntity } from '../dataStorage';
 
 export function activate(context: vscode.ExtensionContext) {
-    if (vscode.window.activeTextEditor && util.IsLgFile(vscode.window.activeTextEditor.document.fileName)) {
+    if (vscode.window.activeTextEditor) {
         triggerLGFileFinder();
     }
 
-    // if you want to trigger the event for each text change, use: vscode.workspace.onDidChangeTextDocument
-    context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(e => {
-        if (util.IsLgFile(vscode.window.activeTextEditor.document.fileName))
-        {
-            triggerLGFileFinder();
-        }
-    }));
+    setInterval(() => {
+        const editer = vscode.window.activeTextEditor;
+        if (editer !== undefined && util.IsLgFile(editer.document.fileName)) {
+            updateTemplateEngine(editer.document.uri);
+         }
+    }, 3000);
 
     context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(e => {
         if (util.IsLgFile(e.fileName))
         {
             updateTemplateEngine(e.uri);
-        }
-    }));
-
-    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => {
-        if (util.IsLgFile(e.document.fileName))
-        {
-            updateTemplateEngine(e.document.uri);
         }
     }));
 }
