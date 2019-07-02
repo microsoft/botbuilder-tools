@@ -99,5 +99,8 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     //['uriScheme', new FunctionEntity(['...numbers: number[]'], ReturnType.Number, 'Returns the smallest value from a collection')],
     //['coalesce', new FunctionEntity(['...numbers: number[]'], ReturnType.Number, 'Returns the smallest value from a collection')],
     //['xpath', new FunctionEntity(['...numbers: number[]'], ReturnType.Number, 'Returns the smallest value from a collection')]
+    
+    // extra function (lg only)
+    ['lgTemplate', new FunctionEntity(['templateName: string', '...params: string[]'], ReturnType.String, 'Evaluate a template and get the result.')],
 ]);
 

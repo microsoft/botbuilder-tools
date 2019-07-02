@@ -81,6 +81,32 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
 
                 res(headingCompletions);
             });
+        } else if (/lgTemplate\($/.test(lineTextBefore)) {
+            // lgTemplate completion
+            return new Promise((res, _) => {
+                let templates: LGTemplate[] = util.GetAllTemplateFromCurrentWorkspace();
+
+                const headingCompletions = templates.reduce((prev, curr) => {
+                    let item = new vscode.CompletionItem(curr.Name, vscode.CompletionItemKind.Reference);
+                    item.insertText = `'${curr.Name}'`;
+                    item.detail = `${curr.Source}`;
+                    
+                    const lgParser = LGParser.Parse(document.getText());
+                    var relativePath = path.relative(path.dirname(document.uri.fsPath), curr.Source);
+
+                    if (curr.Source !== document.uri.fsPath && !lgParser.Imports.map(u => u.Id).includes(relativePath)) {
+                        var edit =  vscode.TextEdit.insert(new vscode.Position(0,0), `[import](${relativePath})\r\n`);
+                        item.additionalTextEdits = [edit];
+                    }
+                    if (!prev.includes(item)) {
+                        prev.push(item);
+                    }
+                    
+                    return prev;
+                }, []);
+
+                res(headingCompletions);
+            });
         } else if (/\{[^\}]*$/.test(lineTextBefore)) {
             // buildin function prompt in expression
             let items: vscode.CompletionItem[] = [];
