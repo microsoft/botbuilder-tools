@@ -94,9 +94,7 @@ function getLGDiagnostics(document: vscode.TextDocument): Diagnostic[] {
             diagnostics = diagnostics.filter((diagnostic) => {
                 if (diagnostic === undefined) {
                     return false;
-                } else if (!diagnostic.Message.endsWith('template not found')) {
-                    return true;
-                } else {
+                } else if (diagnostic.Message.endsWith('template not found')) {
                     const templateNameResult: RegExpExecArray = /\[([^)]*)\]/.exec(diagnostic.Message);
                     if (templateNameResult === null || templateNameResult === undefined) {
                         return true;
@@ -107,6 +105,20 @@ function getLGDiagnostics(document: vscode.TextDocument): Diagnostic[] {
                         // this template is exist in the import file
                         return false;
                     }
+                    return true;
+                } else if (diagnostic.Message.includes('no such template') && diagnostic.Message.includes('lgTemplate')) {
+
+                    // error message: Parse failed for expression 'lgTemplate('Items-Ordinality')', inner error: Error: no such template 'Items-Ordinality' to call in lgTemplat
+                    var startindex: number = diagnostic.Message.indexOf('lgTemplate') + 'lgTemplate('.length;
+                    var length: number = diagnostic.Message.substr(startindex).indexOf(')');
+                    var templateName: string = diagnostic.Message.substr(startindex + 1, length - 2); // remove ''
+
+                    if (templatesWithImport.map(u=>u.Name).includes(templateName)) {
+                        // this template is exist in the import file
+                        return false;
+                    }
+                    return true;
+                } else {
                     return true;
                 }
               });
