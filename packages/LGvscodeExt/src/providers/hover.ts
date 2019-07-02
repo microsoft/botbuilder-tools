@@ -8,9 +8,8 @@
 
 import * as vscode from 'vscode';
 import * as util from '../util';
-import { DataStorage } from '../dataStorage';
-import { LGTemplate, TemplateEngine} from 'botbuilder-lg';
-import { buildInfunctionNames } from '../buildinFunctions';
+import { LGTemplate } from 'botbuilder-lg';
+import { buildInfunctionsMap } from '../buildinFunctions';
 
 /**
  * Hovers show information about the symbol/object that's below the mouse cursor. This is usually the type of the symbol and a description.
@@ -48,12 +47,16 @@ class LGHoverProvider implements vscode.HoverProvider {
         }
 
         // buildin functions info
-        if (buildInfunctionNames.includes(wordName))
-        {
+        if (buildInfunctionsMap.has(wordName))
+        {   
+            const functionEntity = buildInfunctionsMap.get(wordName);
+            const returnType = util.GetreturnTypeStrFromReturnType(functionEntity.Returntype);
+            const functionIntroduction = `${wordName}(${functionEntity.Params.join(", ")}): ${returnType}`;
+
             const contents = [];
-                contents.push(new vscode.MarkdownString("Buildin function"));
-                contents.push(new vscode.MarkdownString("introduction, coming soon~"));
-                return new vscode.Hover(contents, wordRange);
+            contents.push(new vscode.MarkdownString(functionIntroduction));
+            contents.push(new vscode.MarkdownString(functionEntity.Introduction));
+            return new vscode.Hover(contents, wordRange);
         }
 
         return undefined;

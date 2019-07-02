@@ -11,7 +11,7 @@ import * as util from '../util';
 import { DataStorage } from '../dataStorage';
 import { LGTemplate, LGParser } from 'botbuilder-lg';
 import * as path from 'path';
-import { buildInfunctionNames } from '../buildinFunctions';
+import { buildInfunctionsMap } from '../buildinFunctions';
 
 /**
  * Code completions provide context sensitive suggestions to the user.
@@ -22,7 +22,7 @@ import { buildInfunctionNames } from '../buildinFunctions';
  */
 
 export function activate(context: vscode.ExtensionContext) {
-    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(), '{', '(', '\\', '/', '[', '#'));
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(), '{', '(', '['));
 }
 
 class LGCompletionItemProvider implements vscode.CompletionItemProvider {
@@ -33,7 +33,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         if (!util.IsLgFile(document.fileName)) {
             return;
         }
-       
+        
         const lineTextBefore = document.lineAt(position.line).text.substring(0, position.character);
         const lineTextAfter = document.lineAt(position.line).text.substring(position.character);
         
@@ -83,10 +83,18 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             });
         } else if (/\{[^\}]*$/.test(lineTextBefore)) {
             // buildin function prompt in expression
-            const buildInfunctionItem: vscode.CompletionItem[] = buildInfunctionNames.map(item => new vscode.CompletionItem(item));
-            return [...buildInfunctionItem];
+            let items: vscode.CompletionItem[] = [];
+            buildInfunctionsMap.forEach((value, key) => {
+                let completionItem = new vscode.CompletionItem(key);
+                const returnType = util.GetreturnTypeStrFromReturnType(value.Returntype);
+                completionItem.detail = `(method) ${key}(${value.Params.join(", ")}): ${returnType}`;
+                completionItem.documentation = value.Introduction;
+                items.push(completionItem);
+            });
+            
+            return items;
         } else {
-            return[];
+            return [];
         }
     }
 

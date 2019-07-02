@@ -42,7 +42,7 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 
 #### Hover
 - template
-- buildin function (doing)
+- buildin function
 
 ![highlight](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Hover.gif?raw=true)
 
@@ -70,5 +70,9 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 
 ![TestTool](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/TestTool.gif?raw=true)
 
+#### Signatures
+- buildin function (R0 and R1)
+
+
 # TODO
-- buildin function: hover, color scheme, argument position and type suggestion
+- buildin function: color scheme

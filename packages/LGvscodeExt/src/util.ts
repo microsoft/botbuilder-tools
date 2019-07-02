@@ -10,6 +10,7 @@ import { TextDocument, Range, Position, workspace } from "vscode";
 import { LGTemplate, TemplateEngine } from "botbuilder-lg";
 import { DataStorage, TemplateEngineEntity } from "./dataStorage";
 import * as vscode from 'vscode';
+import { ReturnType } from "botbuilder-expression";
 
 export function IsLgFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.endsWith('.lg')) {
@@ -49,4 +50,16 @@ export function GetAllTemplateFromCurrentWorkspace() :LGTemplate[] {
     );
 
     return templates;
+}
+
+export function GetreturnTypeStrFromReturnType(returnType: ReturnType): string {
+    let result = '';
+    switch(returnType) {
+        case ReturnType.Boolean: result = "boolean";break;
+        case ReturnType.Number: result = "number";break;
+        case ReturnType.Object: result = "any";break;
+        case ReturnType.String: result = "string";break;
+    }
+
+    return result;
 }
