@@ -28,13 +28,9 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
         if (!util.IsLgFile(document.fileName)) {
             return;
         }
-
-        return this.getReference(document, position);
-    }
-
-    private getReference(document: vscode.TextDocument, position: vscode.Position): vscode.Location {
+        
+        // get template definition
         try {
-            const lineText: string = document.lineAt(position.line).text;
             const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_ \-\.]+/);
             if (!wordRange) {
                 return undefined;

@@ -7,7 +7,7 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 # how to use for customer
 - `npm install` to install packages
 - `npm run compile`
-- if `vsce` is not installed globally, please use `npm install -g vsce` to install it.
+- `npm install -g vsce`, if `vsce` is not installed globally.
 - use `vsce package` to export vsix file
 - open vscode, and extension tab
 - select 'install from VSIX...'
@@ -22,57 +22,49 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 - reference doc: [vscode extension](https://code.visualstudio.com/api/language-extensions/overview)
 
 # features show
-#### Highlight
-- keyword
-- template name and parameters
-- template reference
-- expression
-- multiline text
-- comments
+#### [Syntax Highlight](https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide)
+- Keyword
+- Template name and parameters
+- Template reference name and parameters
+- Expression
+- Multiline text
+- Comments
+- Buildin function name and parameters
+- Import
 
-![highlight](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Highlight.png?raw=true)
+#### [Snippet](https://code.visualstudio.com/api/language-extensions/snippet-guide)
+- Import
+- Switch
+- If
+- Template
 
-#### Snippet
-- import
-- switch
-- if
-- template
+#### [Hover](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#show-hovers)
+- Template reference
+- Buildin function
 
-![Snippet](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Snippets.gif?raw=true)
+#### [Code Suggestion](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#show-code-completion-proposals)
+- Building function name
+- Template reference
+- File path for imports
 
-#### Hover
-- template
-- buildin function
+#### [Definition](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#show-definitions-of-a-symbol)
+- Template definition
 
-![highlight](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Hover.gif?raw=true)
-
-#### Code Completion (Suggestion)
-- building function name
-- template reference
-- imports
-
-![CodeCompletion](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/CodeCompletion.gif?raw=true)
-
-#### Show Definitions
-- template definition
-![ShowDefinitions](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/ShowDefinitions.gif?raw=true)
-
-#### Diagnostic
+#### [Diagnostic](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#provide-diagnostics)
 - Error
 - Warning
 
-![Diagnostic](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/Diagnostic.gif?raw=true)
+#### [Live Test Tool](https://code.visualstudio.com/api/extension-guides/webview)
+- Template evaluation
+- Inline evaluation
+- Multi files debug (todo)
 
-#### Live Test Tool
-- template evaluation
-- inline evaluation
-- multi files/ addFiles api (not support.)
+#### [Function and Method Signature](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#help-with-function-and-method-signatures)
+- Buildin function
 
-![TestTool](https://github.com/microsoft/botbuilder-tools/blob/lg-vscode-extension/packages/LGvscodeExt/images/TestTool.gif?raw=true)
-
-#### Signatures
-- buildin function
-
+#### others
+- Automatic dash completion
 
 # TODO
-- R2 buildin function
+- R2 buildin functions
+- Debug with multi files (use addFiles API)
