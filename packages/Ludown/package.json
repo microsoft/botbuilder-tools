@@ -29,6 +29,7 @@
     "latest-version": "^4.0.0",
     "node-fetch": "^2.1.2",
     "read-text-file": "^1.1.0",
-    "semver": "^5.5.1"
+    "semver": "^5.5.1",
+    "mocha": "^5.2.0"
   }
 }

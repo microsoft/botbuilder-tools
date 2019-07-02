@@ -7,7 +7,6 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const txtfile = require('read-text-file');
 const LUISObjNameEnum = require('./enums/luisobjenum');
 const parseFileContents = require('./parseFileContents');
 const retCode = require('./enums/CLI-errors');
@@ -246,6 +245,7 @@ const getFilesToParse = async function(program) {
     }
     return filesToParse;
 }
+
 /**
  * Helper function to loop through and parse all files
  * @param {Array} filesToParse List of input .lu files to parse
@@ -271,7 +271,9 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
         if(!fs.existsSync(path.resolve(file))) {
             throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));     
         }
-        let fileContent = txtfile.readSync(file);
+      
+        let fileContent = fs.readFileSync(file, 'utf8');
+
         if (!fileContent) {
             throw(new exception(retCode.errorCode.FILE_OPEN_ERROR,'Sorry, error reading file:' + file));
         }
