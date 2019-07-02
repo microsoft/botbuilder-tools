@@ -73,10 +73,10 @@
 			"begin":"^\\s*-",
 			"end":"\n",
 			"patterns": [
+				{"include": "#fence_block"},
 				{"include": "#template_ref"},
 				{"include": "#expression"},
-				{"include": "#keyword"},
-				{"include": "#fence_block"}
+				{"include": "#keyword"}
 			]
 		},
 		"params": {
