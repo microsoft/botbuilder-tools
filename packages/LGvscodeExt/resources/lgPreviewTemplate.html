@@ -59,16 +59,16 @@
         <label for="json">Values used to evaluate expressions (must be valid json)</label>
         <textarea name="json" rows="15" id="json">{"name":"ms"}</textarea>
       </p>
+      <select id="Template Source" onchange="submitTemplateSource(this)">
+        <option value="">Select the source of template</option>
+        <option value="Template Name">Template name</option>
+        <option value="Free Text">Free text</option>
+      </select>
+      <div id="getTemplates"> </div>
+      <div id="getFreeText"></div>
+
       <p>
-        <label for="text">Template Name</label>
-        <input type="text" name="text" id="template" placeholder="The name of a template from the LG file" value="" onkeypress="document.getElementById('freetext').value='';"/>
-      </p>
-      <p>
-        <label for="text">Free Text</label>
-        <input type="text" name="freetext" id="freetext" placeholder="Text to evaluate as a template" value="" onkeypress="document.getElementById('template').value='';"/>
-      </p>
-      <p>
-        <label for="interations">Generate # of variants:</label>
+        <label for="iterations">Generate # of variants:</label>
         <input type="number" id="iterations" name="iterations" value="1"/>
       </p>
 
@@ -86,29 +86,71 @@
   <script>
         var vscode = undefined;
         function submitScope() {
+            const sourceOptions = document.getElementById("Template Source");
+            const source = sourceOptions.options[sourceOptions.selectedIndex].text;
             const scopeValue = document.getElementById('json').value;
-            const templateName = document.getElementById('template').value;
-            const inlineText = document.getElementById('freetext').value;
             const iterations = document.getElementById('iterations').value;
             const resultEl = document.getElementById('evaluateresults');
+            let templateName = "";
+            let inlineText = "";
+            if (source === "Template name") {
+              const selections = document.getElementById('TemplateName');
+              const temp = selections.options[selections.selectedIndex].text;
+              templateName = temp;
+            } else if (source === "Free text") {
+              inlineText = document.getElementById('freetext').value;
+            }
+            
+            if (source !== "Select the source of template") {
+              if(vscode === undefined) {
+                vscode = acquireVsCodeApi();
+              }
+
+              resultEl.innerHTML = '';
+              vscode.postMessage({
+                  command: 'passScope',
+                  scopeValue: scopeValue,
+                  templateName: templateName,
+                  inlineText: inlineText,
+                  iterations: iterations
+              });
+            }
+            
+        }
+
+        function submitTemplateSource(source) {
+          const sourceValue = source.value;
+          let resultList = document.getElementById('getTemplates');
+          let resultFreeText = document.getElementById('getFreeText');
+          if (sourceValue === "") {
+            resultList.innerHTML = "";
+            resultFreeText.innerHTML = "";
+          } else if (sourceValue=== "Free Text") {
+            resultFreeText.innerHTML =  "<p><label for='text'>Free Text</label><input type='text' name='freetext' id='freetext' placeholder='Text to evaluate as a template' value='' onkeypress='document.getElementById('template').value='';'/></p>";
+            resultList.innerHTML = "";
+          }
+          
+          else {
             if(vscode === undefined) {
                 vscode = acquireVsCodeApi();
             }
+          
+          resultList = undefined;
+          resultFreeText = undefined;
 
-            resultEl.innerHTML = '';
-
-            vscode.postMessage({
-                command: 'passScope',
-                scopeValue: scopeValue,
-                templateName: templateName,
-                inlineText: inlineText,
-                iterations: iterations
-            });
+          vscode.postMessage({
+            command: 'passTemplateSource',
+            source: sourceValue
+          });
+          }
+          
         }
 
         // Handle the message inside the webview
         window.addEventListener('message', event => {
             const resultEl = document.getElementById('evaluateresults');
+            const resultList = document.getElementById('getTemplates');
+            const resultFreeText = document.getElementById('getFreeText');
             const message = event.data; // The JSON data our extension sent
 
             switch (message.command) {
@@ -117,7 +159,19 @@
                    resultEl.innerHTML = '';
                     arr.forEach(function(e) {
        		 		        resultEl.innerHTML = resultEl.innerHTML + "<li>" + e + "</li>";
-           		      })
+                     })
+                  break;
+                }
+
+                case 'TemplateName': {
+                  var arr = message.results;   
+                  resultList.innerHTML = "";
+                  let tempStr = "<select id='TemplateName'>";
+                  arr.forEach((e) => tempStr = tempStr + `<option value=${e}> ${e} </option>`);
+                  resultList.innerHTML = tempStr + "</select>";
+                  resultFreeText.innerHTML = "";
+
+                break;
                 }
             }
         });
