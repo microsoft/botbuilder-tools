@@ -66,6 +66,5 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 - Automatic dash completion
 
 # TODO
-- R2 buildin functions
 - Debug with multi files (use addFiles API)
 - Possible Actions on Errors or Warnings (Auto import lg files)
