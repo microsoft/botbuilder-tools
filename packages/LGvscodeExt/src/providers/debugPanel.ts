@@ -11,6 +11,7 @@ import { TemplateEngine } from 'botbuilder-lg';
 import * as path from 'path';
 import * as fs from 'fs';
 import { DataStorage, TemplateEngineEntity } from '../dataStorage';
+import * as util from '../util';
 
 export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('lgLiveTest.start', () => {
@@ -116,7 +117,33 @@ export class LGDebugPanel {
                     } catch(e){
                         vscode.window.showErrorMessage(e.message);
                    }
+
+                   break;
                 }
+            
+                case 'passTemplateSource': {
+                    try {
+                        const source: any = message.source;
+                        let result = []
+                        if (source === "Template Name"){
+                            let templates = util.GetAllTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri);
+                        if (templates.length === 0) {
+                            vscode.window.showErrorMessage("please waiting for the build.");
+                        } else {
+                            for (const template of templates) {
+                                result.push(template.Name);
+                            }
+                        }
+
+                        this._panel.webview.postMessage({ command: 'TemplateName', results: result });
+                        }
+                    } catch (e) {
+                        vscode.window.showErrorMessage(e.message);
+                    }
+
+                    break;
+                }
+
             }
         }, null, this._disposables);
     }
