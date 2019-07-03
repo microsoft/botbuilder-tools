@@ -68,3 +68,4 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 # TODO
 - Debug with multi files (use addFiles API)
 - Possible Actions on Errors or Warnings (Auto import lg files)
+- Exception throw by `ResolveImportResources` is not catched by `staticChecker`
