@@ -93,12 +93,12 @@ export class LGDebugPanel {
                         
                         let engineEntity: TemplateEngineEntity = DataStorage.templateEngineMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
                         if (engineEntity === undefined) {
-                            vscode.window.showErrorMessage("please waiting for the build.");
+                            vscode.window.showErrorMessage("please fix errors first.");
                         } else {
                             const engine: TemplateEngine = engineEntity.templateEngine;
 
                             if(engine === undefined) {
-                                vscode.window.showErrorMessage("please fix warning/errors first.");
+                                vscode.window.showErrorMessage("please fix all errors first.");
                             } else {
                                 for (var x = 0; x < iterations; x++) {
                                     // first evaluate this as a template
@@ -124,11 +124,11 @@ export class LGDebugPanel {
                 case 'passTemplateSource': {
                     try {
                         const source: any = message.source;
-                        let result = []
+                        let result: string[] = [];
                         if (source === "Template Name"){
                             let templates = util.GetAllTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri);
                         if (templates.length === 0) {
-                            vscode.window.showErrorMessage("please waiting for the build.");
+                            vscode.window.showErrorMessage("please fix all errors first.");
                         } else {
                             for (const template of templates) {
                                 result.push(template.Name);
