@@ -7,7 +7,7 @@
  */
 
 import * as vscode from 'vscode';
-import { LGTemplate, StaticChecker, Diagnostic, LGParser, Position, Range} from 'botbuilder-lg';
+import { LGTemplate, StaticChecker, Diagnostic, LGParser, Position, Range, TemplateEngine, DiagnosticSeverity} from 'botbuilder-lg';
 import * as util from '../util';
 
 /**
@@ -74,10 +74,6 @@ function getLGDiagnostics(document: vscode.TextDocument): Diagnostic[] {
     let diagnostics: Diagnostic[] = [];
     let templatesWithoutImport: LGTemplate[] = [];
     let templatesWithImport: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri);
-    
-    if (templatesWithImport === undefined || templatesWithImport.length === 0) {
-        return diagnostics;
-    }
 
     const parseResult: { isValid: boolean; templates: LGTemplate[]; error: Diagnostic } = LGParser.TryParse(document.getText());
     if (parseResult.isValid) {
@@ -137,5 +133,19 @@ function getLGDiagnostics(document: vscode.TextDocument): Diagnostic[] {
             diagnostics = diagnostics.concat(error);
     }
 
+    // Get exceptions that is not in parse and not in static checker
+    try {
+        new TemplateEngine().addFile(document.uri.fsPath);
+    }
+    catch(e)
+    {
+        diagnostics.push(new Diagnostic(
+            new Range(
+                new Position(0, 0),
+                new Position(0, 0)),
+                e.message,
+            DiagnosticSeverity.Error));
+    }
+    
     return diagnostics;
 }
