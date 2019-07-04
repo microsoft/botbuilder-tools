@@ -42,6 +42,9 @@
 </head>
 
 <body>
+<script src="https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs/loader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js" integrity="sha256-0SGl1PJNDyJwcV5T+weg2zpEMrh7xvlwO4oXgvZCeZk=" crossorigin="anonymous"></script>
+
   <header>
       <h1>
         Language Generation Tester
@@ -52,12 +55,11 @@
         This library is intended for use in generating personalized, contextual responses for bots and other conversational software.
       </p>
     </header>
-
     <div class="panes">
     <div>
       <p>
         <label for="json">Values used to evaluate expressions (must be valid json)</label>
-        <textarea name="json" rows="15" id="json">{"name":"ms"}</textarea>
+        <div id="json" style="width:600px;height:240px;border:1px solid grey"></div>
       </p>
       <select id="Template Source" onchange="submitTemplateSource(this)">
         <option value="">Select the source of template</option>
@@ -84,11 +86,21 @@
     </div>
   </div>
   <script>
+      require.config({ paths: { 'vs': 'https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs' }});
+      require(['vs/editor/editor.main'], function() {
+        window.editor = monaco.editor.create(document.getElementById('json'), {
+          value: "{}",
+          language: 'json',
+          theme: 'vs'
+        });
+      });
+  </script>
+  <script>
         var vscode = undefined;
         function submitScope() {
             const sourceOptions = document.getElementById("Template Source");
             const source = sourceOptions.options[sourceOptions.selectedIndex].text;
-            const scopeValue = document.getElementById('json').value;
+            const scopeValue = window.editor.getValue();
             const iterations = document.getElementById('iterations').value;
             const resultEl = document.getElementById('evaluateresults');
             let templateName = "";
