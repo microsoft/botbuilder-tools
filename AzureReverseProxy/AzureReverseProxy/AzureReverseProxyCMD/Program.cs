@@ -7,10 +7,16 @@ namespace AzureReverseProxyCMD
 {
     class Program
     {
+        private static AzureReverseTool AZProxy;
         static void Main(string[] args)
         {
-            var az = new AzureReverseTool(GetConfiguration());
-            az.GenerateRelayResource();
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+
+            var config = GetConfiguration();
+
+            Console.WriteLine($"Deploying { config.DeploymentName } to group { config.ResourceGroupName }...");
+            AZProxy = new AzureReverseTool(config);
+            AZProxy.GenerateRelayResource();
         }
 
         private static IConfiguration GetConfiguration()
@@ -22,6 +28,12 @@ namespace AzureReverseProxyCMD
             {
                 return JsonConvert.DeserializeObject<Configuration>(reader.ReadToEnd());
             }
+        }
+
+        private static void OnProcessExit(object sender, EventArgs e)
+        {
+            Console.WriteLine(Environment.NewLine + "Deleting the generated resources...");
+            AZProxy.DeleteResource();
         }
     }
 }

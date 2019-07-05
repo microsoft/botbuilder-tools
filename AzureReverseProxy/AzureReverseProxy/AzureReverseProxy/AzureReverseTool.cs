@@ -18,6 +18,7 @@ namespace AzureReverseProxy
     {
         private readonly IConfiguration config;
         private readonly AzureCredentials credentials;
+        private readonly RelayManagementClient relayManagementClient;
 
         public AzureReverseTool(IConfiguration config)
         {
@@ -29,6 +30,8 @@ namespace AzureReverseProxy
                             config.ClientSecret,
                             config.TenantId,
                             AzureEnvironment.AzureGlobalCloud);
+
+            relayManagementClient = new RelayManagementClient(credentials) { SubscriptionId = config.SubscriptionId };
         }
 
         public void GenerateRelayResource()
@@ -122,10 +125,13 @@ namespace AzureReverseProxy
 
         public AuthorizationRule GetAuthorizationRule(string ruleName)
         {
-            RelayManagementClient relayMC = new RelayManagementClient(credentials) { SubscriptionId = config.SubscriptionId };
-
-            var response = relayMC.Namespaces.ListKeysWithHttpMessagesAsync(config.ResourceGroupName, config.DeploymentName, ruleName).Result.Response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            var response = relayManagementClient.Namespaces.ListKeysWithHttpMessagesAsync(config.ResourceGroupName, config.DeploymentName, ruleName).Result.Response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
             return JsonConvert.DeserializeObject<AuthorizationRule>(response);
+        }
+
+        public void DeleteResource()
+        {
+            relayManagementClient.Namespaces.Delete(config.ResourceGroupName, config.DeploymentName);
         }
     }
 }
