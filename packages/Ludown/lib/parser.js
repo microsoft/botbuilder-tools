@@ -17,6 +17,7 @@ const filesToParseClass = require('./classes/filesToParse');
 const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
+const txtfile = require('./read-text-file');
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -272,7 +273,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
             throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));     
         }
       
-        let fileContent = fs.readFileSync(file, 'utf8');
+        let fileContent = txtfile.readSync(file);
 
         if (!fileContent) {
             throw(new exception(retCode.errorCode.FILE_OPEN_ERROR,'Sorry, error reading file:' + file));
