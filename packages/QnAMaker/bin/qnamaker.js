@@ -40,7 +40,6 @@ const minimist = require('minimist');
 const chalk = require('chalk');
 const help = require('../lib/help');
 const qnamaker = require('../lib');
-const txtfile = require('read-text-file');
 const {getServiceManifest} = require('../lib/utils/argsUtil');
 const Knowledgebase = require('../lib/api/knowledgebase');
 const Knowledgebases = require('../lib/api/knowledgebases');
@@ -333,7 +332,7 @@ async function getFileInput(args) {
         return null;
     }
     // Let any errors fall through to the runProgram() promise
-    return JSON.parse(await txtfile.read(path.resolve(args.in)));
+    return await fs.readJSON(path.resolve(args.in))
 }
 
 /**
@@ -350,7 +349,7 @@ async function composeConfig() {
     let config;
     try {
         await fs.access(path.join(process.cwd(), '.qnamakerrc'), fs.R_OK);
-        qnamakerrcJson = JSON.parse(await txtfile.read(path.join(process.cwd(), '.qnamakerrc')));
+        qnamakerrcJson = await fs.readJSON(path.join(process.cwd(), '.qnamakerrc'));
     } catch (e) {
         // Do nothing
     } finally {
