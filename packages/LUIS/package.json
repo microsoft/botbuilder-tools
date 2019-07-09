@@ -52,7 +52,6 @@
     "minimist": "^1.2.0",
     "node-fetch": "^2.6.0",
     "perf_hooks": "0.0.1",
-    "read-text-file": "^1.1.0",
     "readline-sync": "^1.4.9",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",

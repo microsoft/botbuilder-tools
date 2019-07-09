@@ -7,7 +7,7 @@
 import { BotConfiguration, EndpointService, IEndpointService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as txtfile from 'read-text-file';
+import * as fs from 'fs-extra';
 import * as validurl from 'valid-url';
 import { stdoutAsync } from './stdioAsync';
 import { getStdin, uuidValidate } from './utils';
@@ -74,7 +74,7 @@ async function processConnectEndpointArgs(config: BotConfiguration): Promise<Bot
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
     } else if (args.input != null) {
-        Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
+        Object.assign(args, await fs.readJSON(<string>args.input));
     }
 
     if (!args.endpoint) {

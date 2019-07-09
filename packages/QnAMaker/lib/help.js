@@ -5,7 +5,7 @@
 const Table = require('cli-table3');
 const chalk = require('chalk');
 const path = require('path');
-const txtfile = require('read-text-file');
+const txtfile = require('./read-text-file');
 const manifest = require('./api/qnamaker');
 const windowSize = require('window-size');
 const { getServiceManifest } = require('../lib/utils/argsUtil');
