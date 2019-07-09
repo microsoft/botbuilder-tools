@@ -32,7 +32,6 @@ const readlineSync = require('readline-sync');
 const minimist = require('minimist');
 const chalk = require('chalk');
 const request = require('request-promise');
-const txtfile = require('read-text-file');
 
 const help = require('./help');
 const Delay = require('await-delay');
@@ -905,7 +904,7 @@ async function getFileInput(args) {
         return null;
     }
     // Let any errors fall through to the runProgram() promise
-    return JSON.parse(await txtfile.read(path.resolve(args.in)));
+    return await fs.readJSON(path.resolve(args.in));
 }
 
 /**
@@ -928,7 +927,7 @@ async function composeConfig() {
     let config;
     try {
         await fs.access(path.join(process.cwd(), '.luisrc'), fs.R_OK);
-        luisrcJson = JSON.parse(await txtfile.read(path.join(process.cwd(), '.luisrc')));
+        luisrcJson = await fs.readJSON(path.join(process.cwd(), '.luisrc'));
     } catch (e) {
         // Do nothing
     } finally {
