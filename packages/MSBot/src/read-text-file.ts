@@ -32,6 +32,9 @@ export const readTextFile = {
         
             return fileBuffer.toString('utf8').replace(/\0/g, '');
         } catch(err) {
+            if (err.message.match(/ENOENT: no such file or directory/)) {
+                throw err;
+            } 
             throw (new Error(`Sorry, unable to parse file: \n\n ${JSON.stringify(err, null, 2)}\n\n`));
         }
     }
