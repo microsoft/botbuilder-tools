@@ -16,6 +16,18 @@
       color: #FFF;
       border: none;
       padding: 0.5rem 3rem;
+      margin: 0.2cm;
+    }
+
+    input[type="button"] {
+      border: none;
+      width: 80px;
+      height: 32px;
+      text-align: center; 
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 8px;
     }
 
     textarea, input[type="text"] {
@@ -28,16 +40,37 @@
       margin: 1rem;
     }
 
-    .results {
-      border-top: 2px dashed #666;
-      padding-top: 1rem;
-      margin: 0;
-      margin-top: 1rem;
+    .TemplateBlock > div {
+      display: inline-block;
+      padding: 5px 0px 5px 30px;
     }
 
-    .results li {
-      margin-bottom: 1rem;
+    .FreeTextBlock > div {
+      display: inline-block;
+      padding: 5px 0px 5px 33px;
     }
+
+    .operations {
+      margin-top: 0.5rem;
+      float: right;
+      padding-right: 3rem;
+    }
+
+    .results {
+      border-top: 2px solid rgb(32, 32, 32);
+      padding-top: 1rem;
+      margin: 0;
+      margin-top: 5rem;
+    }
+
+    .panes {
+      border-top: 2px solid rgb(32, 32, 32);
+      padding-top: 1rem;
+      margin: 5;
+      margin-top: 2rem;
+    }
+
+
   </style> 
 </head>
 
@@ -49,39 +82,43 @@
       <h1>
         Language Generation Tester
       </h1>
-      <p>
+      <p style="font-size: 135%; color: black;">
         Preview the <a href="https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation" target="_new">experimental Bot Framework language generation library</a> 
-        with this interactive tool that will use your LG rules to generate example language.
-        This library is intended for use in generating personalized, contextual responses for bots and other conversational software.
+        with this interactive tool.
       </p>
     </header>
     <div class="panes">
     <div>
+        <p>
+          <div id="NumOfVariants">
+          <label for="iterations">Generate <input type="number" id="iterations" name="iterations" value="3" min="1" max="100"/>  variants for:</label>
+          </div>
+        </p>
+      <div class="TemplateBlock" id="TemplateBlock">
+        <INPUT TYPE="Radio" Name="source" Value="Template" onclick="getTemplateList()">Template: 
+          <div id="getTemplates">
+            <select name="templates" id="templates"  style="width: 403px; height: 24px">
+            </select> 
+          </div>
+      </div>
+      <div class="FreeTextBlock" id="FreeTextBlock">
+        <INPUT TYPE="Radio" Name="source" Value="Free text" onclick="triggerFreeText()">Free text:  
+        <div id="getFreeText">
+          <p><input type="text" name="freetext" id="freetext" placeholder="Text to evaluate as a template" style="width: 400px" /></p>
+        </div>    
+      </div>
       <p>
-        <label for="json">Values used to evaluate expressions (must be valid json)</label>
-        <div id="json" style="width:600px;height:240px;border:1px solid grey"></div>
+        <label for="json">Configure values used to evaluate expressions:</label>
+        <div id="json" style="width:600px;height:200px;border:1px solid grey"></div>
       </p>
-      <select id="Template Source" onchange="submitTemplateSource(this)">
-        <option value="">Select the source of template</option>
-        <option value="Template Name">Template name</option>
-        <option value="Free Text">Free text</option>
-      </select>
-      <div id="getTemplates"> </div>
-      <div id="getFreeText"></div>
+      <div class="operations" id="operations">
+        <input type="button" value="Reset" onclick="reset()">
+        <input type="button" onclick="submitScope()" value="Generate">
+      </div>
 
-      <p>
-        <label for="iterations">Generate # of variants:</label>
-        <input type="number" id="iterations" name="iterations" value="1"/>
-      </p>
-
-      <input type="submit" onclick="submitScope()" value="Generate">
-
-      <div class="results">
-        <label>Generated Language</label>
-
-        <ol>
-          <div id="evaluateresults"> </div>
-        </ol>
+      <div class="results" style="display: block">
+        <label for="evaluateresults">Generated variations:</label>
+        <div id="evaluateresults" style="width:600px;height:200px;border:1px solid grey;margin-top: 15px;"></div>
       </div>
     </div>
   </div>
@@ -97,23 +134,28 @@
   </script>
   <script>
         var vscode = undefined;
+        
         function submitScope() {
-            const sourceOptions = document.getElementById("Template Source");
-            const source = sourceOptions.options[sourceOptions.selectedIndex].text;
+            const sourceOptions = document.getElementsByName("source");
+            let source = "";
+            for (var i = 0; i < sourceOptions.length; i++){
+              if (sourceOptions[i].checked) {
+                source = sourceOptions[i].value;
+              }
+            }
             const scopeValue = window.editor.getValue();
             const iterations = document.getElementById('iterations').value;
             const resultEl = document.getElementById('evaluateresults');
             let templateName = "";
             let inlineText = "";
-            if (source === "Template name") {
+            if (source === "Template") {
               const selections = document.getElementById('TemplateName');
-              const temp = selections.options[selections.selectedIndex].text;
-              templateName = temp;
+              templateName = selections.options[selections.selectedIndex].text;
             } else if (source === "Free text") {
               inlineText = document.getElementById('freetext').value;
             }
             
-            if (source !== "Select the source of template") {
+            if (source !== "Select the template you want to evaluate") {
               if(vscode === undefined) {
                 vscode = acquireVsCodeApi();
               }
@@ -130,32 +172,53 @@
             
         }
 
-        function submitTemplateSource(source) {
-          const sourceValue = source.value;
+        function getTemplateList() {
           let resultList = document.getElementById('getTemplates');
           let resultFreeText = document.getElementById('getFreeText');
-          if (sourceValue === "") {
-            resultList.innerHTML = "";
-            resultFreeText.innerHTML = "";
-          } else if (sourceValue=== "Free Text") {
-            resultFreeText.innerHTML =  "<p><label for='text'>Free Text</label><input type='text' name='freetext' id='freetext' placeholder='Text to evaluate as a template' value='' onkeypress='document.getElementById('template').value='';'/></p>";
-            resultList.innerHTML = "";
+          resultList.innerHTML = "";
+          resultFreeText.innerHTML = "";
+          if(vscode === undefined) {
+              vscode = acquireVsCodeApi();
           }
-          
-          else {
-            if(vscode === undefined) {
-                vscode = acquireVsCodeApi();
-            }
           
           resultList = undefined;
-          resultFreeText = undefined;
 
           vscode.postMessage({
-            command: 'passTemplateSource',
-            source: sourceValue
+            command: 'getTemplates'
+          });
+        }
+
+        function triggerFreeText() {
+          let resultList = document.getElementById('getTemplates');
+          let resultFreeText = document.getElementById('getFreeText');
+        }
+
+        function getFileList() {
+          const resultFiles = document.getElementById('LGFileList');
+          if(vscode === undefined) {
+                vscode = acquireVsCodeApi();
+          }
+
+            vscode.postMessage({
+            command: 'getLGFileList'
           });
           }
-          
+
+        function reset() {
+          curLGFiles = [];
+          // reset number of variants to 3
+          const resultVariantInput = document.getElementById("iterations");
+          const resultTempalteBlock = document.getElementById('TemplateBlock');
+          const resultFreeTextBlock = document.getElementById('FreeTextBlock');
+          resultVariantInput.value = resultVariantInput.defaultValue;;
+          resultTempalteBlock.innerHTML = "<INPUT TYPE='Radio' Name='source' Value='Template' onclick='getTemplateList()'>Template: <div id='getTemplates'><select name='templates' id='templates'  style='width: 403px; height: 24px'></select></div>";
+          resultFreeTextBlock.innerHTML = "<INPUT TYPE='Radio' Name='source' Value='Free text' onclick='triggerFreeText()'>Free text:  <div id='getFreeText'><p><input type='text' name='freetext' id='freetext' placeholder='Text to evaluate as a template' value='' style='width: 400px' onkeypress='document.getElementById('freetext').value;'/></p></div>";
+          if(vscode === undefined) {
+              vscode = acquireVsCodeApi();
+          }
+
+
+
         }
 
         // Handle the message inside the webview
@@ -163,25 +226,30 @@
             const resultEl = document.getElementById('evaluateresults');
             const resultList = document.getElementById('getTemplates');
             const resultFreeText = document.getElementById('getFreeText');
+            const resultLGFileTable = document.getElementById("LGFileTable");
+            const resultLGFileList = document.getElementById("LGFileList");
             const message = event.data; // The JSON data our extension sent
 
             switch (message.command) {
                 case 'evaluateResults': {
                    var arr = message.results;
-                   resultEl.innerHTML = '';
-                    arr.forEach(function(e) {
-       		 		        resultEl.innerHTML = resultEl.innerHTML + "<li>" + e + "</li>";
-                     })
+                    window.editorOutput = monaco.editor.create(document.getElementById('evaluateresults'), {
+                      value: "",
+                      language: 'text',
+                      theme: 'vs'
+                    });
+
+                  window.editorOutput.trigger('keyboard', 'type', {text: arr.join('\n')});
                   break;
                 }
 
                 case 'TemplateName': {
                   var arr = message.results;   
                   resultList.innerHTML = "";
-                  let tempStr = "<select id='TemplateName'>";
+                  let tempStr = "<select id='TemplateName' style='width: 400px; height:24px'><option value='default'>Select the template you want to evaluate</option>";
                   arr.forEach((e) => tempStr = tempStr + `<option value=${e}> ${e} </option>`);
                   resultList.innerHTML = tempStr + "</select>";
-                  resultFreeText.innerHTML = "";
+                  resultFreeText.innerHTML = "<p><input type='text' name='freetext' id='freetext' placeholder='Text to evaluate as a template' style='width:400px;' value='' onkeypress='document.getElementById('template').value='';'/></p>";
 
                 break;
                 }
