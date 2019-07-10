@@ -216,7 +216,9 @@
           resultTempalteBlock.innerHTML = "<INPUT TYPE='Radio' Name='source' Value='Template' onclick='getTemplateList()'>Template: <div id='getTemplates'><select name='templates' id='templates'  style='width: 403px; height: 24px'></select></div>";
           resultFreeTextBlock.innerHTML = "<INPUT TYPE='Radio' Name='source' Value='Free text' onclick='triggerFreeText()'>Free text:  <div id='getFreeText'><p><input type='text' name='freetext' id='freetext' placeholder='Text to evaluate as a template' value='' style='width: 400px' onkeypress='document.getElementById('freetext').value;'/></p></div>";
           window.editor.setValue("{}");
-          window.editorOutput.setValue("");
+          if (window.editorOutput !== undefined){
+            window.editorOutput.setValue("");
+          }
         }
 
         // Handle the message inside the webview
