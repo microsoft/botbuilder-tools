@@ -27,7 +27,7 @@
 		},
 		"fence_block": {
 			"begin": "(`{3})\\s*",
-			"end": "(^\\s*`{3})\\s*$",
+			"end": "(`{3})\\s*$",
 			"contentName": "constant.character.escape.multiline",
 			"patterns": [
 				{
