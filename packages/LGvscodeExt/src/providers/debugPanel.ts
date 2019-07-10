@@ -88,9 +88,9 @@ export class LGDebugPanel {
                         const templateName: string = message.templateName;
                         const inlineText: string = message.inlineText;
                         const iterations:number = message.iterations;
-                        
                         let results = [];
                         
+                        //let engineEntity: TemplateEngineEntity = DataStorage.templateEngineMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
                         let engineEntity: TemplateEngineEntity = DataStorage.templateEngineMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
                         if (engineEntity === undefined) {
                             vscode.window.showErrorMessage("please fix errors first.");
@@ -119,6 +119,30 @@ export class LGDebugPanel {
                    }
 
                    break;
+                }
+            
+                case 'getTemplates': {
+                    try {
+                        const source: any = message.source;
+                        let result: string[] = [];
+                        let templates = util.GetAllTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri);
+                        if (templates.length === 0) {
+                            vscode.window.showErrorMessage("please fix all errors first.");
+                        } else {
+                            for (const template of templates) {
+                                if (!result.includes(template.Name)) {
+                                    result.push(template.Name);
+                                }
+                                
+                            }
+                        }
+
+                        this._panel.webview.postMessage({ command: 'TemplateName', results: result });
+                    } catch (e) {
+                        vscode.window.showErrorMessage(e.message);
+                    }
+
+                    break;
                 }
             
                 case 'passTemplateSource': {
