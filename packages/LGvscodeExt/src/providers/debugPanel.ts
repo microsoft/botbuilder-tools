@@ -144,6 +144,30 @@ export class LGDebugPanel {
 
                     break;
                 }
+            
+                case 'passTemplateSource': {
+                    try {
+                        const source: any = message.source;
+                        let result: string[] = [];
+                        if (source === "Template Name"){
+                            let templates = util.GetAllTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri);
+                        if (templates.length === 0) {
+                            vscode.window.showErrorMessage("please fix all errors first.");
+                        } else {
+                            for (const template of templates) {
+                                result.push(template.Name);
+                            }
+                        }
+
+                        this._panel.webview.postMessage({ command: 'TemplateName', results: result });
+                        }
+                    } catch (e) {
+                        vscode.window.showErrorMessage(e.message);
+                    }
+
+                    break;
+                }
+
             }
         }, null, this._disposables);
     }

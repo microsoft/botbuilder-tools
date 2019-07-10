@@ -136,6 +136,7 @@
         var vscode = undefined;
         
         function submitScope() {
+
             const sourceOptions = document.getElementsByName("source");
             let source = "";
             for (var i = 0; i < sourceOptions.length; i++){
@@ -151,6 +152,7 @@
             if (source === "Template") {
               const selections = document.getElementById('TemplateName');
               templateName = selections.options[selections.selectedIndex].text;
+
             } else if (source === "Free text") {
               inlineText = document.getElementById('freetext').value;
             }
@@ -216,9 +218,6 @@
           if(vscode === undefined) {
               vscode = acquireVsCodeApi();
           }
-
-
-
         }
 
         // Handle the message inside the webview
@@ -226,7 +225,6 @@
             const resultEl = document.getElementById('evaluateresults');
             const resultList = document.getElementById('getTemplates');
             const resultFreeText = document.getElementById('getFreeText');
-            const resultLGFileTable = document.getElementById("LGFileTable");
             const resultLGFileList = document.getElementById("LGFileList");
             const message = event.data; // The JSON data our extension sent
 
@@ -246,12 +244,11 @@
                 case 'TemplateName': {
                   var arr = message.results;   
                   resultList.innerHTML = "";
-                  let tempStr = "<select id='TemplateName' style='width: 400px; height:24px'><option value='default'>Select the template you want to evaluate</option>";
+                  let tempStr = "<select id='TemplateName' style='width: 403px; height:24px'><option value='default'>Select the template you want to evaluate</option>";
                   arr.forEach((e) => tempStr = tempStr + `<option value=${e}> ${e} </option>`);
                   resultList.innerHTML = tempStr + "</select>";
                   resultFreeText.innerHTML = "<p><input type='text' name='freetext' id='freetext' placeholder='Text to evaluate as a template' style='width:400px;' value='' onkeypress='document.getElementById('template').value='';'/></p>";
-
-                break;
+                  break;
                 }
             }
         });
