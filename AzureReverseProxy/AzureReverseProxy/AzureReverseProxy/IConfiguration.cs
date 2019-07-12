@@ -12,5 +12,6 @@ namespace AzureReverseProxy
         string ResourceGroupName { get; set; }
         string SubscriptionId { get; set; }
         string TenantId { get; set; }
+        int Port { get; set; }
     }
 }

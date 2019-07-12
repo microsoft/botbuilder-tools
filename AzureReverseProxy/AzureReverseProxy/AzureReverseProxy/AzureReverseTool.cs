@@ -11,6 +11,9 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Reflection;
 using ResourceManagementClient = Microsoft.Azure.Management.ResourceManager.ResourceManagementClient;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Azure.Management.Relay.Models;
 
 namespace AzureReverseProxy
 {
@@ -19,6 +22,7 @@ namespace AzureReverseProxy
         private readonly IConfiguration config;
         private readonly AzureCredentials credentials;
         private readonly RelayManagementClient relayManagementClient;
+        private DispatcherService hybridProxy;
 
         public AzureReverseTool(IConfiguration config)
         {
@@ -42,6 +46,7 @@ namespace AzureReverseProxy
 
             // Assign the deplyment name specified by the user
             parameterFileContents["parameters"]["namespaces_Relay_Demo_name"]["value"] = config.DeploymentName;
+            templateFileContents["parameters"]["namespaces_Relay_Demo_name"]["defaultValue"] = config.DeploymentName;
 
             // Create the resource manager client
             ResourceManagementClient resourceManagementClient = new ResourceManagementClient(credentials)
@@ -67,11 +72,9 @@ namespace AzureReverseProxy
 
             using (Stream stream = assembly.GetManifestResourceStream(fileName))
             using (StreamReader file = new StreamReader(stream))
+            using (JsonTextReader reader = new JsonTextReader(file))
             {
-                using (JsonTextReader reader = new JsonTextReader(file))
-                {
-                    return (JObject)JToken.ReadFrom(reader);
-                }
+                return (JObject)JToken.ReadFrom(reader);
             }
         }
 
@@ -83,7 +86,8 @@ namespace AzureReverseProxy
         /// <param name="resourceGroupLocation">The resource group location. Required when creating a new resource group.</param>
         private async static void EnsureResourceGroupExists(ResourceManagementClient resourceManagementClient, string resourceGroupName, string resourceGroupLocation)
         {
-            if (await resourceManagementClient.ResourceGroups.CheckExistenceAsync(resourceGroupName) != true)
+            var exists = resourceManagementClient.ResourceGroups.CheckExistenceAsync(resourceGroupName).GetAwaiter().GetResult();
+            if (!exists)
             {
                 // Console.WriteLine(string.Format("Creating resource group '{0}' in location '{1}'", resourceGroupName, resourceGroupLocation));
                 var resourceGroup = new ResourceGroup
@@ -120,7 +124,6 @@ namespace AzureReverseProxy
             };
 
             var deploymentResult = resourceManagementClient.Deployments.CreateOrUpdate(resourceGroupName, deploymentName, deployment);
-            // Console.WriteLine(string.Format("Deployment status: {0}", deploymentResult.Properties.ProvisioningState));
         }
 
         public AuthorizationRule GetAuthorizationRule(string ruleName)
@@ -129,9 +132,30 @@ namespace AzureReverseProxy
             return JsonConvert.DeserializeObject<AuthorizationRule>(response);
         }
 
+        public bool CheckExistence()
+        {
+            var name = new CheckNameAvailability(config.DeploymentName);
+            var result = relayManagementClient.Namespaces.CheckNameAvailabilityMethod(name).NameAvailable;
+
+            // The return is inverted since 'result' return TRUE if it doesnt exist
+            return (result == null || result == false) ? true : false;
+        }
+
         public void DeleteResource()
         {
             relayManagementClient.Namespaces.Delete(config.ResourceGroupName, config.DeploymentName);
+        }
+
+        public async Task CloseListener()
+        {
+            await hybridProxy.CloseAsync(CancellationToken.None);
+        }
+
+        public async Task StartListener()
+        {
+            hybridProxy = new DispatcherService(config.DeploymentName + ".servicebus.windows.net", "demo-hybrid-connection", "sas-rule", GetAuthorizationRule("sas-rule").PrimaryKey, new System.Uri($"http://localhost:{ config.Port }/"));
+
+            await hybridProxy.OpenAsync(CancellationToken.None);
         }
     }
 }
