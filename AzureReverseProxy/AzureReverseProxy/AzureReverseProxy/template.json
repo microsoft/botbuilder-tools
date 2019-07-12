@@ -1,0 +1,75 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "namespaces_Relay_Demo_name": {
+      "defaultValue": "Relay-Demo",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Relay/namespaces",
+      "apiVersion": "2017-04-01",
+      "name": "[parameters('namespaces_Relay_Demo_name')]",
+      "location": "West US",
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard"
+      },
+      "properties": {
+        "provisioningState": "Succeeded",
+        "metricId": "replace-with-subscription-id:relay-demo",
+        "createdAt": "2019-07-04T16:40:59.857Z",
+        "updatedAt": "2019-07-04T16:41:44.717Z",
+        "serviceBusEndpoint": "[concat('https://', parameters('namespaces_Relay_Demo_name'), '.servicebus.windows.net:443/')]"
+      }
+    },
+    {
+      "type": "Microsoft.Relay/namespaces/AuthorizationRules",
+      "apiVersion": "2017-04-01",
+      "name": "[concat(parameters('namespaces_Relay_Demo_name'), '/RootManageSharedAccessKey')]",
+      "location": "West US",
+      "dependsOn": [
+        "[resourceId('Microsoft.Relay/namespaces', parameters('namespaces_Relay_Demo_name'))]"
+      ],
+      "properties": {
+        "rights": [
+          "Listen",
+          "Manage",
+          "Send"
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Relay/namespaces/AuthorizationRules",
+      "apiVersion": "2017-04-01",
+      "name": "[concat(parameters('namespaces_Relay_Demo_name'), '/sas-rule')]",
+      "location": "West US",
+      "dependsOn": [
+        "[resourceId('Microsoft.Relay/namespaces', parameters('namespaces_Relay_Demo_name'))]"
+      ],
+      "properties": {
+        "rights": [
+          "Listen",
+          "Send"
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Relay/namespaces/hybridConnections",
+      "apiVersion": "2017-04-01",
+      "name": "[concat(parameters('namespaces_Relay_Demo_name'), '/demo-hybrid-connection')]",
+      "location": "West US",
+      "dependsOn": [
+        "[resourceId('Microsoft.Relay/namespaces', parameters('namespaces_Relay_Demo_name'))]"
+      ],
+      "properties": {
+        "createdAt": "2019-07-04T16:43:21.3465954Z",
+        "updatedAt": "2019-07-04T16:43:21.3465954Z",
+        "requiresClientAuthorization": false
+      }
+    }
+  ]
+}
