@@ -11,14 +11,6 @@
       margin: 0;
     }
 
-    input[type="submit"] {
-      background: rgba(43,103,212,1);
-      color: #FFF;
-      border: none;
-      padding: 0.5rem 3rem;
-      margin: 0.2cm;
-    }
-
     input[type="button"] {
       border: none;
       width: 80px;
@@ -57,14 +49,14 @@
     }
 
     .results {
-      border-top: 2px solid rgb(32, 32, 32);
+      border-top: 2px solid;
       padding-top: 1rem;
       margin: 0;
       margin-top: 5rem;
     }
 
     .panes {
-      border-top: 2px solid rgb(32, 32, 32);
+      border-top: 2px solid;
       padding-top: 1rem;
       margin: 5;
       margin-top: 2rem;
@@ -82,7 +74,7 @@
       <h1>
         Language Generation Tester
       </h1>
-      <p style="font-size: 135%; color: black;">
+      <p style="font-size: 135%;">
         Preview the <a href="https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation" target="_new">experimental Bot Framework language generation library</a> 
         with this interactive tool.
       </p>
@@ -130,6 +122,12 @@
           language: 'json',
           theme: 'vs'
         });
+
+        window.editorOutput = monaco.editor.create(document.getElementById('evaluateresults'), {
+          value: "",
+          language: 'text',
+          theme: 'vs'
+        });
       });
   </script>
   <script>
@@ -146,7 +144,6 @@
             }
             const scopeValue = window.editor.getValue();
             const iterations = document.getElementById('iterations').value;
-            const resultEl = document.getElementById('evaluateresults');
             let templateName = "";
             let inlineText = "";
             if (source === "Template") {
@@ -162,7 +159,6 @@
                 vscode = acquireVsCodeApi();
               }
 
-              resultEl.innerHTML = '';
               vscode.postMessage({
                   command: 'passScope',
                   scopeValue: scopeValue,
@@ -216,7 +212,7 @@
           resultTempalteBlock.innerHTML = "<INPUT TYPE='Radio' Name='source' Value='Template' onclick='getTemplateList()'>Template: <div id='getTemplates'><select name='templates' id='templates'  style='width: 403px; height: 24px'></select></div>";
           resultFreeTextBlock.innerHTML = "<INPUT TYPE='Radio' Name='source' Value='Free text' onclick='triggerFreeText()'>Free text:  <div id='getFreeText'><p><input type='text' name='freetext' id='freetext' placeholder='Text to evaluate as a template' value='' style='width: 400px' onkeypress='document.getElementById('freetext').value;'/></p></div>";
           window.editor.setValue("{}");
-          if (window.editorOutput !== undefined){
+          if (window.editorOutput !== undefined) {
             window.editorOutput.setValue("");
           }
         }
@@ -231,14 +227,10 @@
 
             switch (message.command) {
                 case 'evaluateResults': {
-                   var arr = message.results;
-                    window.editorOutput = monaco.editor.create(document.getElementById('evaluateresults'), {
-                      value: "",
-                      language: 'text',
-                      theme: 'vs'
-                    });
-
-                  window.editorOutput.trigger('keyboard', 'type', {text: arr.join('\n')});
+                  var arr = message.results;
+                  const resultStr = arr.join('\n');
+                  console.log(resultStr);
+                  window.editorOutput.setValue(resultStr);
                   break;
                 }
 
