@@ -63,6 +63,4 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 
 #### others
 - Automatic dash completion
-
-# TODO
-- Possible Actions on Errors and Warnings (Auto import lg files)
+- Actions on Errors (Auto import lg files)
