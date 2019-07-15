@@ -15,9 +15,7 @@ describe('The Chatdown cli tool', () => {
                 let latest = await latestVersion(pkg.name, { version: `>${pkg.version}` })
                 .catch(error => pkg.version);
                 
-                if (semver.eq(latest, pkg.version)) {
-                    assert.equal(stderr, "", "--help should not output error message");
-                } else {
+                if (!semver.eq(latest, pkg.version)) {
                     assert(stderr.includes('Update available'));
                 }
                 
