@@ -131,7 +131,7 @@ async function runProgram() {
         process.stderr.write(chalk.default.white(`to update.\n`));
     }
 
-    process.stderr.write(chalk.default.yellow(`\nWARNING:  chatdown is deprectated.  For more information refer to https://aka.ms/botframework-cli.\n`));
+    process.stderr.write(chalk.default.yellow(`\nWARNING:  chatdown is deprecated.  For more information refer to https://aka.ms/botframework-cli.\n`));
 
 
     if (args.version || args.v) {
