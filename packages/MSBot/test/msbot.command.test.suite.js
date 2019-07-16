@@ -119,7 +119,7 @@ describe("msbot commands", () => {
     it('should prefix [msbot] to stderr when --prefix is passed as an argument', function(done) {
         exec(`node ${msbot} parse -x --prefix`, (error, stdout, stderr) => {
             try {
-                assert.equal(stderr.startsWith(`\nWARNING:  msbot is deprectated.  For more information refer to https://aka.ms/botframework-cli.\n[${pkg.name}]`), true);
+                assert.equal(stderr.startsWith(`\nWARNING:  msbot is deprecated.  For more information refer to https://aka.ms/botframework-cli.\n[${pkg.name}]`), true);
                 done(); 
             } catch (err) {
                 done(err);
