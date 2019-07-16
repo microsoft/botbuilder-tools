@@ -15,7 +15,7 @@ program
     .option('--prefix', 'Append [msbot] prefix to all messages')
     .on('option:prefix', () => process.env.PREFIX = 'prefix');
 
-process.stderr.write(chalk.default.yellow(`\nWARNING:  msbot is deprectated.  For more information refer to https://aka.ms/botframework-cli.\n`));
+process.stderr.write(chalk.default.yellow(`\nWARNING:  msbot is deprecated.  For more information refer to https://aka.ms/botframework-cli.\n`));
 
 // tslint:disable-next-line:no-var-requires no-require-imports
 const pkg: IPackage = require('../package.json');
