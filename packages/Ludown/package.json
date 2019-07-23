@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
   "dependencies": {
+    "antlr4": "^4.7.2",
     "chai": "^4.1.2",
     "chalk": "2.4.1",
     "commander": "^2.15.1",
