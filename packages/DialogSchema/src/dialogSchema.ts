@@ -35,11 +35,13 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .version(pkg.version, '-v, --Version')
     .usage("[options] <fileRegex ...>")
-    .option("-o, output <path>", "Output path and filename for unified schema and associated .lg files per locale.")
-    .description(`The file regex matches .schema files or a project file like package.json, package.config or .csproj.  All the matched .schema files are merged them into a single schema file where $ref are included and allOf are merged. Will also use $role to define union types and lg properties.  All associated .lg files will be merged into a single .lg file per locale.  See readme.md for more information.`)
+    .option("-o, output <path>", "Output path and filename for unified schema.")
+    .option("-u, update", "Update .schema files to point the <branch> component.schema and regenerate component.schema if baseComponent.schema is present.")
+    .option("-b, branch <branch>", "The branch to use for the meta-schema component.schema.")
+    .description(`The file regex matches .schema files or a project file like package.json, package.config or .csproj.  All the matched .schema files are merged them into a single schema file where $ref are included and allOf are merged. Will also use $role to define union types and lg properties.  See readme.md for more information.`)
     .parse(process.argv);
 
-ds.mergeSchemas(program.args, program.output)
+ds.mergeSchemas(program.args, program.output, program.branch, program.update)
     .then((finished) => {
         if (!finished) program.help();
     });
