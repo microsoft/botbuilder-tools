@@ -1,4 +1,5 @@
 const lp = require('./generated/LUFileParser').LUFileParser;
+const LUISObjNameEnum = require('./enums/luisobjenum');
 
 class Visitor {
     /**
@@ -14,14 +15,25 @@ class Visitor {
                 case lp.DASH: break;
                 case lp.EXPRESSION: {
                     var entityObject = this.extractEntityFromUtterence(innerNode.getText());
-                    utterance = utterance.concat(entityObject.entityValue);
-                    var startPos = utterance.lastIndexOf(entityObject.entityValue);
-                    var endPos = startPos + entityObject.entityValue.length - 1;
-                    entities.push({ 
-                        entity: entityObject.entityName,
-                        startPos: startPos,
-                        endPos: endPos
-                    });
+                    if (entityObject.entityValue !== undefined) {
+                        // simple entitiy
+                        utterance = utterance.concat(entityObject.entityValue);
+                        var startPos = utterance.lastIndexOf(entityObject.entityValue);
+                        var endPos = startPos + entityObject.entityValue.length - 1;
+                        entities.push({
+                            type: LUISObjNameEnum.ENTITIES,
+                            entity: entityObject.entityName,
+                            startPos: startPos,
+                            endPos: endPos
+                        });
+                    } else {
+                        // pattern.any entity
+                        utterance = utterance.concat(innerNode.getText());
+                        entities.push({
+                            type: LUISObjNameEnum.PATTERNANYENTITY,
+                            entity: entityObject.entityName
+                        })
+                    }
                     break;
                 }
                 default: {
@@ -53,7 +65,9 @@ class Visitor {
 
             return { entityName, entityValue };
         } else {
-            // TODO: pattern entity since there is no value for the entity
+            var entityName = exp.trim();
+
+            return { entityName, undefined };
         }
     }
 }
