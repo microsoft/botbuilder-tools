@@ -204,7 +204,8 @@ const parseFileContentsModule = {
                 }
             } else if (chunk.indexOf(PARSERCONSTS.INTENT) === 0) {
                 try {
-                    parseAndHandleIntent(parsedContent, chunkSplitByLine);
+                    // parseAndHandleIntent(parsedContent, chunkSplitByLine);
+                    parseAntlr(parsedContent, chunk, log, locale);
                 } catch (err) {
                     throw (err);
                 }
@@ -448,7 +449,107 @@ const parseFileContentsModule = {
         }
     }
 };
+/**
+ * Main parser code to parse current file contents into LUIS and QNA sections.
+ * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
+ * @param {string} fileContent current file content
+ * @param {boolean} log indicates if we need verbose logging.
+ * @param {string} locale LUIS locale code
+ * @throws {exception} Throws on errors. exception object includes errCode and text.
+ */
+const parseAntlr = function (parsedContent, fileContent, log, locale) {
+    fileContent = helpers.sanitizeNewLines(fileContent);
+    var luResource = luParser.parse(fileContent);
 
+    // handle intents
+    if (luResource.Intents !== undefined && luResource.Intents.length > 0) {
+        var intents = luResource.Intents;
+        for (const intent of intents) {
+            var intentName = intent.Name;
+            // insert only if the intent is not already present.
+            addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.INTENT, intentName);
+            for (const normalIntentStr of intent.ParseTree.intentBody().normalIntentBody().normalIntentString()) {
+                // add utterance
+                var utteranceAndEntities = visitor.visitIntentUtteranceContext(normalIntentStr);
+                if (utteranceAndEntities.entities.length > 0) {
+                    utteranceAndEntities.entities.forEach(item => {
+                        if (item.type === LUISObjNameEnum.ENTITIES) {
+                            let utteranceObject = new helperClass.uttereances(utteranceAndEntities.utterance.trim(), intentName, []);
+                            let utteranceEntity = new helperClass.utteranceEntity(item.entity, item.startPos, item.endPos);
+                            utteranceObject.entities.push(utteranceEntity);
+                            addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, item.entity);
+                            parsedContent.LUISJsonStructure.utterances.push(utteranceObject);
+                        } else if (item.type === LUISObjNameEnum.PATTERNANYENTITY) {
+                            let newPattern = new helperClass.pattern(utteranceAndEntities.utterance.trim(), intentName);
+                            if (!parsedContent.LUISJsonStructure.patterns.find(item => deepEqual(item, newPattern))) {
+                                parsedContent.LUISJsonStructure.patterns.push(newPattern);
+                            }
+
+                            // add all entities to pattern.Any.
+                            if (item.role !== undefined && item.role !== '') {
+                                addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, item.entity, [item.role.trim()])
+                            } else {
+                                addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, item.entity);
+                            }
+                        }
+                    })
+                } else {
+                    let utteranceObject = new helperClass.uttereances(utteranceAndEntities.utterance.trim(), intentName, []);
+                    parsedContent.LUISJsonStructure.utterances.push(utteranceObject);
+                }
+            }
+        }
+    }
+
+    // handle entities
+    if (luResource.Entities !== undefined && luResource.Entities.length > 0) {
+        var entities = luResource.Entities;
+        for (const entity of entities) {
+            var entityName = entity.Name;
+            var entityType = entity.Type;
+            let parsedRoleAndType = helpers.getRolesAndType(entityType);
+            let entityRoles = parsedRoleAndType.roles;
+            entityType = parsedRoleAndType.entityType;
+            if (builtInTypes.consolidatedList.includes(entityType)) {
+                locale = locale ? locale.toLowerCase() : 'en-us';
+                // check if this pre-built entity is already labelled in an utterance and or added as a simple entity. if so, throw an error.
+                try {
+                    let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityType, entityName);
+                    if (rolesImport.length !== 0) {
+                        rolesImport.forEach(role => entityRoles.push(role));
+                    }
+                } catch (err) {
+                    throw (err);
+                }
+                // verify if the requested entityType is available in the requested locale
+                let prebuiltCheck = builtInTypes.perLocaleAvailability[locale][entityType];
+                if (prebuiltCheck === null) {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Requested PREBUILT entity "' + entityType + ' is not available for the requested locale: ' + locale + '\n'));
+                        process.stdout.write(chalk.default.yellowBright('  Skipping this prebuilt entity..\n'));
+                    }
+                } else if (prebuiltCheck && prebuiltCheck.includes('datetime')) {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: PREBUILT entity "' + entityType + ' is not available for the requested locale: ' + locale + '\n'));
+                        process.stdout.write(chalk.default.yellowBright('  Switching to ' + builtInTypes.perLocaleAvailability[locale][entityType] + ' instead.\n'));
+                    }
+                    entityType = builtInTypes.perLocaleAvailability[locale][entityType];
+                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entityType, entityRoles);
+                } else {
+                    // add to prebuiltEntities if it does not exist there.
+                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entityType, entityRoles);
+                }
+            } else if (entityType.toLowerCase() === 'simple') {
+                // add this to entities if it doesnt exist
+                addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entityName, entityRoles);
+            } else {
+                // TODO: handle other entity types
+            }
+        }
+    }
+
+    // TODO: handle other components
+}
 /**
  * Helper function to merge item if it does not already exist
  *
