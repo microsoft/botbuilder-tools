@@ -6,7 +6,7 @@ class Visitor {
      * @param {lp.NormalIntentStringContext} ctx
      * @returns {object}
      */
-    static visitIntentUtteranceContext(ctx) {
+    static visitNormalIntentStringContext(ctx) {
         let utterance = '';
         let entities = [];
         for (const node of ctx.children) {
@@ -46,18 +46,14 @@ class Visitor {
         return { utterance, entities };
     }
 
-    static visitEntityContext(ctx) {
-        
-    }
-
     /**
      * @param {string} exp 
      * @returns {object}
      */
     static extractEntityFromUtterence(exp) {
         exp = exp.replace(/(^{*)/g, '')
-                .replace(/(}*$)/g, '');
-        
+            .replace(/(}*$)/g, '');
+
         var equalIndex = exp.indexOf('=');
         if (equalIndex != -1) {
             var entityName = exp.substring(0, equalIndex).trim();
