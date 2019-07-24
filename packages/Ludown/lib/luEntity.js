@@ -12,6 +12,7 @@ class LUEntity {
 
         this.Name = this.ExtractName(parseTree);
         this.Type = this.ExtractType(parseTree);
+        this.SynonymsList = this.ExtractSynonymsList(parseTree);
     }
 
     ExtractName(parseTree) {
@@ -20,6 +21,18 @@ class LUEntity {
 
     ExtractType(parseTree) {
         return parseTree.entityLine().entityType().getText();
+    }
+
+    ExtractSynonymsList(parseTree) {
+        var synonymsList = [];
+        if (parseTree.entityListBody()) {
+            for (const normalItemStr of parseTree.entityListBody().normalItemString()) {
+                var itemStr = normalItemStr.getText();
+                synonymsList.push(itemStr.substr(itemStr.indexOf('-') + 1).trim());
+            }
+        }
+
+        return synonymsList;
     }
 }
 

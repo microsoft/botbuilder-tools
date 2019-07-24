@@ -128,5 +128,23 @@ LUFileParserListener.prototype.exitEntityType = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LUFileParser#entityListBody.
+LUFileParserListener.prototype.enterEntityListBody = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#entityListBody.
+LUFileParserListener.prototype.exitEntityListBody = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#normalItemString.
+LUFileParserListener.prototype.enterNormalItemString = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#normalItemString.
+LUFileParserListener.prototype.exitNormalItemString = function(ctx) {
+};
+
+
 
 exports.LUFileParserListener = LUFileParserListener;

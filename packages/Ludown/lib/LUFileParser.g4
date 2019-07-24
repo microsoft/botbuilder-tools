@@ -45,7 +45,7 @@ normalIntentString
 	;
 
 entityDefinition
-    : entityLine newline
+    : entityLine newline entityListBody?
     ;
     
 entityLine
@@ -58,4 +58,12 @@ entityName
 
 entityType
     : ENTITY_IDENTIFIER
+    ;
+
+entityListBody
+    : (normalItemString newline)+
+    ;
+
+normalItemString
+    : DASH (WS|TEXT)*
     ;

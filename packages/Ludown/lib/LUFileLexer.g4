@@ -22,19 +22,6 @@ fragment WHITESPACE
   : ' '|'\t'|'\ufeff'|'\u00a0'
   ;
 
-fragment A: 'a' | 'A';
-fragment C: 'c' | 'C';
-fragment D: 'd' | 'D';
-fragment E: 'e' | 'E';
-fragment F: 'f' | 'F';
-fragment H: 'h' | 'H';
-fragment I: 'i' | 'I';
-fragment L: 'l' | 'L';
-fragment S: 's' | 'S';
-fragment T: 't' | 'T';
-fragment U: 'u' | 'U';
-fragment W: 'w' | 'W';
-
 fragment STRING_LITERAL : ('\'' (~['\r\n])* '\'') | ('"' (~["\r\n])* '"');
 
 COMMENTS
@@ -125,7 +112,7 @@ NEWLINE_IN_ENTITY
   ;
 
 ENTITY_IDENTIFIER
-  : (LETTER | NUMBER)+
+  : (LETTER | NUMBER)+ ('=')?
   ;
 
 COLON
