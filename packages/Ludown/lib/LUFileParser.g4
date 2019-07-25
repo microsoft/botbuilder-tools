@@ -10,6 +10,7 @@ paragraph
     : newline
     | intentDefinition
     | entityDefinition
+    | importDefinition
     ;
 
 // Treat EOF as newline to hanle file end gracefully
@@ -29,6 +30,10 @@ intentNameLine
 	;
 
 intentName
+    : intentNameIdentifier (WS intentNameIdentifier)*
+    ;
+
+intentNameIdentifier
     : IDENTIFIER (DOT IDENTIFIER)*
     ;
 
@@ -49,15 +54,23 @@ entityDefinition
     ;
     
 entityLine
-    : DOLLAR entityName COLON entityType
+    : DOLLAR entityName COLON_MARK entityType
     ;
 
 entityName
-    : ENTITY_IDENTIFIER
+    : ENTITY_IDENTIFIER (WS | ENTITY_IDENTIFIER)*
     ;
 
 entityType
-    : ENTITY_IDENTIFIER
+    : ENTITY_IDENTIFIER (listTypeEntity | phraseTypeEntity)?
+    ;
+
+listTypeEntity
+    : WS? EQUAL_MARK
+    ;
+
+phraseTypeEntity
+    : WS ENTITY_IDENTIFIER
     ;
 
 entityListBody
@@ -66,4 +79,8 @@ entityListBody
 
 normalItemString
     : DASH (WS|TEXT)*
+    ;
+
+importDefinition
+    : IMPORT_DESC IMPORT_PATH
     ;

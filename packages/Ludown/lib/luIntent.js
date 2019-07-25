@@ -15,7 +15,7 @@ class LUIntent {
     }
 
     ExtractName(parseTree) {
-        return parseTree.intentNameLine().intentName().getText();
+        return parseTree.intentNameLine().intentName().getText().trim();
     }
 
     ExtractBody(parseTree) {

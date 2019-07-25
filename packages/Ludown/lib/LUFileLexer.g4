@@ -12,7 +12,6 @@ lexer grammar LUFileLexer;
 
 @lexer::members {
   this.ignoreWS = true;             // usually we ignore whitespace, but inside template, whitespace is significant
-  this.expectKeywords = false;        // whether we are expecting IF/ELSEIF/ELSE or Switch/Case/Default keywords
 }
 
 fragment LETTER: 'a'..'z' | 'A'..'Z';
@@ -23,6 +22,8 @@ fragment WHITESPACE
   ;
 
 fragment STRING_LITERAL : ('\'' (~['\r\n])* '\'') | ('"' (~["\r\n])* '"');
+
+fragment UTTERANCE_MARK: '-' | '*' | '+';
 
 COMMENTS
   : '>' ~('\r'|'\n')+ -> skip
@@ -37,21 +38,33 @@ NEWLINE
   ;
 
 HASH
-  : '#' -> pushMode(INTENT_NAME_MODE)
+  : '#' {this.ignoreWS = true;} -> pushMode(INTENT_NAME_MODE)
   ;
 
 DASH
-  : '-' {this.ignoreWS = true;} -> pushMode(INTENT_BODY_MODE)
+  : UTTERANCE_MARK {this.ignoreWS = true;} -> pushMode(INTENT_BODY_MODE)
   ;
 
 DOLLAR
   : '$' {this.ignoreWS = true;} -> pushMode(ENTITY_MODE)
   ;
 
+IMPORT_DESC
+  : '[' .*? ']'
+  ;
+
+IMPORT_PATH
+  : '(' .*? ')'
+  ;
+
 mode INTENT_NAME_MODE;
 
+WS_IN_NAME_IGNORED
+  : WHITESPACE+ {this.ignoreWS}? -> skip
+  ;
+
 WS_IN_NAME
-  : WHITESPACE+ -> skip
+  : WHITESPACE+ -> type(WS)
   ;
 
 NEWLINE_IN_NAME
@@ -59,7 +72,7 @@ NEWLINE_IN_NAME
   ;
 
 IDENTIFIER
-  : (LETTER | NUMBER | '_') (LETTER | NUMBER | '-' | '_')*
+  : (LETTER | NUMBER | '_') (LETTER | NUMBER | '-' | '_')* { this.ignoreWS = false}
   ;
 
 DOT
@@ -82,7 +95,7 @@ NEWLINE_IN_BODY
   ;
 
 ESCAPE_CHARACTER
-  : '\\{' | '\\[' | '\\\\' | '\\'[rtn\]}]  { this.ignoreWS = false; this.expectKeywords = false;}
+  : '\\{' | '\\[' | '\\\\' | '\\'[rtn\]}]  { this.ignoreWS = false}
   ;
 
 INVALID_ESCAPE
@@ -90,21 +103,25 @@ INVALID_ESCAPE
   ;
 
 EXPRESSION
-  : '{' (~[\r\n{}] | STRING_LITERAL)*  '}'  { this.ignoreWS = false; this.expectKeywords = false;}
+  : '{' (~[\r\n{}] | STRING_LITERAL)*  '}'  { this.ignoreWS = false}
   ;
 
 TEXT_SEPARATOR
-  : [ \t\r\n{}[\]()]  { this.ignoreWS = false; this.expectKeywords = false;}
+  : [ \t\r\n{}[\]()]  { this.ignoreWS = false}
   ;
 
 TEXT
-  : ~[ \\\t\r\n{}[\]()]+  { this.ignoreWS = false; this.expectKeywords = false;}
+  : ~[ \\\t\r\n{}[\]()]+  { this.ignoreWS = false}
   ;
 
 mode ENTITY_MODE;
 
+WS_IN_ENTITY_IGNORED
+  : WHITESPACE+ {this.ignoreWS}? -> skip
+  ;
+
 WS_IN_ENTITY
-  : WHITESPACE+ -> skip
+  : WHITESPACE+ -> type(WS)
   ;
 
 NEWLINE_IN_ENTITY
@@ -112,9 +129,13 @@ NEWLINE_IN_ENTITY
   ;
 
 ENTITY_IDENTIFIER
-  : (LETTER | NUMBER)+ ('=')?
+  : (LETTER | NUMBER | '_')+ { this.ignoreWS = false}
   ;
 
-COLON
-  : ':'
+COLON_MARK
+  : ':' { this.ignoreWS = true}
+  ;
+
+EQUAL_MARK 
+  : '=' 
   ;

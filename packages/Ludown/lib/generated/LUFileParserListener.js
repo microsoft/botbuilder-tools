@@ -65,6 +65,15 @@ LUFileParserListener.prototype.exitIntentName = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LUFileParser#intentNameIdentifier.
+LUFileParserListener.prototype.enterIntentNameIdentifier = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#intentNameIdentifier.
+LUFileParserListener.prototype.exitIntentNameIdentifier = function(ctx) {
+};
+
+
 // Enter a parse tree produced by LUFileParser#intentBody.
 LUFileParserListener.prototype.enterIntentBody = function(ctx) {
 };
@@ -128,6 +137,24 @@ LUFileParserListener.prototype.exitEntityType = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LUFileParser#listTypeEntity.
+LUFileParserListener.prototype.enterListTypeEntity = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#listTypeEntity.
+LUFileParserListener.prototype.exitListTypeEntity = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#phraseTypeEntity.
+LUFileParserListener.prototype.enterPhraseTypeEntity = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#phraseTypeEntity.
+LUFileParserListener.prototype.exitPhraseTypeEntity = function(ctx) {
+};
+
+
 // Enter a parse tree produced by LUFileParser#entityListBody.
 LUFileParserListener.prototype.enterEntityListBody = function(ctx) {
 };
@@ -143,6 +170,15 @@ LUFileParserListener.prototype.enterNormalItemString = function(ctx) {
 
 // Exit a parse tree produced by LUFileParser#normalItemString.
 LUFileParserListener.prototype.exitNormalItemString = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#importDefinition.
+LUFileParserListener.prototype.enterImportDefinition = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#importDefinition.
+LUFileParserListener.prototype.exitImportDefinition = function(ctx) {
 };
 
 
