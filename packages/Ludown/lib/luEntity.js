@@ -12,7 +12,7 @@ class LUEntity {
 
         this.Name = this.ExtractName(parseTree);
         this.Type = this.ExtractType(parseTree);
-        this.SynonymsList = this.ExtractSynonymsList(parseTree);
+        this.SynonymsOrPhraseList = this.ExtractSynonymsOrPhraseList(parseTree);
     }
 
     ExtractName(parseTree) {
@@ -23,16 +23,16 @@ class LUEntity {
         return parseTree.entityLine().entityType().getText();
     }
 
-    ExtractSynonymsList(parseTree) {
-        var synonymsList = [];
+    ExtractSynonymsOrPhraseList(parseTree) {
+        var synonymsOrPhraseList = [];
         if (parseTree.entityListBody()) {
             for (const normalItemStr of parseTree.entityListBody().normalItemString()) {
                 var itemStr = normalItemStr.getText();
-                synonymsList.push(itemStr.substr(itemStr.indexOf('-') + 1).trim());
+                synonymsOrPhraseList.push(itemStr.trim().substr(1).trim());
             }
         }
 
-        return synonymsList;
+        return synonymsOrPhraseList;
     }
 }
 
