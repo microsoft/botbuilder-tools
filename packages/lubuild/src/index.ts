@@ -169,6 +169,10 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
 
     var stats = await fs.stat(<string>luFile);
 
+    if(!appInfo.activeVersion && activeVersionInfo[0]) {
+        appInfo.activeVersion = activeVersionInfo[0].version;
+        activeVersionInfo = activeVersionInfo[0];
+    }
     // if different, then update 
     if (config.force || recognizer.versionId == "0000000000" ||
         (activeVersionInfo && <Date>activeVersionInfo.lastModifiedDateTime < stats.mtime)) {
@@ -180,6 +184,7 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
         // run ludown on file
         //await runCommand(`ludown parse ToLuis --in ${luFile} -o ${outFolder} --out ${outFileName}`, true);
         const response = await parser.parseFile(luContent, false, appInfo.culture);
+        await parser.validateLUISBlob(response.LUISJsonStructure);
         console.log(response.LUISJsonStructure);
         let newVersion = <LuisApp>response.LUISJsonStructure;
         newVersion.name = appInfo.name;
