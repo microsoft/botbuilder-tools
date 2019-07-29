@@ -9,18 +9,17 @@ class LUEntity {
     constructor(parseTree, source = '') {
         this.ParseTree = parseTree;
         this.Source = source;
-
         this.Name = this.ExtractName(parseTree);
         this.Type = this.ExtractType(parseTree);
         this.SynonymsOrPhraseList = this.ExtractSynonymsOrPhraseList(parseTree);
     }
 
     ExtractName(parseTree) {
-        return parseTree.entityLine().entityName().getText();
+        return parseTree.entityLine().entityName().getText().trim();
     }
 
     ExtractType(parseTree) {
-        return parseTree.entityLine().entityType().getText();
+        return parseTree.entityLine().entityType().getText().trim();
     }
 
     ExtractSynonymsOrPhraseList(parseTree) {

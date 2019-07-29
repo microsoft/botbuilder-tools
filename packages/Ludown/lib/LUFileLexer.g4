@@ -129,7 +129,7 @@ NEWLINE_IN_ENTITY
   ;
 
 ENTITY_IDENTIFIER
-  : (LETTER | NUMBER | '_')+ { this.ignoreWS = false}
+  : (LETTER | NUMBER | '_' | '-')+ { this.ignoreWS = false}
   ;
 
 COLON_MARK

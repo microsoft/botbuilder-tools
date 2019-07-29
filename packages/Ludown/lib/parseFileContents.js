@@ -466,6 +466,16 @@ const parseIntentAntlr = function (parsedContent, fileContent, log, locale) {
             for (const normalIntentStr of intent.ParseTree.intentBody().normalIntentBody().normalIntentString()) {
                 // add utterance
                 var utteranceAndEntities = visitor.visitNormalIntentStringContext(normalIntentStr);
+                var utterance = utteranceAndEntities.utterance.trim();
+                if (utterance.indexOf('[') == 0) {
+                    let linkExp = (utterance || '').trim().match(new RegExp(/\(.*?\)/g));
+                    if (linkExp && linkExp.length !== 0) {
+                        let parsedLinkUriInUtterance = helpers.parseLinkURI(utterance);
+                        // examine and add these to filestoparse list.
+                        parsedContent.additionalFilesToParse.push(new fileToParse(parsedLinkUriInUtterance.luFile, false));
+                    }
+                }
+
                 if (utteranceAndEntities.entities.length > 0) {
 
                     var entitiesFound = utteranceAndEntities.entities;
@@ -476,7 +486,7 @@ const parseIntentAntlr = function (parsedContent, fileContent, log, locale) {
                             throw (new exception(retCode.errorCode.INVALID_INPUT, `Utterance ${utterance} has mix of entites with labelled values and ones without. Please update utterance to either include labelled values for all entities or remove labelled values from all entities.`));
                         }
 
-                        let newPattern = new helperClass.pattern(utteranceAndEntities.utterance.trim(), intentName);
+                        let newPattern = new helperClass.pattern(utterance, intentName);
                         if (!parsedContent.LUISJsonStructure.patterns.find(item => deepEqual(item, newPattern))) {
                             parsedContent.LUISJsonStructure.patterns.push(newPattern);
                         }
@@ -493,7 +503,7 @@ const parseIntentAntlr = function (parsedContent, fileContent, log, locale) {
                         // if this intent does not have any utterances, push this pattern as an utterance as well. 
                         let intentInUtterance = helpers.filterMatch(parsedContent.LUISJsonStructure.utterances, 'intent', intentName);
                         if (intentInUtterance.length === 0) {
-                            parsedContent.LUISJsonStructure.utterances.push(new helperClass.uttereances(utteranceAndEntities.utterance.trim(), intentName, []));
+                            parsedContent.LUISJsonStructure.utterances.push(new helperClass.uttereances(utterance, intentName, []));
                         }
                     } else {
                         entitiesFound.forEach(entity => {
@@ -532,7 +542,7 @@ const parseIntentAntlr = function (parsedContent, fileContent, log, locale) {
 
                         });
 
-                        let utteranceObject = new helperClass.uttereances(utteranceAndEntities.utterance.trim(), intentName, []);
+                        let utteranceObject = new helperClass.uttereances(utterance, intentName, []);
                         entitiesFound.forEach(item => {
                             let utteranceEntity = new helperClass.utteranceEntity(item.entity, item.startPos, item.endPos);
                             if (item.role && item.role !== '') {
@@ -544,7 +554,7 @@ const parseIntentAntlr = function (parsedContent, fileContent, log, locale) {
                     }
 
                 } else {
-                    let utteranceObject = new helperClass.uttereances(utteranceAndEntities.utterance.trim(), intentName, []);
+                    let utteranceObject = new helperClass.uttereances(utterance, intentName, []);
                     parsedContent.LUISJsonStructure.utterances.push(utteranceObject);
                 }
             }
@@ -625,41 +635,52 @@ const parseEntityAntlr = function (parsedContent, fileContent, log, locale) {
                 // add this to entities if it doesnt exist
                 addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entityName, entityRoles);
             } else if (entityType.endsWith('=')) {
-                // treat this as a LUIS list entity type
-                let parsedEntityTypeAndRole = helpers.getRolesAndType(entityType);
-                entityType = parsedEntityTypeAndRole.entityType;
-                (parsedEntityTypeAndRole.roles || []).forEach(role => {
-                    if (!entityRoles.includes(role)) {
-                        entityRoles.push(role)
-                    }
-                });
-                // check if this list entity is already labelled in an utterance and or added as a simple entity. if so, throw an error.
-                try {
-                    let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'List');
-                    if (rolesImport.length !== 0) {
-                        rolesImport.forEach(role => entityRoles.push(role));
-                    }
-                } catch (err) {
-                    throw (err);
-                }
-                // get normalized value
-                let normalizedValue = entityType.substring(0, entityType.length - 1).trim();
-                var synonymsList = entity.SynonymsOrPhraseList;
-                let closedListExists = helpers.filterMatch(parsedContent.LUISJsonStructure.closedLists, 'name', entityName);
-                if (closedListExists.length === 0) {
-                    parsedContent.LUISJsonStructure.closedLists.push(new helperClass.closedLists(entityName, [new helperClass.subList(normalizedValue, synonymsList)], entityRoles));
-                } else {
-                    // closed list with this name already exists
-                    let subListExists = helpers.filterMatch(closedListExists[0].subLists, 'canonicalForm', normalizedValue);
-                    if (subListExists.length === 0) {
-                        closedListExists[0].subLists.push(new helperClass.subList(normalizedValue, synonymsList));
+                // is this qna maker alterations list? 
+                if (entityType.includes(PARSERCONSTS.QNAALTERATIONS)) {
+                    var alterationlist = [entity.Name];
+                    if (entity.SynonymsOrPhraseList && entity.SynonymsOrPhraseList.length > 0) {
+                        alterationlist = alterationlist.concat(entity.SynonymsOrPhraseList);
+                        parsedContent.qnaAlterations.wordAlterations.push(new qnaAlterations.alterations(alterationlist));
                     } else {
-                        synonymsList.forEach(function (listItem) {
-                            if (!subListExists[0].list.includes(listItem)) subListExists[0].list.push(listItem);
-                        })
+                        throw (new exception(retCode.errorCode.SYNONYMS_NOT_A_LIST, '[ERROR]: QnA alteration section: "' + alterationlist + '" does not have list decoration. Prefix line with "-" or "+" or "*"'));
                     }
-                    // see if the roles all exist and if not, add them
-                    mergeRoles(closedListExists[0].roles, entityRoles);
+                } else {
+                    // treat this as a LUIS list entity type
+                    let parsedEntityTypeAndRole = helpers.getRolesAndType(entityType);
+                    entityType = parsedEntityTypeAndRole.entityType;
+                    (parsedEntityTypeAndRole.roles || []).forEach(role => {
+                        if (!entityRoles.includes(role)) {
+                            entityRoles.push(role)
+                        }
+                    });
+                    // check if this list entity is already labelled in an utterance and or added as a simple entity. if so, throw an error.
+                    try {
+                        let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'List');
+                        if (rolesImport.length !== 0) {
+                            rolesImport.forEach(role => entityRoles.push(role));
+                        }
+                    } catch (err) {
+                        throw (err);
+                    }
+                    // get normalized value
+                    let normalizedValue = entityType.substring(0, entityType.length - 1).trim();
+                    var synonymsList = entity.SynonymsOrPhraseList;
+                    let closedListExists = helpers.filterMatch(parsedContent.LUISJsonStructure.closedLists, 'name', entityName);
+                    if (closedListExists.length === 0) {
+                        parsedContent.LUISJsonStructure.closedLists.push(new helperClass.closedLists(entityName, [new helperClass.subList(normalizedValue, synonymsList)], entityRoles));
+                    } else {
+                        // closed list with this name already exists
+                        let subListExists = helpers.filterMatch(closedListExists[0].subLists, 'canonicalForm', normalizedValue);
+                        if (subListExists.length === 0) {
+                            closedListExists[0].subLists.push(new helperClass.subList(normalizedValue, synonymsList));
+                        } else {
+                            synonymsList.forEach(function (listItem) {
+                                if (!subListExists[0].list.includes(listItem)) subListExists[0].list.push(listItem);
+                            })
+                        }
+                        // see if the roles all exist and if not, add them
+                        mergeRoles(closedListExists[0].roles, entityRoles);
+                    }
                 }
             } else if (entityType.toLowerCase().trim().indexOf('phraselist') === 0) {
                 if (entityRoles.length !== 0) {
