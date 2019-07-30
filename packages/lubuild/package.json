@@ -1,6 +1,6 @@
 {
   "name": "lubuild",
-  "version": "1.0.0-preview",
+  "version": "1.0.3-preview",
   "description": "",
   "main": "./lib/index.js",
   "bin": {

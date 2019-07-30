@@ -110,7 +110,9 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
             appInfo = await client.apps.get(<AzureRegions>config.authoringRegion, <AzureClouds>"com", <string>recognizer.getAppId());
         }
 
-        recognizer.versionId = appInfo.activeVersion;
+        if (appInfo.activeVersion) {
+            recognizer.versionId = appInfo.activeVersion;
+        }
 
         let training = await updateModel(config, client, recognizer, appInfo);
         if (training) {
@@ -169,9 +171,8 @@ async function updateModel(config: IConfig, client: LuisAuthoring, recognizer: L
 
     var stats = await fs.stat(<string>luFile);
 
-    if(!appInfo.activeVersion && activeVersionInfo[0]) {
+    if (!appInfo.activeVersion && activeVersionInfo[0]) {
         appInfo.activeVersion = activeVersionInfo[0].version;
-        activeVersionInfo = activeVersionInfo[0];
     }
     // if different, then update 
     if (config.force || recognizer.versionId == "0000000000" ||
