@@ -100,15 +100,11 @@ export class LGDebugPanel {
                             if(engine === undefined) {
                                 vscode.window.showErrorMessage("please fix all errors first.");
                             } else {
-                                for (var x = 0; x < iterations; x++) {
-                                    // first evaluate this as a template
-                                    let text: string;
-                                    if (inlineText === undefined || inlineText.length === 0) {
-                                        text = engine.evaluateTemplate(templateName, scope);
-                                    } else {
-                                        text = engine.evaluate(inlineText, scope);
-                                    }
-                                    results.push(text);
+                                const evaledResults = engine.expandTemplate(templateName, scope);
+                                if (iterations >= evaledResults.length) {
+                                    results = evaledResults;
+                                } else {
+                                    results = evaledResults.slice(0, iterations);
                                 }
                                 // send result to webview
                                 this._panel.webview.postMessage({ command: 'evaluateResults', results: results });
