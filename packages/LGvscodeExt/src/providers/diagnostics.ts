@@ -54,7 +54,7 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     }
     
 	if (util.IsLgFile(document.fileName)) {
-        var diagnostics = getLGDiagnostics(document);
+        var diagnostics = StaticChecker.checkFile(document.uri.fsPath);
         var vscodeDiagnostics: vscode.Diagnostic[] = diagnostics.map(u => 
             new vscode.Diagnostic(
                 new vscode.Range(
@@ -68,84 +68,4 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     } else {
         collection.clear();
     }
-}
-
-function getLGDiagnostics(document: vscode.TextDocument): Diagnostic[] {
-    let diagnostics: Diagnostic[] = [];
-    let templatesWithoutImport: LGTemplate[] = [];
-    let templatesWithImport: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri);
-
-    const parseResult: { isValid: boolean; templates: LGTemplate[]; error: Diagnostic } = LGParser.TryParse(document.getText());
-    if (parseResult.isValid) {
-        // Get static check diagnostics
-        // templates does not includes import items. So if you use a template reference does not in current lg file, error result
-        // will poped up.
-        templatesWithoutImport = parseResult.templates;
-        if (templatesWithoutImport !== undefined && templatesWithoutImport.length > 0) {
-            diagnostics = new StaticChecker(templatesWithoutImport).Check();
-        }
-
-        // remove templatename not found errors with default importResolver
-        if (diagnostics !== undefined && diagnostics.length > 0) {
-            diagnostics = diagnostics.filter((diagnostic) => {
-                if (diagnostic === undefined) {
-                    return false;
-                } else if (diagnostic.Message.endsWith('template not found')) {
-                    const templateNameResult: RegExpExecArray = /\[([^)]*)\]/.exec(diagnostic.Message);
-                    if (templateNameResult === null || templateNameResult === undefined) {
-                        return true;
-                    }
-
-                    const templateName: string = templateNameResult[1];
-                    if (templatesWithImport.map(u=>u.Name).includes(templateName)) {
-                        // this template is exist in the import file
-                        return false;
-                    }
-                    return true;
-                } else if (diagnostic.Message.includes('no such template') && diagnostic.Message.includes('lgTemplate')) {
-
-                    // error message: Parse failed for expression 'lgTemplate('Items-Ordinality')', inner error: Error: no such template 'Items-Ordinality' to call in lgTemplat
-                    var startindex: number = diagnostic.Message.indexOf('lgTemplate') + 'lgTemplate('.length;
-                    var length: number = diagnostic.Message.substr(startindex).indexOf(')');
-                    var templateName: string = diagnostic.Message.substr(startindex + 1, length - 2); // remove ''
-
-                    if (templatesWithImport.map(u=>u.Name).includes(templateName)) {
-                        // this template is exist in the import file
-                        return false;
-                    }
-                    return true;
-                } else {
-                    return true;
-                }
-              });
-        }
-    } else {
-        // Get parser diagnostic
-        const start: Position = parseResult.error.Range.Start;
-        const end: Position = parseResult.error.Range.End;
-        const error: Diagnostic = new Diagnostic(
-            new Range(
-                new Position(start.Line, start.Character),
-                new Position(end.Line, end.Character)),
-            parseResult.error.Message,
-            parseResult.error.Severity);
-        
-            diagnostics = diagnostics.concat(error);
-    }
-
-    // Get exceptions that is not in parse and not in static checker
-    try {
-        new TemplateEngine().addFile(document.uri.fsPath);
-    }
-    catch(e)
-    {
-        diagnostics.push(new Diagnostic(
-            new Range(
-                new Position(0, 0),
-                new Position(0, 0)),
-                e.message,
-            DiagnosticSeverity.Error));
-    }
-    
-    return diagnostics;
 }

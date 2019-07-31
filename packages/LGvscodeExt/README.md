@@ -57,14 +57,10 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 #### [Live Test Tool](https://code.visualstudio.com/api/extension-guides/webview)
 - Template evaluation
 - Inline evaluation
-- Multi files debug (todo)
 
 #### [Function and Method Signature](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#help-with-function-and-method-signatures)
 - Buildin function
 
 #### others
 - Automatic dash completion
-
-# TODO
-- Debug with multi files (use addFiles API)
-- Possible Actions on Errors or Warnings (Auto import lg files)
+- Actions on Errors (Auto import lg files)

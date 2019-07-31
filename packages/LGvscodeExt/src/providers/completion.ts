@@ -65,10 +65,10 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                     
                     item.detail = `${curr.Source}`;
                     
-                    const lgParser = LGParser.Parse(document.getText());
+                    const lgParser = LGParser.parse(document.getText());
                     var relativePath = path.relative(path.dirname(document.uri.fsPath), curr.Source);
 
-                    if (curr.Source !== document.uri.fsPath && !lgParser.Imports.map(u => u.Id).includes(relativePath)) {
+                    if (curr.Source !== document.uri.fsPath && !lgParser.Imports.map(u => path.normalize(u.Id)).includes(path.normalize(relativePath))) {
                         var edit =  vscode.TextEdit.insert(new vscode.Position(0,0), `[import](${relativePath})\r\n`);
                         item.additionalTextEdits = [edit];
                     }
@@ -91,10 +91,10 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                     item.insertText = `'${curr.Name}'`;
                     item.detail = `${curr.Source}`;
                     
-                    const lgParser = LGParser.Parse(document.getText());
+                    const lgParser = LGParser.parse(document.getText());
                     var relativePath = path.relative(path.dirname(document.uri.fsPath), curr.Source);
 
-                    if (curr.Source !== document.uri.fsPath && !lgParser.Imports.map(u => u.Id).includes(relativePath)) {
+                    if (curr.Source !== document.uri.fsPath && !lgParser.Imports.map(u => path.normalize(u.Id)).includes(path.normalize(relativePath))) {
                         var edit =  vscode.TextEdit.insert(new vscode.Position(0,0), `[import](${relativePath})\r\n`);
                         item.additionalTextEdits = [edit];
                     }
