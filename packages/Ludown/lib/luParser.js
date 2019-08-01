@@ -7,6 +7,7 @@ const LUIntent = require('./luIntent');
 const LUEntity = require('./luEntity');
 const LUImport = require('./luImport');
 const LUQna = require('./luQna');
+const LUErrorListener = require('./luErrorListener');
 
 class LUParser {
     /**
@@ -14,13 +15,27 @@ class LUParser {
      * @param {string} id
      */
     static parse(text, id = '') {
-        let fileContent = this.getFileContent(text, id);
-        let luIntents = this.extractLUIntents(fileContent, id);
-        let luEntities = this.extractLUEntities(fileContent, id);
-        let luImports = this.extractLUImports(fileContent, id);
-        let qnas = this.extractLUQnas(fileContent, id);
+        let luIntents;
+        let luEntities;
+        let luImports;
+        let qnas;
 
-        return new LUResource(luIntents, luEntities, luImports, qnas, id);
+        let { fileContent, errors } = this.getFileContent(text, id);
+        if (errors.length > 0) {
+            return new LUResource(luIntents, luEntities, luImports, qnas, errors, id);
+        }
+
+        luIntents = this.extractLUIntents(fileContent, id);
+        luIntents.forEach(luIntent => errors = errors.concat(luIntent.Errors));
+
+        luEntities = this.extractLUEntities(fileContent, id);
+        luEntities.forEach(luEntity => errors = errors.concat(luEntity.Errors));
+
+        luImports = this.extractLUImports(fileContent, id);
+        
+        qnas = this.extractLUQnas(fileContent, id);
+
+        return new LUResource(luIntents, luEntities, luImports, qnas, errors, id);
     }
 
     /**
@@ -39,10 +54,14 @@ class LUParser {
         const lexer = new LUFileLexer(chars);
         const tokens = new antlr4.CommonTokenStream(lexer);
         const parser = new LUFileParser(tokens);
+        let errors = [];
+        const listener = new LUErrorListener(errors)
+        parser.removeErrorListeners();
+        parser.addErrorListener(listener);
         parser.buildParseTrees = true;
-        const tree = parser.file();
+        const fileContent = parser.file();
         
-        return tree;
+        return { fileContent, errors };
     }
 
     /**
