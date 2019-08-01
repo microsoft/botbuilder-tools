@@ -126,5 +126,59 @@ LUFileParserVisitor.prototype.visitImportDefinition = function(ctx) {
 };
 
 
+// Visit a parse tree produced by LUFileParser#qnaDefinition.
+LUFileParserVisitor.prototype.visitQnaDefinition = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
+// Visit a parse tree produced by LUFileParser#qnaQuestion.
+LUFileParserVisitor.prototype.visitQnaQuestion = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
+// Visit a parse tree produced by LUFileParser#questionText.
+LUFileParserVisitor.prototype.visitQuestionText = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
+// Visit a parse tree produced by LUFileParser#moreQuestionsBody.
+LUFileParserVisitor.prototype.visitMoreQuestionsBody = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
+// Visit a parse tree produced by LUFileParser#moreQuestion.
+LUFileParserVisitor.prototype.visitMoreQuestion = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
+// Visit a parse tree produced by LUFileParser#qnaAnswerBody.
+LUFileParserVisitor.prototype.visitQnaAnswerBody = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
+// Visit a parse tree produced by LUFileParser#filterSection.
+LUFileParserVisitor.prototype.visitFilterSection = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
+// Visit a parse tree produced by LUFileParser#filterLine.
+LUFileParserVisitor.prototype.visitFilterLine = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
+// Visit a parse tree produced by LUFileParser#multiLineAnswer.
+LUFileParserVisitor.prototype.visitMultiLineAnswer = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
 
 exports.LUFileParserVisitor = LUFileParserVisitor;
