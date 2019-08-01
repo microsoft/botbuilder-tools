@@ -26,8 +26,8 @@ class LUEntity {
         var synonymsOrPhraseList = [];
         if (parseTree.entityListBody()) {
             for (const normalItemStr of parseTree.entityListBody().normalItemString()) {
-                var itemStr = normalItemStr.getText();
-                synonymsOrPhraseList.push(itemStr.trim().substr(1).trim());
+                var itemStr = normalItemStr.getText().trim();
+                synonymsOrPhraseList.push(itemStr.substr(1).trim());
             }
         }
 

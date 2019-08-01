@@ -197,11 +197,12 @@ const parseFileContentsModule = {
                 }
             } else if (chunk.indexOf(PARSERCONSTS.INTENT) === 0) {
                 try {
+                    // parseAndHandleIntent(parsedContent, chunkSplitByLine)
                     var intentName = chunkSplitByLine[0].substring(chunkSplitByLine[0].indexOf(' ') + 1);
                     if (intentName.trim().indexOf(PARSERCONSTS.QNA) === 0) {
-                        parseAndHandleIntent(parsedContent, chunkSplitByLine);
+                        parseQnaAntlr(parsedContent, chunk);
                     } else {
-                        parseIntentAntlr(parsedContent, chunk, log, locale);
+                        parseIntentAntlr(parsedContent, chunk);
                     }
                 } catch (err) {
                     throw (err);
@@ -448,25 +449,23 @@ const parseFileContentsModule = {
  * Main parser code to parse current file contents into LUIS and QNA sections.
  * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
  * @param {string} fileContent current file content
- * @param {boolean} log indicates if we need verbose logging.
- * @param {string} locale LUIS locale code
  * @throws {exception} Throws on errors. exception object includes errCode and text.
  */
-const parseIntentAntlr = function (parsedContent, fileContent, log, locale) {
+const parseIntentAntlr = function (parsedContent, fileContent) {
     fileContent = helpers.sanitizeNewLines(fileContent);
-    var luResource = luParser.parse(fileContent);
+    let luResource = luParser.parse(fileContent);
 
     // handle intents
-    if (luResource.Intents !== undefined && luResource.Intents.length > 0) {
-        var intents = luResource.Intents;
+    if (luResource.Intents && luResource.Intents.length > 0) {
+        let intents = luResource.Intents;
         for (const intent of intents) {
-            var intentName = intent.Name;
+            let intentName = intent.Name;
             // insert only if the intent is not already present.
             addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.INTENT, intentName);
             for (const normalIntentStr of intent.ParseTree.intentBody().normalIntentBody().normalIntentString()) {
                 // add utterance
-                var utteranceAndEntities = visitor.visitNormalIntentStringContext(normalIntentStr);
-                var utterance = utteranceAndEntities.utterance.trim();
+                let utteranceAndEntities = visitor.visitNormalIntentStringContext(normalIntentStr);
+                let utterance = utteranceAndEntities.utterance.trim();
                 if (utterance.indexOf('[') == 0) {
                     let linkExp = (utterance || '').trim().match(new RegExp(/\(.*?\)/g));
                     if (linkExp && linkExp.length !== 0) {
@@ -478,7 +477,7 @@ const parseIntentAntlr = function (parsedContent, fileContent, log, locale) {
 
                 if (utteranceAndEntities.entities.length > 0) {
 
-                    var entitiesFound = utteranceAndEntities.entities;
+                    let entitiesFound = utteranceAndEntities.entities;
                     let havePatternAnyEntity = entitiesFound.find(item => item.type == LUISObjNameEnum.PATTERNANYENTITY);
                     if (havePatternAnyEntity !== undefined) {
                         let mixedEntity = entitiesFound.filter(item => item.type != LUISObjNameEnum.PATTERNANYENTITY);
@@ -559,8 +558,7 @@ const parseIntentAntlr = function (parsedContent, fileContent, log, locale) {
                 }
             }
         }
-    }
-    else {
+    } else {
         //TODO: error handling
     }
 }
@@ -575,14 +573,14 @@ const parseIntentAntlr = function (parsedContent, fileContent, log, locale) {
  */
 const parseEntityAntlr = function (parsedContent, fileContent, log, locale) {
     fileContent = helpers.sanitizeNewLines(fileContent);
-    var luResource = luParser.parse(fileContent);
+    let luResource = luParser.parse(fileContent);
 
     // handle entities
-    if (luResource.Entities !== undefined && luResource.Entities.length > 0) {
+    if (luResource.Entities && luResource.Entities.length > 0) {
         var entities = luResource.Entities;
         for (const entity of entities) {
-            var entityName = entity.Name;
-            var entityType = entity.Type;
+            let entityName = entity.Name;
+            let entityType = entity.Type;
             let parsedRoleAndType = helpers.getRolesAndType(entityType);
             let entityRoles = parsedRoleAndType.roles;
             entityType = parsedRoleAndType.entityType;
@@ -637,7 +635,7 @@ const parseEntityAntlr = function (parsedContent, fileContent, log, locale) {
             } else if (entityType.endsWith('=')) {
                 // is this qna maker alterations list? 
                 if (entityType.includes(PARSERCONSTS.QNAALTERATIONS)) {
-                    var alterationlist = [entity.Name];
+                    let alterationlist = [entity.Name];
                     if (entity.SynonymsOrPhraseList && entity.SynonymsOrPhraseList.length > 0) {
                         alterationlist = alterationlist.concat(entity.SynonymsOrPhraseList);
                         parsedContent.qnaAlterations.wordAlterations.push(new qnaAlterations.alterations(alterationlist));
@@ -664,7 +662,7 @@ const parseEntityAntlr = function (parsedContent, fileContent, log, locale) {
                     }
                     // get normalized value
                     let normalizedValue = entityType.substring(0, entityType.length - 1).trim();
-                    var synonymsList = entity.SynonymsOrPhraseList;
+                    let synonymsList = entity.SynonymsOrPhraseList;
                     let closedListExists = helpers.filterMatch(parsedContent.LUISJsonStructure.closedLists, 'name', entityName);
                     if (closedListExists.length === 0) {
                         parsedContent.LUISJsonStructure.closedLists.push(new helperClass.closedLists(entityName, [new helperClass.subList(normalizedValue, synonymsList)], entityRoles));
@@ -737,6 +735,35 @@ const parseEntityAntlr = function (parsedContent, fileContent, log, locale) {
             } else {
                 // TODO: handle other entity types
             }
+        }
+    } else {
+        //TODO: error handling
+    }
+}
+
+/**
+ * Main parser code to parse current file contents into LUIS and QNA sections.
+ * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
+ * @param {string} fileContent current file content
+ * @throws {exception} Throws on errors. exception object includes errCode and text.
+ */
+const parseQnaAntlr = function (parsedContent, fileContent) {
+    fileContent = helpers.sanitizeNewLines(fileContent);
+    let luResource = luParser.parse(fileContent);
+
+    // handle Qnas
+    if (luResource.Qnas && luResource.Qnas.length > 0) {
+        let qnas = luResource.Qnas;
+        for (const qna of qnas) {
+            let questions = qna.Questions;
+            let filterPairs = qna.FilterPairs;
+            let metadata = [];
+            if (filterPairs && filterPairs.length > 0) {
+                filterPairs.forEach(pair => metadata.push(new qnaMetaDataObj(pair.key, pair.value)));
+            }
+
+            let answer = qna.Answer;
+            parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, answer.trim(), 'custom editorial', questions, metadata));
         }
     } else {
         //TODO: error handling

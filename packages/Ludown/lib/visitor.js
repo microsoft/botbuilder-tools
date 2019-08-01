@@ -14,12 +14,12 @@ class Visitor {
             switch (innerNode.symbol.type) {
                 case lp.DASH: break;
                 case lp.EXPRESSION: {
-                    var entityObject = this.extractEntityFromUtterence(innerNode.getText());
+                    let entityObject = this.extractEntityFromUtterence(innerNode.getText());
                     if (entityObject.entityValue !== undefined) {
                         // simple entitiy
                         utterance = utterance.concat(entityObject.entityValue);
-                        var startPos = utterance.lastIndexOf(entityObject.entityValue);
-                        var endPos = startPos + entityObject.entityValue.length - 1;
+                        let startPos = utterance.lastIndexOf(entityObject.entityValue);
+                        let endPos = startPos + entityObject.entityValue.length - 1;
                         entities.push({
                             type: LUISObjNameEnum.ENTITIES,
                             entity: entityObject.entityName,
@@ -54,14 +54,14 @@ class Visitor {
         exp = exp.replace(/(^{*)/g, '')
             .replace(/(}*$)/g, '');
 
-        var equalIndex = exp.indexOf('=');
+        let equalIndex = exp.indexOf('=');
         if (equalIndex != -1) {
-            var entityName = exp.substring(0, equalIndex).trim();
-            var entityValue = exp.substring(equalIndex + 1).trim();
+            let entityName = exp.substring(0, equalIndex).trim();
+            let entityValue = exp.substring(equalIndex + 1).trim();
 
             return { entityName, entityValue };
         } else {
-            var entityName = exp.trim();
+            let entityName = exp.trim();
 
             return { entityName, undefined };
         }

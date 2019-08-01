@@ -1,15 +1,5 @@
 lexer grammar LUFileLexer;
 
-// From a multiple-lanague perpective, it's not recommended to use members, predicates and actions to 
-// put target-language-specific code in lexer rules 
-
-// the reason we use it here is that
-// 1. it greatly simplify the lexer rules, can avoid unnecessary lexer modes 
-// 2. it helps us to output token more precisely
-//    (for example, 'CASE:' not followed right after '-' will not be treated as a CASE token)
-// 3. we only use very basic boolen variables, and basic predidates
-//    so it would be very little effort to translate to other languages
-
 @lexer::members {
   this.ignoreWS = true;             // usually we ignore whitespace, but inside template, whitespace is significant
 }
@@ -20,8 +10,6 @@ fragment NUMBER: '0'..'9';
 fragment WHITESPACE
   : ' '|'\t'|'\ufeff'|'\u00a0'
   ;
-
-fragment STRING_LITERAL : ('\'' (~['\r\n])* '\'') | ('"' (~["\r\n])* '"');
 
 fragment UTTERANCE_MARK: '-' | '*' | '+';
 
@@ -35,6 +23,10 @@ WS
 
 NEWLINE
   : '\r'? '\n' -> skip
+  ;
+
+QNA
+  : '###' WHITESPACE+ '?' {this.ignoreWS = false;} -> pushMode(QNA_MODE)
   ;
 
 HASH
@@ -57,6 +49,14 @@ IMPORT_PATH
   : '(' .*? ')'
   ;
 
+Filter_MARK
+  : '**Filters:**'
+  ;
+
+MULTI_LINE_TEXT
+  : '```markdown' .*? '```'
+  ;
+
 mode INTENT_NAME_MODE;
 
 WS_IN_NAME_IGNORED
@@ -72,7 +72,7 @@ NEWLINE_IN_NAME
   ;
 
 IDENTIFIER
-  : (LETTER | NUMBER | '_') (LETTER | NUMBER | '-' | '_')* { this.ignoreWS = false}
+  : (LETTER | NUMBER | '_') (LETTER | NUMBER | '-' | '_')* { this.ignoreWS = false;}
   ;
 
 DOT
@@ -95,23 +95,15 @@ NEWLINE_IN_BODY
   ;
 
 ESCAPE_CHARACTER
-  : '\\{' | '\\[' | '\\\\' | '\\'[rtn\]}]  { this.ignoreWS = false}
-  ;
-
-INVALID_ESCAPE
-  : '\\'~[\r\n]?
+  : '\\{' | '\\[' | '\\\\' | '\\'[rtn\]}]  { this.ignoreWS = false;}
   ;
 
 EXPRESSION
-  : '{' (~[\r\n{}] | STRING_LITERAL)*  '}'  { this.ignoreWS = false}
-  ;
-
-TEXT_SEPARATOR
-  : [ \t\r\n{}[\]()]  { this.ignoreWS = false}
+  : '{' (~[\r\n{}])*? '}'  { this.ignoreWS = false;}
   ;
 
 TEXT
-  : ~[ \\\t\r\n{}[\]()]+  { this.ignoreWS = false}
+  : ~[ \t\r\n{}]+  { this.ignoreWS = false;}
   ;
 
 mode ENTITY_MODE;
@@ -125,17 +117,35 @@ WS_IN_ENTITY
   ;
 
 NEWLINE_IN_ENTITY
-  : '\r'? '\n' -> type(NEWLINE), popMode
+  : '\r'? '\n' {this.ignoreWS = true;} -> type(NEWLINE), popMode
   ;
 
 ENTITY_IDENTIFIER
-  : (LETTER | NUMBER | '_' | '-')+ { this.ignoreWS = false}
+  : (LETTER | NUMBER | '_' | '-')+ { this.ignoreWS = false;}
   ;
 
 COLON_MARK
-  : ':' { this.ignoreWS = true}
+  : ':' { this.ignoreWS = true;}
   ;
 
 EQUAL_MARK 
   : '=' 
+  ;
+
+mode QNA_MODE;
+
+WS_IN_QNA_IGNORED
+  : WHITESPACE+ {this.ignoreWS}? -> skip
+  ;
+
+WS_IN_QNA
+  : WHITESPACE+ -> type(WS)
+  ;
+
+NEWLINE_IN_QNA
+  : '\r'? '\n' {this.ignoreWS = true;} ->  type(NEWLINE), popMode
+  ;
+
+QNA_TEXT
+  : ~[ \t\r\n{}]+  { this.ignoreWS = false;}
   ;

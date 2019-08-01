@@ -182,5 +182,86 @@ LUFileParserListener.prototype.exitImportDefinition = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LUFileParser#qnaDefinition.
+LUFileParserListener.prototype.enterQnaDefinition = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#qnaDefinition.
+LUFileParserListener.prototype.exitQnaDefinition = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#qnaQuestion.
+LUFileParserListener.prototype.enterQnaQuestion = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#qnaQuestion.
+LUFileParserListener.prototype.exitQnaQuestion = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#questionText.
+LUFileParserListener.prototype.enterQuestionText = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#questionText.
+LUFileParserListener.prototype.exitQuestionText = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#moreQuestionsBody.
+LUFileParserListener.prototype.enterMoreQuestionsBody = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#moreQuestionsBody.
+LUFileParserListener.prototype.exitMoreQuestionsBody = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#moreQuestion.
+LUFileParserListener.prototype.enterMoreQuestion = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#moreQuestion.
+LUFileParserListener.prototype.exitMoreQuestion = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#qnaAnswerBody.
+LUFileParserListener.prototype.enterQnaAnswerBody = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#qnaAnswerBody.
+LUFileParserListener.prototype.exitQnaAnswerBody = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#filterSection.
+LUFileParserListener.prototype.enterFilterSection = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#filterSection.
+LUFileParserListener.prototype.exitFilterSection = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#filterLine.
+LUFileParserListener.prototype.enterFilterLine = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#filterLine.
+LUFileParserListener.prototype.exitFilterLine = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LUFileParser#multiLineAnswer.
+LUFileParserListener.prototype.enterMultiLineAnswer = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#multiLineAnswer.
+LUFileParserListener.prototype.exitMultiLineAnswer = function(ctx) {
+};
+
+
 
 exports.LUFileParserListener = LUFileParserListener;

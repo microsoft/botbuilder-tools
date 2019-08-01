@@ -11,6 +11,7 @@ paragraph
     | intentDefinition
     | entityDefinition
     | importDefinition
+    | qnaDefinition
     ;
 
 // Treat EOF as newline to hanle file end gracefully
@@ -46,7 +47,7 @@ normalIntentBody
     ;
 
 normalIntentString
-	: DASH (WS|TEXT|EXPRESSION|TEXT_SEPARATOR|ESCAPE_CHARACTER|INVALID_ESCAPE)*
+	: DASH (WS|TEXT|EXPRESSION|ESCAPE_CHARACTER)*
 	;
 
 entityDefinition
@@ -83,4 +84,40 @@ normalItemString
 
 importDefinition
     : IMPORT_DESC IMPORT_PATH
+    ;
+
+qnaDefinition
+    : qnaQuestion moreQuestionsBody qnaAnswerBody
+    ;
+
+qnaQuestion
+    : QNA questionText newline
+    ;
+
+questionText
+    : (WS|QNA_TEXT)*
+    ;
+
+moreQuestionsBody
+    : (moreQuestion newline)*
+    ;
+
+moreQuestion
+    : DASH (WS|TEXT)*
+    ;
+
+qnaAnswerBody
+    : filterSection? multiLineAnswer
+    ;
+
+filterSection
+    : Filter_MARK filterLine+
+    ;
+
+filterLine
+    : DASH (WS|TEXT)* newline
+    ;
+
+multiLineAnswer
+    : MULTI_LINE_TEXT
     ;
