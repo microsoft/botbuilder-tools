@@ -286,9 +286,9 @@ describe('The example lu files', function () {
     });
 
     it('writes out an error when invalid entity definition is found', function (done) {
-        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/missing-utterance.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid-entity-definition.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes('Invalid entity definition'));
+                assert.ok(stderr.includes("[ERROR] line 0:9: syntax error message: mismatched input '=' expecting ':'"));
                 done();
             } catch (err) {
                 done(err);
@@ -321,7 +321,7 @@ describe('The example lu files', function () {
     it('Throws when an invalid QnA Maker alteration is specified in the input .lu file', function (done) {
         exec(`node ${ludown} parse toqna -a --in ${TEST_ROOT}/testcases/invalid-alterations.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes('[ERROR]: QnA alteration list value'));
+                assert.ok(stderr.includes('[ERROR]: QnA alteration section: "botframework" does not have list decoration. Prefix line with "-" or "+" or "*"'));
                 done();
             } catch (err) {
                 done(err);

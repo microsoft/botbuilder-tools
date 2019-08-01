@@ -23,6 +23,11 @@ const NEWLINE = require('os').EOL;
 const fetch = require('node-fetch');
 const qnaFile = require('../lib/classes/qnaFiles');
 const fileToParse = require('../lib/classes/filesToParse');
+<<<<<<< HEAD
+=======
+const luParser = require('./luParser');
+const DiagnosticSeverity = require('./diagnostic').DiagnosticSeverity;
+>>>>>>> ea5d56aa... add error handling logic
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
@@ -469,6 +474,17 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
     fileContent = helpers.sanitizeNewLines(fileContent);
     let luResource = luParser.parse(fileContent);
 
+    if (luResource.Errors && luResource.Errors.length > 0) {
+        if(log) {
+            process.stdout.write(luResource.Errors.filter(error => error.Severity === DiagnosticSeverity.WARN).map(warn => warn.toString()).join('\n'));
+        }
+        
+        var errors = luResource.Errors.filter(error => error.Severity === DiagnosticSeverity.ERROR);
+        if (errors.length > 0) {
+            throw (new exception(retCode.errorCode.INVALID_LINE, errors.map(error => error.toString()).join('\n')));
+        }
+    }
+
     // handle reference
     let luImports = luResource.Imports;
     if (luImports && luImports.length > 0) {
@@ -509,9 +525,8 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
             let intentName = intent.Name;
             // insert only if the intent is not already present.
             addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.INTENT, intentName);
-            for (const normalIntentStr of intent.ParseTree.intentBody().normalIntentBody().normalIntentString()) {
+            for (const utteranceAndEntities of this.UtteranceAndEntitiesMap) {
                 // add utterance
-                let utteranceAndEntities = visitor.visitNormalIntentStringContext(normalIntentStr);
                 let utterance = utteranceAndEntities.utterance.trim();
                 if (utterance.indexOf('[') == 0) {
                     let linkExp = (utterance || '').trim().match(new RegExp(/\(.*?\)/g));

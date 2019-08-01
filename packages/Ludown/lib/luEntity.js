@@ -1,4 +1,6 @@
 const EntityDefinitionContext = require('./generated/LUFileParser').LUFileParser.EntityDefinitionContext;
+const Diagnostic = require('./diagnostic').Diagnostic;
+const DiagnosticSeverity = require('./diagnostic').DiagnosticSeverity;
 
 class LUEntity {
     /**
@@ -12,6 +14,11 @@ class LUEntity {
         this.Name = this.ExtractName(parseTree);
         this.Type = this.ExtractType(parseTree);
         this.SynonymsOrPhraseList = this.ExtractSynonymsOrPhraseList(parseTree);
+
+        this.Errors = [];
+        if (this.Type.indexOf('=') > -1 && this.SynonymsOrPhraseList.length === 0) {
+            this.Errors.push(new Diagnostic(undefined, `No synonyms list found for list entity: # ${this.Name}`,  DiagnosticSeverity.WARN));
+        }
     }
 
     ExtractName(parseTree) {
