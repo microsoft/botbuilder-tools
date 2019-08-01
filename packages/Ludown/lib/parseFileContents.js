@@ -177,47 +177,8 @@ const parseFileContentsModule = {
     parseFile: async function (fileContent, log, locale) {
         fileContent = helpers.sanitizeNewLines(fileContent);
         let parsedContent = new parserObj();
-        let splitOnBlankLines = '';
-        try {
-            splitOnBlankLines = helpers.splitFileBySections(fileContent.toString(), log);
-        } catch (err) {
-            throw (err);
-        }
-
-        // loop through every chunk of information
-        for (let chunkIdx in splitOnBlankLines) {
-            chunk = splitOnBlankLines[chunkIdx];
-            let chunkSplitByLine = chunk.split(NEWLINE);
-            if (chunk.indexOf(PARSERCONSTS.URLORFILEREF) === 0) {
-                try {
-                    // await parseURLOrFileRef(parsedContent, chunkSplitByLine)
-                    await parseURLOrFileRefAntlr(parsedContent, chunk);
-                } catch (err) {
-                    throw (err);
-                }
-            } else if (chunk.indexOf(PARSERCONSTS.INTENT) === 0) {
-                try {
-                    // parseAndHandleIntent(parsedContent, chunkSplitByLine)
-                    var intentName = chunkSplitByLine[0].substring(chunkSplitByLine[0].indexOf(' ') + 1);
-                    if (intentName.trim().indexOf(PARSERCONSTS.QNA) === 0) {
-                        parseQnaAntlr(parsedContent, chunk);
-                    } else {
-                        parseIntentAntlr(parsedContent, chunk);
-                    }
-                } catch (err) {
-                    throw (err);
-                }
-            } else if (chunk.indexOf(PARSERCONSTS.ENTITY) === 0) {
-                try {
-                    // parseAndHandleEntity(parsedContent, chunkSplitByLine, locale, log);
-                    parseEntityAntlr(parsedContent, chunk, locale, log);
-                } catch (err) {
-                    throw (err);
-                }
-            } else if (chunk.indexOf(PARSERCONSTS.QNA) === 0) {
-                parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, chunkSplitByLine[1], 'custom editorial', [chunkSplitByLine[0].replace(PARSERCONSTS.QNA, '').trim()], []));
-            }
-        };
+        await parseLuAndQnaWithAntlr(parsedContent, fileContent.toString(), locale, log);
+        
         return parsedContent;
     },
     /**
@@ -445,19 +406,55 @@ const parseFileContentsModule = {
         }
     }
 };
+
 /**
  * Main parser code to parse current file contents into LUIS and QNA sections.
  * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
  * @param {string} fileContent current file content
+ * @param {boolean} log indicates if we need verbose logging.
+ * @param {string} locale LUIS locale code
  * @throws {exception} Throws on errors. exception object includes errCode and text.
  */
-const parseIntentAntlr = function (parsedContent, fileContent) {
+const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, locale) {
     fileContent = helpers.sanitizeNewLines(fileContent);
     let luResource = luParser.parse(fileContent);
 
-    // handle intents
-    if (luResource.Intents && luResource.Intents.length > 0) {
-        let intents = luResource.Intents;
+    // handle reference
+    let luImports = luResource.Imports;
+    if (luImports && luImports.length > 0) {
+        for (const luImport of luImports) {
+            let linkValueText = luImport.Description.replace('[', '').replace(']', '');
+            let linkValue = luImport.Path.replace('(', '').replace(')', '');
+            if (linkValue === '') {
+                throw (new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: Invalid LU File Ref: ' + fileContent));
+            }
+            let parseUrl = url.parse(linkValue);
+            if (parseUrl.host || parseUrl.hostname) {
+                let options = { method: 'HEAD' };
+                let response;
+                try {
+                    response = await fetch(linkValue, options);
+                } catch (err) {
+                    // throw, invalid URI
+                    throw (new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
+                }
+                if (!response.ok) throw (new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
+                let contentType = response.headers.get('content-type');
+                if (!contentType.includes('text/html')) {
+                    parsedContent.qnaJsonStructure.files.push(new qnaFile(linkValue, linkValueText));
+                } else {
+                    parsedContent.qnaJsonStructure.urls.push(linkValue);
+                }
+
+            } else {
+                parsedContent.additionalFilesToParse.push(new fileToParse(linkValue));
+            }
+        }
+    }
+
+    // handle intent
+    let intents = luResource.Intents;
+    if (intents && intents.length > 0) {
         for (const intent of intents) {
             let intentName = intent.Name;
             // insert only if the intent is not already present.
@@ -558,26 +555,11 @@ const parseIntentAntlr = function (parsedContent, fileContent) {
                 }
             }
         }
-    } else {
-        //TODO: error handling
     }
-}
 
-/**
- * Main parser code to parse current file contents into LUIS and QNA sections.
- * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
- * @param {string} fileContent current file content
- * @param {boolean} log indicates if we need verbose logging.
- * @param {string} locale LUIS locale code
- * @throws {exception} Throws on errors. exception object includes errCode and text.
- */
-const parseEntityAntlr = function (parsedContent, fileContent, log, locale) {
-    fileContent = helpers.sanitizeNewLines(fileContent);
-    let luResource = luParser.parse(fileContent);
-
-    // handle entities
-    if (luResource.Entities && luResource.Entities.length > 0) {
-        var entities = luResource.Entities;
+    // handle entity
+    let entities = luResource.Entities;
+    if (entities && entities.length > 0) {
         for (const entity of entities) {
             let entityName = entity.Name;
             let entityType = entity.Type;
@@ -736,24 +718,11 @@ const parseEntityAntlr = function (parsedContent, fileContent, log, locale) {
                 // TODO: handle other entity types
             }
         }
-    } else {
-        //TODO: error handling
     }
-}
 
-/**
- * Main parser code to parse current file contents into LUIS and QNA sections.
- * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
- * @param {string} fileContent current file content
- * @throws {exception} Throws on errors. exception object includes errCode and text.
- */
-const parseQnaAntlr = function (parsedContent, fileContent) {
-    fileContent = helpers.sanitizeNewLines(fileContent);
-    let luResource = luParser.parse(fileContent);
-
-    // handle Qnas
-    if (luResource.Qnas && luResource.Qnas.length > 0) {
-        let qnas = luResource.Qnas;
+    // handle QNA
+    let qnas = luResource.Qnas;
+    if (qnas && qnas.length > 0) {
         for (const qna of qnas) {
             let questions = qna.Questions;
             let filterPairs = qna.FilterPairs;
@@ -765,8 +734,6 @@ const parseQnaAntlr = function (parsedContent, fileContent) {
             let answer = qna.Answer;
             parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, answer.trim(), 'custom editorial', questions, metadata));
         }
-    } else {
-        //TODO: error handling
     }
 }
 
@@ -1474,49 +1441,6 @@ const parseURLOrFileRef = async function (parsedContent, chunkSplitByLine) {
 
     } else {
         parsedContent.additionalFilesToParse.push(new fileToParse(linkValue));
-    }
-}
-
-/**
- * Helper function to parse and handle URL or file references in lu files
- * @param {parserObj} parsedContent parserObj containing current parsed content
- * @param {string} fileContent @param {string} fileContent current file content
- * @returns {void} Nothing
- * @throws {exception} Throws on errors. exception object includes errCode and text. 
- */
-const parseURLOrFileRefAntlr = async function (parsedContent, fileContent) {
-    fileContent = helpers.sanitizeNewLines(fileContent);
-    var luResource = luParser.parse(fileContent);
-    var luImports = luResource.Imports;
-    if (luImports && luImports.length > 0) {
-        for (const luImport of luImports) {
-            let linkValueText = luImport.Description.replace('[', '').replace(']', '');
-            let linkValue = luImport.Path.replace('(', '').replace(')', '');
-            if (linkValue === '') {
-                throw (new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: Invalid LU File Ref: ' + fileContent));
-            }
-            let parseUrl = url.parse(linkValue);
-            if (parseUrl.host || parseUrl.hostname) {
-                let options = { method: 'HEAD' };
-                let response;
-                try {
-                    response = await fetch(linkValue, options);
-                } catch (err) {
-                    // throw, invalid URI
-                    throw (new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
-                }
-                if (!response.ok) throw (new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
-                let contentType = response.headers.get('content-type');
-                if (!contentType.includes('text/html')) {
-                    parsedContent.qnaJsonStructure.files.push(new qnaFile(linkValue, linkValueText));
-                } else {
-                    parsedContent.qnaJsonStructure.urls.push(linkValue);
-                }
-
-            } else {
-                parsedContent.additionalFilesToParse.push(new fileToParse(linkValue));
-            }
-        }
     }
 }
 
