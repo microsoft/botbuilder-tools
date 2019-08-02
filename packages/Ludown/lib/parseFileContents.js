@@ -525,7 +525,7 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
             let intentName = intent.Name;
             // insert only if the intent is not already present.
             addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.INTENT, intentName);
-            for (const utteranceAndEntities of this.UtteranceAndEntitiesMap) {
+            for (const utteranceAndEntities of intent.UtteranceAndEntitiesMap) {
                 // add utterance
                 let utterance = utteranceAndEntities.utterance.trim();
                 if (utterance.indexOf('[') == 0) {
