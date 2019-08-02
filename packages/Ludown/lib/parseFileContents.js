@@ -1025,7 +1025,8 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                             if ((otherEntities || []).find(item => item.name == entity.entity) === undefined) {
                                 throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`));
                             }
-                        }  
+                        }
+
                         // only add this entity if it has not already been defined as composite, list, prebuilt, regex
                         let compositeExists = (parsedContent.LUISJsonStructure.composites || []).find(item => item.name == entity.entity);
                         let listExists = (parsedContent.LUISJsonStructure.closedLists || []).find(item => item.name == entity.entity);
