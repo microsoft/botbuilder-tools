@@ -41,14 +41,33 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Adaptive",
+            "name": "Update component.schema",
+            "program": "${workspaceFolder}\\lib\\dialogSchema.js",
+            "args": [
+                "../libraries/**/*.schema",
+                "-o",
+                "sdk.schema",
+                "-b",
+                "4.Future",
+                "-u"
+            ],
+            "cwd": "${workspaceFolder}/../../../botbuilder-dotnet/Schemas/",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/lib/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Update sdk.schema",
             "program": "${workspaceFolder}\\lib\\dialogSchema.js",
             "args": [
                 "**/*.schema",
                 "-o",
-                "/tmp/app.schema"
+                "../schemas/sdk.schema"
             ],
-            "cwd": "${workspaceFolder}/../../../botbuilder-dotnet/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Schemas",
+            "cwd": "${workspaceFolder}/../../../botbuilder-dotnet/Libraries/",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"
