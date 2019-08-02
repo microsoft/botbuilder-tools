@@ -8,7 +8,7 @@ var grammarFileName = "LUFileParser.g4";
 
 
 var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
-    "\u0003\u001a\u00d9\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004",
+    "\u0003\u001b\u00e0\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004",
     "\t\u0004\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0004\u0007\t\u0007",
     "\u0004\b\t\b\u0004\t\t\t\u0004\n\t\n\u0004\u000b\t\u000b\u0004\f\t\f",
     "\u0004\r\t\r\u0004\u000e\t\u000e\u0004\u000f\t\u000f\u0004\u0010\t\u0010",
@@ -16,129 +16,134 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\t\u0014\u0004\u0015\t\u0015\u0004\u0016\t\u0016\u0004\u0017\t\u0017",
     "\u0004\u0018\t\u0018\u0004\u0019\t\u0019\u0004\u001a\t\u001a\u0004\u001b",
     "\t\u001b\u0004\u001c\t\u001c\u0004\u001d\t\u001d\u0004\u001e\t\u001e",
-    "\u0003\u0002\u0006\u0002>\n\u0002\r\u0002\u000e\u0002?\u0003\u0002\u0003",
-    "\u0002\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0005",
-    "\u0003I\n\u0003\u0003\u0004\u0003\u0004\u0003\u0005\u0003\u0005\u0003",
-    "\u0005\u0005\u0005P\n\u0005\u0003\u0006\u0003\u0006\u0003\u0006\u0003",
-    "\u0007\u0003\u0007\u0003\u0007\u0007\u0007X\n\u0007\f\u0007\u000e\u0007",
-    "[\u000b\u0007\u0003\b\u0003\b\u0003\b\u0007\b`\n\b\f\b\u000e\bc\u000b",
-    "\b\u0003\t\u0003\t\u0003\n\u0003\n\u0003\n\u0006\nj\n\n\r\n\u000e\n",
-    "k\u0003\u000b\u0003\u000b\u0007\u000bp\n\u000b\f\u000b\u000e\u000bs",
-    "\u000b\u000b\u0003\f\u0003\f\u0003\f\u0005\fx\n\f\u0003\r\u0003\r\u0003",
-    "\r\u0003\r\u0003\r\u0003\u000e\u0003\u000e\u0003\u000f\u0003\u000f\u0003",
-    "\u000f\u0005\u000f\u0084\n\u000f\u0003\u0010\u0003\u0010\u0007\u0010",
-    "\u0088\n\u0010\f\u0010\u000e\u0010\u008b\u000b\u0010\u0003\u0011\u0005",
-    "\u0011\u008e\n\u0011\u0003\u0011\u0003\u0011\u0003\u0012\u0003\u0012",
-    "\u0003\u0012\u0003\u0013\u0003\u0013\u0003\u0013\u0006\u0013\u0098\n",
-    "\u0013\r\u0013\u000e\u0013\u0099\u0003\u0014\u0003\u0014\u0007\u0014",
-    "\u009e\n\u0014\f\u0014\u000e\u0014\u00a1\u000b\u0014\u0003\u0015\u0003",
-    "\u0015\u0003\u0015\u0003\u0016\u0003\u0016\u0003\u0016\u0003\u0016\u0003",
-    "\u0017\u0003\u0017\u0003\u0017\u0003\u0017\u0003\u0018\u0007\u0018\u00af",
-    "\n\u0018\f\u0018\u000e\u0018\u00b2\u000b\u0018\u0003\u0019\u0003\u0019",
-    "\u0003\u0019\u0007\u0019\u00b7\n\u0019\f\u0019\u000e\u0019\u00ba\u000b",
-    "\u0019\u0003\u001a\u0003\u001a\u0007\u001a\u00be\n\u001a\f\u001a\u000e",
-    "\u001a\u00c1\u000b\u001a\u0003\u001b\u0005\u001b\u00c4\n\u001b\u0003",
-    "\u001b\u0003\u001b\u0003\u001c\u0003\u001c\u0006\u001c\u00ca\n\u001c",
-    "\r\u001c\u000e\u001c\u00cb\u0003\u001d\u0003\u001d\u0007\u001d\u00d0",
-    "\n\u001d\f\u001d\u000e\u001d\u00d3\u000b\u001d\u0003\u001d\u0003\u001d",
-    "\u0003\u001e\u0003\u001e\u0003\u001e\u0003?\u0002\u001f\u0002\u0004",
-    "\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c\u001e ",
-    "\"$&(*,.02468:\u0002\u0007\u0003\u0003\u0005\u0005\u0004\u0002\u0004",
+    "\u0004\u001f\t\u001f\u0003\u0002\u0006\u0002@\n\u0002\r\u0002\u000e",
+    "\u0002A\u0003\u0002\u0003\u0002\u0003\u0003\u0003\u0003\u0003\u0003",
+    "\u0003\u0003\u0003\u0003\u0005\u0003K\n\u0003\u0003\u0004\u0003\u0004",
+    "\u0003\u0005\u0003\u0005\u0003\u0005\u0005\u0005R\n\u0005\u0003\u0006",
+    "\u0003\u0006\u0003\u0006\u0003\u0007\u0003\u0007\u0003\u0007\u0007\u0007",
+    "Z\n\u0007\f\u0007\u000e\u0007]\u000b\u0007\u0003\b\u0003\b\u0003\b\u0007",
+    "\bb\n\b\f\b\u000e\be\u000b\b\u0003\t\u0003\t\u0003\n\u0003\n\u0003\n",
+    "\u0006\nl\n\n\r\n\u000e\nm\u0003\u000b\u0003\u000b\u0007\u000br\n\u000b",
+    "\f\u000b\u000e\u000bu\u000b\u000b\u0003\f\u0003\f\u0003\f\u0005\fz\n",
+    "\f\u0003\r\u0003\r\u0003\r\u0003\r\u0003\r\u0003\u000e\u0003\u000e\u0003",
+    "\u000f\u0003\u000f\u0005\u000f\u0085\n\u000f\u0003\u000f\u0003\u000f",
+    "\u0005\u000f\u0089\n\u000f\u0003\u0010\u0003\u0010\u0003\u0011\u0003",
+    "\u0011\u0007\u0011\u008f\n\u0011\f\u0011\u000e\u0011\u0092\u000b\u0011",
+    "\u0003\u0012\u0005\u0012\u0095\n\u0012\u0003\u0012\u0003\u0012\u0003",
+    "\u0013\u0003\u0013\u0003\u0013\u0003\u0014\u0003\u0014\u0003\u0014\u0006",
+    "\u0014\u009f\n\u0014\r\u0014\u000e\u0014\u00a0\u0003\u0015\u0003\u0015",
+    "\u0007\u0015\u00a5\n\u0015\f\u0015\u000e\u0015\u00a8\u000b\u0015\u0003",
+    "\u0016\u0003\u0016\u0003\u0016\u0003\u0017\u0003\u0017\u0003\u0017\u0003",
+    "\u0017\u0003\u0018\u0003\u0018\u0003\u0018\u0003\u0018\u0003\u0019\u0007",
+    "\u0019\u00b6\n\u0019\f\u0019\u000e\u0019\u00b9\u000b\u0019\u0003\u001a",
+    "\u0003\u001a\u0003\u001a\u0007\u001a\u00be\n\u001a\f\u001a\u000e\u001a",
+    "\u00c1\u000b\u001a\u0003\u001b\u0003\u001b\u0007\u001b\u00c5\n\u001b",
+    "\f\u001b\u000e\u001b\u00c8\u000b\u001b\u0003\u001c\u0005\u001c\u00cb",
+    "\n\u001c\u0003\u001c\u0003\u001c\u0003\u001d\u0003\u001d\u0006\u001d",
+    "\u00d1\n\u001d\r\u001d\u000e\u001d\u00d2\u0003\u001e\u0003\u001e\u0007",
+    "\u001e\u00d7\n\u001e\f\u001e\u000e\u001e\u00da\u000b\u001e\u0003\u001e",
+    "\u0003\u001e\u0003\u001f\u0003\u001f\u0003\u001f\u0003A\u0002 \u0002",
+    "\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c\u001e",
+    " \"$&(*,.02468:<\u0002\u0007\u0003\u0003\u0005\u0005\u0004\u0002\u0004",
     "\u0004\u0012\u0014\u0004\u0002\u0004\u0004\u0016\u0016\u0004\u0002\u0004",
-    "\u0004\u0014\u0014\u0004\u0002\u0004\u0004\u001a\u001a\u0002\u00d2\u0002",
-    "=\u0003\u0002\u0002\u0002\u0004H\u0003\u0002\u0002\u0002\u0006J\u0003",
-    "\u0002\u0002\u0002\bL\u0003\u0002\u0002\u0002\nQ\u0003\u0002\u0002\u0002",
-    "\fT\u0003\u0002\u0002\u0002\u000e\\\u0003\u0002\u0002\u0002\u0010d\u0003",
-    "\u0002\u0002\u0002\u0012i\u0003\u0002\u0002\u0002\u0014m\u0003\u0002",
-    "\u0002\u0002\u0016t\u0003\u0002\u0002\u0002\u0018y\u0003\u0002\u0002",
-    "\u0002\u001a~\u0003\u0002\u0002\u0002\u001c\u0080\u0003\u0002\u0002",
-    "\u0002\u001e\u0085\u0003\u0002\u0002\u0002 \u008d\u0003\u0002\u0002",
-    "\u0002\"\u0091\u0003\u0002\u0002\u0002$\u0097\u0003\u0002\u0002\u0002",
-    "&\u009b\u0003\u0002\u0002\u0002(\u00a2\u0003\u0002\u0002\u0002*\u00a5",
-    "\u0003\u0002\u0002\u0002,\u00a9\u0003\u0002\u0002\u0002.\u00b0\u0003",
-    "\u0002\u0002\u00020\u00b8\u0003\u0002\u0002\u00022\u00bb\u0003\u0002",
-    "\u0002\u00024\u00c3\u0003\u0002\u0002\u00026\u00c7\u0003\u0002\u0002",
-    "\u00028\u00cd\u0003\u0002\u0002\u0002:\u00d6\u0003\u0002\u0002\u0002",
-    "<>\u0005\u0004\u0003\u0002=<\u0003\u0002\u0002\u0002>?\u0003\u0002\u0002",
-    "\u0002?@\u0003\u0002\u0002\u0002?=\u0003\u0002\u0002\u0002@A\u0003\u0002",
-    "\u0002\u0002AB\u0007\u0002\u0002\u0003B\u0003\u0003\u0002\u0002\u0002",
-    "CI\u0005\u0006\u0004\u0002DI\u0005\b\u0005\u0002EI\u0005\u0016\f\u0002",
-    "FI\u0005(\u0015\u0002GI\u0005*\u0016\u0002HC\u0003\u0002\u0002\u0002",
-    "HD\u0003\u0002\u0002\u0002HE\u0003\u0002\u0002\u0002HF\u0003\u0002\u0002",
-    "\u0002HG\u0003\u0002\u0002\u0002I\u0005\u0003\u0002\u0002\u0002JK\t",
-    "\u0002\u0002\u0002K\u0007\u0003\u0002\u0002\u0002LM\u0005\n\u0006\u0002",
-    "MO\u0005\u0006\u0004\u0002NP\u0005\u0010\t\u0002ON\u0003\u0002\u0002",
-    "\u0002OP\u0003\u0002\u0002\u0002P\t\u0003\u0002\u0002\u0002QR\u0007",
-    "\u0007\u0002\u0002RS\u0005\f\u0007\u0002S\u000b\u0003\u0002\u0002\u0002",
-    "TY\u0005\u000e\b\u0002UV\u0007\u0004\u0002\u0002VX\u0005\u000e\b\u0002",
-    "WU\u0003\u0002\u0002\u0002X[\u0003\u0002\u0002\u0002YW\u0003\u0002\u0002",
-    "\u0002YZ\u0003\u0002\u0002\u0002Z\r\u0003\u0002\u0002\u0002[Y\u0003",
-    "\u0002\u0002\u0002\\a\u0007\u000f\u0002\u0002]^\u0007\u0010\u0002\u0002",
-    "^`\u0007\u000f\u0002\u0002_]\u0003\u0002\u0002\u0002`c\u0003\u0002\u0002",
-    "\u0002a_\u0003\u0002\u0002\u0002ab\u0003\u0002\u0002\u0002b\u000f\u0003",
-    "\u0002\u0002\u0002ca\u0003\u0002\u0002\u0002de\u0005\u0012\n\u0002e",
-    "\u0011\u0003\u0002\u0002\u0002fg\u0005\u0014\u000b\u0002gh\u0005\u0006",
-    "\u0004\u0002hj\u0003\u0002\u0002\u0002if\u0003\u0002\u0002\u0002jk\u0003",
-    "\u0002\u0002\u0002ki\u0003\u0002\u0002\u0002kl\u0003\u0002\u0002\u0002",
-    "l\u0013\u0003\u0002\u0002\u0002mq\u0007\b\u0002\u0002np\t\u0003\u0002",
-    "\u0002on\u0003\u0002\u0002\u0002ps\u0003\u0002\u0002\u0002qo\u0003\u0002",
-    "\u0002\u0002qr\u0003\u0002\u0002\u0002r\u0015\u0003\u0002\u0002\u0002",
-    "sq\u0003\u0002\u0002\u0002tu\u0005\u0018\r\u0002uw\u0005\u0006\u0004",
-    "\u0002vx\u0005$\u0013\u0002wv\u0003\u0002\u0002\u0002wx\u0003\u0002",
-    "\u0002\u0002x\u0017\u0003\u0002\u0002\u0002yz\u0007\t\u0002\u0002z{",
-    "\u0005\u001a\u000e\u0002{|\u0007\u0017\u0002\u0002|}\u0005\u001c\u000f",
-    "\u0002}\u0019\u0003\u0002\u0002\u0002~\u007f\u0005\u001e\u0010\u0002",
-    "\u007f\u001b\u0003\u0002\u0002\u0002\u0080\u0083\u0005\u001e\u0010\u0002",
-    "\u0081\u0084\u0005 \u0011\u0002\u0082\u0084\u0005\"\u0012\u0002\u0083",
-    "\u0081\u0003\u0002\u0002\u0002\u0083\u0082\u0003\u0002\u0002\u0002\u0083",
-    "\u0084\u0003\u0002\u0002\u0002\u0084\u001d\u0003\u0002\u0002\u0002\u0085",
-    "\u0089\u0007\u0016\u0002\u0002\u0086\u0088\t\u0004\u0002\u0002\u0087",
-    "\u0086\u0003\u0002\u0002\u0002\u0088\u008b\u0003\u0002\u0002\u0002\u0089",
-    "\u0087\u0003\u0002\u0002\u0002\u0089\u008a\u0003\u0002\u0002\u0002\u008a",
-    "\u001f\u0003\u0002\u0002\u0002\u008b\u0089\u0003\u0002\u0002\u0002\u008c",
-    "\u008e\u0007\u0004\u0002\u0002\u008d\u008c\u0003\u0002\u0002\u0002\u008d",
-    "\u008e\u0003\u0002\u0002\u0002\u008e\u008f\u0003\u0002\u0002\u0002\u008f",
-    "\u0090\u0007\u0018\u0002\u0002\u0090!\u0003\u0002\u0002\u0002\u0091",
-    "\u0092\u0007\u0004\u0002\u0002\u0092\u0093\u0007\u0016\u0002\u0002\u0093",
-    "#\u0003\u0002\u0002\u0002\u0094\u0095\u0005&\u0014\u0002\u0095\u0096",
-    "\u0005\u0006\u0004\u0002\u0096\u0098\u0003\u0002\u0002\u0002\u0097\u0094",
-    "\u0003\u0002\u0002\u0002\u0098\u0099\u0003\u0002\u0002\u0002\u0099\u0097",
-    "\u0003\u0002\u0002\u0002\u0099\u009a\u0003\u0002\u0002\u0002\u009a%",
-    "\u0003\u0002\u0002\u0002\u009b\u009f\u0007\b\u0002\u0002\u009c\u009e",
-    "\t\u0005\u0002\u0002\u009d\u009c\u0003\u0002\u0002\u0002\u009e\u00a1",
-    "\u0003\u0002\u0002\u0002\u009f\u009d\u0003\u0002\u0002\u0002\u009f\u00a0",
-    "\u0003\u0002\u0002\u0002\u00a0\'\u0003\u0002\u0002\u0002\u00a1\u009f",
-    "\u0003\u0002\u0002\u0002\u00a2\u00a3\u0007\n\u0002\u0002\u00a3\u00a4",
-    "\u0007\u000b\u0002\u0002\u00a4)\u0003\u0002\u0002\u0002\u00a5\u00a6",
-    "\u0005,\u0017\u0002\u00a6\u00a7\u00050\u0019\u0002\u00a7\u00a8\u0005",
-    "4\u001b\u0002\u00a8+\u0003\u0002\u0002\u0002\u00a9\u00aa\u0007\u0006",
-    "\u0002\u0002\u00aa\u00ab\u0005.\u0018\u0002\u00ab\u00ac\u0005\u0006",
-    "\u0004\u0002\u00ac-\u0003\u0002\u0002\u0002\u00ad\u00af\t\u0006\u0002",
-    "\u0002\u00ae\u00ad\u0003\u0002\u0002\u0002\u00af\u00b2\u0003\u0002\u0002",
-    "\u0002\u00b0\u00ae\u0003\u0002\u0002\u0002\u00b0\u00b1\u0003\u0002\u0002",
-    "\u0002\u00b1/\u0003\u0002\u0002\u0002\u00b2\u00b0\u0003\u0002\u0002",
-    "\u0002\u00b3\u00b4\u00052\u001a\u0002\u00b4\u00b5\u0005\u0006\u0004",
-    "\u0002\u00b5\u00b7\u0003\u0002\u0002\u0002\u00b6\u00b3\u0003\u0002\u0002",
-    "\u0002\u00b7\u00ba\u0003\u0002\u0002\u0002\u00b8\u00b6\u0003\u0002\u0002",
-    "\u0002\u00b8\u00b9\u0003\u0002\u0002\u0002\u00b91\u0003\u0002\u0002",
-    "\u0002\u00ba\u00b8\u0003\u0002\u0002\u0002\u00bb\u00bf\u0007\b\u0002",
-    "\u0002\u00bc\u00be\t\u0005\u0002\u0002\u00bd\u00bc\u0003\u0002\u0002",
-    "\u0002\u00be\u00c1\u0003\u0002\u0002\u0002\u00bf\u00bd\u0003\u0002\u0002",
-    "\u0002\u00bf\u00c0\u0003\u0002\u0002\u0002\u00c03\u0003\u0002\u0002",
-    "\u0002\u00c1\u00bf\u0003\u0002\u0002\u0002\u00c2\u00c4\u00056\u001c",
-    "\u0002\u00c3\u00c2\u0003\u0002\u0002\u0002\u00c3\u00c4\u0003\u0002\u0002",
-    "\u0002\u00c4\u00c5\u0003\u0002\u0002\u0002\u00c5\u00c6\u0005:\u001e",
-    "\u0002\u00c65\u0003\u0002\u0002\u0002\u00c7\u00c9\u0007\f\u0002\u0002",
-    "\u00c8\u00ca\u00058\u001d\u0002\u00c9\u00c8\u0003\u0002\u0002\u0002",
-    "\u00ca\u00cb\u0003\u0002\u0002\u0002\u00cb\u00c9\u0003\u0002\u0002\u0002",
-    "\u00cb\u00cc\u0003\u0002\u0002\u0002\u00cc7\u0003\u0002\u0002\u0002",
-    "\u00cd\u00d1\u0007\b\u0002\u0002\u00ce\u00d0\t\u0005\u0002\u0002\u00cf",
-    "\u00ce\u0003\u0002\u0002\u0002\u00d0\u00d3\u0003\u0002\u0002\u0002\u00d1",
+    "\u0004\u0014\u0014\u0004\u0002\u0004\u0004\u001b\u001b\u0002\u00d9\u0002",
+    "?\u0003\u0002\u0002\u0002\u0004J\u0003\u0002\u0002\u0002\u0006L\u0003",
+    "\u0002\u0002\u0002\bN\u0003\u0002\u0002\u0002\nS\u0003\u0002\u0002\u0002",
+    "\fV\u0003\u0002\u0002\u0002\u000e^\u0003\u0002\u0002\u0002\u0010f\u0003",
+    "\u0002\u0002\u0002\u0012k\u0003\u0002\u0002\u0002\u0014o\u0003\u0002",
+    "\u0002\u0002\u0016v\u0003\u0002\u0002\u0002\u0018{\u0003\u0002\u0002",
+    "\u0002\u001a\u0080\u0003\u0002\u0002\u0002\u001c\u0084\u0003\u0002\u0002",
+    "\u0002\u001e\u008a\u0003\u0002\u0002\u0002 \u008c\u0003\u0002\u0002",
+    "\u0002\"\u0094\u0003\u0002\u0002\u0002$\u0098\u0003\u0002\u0002\u0002",
+    "&\u009e\u0003\u0002\u0002\u0002(\u00a2\u0003\u0002\u0002\u0002*\u00a9",
+    "\u0003\u0002\u0002\u0002,\u00ac\u0003\u0002\u0002\u0002.\u00b0\u0003",
+    "\u0002\u0002\u00020\u00b7\u0003\u0002\u0002\u00022\u00bf\u0003\u0002",
+    "\u0002\u00024\u00c2\u0003\u0002\u0002\u00026\u00ca\u0003\u0002\u0002",
+    "\u00028\u00ce\u0003\u0002\u0002\u0002:\u00d4\u0003\u0002\u0002\u0002",
+    "<\u00dd\u0003\u0002\u0002\u0002>@\u0005\u0004\u0003\u0002?>\u0003\u0002",
+    "\u0002\u0002@A\u0003\u0002\u0002\u0002AB\u0003\u0002\u0002\u0002A?\u0003",
+    "\u0002\u0002\u0002BC\u0003\u0002\u0002\u0002CD\u0007\u0002\u0002\u0003",
+    "D\u0003\u0003\u0002\u0002\u0002EK\u0005\u0006\u0004\u0002FK\u0005\b",
+    "\u0005\u0002GK\u0005\u0016\f\u0002HK\u0005*\u0016\u0002IK\u0005,\u0017",
+    "\u0002JE\u0003\u0002\u0002\u0002JF\u0003\u0002\u0002\u0002JG\u0003\u0002",
+    "\u0002\u0002JH\u0003\u0002\u0002\u0002JI\u0003\u0002\u0002\u0002K\u0005",
+    "\u0003\u0002\u0002\u0002LM\t\u0002\u0002\u0002M\u0007\u0003\u0002\u0002",
+    "\u0002NO\u0005\n\u0006\u0002OQ\u0005\u0006\u0004\u0002PR\u0005\u0010",
+    "\t\u0002QP\u0003\u0002\u0002\u0002QR\u0003\u0002\u0002\u0002R\t\u0003",
+    "\u0002\u0002\u0002ST\u0007\u0007\u0002\u0002TU\u0005\f\u0007\u0002U",
+    "\u000b\u0003\u0002\u0002\u0002V[\u0005\u000e\b\u0002WX\u0007\u0004\u0002",
+    "\u0002XZ\u0005\u000e\b\u0002YW\u0003\u0002\u0002\u0002Z]\u0003\u0002",
+    "\u0002\u0002[Y\u0003\u0002\u0002\u0002[\\\u0003\u0002\u0002\u0002\\",
+    "\r\u0003\u0002\u0002\u0002][\u0003\u0002\u0002\u0002^c\u0007\u000f\u0002",
+    "\u0002_`\u0007\u0010\u0002\u0002`b\u0007\u000f\u0002\u0002a_\u0003\u0002",
+    "\u0002\u0002be\u0003\u0002\u0002\u0002ca\u0003\u0002\u0002\u0002cd\u0003",
+    "\u0002\u0002\u0002d\u000f\u0003\u0002\u0002\u0002ec\u0003\u0002\u0002",
+    "\u0002fg\u0005\u0012\n\u0002g\u0011\u0003\u0002\u0002\u0002hi\u0005",
+    "\u0014\u000b\u0002ij\u0005\u0006\u0004\u0002jl\u0003\u0002\u0002\u0002",
+    "kh\u0003\u0002\u0002\u0002lm\u0003\u0002\u0002\u0002mk\u0003\u0002\u0002",
+    "\u0002mn\u0003\u0002\u0002\u0002n\u0013\u0003\u0002\u0002\u0002os\u0007",
+    "\b\u0002\u0002pr\t\u0003\u0002\u0002qp\u0003\u0002\u0002\u0002ru\u0003",
+    "\u0002\u0002\u0002sq\u0003\u0002\u0002\u0002st\u0003\u0002\u0002\u0002",
+    "t\u0015\u0003\u0002\u0002\u0002us\u0003\u0002\u0002\u0002vw\u0005\u0018",
+    "\r\u0002wy\u0005\u0006\u0004\u0002xz\u0005&\u0014\u0002yx\u0003\u0002",
+    "\u0002\u0002yz\u0003\u0002\u0002\u0002z\u0017\u0003\u0002\u0002\u0002",
+    "{|\u0007\t\u0002\u0002|}\u0005\u001a\u000e\u0002}~\u0007\u0018\u0002",
+    "\u0002~\u007f\u0005\u001c\u000f\u0002\u007f\u0019\u0003\u0002\u0002",
+    "\u0002\u0080\u0081\u0005 \u0011\u0002\u0081\u001b\u0003\u0002\u0002",
+    "\u0002\u0082\u0085\u0005 \u0011\u0002\u0083\u0085\u0005\u001e\u0010",
+    "\u0002\u0084\u0082\u0003\u0002\u0002\u0002\u0084\u0083\u0003\u0002\u0002",
+    "\u0002\u0085\u0088\u0003\u0002\u0002\u0002\u0086\u0089\u0005\"\u0012",
+    "\u0002\u0087\u0089\u0005$\u0013\u0002\u0088\u0086\u0003\u0002\u0002",
+    "\u0002\u0088\u0087\u0003\u0002\u0002\u0002\u0088\u0089\u0003\u0002\u0002",
+    "\u0002\u0089\u001d\u0003\u0002\u0002\u0002\u008a\u008b\u0007\u0017\u0002",
+    "\u0002\u008b\u001f\u0003\u0002\u0002\u0002\u008c\u0090\u0007\u0016\u0002",
+    "\u0002\u008d\u008f\t\u0004\u0002\u0002\u008e\u008d\u0003\u0002\u0002",
+    "\u0002\u008f\u0092\u0003\u0002\u0002\u0002\u0090\u008e\u0003\u0002\u0002",
+    "\u0002\u0090\u0091\u0003\u0002\u0002\u0002\u0091!\u0003\u0002\u0002",
+    "\u0002\u0092\u0090\u0003\u0002\u0002\u0002\u0093\u0095\u0007\u0004\u0002",
+    "\u0002\u0094\u0093\u0003\u0002\u0002\u0002\u0094\u0095\u0003\u0002\u0002",
+    "\u0002\u0095\u0096\u0003\u0002\u0002\u0002\u0096\u0097\u0007\u0019\u0002",
+    "\u0002\u0097#\u0003\u0002\u0002\u0002\u0098\u0099\u0007\u0004\u0002",
+    "\u0002\u0099\u009a\u0007\u0016\u0002\u0002\u009a%\u0003\u0002\u0002",
+    "\u0002\u009b\u009c\u0005(\u0015\u0002\u009c\u009d\u0005\u0006\u0004",
+    "\u0002\u009d\u009f\u0003\u0002\u0002\u0002\u009e\u009b\u0003\u0002\u0002",
+    "\u0002\u009f\u00a0\u0003\u0002\u0002\u0002\u00a0\u009e\u0003\u0002\u0002",
+    "\u0002\u00a0\u00a1\u0003\u0002\u0002\u0002\u00a1\'\u0003\u0002\u0002",
+    "\u0002\u00a2\u00a6\u0007\b\u0002\u0002\u00a3\u00a5\t\u0005\u0002\u0002",
+    "\u00a4\u00a3\u0003\u0002\u0002\u0002\u00a5\u00a8\u0003\u0002\u0002\u0002",
+    "\u00a6\u00a4\u0003\u0002\u0002\u0002\u00a6\u00a7\u0003\u0002\u0002\u0002",
+    "\u00a7)\u0003\u0002\u0002\u0002\u00a8\u00a6\u0003\u0002\u0002\u0002",
+    "\u00a9\u00aa\u0007\n\u0002\u0002\u00aa\u00ab\u0007\u000b\u0002\u0002",
+    "\u00ab+\u0003\u0002\u0002\u0002\u00ac\u00ad\u0005.\u0018\u0002\u00ad",
+    "\u00ae\u00052\u001a\u0002\u00ae\u00af\u00056\u001c\u0002\u00af-\u0003",
+    "\u0002\u0002\u0002\u00b0\u00b1\u0007\u0006\u0002\u0002\u00b1\u00b2\u0005",
+    "0\u0019\u0002\u00b2\u00b3\u0005\u0006\u0004\u0002\u00b3/\u0003\u0002",
+    "\u0002\u0002\u00b4\u00b6\t\u0006\u0002\u0002\u00b5\u00b4\u0003\u0002",
+    "\u0002\u0002\u00b6\u00b9\u0003\u0002\u0002\u0002\u00b7\u00b5\u0003\u0002",
+    "\u0002\u0002\u00b7\u00b8\u0003\u0002\u0002\u0002\u00b81\u0003\u0002",
+    "\u0002\u0002\u00b9\u00b7\u0003\u0002\u0002\u0002\u00ba\u00bb\u00054",
+    "\u001b\u0002\u00bb\u00bc\u0005\u0006\u0004\u0002\u00bc\u00be\u0003\u0002",
+    "\u0002\u0002\u00bd\u00ba\u0003\u0002\u0002\u0002\u00be\u00c1\u0003\u0002",
+    "\u0002\u0002\u00bf\u00bd\u0003\u0002\u0002\u0002\u00bf\u00c0\u0003\u0002",
+    "\u0002\u0002\u00c03\u0003\u0002\u0002\u0002\u00c1\u00bf\u0003\u0002",
+    "\u0002\u0002\u00c2\u00c6\u0007\b\u0002\u0002\u00c3\u00c5\t\u0005\u0002",
+    "\u0002\u00c4\u00c3\u0003\u0002\u0002\u0002\u00c5\u00c8\u0003\u0002\u0002",
+    "\u0002\u00c6\u00c4\u0003\u0002\u0002\u0002\u00c6\u00c7\u0003\u0002\u0002",
+    "\u0002\u00c75\u0003\u0002\u0002\u0002\u00c8\u00c6\u0003\u0002\u0002",
+    "\u0002\u00c9\u00cb\u00058\u001d\u0002\u00ca\u00c9\u0003\u0002\u0002",
+    "\u0002\u00ca\u00cb\u0003\u0002\u0002\u0002\u00cb\u00cc\u0003\u0002\u0002",
+    "\u0002\u00cc\u00cd\u0005<\u001f\u0002\u00cd7\u0003\u0002\u0002\u0002",
+    "\u00ce\u00d0\u0007\f\u0002\u0002\u00cf\u00d1\u0005:\u001e\u0002\u00d0",
     "\u00cf\u0003\u0002\u0002\u0002\u00d1\u00d2\u0003\u0002\u0002\u0002\u00d2",
-    "\u00d4\u0003\u0002\u0002\u0002\u00d3\u00d1\u0003\u0002\u0002\u0002\u00d4",
-    "\u00d5\u0005\u0006\u0004\u0002\u00d59\u0003\u0002\u0002\u0002\u00d6",
-    "\u00d7\u0007\r\u0002\u0002\u00d7;\u0003\u0002\u0002\u0002\u0015?HOY",
-    "akqw\u0083\u0089\u008d\u0099\u009f\u00b0\u00b8\u00bf\u00c3\u00cb\u00d1"].join("");
+    "\u00d0\u0003\u0002\u0002\u0002\u00d2\u00d3\u0003\u0002\u0002\u0002\u00d3",
+    "9\u0003\u0002\u0002\u0002\u00d4\u00d8\u0007\b\u0002\u0002\u00d5\u00d7",
+    "\t\u0005\u0002\u0002\u00d6\u00d5\u0003\u0002\u0002\u0002\u00d7\u00da",
+    "\u0003\u0002\u0002\u0002\u00d8\u00d6\u0003\u0002\u0002\u0002\u00d8\u00d9",
+    "\u0003\u0002\u0002\u0002\u00d9\u00db\u0003\u0002\u0002\u0002\u00da\u00d8",
+    "\u0003\u0002\u0002\u0002\u00db\u00dc\u0005\u0006\u0004\u0002\u00dc;",
+    "\u0003\u0002\u0002\u0002\u00dd\u00de\u0007\r\u0002\u0002\u00de=\u0003",
+    "\u0002\u0002\u0002\u0016AJQ[cmsy\u0084\u0088\u0090\u0094\u00a0\u00a6",
+    "\u00b7\u00bf\u00c6\u00ca\u00d2\u00d8"].join("");
 
 
 var atn = new antlr4.atn.ATNDeserializer().deserialize(serializedATN);
@@ -149,23 +154,25 @@ var sharedContextCache = new antlr4.PredictionContextCache();
 
 var literalNames = [ null, null, null, null, null, null, null, null, null, 
                      null, "'**Filters:**'", null, null, null, "'.'", null, 
-                     null, null, null, null, null, "':'", "'='" ];
+                     null, null, null, null, null, null, "':'", "'='" ];
 
 var symbolicNames = [ null, "COMMENTS", "WS", "NEWLINE", "QNA", "HASH", 
                       "DASH", "DOLLAR", "IMPORT_DESC", "IMPORT_PATH", "Filter_MARK", 
                       "MULTI_LINE_TEXT", "WS_IN_NAME_IGNORED", "IDENTIFIER", 
                       "DOT", "WS_IN_BODY_IGNORED", "ESCAPE_CHARACTER", "EXPRESSION", 
                       "TEXT", "WS_IN_ENTITY_IGNORED", "ENTITY_IDENTIFIER", 
-                      "COLON_MARK", "EQUAL_MARK", "WS_IN_QNA_IGNORED", "QNA_TEXT" ];
+                      "COMPOSITE_ENTITY", "COLON_MARK", "EQUAL_MARK", "WS_IN_QNA_IGNORED", 
+                      "QNA_TEXT" ];
 
 var ruleNames =  [ "file", "paragraph", "newline", "intentDefinition", "intentNameLine", 
                    "intentName", "intentNameIdentifier", "intentBody", "normalIntentBody", 
                    "normalIntentString", "entityDefinition", "entityLine", 
-                   "entityName", "entityType", "entityIdentifier", "listTypeEntity", 
-                   "phraseTypeEntity", "entityListBody", "normalItemString", 
-                   "importDefinition", "qnaDefinition", "qnaQuestion", "questionText", 
-                   "moreQuestionsBody", "moreQuestion", "qnaAnswerBody", 
-                   "filterSection", "filterLine", "multiLineAnswer" ];
+                   "entityName", "entityType", "compositeEntityIdentifier", 
+                   "entityIdentifier", "listTypeEntity", "phraseTypeEntity", 
+                   "entityListBody", "normalItemString", "importDefinition", 
+                   "qnaDefinition", "qnaQuestion", "questionText", "moreQuestionsBody", 
+                   "moreQuestion", "qnaAnswerBody", "filterSection", "filterLine", 
+                   "multiLineAnswer" ];
 
 function LUFileParser (input) {
 	antlr4.Parser.call(this, input);
@@ -206,10 +213,11 @@ LUFileParser.EXPRESSION = 17;
 LUFileParser.TEXT = 18;
 LUFileParser.WS_IN_ENTITY_IGNORED = 19;
 LUFileParser.ENTITY_IDENTIFIER = 20;
-LUFileParser.COLON_MARK = 21;
-LUFileParser.EQUAL_MARK = 22;
-LUFileParser.WS_IN_QNA_IGNORED = 23;
-LUFileParser.QNA_TEXT = 24;
+LUFileParser.COMPOSITE_ENTITY = 21;
+LUFileParser.COLON_MARK = 22;
+LUFileParser.EQUAL_MARK = 23;
+LUFileParser.WS_IN_QNA_IGNORED = 24;
+LUFileParser.QNA_TEXT = 25;
 
 LUFileParser.RULE_file = 0;
 LUFileParser.RULE_paragraph = 1;
@@ -225,21 +233,22 @@ LUFileParser.RULE_entityDefinition = 10;
 LUFileParser.RULE_entityLine = 11;
 LUFileParser.RULE_entityName = 12;
 LUFileParser.RULE_entityType = 13;
-LUFileParser.RULE_entityIdentifier = 14;
-LUFileParser.RULE_listTypeEntity = 15;
-LUFileParser.RULE_phraseTypeEntity = 16;
-LUFileParser.RULE_entityListBody = 17;
-LUFileParser.RULE_normalItemString = 18;
-LUFileParser.RULE_importDefinition = 19;
-LUFileParser.RULE_qnaDefinition = 20;
-LUFileParser.RULE_qnaQuestion = 21;
-LUFileParser.RULE_questionText = 22;
-LUFileParser.RULE_moreQuestionsBody = 23;
-LUFileParser.RULE_moreQuestion = 24;
-LUFileParser.RULE_qnaAnswerBody = 25;
-LUFileParser.RULE_filterSection = 26;
-LUFileParser.RULE_filterLine = 27;
-LUFileParser.RULE_multiLineAnswer = 28;
+LUFileParser.RULE_compositeEntityIdentifier = 14;
+LUFileParser.RULE_entityIdentifier = 15;
+LUFileParser.RULE_listTypeEntity = 16;
+LUFileParser.RULE_phraseTypeEntity = 17;
+LUFileParser.RULE_entityListBody = 18;
+LUFileParser.RULE_normalItemString = 19;
+LUFileParser.RULE_importDefinition = 20;
+LUFileParser.RULE_qnaDefinition = 21;
+LUFileParser.RULE_qnaQuestion = 22;
+LUFileParser.RULE_questionText = 23;
+LUFileParser.RULE_moreQuestionsBody = 24;
+LUFileParser.RULE_moreQuestion = 25;
+LUFileParser.RULE_qnaAnswerBody = 26;
+LUFileParser.RULE_filterSection = 27;
+LUFileParser.RULE_filterLine = 28;
+LUFileParser.RULE_multiLineAnswer = 29;
 
 
 function FileContext(parser, parent, invokingState) {
@@ -304,23 +313,23 @@ LUFileParser.prototype.file = function() {
     this.enterRule(localctx, 0, LUFileParser.RULE_file);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 59; 
+        this.state = 61; 
         this._errHandler.sync(this);
         var _alt = 1+1;
         do {
         	switch (_alt) {
         	case 1+1:
-        		this.state = 58;
+        		this.state = 60;
         		this.paragraph();
         		break;
         	default:
         		throw new antlr4.error.NoViableAltException(this);
         	}
-        	this.state = 61; 
+        	this.state = 63; 
         	this._errHandler.sync(this);
         	_alt = this._interp.adaptivePredict(this._input,0, this._ctx);
         } while ( _alt!=1 && _alt!=antlr4.atn.ATN.INVALID_ALT_NUMBER );
-        this.state = 63;
+        this.state = 65;
         this.match(LUFileParser.EOF);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -403,33 +412,33 @@ LUFileParser.prototype.paragraph = function() {
     var localctx = new ParagraphContext(this, this._ctx, this.state);
     this.enterRule(localctx, 2, LUFileParser.RULE_paragraph);
     try {
-        this.state = 70;
+        this.state = 72;
         this._errHandler.sync(this);
         switch(this._input.LA(1)) {
         case LUFileParser.EOF:
         case LUFileParser.NEWLINE:
             this.enterOuterAlt(localctx, 1);
-            this.state = 65;
+            this.state = 67;
             this.newline();
             break;
         case LUFileParser.HASH:
             this.enterOuterAlt(localctx, 2);
-            this.state = 66;
+            this.state = 68;
             this.intentDefinition();
             break;
         case LUFileParser.DOLLAR:
             this.enterOuterAlt(localctx, 3);
-            this.state = 67;
+            this.state = 69;
             this.entityDefinition();
             break;
         case LUFileParser.IMPORT_DESC:
             this.enterOuterAlt(localctx, 4);
-            this.state = 68;
+            this.state = 70;
             this.importDefinition();
             break;
         case LUFileParser.QNA:
             this.enterOuterAlt(localctx, 5);
-            this.state = 69;
+            this.state = 71;
             this.qnaDefinition();
             break;
         default:
@@ -506,7 +515,7 @@ LUFileParser.prototype.newline = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 72;
+        this.state = 74;
         _la = this._input.LA(1);
         if(!(_la===LUFileParser.EOF || _la===LUFileParser.NEWLINE)) {
         this._errHandler.recoverInline(this);
@@ -590,15 +599,15 @@ LUFileParser.prototype.intentDefinition = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 74;
+        this.state = 76;
         this.intentNameLine();
-        this.state = 75;
-        this.newline();
         this.state = 77;
+        this.newline();
+        this.state = 79;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         if(_la===LUFileParser.DASH) {
-            this.state = 76;
+            this.state = 78;
             this.intentBody();
         }
 
@@ -672,9 +681,9 @@ LUFileParser.prototype.intentNameLine = function() {
     this.enterRule(localctx, 8, LUFileParser.RULE_intentNameLine);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 79;
+        this.state = 81;
         this.match(LUFileParser.HASH);
-        this.state = 80;
+        this.state = 82;
         this.intentName();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -762,17 +771,17 @@ LUFileParser.prototype.intentName = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 82;
+        this.state = 84;
         this.intentNameIdentifier();
-        this.state = 87;
+        this.state = 89;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===LUFileParser.WS) {
-            this.state = 83;
+            this.state = 85;
             this.match(LUFileParser.WS);
-            this.state = 84;
+            this.state = 86;
             this.intentNameIdentifier();
-            this.state = 89;
+            this.state = 91;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
@@ -863,17 +872,17 @@ LUFileParser.prototype.intentNameIdentifier = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 90;
+        this.state = 92;
         this.match(LUFileParser.IDENTIFIER);
-        this.state = 95;
+        this.state = 97;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===LUFileParser.DOT) {
-            this.state = 91;
+            this.state = 93;
             this.match(LUFileParser.DOT);
-            this.state = 92;
+            this.state = 94;
             this.match(LUFileParser.IDENTIFIER);
-            this.state = 97;
+            this.state = 99;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
@@ -943,7 +952,7 @@ LUFileParser.prototype.intentBody = function() {
     this.enterRule(localctx, 14, LUFileParser.RULE_intentBody);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 98;
+        this.state = 100;
         this.normalIntentBody();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1030,15 +1039,15 @@ LUFileParser.prototype.normalIntentBody = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 103; 
+        this.state = 105; 
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         do {
-            this.state = 100;
+            this.state = 102;
             this.normalIntentString();
-            this.state = 101;
+            this.state = 103;
             this.newline();
-            this.state = 105; 
+            this.state = 107; 
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         } while(_la===LUFileParser.DASH);
@@ -1157,13 +1166,13 @@ LUFileParser.prototype.normalIntentString = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 107;
+        this.state = 109;
         this.match(LUFileParser.DASH);
-        this.state = 111;
+        this.state = 113;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << LUFileParser.WS) | (1 << LUFileParser.ESCAPE_CHARACTER) | (1 << LUFileParser.EXPRESSION) | (1 << LUFileParser.TEXT))) !== 0)) {
-            this.state = 108;
+            this.state = 110;
             _la = this._input.LA(1);
             if(!((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << LUFileParser.WS) | (1 << LUFileParser.ESCAPE_CHARACTER) | (1 << LUFileParser.EXPRESSION) | (1 << LUFileParser.TEXT))) !== 0))) {
             this._errHandler.recoverInline(this);
@@ -1172,7 +1181,7 @@ LUFileParser.prototype.normalIntentString = function() {
             	this._errHandler.reportMatch(this);
                 this.consume();
             }
-            this.state = 113;
+            this.state = 115;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
@@ -1251,15 +1260,15 @@ LUFileParser.prototype.entityDefinition = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 114;
+        this.state = 116;
         this.entityLine();
-        this.state = 115;
-        this.newline();
         this.state = 117;
+        this.newline();
+        this.state = 119;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         if(_la===LUFileParser.DASH) {
-            this.state = 116;
+            this.state = 118;
             this.entityListBody();
         }
 
@@ -1341,13 +1350,13 @@ LUFileParser.prototype.entityLine = function() {
     this.enterRule(localctx, 22, LUFileParser.RULE_entityLine);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 119;
-        this.match(LUFileParser.DOLLAR);
-        this.state = 120;
-        this.entityName();
         this.state = 121;
-        this.match(LUFileParser.COLON_MARK);
+        this.match(LUFileParser.DOLLAR);
         this.state = 122;
+        this.entityName();
+        this.state = 123;
+        this.match(LUFileParser.COLON_MARK);
+        this.state = 124;
         this.entityType();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1415,7 +1424,7 @@ LUFileParser.prototype.entityName = function() {
     this.enterRule(localctx, 24, LUFileParser.RULE_entityName);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 124;
+        this.state = 126;
         this.entityIdentifier();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1450,6 +1459,10 @@ EntityTypeContext.prototype.constructor = EntityTypeContext;
 
 EntityTypeContext.prototype.entityIdentifier = function() {
     return this.getTypedRuleContext(EntityIdentifierContext,0);
+};
+
+EntityTypeContext.prototype.compositeEntityIdentifier = function() {
+    return this.getTypedRuleContext(CompositeEntityIdentifierContext,0);
 };
 
 EntityTypeContext.prototype.listTypeEntity = function() {
@@ -1491,20 +1504,100 @@ LUFileParser.prototype.entityType = function() {
     this.enterRule(localctx, 26, LUFileParser.RULE_entityType);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 126;
-        this.entityIdentifier();
-        this.state = 129;
+        this.state = 130;
         this._errHandler.sync(this);
-        var la_ = this._interp.adaptivePredict(this._input,8,this._ctx);
+        switch(this._input.LA(1)) {
+        case LUFileParser.ENTITY_IDENTIFIER:
+            this.state = 128;
+            this.entityIdentifier();
+            break;
+        case LUFileParser.COMPOSITE_ENTITY:
+            this.state = 129;
+            this.compositeEntityIdentifier();
+            break;
+        default:
+            throw new antlr4.error.NoViableAltException(this);
+        }
+        this.state = 134;
+        this._errHandler.sync(this);
+        var la_ = this._interp.adaptivePredict(this._input,9,this._ctx);
         if(la_===1) {
-            this.state = 127;
+            this.state = 132;
             this.listTypeEntity();
 
         } else if(la_===2) {
-            this.state = 128;
+            this.state = 133;
             this.phraseTypeEntity();
 
         }
+    } catch (re) {
+    	if(re instanceof antlr4.error.RecognitionException) {
+	        localctx.exception = re;
+	        this._errHandler.reportError(this, re);
+	        this._errHandler.recover(this, re);
+	    } else {
+	    	throw re;
+	    }
+    } finally {
+        this.exitRule();
+    }
+    return localctx;
+};
+
+
+function CompositeEntityIdentifierContext(parser, parent, invokingState) {
+	if(parent===undefined) {
+	    parent = null;
+	}
+	if(invokingState===undefined || invokingState===null) {
+		invokingState = -1;
+	}
+	antlr4.ParserRuleContext.call(this, parent, invokingState);
+    this.parser = parser;
+    this.ruleIndex = LUFileParser.RULE_compositeEntityIdentifier;
+    return this;
+}
+
+CompositeEntityIdentifierContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
+CompositeEntityIdentifierContext.prototype.constructor = CompositeEntityIdentifierContext;
+
+CompositeEntityIdentifierContext.prototype.COMPOSITE_ENTITY = function() {
+    return this.getToken(LUFileParser.COMPOSITE_ENTITY, 0);
+};
+
+CompositeEntityIdentifierContext.prototype.enterRule = function(listener) {
+    if(listener instanceof LUFileParserListener ) {
+        listener.enterCompositeEntityIdentifier(this);
+	}
+};
+
+CompositeEntityIdentifierContext.prototype.exitRule = function(listener) {
+    if(listener instanceof LUFileParserListener ) {
+        listener.exitCompositeEntityIdentifier(this);
+	}
+};
+
+CompositeEntityIdentifierContext.prototype.accept = function(visitor) {
+    if ( visitor instanceof LUFileParserVisitor ) {
+        return visitor.visitCompositeEntityIdentifier(this);
+    } else {
+        return visitor.visitChildren(this);
+    }
+};
+
+
+
+
+LUFileParser.CompositeEntityIdentifierContext = CompositeEntityIdentifierContext;
+
+LUFileParser.prototype.compositeEntityIdentifier = function() {
+
+    var localctx = new CompositeEntityIdentifierContext(this, this._ctx, this.state);
+    this.enterRule(localctx, 28, LUFileParser.RULE_compositeEntityIdentifier);
+    try {
+        this.enterOuterAlt(localctx, 1);
+        this.state = 136;
+        this.match(LUFileParser.COMPOSITE_ENTITY);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
 	        localctx.exception = re;
@@ -1588,18 +1681,18 @@ LUFileParser.EntityIdentifierContext = EntityIdentifierContext;
 LUFileParser.prototype.entityIdentifier = function() {
 
     var localctx = new EntityIdentifierContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 28, LUFileParser.RULE_entityIdentifier);
+    this.enterRule(localctx, 30, LUFileParser.RULE_entityIdentifier);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 131;
+        this.state = 138;
         this.match(LUFileParser.ENTITY_IDENTIFIER);
-        this.state = 135;
+        this.state = 142;
         this._errHandler.sync(this);
-        var _alt = this._interp.adaptivePredict(this._input,9,this._ctx)
+        var _alt = this._interp.adaptivePredict(this._input,10,this._ctx)
         while(_alt!=2 && _alt!=antlr4.atn.ATN.INVALID_ALT_NUMBER) {
             if(_alt===1) {
-                this.state = 132;
+                this.state = 139;
                 _la = this._input.LA(1);
                 if(!(_la===LUFileParser.WS || _la===LUFileParser.ENTITY_IDENTIFIER)) {
                 this._errHandler.recoverInline(this);
@@ -1609,9 +1702,9 @@ LUFileParser.prototype.entityIdentifier = function() {
                     this.consume();
                 } 
             }
-            this.state = 137;
+            this.state = 144;
             this._errHandler.sync(this);
-            _alt = this._interp.adaptivePredict(this._input,9,this._ctx);
+            _alt = this._interp.adaptivePredict(this._input,10,this._ctx);
         }
 
     } catch (re) {
@@ -1681,19 +1774,19 @@ LUFileParser.ListTypeEntityContext = ListTypeEntityContext;
 LUFileParser.prototype.listTypeEntity = function() {
 
     var localctx = new ListTypeEntityContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 30, LUFileParser.RULE_listTypeEntity);
+    this.enterRule(localctx, 32, LUFileParser.RULE_listTypeEntity);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 139;
+        this.state = 146;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         if(_la===LUFileParser.WS) {
-            this.state = 138;
+            this.state = 145;
             this.match(LUFileParser.WS);
         }
 
-        this.state = 141;
+        this.state = 148;
         this.match(LUFileParser.EQUAL_MARK);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1762,12 +1855,12 @@ LUFileParser.PhraseTypeEntityContext = PhraseTypeEntityContext;
 LUFileParser.prototype.phraseTypeEntity = function() {
 
     var localctx = new PhraseTypeEntityContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 32, LUFileParser.RULE_phraseTypeEntity);
+    this.enterRule(localctx, 34, LUFileParser.RULE_phraseTypeEntity);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 143;
+        this.state = 150;
         this.match(LUFileParser.WS);
-        this.state = 144;
+        this.state = 151;
         this.match(LUFileParser.ENTITY_IDENTIFIER);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1850,19 +1943,19 @@ LUFileParser.EntityListBodyContext = EntityListBodyContext;
 LUFileParser.prototype.entityListBody = function() {
 
     var localctx = new EntityListBodyContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 34, LUFileParser.RULE_entityListBody);
+    this.enterRule(localctx, 36, LUFileParser.RULE_entityListBody);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 149; 
+        this.state = 156; 
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         do {
-            this.state = 146;
+            this.state = 153;
             this.normalItemString();
-            this.state = 147;
+            this.state = 154;
             this.newline();
-            this.state = 151; 
+            this.state = 158; 
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         } while(_la===LUFileParser.DASH);
@@ -1953,17 +2046,17 @@ LUFileParser.NormalItemStringContext = NormalItemStringContext;
 LUFileParser.prototype.normalItemString = function() {
 
     var localctx = new NormalItemStringContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 36, LUFileParser.RULE_normalItemString);
+    this.enterRule(localctx, 38, LUFileParser.RULE_normalItemString);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 153;
+        this.state = 160;
         this.match(LUFileParser.DASH);
-        this.state = 157;
+        this.state = 164;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===LUFileParser.WS || _la===LUFileParser.TEXT) {
-            this.state = 154;
+            this.state = 161;
             _la = this._input.LA(1);
             if(!(_la===LUFileParser.WS || _la===LUFileParser.TEXT)) {
             this._errHandler.recoverInline(this);
@@ -1972,7 +2065,7 @@ LUFileParser.prototype.normalItemString = function() {
             	this._errHandler.reportMatch(this);
                 this.consume();
             }
-            this.state = 159;
+            this.state = 166;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
@@ -2043,12 +2136,12 @@ LUFileParser.ImportDefinitionContext = ImportDefinitionContext;
 LUFileParser.prototype.importDefinition = function() {
 
     var localctx = new ImportDefinitionContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 38, LUFileParser.RULE_importDefinition);
+    this.enterRule(localctx, 40, LUFileParser.RULE_importDefinition);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 160;
+        this.state = 167;
         this.match(LUFileParser.IMPORT_DESC);
-        this.state = 161;
+        this.state = 168;
         this.match(LUFileParser.IMPORT_PATH);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -2121,14 +2214,14 @@ LUFileParser.QnaDefinitionContext = QnaDefinitionContext;
 LUFileParser.prototype.qnaDefinition = function() {
 
     var localctx = new QnaDefinitionContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 40, LUFileParser.RULE_qnaDefinition);
+    this.enterRule(localctx, 42, LUFileParser.RULE_qnaDefinition);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 163;
+        this.state = 170;
         this.qnaQuestion();
-        this.state = 164;
+        this.state = 171;
         this.moreQuestionsBody();
-        this.state = 165;
+        this.state = 172;
         this.qnaAnswerBody();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -2201,14 +2294,14 @@ LUFileParser.QnaQuestionContext = QnaQuestionContext;
 LUFileParser.prototype.qnaQuestion = function() {
 
     var localctx = new QnaQuestionContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 42, LUFileParser.RULE_qnaQuestion);
+    this.enterRule(localctx, 44, LUFileParser.RULE_qnaQuestion);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 167;
+        this.state = 174;
         this.match(LUFileParser.QNA);
-        this.state = 168;
+        this.state = 175;
         this.questionText();
-        this.state = 169;
+        this.state = 176;
         this.newline();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -2293,15 +2386,15 @@ LUFileParser.QuestionTextContext = QuestionTextContext;
 LUFileParser.prototype.questionText = function() {
 
     var localctx = new QuestionTextContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 44, LUFileParser.RULE_questionText);
+    this.enterRule(localctx, 46, LUFileParser.RULE_questionText);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 174;
+        this.state = 181;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===LUFileParser.WS || _la===LUFileParser.QNA_TEXT) {
-            this.state = 171;
+            this.state = 178;
             _la = this._input.LA(1);
             if(!(_la===LUFileParser.WS || _la===LUFileParser.QNA_TEXT)) {
             this._errHandler.recoverInline(this);
@@ -2310,7 +2403,7 @@ LUFileParser.prototype.questionText = function() {
             	this._errHandler.reportMatch(this);
                 this.consume();
             }
-            this.state = 176;
+            this.state = 183;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
@@ -2395,19 +2488,19 @@ LUFileParser.MoreQuestionsBodyContext = MoreQuestionsBodyContext;
 LUFileParser.prototype.moreQuestionsBody = function() {
 
     var localctx = new MoreQuestionsBodyContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 46, LUFileParser.RULE_moreQuestionsBody);
+    this.enterRule(localctx, 48, LUFileParser.RULE_moreQuestionsBody);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 182;
+        this.state = 189;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===LUFileParser.DASH) {
-            this.state = 177;
-            this.moreQuestion();
-            this.state = 178;
-            this.newline();
             this.state = 184;
+            this.moreQuestion();
+            this.state = 185;
+            this.newline();
+            this.state = 191;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
@@ -2498,17 +2591,17 @@ LUFileParser.MoreQuestionContext = MoreQuestionContext;
 LUFileParser.prototype.moreQuestion = function() {
 
     var localctx = new MoreQuestionContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 48, LUFileParser.RULE_moreQuestion);
+    this.enterRule(localctx, 50, LUFileParser.RULE_moreQuestion);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 185;
+        this.state = 192;
         this.match(LUFileParser.DASH);
-        this.state = 189;
+        this.state = 196;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===LUFileParser.WS || _la===LUFileParser.TEXT) {
-            this.state = 186;
+            this.state = 193;
             _la = this._input.LA(1);
             if(!(_la===LUFileParser.WS || _la===LUFileParser.TEXT)) {
             this._errHandler.recoverInline(this);
@@ -2517,7 +2610,7 @@ LUFileParser.prototype.moreQuestion = function() {
             	this._errHandler.reportMatch(this);
                 this.consume();
             }
-            this.state = 191;
+            this.state = 198;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
@@ -2588,19 +2681,19 @@ LUFileParser.QnaAnswerBodyContext = QnaAnswerBodyContext;
 LUFileParser.prototype.qnaAnswerBody = function() {
 
     var localctx = new QnaAnswerBodyContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 50, LUFileParser.RULE_qnaAnswerBody);
+    this.enterRule(localctx, 52, LUFileParser.RULE_qnaAnswerBody);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 193;
+        this.state = 200;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         if(_la===LUFileParser.Filter_MARK) {
-            this.state = 192;
+            this.state = 199;
             this.filterSection();
         }
 
-        this.state = 195;
+        this.state = 202;
         this.multiLineAnswer();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -2676,19 +2769,19 @@ LUFileParser.FilterSectionContext = FilterSectionContext;
 LUFileParser.prototype.filterSection = function() {
 
     var localctx = new FilterSectionContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 52, LUFileParser.RULE_filterSection);
+    this.enterRule(localctx, 54, LUFileParser.RULE_filterSection);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 197;
+        this.state = 204;
         this.match(LUFileParser.Filter_MARK);
-        this.state = 199; 
+        this.state = 206; 
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         do {
-            this.state = 198;
+            this.state = 205;
             this.filterLine();
-            this.state = 201; 
+            this.state = 208; 
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         } while(_la===LUFileParser.DASH);
@@ -2783,17 +2876,17 @@ LUFileParser.FilterLineContext = FilterLineContext;
 LUFileParser.prototype.filterLine = function() {
 
     var localctx = new FilterLineContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 54, LUFileParser.RULE_filterLine);
+    this.enterRule(localctx, 56, LUFileParser.RULE_filterLine);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 203;
+        this.state = 210;
         this.match(LUFileParser.DASH);
-        this.state = 207;
+        this.state = 214;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===LUFileParser.WS || _la===LUFileParser.TEXT) {
-            this.state = 204;
+            this.state = 211;
             _la = this._input.LA(1);
             if(!(_la===LUFileParser.WS || _la===LUFileParser.TEXT)) {
             this._errHandler.recoverInline(this);
@@ -2802,11 +2895,11 @@ LUFileParser.prototype.filterLine = function() {
             	this._errHandler.reportMatch(this);
                 this.consume();
             }
-            this.state = 209;
+            this.state = 216;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
-        this.state = 210;
+        this.state = 217;
         this.newline();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -2871,10 +2964,10 @@ LUFileParser.MultiLineAnswerContext = MultiLineAnswerContext;
 LUFileParser.prototype.multiLineAnswer = function() {
 
     var localctx = new MultiLineAnswerContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 56, LUFileParser.RULE_multiLineAnswer);
+    this.enterRule(localctx, 58, LUFileParser.RULE_multiLineAnswer);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 212;
+        this.state = 219;
         this.match(LUFileParser.MULTI_LINE_TEXT);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {

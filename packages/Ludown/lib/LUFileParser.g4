@@ -63,7 +63,11 @@ entityName
     ;
 
 entityType
-    : entityIdentifier (listTypeEntity|phraseTypeEntity)?
+    : (entityIdentifier|compositeEntityIdentifier) (listTypeEntity|phraseTypeEntity)?
+    ;
+
+compositeEntityIdentifier
+    : COMPOSITE_ENTITY
     ;
 
 entityIdentifier

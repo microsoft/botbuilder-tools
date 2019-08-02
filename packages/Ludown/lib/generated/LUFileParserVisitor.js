@@ -96,6 +96,12 @@ LUFileParserVisitor.prototype.visitEntityType = function(ctx) {
 };
 
 
+// Visit a parse tree produced by LUFileParser#compositeEntityIdentifier.
+LUFileParserVisitor.prototype.visitCompositeEntityIdentifier = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
 // Visit a parse tree produced by LUFileParser#entityIdentifier.
 LUFileParserVisitor.prototype.visitEntityIdentifier = function(ctx) {
   return this.visitChildren(ctx);
