@@ -194,8 +194,6 @@ const parseFileContentsModule = {
         }
         // loop through every chunk of information
         for (let chunkIdx in splitOnBlankLines) {
-            // console.log(chunkIdx)
-            // console.log(parsedContent.LUISJsonStructure.patternAnyEntities)
             chunk = splitOnBlankLines[chunkIdx];
             let chunkSplitByLine = chunk.split(NEWLINE);
             if (chunk.indexOf(PARSERCONSTS.URLORFILEREF) === 0) {
@@ -206,16 +204,12 @@ const parseFileContentsModule = {
                 }
             } else if (chunk.indexOf(PARSERCONSTS.INTENT) === 0) {
                 try {
-                    // console.log('Intent')
-                    // console.log(chunkSplitByLine[0])
                     parseAndHandleIntent(parsedContent, chunkSplitByLine);
                 } catch (err) {
                     throw (err);
                 }
             } else if (chunk.indexOf(PARSERCONSTS.ENTITY) === 0) {
                 try {
-                    // console.log('Entity')
-                    // console.log(chunkSplitByLine[0])
                     parseAndHandleEntity(parsedContent, chunkSplitByLine, locale, log);
                 } catch (err) {
                     throw (err);
@@ -1031,8 +1025,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                             if ((otherEntities || []).find(item => item.name == entity.entity) === undefined) {
                                 throw(new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`));
                             }
-                        }
-    
+                        }  
                         // only add this entity if it has not already been defined as composite, list, prebuilt, regex
                         let compositeExists = (parsedContent.LUISJsonStructure.composites || []).find(item => item.name == entity.entity);
                         let listExists = (parsedContent.LUISJsonStructure.closedLists || []).find(item => item.name == entity.entity);
