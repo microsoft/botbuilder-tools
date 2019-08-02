@@ -59,11 +59,15 @@ entityLine
     ;
 
 entityName
-    : ENTITY_IDENTIFIER (WS | ENTITY_IDENTIFIER)*
+    : entityIdentifier
     ;
 
 entityType
-    : ENTITY_IDENTIFIER (listTypeEntity | phraseTypeEntity)?
+    : entityIdentifier (listTypeEntity|phraseTypeEntity)?
+    ;
+
+entityIdentifier
+    : ENTITY_IDENTIFIER (WS|ENTITY_IDENTIFIER)*
     ;
 
 listTypeEntity
