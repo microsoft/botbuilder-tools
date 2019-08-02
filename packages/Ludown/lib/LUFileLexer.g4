@@ -99,7 +99,7 @@ ESCAPE_CHARACTER
   ;
 
 EXPRESSION
-  : '{' (~[\r\n{}])*? '}'  { this.ignoreWS = false;}
+  : '{' (~[\r\n{}] | ('{' ~[\r\n]* '}'))* '}'  { this.ignoreWS = false;}
   ;
 
 TEXT
@@ -122,6 +122,10 @@ NEWLINE_IN_ENTITY
 
 ENTITY_IDENTIFIER
   : (LETTER | NUMBER | '_' | '-')+ { this.ignoreWS = false;}
+  ;
+
+COMPOSITE_ENTITY
+  : '[' (~[\r\n{}[\]()])* ']'
   ;
 
 COLON_MARK

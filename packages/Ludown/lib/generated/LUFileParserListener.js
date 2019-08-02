@@ -137,6 +137,15 @@ LUFileParserListener.prototype.exitEntityType = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LUFileParser#compositeEntityIdentifier.
+LUFileParserListener.prototype.enterCompositeEntityIdentifier = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#compositeEntityIdentifier.
+LUFileParserListener.prototype.exitCompositeEntityIdentifier = function(ctx) {
+};
+
+
 // Enter a parse tree produced by LUFileParser#entityIdentifier.
 LUFileParserListener.prototype.enterEntityIdentifier = function(ctx) {
 };

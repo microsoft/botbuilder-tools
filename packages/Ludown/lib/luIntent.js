@@ -13,12 +13,9 @@ class LUIntent {
         this.ParseTree = parseTree;
         this.Source = source;
         this.Name = this.ExtractName(parseTree);
-        this.UtteranceAndEntitiesMap = this.ExtractUtteranceAndEntitiesMap(parseTree);
-
-        this.Errors = [];
-        if (this.UtteranceAndEntitiesMap.length === 0) {
-            this.Errors.push(new Diagnostic(undefined, `No utterances found for intent: # ${this.Name}`,  DiagnosticSeverity.WARN));
-        }
+        const result = this.ExtractUtteranceAndEntitiesMap(parseTree);
+        this.UtteranceAndEntitiesMap = result.utteranceAndEntitiesMap;
+        this.Errors = result.errors;
     }
 
     ExtractName(parseTree) {
@@ -26,15 +23,26 @@ class LUIntent {
     }
 
     ExtractUtteranceAndEntitiesMap(parseTree) {
-        let UtteranceAndEntitiesMap = [];
+        let utteranceAndEntitiesMap = [];
+        let errors = [];
         if (parseTree.intentBody() && parseTree.intentBody().normalIntentBody()) {
             for (const normalIntentStr of parseTree.intentBody().normalIntentBody().normalIntentString()) {
                 let utteranceAndEntities = visitor.visitNormalIntentStringContext(normalIntentStr);
-                UtteranceAndEntitiesMap.push(utteranceAndEntities);
+                utteranceAndEntitiesMap.push(utteranceAndEntities);
+                let leftBracketIndex = utteranceAndEntities.utterance.indexOf('{');
+                let rightBracketIndex = utteranceAndEntities.utterance.indexOf('}');
+                let equalIndex = utteranceAndEntities.utterance.indexOf('=');
+                if (leftBracketIndex > 0 && equalIndex > leftBracketIndex && rightBracketIndex > equalIndex) {
+                    errors.push(new Diagnostic(undefined, `Utterance "${normalIntentStr.getText().trim()}" has nested composite references. e.g. {a = {b = x}} is valid but {a = {b = {c = x}}} is invalid.`));
+                }
             }
         }
 
-        return UtteranceAndEntitiesMap;
+        if (utteranceAndEntitiesMap.length === 0) {
+            errors.push(new Diagnostic(undefined, `No utterances found for intent: # ${this.Name}`,  DiagnosticSeverity.WARN));
+        }
+
+        return { utteranceAndEntitiesMap, errors };
     }
 }
 
