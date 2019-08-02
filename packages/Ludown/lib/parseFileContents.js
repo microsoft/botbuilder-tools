@@ -1069,7 +1069,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                                     patternAnyExists.roles.forEach(role => roles.push(role));
                                     addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity, roles);
                                     let patternAnyIdx = -1;
-                                    (parsedContent.LUISJsonStructure.entities || []).find((item, idx) => {
+                                    (parsedContent.LUISJsonStructure.patternAnyEntities || []).find((item, idx) => {
                                         if (item.name === entity.entity) {
                                             patternAnyIdx = idx;
                                             return true;
@@ -1077,7 +1077,8 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                                         return false;
                                     });
                                     // delete pattern any entity
-                                    parsedContent.LUISJsonStructure.patternAnyEntities.splice(patternAnyIdx, 1);
+                                    if( patternAnyIdx > -1) parsedContent.LUISJsonStructure.patternAnyEntities.splice(patternAnyIdx, 1);
+
                                 } else if (entity.role != '') {
                                     addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()]);
                                 } 
