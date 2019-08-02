@@ -345,6 +345,8 @@ describe('Roles in LU files', function() {
             .then (res => {
                 assert.equal(res.LUISJsonStructure.entities.length, 1);
                 assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 1);
+                assert.equal(res.LUISJsonStructure.entities[0].name, 'taskcontent');
+                assert.equal(res.LUISJsonStructure.patternAnyEntities[0].name, 'taskcontent.any');
                 done ();
             })
             .catch (err => done (err))
