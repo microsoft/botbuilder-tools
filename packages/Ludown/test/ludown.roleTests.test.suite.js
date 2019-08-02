@@ -334,6 +334,24 @@ describe('Roles in LU files', function() {
             .catch (err => done (err))
     });
 
+    it ('It should come back with one entity (taskcontent) and one pattern.any entity (taskcontent.any)', function(done){
+        let testLU = `# foo
+        - this is {taskcontent = bar}
+        - this is a {taskcontent.any}
+        - this is {taskcontent = orange}     
+        `;
+
+        parser.parseFile(testLU, false, null)
+            .then (res => {
+                assert.equal(res.LUISJsonStructure.entities.length, 1);
+                assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 1);
+                assert.equal(res.LUISJsonStructure.entities[0].name, 'taskcontent');
+                assert.equal(res.LUISJsonStructure.patternAnyEntities[0].name, 'taskcontent.any');
+                done ();
+            })
+            .catch (err => done (err))
+    });
+
     it ('explicit phrase list entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
         let testLU = `# test
         - this is a test of {test:fromTime = 7AM}
