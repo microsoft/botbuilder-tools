@@ -1,6 +1,6 @@
 {
   "name": "dialogschema",
-  "version": "1.0.1-preview",
+  "version": "1.1.0-preview",
   "description": "Merge together multiple Bot Framework .dialog JSON schemas into a single schema.",
   "main": "./lib/dialogSchemaMain.js",
   "types": "./typings/lib/dialogSchema.d.ts",

@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-set ds=..\..\..\dialogschema\lib\dialogschemaMain.js
+set ds=..\..\..\dialogschema\lib\dialogSchema.js
 if exist %ds% goto lint
 pushd ..\..\..\dialogschema
 call npm run build

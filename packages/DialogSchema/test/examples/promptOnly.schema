@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/4.Future/schemas/component.schema",
     "$id": "promptOnly.schema",
     "type": "object",
     "title": "Component types",
@@ -16,47 +16,39 @@
             "properties": {
                 "$type": {
                     "title": "$type",
-                    "description": "Schema definition for $type added by cogSchema.",
+                    "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
                     "const": "prompt"
                 },
                 "$copy": {
                     "title": "$copy",
-                    "description": "Schema deifnition for $copy added by cogSchema.",
+                    "description": "Copy the definition by id from a .dialog file.",
                     "type": "string",
                     "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
                 },
                 "$id": {
                     "title": "$id",
-                    "description": "Schema definition for $id added by cogSchema.",
+                    "description": "Inline id for reuse of an inline definition",
                     "type": "string",
                     "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
                 },
+                "$designer": {
+                    "title": "$designer",
+                    "type": "object",
+                    "description": "Extra information for the Bot Framework Designer."
+                },
                 "prompt": {
                     "$role": "lg",
-                    "type": [
-                        "string",
-                        "object"
-                    ],
-                    "additionalProperties": {
-                        "type": "string"
-                    }
+                    "type": "string",
+                    "description": "String is used for language generation."
                 },
                 "alternatePrompt": {
                     "$role": "lg",
-                    "type": [
-                        "string",
-                        "object"
-                    ],
-                    "additionalProperties": {
-                        "type": "string"
-                    }
+                    "type": "string",
+                    "description": "String is used for language generation."
                 }
             },
-            "required": [
-                "$type"
-            ],
             "type": "object",
             "additionalProperties": false,
             "patternProperties": {
@@ -74,7 +66,8 @@
                 {
                     "title": "Type",
                     "required": [
-                        "prompt"
+                        "prompt",
+                        "$type"
                     ]
                 }
             ]

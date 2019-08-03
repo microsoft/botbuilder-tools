@@ -89,7 +89,7 @@ export async function mergeSchemas(patterns: string[], output?: string, branch?:
                     let schema = allof(noref);
                     // Pick up meta-schema from first .dialog file
                     if (!metaSchema) {
-                        let metaSchema: any = await fs.readJson(schema.$schema);
+                        metaSchema = JSON.parse(await getURL(schema.$schema));
                         validator.addSchema(metaSchema, 'componentSchema');
                         progress(`  Using component.schema ${metaSchema.$id}`);
                     } else if (schema.$schema != metaSchema.$id) {
