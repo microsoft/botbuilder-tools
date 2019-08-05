@@ -125,7 +125,11 @@ ENTITY_IDENTIFIER
   ;
 
 COMPOSITE_ENTITY
-  : '[' (~[\r\n{}[\]()])* ']'
+  : '[' (~[\r\n{}[()])*
+  ;
+
+REGEX_ENTITY
+  : '/' (~[\r\n])*
   ;
 
 COLON_MARK

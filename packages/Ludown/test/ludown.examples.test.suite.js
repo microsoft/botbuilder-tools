@@ -288,7 +288,7 @@ describe('The example lu files', function () {
     it('writes out an error when invalid entity definition is found', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid-entity-definition.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes("[ERROR] line 0:9: syntax error message: mismatched input '=' expecting ':'"));
+                assert.ok(stderr.includes("[ERROR] line 0:9: syntax error message: missing ':' at '='"));
                 done();
             } catch (err) {
                 done(err);

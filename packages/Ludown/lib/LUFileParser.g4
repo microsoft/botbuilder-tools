@@ -31,7 +31,7 @@ intentNameLine
 	;
 
 intentName
-    : intentNameIdentifier (WS intentNameIdentifier)*
+    : intentNameIdentifier (WS|intentNameIdentifier)*
     ;
 
 intentNameIdentifier
@@ -59,27 +59,23 @@ entityLine
     ;
 
 entityName
-    : entityIdentifier
+    : (entityIdentifier|WS)*
     ;
 
 entityType
-    : (entityIdentifier|compositeEntityIdentifier) (listTypeEntity|phraseTypeEntity)?
+    : (entityIdentifier|compositeEntityIdentifier|regexEntityIdentifier|EQUAL_MARK|WS)*
     ;
 
 compositeEntityIdentifier
     : COMPOSITE_ENTITY
     ;
 
+regexEntityIdentifier
+    : REGEX_ENTITY
+    ;
+
 entityIdentifier
-    : ENTITY_IDENTIFIER (WS|ENTITY_IDENTIFIER)*
-    ;
-
-listTypeEntity
-    : WS? EQUAL_MARK
-    ;
-
-phraseTypeEntity
-    : WS ENTITY_IDENTIFIER
+    : ENTITY_IDENTIFIER
     ;
 
 entityListBody

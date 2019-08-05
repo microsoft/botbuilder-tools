@@ -102,20 +102,14 @@ LUFileParserVisitor.prototype.visitCompositeEntityIdentifier = function(ctx) {
 };
 
 
+// Visit a parse tree produced by LUFileParser#regexEntityIdentifier.
+LUFileParserVisitor.prototype.visitRegexEntityIdentifier = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
 // Visit a parse tree produced by LUFileParser#entityIdentifier.
 LUFileParserVisitor.prototype.visitEntityIdentifier = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-
-// Visit a parse tree produced by LUFileParser#listTypeEntity.
-LUFileParserVisitor.prototype.visitListTypeEntity = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-
-// Visit a parse tree produced by LUFileParser#phraseTypeEntity.
-LUFileParserVisitor.prototype.visitPhraseTypeEntity = function(ctx) {
   return this.visitChildren(ctx);
 };
 
