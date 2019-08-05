@@ -13,13 +13,13 @@ getLatestVersion(pkg.name, { version: `>${pkg.version}` })
     .catch((error) => pkg.version)
     .then((latest) => {
         if (semver.gt(latest, pkg.version)) {
-            process.stderr.write(chalk.default.white(`\n     Update available `));
-            process.stderr.write(chalk.default.grey(`${pkg.version}`));
-            process.stderr.write(chalk.default.white(` -> `));
-            process.stderr.write(chalk.default.greenBright(`${latest}\n`));
-            process.stderr.write(chalk.default.white(`     Run `));
-            process.stderr.write(chalk.default.blueBright(`npm i -g ${pkg.name} `));
-            process.stderr.write(chalk.default.white(`to update.\n`));
+            process.stdout.write(chalk.default.white(`\n     Update available `));
+            process.stdout.write(chalk.default.grey(`${pkg.version}`));
+            process.stdout.write(chalk.default.white(` -> `));
+            process.stdout.write(chalk.default.greenBright(`${latest}\n`));
+            process.stdout.write(chalk.default.white(`     Run `));
+            process.stdout.write(chalk.default.blueBright(`npm i -g ${pkg.name} `));
+            process.stdout.write(chalk.default.white(`to update.\n`));
         }
 
 
