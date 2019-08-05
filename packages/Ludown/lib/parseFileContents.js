@@ -777,16 +777,13 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
     });
 
     if (entityExistsInUtteranceLabel !== undefined) {
-        if (entityType === 'Phrase List') {
-            throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
-        }
         let entityMatch = entityExistsInUtteranceLabel.entities.filter(item => item.entity == entityName);
         entityMatch.forEach(entity => {
             if (entity.role !== undefined) {
                 if (!entityRoles.includes(entity.role)) {
                     entityRoles.push(entity.role);
                 }
-            } else {
+            } else if (entityType !== 'Phrase List') {              // Fix for # 1151. Phrase lists can have same name as other entities.
                 throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
             }
         });

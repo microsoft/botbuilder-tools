@@ -878,4 +878,24 @@ describe('parseFile correctly parses utterances', function () {
 
         })
 
+        it ('Test for 1151, phrase list can have same name as labelled simple entity', function(done){
+                let testLu = `## RequestItem
+                - i need more {Item=water}
+                
+                $Item:simple
+                
+                $Item:phraseList interchangeable
+                - water,coffee`;
+                parseFile.parseFile(testLu)
+                        .then(res => {
+                                assert.equal(res.LUISJsonStructure.entities.length, 1);
+                                assert.equal(res.LUISJsonStructure.entities[0].name, 'Item');
+                                assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                                assert.equal(res.LUISJsonStructure.model_features[0].name, 'Item');
+                                done();
+                        })
+                        .catch(err => done(err))
+
+        })
+
 })
