@@ -8,7 +8,7 @@ var grammarFileName = "LUFileParser.g4";
 
 
 var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
-    "\u0003\u001c\u00da\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004",
+    "\u0003\u001d\u00da\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004",
     "\t\u0004\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0004\u0007\t\u0007",
     "\u0004\b\t\b\u0004\t\t\t\u0004\n\t\n\u0004\u000b\t\u000b\u0004\f\t\f",
     "\u0004\r\t\r\u0004\u000e\t\u000e\u0004\u000f\t\u000f\u0004\u0010\t\u0010",
@@ -44,8 +44,8 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u001d\u0003\u001e\u0003\u001e\u0003\u001e\u0003?\u0002\u001f\u0002",
     "\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c\u001e",
     " \"$&(*,.02468:\u0002\u0006\u0003\u0003\u0005\u0005\u0004\u0002\u0004",
-    "\u0004\u0012\u0014\u0004\u0002\u0004\u0004\u0014\u0014\u0004\u0002\u0004",
-    "\u0004\u001c\u001c\u0002\u00d7\u0002=\u0003\u0002\u0002\u0002\u0004",
+    "\u0004\u0013\u0015\u0004\u0002\u0004\u0004\u0015\u0015\u0004\u0002\u0004",
+    "\u0004\u001d\u001d\u0002\u00d7\u0002=\u0003\u0002\u0002\u0002\u0004",
     "H\u0003\u0002\u0002\u0002\u0006J\u0003\u0002\u0002\u0002\bL\u0003\u0002",
     "\u0002\u0002\nQ\u0003\u0002\u0002\u0002\fT\u0003\u0002\u0002\u0002\u000e",
     "\\\u0003\u0002\u0002\u0002\u0010d\u0003\u0002\u0002\u0002\u0012i\u0003",
@@ -73,7 +73,7 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u0002VX\u0005\u000e\b\u0002WU\u0003\u0002\u0002\u0002WV\u0003\u0002",
     "\u0002\u0002X[\u0003\u0002\u0002\u0002YW\u0003\u0002\u0002\u0002YZ\u0003",
     "\u0002\u0002\u0002Z\r\u0003\u0002\u0002\u0002[Y\u0003\u0002\u0002\u0002",
-    "\\a\u0007\u000f\u0002\u0002]^\u0007\u0010\u0002\u0002^`\u0007\u000f",
+    "\\a\u0007\u0010\u0002\u0002]^\u0007\u0011\u0002\u0002^`\u0007\u0010",
     "\u0002\u0002_]\u0003\u0002\u0002\u0002`c\u0003\u0002\u0002\u0002a_\u0003",
     "\u0002\u0002\u0002ab\u0003\u0002\u0002\u0002b\u000f\u0003\u0002\u0002",
     "\u0002ca\u0003\u0002\u0002\u0002de\u0005\u0012\n\u0002e\u0011\u0003",
@@ -86,22 +86,22 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u0002\u0002tu\u0005\u0018\r\u0002uw\u0005\u0006\u0004\u0002vx\u0005",
     "$\u0013\u0002wv\u0003\u0002\u0002\u0002wx\u0003\u0002\u0002\u0002x\u0017",
     "\u0003\u0002\u0002\u0002yz\u0007\t\u0002\u0002z{\u0005\u001a\u000e\u0002",
-    "{|\u0007\u0019\u0002\u0002|}\u0005\u001c\u000f\u0002}\u0019\u0003\u0002",
+    "{|\u0007\u001a\u0002\u0002|}\u0005\u001c\u000f\u0002}\u0019\u0003\u0002",
     "\u0002\u0002~\u0081\u0005\"\u0012\u0002\u007f\u0081\u0007\u0004\u0002",
     "\u0002\u0080~\u0003\u0002\u0002\u0002\u0080\u007f\u0003\u0002\u0002",
     "\u0002\u0081\u0084\u0003\u0002\u0002\u0002\u0082\u0080\u0003\u0002\u0002",
     "\u0002\u0082\u0083\u0003\u0002\u0002\u0002\u0083\u001b\u0003\u0002\u0002",
     "\u0002\u0084\u0082\u0003\u0002\u0002\u0002\u0085\u008b\u0005\"\u0012",
     "\u0002\u0086\u008b\u0005\u001e\u0010\u0002\u0087\u008b\u0005 \u0011",
-    "\u0002\u0088\u008b\u0007\u001a\u0002\u0002\u0089\u008b\u0007\u0004\u0002",
+    "\u0002\u0088\u008b\u0007\u001b\u0002\u0002\u0089\u008b\u0007\u0004\u0002",
     "\u0002\u008a\u0085\u0003\u0002\u0002\u0002\u008a\u0086\u0003\u0002\u0002",
     "\u0002\u008a\u0087\u0003\u0002\u0002\u0002\u008a\u0088\u0003\u0002\u0002",
     "\u0002\u008a\u0089\u0003\u0002\u0002\u0002\u008b\u008e\u0003\u0002\u0002",
     "\u0002\u008c\u008a\u0003\u0002\u0002\u0002\u008c\u008d\u0003\u0002\u0002",
     "\u0002\u008d\u001d\u0003\u0002\u0002\u0002\u008e\u008c\u0003\u0002\u0002",
-    "\u0002\u008f\u0090\u0007\u0017\u0002\u0002\u0090\u001f\u0003\u0002\u0002",
-    "\u0002\u0091\u0092\u0007\u0018\u0002\u0002\u0092!\u0003\u0002\u0002",
-    "\u0002\u0093\u0094\u0007\u0016\u0002\u0002\u0094#\u0003\u0002\u0002",
+    "\u0002\u008f\u0090\u0007\u0018\u0002\u0002\u0090\u001f\u0003\u0002\u0002",
+    "\u0002\u0091\u0092\u0007\u0019\u0002\u0002\u0092!\u0003\u0002\u0002",
+    "\u0002\u0093\u0094\u0007\u0017\u0002\u0002\u0094#\u0003\u0002\u0002",
     "\u0002\u0095\u0096\u0005&\u0014\u0002\u0096\u0097\u0005\u0006\u0004",
     "\u0002\u0097\u0099\u0003\u0002\u0002\u0002\u0098\u0095\u0003\u0002\u0002",
     "\u0002\u0099\u009a\u0003\u0002\u0002\u0002\u009a\u0098\u0003\u0002\u0002",
@@ -150,14 +150,15 @@ var decisionsToDFA = atn.decisionToState.map( function(ds, index) { return new a
 var sharedContextCache = new antlr4.PredictionContextCache();
 
 var literalNames = [ null, null, null, null, null, null, null, null, null, 
-                     null, "'**Filters:**'", null, null, null, "'.'", null, 
-                     null, null, null, null, null, null, null, "':'", "'='" ];
+                     null, "'**Filters:**'", null, null, null, null, "'.'", 
+                     null, null, null, null, null, null, null, null, "':'", 
+                     "'='" ];
 
 var symbolicNames = [ null, "COMMENTS", "WS", "NEWLINE", "QNA", "HASH", 
                       "DASH", "DOLLAR", "IMPORT_DESC", "IMPORT_PATH", "Filter_MARK", 
-                      "MULTI_LINE_TEXT", "WS_IN_NAME_IGNORED", "IDENTIFIER", 
-                      "DOT", "WS_IN_BODY_IGNORED", "ESCAPE_CHARACTER", "EXPRESSION", 
-                      "TEXT", "WS_IN_ENTITY_IGNORED", "ENTITY_IDENTIFIER", 
+                      "MULTI_LINE_TEXT", "INVALID_TOKEN_DEFAULT_MODE", "WS_IN_NAME_IGNORED", 
+                      "IDENTIFIER", "DOT", "WS_IN_BODY_IGNORED", "ESCAPE_CHARACTER", 
+                      "EXPRESSION", "TEXT", "WS_IN_ENTITY_IGNORED", "ENTITY_IDENTIFIER", 
                       "COMPOSITE_ENTITY", "REGEX_ENTITY", "COLON_MARK", 
                       "EQUAL_MARK", "WS_IN_QNA_IGNORED", "QNA_TEXT" ];
 
@@ -200,21 +201,22 @@ LUFileParser.IMPORT_DESC = 8;
 LUFileParser.IMPORT_PATH = 9;
 LUFileParser.Filter_MARK = 10;
 LUFileParser.MULTI_LINE_TEXT = 11;
-LUFileParser.WS_IN_NAME_IGNORED = 12;
-LUFileParser.IDENTIFIER = 13;
-LUFileParser.DOT = 14;
-LUFileParser.WS_IN_BODY_IGNORED = 15;
-LUFileParser.ESCAPE_CHARACTER = 16;
-LUFileParser.EXPRESSION = 17;
-LUFileParser.TEXT = 18;
-LUFileParser.WS_IN_ENTITY_IGNORED = 19;
-LUFileParser.ENTITY_IDENTIFIER = 20;
-LUFileParser.COMPOSITE_ENTITY = 21;
-LUFileParser.REGEX_ENTITY = 22;
-LUFileParser.COLON_MARK = 23;
-LUFileParser.EQUAL_MARK = 24;
-LUFileParser.WS_IN_QNA_IGNORED = 25;
-LUFileParser.QNA_TEXT = 26;
+LUFileParser.INVALID_TOKEN_DEFAULT_MODE = 12;
+LUFileParser.WS_IN_NAME_IGNORED = 13;
+LUFileParser.IDENTIFIER = 14;
+LUFileParser.DOT = 15;
+LUFileParser.WS_IN_BODY_IGNORED = 16;
+LUFileParser.ESCAPE_CHARACTER = 17;
+LUFileParser.EXPRESSION = 18;
+LUFileParser.TEXT = 19;
+LUFileParser.WS_IN_ENTITY_IGNORED = 20;
+LUFileParser.ENTITY_IDENTIFIER = 21;
+LUFileParser.COMPOSITE_ENTITY = 22;
+LUFileParser.REGEX_ENTITY = 23;
+LUFileParser.COLON_MARK = 24;
+LUFileParser.EQUAL_MARK = 25;
+LUFileParser.WS_IN_QNA_IGNORED = 26;
+LUFileParser.QNA_TEXT = 27;
 
 LUFileParser.RULE_file = 0;
 LUFileParser.RULE_paragraph = 1;

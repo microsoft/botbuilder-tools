@@ -55,7 +55,7 @@ class LUParser {
         const tokens = new antlr4.CommonTokenStream(lexer);
         const parser = new LUFileParser(tokens);
         let errors = [];
-        const listener = new LUErrorListener(errors)
+        const listener = new LUErrorListener(errors, source)
         parser.removeErrorListeners();
         parser.addErrorListener(listener);
         parser.buildParseTrees = true;
