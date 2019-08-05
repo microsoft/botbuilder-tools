@@ -80,7 +80,8 @@
 			]
 		},
 		"params": {
-			"match": "\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\)",
+			"begin": "\\(",
+			"end": "\\)",
 			"name":"variable.parameter.parameters"
 		},
 		"expression_in_fence_block": {
