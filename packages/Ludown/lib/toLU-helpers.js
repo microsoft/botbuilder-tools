@@ -228,8 +228,83 @@ const toLUHelpers = {
             fileContent += t;
         }
         return fileContent;
+    },
+    /**
+     * Sorts all collectios within LUIS, QnA and QnA alteration models.
+     * @param {object} LUISJSON 
+     * @param {object} QnAJSON 
+     * @param {object} QnAAltJSON 
+     */
+    sortCollections : async function(LUISJSON, QnAJSON, QnAAltJSON) {
+        // sort respective collections LUIS model
+        if (LUISJSON.model != "") await sortLUISJSON(LUISJSON.model);
+        if (QnAJSON.model != "") await sortQnAJSON(QnAJSON.model);
+        if (QnAAltJSON.model != "") await sortQnAAltJSON(QnAAltJSON.model);
     }
 };
+
+/**
+ * Helper function to return sorted LUIS JSON model
+ * @param {Object} LUISJSON 
+ */
+const sortLUISJSON = async function(LUISJSON) {
+    // sort intents first
+    LUISJSON.intents.sort(sortComparers.compareNameFn);
+    LUISJSON.composites.sort(sortComparers.compareNameFn);
+    LUISJSON.entities.sort(sortComparers.compareNameFn);
+    LUISJSON.closedLists.sort(sortComparers.compareNameFn);
+    LUISJSON.regex_entities.sort(sortComparers.compareNameFn);
+    LUISJSON.model_features.sort(sortComparers.compareNameFn);
+    LUISJSON.patternAnyEntities.sort(sortComparers.compareNameFn);
+    LUISJSON.prebuiltEntities.sort(sortComparers.compareNameFn);
+    LUISJSON.utterances.sort(sortComparers.compareIntentFn);
+};
+
+/**
+ * Helper function to return sorted QnA JSON model
+ * @param {Object} QnAJSON 
+ */
+const sortQnAJSON = async function(QnAJSON) {
+    (QnAJSON.qnaList || []).forEach(pair => {
+        pair.questions.sort(sortComparers.compareFn);
+    });
+    QnAJSON.qnaList.sort(sortComparers.compareQn);
+};
+
+/**
+ * Helper function to return sorted QnA Alterations pair
+ * @param {Object} QnAAltJSON 
+ */
+const sortQnAAltJSON = async function(QnAAltJSON) {
+    (QnAAltJSON.wordAlterations || []).forEach(word => {
+        word.alterations.sort(sortComparers.compareFn);
+    });
+    QnAAltJSON.wordAlterations.sort(sortComparers.compareAltName);
+}; 
+
+/**
+ * Helper set of comparer functions that help with sort by examining a specific comparison logic.
+ */
+const sortComparers = {
+    
+    compareAltName : function(a, b) {
+        return a.alterations[0].toUpperCase() > b.alterations[0].toUpperCase();
+    },    
+    compareFn : function(a, b) {
+        return a.toUpperCase() > b.toUpperCase();
+    },    
+    compareQn : function(a, b) {
+        return a.questions[0].toUpperCase() > b.questions[0].toUpperCase();
+    },    
+    compareNameFn : function(a, b) {
+        return a.name.toUpperCase() > b.name.toUpperCase();
+    },    
+    compareIntentFn : function(a, b) {
+        return a.intent.toUpperCase() > b.intent.toUpperCase();
+    }
+}
+
+
 /**
  * helper function sort entities list by starting position
  * @param {object} objectArray array of entity objects
