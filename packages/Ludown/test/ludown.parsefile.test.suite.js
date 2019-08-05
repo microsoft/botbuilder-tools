@@ -45,7 +45,7 @@ $commPreference:phraseList
     });
 
     it('parseFile throws if a QnA maker question does not have a list decoration', function(done) {
-        let luFile = `# ? q1
+        let luFile = `### ? q1
 question 2
 `;
         parseFile.parseFile(luFile, false, 'en-us')
@@ -54,7 +54,7 @@ question 2
     });
 
     it('parseFile throws if a QnA maker filter section does not have list decoration', function(done) {
-        let luFile = `# ? q1
+        let luFile = `### ? q1
 **Filters:**
 location = seattle
 `;
@@ -64,7 +64,7 @@ location = seattle
     });
 
     it('parseFile throws if a QnA maker filter section does not have valid key = value pair', function(done) {
-        let luFile = `# ? q1
+        let luFile = `### ? q1
 **Filters:**
 - location
 `;
@@ -74,7 +74,7 @@ location = seattle
     });
 
     it('parseFile parses multi-line answer correctly', function(done) {
-        let luFile = `# ? q1
+        let luFile = `### ? q1
 \`\`\`markdown
 test
 123

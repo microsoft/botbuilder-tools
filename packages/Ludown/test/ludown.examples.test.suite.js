@@ -321,7 +321,7 @@ describe('The example lu files', function () {
     it('Throws when an invalid QnA Maker alteration is specified in the input .lu file', function (done) {
         exec(`node ${ludown} parse toqna -a --in ${TEST_ROOT}/testcases/invalid-alterations.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes('[ERROR]: QnA alteration section: "botframework" does not have list decoration. Prefix line with "-" or "+" or "*"'));
+                assert.ok(stderr.includes("[ERROR] line 1:0: syntax error message: extraneous input 'b' expecting {<EOF>, NEWLINE, QNA, HASH, DOLLAR, IMPORT_DESC}"));
                 done();
             } catch (err) {
                 done(err);

@@ -57,6 +57,10 @@ MULTI_LINE_TEXT
   : '```markdown' .*? '```'
   ;
 
+INVALID_TOKEN_DEFAULT_MODE
+  : .
+  ;
+  
 mode INTENT_NAME_MODE;
 
 WS_IN_NAME_IGNORED

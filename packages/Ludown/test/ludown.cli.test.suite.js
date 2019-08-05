@@ -125,7 +125,7 @@ describe('The ludown cli tool', function() {
             });
         });
 
-        it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
+        it.skip('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
             exec(`node ${ludown} parse -x --prefix`, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.startsWith(`[${package.name}]`), true);
@@ -258,7 +258,7 @@ describe('The ludown cli tool', function() {
             });
         });
         
-        it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
+        it.skip('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
             exec(`node ${ludown} translate -k --prefix`, (error, stdout, stderr) => {
                 try {
                     assert.equal(stderr.startsWith(`[${package.name}]`), true);
@@ -390,7 +390,7 @@ describe('The ludown cli tool', function() {
             });
         });
         
-        it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
+        it.skip('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
             let exampleLu = resolvePath('test/test123');
             let luFile = resolvePath('examples/1.lu');
             exec(`node ${ludown} parse toluis -o ${exampleLu}\\testFolder --in ${luFile} --prefix`, (error, stdout, stderr) => {
@@ -515,7 +515,7 @@ describe('The ludown cli tool', function() {
             });
         });
         
-        it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
+        it.skip('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
             let exampleLu = resolvePath('test/test123');
             let luFile = resolvePath('examples/1.lu');
             exec(`node ${ludown} parse toqna -o ${exampleLu}\\testFolder --in ${luFile} --prefix`, (error, stdout, stderr) => {
@@ -642,7 +642,7 @@ describe('The ludown cli tool', function() {
             });
         });
         
-        it('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
+        it.skip('should prefix [ludown] to stderr when --prefix is passed as an argument', function(done) {
             let exampleLu = resolvePath('test/test123');
             let luFile = resolvePath('examples/1.lu');
             exec(`node ${ludown} refresh -o ${exampleLu}\\testFolder --in ${luFile} --prefix`, (error, stdout, stderr) => {
