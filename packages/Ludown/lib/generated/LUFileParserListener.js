@@ -146,30 +146,21 @@ LUFileParserListener.prototype.exitCompositeEntityIdentifier = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LUFileParser#regexEntityIdentifier.
+LUFileParserListener.prototype.enterRegexEntityIdentifier = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#regexEntityIdentifier.
+LUFileParserListener.prototype.exitRegexEntityIdentifier = function(ctx) {
+};
+
+
 // Enter a parse tree produced by LUFileParser#entityIdentifier.
 LUFileParserListener.prototype.enterEntityIdentifier = function(ctx) {
 };
 
 // Exit a parse tree produced by LUFileParser#entityIdentifier.
 LUFileParserListener.prototype.exitEntityIdentifier = function(ctx) {
-};
-
-
-// Enter a parse tree produced by LUFileParser#listTypeEntity.
-LUFileParserListener.prototype.enterListTypeEntity = function(ctx) {
-};
-
-// Exit a parse tree produced by LUFileParser#listTypeEntity.
-LUFileParserListener.prototype.exitListTypeEntity = function(ctx) {
-};
-
-
-// Enter a parse tree produced by LUFileParser#phraseTypeEntity.
-LUFileParserListener.prototype.enterPhraseTypeEntity = function(ctx) {
-};
-
-// Exit a parse tree produced by LUFileParser#phraseTypeEntity.
-LUFileParserListener.prototype.exitPhraseTypeEntity = function(ctx) {
 };
 
 

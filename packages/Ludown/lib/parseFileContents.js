@@ -483,7 +483,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
                 }
 
                 if (utteranceAndEntities.entities.length > 0) {
-
                     let entitiesFound = utteranceAndEntities.entities;
                     let havePatternAnyEntity = entitiesFound.find(item => item.type == LUISObjNameEnum.PATTERNANYENTITY);
                     if (havePatternAnyEntity !== undefined) {
@@ -761,6 +760,36 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
                         // update roles
                         addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.COMPOSITES, compositeEntity.name, entityRoles);
                     }
+                }
+            } else if (entityType.startsWith('/')) {
+                if (entityType.endsWith('/')) {
+                    // check if this regex entity is already labelled in an utterance and or added as a simple entity. if so, throw an error.
+                    try {
+                        let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'RegEx');
+                        if (rolesImport.length !== 0) {
+                            rolesImport.forEach(role => entityRoles.push(role));
+                        }
+                    } catch (err) {
+                        throw (err);
+                    }
+                    // handle regex entity 
+                    let regex = entityType.slice(1).slice(0, entityType.length - 2);
+                    if (regex === '') throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} has empty regex pattern defined.`));
+                    // add this as a regex entity if it does not exist
+                    let regExEntity = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entityName);
+                    if (regExEntity === undefined) {
+                        parsedContent.LUISJsonStructure.regex_entities.push(new helperClass.regExEntity(entityName, regex, entityRoles))
+                    } else {
+                        // throw an error if the pattern is different for the same entity
+                        if (regExEntity.regexPattern !== regex) {
+                            throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} has multiple regex patterns defined. \n 1. /${regex}/\n 2. /${regExEntity.regexPattern}/`));
+                        } else {
+                            // update roles
+                            addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.REGEX, regExEntity.name, entityRoles);
+                        }
+                    }
+                } else {
+                    throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} is missing trailing '/'. Regex patterns need to be enclosed in forward slashes. e.g. /[0-9]/`));
                 }
             } else {
                 // TODO: handle other entity types

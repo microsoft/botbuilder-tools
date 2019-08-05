@@ -23,6 +23,7 @@ class Visitor {
                         entities.push({
                             type: LUISObjNameEnum.ENTITIES,
                             entity: entityObject[0].entityName,
+                            role: entityObject[0].role,
                             startPos: startPos,
                             endPos: endPos
                         });
@@ -33,6 +34,7 @@ class Visitor {
                             entities.unshift({
                                 type: LUISObjNameEnum.ENTITIES,
                                 entity: entityObject[1].entityName,
+                                role: entityObject[0].role,
                                 startPos: startPos,
                                 endPos: endPos
                             });
@@ -42,7 +44,8 @@ class Visitor {
                         utterance = utterance.concat(innerNode.getText());
                         entities.push({
                             type: LUISObjNameEnum.PATTERNANYENTITY,
-                            entity: entityObject[0].entityName
+                            entity: entityObject[0].entityName,
+                            role: entityObject[0].roleName
                         })
                     }
                     break;
@@ -66,10 +69,10 @@ class Visitor {
         exp = exp.substring(1, exp.length - 1).trim();
 
         let equalIndex = exp.indexOf('=');
-        if (equalIndex != -1) {
+        
+        if (equalIndex !== -1) {
             let entityName = exp.substring(0, equalIndex).trim();
             let entityValue = exp.substring(equalIndex + 1).trim();
-
             let compositeEntityLeftIndex = entityValue.indexOf('{');
             let compositeEntityRightIndex = entityValue.lastIndexOf('}');
             let updatedEntityValue = entityValue;
@@ -87,9 +90,25 @@ class Visitor {
 
             entities.unshift({ entityName, entityValue: updatedEntityValue });
 
+            entities.forEach(entity => {
+                let colonIndex = entity.entityName.indexOf(':');
+                if (colonIndex !== -1) {
+                    let entityName = entity.entityName.substring(0, colonIndex).trim();
+                    let roleName = entity.entityName.substring(colonIndex + 1).trim();
+                    entity.entityName = entityName;
+                    entity.role = roleName;
+                }
+            });
         } else {
-            let entityName = exp.trim();
-            entities.push({ entityName, undefined });
+            let colonIndex = exp.indexOf(':');
+            if (colonIndex !== -1) {
+                let entityName = exp.substring(0, colonIndex).trim();
+                let roleName = exp.substring(colonIndex + 1).trim();
+                entities.push({ entityName, undefined, roleName });
+            } else {
+                let entityName = exp.trim();
+                entities.push({ entityName, undefined });
+            }
         }
 
         return entities;
