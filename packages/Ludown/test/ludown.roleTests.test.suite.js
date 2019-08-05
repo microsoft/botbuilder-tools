@@ -360,7 +360,16 @@ describe('Roles in LU files', function() {
 - m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix`;
 
         parser.parseFile(testLU, false, null)
-            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
+            .then (res => {
+                // This is fix for # 1151. LUIS allows phrase list names to be the same name as other entities in the model. 
+                assert.equal(res.LUISJsonStructure.entities.length, 1);
+                assert.equal(res.LUISJsonStructure.entities[0].name, 'test');
+                assert.equal(res.LUISJsonStructure.entities[0].roles.length, 1);
+                assert.deepEqual(res.LUISJsonStructure.entities[0].roles, ['fromTime']);
+                assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                assert.equal(res.LUISJsonStructure.model_features[0].name, 'test');
+                done();
+            })
             .catch (err => done ())
     })
 
