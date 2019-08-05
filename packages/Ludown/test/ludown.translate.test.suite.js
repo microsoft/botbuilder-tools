@@ -215,4 +215,36 @@ describe('With translate module', function() {
             })
             .catch (err => done(err));
     }); 
+
+    it('Utterance starting with entity is parsed correctly', function(done) {
+        if (!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let fileContent = txtfile.readSync(resolvePath('test/testcases/translate-with-number.lu'));
+        trHelpers.parseAndTranslate(fileContent, TRANSLATE_KEY, 'de', '', true, false, SHOW_LOGS)
+            .then(function(res) {
+                try {
+                    compareFiles(res, LUDOWN_ROOT + '/test/verified/de/translate-with-number.lu');
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            })
+            .catch (err => done(err));
+    });
+
+    it('correctly localizes regex entity definitions', function(done) {
+        if(!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let luFile = helpers.sanitizeNewLines(`$hrf-number:/hrf-[0-9]{6}/`);
+        let expectedOutput = helpers.sanitizeNewLines(`$hrf-number:/hrf-[0-9]{6}/
+`);
+        trHelpers.parseAndTranslate(luFile, TRANSLATE_KEY, 'de', null, false, false, false)
+            .then(res => {
+                assert.equal(res, expectedOutput);
+                done();
+            })
+            .catch(err => done(err))
+    });
 });
