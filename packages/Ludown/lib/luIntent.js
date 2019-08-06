@@ -28,6 +28,7 @@ class LUIntent {
         if (parseTree.intentBody() && parseTree.intentBody().normalIntentBody()) {
             for (const normalIntentStr of parseTree.intentBody().normalIntentBody().normalIntentString()) {
                 let utteranceAndEntities = visitor.visitNormalIntentStringContext(normalIntentStr);
+                utteranceAndEntities.orginalText = normalIntentStr.getText();
                 utteranceAndEntitiesMap.push(utteranceAndEntities);
                 let leftBracketIndex = utteranceAndEntities.utterance.indexOf('{');
                 let rightBracketIndex = utteranceAndEntities.utterance.indexOf('}');

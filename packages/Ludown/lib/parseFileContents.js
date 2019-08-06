@@ -169,15 +169,16 @@ const parseFileContentsModule = {
     /**
      * Main parser code to parse current file contents into LUIS and QNA sections.
      * @param {string} fileContent current file content
+     * @param {string} filePath current file path
      * @param {boolean} log indicates if we need verbose logging.
      * @param {string} locale LUIS locale code
      * @returns {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    parseFile: async function (fileContent, log, locale) {
+    parseFile: async function (fileContent, filePath, log, locale) {
         fileContent = helpers.sanitizeNewLines(fileContent);
         let parsedContent = new parserObj();
-        await parseLuAndQnaWithAntlr(parsedContent, fileContent.toString(), log, locale);
+        await parseLuAndQnaWithAntlr(parsedContent, fileContent.toString(), filePath, log, locale);
         
         return parsedContent;
     },
@@ -411,13 +412,14 @@ const parseFileContentsModule = {
  * Main parser code to parse current file contents into LUIS and QNA sections.
  * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
  * @param {string} fileContent current file content
+ * @param {string} filePath current file path
  * @param {boolean} log indicates if we need verbose logging.
  * @param {string} locale LUIS locale code
  * @throws {exception} Throws on errors. exception object includes errCode and text.
  */
-const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, locale) {
+const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, filePath, log, locale) {
     fileContent = helpers.sanitizeNewLines(fileContent);
-    let luResource = luParser.parse(fileContent);
+    let luResource = luParser.parse(fileContent, filePath);
 
     if (luResource.Errors && luResource.Errors.length > 0) {
         if(log) {
@@ -549,6 +551,10 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
 
                         let utteranceObject = new helperClass.uttereances(utterance, intentName, []);
                         entitiesFound.forEach(item => {
+                            if (item.startPos > item.endPos) {
+                                throw (new exception(retCode.errorCode.MISSING_LABELLED_VALUE, '[ERROR]: No labelled value found for entity: "' + item.entity + '" in utterance: ' + utteranceAndEntities.orginalText));
+                            }
+
                             let utteranceEntity = new helperClass.utteranceEntity(item.entity, item.startPos, item.endPos);
                             if (item.role && item.role !== '') {
                                 utteranceEntity.role = item.role.trim();
