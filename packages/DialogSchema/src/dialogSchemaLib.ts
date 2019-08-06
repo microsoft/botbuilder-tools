@@ -5,6 +5,7 @@
  */
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
+import * as Validator from 'ajv';
 import * as chalk from 'chalk';
 import * as fs from 'fs-extra';
 import glob from 'globby';
@@ -12,7 +13,6 @@ import * as os from 'os';
 import * as ppath from 'path';
 import * as semver from 'semver';
 import * as xp from 'xml2js';
-import * as Validator from 'ajv';
 
 let allof: any = require('json-schema-merge-allof');
 let clone = require('clone');
@@ -25,9 +25,10 @@ const jsonOptions = { spaces: 4, EOL: os.EOL };
 
 let failed = false;
 let missingTypes = new Set();
-
+let currentFile: string;
 let progress = (msg: string) => console.log(chalk.default.grey(msg));
-let warning = (msg: string) => console.log(chalk.default.yellowBright(msg));
+let warning = (msg: string) => console.warn(chalk.default.yellowBright(`${currentFile}: warning: ${msg}`));
+let error = (msg: string) => console.error(chalk.default.redBright(`${currentFile}: error: ${msg}`));
 let result = (msg: string) => console.log(msg);
 
 /** Merge together .schema files to make a custom schema.
@@ -43,16 +44,26 @@ export async function mergeSchemas(patterns: string[], output?: string, branch?:
         let schemaPaths = [];
         if (update) {
             if (!branch) {
-                warning(`Must specify -branch <branch> in order to use -update`);
+                error(`Must specify -branch <branch> in order to use -update`);
                 return false;
             }
             await updateMetaSchema(branch);
             progress(`Updating component.schema references to branch ${branch}`)
         }
 
+        if (!output) {
+            output = "app.schema";
+        }
+
+        // delete output so we don't attempt to process it
+        if (fs.existsSync(output)) {
+            fs.unlinkSync(output);
+        }
+
         for await (const path of expandPackages(await glob(patterns), progress)) {
             schemaPaths.push(path);
         }
+
         if (schemaPaths.length == 0) {
             return false;
         } else {
@@ -74,6 +85,7 @@ export async function mergeSchemas(patterns: string[], output?: string, branch?:
             }
 
             for (let schemaPath of schemaPaths) {
+                currentFile = schemaPath;
                 progress(`Parsing ${schemaPath}`);
                 if (update) {
                     let schema = await fs.readJSON(schemaPath);
@@ -84,7 +96,7 @@ export async function mergeSchemas(patterns: string[], output?: string, branch?:
                 }
                 let noref = await parser.dereference(schemaPath);
                 if (noref.$id) {
-                    warning(`  Skipping because of top-level $id:${noref.$id}.`);
+                    warning(`${schemaPath}:warning ds0001 Skipping because of top-level $id:${noref.$id}.`);
                 } else {
                     let schema = allof(noref);
                     // Pick up meta-schema from first .dialog file
@@ -93,7 +105,7 @@ export async function mergeSchemas(patterns: string[], output?: string, branch?:
                         validator.addSchema(metaSchema, 'componentSchema');
                         progress(`  Using component.schema ${metaSchema.$id}`);
                     } else if (schema.$schema != metaSchema.$id) {
-                        warning(`  ${schema.$schema} does not match component.schema ${metaSchema.$id}`);
+                        error(`${schema.$schema} does not match component.schema ${metaSchema.$id}`);
                     }
                     delete schema.$schema;
                     if (!validator.validate('componentSchema', schema)) {
@@ -115,9 +127,6 @@ export async function mergeSchemas(patterns: string[], output?: string, branch?:
             expandTypes(definitions);
             addStandardProperties(definitions, metaSchema);
             sortUnions(definitions);
-            if (!output) {
-                output = "app.schema";
-            }
             let finalDefinitions: any = {};
             for (let key of Object.keys(definitions).sort()) {
                 finalDefinitions[key] = definitions[key];
@@ -146,7 +155,7 @@ export async function mergeSchemas(patterns: string[], output?: string, branch?:
                 await fs.writeJSON(output, finalSchema, jsonOptions);
                 console.log("");
             } else {
-                console.log(chalk.default.redBright("Could not merge schemas"));
+                error("Could not merge schemas");
             }
         }
     }
@@ -497,24 +506,24 @@ function isUnionType(schema: any): boolean {
 
 function missing(type: string): void {
     if (!missingTypes.has(type)) {
-        console.log(chalk.default.redBright("Missing " + type + " schema file from merge."));
+        error("Missing " + type + " schema file from merge.");
         missingTypes.add(type);
         failed = true;
     }
 }
 
-function schemaError(error: Validator.ErrorObject): void {
-    console.log(chalk.default.redBright(`  ${error.dataPath} ${error.message}`));
+function schemaError(err: Validator.ErrorObject): void {
+    error(`${err.dataPath} ${err.message}`);
     failed = true;
 }
 
-function thrownError(error: Error): void {
-    console.log(chalk.default.redBright("  " + error.message));
+function thrownError(err: Error): void {
+    error(err.message);
     failed = true;
 }
 
 function errorMsg(type: string, message: string): void {
-    console.log(chalk.default.redBright(`${type}: ${message}`));
+    error(`${type}: ${message}`);
     failed = true;
 }
 
