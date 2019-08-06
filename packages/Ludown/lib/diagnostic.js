@@ -59,9 +59,25 @@ const DiagnosticSeverity = {
     WARN: 'WARN'
 }
 
+const BuildDiagnostic =function(parameter) {
+    let message = parameter.message;
+    const severity = parameter.severity === undefined ? DiagnosticSeverity.ERROR : parameter.severity;
+    const context = parameter.context;
+    const startPosition = context === undefined ? new Position(0, 0) : new Position(context.start.line - 1, context.start.column);
+    const stopPosition = context === undefined ? new Position(0, 0) : new Position(context.stop.line - 1, context.stop.column + context.stop.text.length);
+    const range = new Range(startPosition, stopPosition);
+    message = `error message: ${message}`;
+    if (parameter.source !== undefined && parameter.source !== '') {
+        message = `source: ${parameter.source}, ${message}`;
+    }
+
+    return new Diagnostic(range, message, severity);
+}
+
 module.exports = {
     Diagnostic: Diagnostic,
     Range: Range,
     Position: Position,
-    DiagnosticSeverity: DiagnosticSeverity
+    DiagnosticSeverity: DiagnosticSeverity,
+    BuildDiagnostic: BuildDiagnostic
 }

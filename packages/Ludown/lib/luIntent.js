@@ -1,7 +1,7 @@
 const IntentDefinitionContext = require('./generated/LUFileParser').LUFileParser.IntentDefinitionContext;
 const visitor = require('./visitor');
-const Diagnostic = require('./diagnostic').Diagnostic;
 const DiagnosticSeverity = require('./diagnostic').DiagnosticSeverity;
+const BuildDiagnostic = require('./diagnostic').BuildDiagnostic;
 
 class LUIntent {
     /**
@@ -13,7 +13,7 @@ class LUIntent {
         this.ParseTree = parseTree;
         this.Source = source;
         this.Name = this.ExtractName(parseTree);
-        const result = this.ExtractUtteranceAndEntitiesMap(parseTree);
+        const result = this.ExtractUtteranceAndEntitiesMap(parseTree, source);
         this.UtteranceAndEntitiesMap = result.utteranceAndEntitiesMap;
         this.Errors = result.errors;
     }
@@ -22,25 +22,41 @@ class LUIntent {
         return parseTree.intentNameLine().intentName().getText().trim();
     }
 
-    ExtractUtteranceAndEntitiesMap(parseTree) {
+    ExtractUtteranceAndEntitiesMap(parseTree, source) {
         let utteranceAndEntitiesMap = [];
         let errors = [];
         if (parseTree.intentBody() && parseTree.intentBody().normalIntentBody()) {
             for (const normalIntentStr of parseTree.intentBody().normalIntentBody().normalIntentString()) {
                 let utteranceAndEntities = visitor.visitNormalIntentStringContext(normalIntentStr);
-                utteranceAndEntities.orginalText = normalIntentStr.getText();
+                utteranceAndEntities.context = normalIntentStr;
                 utteranceAndEntitiesMap.push(utteranceAndEntities);
                 let leftBracketIndex = utteranceAndEntities.utterance.indexOf('{');
                 let rightBracketIndex = utteranceAndEntities.utterance.indexOf('}');
                 let equalIndex = utteranceAndEntities.utterance.indexOf('=');
                 if (leftBracketIndex > 0 && equalIndex > leftBracketIndex && rightBracketIndex > equalIndex) {
-                    errors.push(new Diagnostic(undefined, `Utterance "${normalIntentStr.getText().trim()}" has nested composite references. e.g. {a = {b = x}} is valid but {a = {b = {c = x}}} is invalid.`));
+                    let errorMsg = `utterance "${normalIntentStr.getText().trim()}" has nested composite references. e.g. {a = {b = x}} is valid but {a = {b = {c = x}}} is invalid.`
+                    let error = BuildDiagnostic({
+                        message: errorMsg,
+                        severity: DiagnosticSeverity.ERROR,
+                        context: normalIntentStr,
+                        source: source
+                    })
+
+                    errors.push(error);
                 }
             }
         }
 
         if (utteranceAndEntitiesMap.length === 0) {
-            errors.push(new Diagnostic(undefined, `No utterances found for intent: # ${this.Name}`,  DiagnosticSeverity.WARN));
+            let errorMsg = `no utterances found for intent definition: "# ${this.Name}"`
+            let error = BuildDiagnostic({
+                message: errorMsg,
+                severity: DiagnosticSeverity.WARN,
+                context: parseTree.intentNameLine(),
+                source: source
+            })
+
+            errors.push(error);
         }
 
         return { utteranceAndEntitiesMap, errors };
