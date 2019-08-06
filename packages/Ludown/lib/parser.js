@@ -280,7 +280,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
         }
         if(log) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
         try {
-            parsedContent = await parseFileContents.parseFile(fileContent, log, luis_culture);
+            parsedContent = await parseFileContents.parseFile(fileContent, file, log, luis_culture);
         } catch (err) {
             throw(err);
         }

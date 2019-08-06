@@ -23,11 +23,8 @@ const NEWLINE = require('os').EOL;
 const fetch = require('node-fetch');
 const qnaFile = require('../lib/classes/qnaFiles');
 const fileToParse = require('../lib/classes/filesToParse');
-<<<<<<< HEAD
-=======
 const luParser = require('./luParser');
 const DiagnosticSeverity = require('./diagnostic').DiagnosticSeverity;
->>>>>>> ea5d56aa... add error handling logic
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
@@ -183,54 +180,17 @@ const parseFileContentsModule = {
     /**
      * Main parser code to parse current file contents into LUIS and QNA sections.
      * @param {string} fileContent current file content
+     * @param {string} filePath current file path
      * @param {boolean} log indicates if we need verbose logging.
      * @param {string} locale LUIS locale code
      * @returns {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    parseFile: async function (fileContent, log, locale) {
+    parseFile: async function (fileContent, filePath, log, locale) {
         fileContent = helpers.sanitizeNewLines(fileContent);
         let parsedContent = new parserObj();
-        let splitOnBlankLines = '';
-        try {
-            splitOnBlankLines = helpers.splitFileBySections(fileContent.toString(), log);
-        } catch (err) {
-            throw (err);
-        }
-        // loop through every chunk of information
-        for (let chunkIdx in splitOnBlankLines) {
-            chunk = splitOnBlankLines[chunkIdx];
-            let chunkSplitByLine = chunk.split(NEWLINE);
-            if (chunk.indexOf(PARSERCONSTS.URLORFILEREF) === 0) {
-                try {
-                    // await parseURLOrFileRef(parsedContent, chunkSplitByLine)
-                    await parseURLOrFileRefAntlr(parsedContent, chunk);
-                } catch (err) {
-                    throw (err);
-                }
-            } else if (chunk.indexOf(PARSERCONSTS.INTENT) === 0) {
-                try {
-                    // parseAndHandleIntent(parsedContent, chunkSplitByLine)
-                    var intentName = chunkSplitByLine[0].substring(chunkSplitByLine[0].indexOf(' ') + 1);
-                    if (intentName.trim().indexOf(PARSERCONSTS.QNA) === 0) {
-                        parseQnaAntlr(parsedContent, chunk);
-                    } else {
-                        parseIntentAntlr(parsedContent, chunk);
-                    }
-                } catch (err) {
-                    throw (err);
-                }
-            } else if (chunk.indexOf(PARSERCONSTS.ENTITY) === 0) {
-                try {
-                    // parseAndHandleEntity(parsedContent, chunkSplitByLine, locale, log);
-                    parseEntityAntlr(parsedContent, chunk, locale, log);
-                } catch (err) {
-                    throw (err);
-                }
-            } else if (chunk.indexOf(PARSERCONSTS.QNA) === 0) {
-                parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, chunkSplitByLine[1], 'custom editorial', [chunkSplitByLine[0].replace(PARSERCONSTS.QNA, '').trim()], []));
-            }
-        };
+        await parseLuAndQnaWithAntlr(parsedContent, fileContent.toString(), filePath, log, locale);
+        
         return parsedContent;
     },
     /**
@@ -466,13 +426,14 @@ const parseFileContentsModule = {
  * Main parser code to parse current file contents into LUIS and QNA sections.
  * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
  * @param {string} fileContent current file content
+ * @param {string} filePath current file path
  * @param {boolean} log indicates if we need verbose logging.
  * @param {string} locale LUIS locale code
  * @throws {exception} Throws on errors. exception object includes errCode and text.
  */
-const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, locale) {
+const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, filePath, log, locale) {
     fileContent = helpers.sanitizeNewLines(fileContent);
-    let luResource = luParser.parse(fileContent);
+    let luResource = luParser.parse(fileContent, filePath);
 
     if (luResource.Errors && luResource.Errors.length > 0) {
         if(log) {
@@ -604,6 +565,10 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
 
                         let utteranceObject = new helperClass.uttereances(utterance, intentName, []);
                         entitiesFound.forEach(item => {
+                            if (item.startPos > item.endPos) {
+                                throw (new exception(retCode.errorCode.MISSING_LABELLED_VALUE, '[ERROR]: No labelled value found for entity: "' + item.entity + '" in utterance: ' + utteranceAndEntities.orginalText));
+                            }
+
                             let utteranceEntity = new helperClass.utteranceEntity(item.entity, item.startPos, item.endPos);
                             if (item.role && item.role !== '') {
                                 utteranceEntity.role = item.role.trim();
