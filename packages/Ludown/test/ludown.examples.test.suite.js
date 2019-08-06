@@ -277,7 +277,9 @@ describe('The example lu files', function () {
     it('writes out a warning when no utterances are found for an intent', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/missing-utterance.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout) => {
             try {
-                assert.ok(stdout.includes('[WARN] No utterances found for intent: # Greeting'));
+                assert.ok(stdout.includes('[WARN] line 0:0 - line 0:10'));
+                assert.ok(stdout.includes('testcases/missing-utterance.lu'));
+                assert.ok(stdout.includes('error message: no utterances found for intent definition: "# Greeting"'));
                 done();
             } catch (err) {
                 done(err);
@@ -288,8 +290,8 @@ describe('The example lu files', function () {
     it('writes out an error when invalid entity definition is found', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid-entity-definition.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes("[ERROR] line 0:9:"));
-                assert.ok(stderr.includes("testcases/invalid-entity-definition.lu"));
+                assert.ok(stderr.includes('[ERROR] line 0:9:'));
+                assert.ok(stderr.includes('testcases/invalid-entity-definition.lu'));
                 assert.ok(stderr.includes("syntax error message: missing ':' at '='"));
                 done();
             } catch (err) {
@@ -301,7 +303,9 @@ describe('The example lu files', function () {
     it('writes out a warning when no synonym definitions are found for a list entity', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/missing-synonyms.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout) => {
             try {
-                assert.ok(stdout.includes('[WARN] No synonyms list found'));
+                assert.ok(stdout.includes('[WARN] line 0:0 - line 0:14'));
+                assert.ok(stdout.includes('testcases/missing-synonyms.lu'));
+                assert.ok(stdout.includes('error message: no synonyms list found for list entity definition: "$TestList:one="'));
                 done();
             } catch (err) {
                 done(err);

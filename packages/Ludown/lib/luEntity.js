@@ -1,6 +1,6 @@
 const EntityDefinitionContext = require('./generated/LUFileParser').LUFileParser.EntityDefinitionContext;
-const Diagnostic = require('./diagnostic').Diagnostic;
 const DiagnosticSeverity = require('./diagnostic').DiagnosticSeverity;
+const BuildDiagnostic = require('./diagnostic').BuildDiagnostic;
 
 class LUEntity {
     /**
@@ -13,12 +13,9 @@ class LUEntity {
         this.Source = source;
         this.Name = this.ExtractName(parseTree);
         this.Type = this.ExtractType(parseTree);
-        this.SynonymsOrPhraseList = this.ExtractSynonymsOrPhraseList(parseTree);
-
-        this.Errors = [];
-        if (this.Type.indexOf('=') > -1 && this.SynonymsOrPhraseList.length === 0) {
-            this.Errors.push(new Diagnostic(undefined, `No synonyms list found for list entity: # ${this.Name}`,  DiagnosticSeverity.WARN));
-        }
+        const result = this.ExtractSynonymsOrPhraseList(parseTree, source);
+        this.SynonymsOrPhraseList = result.synonymsOrPhraseList;
+        this.Errors = result.errors;
     }
 
     ExtractName(parseTree) {
@@ -29,8 +26,10 @@ class LUEntity {
         return parseTree.entityLine().entityType().getText().trim();
     }
 
-    ExtractSynonymsOrPhraseList(parseTree) {
-        var synonymsOrPhraseList = [];
+    ExtractSynonymsOrPhraseList(parseTree, source) {
+        let synonymsOrPhraseList = [];
+        let errors = [];
+
         if (parseTree.entityListBody()) {
             for (const normalItemStr of parseTree.entityListBody().normalItemString()) {
                 var itemStr = normalItemStr.getText().trim();
@@ -38,7 +37,19 @@ class LUEntity {
             }
         }
 
-        return synonymsOrPhraseList;
+        if (this.Type.indexOf('=') > -1 && synonymsOrPhraseList.length === 0) {
+            let errorMsg = `no synonyms list found for list entity definition: "${parseTree.entityLine().getText()}"`;
+            let error = BuildDiagnostic({
+                message: errorMsg,
+                severity: DiagnosticSeverity.WARN,
+                context: parseTree.entityLine(),
+                source: source
+            })
+
+            errors.push(error);
+        }
+
+        return { synonymsOrPhraseList, errors };
     }
 }
 

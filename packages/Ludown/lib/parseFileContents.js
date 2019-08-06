@@ -25,6 +25,7 @@ const qnaFile = require('../lib/classes/qnaFiles');
 const fileToParse = require('../lib/classes/filesToParse');
 const luParser = require('./luParser');
 const DiagnosticSeverity = require('./diagnostic').DiagnosticSeverity;
+const BuildDiagnostic = require('./diagnostic').BuildDiagnostic;
 const parseFileContentsModule = {
     /**
      * Helper function to validate parsed LUISJsonblob
@@ -437,7 +438,7 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
 
     if (luResource.Errors && luResource.Errors.length > 0) {
         if(log) {
-            process.stdout.write(luResource.Errors.filter(error => error.Severity === DiagnosticSeverity.WARN).map(warn => warn.toString()).join('\n'));
+            process.stdout.write(luResource.Errors.filter(error => error.Severity === DiagnosticSeverity.WARN).map(warn => warn.toString()).join('\n').concat('\n'));
         }
         
         var errors = luResource.Errors.filter(error => error.Severity === DiagnosticSeverity.ERROR);
@@ -452,9 +453,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
         for (const luImport of luImports) {
             let linkValueText = luImport.Description.replace('[', '').replace(']', '');
             let linkValue = luImport.Path.replace('(', '').replace(')', '');
-            if (linkValue === '') {
-                throw (new exception(retCode.errorCode.INVALID_LU_FILE_REF, '[ERROR]: Invalid LU File Ref: ' + fileContent));
-            }
             let parseUrl = url.parse(linkValue);
             if (parseUrl.host || parseUrl.hostname) {
                 let options = { method: 'HEAD' };
@@ -463,9 +461,29 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     response = await fetch(linkValue, options);
                 } catch (err) {
                     // throw, invalid URI
-                    throw (new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
+                    let errorMsg = `URI: "${linkValue}" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.`;
+                    let error = BuildDiagnostic({
+                        message: errorMsg,
+                        severity: DiagnosticSeverity.ERROR,
+                        context: luImport.ParseTree,
+                        source: filePath
+                    })
+
+                    throw (new exception(retCode.errorCode.INVALID_URI, error.toString()));
                 }
-                if (!response.ok) throw (new exception(retCode.errorCode.INVALID_URI, 'URI: "' + linkValue + '" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.'));
+
+                if (!response.ok) {
+                    let errorMsg = `URI: "${linkValue}" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.`;
+                    let error = BuildDiagnostic({
+                        message: errorMsg,
+                        severity: DiagnosticSeverity.ERROR,
+                        context: luImport.ParseTree,
+                        source: filePath
+                    })
+
+                    throw (new exception(retCode.errorCode.INVALID_URI, error.toString()));
+                }
+                
                 let contentType = response.headers.get('content-type');
                 if (!contentType.includes('text/html')) {
                     parsedContent.qnaJsonStructure.files.push(new qnaFile(linkValue, linkValueText));
@@ -504,7 +522,15 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     if (havePatternAnyEntity !== undefined) {
                         let mixedEntity = entitiesFound.filter(item => item.type != LUISObjNameEnum.PATTERNANYENTITY);
                         if (mixedEntity.length !== 0) {
-                            throw (new exception(retCode.errorCode.INVALID_INPUT, `Utterance ${utterance} has mix of entites with labelled values and ones without. Please update utterance to either include labelled values for all entities or remove labelled values from all entities.`));
+                            let errorMsg = `Utterance "${utteranceAndEntities.context.getText()}" has mix of entites with labelled values and ones without. Please update utterance to either include labelled values for all entities or remove labelled values from all entities.`;
+                            let error = BuildDiagnostic({
+                                message: errorMsg,
+                                severity: DiagnosticSeverity.ERROR,
+                                context: utteranceAndEntities.context,
+                                source: filePath
+                            })
+                            
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                         }
 
                         let newPattern = new helperClass.pattern(utterance, intentName);
@@ -531,19 +557,51 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                             // throw an error if a prebuilt, regex, pattern.any, phraselist or list entity is explicitly labelled in an utterance
                             let nonAllowedPreBuiltEntityInUtterance = (parsedContent.LUISJsonStructure.prebuiltEntities || []).find(item => item.name == entity.entity);
                             if (nonAllowedPreBuiltEntityInUtterance !== undefined) {
-                                throw (new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to prebuilt entity "${nonAllowedPreBuiltEntityInUtterance.name}". Pre-built entities cannot be given an explicit labelled value.`));
+                                let errorMsg = `Utterance "${utteranceAndEntities.context.getText()}" has invalid reference to prebuilt entity "${nonAllowedPreBuiltEntityInUtterance.name}". Pre-built entities cannot be given an explicit labelled value.`
+                                let error = BuildDiagnostic({
+                                    message: errorMsg,
+                                    severity: DiagnosticSeverity.ERROR,
+                                    context: utteranceAndEntities.context,
+                                    source: filePath
+                                })
+
+                                throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                             }
                             let nonAllowedListEntityInUtterance = (parsedContent.LUISJsonStructure.closedLists || []).find(item => item.name == entity.entity);
                             if (nonAllowedListEntityInUtterance !== undefined) {
-                                throw (new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to list entity "${nonAllowedListEntityInUtterance.name}". List entities cannot be given an explicit labelled value.`));
+                                let errorMsg = `Utterance "${utteranceAndEntities.context.getText()}" has invalid reference to list entity "${nonAllowedListEntityInUtterance.name}". List entities cannot be given an explicit labelled value.`;
+                                let error = BuildDiagnostic({
+                                    message: errorMsg,
+                                    severity: DiagnosticSeverity.ERROR,
+                                    context: utteranceAndEntities.context,
+                                    source: filePath
+                                })
+
+                                throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                             }
                             let nonAllowedRegexEntityInUtterance = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entity.entity);
                             if (nonAllowedRegexEntityInUtterance !== undefined) {
-                                throw (new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to regex entity "${nonAllowedRegexEntityInUtterance.name}". RegEx entities cannot be given an explicit labelled value.`));
+                                let errorMsg = `Utterance "${utteranceAndEntities.context.getText()}" has invalid reference to regex entity "${nonAllowedRegexEntityInUtterance.name}". RegEx entities cannot be given an explicit labelled value.`;
+                                let error = BuildDiagnostic({
+                                    message: errorMsg,
+                                    severity: DiagnosticSeverity.ERROR,
+                                    context: utteranceAndEntities.context,
+                                    source: filePath
+                                })
+
+                                throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                             }
                             let nonAllowedPhrseListEntityInUtterance = (parsedContent.LUISJsonStructure.model_features || []).find(item => item.name == entity.entity);
                             if (nonAllowedPhrseListEntityInUtterance !== undefined) {
-                                throw (new exception(retCode.errorCode.INVALID_INPUT, `Utterance "${utterance}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`));
+                                let errorMsg = `Utterance "${utteranceAndEntities.context.getText()}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`;
+                                let error = BuildDiagnostic({
+                                    message: errorMsg,
+                                    severity: DiagnosticSeverity.ERROR,
+                                    context: utteranceAndEntities.context,
+                                    source: filePath
+                                })
+
+                                throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                             }
 
                             // do not add entities that might have already been added as composite
@@ -566,7 +624,15 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                         let utteranceObject = new helperClass.uttereances(utterance, intentName, []);
                         entitiesFound.forEach(item => {
                             if (item.startPos > item.endPos) {
-                                throw (new exception(retCode.errorCode.MISSING_LABELLED_VALUE, '[ERROR]: No labelled value found for entity: "' + item.entity + '" in utterance: ' + utteranceAndEntities.orginalText));
+                                let errorMsg = `No labelled value found for entity: "${item.entity}" in utterance: "${utteranceAndEntities.context.getText()}"`;
+                                let error = BuildDiagnostic({
+                                    message: errorMsg,
+                                    severity: DiagnosticSeverity.ERROR,
+                                    context: utteranceAndEntities.context,
+                                    source: filePath
+                                })
+
+                                throw (new exception(retCode.errorCode.MISSING_LABELLED_VALUE, error.toString()));
                             }
 
                             let utteranceEntity = new helperClass.utteranceEntity(item.entity, item.startPos, item.endPos);
@@ -601,7 +667,15 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
             for (let i in parsedContent.LUISJsonStructure.patternAnyEntities) {
                 if (parsedContent.LUISJsonStructure.patternAnyEntities[i].name === pEntityName) {
                     if (entityType.toLowerCase().trim().includes('phraselist')) {
-                        throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR]: Phrase lists cannot be used as an entity in a pattern "' + pEntityName));
+                        let errorMsg = `Phrase lists cannot be used as an entity in a pattern "${pEntityName}"`;
+                        let error = BuildDiagnostic({
+                            message: errorMsg,
+                            severity: DiagnosticSeverity.ERROR,
+                            context: entity.ParseTree.entityLine(),
+                            source: filePath
+                        })
+                        
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                     }
                     if (parsedContent.LUISJsonStructure.patternAnyEntities[i].roles.length !== 0) entityRoles = parsedContent.LUISJsonStructure.patternAnyEntities[i].roles;
                     parsedContent.LUISJsonStructure.patternAnyEntities.splice(i, 1);
@@ -651,7 +725,15 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                         alterationlist = alterationlist.concat(entity.SynonymsOrPhraseList);
                         parsedContent.qnaAlterations.wordAlterations.push(new qnaAlterations.alterations(alterationlist));
                     } else {
-                        throw (new exception(retCode.errorCode.SYNONYMS_NOT_A_LIST, '[ERROR]: QnA alteration section: "' + alterationlist + '" does not have list decoration. Prefix line with "-" or "+" or "*"'));
+                        let errorMsg = `QnA alteration section: "${alterationlist}" does not have list decoration. Prefix line with "-" or "+" or "*"`;
+                        let error = BuildDiagnostic({
+                            message: errorMsg,
+                            severity: DiagnosticSeverity.ERROR,
+                            context: entity.ParseTree.entityLine(),
+                            source: filePath
+                        })
+
+                        throw (new exception(retCode.errorCode.SYNONYMS_NOT_A_LIST, error.toString()));
                     }
                 } else {
                     // treat this as a LUIS list entity type
@@ -693,7 +775,15 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                 }
             } else if (entityType.toLowerCase().trim().indexOf('phraselist') === 0) {
                 if (entityRoles.length !== 0) {
-                    throw (new exception(retCode.errorCode.INVALID_INPUT, `Phrase list entity ${entityName} has invalid role definition with roles = ${entityRoles.join(', ')}. Roles are not supported for Phrase Lists`));
+                    let errorMsg = `Phrase list entity ${entityName} has invalid role definition with roles = ${entityRoles.join(', ')}. Roles are not supported for Phrase Lists`;
+                    let error = BuildDiagnostic({
+                        message: errorMsg,
+                        severity: DiagnosticSeverity.ERROR,
+                        context: entity.ParseTree.entityLine(),
+                        source: filePath
+                    })
+
+                    throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                 }
                 // check if this phraselist entity is already labelled in an utterance and or added as a simple entity. if so, throw an error.
                 try {
@@ -734,7 +824,15 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                                 if (!parsedContent.LUISJsonStructure.model_features[modelIdx].words[0].includes(plValueItem)) parsedContent.LUISJsonStructure.model_features[modelIdx].words += ',' + pLValues;
                             })
                         } else {
-                            throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR]: Phrase list : "' + entityName + '" has conflicting definitions. One marked interchangeable and another not interchangeable'));
+                            let errorMsg = `Phrase list: "${entityName}" has conflicting definitions. One marked interchangeable and another not interchangeable`;
+                            let error = BuildDiagnostic({
+                                message: errorMsg,
+                                severity: DiagnosticSeverity.ERROR,
+                                context: entity.ParseTree.entityLine(),
+                                source: filePath
+                            })
+
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                         }
 
                     } else {
@@ -761,7 +859,15 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                 // drop [] and trim
                 let childDefinition = entityType.trim().replace('[', '').replace(']', '').trim();
                 if (childDefinition.length === 0) {
-                    throw (new exception(retCode.errorCode.INVALID_COMPOSITE_ENTITY, `[ERROR]: Composite entity: ${entityName} is missing child entity definitions. Child entities are denoted via [entity1, entity2] notation.`));
+                    let errorMsg = `Composite entity: ${entityName} is missing child entity definitions. Child entities are denoted via [entity1, entity2] notation.`;
+                    let error = BuildDiagnostic({
+                        message: errorMsg,
+                        severity: DiagnosticSeverity.ERROR,
+                        context: entity.ParseTree.entityLine(),
+                        source: filePath
+                    })
+
+                    throw (new exception(retCode.errorCode.INVALID_COMPOSITE_ENTITY, error.toString()));
                 }
                 // split the children based on ',' or ';' delimiter. Trim each child to remove white spaces.
                 let compositeChildren = childDefinition.split(new RegExp(/[,;]/g)).map(item => item.trim());
@@ -775,7 +881,15 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     parsedContent.LUISJsonStructure.entities = (parsedContent.LUISJsonStructure.entities || []).filter(entity => entity.name != entityName);
                 } else {
                     if (JSON.stringify(compositeChildren.sort()) !== JSON.stringify(compositeEntity.children.sort())) {
-                        throw (new exception(retCode.errorCode.INVALID_COMPOSITE_ENTITY, `[ERROR]: Composite entity: ${entityName} has multiple definition with different children. \n 1. ${compositeChildren.join(', ')}\n 2. ${compositeEntity.children.join(', ')}`));
+                        let errorMsg = `Composite entity: ${entityName} has multiple definition with different children. \n 1. ${compositeChildren.join(', ')}\n 2. ${compositeEntity.children.join(', ')}`;
+                        let error = BuildDiagnostic({
+                            message: errorMsg,
+                            severity: DiagnosticSeverity.ERROR,
+                            context: entity.ParseTree.entityLine(),
+                            source: filePath
+                        })
+
+                        throw (new exception(retCode.errorCode.INVALID_COMPOSITE_ENTITY, error.toString()));
                     } else {
                         // update roles
                         addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.COMPOSITES, compositeEntity.name, entityRoles);
@@ -794,7 +908,17 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     }
                     // handle regex entity 
                     let regex = entityType.slice(1).slice(0, entityType.length - 2);
-                    if (regex === '') throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} has empty regex pattern defined.`));
+                    if (regex === '') {
+                        let errorMsg = `RegEx entity: ${regExEntity.name} has empty regex pattern defined.`;
+                        let error = BuildDiagnostic({
+                            message: errorMsg,
+                            severity: DiagnosticSeverity.ERROR,
+                            context: entity.ParseTree.entityLine(),
+                            source: filePath
+                        })
+
+                        throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, error.toString()));
+                    }
                     // add this as a regex entity if it does not exist
                     let regExEntity = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entityName);
                     if (regExEntity === undefined) {
@@ -802,14 +926,30 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     } else {
                         // throw an error if the pattern is different for the same entity
                         if (regExEntity.regexPattern !== regex) {
-                            throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} has multiple regex patterns defined. \n 1. /${regex}/\n 2. /${regExEntity.regexPattern}/`));
+                            let errorMsg = `RegEx entity: ${regExEntity.name} has multiple regex patterns defined. \n 1. /${regex}/\n 2. /${regExEntity.regexPattern}/`;
+                            let error = BuildDiagnostic({
+                                message: errorMsg,
+                                severity: DiagnosticSeverity.ERROR,
+                                context: entity.ParseTree.entityLine(),
+                                source: filePath
+                            })
+
+                            throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, error.toString()));
                         } else {
                             // update roles
                             addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.REGEX, regExEntity.name, entityRoles);
                         }
                     }
                 } else {
-                    throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, `[ERROR]: RegEx entity: ${regExEntity.name} is missing trailing '/'. Regex patterns need to be enclosed in forward slashes. e.g. /[0-9]/`));
+                    let errorMsg = `RegEx entity: ${regExEntity.name} is missing trailing '/'. Regex patterns need to be enclosed in forward slashes. e.g. /[0-9]/`;
+                    let error = BuildDiagnostic({
+                        message: errorMsg,
+                        severity: DiagnosticSeverity.ERROR,
+                        context: entity.ParseTree.entityLine(),
+                        source: filePath
+                    })
+
+                    throw (new exception(retCode.errorCode.INVALID_REGEX_ENTITY, error.toString()));
                 }
             } else {
                 // TODO: handle other entity types

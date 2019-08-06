@@ -32,6 +32,7 @@ class LUParser {
         luEntities.forEach(luEntity => errors = errors.concat(luEntity.Errors));
 
         luImports = this.extractLUImports(fileContent, id);
+        luImports.forEach(luImport => errors = errors.concat(luImport.Errors));
         
         qnas = this.extractLUQnas(fileContent, id);
 
