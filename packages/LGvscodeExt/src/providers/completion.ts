@@ -22,7 +22,7 @@ import { buildInfunctionsMap } from '../buildinFunctions';
  */
 
 export function activate(context: vscode.ExtensionContext) {
-    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(), '{', '(', '['));
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(), '{', '(', '[', '.'));
 }
 
 class LGCompletionItemProvider implements vscode.CompletionItemProvider {
@@ -81,50 +81,33 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
 
                 res(headingCompletions);
             });
-        } else if (/lgTemplate\($/.test(lineTextBefore)) {
-            // lgTemplate completion
-            return new Promise((res, _) => {
-                let templates: LGTemplate[] = util.GetAllTemplateFromCurrentWorkspace();
-
-                const headingCompletions = templates.reduce((prev, curr) => {
-                    let item = new vscode.CompletionItem(curr.Name, vscode.CompletionItemKind.Reference);
-                    item.insertText = `'${curr.Name}'`;
-                    item.detail = `${curr.Source}`;
-                    
-                    const lgParser = LGParser.parse(document.getText());
-                    var relativePath = path.relative(path.dirname(document.uri.fsPath), curr.Source);
-
-                    if (curr.Source !== document.uri.fsPath && !lgParser.Imports.map(u => path.normalize(u.Id)).includes(path.normalize(relativePath))) {
-                        var edit =  vscode.TextEdit.insert(new vscode.Position(0,0), `[import](${relativePath})\r\n`);
-                        item.additionalTextEdits = [edit];
-                    }
-                    if (!prev.includes(item)) {
-                        prev.push(item);
-                    }
-                    
-                    return prev;
-                }, []);
-
-                res(headingCompletions);
-            });
         } else if (/\{[^\}]*$/.test(lineTextBefore)) {
             // buildin function prompt in expression
+            let items: vscode.CompletionItem[] = [];
+            var functions = util.GetAllFunctions(document.uri);
+            functions.forEach((value, key) => {
+                let completionItem = new vscode.CompletionItem(key);
+                const returnType = util.GetreturnTypeStrFromReturnType(value.Returntype);
+                completionItem.detail = `${key}(${value.Params.join(", ")}): ${returnType}`;
+                completionItem.documentation = value.Introduction;
+                items.push(completionItem);
+            });
+
+            return items;
+        } else if (/builtin\.$/.test(lineTextBefore)){
+            // builtin.xxx, xxx is builtin function
             let items: vscode.CompletionItem[] = [];
             buildInfunctionsMap.forEach((value, key) => {
                 let completionItem = new vscode.CompletionItem(key);
                 const returnType = util.GetreturnTypeStrFromReturnType(value.Returntype);
-                completionItem.detail = `(method) ${key}(${value.Params.join(", ")}): ${returnType}`;
+                completionItem.detail = `${key}(${value.Params.join(", ")}): ${returnType}`;
                 completionItem.documentation = value.Introduction;
                 items.push(completionItem);
             });
-            
-            return items;
         } else {
             return [];
         }
     }
-
-    
 }
 
 

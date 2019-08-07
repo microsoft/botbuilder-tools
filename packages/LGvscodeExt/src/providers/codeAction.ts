@@ -33,19 +33,12 @@ class LGCodeActionProvider implements vscode.CodeActionProvider  {
             let templateName: string;
             if (diagnostic === undefined) {
                 continue;
-            } else if (diagnostic.message.endsWith('template not found')) {
-                const templateNameResult: RegExpExecArray = /\[([^)]*)\]/.exec(diagnostic.message);
-                if (templateNameResult === null || templateNameResult === undefined) {
-                    continue;
-                }
+            } else if (diagnostic.message.includes('no such template')) {
 
-                templateName = templateNameResult[1];
-            } else if (diagnostic.message.includes('no such template') && diagnostic.message.includes('lgTemplate')) {
-
-                // error message: Parse failed for expression 'lgTemplate('Items-Ordinality')', inner error: Error: no such template 'Items-Ordinality' to call in lgTemplat
-                var startindex: number = diagnostic.message.indexOf('lgTemplate') + 'lgTemplate('.length;
-                var length: number = diagnostic.message.substr(startindex).indexOf(')');
-                templateName = diagnostic.message.substr(startindex + 1, length - 2); // remove ''
+                // no such template 'Items-Ordinality' to call in lgTemplat
+                var startindex: number = diagnostic.message.indexOf('no such template') + 'no such template '.length;
+                var end: number = diagnostic.message.indexOf(' to call in');
+                templateName = diagnostic.message.substring(startindex + 1, end - 1); // remove ''
             }
 
             if (templateName === undefined || templateName === '') {

@@ -34,7 +34,7 @@ class LGHoverProvider implements vscode.HoverProvider {
             return undefined;
         }
 
-        const wordName = document.getText(wordRange);
+        let wordName = document.getText(wordRange);
 
         // template reference hover
         const templates: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri);
@@ -44,6 +44,11 @@ class LGHoverProvider implements vscode.HoverProvider {
             contents.push(new vscode.MarkdownString(template.Source));
             contents.push(new vscode.MarkdownString(template.Body));
             return new vscode.Hover(contents, wordRange);
+        }
+
+        // builtin function may has prefix builtin.
+        if (wordName.startsWith('builtin.')) {
+            wordName = wordName.substring('builtin.'.length);
         }
 
         // buildin functions info

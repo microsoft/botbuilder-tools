@@ -8,7 +8,6 @@
 
 import * as vscode from 'vscode';
 import * as util from '../util';
-import { buildInfunctionsMap} from '../buildinFunctions';
 
 /**
  * When the user enters a function or method, display information about the function/method that is being called.
@@ -27,10 +26,13 @@ class LGSignatureHelpProvider implements vscode.SignatureHelpProvider  {
         if (!util.IsLgFile(document.fileName)) {
             return;
         }
+
+        const functions = util.GetAllFunctions(document.uri);
+
         let signatureHelp: vscode.SignatureHelp = new vscode.SignatureHelp();
 
         const {functionName, paramIndex} = this.ParseFunction(document, position);
-        if (!buildInfunctionsMap.has(functionName)) {
+        if (!functions.has(functionName)) {
             return undefined;
         }
 
@@ -38,7 +40,7 @@ class LGSignatureHelpProvider implements vscode.SignatureHelpProvider  {
         signatureHelp.activeSignature = 0;
 
 
-        const functionEntity = buildInfunctionsMap.get(functionName);
+        const functionEntity = functions.get(functionName);
         let paramInfoList: vscode.ParameterInformation[] = [];
         functionEntity.Params.forEach(u => paramInfoList.push(new vscode.ParameterInformation(u)));
         
