@@ -14,27 +14,17 @@ class Visitor {
             switch (innerNode.symbol.type) {
                 case lp.DASH: break;
                 case lp.EXPRESSION: {
-                    let entityObject = this.extractEntityFromUtterence(innerNode.getText());
-                    if (entityObject[0].entityValue !== undefined) {
+                    let entityObjects = this.extractEntityFromUtterence(innerNode.getText());
+                    if (entityObjects[0].entityValue !== undefined) {
                         // simple entitiy
-                        utterance = utterance.concat(entityObject[0].entityValue);
-                        let startPos = utterance.lastIndexOf(entityObject[0].entityValue);
-                        let endPos = startPos + entityObject[0].entityValue.length - 1;
-                        entities.push({
-                            type: LUISObjNameEnum.ENTITIES,
-                            entity: entityObject[0].entityName,
-                            role: entityObject[0].role,
-                            startPos: startPos,
-                            endPos: endPos
-                        });
-
-                        if (entityObject.length > 1) {
-                            startPos = utterance.lastIndexOf(entityObject[1].entityValue);
-                            endPos = startPos + entityObject[1].entityValue.length - 1;
-                            entities.unshift({
+                        utterance = utterance.concat(entityObjects[0].entityValue);
+                        for (const entityObject of entityObjects) {
+                            let startPos = utterance.lastIndexOf(entityObject.entityValue);
+                            let endPos = startPos + entityObject.entityValue.length - 1;
+                            entities.push({
                                 type: LUISObjNameEnum.ENTITIES,
-                                entity: entityObject[1].entityName,
-                                role: entityObject[0].role,
+                                entity: entityObject.entityName,
+                                role: entityObject.role,
                                 startPos: startPos,
                                 endPos: endPos
                             });
@@ -74,17 +64,19 @@ class Visitor {
             let entityName = exp.substring(0, equalIndex).trim();
             let entityValue = exp.substring(equalIndex + 1).trim();
             let compositeEntityLeftIndex = entityValue.indexOf('{');
-            let compositeEntityRightIndex = entityValue.lastIndexOf('}');
+            let compositeEntityRightIndex = entityValue.indexOf('}');
             let updatedEntityValue = entityValue;
-            if (compositeEntityLeftIndex > -1 && compositeEntityRightIndex > -1)
+            while (compositeEntityLeftIndex > -1 && compositeEntityRightIndex > -1)
             {
-                let compositeEntityDefinition = entityValue.substring(compositeEntityLeftIndex + 1, compositeEntityRightIndex).trim();
+                let compositeEntityDefinition = updatedEntityValue.substring(compositeEntityLeftIndex + 1, compositeEntityRightIndex).trim();
                 let compositeEntityEqualIndex = compositeEntityDefinition.indexOf('=');
                 if (compositeEntityEqualIndex != -1) {
                     let compositeEntityName = compositeEntityDefinition.substring(0, compositeEntityEqualIndex).trim();
                     let compositeEntityValue = compositeEntityDefinition.substring(compositeEntityEqualIndex + 1).trim();
                     entities.push({ entityName: compositeEntityName, entityValue: compositeEntityValue });
-                    updatedEntityValue = entityValue.substring(0, compositeEntityLeftIndex) + compositeEntityValue + entityValue.substring(compositeEntityRightIndex + 1);
+                    updatedEntityValue = updatedEntityValue.substring(0, compositeEntityLeftIndex) + compositeEntityValue + updatedEntityValue.substring(compositeEntityRightIndex + 1);
+                    compositeEntityLeftIndex = updatedEntityValue.indexOf('{');
+                    compositeEntityRightIndex = updatedEntityValue.indexOf('}');
                 }
             }
 

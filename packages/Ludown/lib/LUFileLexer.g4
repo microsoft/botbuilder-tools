@@ -125,7 +125,7 @@ NEWLINE_IN_ENTITY
   ;
 
 ENTITY_IDENTIFIER
-  : (LETTER | NUMBER | '_' | '-')+ { this.ignoreWS = false;}
+  : (LETTER | NUMBER | '_' | '-'|'|')+ { this.ignoreWS = false;}
   ;
 
 COMPOSITE_ENTITY
@@ -137,7 +137,7 @@ REGEX_ENTITY
   ;
 
 COLON_MARK
-  : ':' { this.ignoreWS = true;}
+  : ':'
   ;
 
 EQUAL_MARK 

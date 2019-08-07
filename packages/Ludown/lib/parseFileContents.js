@@ -554,73 +554,115 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                         }
                     } else {
                         entitiesFound.forEach(entity => {
-                            // throw an error if a prebuilt, regex, pattern.any, phraselist or list entity is explicitly labelled in an utterance
-                            let nonAllowedPreBuiltEntityInUtterance = (parsedContent.LUISJsonStructure.prebuiltEntities || []).find(item => item.name == entity.entity);
-                            if (nonAllowedPreBuiltEntityInUtterance !== undefined) {
-                                let errorMsg = `Utterance "${utteranceAndEntities.context.getText()}" has invalid reference to prebuilt entity "${nonAllowedPreBuiltEntityInUtterance.name}". Pre-built entities cannot be given an explicit labelled value.`
-                                let error = BuildDiagnostic({
-                                    message: errorMsg,
-                                    severity: DiagnosticSeverity.ERROR,
-                                    context: utteranceAndEntities.context,
-                                    source: filePath
-                                })
-
-                                throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
-                            }
-                            let nonAllowedListEntityInUtterance = (parsedContent.LUISJsonStructure.closedLists || []).find(item => item.name == entity.entity);
-                            if (nonAllowedListEntityInUtterance !== undefined) {
-                                let errorMsg = `Utterance "${utteranceAndEntities.context.getText()}" has invalid reference to list entity "${nonAllowedListEntityInUtterance.name}". List entities cannot be given an explicit labelled value.`;
-                                let error = BuildDiagnostic({
-                                    message: errorMsg,
-                                    severity: DiagnosticSeverity.ERROR,
-                                    context: utteranceAndEntities.context,
-                                    source: filePath
-                                })
-
-                                throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
-                            }
-                            let nonAllowedRegexEntityInUtterance = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entity.entity);
-                            if (nonAllowedRegexEntityInUtterance !== undefined) {
-                                let errorMsg = `Utterance "${utteranceAndEntities.context.getText()}" has invalid reference to regex entity "${nonAllowedRegexEntityInUtterance.name}". RegEx entities cannot be given an explicit labelled value.`;
-                                let error = BuildDiagnostic({
-                                    message: errorMsg,
-                                    severity: DiagnosticSeverity.ERROR,
-                                    context: utteranceAndEntities.context,
-                                    source: filePath
-                                })
-
-                                throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
-                            }
+                            // throw an error if phraselist entity is explicitly labelled in an utterance
                             let nonAllowedPhrseListEntityInUtterance = (parsedContent.LUISJsonStructure.model_features || []).find(item => item.name == entity.entity);
                             if (nonAllowedPhrseListEntityInUtterance !== undefined) {
-                                let errorMsg = `Utterance "${utteranceAndEntities.context.getText()}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`;
-                                let error = BuildDiagnostic({
-                                    message: errorMsg,
-                                    severity: DiagnosticSeverity.ERROR,
-                                    context: utteranceAndEntities.context,
-                                    source: filePath
-                                })
+                                // Fix for #1137
+                                // Phrase list entity can have the same name as other entity types. Only throw if the phrase list has no other type definition and is labelled in an utterance.
+                                let otherEntities = (parsedContent.LUISJsonStructure.entities || []).concat(
+                                    (parsedContent.LUISJsonStructure.prebuiltEntities || []),
+                                    (parsedContent.LUISJsonStructure.closedLists || []),
+                                    (parsedContent.LUISJsonStructure.regex_entities || []),
+                                    (parsedContent.LUISJsonStructure.model_features || []),
+                                    (parsedContent.LUISJsonStructure.composites || [])
+                                );
+                                if ((otherEntities || []).find(item => item.name == entity.entity) === undefined) {
+                                    let errorMsg = `Utterance "${utterance}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`;
+                                    let error = BuildDiagnostic({
+                                        message: errorMsg,
+                                        severity: DiagnosticSeverity.ERROR,
+                                        context: utteranceAndEntities.context,
+                                        source: filePath
+                                    });
 
-                                throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
+                                    throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
+                                }
                             }
-
-                            // do not add entities that might have already been added as composite
+                            
+                            // only add this entity if it has not already been defined as composite, list, prebuilt, regex
                             let compositeExists = (parsedContent.LUISJsonStructure.composites || []).find(item => item.name == entity.entity);
-                            if (compositeExists === undefined) {
+                            let listExists = (parsedContent.LUISJsonStructure.closedLists || []).find(item => item.name == entity.entity);
+                            let prebuiltExists = (parsedContent.LUISJsonStructure.prebuiltEntities || []).find(item => item.name == entity.entity);
+                            let regexExists = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entity.entity);
+                            let patternAnyExists = (parsedContent.LUISJsonStructure.patternAnyEntities || []).find(item => item.name == entity.entity);
+                            if (compositeExists === undefined && listExists === undefined && prebuiltExists === undefined && regexExists === undefined && patternAnyExists === undefined) {
                                 if (entity.role && entity.role !== '') {
                                     addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity, [entity.role.trim()]);
                                 } else {
                                     addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity)
                                 }
                             } else {
-                                if (entity.role && entity.role !== '') {
-                                    // add the role to composite
-                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.COMPOSITES, entity.entity, [entity.role.trim()]);
+                                if (compositeExists !== undefined) {
+                                    if (entity.role != '') {
+                                        addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.COMPOSITES, entity.entity, [entity.role.trim()]);
+                                    }
+                                } else if (listExists !== undefined) {
+                                    if (entity.role != '') {
+                                        addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.CLOSEDLISTS, entity.entity, [entity.role.trim()]);
+                                    } else {
+                                        let errorMsg = `${entity.entity} has been defined as a LIST entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`;
+                                        let error = BuildDiagnostic({
+                                            message: errorMsg,
+                                            severity: DiagnosticSeverity.ERROR,
+                                            context: utteranceAndEntities.context,
+                                            source: filePath
+                                        });
+
+                                        throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
+                                    }
+                                } else if (prebuiltExists !== undefined) {
+                                    if (entity.role != '') {
+                                        addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entity.entity, [entity.role.trim()]);
+                                    } else {
+                                        let errorMsg = `${entity.entity} has been defined as a PREBUILT entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`;
+                                        let error = BuildDiagnostic({
+                                            message: errorMsg,
+                                            severity: DiagnosticSeverity.ERROR,
+                                            context: utteranceAndEntities.context,
+                                            source: filePath
+                                        });
+
+                                        throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
+                                    }
+                                } else if (regexExists !== undefined) {
+                                    if (entity.role != '') {
+                                        addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.REGEX, entity.entity, [entity.role.trim()]);
+                                    } else {
+                                        let errorMsg = `${entity.entity} has been defined as a Regex entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`;
+                                        let error = BuildDiagnostic({
+                                            message: errorMsg,
+                                            severity: DiagnosticSeverity.ERROR,
+                                            context: utteranceAndEntities.context,
+                                            source: filePath
+                                        });
+
+                                        throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
+                                    }
+                                } else if (patternAnyExists !== undefined) {
+                                    if (entity.value != '') {
+                                        // Verify and add this as simple entity.
+                                        let roles = (entity.role && entity.role.trim() !== "") ? [entity.role.trim()] : [];
+                                        patternAnyExists.roles.forEach(role => roles.push(role));
+                                        addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity, roles);
+                                        let patternAnyIdx = -1;
+                                        (parsedContent.LUISJsonStructure.patternAnyEntities || []).find((item, idx) => {
+                                            if (item.name === entity.entity) {
+                                                patternAnyIdx = idx;
+                                                return true;
+                                            }
+                                            return false;
+                                        });
+                                        // delete pattern any entity
+                                        if (patternAnyIdx > -1) parsedContent.LUISJsonStructure.patternAnyEntities.splice(patternAnyIdx, 1);
+
+                                    } else if (entity.role != '') {
+                                        addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()]);
+                                    }
                                 }
                             }
-
                         });
 
+                        // add utterance
                         let utteranceObject = new helperClass.uttereances(utterance, intentName, []);
                         entitiesFound.forEach(item => {
                             if (item.startPos > item.endPos) {
@@ -748,7 +790,11 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     try {
                         let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'List');
                         if (rolesImport.length !== 0) {
-                            rolesImport.forEach(role => entityRoles.push(role));
+                            rolesImport.forEach(role => {
+                                if (!entityRoles.includes(role)) {
+                                    entityRoles.push(role)
+                                }
+                            })
                         }
                     } catch (err) {
                         throw (err);
@@ -1516,7 +1562,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                     }
                     // add all entities to pattern.Any.
                     entitiesFound.forEach(entity => {
-                        if (entity.role !== '') {
+                        if (entity.role && entity.role !== '') {
                             addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()])
                         } else {
                             addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity);
@@ -1556,30 +1602,30 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                         let regexExists = (parsedContent.LUISJsonStructure.regex_entities || []).find(item => item.name == entity.entity);
                         let patternAnyExists = (parsedContent.LUISJsonStructure.patternAnyEntities || []).find(item => item.name == entity.entity);
                         if (compositeExists === undefined && listExists === undefined && prebuiltExists === undefined && regexExists === undefined && patternAnyExists === undefined) {
-                            if (entity.role !== '') {
+                            if (entity.role && entity.role !== '') {
                                 addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity, [entity.role.trim()]);
                             } else {
                                 addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity)
                             }
                         } else {
                             if (compositeExists !== undefined) {
-                                if (entity.role != '') {
+                                if (entity.role && entity.role !== '') {
                                     addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.COMPOSITES, entity.entity, [entity.role.trim()]);
                                 } 
                             } else if (listExists !== undefined) {
-                                if (entity.role != '') {
+                                if (entity.role && entity.role !== '') {
                                     addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.CLOSEDLISTS, entity.entity, [entity.role.trim()]);
                                 } else {
                                     throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: ${entity.entity} has been defined as a LIST entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`))
                                 }
                             } else if (prebuiltExists !== undefined) {
-                                if (entity.role != '') {
+                                if (entity.role && entity.role !== '') {
                                     addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PREBUILT, entity.entity, [entity.role.trim()]);
                                 } else {
                                     throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: ${entity.entity} has been defined as a PREBUILT entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`))
                                 }
                             } else if (regexExists !== undefined) {
-                                if (entity.role != '') {
+                                if (entity.role && entity.role !== '') {
                                     addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.REGEX, entity.entity, [entity.role.trim()]);
                                 } else {
                                     throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: ${entity.entity} has been defined as a Regex entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`))

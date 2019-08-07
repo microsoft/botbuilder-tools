@@ -45,7 +45,7 @@ $commPreference:phraseList
         });
 
         it('parseFile throws if a QnA maker question does not have a list decoration', function (done) {
-                let luFile = `# ? q1
+                let luFile = `### ? q1
 question 2
 `;
                 parseFile.parseFile(luFile, false, 'en-us')
@@ -54,7 +54,7 @@ question 2
         });
 
         it('parseFile throws if a QnA maker filter section does not have list decoration', function (done) {
-                let luFile = `# ? q1
+                let luFile = `### ? q1
 **Filters:**
 location = seattle
 `;
@@ -64,7 +64,7 @@ location = seattle
         });
 
         it('parseFile throws if a QnA maker filter section does not have valid key = value pair', function (done) {
-                let luFile = `# ? q1
+                let luFile = `### ? q1
 **Filters:**
 - location
 `;
@@ -74,7 +74,7 @@ location = seattle
         });
 
         it('parseFile parses multi-line answer correctly', function (done) {
-                let luFile = `# ? q1
+                let luFile = `### ? q1
 \`\`\`markdown
 test
 123
@@ -412,7 +412,7 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
         });
 
         it('Test for #1164 (with roles)', function (done) {
-                let luFile = `## None
+                let luFile = `# None
                 - here's an utterance {aListEntity:ThisIsARole=avalue} with a role in it
                 
                 $aListEntity:some value= Roles=ThisIsARole
@@ -430,7 +430,7 @@ m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
         });
 
         it('Test for #1165 (with roles)', function(done) {
-                let luFile = `## None
+                let luFile = `# None
                 - here's an utterance avalue with a role in it
                 
                 $aListEntity:some value= Roles=ThisIsARole
@@ -685,12 +685,12 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.composites[0].name, 'productOrder');
                                 assert.deepEqual(res.LUISJsonStructure.composites[0].children, ["product"]);
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 3);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[1].startPos, 25);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[1].endPos, 28);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[0].startPos, 15);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[0].endPos, 19);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[2].startPos, 7);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[2].endPos, 35);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[2].startPos, 25);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[2].endPos, 28);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[1].startPos, 15);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[1].endPos, 19);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[0].startPos, 7);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[0].endPos, 35);
                                 done();
                         })
                         .catch(err => done(err))
