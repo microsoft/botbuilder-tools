@@ -1141,7 +1141,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
         try {
             let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityType, entityName);
             if (rolesImport.length !== 0) {
-                rolesImport.forEach(role => entityRoles.push(role));
+                rolesImport.forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
             }
         } catch (err) {
             throw (err);
@@ -1171,7 +1171,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
             try {
                 let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'RegEx');
                 if (rolesImport.length !== 0) {
-                    rolesImport.forEach(role => entityRoles.push(role));
+                    rolesImport.forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
                 }
             } catch (err) {
                 throw (err);
@@ -1222,7 +1222,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
         try {
             let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'Phrase List');
             if (rolesImport.length !== 0) {
-                rolesImport.forEach(role => entityRoles.push(role));
+                rolesImport.forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
             }
         } catch (err) {
             throw (err);
@@ -1326,9 +1326,7 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
     let simpleEntityExists = (parsedContent.LUISJsonStructure.entities || []).find(item => item.name == entityName);
     if (simpleEntityExists !== undefined) {
         // take and add any roles into the roles list
-        (simpleEntityExists.roles || []).forEach(role => {
-            if (!entityRoles.includes(role)) entityRoles.push(role)
-        });
+        (simpleEntityExists.roles || []).forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
         // remove this simple entity definition
         // Fix for #1137.
         // Current behavior does not allow for simple and phrase list entities to have the same name. 
@@ -1401,11 +1399,7 @@ const parseAndHandleListEntity = function (parsedContent, chunkSplitByLine, enti
     let entityName = entityDef.split(':')[0].trim();
     let parsedEntityTypeAndRole = helpers.getRolesAndType(entityType);
     entityType = parsedEntityTypeAndRole.entityType;
-    (parsedEntityTypeAndRole.roles || []).forEach(role => {
-        if (!entityRoles.includes(role)) {
-            entityRoles.push(role)
-        }
-    });
+    (parsedEntityTypeAndRole.roles || []).forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
     // check if this list entity is already labelled in an utterance and or added as a simple entity. if so, throw an error.
     try {
         let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'List');
