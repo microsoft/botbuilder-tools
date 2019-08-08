@@ -575,4 +575,15 @@ describe('The example lu files', function () {
             }
         });
     });
+
+    it('With -m/ --model_info option, ludown refresh correctly writes out model information in output', function(done) {
+        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/all.json -m -s -r -n modelInfo.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/modelInfo.lu'), txtfile.readSync(TEST_ROOT + '/verified/modelInfo.lu'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
 });
