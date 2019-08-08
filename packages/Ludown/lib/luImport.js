@@ -28,7 +28,6 @@ class LUImport {
             let errorMsg = `LU file reference path is empty: "${parseTree.getText()}"`;
             let error = BuildDiagnostic({
                 message: errorMsg,
-                severity: DiagnosticSeverity.ERROR,
                 context: parseTree,
                 source: source
             })

@@ -119,7 +119,10 @@ const parseFileContentsModule = {
         // for each entityFound, see if there are duplicate definitions
         entitiesList.forEach(function (entity) {
             if (entity.type.length > 1) {
-                throw (new exception(retCode.errorCode.DUPLICATE_ENTITIES, 'Entity "' + entity.name + '" has duplicate definitions.\r\n\t' + JSON.stringify(entity.type, 2, null)));
+                let errorMsg = `Entity ${entity.name} has duplicate definitions.\r\n\t` + JSON.stringify(entity.type, 2, null);
+                let error = BuildDiagnostic({ message: errorMsg });
+
+                throw (new exception(retCode.errorCode.DUPLICATE_ENTITIES, error.toString()));
             }
         });
 
@@ -131,7 +134,10 @@ const parseFileContentsModule = {
                         let entityInList = helpers.filterMatch(entitiesList, 'name', entity.entity);
                         if (entityInList.length > 0) {
                             if (entityInList[0].type.includes('phraseList')) {
-                                throw (new exception(retCode.errorCode.INVALID_INPUT, 'Utterance "' + utterance.text + '", has reference to PhraseList. \r\n\t' + 'You cannot have utterances with phraselist references in them'));
+                                let errorMsg = `Utterance "${utterance.text}" has reference to PhraseList. \r\n\tYou cannot have utterances with phraselist references in them`;
+                                let error = BuildDiagnostic({ message: errorMsg });
+
+                                throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                             }
                         }
                     });
@@ -148,7 +154,10 @@ const parseFileContentsModule = {
                         return composite.children.includes(patternAnyEntity.name);
                     });
                     if (patternAnyEntityInComposite !== undefined) {
-                        throw (new exception(retCode.errorCode.INVALID_INPUT, 'Composite entity "' + composite.name + '" includes pattern.any entity "' + patternAnyEntityInComposite.name + '".\r\n\tComposites cannot include pattern.any entity as a child.'));
+                        let errorMsg = `Composite entity "${composite.name}" includes pattern.any entity "${patternAnyEntityInComposite.name}".\r\n\tComposites cannot include pattern.any entity as a child.`;
+                        let error = BuildDiagnostic({ message: errorMsg });
+
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                     }
                 }
 
@@ -165,11 +174,17 @@ const parseFileContentsModule = {
                     }
                     let compositeChildEntityFound = (entitiesList || []).find(entity => entity.name == childEntityName);
                     if (compositeChildEntityFound === undefined) {
-                        throw (new exception(retCode.errorCode.INVALID_INPUT, 'Composite entity "' + composite.name + '" includes an undefined child entity "' + childEntityName + '".\r\n\tAll children of composite entities must be explicitly defined or implicitly defined via an utterance or a pattern'));
+                        let errorMsg = `Composite entity "${composite.name}" includes an undefined child entity "${childEntityName}".\r\n\tAll children of composite entities must be explicitly defined or implicitly defined via an utterance or a pattern`;
+                        let error = BuildDiagnostic({ message: errorMsg });
+
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                     }
                     if (childEntityRole != '') {
                         if (!compositeChildEntityFound.roles.includes(childEntityRole)) {
-                            throw (new exception(retCode.errorCode.INVALID_INPUT, 'Composite entity "' + composite.name + '" includes an undefined child entity role "' + childEntityName + ':' + childEntityRole + '".\r\n\tAll children of composite entities must be explicitly defined or implicitly defined via an utterance or a pattern'));
+                            let errorMsg = `Composite entity "${composite.name}" includes an undefined child entity role "${childEntityName}:${childEntityRole}".\r\n\tAll children of composite entities must be explicitly defined or implicitly defined via an utterance or a pattern`;
+                            let error = BuildDiagnostic({ message: errorMsg });
+
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                         }
                     }
                 })
@@ -464,7 +479,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     let errorMsg = `URI: "${linkValue}" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.`;
                     let error = BuildDiagnostic({
                         message: errorMsg,
-                        severity: DiagnosticSeverity.ERROR,
                         context: luImport.ParseTree,
                         source: filePath
                     })
@@ -476,7 +490,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     let errorMsg = `URI: "${linkValue}" appears to be invalid. Please double check the URI or re-try this parse when you are connected to the internet.`;
                     let error = BuildDiagnostic({
                         message: errorMsg,
-                        severity: DiagnosticSeverity.ERROR,
                         context: luImport.ParseTree,
                         source: filePath
                     })
@@ -525,7 +538,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                             let errorMsg = `Utterance "${utteranceAndEntities.context.getText()}" has mix of entites with labelled values and ones without. Please update utterance to either include labelled values for all entities or remove labelled values from all entities.`;
                             let error = BuildDiagnostic({
                                 message: errorMsg,
-                                severity: DiagnosticSeverity.ERROR,
                                 context: utteranceAndEntities.context,
                                 source: filePath
                             })
@@ -570,7 +582,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                                     let errorMsg = `Utterance "${utterance}" has invalid reference to Phrase List entity "${nonAllowedPhrseListEntityInUtterance.name}". Phrase list entities cannot be given an explicit labelled value.`;
                                     let error = BuildDiagnostic({
                                         message: errorMsg,
-                                        severity: DiagnosticSeverity.ERROR,
                                         context: utteranceAndEntities.context,
                                         source: filePath
                                     });
@@ -603,7 +614,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                                         let errorMsg = `${entity.entity} has been defined as a LIST entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`;
                                         let error = BuildDiagnostic({
                                             message: errorMsg,
-                                            severity: DiagnosticSeverity.ERROR,
                                             context: utteranceAndEntities.context,
                                             source: filePath
                                         });
@@ -617,7 +627,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                                         let errorMsg = `${entity.entity} has been defined as a PREBUILT entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`;
                                         let error = BuildDiagnostic({
                                             message: errorMsg,
-                                            severity: DiagnosticSeverity.ERROR,
                                             context: utteranceAndEntities.context,
                                             source: filePath
                                         });
@@ -631,7 +640,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                                         let errorMsg = `${entity.entity} has been defined as a Regex entity type. It cannot be explicitly included in a labelled utterance unless the label includes a role.`;
                                         let error = BuildDiagnostic({
                                             message: errorMsg,
-                                            severity: DiagnosticSeverity.ERROR,
                                             context: utteranceAndEntities.context,
                                             source: filePath
                                         });
@@ -669,7 +677,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                                 let errorMsg = `No labelled value found for entity: "${item.entity}" in utterance: "${utteranceAndEntities.context.getText()}"`;
                                 let error = BuildDiagnostic({
                                     message: errorMsg,
-                                    severity: DiagnosticSeverity.ERROR,
                                     context: utteranceAndEntities.context,
                                     source: filePath
                                 })
@@ -712,7 +719,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                         let errorMsg = `Phrase lists cannot be used as an entity in a pattern "${pEntityName}"`;
                         let error = BuildDiagnostic({
                             message: errorMsg,
-                            severity: DiagnosticSeverity.ERROR,
                             context: entity.ParseTree.entityLine(),
                             source: filePath
                         })
@@ -770,7 +776,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                         let errorMsg = `QnA alteration section: "${alterationlist}" does not have list decoration. Prefix line with "-" or "+" or "*"`;
                         let error = BuildDiagnostic({
                             message: errorMsg,
-                            severity: DiagnosticSeverity.ERROR,
                             context: entity.ParseTree.entityLine(),
                             source: filePath
                         })
@@ -821,7 +826,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     let errorMsg = `Phrase list entity ${entityName} has invalid role definition with roles = ${entityRoles.join(', ')}. Roles are not supported for Phrase Lists`;
                     let error = BuildDiagnostic({
                         message: errorMsg,
-                        severity: DiagnosticSeverity.ERROR,
                         context: entity.ParseTree.entityLine(),
                         source: filePath
                     })
@@ -870,7 +874,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                             let errorMsg = `Phrase list: "${entityName}" has conflicting definitions. One marked interchangeable and another not interchangeable`;
                             let error = BuildDiagnostic({
                                 message: errorMsg,
-                                severity: DiagnosticSeverity.ERROR,
                                 context: entity.ParseTree.entityLine(),
                                 source: filePath
                             })
@@ -905,7 +908,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     let errorMsg = `Composite entity: ${entityName} is missing child entity definitions. Child entities are denoted via [entity1, entity2] notation.`;
                     let error = BuildDiagnostic({
                         message: errorMsg,
-                        severity: DiagnosticSeverity.ERROR,
                         context: entity.ParseTree.entityLine(),
                         source: filePath
                     })
@@ -927,7 +929,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                         let errorMsg = `Composite entity: ${entityName} has multiple definition with different children. \n 1. ${compositeChildren.join(', ')}\n 2. ${compositeEntity.children.join(', ')}`;
                         let error = BuildDiagnostic({
                             message: errorMsg,
-                            severity: DiagnosticSeverity.ERROR,
                             context: entity.ParseTree.entityLine(),
                             source: filePath
                         })
@@ -955,7 +956,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                         let errorMsg = `RegEx entity: ${regExEntity.name} has empty regex pattern defined.`;
                         let error = BuildDiagnostic({
                             message: errorMsg,
-                            severity: DiagnosticSeverity.ERROR,
                             context: entity.ParseTree.entityLine(),
                             source: filePath
                         })
@@ -972,7 +972,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                             let errorMsg = `RegEx entity: ${regExEntity.name} has multiple regex patterns defined. \n 1. /${regex}/\n 2. /${regExEntity.regexPattern}/`;
                             let error = BuildDiagnostic({
                                 message: errorMsg,
-                                severity: DiagnosticSeverity.ERROR,
                                 context: entity.ParseTree.entityLine(),
                                 source: filePath
                             })
@@ -987,7 +986,6 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     let errorMsg = `RegEx entity: ${regExEntity.name} is missing trailing '/'. Regex patterns need to be enclosed in forward slashes. e.g. /[0-9]/`;
                     let error = BuildDiagnostic({
                         message: errorMsg,
-                        severity: DiagnosticSeverity.ERROR,
                         context: entity.ParseTree.entityLine(),
                         source: filePath
                     })
@@ -1314,10 +1312,11 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
  * @param {parserObj} parsedContent parserObj containing current parsed content
  * @param {String} entityName 
  * @param {String} entityType 
+ * @param {String} filePath
  * @returns {String[]} Possible roles found to import into the explicitly defined entity type.
  * @throws {exception} Throws on errors. exception object includes errCode and text. 
  */
-const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityName, entityType) {
+const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityName, entityType, filePath) {
     let entityRoles = [];
     // Find this entity if it exists in the simple entity collection
     let simpleEntityExists = (parsedContent.LUISJsonStructure.entities || []).find(item => item.name == entityName);
@@ -1350,7 +1349,13 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
                     entityRoles.push(entity.role);
                 }
             } else if (entityType !== 'Phrase List') {              // Fix for # 1151. Phrase lists can have same name as other entities.
-                throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
+                let errorMsg = `'${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`
+                let error = BuildDiagnostic({
+                    message: errorMsg,
+                    source: filePath
+                });
+
+                throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
             }
         });
     }

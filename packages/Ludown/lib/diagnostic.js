@@ -62,10 +62,15 @@ const DiagnosticSeverity = {
 const BuildDiagnostic =function(parameter) {
     let message = parameter.message;
     const severity = parameter.severity === undefined ? DiagnosticSeverity.ERROR : parameter.severity;
+
+    let range;
     const context = parameter.context;
-    const startPosition = context === undefined ? new Position(0, 0) : new Position(context.start.line - 1, context.start.column);
-    const stopPosition = context === undefined ? new Position(0, 0) : new Position(context.stop.line - 1, context.stop.column + context.stop.text.length);
-    const range = new Range(startPosition, stopPosition);
+    if (context !== undefined) {
+        const startPosition = new Position(context.start.line - 1, context.start.column);
+        const stopPosition = new Position(context.stop.line - 1, context.stop.column + context.stop.text.length);
+        range = new Range(startPosition, stopPosition);
+    }
+    
     message = `error message: ${message}`;
     if (parameter.source !== undefined && parameter.source !== '') {
         message = `source: ${parameter.source}, ${message}`;

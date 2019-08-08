@@ -33,7 +33,6 @@ class LUIntent {
                 utteranceAndEntitiesMap.push(utteranceAndEntities);
                 utteranceAndEntities.errorMsgs.forEach(errorMsg => errors.push(BuildDiagnostic({
                     message: errorMsg,
-                    severity: DiagnosticSeverity.ERROR,
                     context: normalIntentStr,
                     source: source
                 })))
@@ -44,9 +43,9 @@ class LUIntent {
             let errorMsg = `no utterances found for intent definition: "# ${this.Name}"`
             let error = BuildDiagnostic({
                 message: errorMsg,
-                severity: DiagnosticSeverity.WARN,
                 context: parseTree.intentNameLine(),
-                source: source
+                source: source,
+                severity: DiagnosticSeverity.WARN
             })
 
             errors.push(error);

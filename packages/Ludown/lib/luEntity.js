@@ -41,9 +41,9 @@ class LUEntity {
             let errorMsg = `no synonyms list found for list entity definition: "${parseTree.entityLine().getText()}"`;
             let error = BuildDiagnostic({
                 message: errorMsg,
-                severity: DiagnosticSeverity.WARN,
                 context: parseTree.entityLine(),
-                source: source
+                source: source,
+                severity: DiagnosticSeverity.WARN
             })
 
             errors.push(error);
