@@ -31,36 +31,12 @@ class LUIntent {
                 let utteranceAndEntities = visitor.visitNormalIntentStringContext(normalIntentStr);
                 utteranceAndEntities.context = normalIntentStr;
                 utteranceAndEntitiesMap.push(utteranceAndEntities);
-                let leftBracketIndex = utteranceAndEntities.utterance.indexOf('{');
-                let rightBracketIndex = utteranceAndEntities.utterance.indexOf('}');
-                let equalIndex = utteranceAndEntities.utterance.indexOf('=');
-                if (leftBracketIndex >= 0 && equalIndex > leftBracketIndex && rightBracketIndex > equalIndex) {
-                    let errorMsg = `utterance "${normalIntentStr.getText().trim()}" has nested composite references. e.g. {a = {b = x}} is valid but {a = {b = {c = x}}} is invalid.`
-                    let error = BuildDiagnostic({
-                        message: errorMsg,
-                        severity: DiagnosticSeverity.ERROR,
-                        context: normalIntentStr,
-                        source: source
-                    })
-
-                    errors.push(error);
-                }
-
-                if (utteranceAndEntities.entities.length > 1
-                    && utteranceAndEntities.entities[0].type !== LUISObjNameEnum.PATTERNANYENTITY 
-                    && leftBracketIndex >= 0
-                    && rightBracketIndex > leftBracketIndex
-                    && equalIndex === -1) {
-                    let errorMsg = `Composite entity "${utteranceAndEntities.entities[0].entity}" includes pattern.any entity "${utteranceAndEntities.utterance}".\r\n\tComposites cannot include pattern.any entity as a child.`
-                    let error = BuildDiagnostic({
-                        message: errorMsg,
-                        severity: DiagnosticSeverity.ERROR,
-                        context: normalIntentStr,
-                        source: source
-                    })
-
-                    errors.push(error);
-                }
+                utteranceAndEntities.errorMsgs.forEach(errorMsg => errors.push(BuildDiagnostic({
+                    message: errorMsg,
+                    severity: DiagnosticSeverity.ERROR,
+                    context: normalIntentStr,
+                    source: source
+                })))
             }
         }
 

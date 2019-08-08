@@ -634,14 +634,14 @@ describe('parseFile correctly parses utterances', function () {
                 let testLUFile = `# test
                 - {p = x {q = y}}
                 
-                $ p : [y]`;
+                $ p : [q]`;
                 parseFile.parseFile(testLUFile, false)
                         .then(res => {
                                 assert.equal(res.LUISJsonStructure.utterances.length, 1);
                                 assert.equal(res.LUISJsonStructure.utterances[0].text, "x y");
                                 assert.equal(res.LUISJsonStructure.composites.length, 1);
                                 assert.equal(res.LUISJsonStructure.composites[0].name, 'p');
-                                assert.deepEqual(res.LUISJsonStructure.composites[0].children, ["y"]);
+                                assert.deepEqual(res.LUISJsonStructure.composites[0].children, ["q"]);
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 2);
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities[0].startPos, 2);
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities[0].endPos, 2);
@@ -685,12 +685,12 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.composites[0].name, 'productOrder');
                                 assert.deepEqual(res.LUISJsonStructure.composites[0].children, ["product"]);
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 3);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[2].startPos, 25);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[2].endPos, 28);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[1].startPos, 15);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[1].endPos, 19);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[0].startPos, 7);
-                                assert.equal(res.LUISJsonStructure.utterances[0].entities[0].endPos, 35);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[1].startPos, 25);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[1].endPos, 28);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[0].startPos, 15);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[0].endPos, 19);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[2].startPos, 7);
+                                assert.equal(res.LUISJsonStructure.utterances[0].entities[2].endPos, 35);
                                 done();
                         })
                         .catch(err => done(err))
@@ -788,7 +788,7 @@ describe('parseFile correctly parses utterances', function () {
         });
 
         it ('Roles specified in composite nested simple child entities are parsed correcly', function(done){
-                let testLU = `## None
+                let testLU = `# None
                 - {MyComposite:c1=here's an {Entity2:t1=utterance {Entity1:t2=avalue}}} with a composite in it
                 > here's an utterance avalue with a composite in it
                 > MyComposite:0,25; Entity2:10,25, Entity1:20,25
@@ -835,7 +835,7 @@ describe('parseFile correctly parses utterances', function () {
         });
 
         it ('test for #1167', function(done){
-                let testLU = `## None
+                let testLU = `# None
                 - {MyComposite=here's an {Entity2=utterance {Entity1=avalue}}} with a composite in it
                 > here's an utterance avalue with a composite in it
                 > MyComposite:0,25; Entity2:10,25, Entity1:20,25
@@ -879,7 +879,7 @@ describe('parseFile correctly parses utterances', function () {
         })
 
         it ('Test for 1151, phrase list can have same name as labelled simple entity', function(done){
-                let testLu = `## RequestItem
+                let testLu = `# RequestItem
                 - i need more {Item=water}
                 
                 $Item:simple
