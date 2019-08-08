@@ -31,17 +31,7 @@ const parseFileContentsModule = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     validateLUISBlob: async function (LUISJSONBlob) {
-        // patterns can have references to any other entity types. 
-        // So if there is a pattern.any entity that is also defined as another type, remove the pattern.any entity
-        LUISJSONBlob.patternAnyEntities = (LUISJSONBlob.patternAnyEntities || []).filter(entity => {
-            if (itemExists(LUISJSONBlob.entities, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.closedLists, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.model_features, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.regex_entities, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
-            return true;
-        });
+        
 
         // look for entity name collisions - list, simple, patternAny, phraselist
         // look for list entities labelled
@@ -552,16 +542,22 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
     let pEntityName = (entityName === 'PREBUILT') ? entityType : entityName;
     // see if we already have this as Pattern.Any entity
     // see if we already have this in patternAny entity collection; if so, remove it but remember the roles (if any)
-    for (let i in parsedContent.LUISJsonStructure.patternAnyEntities) {
-        if (parsedContent.LUISJsonStructure.patternAnyEntities[i].name === pEntityName) {
+    let patternAnyMatchIdx = new Array();
+    (parsedContent.LUISJsonStructure.patternAnyEntities || []).forEach((entity, idx) => {
+        if (entity.name === pEntityName || entity.name === entityType) {
             if (entityType.toLowerCase().trim().includes('phraselist')) {
                 throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR]: Phrase lists cannot be used as an entity in a pattern "' + pEntityName));
             }
-            if (parsedContent.LUISJsonStructure.patternAnyEntities[i].roles.length !== 0) entityRoles = parsedContent.LUISJsonStructure.patternAnyEntities[i].roles;
-            parsedContent.LUISJsonStructure.patternAnyEntities.splice(i, 1);
-            break;
+            if (entity.roles.length !== 0) entityRoles = entity.roles;
+            patternAnyMatchIdx.push(idx);
         }
-    }
+    });
+
+    // remove any found patternany entities.
+    patternAnyMatchIdx.sort().reverse().forEach(idx => {
+        parsedContent.LUISJsonStructure.patternAnyEntities.splice(idx, 1);
+    })
+
     // add this entity to appropriate place
     // is this a builtin type? 
     if (builtInTypes.consolidatedList.includes(entityType)) {
