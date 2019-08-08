@@ -216,6 +216,12 @@ const parseFileContentsModule = {
                 }
             } else if (chunk.indexOf(PARSERCONSTS.QNA) === 0) {
                 parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, chunkSplitByLine[1], 'custom editorial', [chunkSplitByLine[0].replace(PARSERCONSTS.QNA, '').trim()], []));
+            } else if (chunk.indexOf(PARSERCONSTS.MODELINFO) === 0) {
+                try {
+                    parseAndHandleModelInfo(parsedContent, chunkSplitByLine, log);
+                } catch (err) {
+                    throw (err);
+                }
             }
         };
         return parsedContent;
@@ -268,6 +274,9 @@ const parseFileContentsModule = {
                     }
                 });
             }
+
+            if (blob.name !== undefined) FinalQnAJSON.name = blob.name;
+
         });
         return FinalQnAJSON;
     },
@@ -448,7 +457,23 @@ const parseFileContentsModule = {
         }
     }
 };
-
+const parseAndHandleModelInfo = function(parsedContent, chunkSplitByLine, log) {
+    // split each line by key value pair
+    (chunkSplitByLine || []).forEach(line => {
+        let kvPair = line.split(/@(app|kb).(.*)=/g);
+        if (kvPair.length === 4) {
+            if (kvPair[1].trim().toLowerCase() === 'app') {
+                parsedContent.LUISJsonStructure[kvPair[2].trim()] = kvPair[3].trim();
+            } else if (kvPair[1].trim().toLowerCase() === 'kb') {
+                parsedContent.qnaJsonStructure[kvPair[2].trim()] = kvPair[3].trim();
+            }
+        } else {
+            if (log) {
+                process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
+            }
+        }
+    })
+};
 /**
  * Helper function to merge item if it does not already exist
  *

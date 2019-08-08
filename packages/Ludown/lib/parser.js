@@ -87,14 +87,14 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     if(program.luis_culture) program.luis_culture = program.luis_culture.toLowerCase();
 
     if(finalLUISJSON) {
-        finalLUISJSON.luis_schema_version = program.luis_schema_version;
-        finalLUISJSON.versionId = program.luis_versionId;
-        finalLUISJSON.name = program.luis_name.split('.')[0],
-        finalLUISJSON.desc = program.luis_desc;
-        finalLUISJSON.culture = program.luis_culture;
+        finalLUISJSON.luis_schema_version = finalLUISJSON.luis_schema_version || program.luis_schema_version;
+        finalLUISJSON.versionId = finalLUISJSON.versionId || program.luis_versionId;
+        finalLUISJSON.name = finalLUISJSON.name || program.luis_name.split('.')[0],
+        finalLUISJSON.desc = finalLUISJSON.desc || program.luis_desc;
+        finalLUISJSON.culture = finalLUISJSON.culture || program.luis_culture;
     }
 
-    if (finalQnAJSON) finalQnAJSON.name = program.qna_name.split('.')[0];
+    if (finalQnAJSON) finalQnAJSON.name = finalQnAJSON.name || program.qna_name.split('.')[0];
 
     var writeQnAFile = (finalQnAJSON.qnaList.length > 0) || 
                         (finalQnAJSON.urls.length > 0) || 
