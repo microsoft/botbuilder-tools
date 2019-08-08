@@ -153,8 +153,7 @@ var sharedContextCache = new antlr4.PredictionContextCache();
 
 var literalNames = [ null, null, null, null, null, null, null, null, null, 
                      null, "'**Filters:**'", null, null, null, null, "'.'", 
-                     null, null, null, null, null, null, null, null, "':'", 
-                     "'='" ];
+                     null, null, null, null, null, null, null, null, "':'" ];
 
 var symbolicNames = [ null, "COMMENTS", "WS", "NEWLINE", "QNA", "HASH", 
                       "DASH", "DOLLAR", "IMPORT_DESC", "IMPORT_PATH", "Filter_MARK", 
@@ -162,7 +161,7 @@ var symbolicNames = [ null, "COMMENTS", "WS", "NEWLINE", "QNA", "HASH",
                       "IDENTIFIER", "DOT", "WS_IN_BODY_IGNORED", "ESCAPE_CHARACTER", 
                       "EXPRESSION", "TEXT", "WS_IN_ENTITY_IGNORED", "ENTITY_IDENTIFIER", 
                       "COMPOSITE_ENTITY", "REGEX_ENTITY", "COLON_MARK", 
-                      "EQUAL_MARK", "WS_IN_QNA_IGNORED", "QNA_TEXT" ];
+                      "SPECIAL_CHAR_MARK", "WS_IN_QNA_IGNORED", "QNA_TEXT" ];
 
 var ruleNames =  [ "file", "paragraph", "newline", "intentDefinition", "intentNameLine", 
                    "intentName", "intentNameIdentifier", "intentBody", "normalIntentBody", 
@@ -216,7 +215,7 @@ LUFileParser.ENTITY_IDENTIFIER = 21;
 LUFileParser.COMPOSITE_ENTITY = 22;
 LUFileParser.REGEX_ENTITY = 23;
 LUFileParser.COLON_MARK = 24;
-LUFileParser.EQUAL_MARK = 25;
+LUFileParser.SPECIAL_CHAR_MARK = 25;
 LUFileParser.WS_IN_QNA_IGNORED = 26;
 LUFileParser.QNA_TEXT = 27;
 
@@ -1540,14 +1539,14 @@ EntityTypeContext.prototype.regexEntityIdentifier = function(i) {
     }
 };
 
-EntityTypeContext.prototype.EQUAL_MARK = function(i) {
+EntityTypeContext.prototype.SPECIAL_CHAR_MARK = function(i) {
 	if(i===undefined) {
 		i = null;
 	}
     if(i===null) {
-        return this.getTokens(LUFileParser.EQUAL_MARK);
+        return this.getTokens(LUFileParser.SPECIAL_CHAR_MARK);
     } else {
-        return this.getToken(LUFileParser.EQUAL_MARK, i);
+        return this.getToken(LUFileParser.SPECIAL_CHAR_MARK, i);
     }
 };
 
@@ -1611,7 +1610,7 @@ LUFileParser.prototype.entityType = function() {
         this.state = 139;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
-        while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << LUFileParser.WS) | (1 << LUFileParser.ENTITY_IDENTIFIER) | (1 << LUFileParser.COMPOSITE_ENTITY) | (1 << LUFileParser.REGEX_ENTITY) | (1 << LUFileParser.COLON_MARK) | (1 << LUFileParser.EQUAL_MARK))) !== 0)) {
+        while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << LUFileParser.WS) | (1 << LUFileParser.ENTITY_IDENTIFIER) | (1 << LUFileParser.COMPOSITE_ENTITY) | (1 << LUFileParser.REGEX_ENTITY) | (1 << LUFileParser.COLON_MARK) | (1 << LUFileParser.SPECIAL_CHAR_MARK))) !== 0)) {
             this.state = 137;
             this._errHandler.sync(this);
             switch(this._input.LA(1)) {
@@ -1627,9 +1626,9 @@ LUFileParser.prototype.entityType = function() {
                 this.state = 133;
                 this.regexEntityIdentifier();
                 break;
-            case LUFileParser.EQUAL_MARK:
+            case LUFileParser.SPECIAL_CHAR_MARK:
                 this.state = 134;
-                this.match(LUFileParser.EQUAL_MARK);
+                this.match(LUFileParser.SPECIAL_CHAR_MARK);
                 break;
             case LUFileParser.COLON_MARK:
                 this.state = 135;

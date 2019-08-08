@@ -9,7 +9,7 @@ const toLU = require('../lib/toLU-helpers').constructMdFromLUISJSON;
 describe('Roles in LU files', function() {
     it('Correctly parses prebuilt entity with roles defined via labelled utterance', function(done) {
         let fileContent = `> # Intent definitions
-        ## Book flight
+        # Book flight
         - book flight from {geographyV2:fromCity=london} to {geographyV2:toCity=paris} on {datetimeV2:date=feb 14th}
         
         > # Entity definitions
@@ -28,7 +28,7 @@ describe('Roles in LU files', function() {
 
     it('Correctly parses list entity with roles defined via labelled utterance', function(done) {
         let fileContent = `> # Intent definitions
-        ## Book flight
+        # Book flight
         - book flight from {city:fromCity=london} to {city:toCity=paris} on {datetimeV2:date=feb 14th}
         
         > # Entity definitions
@@ -53,7 +53,7 @@ describe('Roles in LU files', function() {
 
     it('Correctly parses regex entity with roles defined via labelled utterance', function(done) {
         let fileContent = `> # Intent definitions
-        ## Book flight
+        # Book flight
         - book flight from {city:fromCity=london} to {city:toCity=paris} on {datetimeV2:date=feb 14th}
         
         > # Entity definitions
@@ -73,7 +73,7 @@ describe('Roles in LU files', function() {
 
     it('Correctly throws on prebuilt entity (without roles) defined via labelled utterance', function(done) {
         let fileContent = `> # Intent definitions
-        ## Book flight
+        # Book flight
         - book flight from {geographyV2=london} to {geographyV2=paris} on {datetimeV2:date=feb 14th}
         
         > # Entity definitions
@@ -86,7 +86,7 @@ describe('Roles in LU files', function() {
 
     it('Correctly throws on list entity (without roles) defined via labelled utterance', function(done) {
         let fileContent = `> # Intent definitions
-        ## Book flight
+        # Book flight
         - book flight from {city=london} to {city=paris} on {datetimeV2:date=feb 14th}
         
         > # Entity definitions
@@ -104,7 +104,7 @@ describe('Roles in LU files', function() {
 
     it('Correctly thows with regex entity (without roles) in labelled utterance', function(done) {
         let fileContent = `> # Intent definitions
-        ## Book flight
+        # Book flight
         - book flight from {city=london} to {city=paris} on {datetimeV2:date=feb 14th}
         
         > # Entity definitions
@@ -912,7 +912,7 @@ $test:[fromTime]`;
     it ('prebuilt entities with inline as well as explicit role definition is handled correctly', function(done){
         let testLU = `> # Intent definitions
 
-        ## Intent
+        # Intent
         - holiday request to {datetimeV2:to=next day}
         - holiday request vacation from {datetimeV2:from=today}
         - i want vacation from {datetimeV2:from} until {datetimeV2:to}
@@ -937,7 +937,7 @@ $test:[fromTime]`;
     it ('regex entities with inline as well as explicit role definition is handled correctly', function(done){
         let testLU = `> # Intent definitions
 
-        ## Intent
+        # Intent
         - holiday request to {regex1:to=32}
         - holiday request vacation from {regex1:from=today}
         - i want vacation from {regex1:from} until {regex1:to}
@@ -962,7 +962,7 @@ $test:[fromTime]`;
     it ('closed list entities with inline as well as explicit role definition is handled correctly', function(done){
         let testLU = `> # Intent definitions
 
-        ## Intent
+        # Intent
         - holiday request to {list1:to=32}
         - holiday request vacation from {list1:from=today}
         - i want vacation from {list1:from} until {list1:to}

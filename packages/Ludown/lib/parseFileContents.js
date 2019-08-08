@@ -733,7 +733,7 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                 try {
                     let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityType, entityName);
                     if (rolesImport.length !== 0) {
-                        rolesImport.forEach(role => entityRoles.push(role));
+                        rolesImport.forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
                     }
                 } catch (err) {
                     throw (err);
@@ -781,11 +781,8 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     // treat this as a LUIS list entity type
                     let parsedEntityTypeAndRole = helpers.getRolesAndType(entityType);
                     entityType = parsedEntityTypeAndRole.entityType;
-                    (parsedEntityTypeAndRole.roles || []).forEach(role => {
-                        if (!entityRoles.includes(role)) {
-                            entityRoles.push(role)
-                        }
-                    });
+                    (parsedEntityTypeAndRole.roles || []).forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
+                    
                     // check if this list entity is already labelled in an utterance and or added as a simple entity. if so, throw an error.
                     try {
                         let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'List');
@@ -835,7 +832,7 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                 try {
                     let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'Phrase List');
                     if (rolesImport.length !== 0) {
-                        rolesImport.forEach(role => entityRoles.push(role));
+                        rolesImport.forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
                     }
                 } catch (err) {
                     throw (err);
@@ -893,7 +890,7 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                 let simpleEntityExists = (parsedContent.LUISJsonStructure.entities || []).find(item => item.name == entityName);
                 if (simpleEntityExists !== undefined) {
                     // take and add any roles into the roles list
-                    (simpleEntityExists.roles || []).forEach(role => entityRoles.push(role));
+                    (simpleEntityExists.roles || []).forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
                     // remove this simple entity definition
                     for (var idx = 0; idx < parsedContent.LUISJsonStructure.entities.length; idx++) {
                         if (parsedContent.LUISJsonStructure.entities[idx].name === simpleEntityExists.name) {
@@ -947,7 +944,7 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, fileP
                     try {
                         let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'RegEx');
                         if (rolesImport.length !== 0) {
-                            rolesImport.forEach(role => entityRoles.push(role));
+                            rolesImport.forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
                         }
                     } catch (err) {
                         throw (err);

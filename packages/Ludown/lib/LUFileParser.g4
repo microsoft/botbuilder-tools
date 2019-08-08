@@ -63,7 +63,7 @@ entityName
     ;
 
 entityType
-    : (entityIdentifier|compositeEntityIdentifier|regexEntityIdentifier|EQUAL_MARK|COLON_MARK|WS)*
+    : (entityIdentifier|compositeEntityIdentifier|regexEntityIdentifier|SPECIAL_CHAR_MARK|COLON_MARK|WS)*
     ;
 
 compositeEntityIdentifier
