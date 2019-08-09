@@ -457,6 +457,12 @@ const parseFileContentsModule = {
         }
     }
 };
+/**
+ * Helper function to parse and handle model information specified via > !# info
+ * @param {Object} parsedContent 
+ * @param {string[]} chunkSplitByLine 
+ * @param {bool} log 
+ */
 const parseAndHandleModelInfo = function(parsedContent, chunkSplitByLine, log) {
     // split each line by key value pair
     (chunkSplitByLine || []).forEach(line => {
