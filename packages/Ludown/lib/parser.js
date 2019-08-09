@@ -78,13 +78,6 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     } catch (err) {
         throw (err);
     }
-    // if(!program.luis_versionId) program.luis_versionId = "0.1";
-    // if(!program.luis_schema_version) program.luis_schema_version = "3.0.0";
-    // if(!program.luis_name) program.luis_name = path.basename(rootFile, path.extname(rootFile));
-    // if(!program.luis_desc) program.luis_desc = "";
-    // if(!program.luis_culture) program.luis_culture = "en-us";   
-    // if(!program.qna_name) program.qna_name = path.basename(rootFile, path.extname(rootFile));
-    // if(program.luis_culture) program.luis_culture = program.luis_culture.toLowerCase();
 
     if(finalLUISJSON) {
         finalLUISJSON.luis_schema_version = program.luis_schema_version || finalLUISJSON.luis_schema_version || "3.0.0";
