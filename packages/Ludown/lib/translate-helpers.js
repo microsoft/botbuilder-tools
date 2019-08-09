@@ -83,6 +83,12 @@ const translateHelpers = {
                     this.addSegment(linesToTranslate, NEWLINE, false);
                     continue;
                 }
+                // Fix for #1191. Do not localize meta-data filters for QnA.
+                if (currentSectionType === PARSERCONSTS.FILTER) {
+                    this.addSegment(linesToTranslate, currentLine, false);
+                    this.addSegment(linesToTranslate, NEWLINE, false);
+                    continue;
+                }
                 let listSeparator = '';
                 let content = '';
                 switch (currentSectionType) {

@@ -247,4 +247,31 @@ describe('With translate module', function() {
             })
             .catch(err => done(err))
     });
+
+    it('correctly localizes metadata filters for QnA', function(done) {
+        if(!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let luFile = helpers.sanitizeNewLines(`## ? First question.
+        - Alternate first question.
+        
+        **Filters:**
+        - metatag = first
+        
+        `);
+        let expectedOutput = helpers.sanitizeNewLines(`## ? Première question.
+- Première question alternative.
+
+**Filters:**
+- metatag = first
+
+
+`);
+        trHelpers.parseAndTranslate(luFile, TRANSLATE_KEY, 'fr', null, false, false, false)
+            .then(res => {
+                assert.equal(res, expectedOutput);
+                done();
+            })
+            .catch(err => done(err))
+    });
 });
