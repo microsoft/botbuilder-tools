@@ -122,7 +122,13 @@ const helpers = {
                 // Add support to parse application metadata if found
                 let info = currentLine.split(/>[ ]*!#/g);
                 if (info === undefined || info.length === 1) continue;
-                currentSection += PARSERCONSTS.MODELINFO + info[1].trim() + NEWLINE;
+                let previousSection = currentSection.substring(0, currentSection.lastIndexOf(NEWLINE));
+                try {
+                    sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
+                } catch (err) {
+                    throw (err);
+                }
+                currentSection = PARSERCONSTS.MODELINFO + info[1].trim() + NEWLINE;
                 currentSectionType = PARSERCONSTS.MODELINFO;
                 continue;
             }

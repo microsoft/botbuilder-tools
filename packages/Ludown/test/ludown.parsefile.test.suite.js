@@ -935,5 +935,38 @@ describe('parseFile correctly parses utterances', function () {
                         .catch(err => done(err))
         })
 
+        it ('LUIS and QnA meta data information in lu file is parsed correctly', function(done){
+                let testLU = `> !# @kb.name = my test kb
+                # ? hi
+                \`\`\`markdown
+                hello
+                \`\`\`
+                
+                > !# @app.versionId = 0.6
+                > !# @app.name = orange tomato
+                
+                # test
+                - greeting`;
+                
+                parseFile.parseFile(testLU) 
+                        .then(res => {
+                                assert.equal(res.qnaJsonStructure.name, 'my test kb');
+                                assert.equal(res.LUISJsonStructure.name, 'orange tomato');
+                                assert.equal(res.LUISJsonStructure.versionId, '0.6');
+                                done();
+                        })
+                        .catch(err => done(err))
+        })
+
+        it ('Multi line app meta data definition throws correctly', function(done){
+                let testLU = `> !# @kb.name = foo bar
+                test
+                
+                # ? test q`;
+
+                parseFile.parseFile(testLU)
+                        .then(res => done(`Did not throw when expected`))
+                        .catch(err => done())
+        })
 
 })
