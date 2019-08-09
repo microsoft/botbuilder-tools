@@ -141,7 +141,7 @@ To bootstrap translations of the language understanding content for your bot, yo
     -o, --out_folder <outputFolder>  [Optional] Output folder for all files the tool will generate
     -f, --src_lang                   [Optional] Source language. When omitted, source language is automatically detected. See https://aka.ms/translate-langs for list of supported languages and codes
     -s, --subfolder                  [Optional] Include sub-folders as well when looking for .lu files
-    -n, --lu_File <LU_File>          [Optional] Output .lu file name
+    -n, -n, --lu_file <lu file name> [Optional] Output .lu file name
     -c, --transate_comments          [Optional] Translate comments in .lu files
     -u, --translate_link_text        [Optional] Translate URL or .lu file reference link text
     -b, --batch_translate <linesToBatch>  [Optional] Batch up <x> (1-25) number of lines before calling translation API. Defaults to 25.
