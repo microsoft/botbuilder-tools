@@ -3,10 +3,9 @@ const Position = require('./diagnostic').Position;
 const Range = require('./diagnostic').Range;
 const Diagnostic = require('./diagnostic').Diagnostic;
 
-let LUErrorListener = function(errors, source) {
+let LUErrorListener = function(errors) {
     antlr4.error.ErrorListener.call(this);
     this.errors = errors;
-    this.source = source;
     return this;
 }
 
@@ -16,10 +15,7 @@ LUErrorListener.prototype.syntaxError = function(recognizer, offendingSymbol, li
     const startPosition = new Position(line - 1, charPositionInLine);
     const stopPosition = new Position(line - 1, charPositionInLine + offendingSymbol.stopIndex - offendingSymbol.startIndex + 1);
     const range = new Range(startPosition, stopPosition);
-    msg = `syntax error message: ${msg}`;
-    if (this.source !== undefined && this.source !== '') {
-        msg = `source: ${this.source}, ${msg}`;
-    }
+    msg = `syntax error: ${msg}`;
     
     const diagnostic = new Diagnostic(range, msg);
     this.errors.push(diagnostic);

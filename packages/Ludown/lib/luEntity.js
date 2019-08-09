@@ -6,14 +6,12 @@ class LUEntity {
     /**
      * 
      * @param {EntityDefinitionContext} parseTree 
-     * @param {string} source 
      */
-    constructor(parseTree, source = '') {
+    constructor(parseTree) {
         this.ParseTree = parseTree;
-        this.Source = source;
         this.Name = this.ExtractName(parseTree);
         this.Type = this.ExtractType(parseTree);
-        const result = this.ExtractSynonymsOrPhraseList(parseTree, source);
+        const result = this.ExtractSynonymsOrPhraseList(parseTree);
         this.SynonymsOrPhraseList = result.synonymsOrPhraseList;
         this.Errors = result.errors;
     }
@@ -26,7 +24,7 @@ class LUEntity {
         return parseTree.entityLine().entityType().getText().trim();
     }
 
-    ExtractSynonymsOrPhraseList(parseTree, source) {
+    ExtractSynonymsOrPhraseList(parseTree) {
         let synonymsOrPhraseList = [];
         let errors = [];
 
@@ -42,7 +40,6 @@ class LUEntity {
             let error = BuildDiagnostic({
                 message: errorMsg,
                 context: parseTree.entityLine(),
-                source: source,
                 severity: DiagnosticSeverity.WARN
             })
 

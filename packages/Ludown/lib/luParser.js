@@ -12,38 +12,36 @@ const LUErrorListener = require('./luErrorListener');
 class LUParser {
     /**
      * @param {string} text
-     * @param {string} id
      */
-    static parse(text, id = '') {
+    static parse(text) {
         let luIntents;
         let luEntities;
         let luImports;
         let qnas;
 
-        let { fileContent, errors } = this.getFileContent(text, id);
+        let { fileContent, errors } = this.getFileContent(text);
         if (errors.length > 0) {
-            return new LUResource(luIntents, luEntities, luImports, qnas, errors, id);
+            return new LUResource(luIntents, luEntities, luImports, qnas, errors);
         }
 
-        luIntents = this.extractLUIntents(fileContent, id);
+        luIntents = this.extractLUIntents(fileContent);
         luIntents.forEach(luIntent => errors = errors.concat(luIntent.Errors));
 
-        luEntities = this.extractLUEntities(fileContent, id);
+        luEntities = this.extractLUEntities(fileContent);
         luEntities.forEach(luEntity => errors = errors.concat(luEntity.Errors));
 
-        luImports = this.extractLUImports(fileContent, id);
+        luImports = this.extractLUImports(fileContent);
         luImports.forEach(luImport => errors = errors.concat(luImport.Errors));
         
-        qnas = this.extractLUQnas(fileContent, id);
+        qnas = this.extractLUQnas(fileContent);
 
-        return new LUResource(luIntents, luEntities, luImports, qnas, errors, id);
+        return new LUResource(luIntents, luEntities, luImports, qnas, errors);
     }
 
     /**
      * @param {string} text
-     * @param {string} source
      */
-    static getFileContent(text, source) {
+    static getFileContent(text) {
         if (text === undefined
             || text === ''
             || text === null) {
@@ -56,7 +54,7 @@ class LUParser {
         const tokens = new antlr4.CommonTokenStream(lexer);
         const parser = new LUFileParser(tokens);
         let errors = [];
-        const listener = new LUErrorListener(errors, source)
+        const listener = new LUErrorListener(errors)
         parser.removeErrorListeners();
         parser.addErrorListener(listener);
         parser.buildParseTrees = true;
@@ -67,9 +65,8 @@ class LUParser {
 
     /**
      * @param {FileContext} fileContext 
-     * @param {string} source 
      */
-    static extractLUIntents(fileContext, source) {
+    static extractLUIntents(fileContext) {
         if (fileContext === undefined
             || fileContext === null) {
                 return [];
@@ -79,16 +76,15 @@ class LUParser {
             .map(x => x.intentDefinition())
             .filter(x => x !== undefined && x !== null);
 
-        let intents = intentDefinitions.map(x => new LUIntent(x, source));
+        let intents = intentDefinitions.map(x => new LUIntent(x));
 
         return intents;
     }
 
     /**
      * @param {FileContext} fileContext 
-     * @param {string} source 
      */
-    static extractLUEntities(fileContext, source) {
+    static extractLUEntities(fileContext) {
         if (fileContext === undefined
             || fileContext === null) {
                 return [];
@@ -98,16 +94,15 @@ class LUParser {
             .map(x => x.entityDefinition())
             .filter(x => x !== undefined && x != null);
 
-        let entities = entityDefinitions.map(x => new LUEntity(x, source));
+        let entities = entityDefinitions.map(x => new LUEntity(x));
 
         return entities;
     }
 
     /**
      * @param {FileContext} fileContext 
-     * @param {string} source 
      */
-    static extractLUImports(fileContext, source) {
+    static extractLUImports(fileContext) {
         if (fileContext === undefined
             || fileContext === null) {
                 return [];
@@ -117,16 +112,15 @@ class LUParser {
             .map(x => x.importDefinition())
             .filter(x => x !== undefined && x != null);
 
-        let imports = entityDefinitions.map(x => new LUImport(x, source));
+        let imports = entityDefinitions.map(x => new LUImport(x));
 
         return imports;
     }
 
     /**
      * @param {FileContext} fileContext 
-     * @param {string} source 
      */
-    static extractLUQnas(fileContext, source) {
+    static extractLUQnas(fileContext) {
         if (fileContext === undefined
             || fileContext === null) {
                 return [];
@@ -136,7 +130,7 @@ class LUParser {
             .map(x => x.qnaDefinition())
             .filter(x => x !== undefined && x != null);
 
-        let qnas = qnaDefinitions.map(x => new LUQna(x, source));
+        let qnas = qnaDefinitions.map(x => new LUQna(x));
 
         return qnas;
     }

@@ -8,15 +8,13 @@ class LUResource {
      * @param {any[]} imports
      * @param {any[]} qnas
      * @param {any[]} errors
-     * @param {string} id
      */
-    constructor(intents, entities, imports, qnas, errors, id = '') {
+    constructor(intents, entities, imports, qnas, errors) {
       this.Intents = intents;
       this.Entities = entities;
       this.Imports = imports;
       this.Qnas = qnas;
       this.Errors = errors;
-      this.Id = id;
     }
 }
 

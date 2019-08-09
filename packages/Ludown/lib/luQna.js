@@ -4,11 +4,9 @@ class LUQna {
     /**
      * 
      * @param {QnaDefinitionContext} parseTree 
-     * @param {string} source 
      */
-    constructor(parseTree, source = '') {
+    constructor(parseTree) {
         this.ParseTree = parseTree;
-        this.Source = source;
         this.Questions = [this.ExtractQuestion(parseTree)];
         this.Questions = this.Questions.concat(this.ExtractMoreQuestions(parseTree));
         this.FilterPairs = this.ExtractFilterPairs(parseTree);

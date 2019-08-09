@@ -70,12 +70,7 @@ const BuildDiagnostic =function(parameter) {
         const stopPosition = new Position(context.stop.line - 1, context.stop.column + context.stop.text.length);
         range = new Range(startPosition, stopPosition);
     }
-    
-    message = `error message: ${message}`;
-    if (parameter.source !== undefined && parameter.source !== '') {
-        message = `source: ${parameter.source}, ${message}`;
-    }
-
+        
     return new Diagnostic(range, message, severity);
 }
 

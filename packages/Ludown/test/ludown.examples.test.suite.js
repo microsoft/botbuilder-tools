@@ -278,8 +278,7 @@ describe('The example lu files', function () {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/missing-utterance.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout) => {
             try {
                 assert.ok(stdout.includes('[WARN] line 0:0 - line 0:10'));
-                assert.ok(stdout.includes('testcases/missing-utterance.lu'));
-                assert.ok(stdout.includes('error message: no utterances found for intent definition: "# Greeting"'));
+                assert.ok(stdout.includes('no utterances found for intent definition: "# Greeting"'));
                 done();
             } catch (err) {
                 done(err);
@@ -291,8 +290,7 @@ describe('The example lu files', function () {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid-entity-definition.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
                 assert.ok(stderr.includes('[ERROR] line 0:9:'));
-                assert.ok(stderr.includes('testcases/invalid-entity-definition.lu'));
-                assert.ok(stderr.includes("syntax error message: missing ':' at '='"));
+                assert.ok(stderr.includes("syntax error: missing ':' at '='"));
                 done();
             } catch (err) {
                 done(err);
@@ -304,8 +302,7 @@ describe('The example lu files', function () {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/missing-synonyms.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout) => {
             try {
                 assert.ok(stdout.includes('[WARN] line 0:0 - line 0:14'));
-                assert.ok(stdout.includes('testcases/missing-synonyms.lu'));
-                assert.ok(stdout.includes('error message: no synonyms list found for list entity definition: "$TestList:one="'));
+                assert.ok(stdout.includes('no synonyms list found for list entity definition: "$TestList:one="'));
                 done();
             } catch (err) {
                 done(err);
@@ -328,8 +325,7 @@ describe('The example lu files', function () {
         exec(`node ${ludown} parse toqna -a --in ${TEST_ROOT}/testcases/invalid-alterations.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
                 assert.ok(stderr.includes("[ERROR] line 1:0:"));
-                assert.ok(stderr.includes("testcases/invalid-alterations.lu"));
-                assert.ok(stderr.includes("syntax error message: extraneous input 'b' expecting {<EOF>, NEWLINE, QNA, HASH, DOLLAR, IMPORT_DESC}"));
+                assert.ok(stderr.includes("syntax error: extraneous input 'b' expecting {<EOF>, NEWLINE, QNA, HASH, DOLLAR, IMPORT_DESC}"));
                 done();
             } catch (err) {
                 done(err);

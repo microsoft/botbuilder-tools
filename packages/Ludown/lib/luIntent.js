@@ -8,13 +8,11 @@ class LUIntent {
     /**
      * 
      * @param {IntentDefinitionContext} parseTree 
-     * @param {string} source 
      */
-    constructor(parseTree, source = '') {
+    constructor(parseTree) {
         this.ParseTree = parseTree;
-        this.Source = source;
         this.Name = this.ExtractName(parseTree);
-        const result = this.ExtractUtteranceAndEntitiesMap(parseTree, source);
+        const result = this.ExtractUtteranceAndEntitiesMap(parseTree);
         this.UtteranceAndEntitiesMap = result.utteranceAndEntitiesMap;
         this.Errors = result.errors;
     }
@@ -23,7 +21,7 @@ class LUIntent {
         return parseTree.intentNameLine().intentName().getText().trim();
     }
 
-    ExtractUtteranceAndEntitiesMap(parseTree, source) {
+    ExtractUtteranceAndEntitiesMap(parseTree) {
         let utteranceAndEntitiesMap = [];
         let errors = [];
         if (parseTree.intentBody() && parseTree.intentBody().normalIntentBody()) {
@@ -33,8 +31,7 @@ class LUIntent {
                 utteranceAndEntitiesMap.push(utteranceAndEntities);
                 utteranceAndEntities.errorMsgs.forEach(errorMsg => errors.push(BuildDiagnostic({
                     message: errorMsg,
-                    context: normalIntentStr,
-                    source: source
+                    context: normalIntentStr
                 })))
             }
         }
@@ -44,7 +41,6 @@ class LUIntent {
             let error = BuildDiagnostic({
                 message: errorMsg,
                 context: parseTree.intentNameLine(),
-                source: source,
                 severity: DiagnosticSeverity.WARN
             })
 
