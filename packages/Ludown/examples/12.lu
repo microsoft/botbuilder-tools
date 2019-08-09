@@ -1,17 +1,17 @@
 > # Intents
 
-# Greeting
+## Greeting
 - Hi
 - Hello
 - Good morning
 - Good evening
 
-# Help
+## Help
 - help
 - I need help
 - please help
 
-# AskForUserName
+## AskForUserName
 - {userName=vishwac}
 - I'm {userName=vishwac}
 - call me {userName=vishwac}
@@ -19,22 +19,22 @@
 - {userName=vishwac} is my name
 - you can call me {userName=vishwac}
 
-# CreateAlarm
+## CreateAlarm
 - create an alarm
 - create an alarm for 7AM
 - set an alarm for 7AM next thursday
 
-# DeleteAlarm
+## DeleteAlarm
 - delete alarm
 - delete the {alarmTime} alarm
 
 
 
-# CommunicationPreference
+## CommunicationPreference
 - set call as my communication preference
 - I prefer to receive text messages
 
-# Help
+## Help
 - can you help
 
 

@@ -26,11 +26,11 @@ NEWLINE
   ;
 
 QNA
-  : '###' WHITESPACE+ '?' {this.ignoreWS = false;} -> pushMode(QNA_MODE)
+  : '#'+ WHITESPACE+ '?' {this.ignoreWS = false;} -> pushMode(QNA_MODE)
   ;
 
 HASH
-  : '#' {this.ignoreWS = true;} -> pushMode(INTENT_NAME_MODE)
+  : '#'+ {this.ignoreWS = true;} -> pushMode(INTENT_NAME_MODE)
   ;
 
 DASH
