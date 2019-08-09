@@ -125,8 +125,5 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     ['uriPort', new FunctionEntity(['uri: string'], ReturnType.String, 'Return the port value for a unified resource identifier(URI).')],
     ['coalesce', new FunctionEntity(['...object: any[]'], ReturnType.Number, 'Return the first non-null value from one or more parameters. Empty strings, empty arrays, and empty objects are not null.')],
     ['xpath', new FunctionEntity(['xml: any', 'xpath: any'], ReturnType.Object, 'Check XML for nodes or values that match an XPath (XML Path Language) expression, and return the matching nodes or values. An XPath expression, or just "XPath", helps you navigate an XML document structure so that you can select nodes or compute values in the XML content.')],
-    
-    // extra function (lg only)
-    ['lgTemplate', new FunctionEntity(['templateName: string', '...params: string[]'], ReturnType.String, 'Evaluate a template and get the result.')],
 ]);
 

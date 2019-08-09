@@ -11,6 +11,8 @@ import { LGTemplate, TemplateEngine } from "botbuilder-lg";
 import { DataStorage, TemplateEngineEntity } from "./dataStorage";
 import * as vscode from 'vscode';
 import { ReturnType } from "botbuilder-expression";
+import { buildInfunctionsMap, FunctionEntity } from './buildinFunctions';
+import { stringify } from "querystring";
 
 export function IsLgFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.endsWith('.lg')) {
@@ -62,4 +64,21 @@ export function GetreturnTypeStrFromReturnType(returnType: ReturnType): string {
     }
 
     return result;
+}
+
+export function GetAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEntity> {
+    const functions: Map<string, FunctionEntity> = new Map<string, FunctionEntity>();
+
+    for (const func of buildInfunctionsMap) {
+        functions.set(func[0],func[1]);
+    }
+
+    const templates: LGTemplate[] = GetAllTemplatesFromCurrentLGFile(lgFileUri);
+
+    for (const template of templates) {
+        var functionEntity = new FunctionEntity(template.Parameters, ReturnType.Object, 'Template reference');
+        functions.set(template.Name, functionEntity);
+    }
+
+    return functions;
 }
