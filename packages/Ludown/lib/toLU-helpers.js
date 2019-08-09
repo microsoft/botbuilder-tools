@@ -9,6 +9,11 @@ const helpers = require('./helpers');
 const NEWLINE = require('os').EOL;
 const exception = require('./classes/exception');
 const toLUHelpers = {
+    /**
+     * Helper function to construct model description information from LUIS JSON
+     * @param {Object} LUISJSON 
+     * @returns {string} model description
+     */
     constructModelDescFromLUISJSON : async function(LUISJSON) {
         let modelDesc = NEWLINE;
         modelDesc += '> LUIS application information' + NEWLINE;
@@ -19,6 +24,11 @@ const toLUHelpers = {
         modelDesc += '> !# @app.luis_schema_version = ' + LUISJSON.luis_schema_version + NEWLINE;
         return modelDesc;
     },
+    /**
+     * Helper function to construct model description information from QnA JSON
+     * @param {Object} QnAJSON 
+     * @returns {string} model description
+     */
     constructModelDescFromQnAJSON : async function(QnAJSON) {
         let modelDesc = NEWLINE;
         modelDesc += '> QnA KB information' + NEWLINE;
@@ -45,6 +55,18 @@ const toLUHelpers = {
             fileContent += '> # Intent definitions' + NEWLINE + NEWLINE;
             // write out intents and utterances..
             luisObj.intents.forEach(function(intent) {
+                // Add inherits information if any
+                if (intent.intent.inherits !== undefined) {
+                    // > !# @intent.inherits = {name = Web.WebSearch; domain_name = Web; model_name = WebSearch}
+                    fileContent += '> !# @intent.inherits = name : ' + intent.intent.name;
+                    if (intent.intent.inherits.domain_name !== undefined) {
+                        fileContent += '; domain_name : ' + intent.intent.inherits.domain_name;
+                    }
+                    if (intent.intent.inherits.model_name !== undefined) {
+                        fileContent += '; model_name : ' + intent.intent.inherits.model_name;
+                    }
+                    fileContent += NEWLINE + NEWLINE;
+                }
                 fileContent += '## ' + intent.intent.name + NEWLINE;
                 intent.utterances.forEach(function(utterance) {
                     let updatedText = utterance.text;
@@ -82,6 +104,18 @@ const toLUHelpers = {
         if(LUISJSON.entities && LUISJSON.entities.length >= 0) {
             fileContent += '> # Entity definitions' + NEWLINE + NEWLINE;
             LUISJSON.entities.forEach(function(entity) {
+                // Add inherits information if any
+                if (entity.inherits !== undefined) {
+                    // > !# @intent.inherits = {name = Web.WebSearch; domain_name = Web; model_name = WebSearch}
+                    fileContent += '> !# @entity.inherits = name : ' + entity.name;
+                    if (entity.inherits.domain_name !== undefined) {
+                        fileContent += '; domain_name : ' + entity.inherits.domain_name;
+                    }
+                    if (entity.inherits.model_name !== undefined) {
+                        fileContent += '; model_name : ' + entity.inherits.model_name;
+                    }
+                    fileContent += NEWLINE + NEWLINE;
+                }
                 fileContent += '$' + entity.name + ':simple';
                 if (entity.roles.length > 0) {
                     fileContent += ` Roles=${entity.roles.join(', ')}`;
