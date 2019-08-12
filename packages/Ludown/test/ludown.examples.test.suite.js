@@ -277,7 +277,7 @@ describe('The example lu files', function () {
     it('writes out a warning when no utterances are found for an intent', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/missing-utterance.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout) => {
             try {
-                assert.ok(stdout.includes('[WARN] line 0:0 - line 0:10'));
+                assert.ok(stdout.includes('[WARN] line 1:0 - line 1:10'));
                 assert.ok(stdout.includes('no utterances found for intent definition: "# Greeting"'));
                 done();
             } catch (err) {
@@ -289,7 +289,7 @@ describe('The example lu files', function () {
     it('writes out an error when invalid entity definition is found', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid-entity-definition.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes('[ERROR] line 0:9:'));
+                assert.ok(stderr.includes('[ERROR] line 1:9:'));
                 assert.ok(stderr.includes("syntax error: missing ':' at '='"));
                 done();
             } catch (err) {
@@ -301,7 +301,7 @@ describe('The example lu files', function () {
     it('writes out a warning when no synonym definitions are found for a list entity', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/missing-synonyms.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout) => {
             try {
-                assert.ok(stdout.includes('[WARN] line 0:0 - line 0:14'));
+                assert.ok(stdout.includes('[WARN] line 1:0 - line 1:14'));
                 assert.ok(stdout.includes('no synonyms list found for list entity definition: "$TestList:one="'));
                 done();
             } catch (err) {

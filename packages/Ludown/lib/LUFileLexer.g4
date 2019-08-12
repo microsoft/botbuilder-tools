@@ -13,10 +13,6 @@ fragment WHITESPACE
 
 fragment UTTERANCE_MARK: '-' | '*' | '+';
 
-COMMENTS
-  : '>' ~('\r'|'\n')+ -> skip
-  ;
-
 WS
   : WHITESPACE+ -> skip
   ;
@@ -39,6 +35,10 @@ DASH
 
 DOLLAR
   : '$' {this.ignoreWS = true;} -> pushMode(ENTITY_MODE)
+  ;
+
+COMMENT
+  : '>' ~('\r'|'\n')+
   ;
 
 IMPORT_DESC

@@ -272,5 +272,14 @@ LUFileParserListener.prototype.exitMultiLineAnswer = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LUFileParser#commentDefinition.
+LUFileParserListener.prototype.enterCommentDefinition = function(ctx) {
+};
+
+// Exit a parse tree produced by LUFileParser#commentDefinition.
+LUFileParserListener.prototype.exitCommentDefinition = function(ctx) {
+};
+
+
 
 exports.LUFileParserListener = LUFileParserListener;

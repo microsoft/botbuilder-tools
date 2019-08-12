@@ -186,5 +186,11 @@ LUFileParserVisitor.prototype.visitMultiLineAnswer = function(ctx) {
 };
 
 
+// Visit a parse tree produced by LUFileParser#commentDefinition.
+LUFileParserVisitor.prototype.visitCommentDefinition = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
 
 exports.LUFileParserVisitor = LUFileParserVisitor;

@@ -471,6 +471,9 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
 
     // parse qna section
     parseAndHandleQna(parsedContent, luResource);
+
+    // parse model info section
+　　parseAndHandleModelInfo(parsedContent, luResource, log);
 }
 
 /**
@@ -1038,6 +1041,34 @@ const parseAndHandleQna = function(parsedContent, luResource) {
 
             let answer = qna.Answer;
             parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, answer.trim(), 'custom editorial', questions, metadata));
+        }
+    }
+}
+
+/**
+ * Intent parser code to parse intent section.
+ * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
+ * @param {LUResouce} luResource resources extracted from lu file content
+ * @param {boolean} log indicates if we need verbose logging.
+ * @throws {exception} Throws on errors. exception object includes errCode and text.
+ */
+const parseAndHandleModelInfo = function (parsedContent, luResource, log) {
+    // handle model info
+    let modelInfos = luResource.ModelInfos;
+    if (modelInfos && modelInfos.length > 0) {
+        for (const modelInfo of modelInfos) {
+            let kvPair = modelInfo.ModelInfo.split(/@(app|kb).(.*)=/g);
+            if (kvPair.length === 4) {
+                if (kvPair[1].trim().toLowerCase() === 'app') {
+                    parsedContent.LUISJsonStructure[kvPair[2].trim()] = kvPair[3].trim();
+                } else if (kvPair[1].trim().toLowerCase() === 'kb') {
+                    parsedContent.qnaJsonStructure[kvPair[2].trim()] = kvPair[3].trim();
+                } else {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
+                    }
+                }
+            }
         }
     }
 }

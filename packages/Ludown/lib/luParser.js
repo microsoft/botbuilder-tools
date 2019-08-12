@@ -7,6 +7,7 @@ const LUIntent = require('./luIntent');
 const LUEntity = require('./luEntity');
 const LUImport = require('./luImport');
 const LUQna = require('./luQna');
+const LUModelInfo = require('./luModelInfo');
 const LUErrorListener = require('./luErrorListener');
 
 class LUParser {
@@ -18,10 +19,11 @@ class LUParser {
         let luEntities;
         let luImports;
         let qnas;
+        let modelInfos;
 
         let { fileContent, errors } = this.getFileContent(text);
         if (errors.length > 0) {
-            return new LUResource(luIntents, luEntities, luImports, qnas, errors);
+            return new LUResource(luIntents, luEntities, luImports, qnas, modelInfos, errors);
         }
 
         luIntents = this.extractLUIntents(fileContent);
@@ -35,7 +37,9 @@ class LUParser {
         
         qnas = this.extractLUQnas(fileContent);
 
-        return new LUResource(luIntents, luEntities, luImports, qnas, errors);
+        modelInfos = this.extractLUModelInfos(fileContent);
+
+        return new LUResource(luIntents, luEntities, luImports, qnas, modelInfos, errors);
     }
 
     /**
@@ -133,6 +137,27 @@ class LUParser {
         let qnas = qnaDefinitions.map(x => new LUQna(x));
 
         return qnas;
+    }
+
+    /**
+     * @param {FileContext} fileContext 
+     */
+    static extractLUModelInfos(fileContext) {
+        if (fileContext === undefined
+            || fileContext === null) {
+                return [];
+        }
+
+        let modelInfoDefinitions = fileContext.paragraph()
+            .map(x => x.commentDefinition())
+            .filter(x => x !== undefined 
+                && x != null 
+                && x.getText().split(/>[ ]*!#/g) != undefined
+                && x.getText().split(/>[ ]*!#/g).length > 1);
+
+        let modelInfos = modelInfoDefinitions.map(x => new LUModelInfo(x));
+
+        return modelInfos;
     }
 }
 
