@@ -13,6 +13,10 @@ fragment WHITESPACE
 
 fragment UTTERANCE_MARK: '-' | '*' | '+';
 
+COMMENT
+  : '>' ~('\r'|'\n')+ -> skip
+  ;
+
 WS
   : WHITESPACE+ -> skip
   ;
@@ -37,10 +41,6 @@ DOLLAR
   : '$' {this.ignoreWS = true;} -> pushMode(ENTITY_MODE)
   ;
 
-COMMENT
-  : '>' ~('\r'|'\n')+
-  ;
-
 IMPORT_DESC
   : '[' .*? ']'
   ;
@@ -55,6 +55,10 @@ Filter_MARK
 
 MULTI_LINE_TEXT
   : '```markdown' .*? '```'
+  ;
+
+MODEL_INFO
+  : '>' WHITESPACE* '!#' ~('\r'|'\n')+
   ;
 
 INVALID_TOKEN_DEFAULT_MODE

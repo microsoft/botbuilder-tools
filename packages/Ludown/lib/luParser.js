@@ -149,11 +149,8 @@ class LUParser {
         }
 
         let modelInfoDefinitions = fileContext.paragraph()
-            .map(x => x.commentDefinition())
-            .filter(x => x !== undefined 
-                && x != null 
-                && x.getText().split(/>[ ]*!#/g) != undefined
-                && x.getText().split(/>[ ]*!#/g).length > 1);
+            .map(x => x.modelInfoDefinition())
+            .filter(x => x !== undefined && x != null);
 
         let modelInfos = modelInfoDefinitions.map(x => new LUModelInfo(x));
 

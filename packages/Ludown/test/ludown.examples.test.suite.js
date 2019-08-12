@@ -324,8 +324,8 @@ describe('The example lu files', function () {
     it('Throws when an invalid QnA Maker alteration is specified in the input .lu file', function (done) {
         exec(`node ${ludown} parse toqna -a --in ${TEST_ROOT}/testcases/invalid-alterations.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes("[ERROR] line 1:0:"));
-                assert.ok(stderr.includes("syntax error: extraneous input 'b' expecting {<EOF>, NEWLINE, QNA, HASH, DOLLAR, IMPORT_DESC}"));
+                assert.ok(stderr.includes("[ERROR] line 2:0:"));
+                assert.ok(stderr.includes("syntax error: extraneous input 'b' expecting"));
                 done();
             } catch (err) {
                 done(err);

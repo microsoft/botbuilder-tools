@@ -15,7 +15,7 @@ describe('Negative tests', function() {
     it('should show ERR message when no utterances are found for an intent', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/bad3.lu`, (error, stdout, stderr) => {
             try {
-                assert.equal(stderr.includes("syntax error: extraneous input 'i' expecting {<EOF>, NEWLINE, QNA, HASH, DOLLAR, IMPORT_DESC}"), true);
+                assert.equal(stderr.includes("syntax error: extraneous input 'i' expecting"), true);
                 done();
             } catch (err) {
                 done(err);
@@ -39,7 +39,7 @@ describe('Negative tests', function() {
     it('should show ERROR when no parser decorations are found in a line', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/bad2.lu`, (error, stdout, stderr) => {
             try {
-                assert.equal(stderr.includes("syntax error: mismatched input 'f' expecting {<EOF>, NEWLINE, QNA, HASH, DOLLAR, IMPORT_DESC}"), true);
+                assert.equal(stderr.includes("syntax error: mismatched input 'f' expecting"), true);
                 done();
             } catch (err) {
                 done(err);

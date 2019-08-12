@@ -12,7 +12,7 @@ paragraph
     | entityDefinition
     | importDefinition
     | qnaDefinition
-    | commentDefinition
+    | modelInfoDefinition
     ;
 
 // Treat EOF as newline to hanle file end gracefully
@@ -127,6 +127,6 @@ multiLineAnswer
     : MULTI_LINE_TEXT
     ;
 
-commentDefinition
-    : COMMENT
+modelInfoDefinition
+    : MODEL_INFO
     ;

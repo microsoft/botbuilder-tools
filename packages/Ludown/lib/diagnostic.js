@@ -66,8 +66,8 @@ const BuildDiagnostic =function(parameter) {
     let range;
     const context = parameter.context;
     if (context !== undefined) {
-        const startPosition = new Position(context.start.line - 1, context.start.column);
-        const stopPosition = new Position(context.stop.line - 1, context.stop.column + context.stop.text.length);
+        const startPosition = new Position(context.start.line, context.start.column);
+        const stopPosition = new Position(context.stop.line, context.stop.column + context.stop.text.length);
         range = new Range(startPosition, stopPosition);
     }
         
