@@ -1,17 +1,32 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace LGgen
 {
     class CSharp
     {
-        public static void test()
+        
+        public static void generate(string outclass, string classname, List<string> lgtemplatename)
         {
-            TemplateEngine lgEngine = new TemplateEngine();
-            lgEngine.AddFile("C:/Users/t-hahan/Desktop/New folder/mytest.lg");
-            lgEngine.Templates.ForEach(num => Console.WriteLine(num.Name));
+            var w = new Writer(outclass);
+            w.WriteLine("namespace LGgen");
+            w.WriteLine("{");
+            w.Indent();
+            w.IndentLine($"public class {classname}");
+            w.IndentLine("{");
+            w.Indent();
+
+            foreach (var name in lgtemplatename)
+                w.IndentLine($"public const string {name} = \"{name}\";");
+            w.Outdent();
+            w.IndentLine("}");
+            w.Outdent();
+            w.IndentLine("}");
+
+            w.Flush();
+            w.Close();
 
         }
     }
