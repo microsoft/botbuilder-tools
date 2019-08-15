@@ -361,6 +361,40 @@ const parseFileContentsModule = {
                     }
                 }
             });
+
+            // do we have pattern.any entities here? 
+            (blob.patternAnyEntities || []).forEach(patternAny => {
+                let paIdx = -1;
+                let patternAnyInMaster = FinalLUISJSON.patternAnyEntities.find((item, idx) => {
+                    if (item.name === patternAny.name) {
+                        paIdx = idx;
+                        return true;
+                    }
+                    return false;
+                });
+                // verify that this patternAny entity does not exist as any other type
+                let simpleEntityInMaster = FinalLUISJSON.entities.find(item => item.name == patternAny.name);
+                let compositeInMaster = FinalLUISJSON.composites.find(item => item.name == patternAny.name);
+                let listEntityInMaster = FinalLUISJSON.closedLists.find(item => item.name == patternAny.name);
+                let regexEntityInMaster = FinalLUISJSON.regex_entities.find(item => item.name == patternAny.name);
+                let prebuiltInMaster = FinalLUISJSON.prebuiltEntities.find(item => item.name == patternAny.name);
+                if (!simpleEntityInMaster && 
+                    !compositeInMaster &&
+                    !listEntityInMaster &&
+                    !regexEntityInMaster &&
+                    !prebuiltInMaster) {
+                    if (patternAnyInMaster) {
+                        (patternAny.roles || []).forEach(role => !patternAnyInMaster.roles.includes(role) ? patternAnyInMaster.roles.push(role) : undefined);
+                    } else {
+                            FinalLUISJSON.patternAnyEntities.push(patternAny);
+                    }
+                } else {
+                    // remove the pattern.any from master if another entity type has this name.
+                    if (patternAnyInMaster) {
+                        if (paIdx !== -1) FinalLUISJSON.patternAnyEntities.splice(paIdx, 1);
+                    }
+                }
+            })
         });
         return FinalLUISJSON;
     },
@@ -979,13 +1013,24 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                     if (!parsedContent.LUISJsonStructure.patterns.find(item => deepEqual(item, newPattern))) {
                         parsedContent.LUISJsonStructure.patterns.push(newPattern);
                     } 
-                    // add all entities to pattern.Any.
+                    // add all entities to pattern.Any only if they do not have another type.
                     entitiesFound.forEach(entity => {
-                        if (entity.role !== '') {
-                            addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()])
-                        } else {
-                            addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity);
-                        }
+                        let simpleEntityInMaster = parsedContent.LUISJsonStructure.entities.find(item => item.name == entity.entity);
+                        let compositeInMaster = parsedContent.LUISJsonStructure.composites.find(item => item.name == entity.entity);
+                        let listEntityInMaster = parsedContent.LUISJsonStructure.closedLists.find(item => item.name == entity.entity);
+                        let regexEntityInMaster = parsedContent.LUISJsonStructure.regex_entities.find(item => item.name == entity.entity);
+                        let prebuiltInMaster = parsedContent.LUISJsonStructure.prebuiltEntities.find(item => item.name == entity.entity);
+                        if (!simpleEntityInMaster && 
+                            !compositeInMaster &&
+                            !listEntityInMaster &&
+                            !regexEntityInMaster &&
+                            !prebuiltInMaster) {
+                                if (entity.role !== '') {
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()])
+                                } else {
+                                    addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity);
+                                }                            
+                        }                         
                     });
 
                     // if this intent does not have any utterances, push this pattern as an utterance as well. 
