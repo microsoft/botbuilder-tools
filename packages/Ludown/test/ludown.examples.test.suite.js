@@ -586,5 +586,104 @@ describe('The example lu files', function () {
             }
         });
     })
+
+    it('Prebuilt models are handled correctly with ludown refresh', function(done) {
+        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/prebuilt_model.json -m -s -r -n prebuilt_mode.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/prebuilt_mode.lu'), txtfile.readSync(TEST_ROOT + '/verified/prebuilt_mode.lu'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Prebuilt models are parsed correctly', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/verified/prebuilt_mode.lu --out prebuilt_model_parse.json -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/prebuilt_model_parse.json'), txtfile.readSync(TEST_ROOT + '/verified/prebuilt_model_parse.json'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Multiple Prebuilt models are handled correctly with ludown refresh', function(done) {
+        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/calendar_all_prebuilt.json -m -s -r -n calendar_all_prebuilt.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/calendar_all_prebuilt.lu'), txtfile.readSync(TEST_ROOT + '/verified/calendar_all_prebuilt.lu'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Multiple Prebuilt models are parsed correctly', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/verified/calendar_all_prebuilt.lu --out calendar_all_prebuilt_parsed.json -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/calendar_all_prebuilt_parsed.json'), txtfile.readSync(TEST_ROOT + '/verified/calendar_all_prebuilt_parsed.json'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })    
+
+    it('Invalid entity inherits information is skipped', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_2.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.isTrue(stdout.includes(`Skipping "!#@entity.inherits = name : Web.WebSearch"`));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Invalid intent inherits information is skipped', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_1.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.isTrue(stdout.includes(`Skipping "!#@intent.inherits = name : Web.WebSearch"`));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
     
+    it('Invalid entity inherits information is skipped', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_3.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.isTrue(stdout.includes(`Skipping "!#@entity.inherits2 = name : Web.WebSearch"`));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Invalid intent inherits information is skipped', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_4.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.isTrue(stdout.includes(`Skipping "!#@intent.inherits2 = name : Web.WebSearch"`));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Invalid intent inherits information is skipped', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_model.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.isTrue(stdout.includes(`Skipping "!#@app = test"`));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
 });

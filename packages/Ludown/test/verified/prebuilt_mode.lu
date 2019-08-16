@@ -1,0 +1,179 @@
+
+> LUIS application information
+> !# @app.name = imports
+> !# @app.desc = 
+> !# @app.culture = en-us
+> !# @app.versionId = 0.1
+> !# @app.luis_schema_version = 3.2.0
+
+> # Intent definitions
+
+## None
+
+
+> !# @intent.inherits = name : Web.WebSearch; domain_name : Web; model_name : WebSearch
+
+## Web.WebSearch
+- open {Web.SearchText=pinterest.com}
+- {Web.SearchText=amazon.com}
+- {Web.SearchText=ancestry login}
+- {Web.SearchText=aramex .com}
+- {Web.SearchText=bethesda .net}
+- bing {Web.SearchText=facebook webpage}
+- can i go to {Web.SearchText=wiki}
+- can i see the {Web.SearchText=instagram} website
+- can you go to {Web.SearchText=www.wikipedia.com}
+- can you navigate me to {Web.SearchText=www.wikipedia.com}
+- can you open the website {Web.SearchText=wiki} for me
+- can you take me to {Web.SearchText=outlook.com}?
+- check {Web.SearchText=house prices in the united states} on bing.com
+- check the {Web.SearchText=fox news} website
+- could you go to {Web.SearchText=www.wikipedia.com}
+- could you please go to {Web.SearchText=www.wikipedia.com}
+- could you please navigate to {Web.SearchText=www.wikipedia.com}
+- discover {Web.SearchText=political books}
+- explore {Web.SearchText=aquarius} in search engine
+- explore {Web.SearchText=deep learning} in google.com
+- explore {Web.SearchText=movies} in google.com
+- explore {Web.SearchText=wechat} in search engine
+- {Web.SearchText=facebook.com}
+- {Web.SearchText=facebook.com} open
+- find {Web.SearchText=news} in bing.com
+- get me to {Web.SearchText=luis.ai}
+- {Web.SearchText=gmail.com} please
+- go to {Web.SearchText=amazon}
+- go to {Web.SearchText=bing}
+- go to {Web.SearchText=ebay}
+- go to {Web.SearchText=facebook}
+- go to {Web.SearchText=paypal}
+- go to the {Web.SearchText=fox news} website
+- go to {Web.SearchText=walmart.com}
+- go to {Web.SearchText=wiki}
+- go to {Web.SearchText=wikipedia}
+- go to {Web.SearchText=www.bankrate.com}
+- go to {Web.SearchText=www.smile.amazon.com}
+- go to {Web.SearchText=www.target.com}
+- go to {Web.SearchText=www.wikipedia.com}
+- go to {Web.SearchText=www.yahoo.com}
+- {Web.SearchText=google maps} website
+- google the website of {Web.SearchText=tmall}
+- {Web.SearchText=google.com}
+- {Web.SearchText=how to buy bitcoin}, msn it
+- i need the website {Web.SearchText=www.wikipedia.com} opened
+- i want to get the information about {Web.SearchText=basketball}
+- i want to get the information about {Web.SearchText=sylvester stallone}
+- i want to know the {Web.SearchText=election results}
+- i want to open {Web.SearchText=amazon} to search out {Web.SearchText=books about sql server}
+- i want to open yahoo to search out {Web.SearchText=cookbook}
+- let us go to the google.com to search {Web.SearchText=house prices in the united states}
+- let us go to the google.com to search {Web.SearchText=marvel movies}
+- {Web.SearchText=msn.com homepage}
+- navigate me to website {Web.SearchText=wiki}
+- navigate to {Web.SearchText=wiki at www.wikipedia.com}
+- navigate to {Web.SearchText=www.wikipedia.com}
+- {Web.SearchText=netflix.com} for me
+- {Web.SearchText=notre dame de paris}, search it
+- open {Web.SearchText=google drive} website
+- open {Web.SearchText=paypal} in browser
+- {Web.SearchText=amazon.com} let s go back to it
+- open the page {Web.SearchText=microsoft.com}
+- open the web page for {Web.SearchText=royal mail.com}
+- open the web page {Web.SearchText=yahoo.com}
+- open the web {Web.SearchText=windows phone.com}
+- open the {Web.SearchText=wiki} website please
+- open to {Web.SearchText=twitter.com}
+- open up {Web.SearchText=amazon.com} for me
+- open up {Web.SearchText=reddit.com} in google chrome
+- open up the website {Web.SearchText=arrow fastener.com}
+- open up {Web.SearchText=wigtypes.com}
+- open {Web.SearchText=video.com}
+- open {Web.SearchText=wiki} for me
+- open {Web.SearchText=wiki} in google
+- open {Web.SearchText=wikipedia homepage} in bing
+- open {Web.SearchText=www. amazon.com}
+- open {Web.SearchText=www.wikipedia.com}
+- open your browser and find a {Web.SearchText=book} to read
+- open your browser and find a {Web.SearchText=song} to listen to
+- {Web.SearchText=outlook.com} on edge
+- please go to {Web.SearchText=www.wikipedia.com}
+- please navigate to {Web.SearchText=aol}
+- please navigate to {Web.SearchText=www.wikipedia.com}
+- please open {Web.SearchText=www.wikipedia.com}
+- please search {Web.SearchText=prince harry’s last name} on www.google.com
+- please turn to {Web.SearchText=www.wikipedia.com}
+- query {Web.SearchText=2019} in bing.com
+- query one {Web.SearchText=refrigerator in taobao}
+- query some {Web.SearchText=books on amazon}
+- search {Web.SearchText=china} in bing
+- search {Web.SearchText=luis} in bing
+- search {Web.SearchText=skiing skills} in bing
+- search {Web.SearchText=teachers day} in google.com.hk
+- search {Web.SearchText=thanksgiving} day on bing
+- search the {Web.SearchText=cookbook} named {Web.SearchText=sweet paul}
+- search the {Web.SearchText=movie} named {Web.SearchText=toy story}
+- seek the {Web.SearchText=seasonal vegetables} in bing
+- show me the {Web.SearchText=aol homepage}
+- start {Web.SearchText=att.com} website
+- start {Web.SearchText=facebook.com}
+- surf to {Web.SearchText=google.com}
+- switch to bing to find some {Web.SearchText=rock books}
+- take me to bing.com
+- take me to {Web.SearchText=facebook}
+- take me to {Web.SearchText=facebook.com}
+- take me to {Web.SearchText=google maps}.
+- take me to {Web.SearchText=kanye west's website}
+- take me to {Web.SearchText=kohl's website} please.
+- take me to the {Web.SearchText=first citizens} website.
+- take me to the {Web.SearchText=wiki} website
+- take me to {Web.SearchText=wiki}
+- take me to {Web.SearchText=yahoo.com}
+- visit the {Web.SearchText=fox news homepage}
+- visit {Web.SearchText=www.foxnews.com}
+- want to see {Web.SearchText=historical exhibitions} in bing
+- website {Web.SearchText=fox news}
+- what is {Web.SearchText=fox news' top story}
+- what is {Web.SearchText=good friday}
+- what is this {Web.SearchText=election results}
+- {Web.SearchText=www.read.amazon.com}
+- {Web.SearchText=www.twitter.com}
+- {Web.SearchText=www.wikipedia.com} please
+- [please] (open|start) {Web.SearchEngine} [and] (find|search|query) [out] [(a[n]|one)] {Web.SearchText} to
+
+
+> # Entity definitions
+
+> !# @entity.inherits = name : Web.SearchText; domain_name : Web; model_name : SearchText
+
+$Web.SearchText:simple
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+$Web.SearchEngine:bing= Roles=Web.google.com, Web.www.google.com
+
+$Web.SearchEngine:google= Roles=Web.google.com, Web.www.google.com
+
+$Web.SearchEngine:youtube= Roles=Web.google.com, Web.www.google.com
+
+$Web.SearchEngine:yahoo!= Roles=Web.google.com, Web.www.google.com
+- yahoo
+
+$Web.SearchEngine:baidu= Roles=Web.google.com, Web.www.google.com
+
+$Web.SearchEngine:aol= Roles=Web.google.com, Web.www.google.com
+
+$Web.SearchEngine:lycos= Roles=Web.google.com, Web.www.google.com
+
+$Web.SearchEngine:msn= Roles=Web.google.com, Web.www.google.com
+
+
+
+> # RegEx entities
+
+
