@@ -430,7 +430,7 @@ You can include configuration information for your LUIS application or QnA Maker
 > !# @app.desc = description of my luis application
 > !# @app.versionId = 0.5
 > !# @app.culture = en-us
-"luis_schema_version": "3.2.0"
+> !# @app.luis_schema_version = 3.2.0
 
 > QnA Maker KB description
 > !# @kb.name = my qna maker kb name
