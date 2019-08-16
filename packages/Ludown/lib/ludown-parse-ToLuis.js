@@ -36,7 +36,7 @@ if (process.argv.length < 4) {
     if (program.luis_culture) {
         // List of supported LUIS.ai locales. 
         // From: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-language-support
-        const LUISLocales = ['en-us', 'fr-ca', 'zh-cn', 'nl-nl', 'fr-fr', 'de-de', 'it-it', 'ja-jp', 'ko-kr', 'pt-br', 'es-es', 'es-mx'];
+        const LUISLocales = ['en-us', 'fr-ca', 'zh-cn', 'nl-nl', 'fr-fr', 'de-de', 'it-it', 'ja-jp', 'ko-kr', 'pt-br', 'es-es', 'es-mx', 'tr-tr'];
         if (!(LUISLocales.includes(program.luis_culture.toLowerCase()))) {
             process.stderr.write(chalk.default.yellowBright(`\nWARN: Unrecognized LUIS locale. Supported locales are - ${LUISLocales.toString()} \n\n`));
         }
