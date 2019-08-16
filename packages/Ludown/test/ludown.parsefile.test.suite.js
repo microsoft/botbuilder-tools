@@ -902,8 +902,8 @@ describe('parseFile correctly parses utterances', function () {
                 let testLU = `> !# @app.name = all345
                 > !# @app.desc = this is a test
                 > !#  @app.culture = en-us
-                >  !# @app.versionId = 0.4
-                "luis_schema_version": "3.2.0"
+                > !# @app.versionId = 0.4
+                > !# @app.luis_schema_version = 3.2.0
                 
                 # test 
                 - greeting`;

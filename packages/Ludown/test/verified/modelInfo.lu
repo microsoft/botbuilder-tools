@@ -4,7 +4,7 @@
 > !# @app.desc = 
 > !# @app.culture = en-us
 > !# @app.versionId = 0.1
-"luis_schema_version": "3.2.0"
+> !# @app.luis_schema_version = 3.2.0
 
 > # Intent definitions
 
