@@ -6,6 +6,8 @@ using System.Runtime.Serialization.Formatters;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.Design;
+using System.Linq;
 
 namespace LGgen
 {
@@ -19,6 +21,8 @@ namespace LGgen
             Console.Error.WriteLine("-i : LG file path");
             Console.Error.WriteLine("-o : output path, defaults to directory where LG file is and the same name with LG file");
             Console.Error.WriteLine("-n : designate class name, defaults to the same name of LG file");
+            Console.Error.WriteLine("-v : show the version");
+            Console.Error.WriteLine("-c : LG file grammar check. In this mode, you only need to input '-c' and '[-i LG_FILE_PATH]' ");
             System.Environment.Exit(-1);
         }
 
@@ -28,10 +32,15 @@ namespace LGgen
             string input = null;
             string output = null;
             string classname = null;
-            //Usage();
+            bool grammarcheck = false;
 
             if (args == null) Usage();
 
+            if (args.Length == 1 && args[0] == "-v")
+            {
+                Console.WriteLine("LGgen version 1.0.0");
+                return;
+            }          
 
             for (var i = 0; i < args.Length; ++i)
             {
@@ -40,6 +49,10 @@ namespace LGgen
                 {
                     case "-l":
                         lang = args[++i];
+                        break;
+
+                    case "-c":
+                        grammarcheck = true;
                         break;
 
                     case "-i":
@@ -61,7 +74,7 @@ namespace LGgen
 
             };
 
-            if(output == null)
+            if(output == null && grammarcheck == false)
             {
                 output = input.Substring(0, input.IndexOf('.'));
                 switch (lang)
@@ -75,14 +88,23 @@ namespace LGgen
                 }
             }
 
-            if(classname == null)
+            if(classname == null && grammarcheck == false)
             {
                 classname = FindClassName(input);
             }
-            
+           
 
             TemplateEngine lgEngine = new TemplateEngine();
-            lgEngine.AddFile(input);
+
+            if (grammarcheck == true)
+            {
+                Check(lgEngine, input);
+                return;
+            }
+            else
+            {
+                lgEngine.AddFile(input);
+            }         
             List<string> lgtemplatename = new List<string>();
             lgEngine.Templates.ForEach(num => lgtemplatename.Add(num.Name));
             Console.WriteLine($"generating class file {output}");
@@ -108,6 +130,21 @@ namespace LGgen
             {
                 var index = Math.Max(input.LastIndexOf('\\'), input.LastIndexOf('/'));
                 return input.Substring(index + 1, input.LastIndexOf('.') - index - 1);
+            }
+        }
+
+        static void Check(TemplateEngine lgEngine, string input)
+        {
+            try
+            {
+                lgEngine.AddFile(input);
+                Console.WriteLine("Congratulations! No error in this LG file! ");
+            }
+            catch(Exception e)
+            {
+                List<string> errors = e.Message.Split('\n').ToList();
+                Console.WriteLine($"This LG file has {errors.Count} errors: ");
+                errors.ForEach(i => Console.WriteLine(i));    
             }
         }
     }
