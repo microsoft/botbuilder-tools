@@ -50,7 +50,7 @@ Entity in .lu file is denoted using {\<entityName\>=\<labelled value\>} notation
 ```
 
 LUDown tool supports the following [LUIS entity types](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-entity-types)
-- Prebuilt ("datetimeV2", "age", "dimension", "email", "money", "number", "ordinal", "percentage", "phoneNumber","temperature", "url", "datetime", "keyPhrase")
+- Prebuilt ("age", "datetimeV2", "dimension", "email", "geographyV2", "keyPhrase", "money", "number", "ordinal", "ordinalV2", "percentage", "personName", "phoneNumber", "temperature", "url", "datetime")
 - List
 - Simple
 - RegEx
