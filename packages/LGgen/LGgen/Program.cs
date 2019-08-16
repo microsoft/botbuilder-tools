@@ -91,6 +91,10 @@ namespace LGgen
             {
                 CSharp.generate(output, classname, lgtemplatename);
             }
+            else if(lang == "ts")
+            {
+                Typescript.generate(output, classname, lgtemplatename);
+            }
 
         }
 
@@ -103,7 +107,7 @@ namespace LGgen
             else
             {
                 var index = Math.Max(input.LastIndexOf('\\'), input.LastIndexOf('/'));
-                return input.Substring(index+1, input.LastIndexOf('.')-index-1);
+                return input.Substring(index + 1, input.LastIndexOf('.') - index - 1);
             }
         }
     }
