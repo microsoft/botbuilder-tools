@@ -903,7 +903,7 @@ describe('parseFile correctly parses utterances', function () {
                 > !# @app.desc = this is a test
                 > !#  @app.culture = en-us
                 >  !# @app.versionId = 0.4
-                > !# @app.luis_schema_version = 3.0.0
+                "luis_schema_version": "3.2.0"
                 
                 # test 
                 - greeting`;
