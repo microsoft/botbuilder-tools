@@ -13,5 +13,6 @@ module.exports = {
     QNATABLE: "|",
     ANSWER: "```",
     FILTER: "**",
-    QNAALTERATIONS: "qna-alterations"
+    QNAALTERATIONS: "qna-alterations",
+    MODELINFO: "!#"
 };

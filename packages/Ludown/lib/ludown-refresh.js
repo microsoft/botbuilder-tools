@@ -24,6 +24,7 @@ program
     .option('--verbose', '[Optional] Get verbose messages from parser')
     .option('-s, --skip_header', '[Optional] Generate .lu file without the header comment')
     .option('-r, --sort', '[Optional] When set, intent, utterances, entities, questions collections are alphabetically sorted')
+    .option('-m, --model_info', '[Optional] When set, include model information in the output .lu file')
     .option('--stdin', '[Optional] Read input from stdin')
     .option('--stdout', '[Optional] Write output to stdout only. Specifying this option will not write any generated content to disk')
     .parse(process.argv);
