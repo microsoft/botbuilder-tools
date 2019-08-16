@@ -88,7 +88,11 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
         finalLUISJSON.culture = finalLUISJSON.culture.toLowerCase();
     }
 
+    if (!program.luis_name && finalLUISJSON && finalLUISJSON.name) program.luis_name = finalLUISJSON.name;    
+
     if (finalQnAJSON) finalQnAJSON.name = program.qna_name || finalQnAJSON.name || path.basename(rootFile, path.extname(rootFile));
+
+    if (!program.qna_name && finalQnAJSON && finalQnAJSON.name) program.qna_name = finalQnAJSON.name || '';
 
     var writeQnAFile = (finalQnAJSON.qnaList.length > 0) || 
                         (finalQnAJSON.urls.length > 0) || 

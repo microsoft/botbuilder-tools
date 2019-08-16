@@ -535,7 +535,7 @@ describe('The example lu files', function () {
     it('With -r/ --sort option, ludown refresh correctly sorts a LUIS model', function(done) {
         exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/all.json -s -r -n luis_sorted.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/luis_sorted.lu'), txtfile.readSync(TEST_ROOT + '/verified/luis_sorted.lu'));
+                compareFiles(TEST_ROOT + '/output/luis_sorted.lu', TEST_ROOT + '/verified/luis_sorted.lu');
                 done();
             } catch (err) {
                 done(err);
@@ -546,7 +546,7 @@ describe('The example lu files', function () {
     it('With -r/ --sort option, ludown refresh correctly sorts a QnA model', function(done) {
         exec(`node ${ludown} refresh -q ${TEST_ROOT}/testcases/all_qna.json -s -r -n qna_sorted.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/qna_sorted.lu'), txtfile.readSync(TEST_ROOT + '/verified/qna_sorted.lu'));
+                compareFiles(TEST_ROOT + '/output/qna_sorted.lu', TEST_ROOT + '/verified/qna_sorted.lu');
                 done();
             } catch (err) {
                 done(err);
@@ -557,7 +557,7 @@ describe('The example lu files', function () {
     it('With -r/ --sort option, ludown refresh correctly sorts a QnA Alteration model', function(done) {
         exec(`node ${ludown} refresh -a ${TEST_ROOT}/testcases/qna-alterations_Alterations.json -s -r -n qna_a_sorted.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/qna_a_sorted.lu'), txtfile.readSync(TEST_ROOT + '/verified/qna_a_sorted.lu'));
+                compareFiles(TEST_ROOT + '/output/qna_a_sorted.lu', TEST_ROOT + '/verified/qna_a_sorted.lu');
                 done();
             } catch (err) {
                 done(err);
@@ -568,7 +568,7 @@ describe('The example lu files', function () {
     it('With -r/ --sort option, ludown refresh correctly sorts with LUIS, QnA and QnA alternation models are specified as input', function(done){
         exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/all.json -q ${TEST_ROOT}/testcases/all_qna.json -a ${TEST_ROOT}/testcases/qna-alterations_Alterations.json -s -r -n sorted.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/sorted.lu'), txtfile.readSync(TEST_ROOT + '/verified/sorted.lu'));
+                compareFiles(TEST_ROOT + '/output/sorted.lu', TEST_ROOT + '/verified/sorted.lu');
                 done();
             } catch (err) {
                 done(err);
@@ -579,7 +579,7 @@ describe('The example lu files', function () {
     it('With -m/ --model_info option, ludown refresh correctly writes out model information in output', function(done) {
         exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/all.json -m -s -r -n modelInfo.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/modelInfo.lu'), txtfile.readSync(TEST_ROOT + '/verified/modelInfo.lu'));
+                compareFiles(TEST_ROOT + '/output/modelInfo.lu', TEST_ROOT + '/verified/modelInfo.lu');
                 done();
             } catch (err) {
                 done(err);
