@@ -200,7 +200,7 @@ $deviceTemperature:simple`;
             "patterns": [],
             "patternAnyEntities": [],
             "prebuiltEntities": [],
-            "luis_schema_version": "3.0.0",
+            "luis_schema_version": "3.2.0",
             "versionId": "0.1",
             "name": "compositeEntities",
             "desc": "",
