@@ -1060,7 +1060,8 @@ const parseAndHandleModelInfo = function (parsedContent, luResource, log) {
     let modelInfos = luResource.ModelInfos;
     if (modelInfos && modelInfos.length > 0) {
         for (const modelInfo of modelInfos) {
-            let kvPair = modelInfo.ModelInfo.split(/@(app|kb|intent|entity).(.*)=/g).map(item => item.trim());
+            let line = modelInfo.ModelInfo
+            let kvPair = line.split(/@(app|kb|intent|entity).(.*)=/g).map(item => item.trim());
             if (kvPair.length === 4) {
                 let hasError = false;
                 kvPair.forEach(item => {

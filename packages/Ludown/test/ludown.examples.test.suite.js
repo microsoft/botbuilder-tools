@@ -638,7 +638,7 @@ describe('The example lu files', function () {
     it('Invalid entity inherits information is skipped', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_2.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.isTrue(stdout.includes(`Skipping "!#@entity.inherits = name : Web.WebSearch"`));
+                assert.isTrue(stdout.includes(`Skipping "> !# @entity.inherits = name : Web.WebSearch"`));
                 done();
             } catch (err) {
                 done(err);
@@ -649,7 +649,7 @@ describe('The example lu files', function () {
     it('Invalid intent inherits information is skipped', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_1.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.isTrue(stdout.includes(`Skipping "!#@intent.inherits = name : Web.WebSearch"`));
+                assert.isTrue(stdout.includes(`Skipping "> !# @intent.inherits = name : Web.WebSearch"`));
                 done();
             } catch (err) {
                 done(err);
@@ -660,7 +660,7 @@ describe('The example lu files', function () {
     it('Invalid entity inherits information is skipped', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_3.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.isTrue(stdout.includes(`Skipping "!#@entity.inherits2 = name : Web.WebSearch"`));
+                assert.isTrue(stdout.includes(`Skipping "> !# @entity.inherits2 = name : Web.WebSearch"`));
                 done();
             } catch (err) {
                 done(err);
@@ -671,7 +671,7 @@ describe('The example lu files', function () {
     it('Invalid intent inherits information is skipped', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_4.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.isTrue(stdout.includes(`Skipping "!#@intent.inherits2 = name : Web.WebSearch"`));
+                assert.isTrue(stdout.includes(`Skipping "> !# @intent.inherits2 = name : Web.WebSearch"`));
                 done();
             } catch (err) {
                 done(err);
@@ -682,7 +682,7 @@ describe('The example lu files', function () {
     it('Invalid intent inherits information is skipped', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_model.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.isTrue(stdout.includes(`Skipping "!#@app = test"`));
+                assert.isTrue(stdout.includes(`Skipping "> !# @app = test"`));
                 done();
             } catch (err) {
                 done(err);
