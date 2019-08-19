@@ -13,6 +13,10 @@ fragment WHITESPACE
 
 fragment UTTERANCE_MARK: '-' | '*' | '+';
 
+MODEL_INFO
+  : '>' WHITESPACE* '!#' ~('\r'|'\n')+
+  ;
+
 COMMENT
   : '>' ~('\r'|'\n')+ -> skip
   ;
@@ -55,10 +59,6 @@ Filter_MARK
 
 MULTI_LINE_TEXT
   : '```markdown' .*? '```'
-  ;
-
-MODEL_INFO
-  : '>' WHITESPACE* '!#' ~('\r'|'\n')+
   ;
 
 INVALID_TOKEN_DEFAULT_MODE
@@ -129,7 +129,7 @@ NEWLINE_IN_ENTITY
   ;
 
 ENTITY_IDENTIFIER
-  : (LETTER | NUMBER | '_' | '-' | '|')+ { this.ignoreWS = false;}
+  : (LETTER | NUMBER | '_' | '-' | '|' | '.')+ { this.ignoreWS = false;}
   ;
 
 COMPOSITE_ENTITY
@@ -145,7 +145,7 @@ COLON_MARK
   ;
 
 SPECIAL_CHAR_MARK 
-  : '=' | ','
+  : '=' | ',' | '!'
   ;
 
 mode QNA_MODE;

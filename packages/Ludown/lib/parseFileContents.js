@@ -1062,14 +1062,22 @@ const parseAndHandleModelInfo = function (parsedContent, luResource, log) {
         for (const modelInfo of modelInfos) {
             let kvPair = modelInfo.ModelInfo.split(/@(app|kb|intent|entity).(.*)=/g).map(item => item.trim());
             if (kvPair.length === 4) {
+                let hasError = false;
                 kvPair.forEach(item => {
                     if (item.trim() === '') {
                         if (log) {
                             process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
                         }
-                        return;
+
+                        hasError = true;
+                        break;
                     }
                 })
+
+                if(hasError) {
+                    continue;
+                }
+
                 if (kvPair[1].toLowerCase() === 'app') {
                     parsedContent.LUISJsonStructure[kvPair[2]] = kvPair[3];
                 } else if (kvPair[1].toLowerCase() === 'kb') {
