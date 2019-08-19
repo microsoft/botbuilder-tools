@@ -408,7 +408,7 @@ $deviceTemperature:simple`;
         .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
     });
 
-    it ('composites cannot include pattern.any entity', function(done) {
+    it.skip ('composites cannot include pattern.any entity', function(done) {
       let luFile = `# Test
       - {p = {q}}`;
       parseFile(luFile, false)
