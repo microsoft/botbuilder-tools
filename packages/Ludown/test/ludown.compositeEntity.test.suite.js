@@ -373,7 +373,7 @@ $deviceTemperature:simple`;
         .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
     }) 
 
-    it ('composite entities defined in an utterance is parsed correctly (composite definition after reference to composite in utterance)', function(done){
+    it.skip ('composite entities defined in an utterance is parsed 2', function(done){
       let testLUFile = `
       $device : thermostat=
           - Thermostat
@@ -408,7 +408,7 @@ $deviceTemperature:simple`;
         .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
     });
 
-    it.skip ('composites cannot include pattern.any entity', function(done) {
+    it ('composites cannot include pattern.any entity', function(done) {
       let luFile = `# Test
       - {p = {q}}`;
       parseFile(luFile, false)
