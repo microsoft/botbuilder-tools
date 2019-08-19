@@ -206,6 +206,12 @@ const parseFileContentsModule = {
                 }
             } else if (chunk.indexOf(PARSERCONSTS.QNA) === 0) {
                 parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, chunkSplitByLine[1], 'custom editorial', [chunkSplitByLine[0].replace(PARSERCONSTS.QNA, '').trim()], []));
+            } else if (chunk.indexOf(PARSERCONSTS.MODELINFO) === 0) {
+                try {
+                    parseAndHandleModelInfo(parsedContent, chunkSplitByLine, log);
+                } catch (err) {
+                    throw (err);
+                }
             }
         };
         return parsedContent;
@@ -258,6 +264,9 @@ const parseFileContentsModule = {
                     }
                 });
             }
+
+            if (blob.name !== undefined) FinalQnAJSON.name = blob.name;
+
         });
         return FinalQnAJSON;
     },
@@ -472,7 +481,91 @@ const parseFileContentsModule = {
         }
     }
 };
-
+/**
+ * Helper function to parse and handle model information specified via > !# info
+ * @param {Object} parsedContent 
+ * @param {string[]} chunkSplitByLine 
+ * @param {bool} log 
+ */
+const parseAndHandleModelInfo = function(parsedContent, chunkSplitByLine, log) {
+    // split each line by key value pair
+    (chunkSplitByLine || []).forEach(line => {
+        let kvPair = line.split(/@(app|kb|intent|entity).(.*)=/g).map(item => item.trim());
+        if (kvPair.length === 4) {
+            kvPair.forEach(item => {
+                if (item.trim() === '') {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
+                    }
+                    return;
+                }
+            })
+            if (kvPair[1].toLowerCase() === 'app') {
+                parsedContent.LUISJsonStructure[kvPair[2]] = kvPair[3];
+            } else if (kvPair[1].toLowerCase() === 'kb') {
+                parsedContent.qnaJsonStructure[kvPair[2]] = kvPair[3];
+            } else if (kvPair[1].toLowerCase() === 'intent') {
+                if (kvPair[2].toLowerCase() === 'inherits') {
+                    let inheritsProperties = kvPair[3].split(/[:;]/g).map(item => item.trim());
+                    if (inheritsProperties.length !== 6) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid intent inherits information found. Skipping "' + line + '"\n'));
+                    } else {
+                        // find the intent
+                        let intent = parsedContent.LUISJsonStructure.intents.find(item => item.name == inheritsProperties[1]);
+                        if (intent === undefined) {
+                            let newIntent = {
+                                "name": inheritsProperties[1],
+                                "inherits": {}
+                            };
+                            newIntent['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            newIntent['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                            parsedContent.LUISJsonStructure.intents.push(newIntent);
+                        } else {
+                            if (intent['inherits'] === undefined) intent['inherits'] = {};
+                            intent['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            intent['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                        }
+                    }
+                } else {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid intent inherits information found. Skipping "' + line + '"\n'));
+                    }
+                }
+            } else if (kvPair[1].toLowerCase() === 'entity') {
+                if (kvPair[2].toLowerCase() === 'inherits') {
+                    let inheritsProperties = kvPair[3].split(/[:;]/g).map(item => item.trim());
+                    if (inheritsProperties.length !== 6) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid entity inherits information found. Skipping "' + line + '"\n'));
+                    } else {
+                        // find the intent
+                        let entity = parsedContent.LUISJsonStructure.entities.find(item => item.name == inheritsProperties[1]);
+                        if (entity === undefined) {
+                            let newEntity = {
+                                "name": inheritsProperties[1],
+                                "inherits": {}
+                            };
+                            newEntity['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            newEntity['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                            parsedContent.LUISJsonStructure.entities.push(newEntity);
+                        } else {
+                            if (entity['inherits'] === undefined) entity['inherits'] = {};
+                            entity['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            entity['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                        }
+                    }
+                } else {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid entity inherits information found. Skipping "' + line + '"\n'));
+                    }
+                }
+            }
+        } else {
+            if (log) {
+                process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
+            }
+        }
+    })
+};
 /**
  * Helper function to merge item if it does not already exist
  *
@@ -992,7 +1085,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
             // Deep references must have [link name](link-value) notation
             if (utterance.indexOf('[') == 0) {
                 let linkExp = (utterance || '').trim().match(new RegExp(/\(.*?\)/g));
-                if (linkExp && linkExp.length !== 0) {
+                if (linkExp && linkExp.length === 1) {
                     let parsedLinkUriInUtterance = helpers.parseLinkURI(utterance);
                     // examine and add these to filestoparse list.
                     parsedContent.additionalFilesToParse.push(new fileToParse(parsedLinkUriInUtterance.luFile, false));
