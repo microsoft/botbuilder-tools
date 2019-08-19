@@ -167,7 +167,7 @@ const parseFileContentsModule = {
                     // Current implementation does not account for explicit role included in a child
                     let childEntityName = child;
                     let childEntityRole = '';
-                    if(child.includes(':')) {
+                    if (child.includes(':')) {
                         let childSplit = child.split(':').map(item => item.trim());
                         childEntityName = childSplit[0];
                         childEntityRole = childSplit[1];
@@ -205,7 +205,7 @@ const parseFileContentsModule = {
         fileContent = helpers.sanitizeNewLines(fileContent);
         let parsedContent = new parserObj();
         await parseLuAndQnaWithAntlr(parsedContent, fileContent.toString(), log, locale);
-        
+
         return parsedContent;
     },
     /**
@@ -439,91 +439,7 @@ const parseFileContentsModule = {
         }
     }
 };
-/**
- * Helper function to parse and handle model information specified via > !# info
- * @param {Object} parsedContent 
- * @param {string[]} chunkSplitByLine 
- * @param {bool} log 
- */
-const parseAndHandleModelInfo = function(parsedContent, chunkSplitByLine, log) {
-    // split each line by key value pair
-    (chunkSplitByLine || []).forEach(line => {
-        let kvPair = line.split(/@(app|kb|intent|entity).(.*)=/g).map(item => item.trim());
-        if (kvPair.length === 4) {
-            kvPair.forEach(item => {
-                if (item.trim() === '') {
-                    if (log) {
-                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
-                    }
-                    return;
-                }
-            })
-            if (kvPair[1].toLowerCase() === 'app') {
-                parsedContent.LUISJsonStructure[kvPair[2]] = kvPair[3];
-            } else if (kvPair[1].toLowerCase() === 'kb') {
-                parsedContent.qnaJsonStructure[kvPair[2]] = kvPair[3];
-            } else if (kvPair[1].toLowerCase() === 'intent') {
-                if (kvPair[2].toLowerCase() === 'inherits') {
-                    let inheritsProperties = kvPair[3].split(/[:;]/g).map(item => item.trim());
-                    if (inheritsProperties.length !== 6) {
-                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid intent inherits information found. Skipping "' + line + '"\n'));
-                    } else {
-                        // find the intent
-                        let intent = parsedContent.LUISJsonStructure.intents.find(item => item.name == inheritsProperties[1]);
-                        if (intent === undefined) {
-                            let newIntent = {
-                                "name": inheritsProperties[1],
-                                "inherits": {}
-                            };
-                            newIntent['inherits'][inheritsProperties[2]] = inheritsProperties[3];
-                            newIntent['inherits'][inheritsProperties[4]] = inheritsProperties[5];
-                            parsedContent.LUISJsonStructure.intents.push(newIntent);
-                        } else {
-                            if (intent['inherits'] === undefined) intent['inherits'] = {};
-                            intent['inherits'][inheritsProperties[2]] = inheritsProperties[3];
-                            intent['inherits'][inheritsProperties[4]] = inheritsProperties[5];
-                        }
-                    }
-                } else {
-                    if (log) {
-                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid intent inherits information found. Skipping "' + line + '"\n'));
-                    }
-                }
-            } else if (kvPair[1].toLowerCase() === 'entity') {
-                if (kvPair[2].toLowerCase() === 'inherits') {
-                    let inheritsProperties = kvPair[3].split(/[:;]/g).map(item => item.trim());
-                    if (inheritsProperties.length !== 6) {
-                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid entity inherits information found. Skipping "' + line + '"\n'));
-                    } else {
-                        // find the intent
-                        let entity = parsedContent.LUISJsonStructure.entities.find(item => item.name == inheritsProperties[1]);
-                        if (entity === undefined) {
-                            let newEntity = {
-                                "name": inheritsProperties[1],
-                                "inherits": {}
-                            };
-                            newEntity['inherits'][inheritsProperties[2]] = inheritsProperties[3];
-                            newEntity['inherits'][inheritsProperties[4]] = inheritsProperties[5];
-                            parsedContent.LUISJsonStructure.entities.push(newEntity);
-                        } else {
-                            if (entity['inherits'] === undefined) entity['inherits'] = {};
-                            entity['inherits'][inheritsProperties[2]] = inheritsProperties[3];
-                            entity['inherits'][inheritsProperties[4]] = inheritsProperties[5];
-                        }
-                    }
-                } else {
-                    if (log) {
-                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid entity inherits information found. Skipping "' + line + '"\n'));
-                    }
-                }
-            }
-        } else {
-            if (log) {
-                process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
-            }
-        }
-    })
-};
+
 /**
  * Main parser code to parse current file contents into LUIS and QNA sections.
  * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
@@ -537,10 +453,10 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
     let luResource = luParser.parse(fileContent);
 
     if (luResource.Errors && luResource.Errors.length > 0) {
-        if(log) {
+        if (log) {
             process.stdout.write(luResource.Errors.filter(error => error.Severity === DiagnosticSeverity.WARN).map(warn => warn.toString()).join('\n').concat('\n'));
         }
-        
+
         var errors = luResource.Errors.filter(error => error.Severity === DiagnosticSeverity.ERROR);
         if (errors.length > 0) {
             throw (new exception(retCode.errorCode.INVALID_LINE, errors.map(error => error.toString()).join('\n')));
@@ -560,7 +476,7 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
     parseAndHandleQna(parsedContent, luResource);
 
     // parse model info section
-　　parseAndHandleModelInfo(parsedContent, luResource, log);
+    parseAndHandleModelInfo(parsedContent, luResource, log);
 }
 
 /**
@@ -569,7 +485,7 @@ const parseLuAndQnaWithAntlr = async function (parsedContent, fileContent, log, 
  * @param {LUResouce} luResource resources extracted from lu file content
  * @throws {exception} Throws on errors. exception object includes errCode and text.
  */
-const parseAndHandleReference = async function(parsedContent, luResource) {
+const parseAndHandleReference = async function (parsedContent, luResource) {
     // handle reference
     let luImports = luResource.Imports;
     if (luImports && luImports.length > 0) {
@@ -602,7 +518,7 @@ const parseAndHandleReference = async function(parsedContent, luResource) {
 
                     throw (new exception(retCode.errorCode.INVALID_URI, error.toString()));
                 }
-                
+
                 let contentType = response.headers.get('content-type');
                 if (!contentType.includes('text/html')) {
                     parsedContent.qnaJsonStructure.files.push(new qnaFile(linkValue, linkValueText));
@@ -623,7 +539,7 @@ const parseAndHandleReference = async function(parsedContent, luResource) {
  * @param {LUResouce} luResource resources extracted from lu file content
  * @throws {exception} Throws on errors. exception object includes errCode and text.
  */
-const parseAndHandleIntent = function(parsedContent, luResource) {
+const parseAndHandleIntent = function (parsedContent, luResource) {
     // handle intent
     let intents = luResource.Intents;
     if (intents && intents.length > 0) {
@@ -636,7 +552,7 @@ const parseAndHandleIntent = function(parsedContent, luResource) {
                 let utterance = utteranceAndEntities.utterance.trim();
                 if (utterance.indexOf('[') == 0) {
                     let linkExp = (utterance || '').trim().match(new RegExp(/\(.*?\)/g));
-                    if (linkExp && linkExp.length !== 0) {
+                    if (linkExp && linkExp.length === 1) {
                         let parsedLinkUriInUtterance = helpers.parseLinkURI(utterance);
                         // examine and add these to filestoparse list.
                         parsedContent.additionalFilesToParse.push(new fileToParse(parsedLinkUriInUtterance.luFile, false));
@@ -654,7 +570,7 @@ const parseAndHandleIntent = function(parsedContent, luResource) {
                                 message: errorMsg,
                                 context: utteranceAndEntities.context
                             })
-                            
+
                             throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                         }
 
@@ -701,7 +617,7 @@ const parseAndHandleIntent = function(parsedContent, luResource) {
                                     throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                                 }
                             }
-                            
+
                             // only add this entity if it has not already been defined as composite, list, prebuilt, regex
                             let compositeExists = (parsedContent.LUISJsonStructure.composites || []).find(item => item.name == entity.entity);
                             let listExists = (parsedContent.LUISJsonStructure.closedLists || []).find(item => item.name == entity.entity);
@@ -818,7 +734,7 @@ const parseAndHandleIntent = function(parsedContent, luResource) {
  * @param {string} locale LUIS locale code
  * @throws {exception} Throws on errors. exception object includes errCode and text.
  */
-const parseAndHandleEntity = function(parsedContent, luResource, log, locale) {
+const parseAndHandleEntity = function (parsedContent, luResource, log, locale) {
     // handle entity
     let entities = luResource.Entities;
     if (entities && entities.length > 0) {
@@ -839,7 +755,7 @@ const parseAndHandleEntity = function(parsedContent, luResource, log, locale) {
                             message: errorMsg,
                             context: entity.ParseTree.entityLine()
                         })
-                        
+
                         throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
                     }
                     if (parsedContent.LUISJsonStructure.patternAnyEntities[i].roles.length !== 0) entityRoles = parsedContent.LUISJsonStructure.patternAnyEntities[i].roles;
@@ -903,7 +819,7 @@ const parseAndHandleEntity = function(parsedContent, luResource, log, locale) {
                     let parsedEntityTypeAndRole = helpers.getRolesAndType(entityType);
                     entityType = parsedEntityTypeAndRole.entityType;
                     (parsedEntityTypeAndRole.roles || []).forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
-                    
+
                     // check if this list entity is already labelled in an utterance and or added as a simple entity. if so, throw an error.
                     try {
                         let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'List');
@@ -1114,7 +1030,7 @@ const parseAndHandleEntity = function(parsedContent, luResource, log, locale) {
  * @param {LUResouce} luResource resources extracted from lu file content
  * @throws {exception} Throws on errors. exception object includes errCode and text.
  */
-const parseAndHandleQna = function(parsedContent, luResource) {
+const parseAndHandleQna = function (parsedContent, luResource) {
     // handle QNA
     let qnas = luResource.Qnas;
     if (qnas && qnas.length > 0) {
@@ -1144,16 +1060,78 @@ const parseAndHandleModelInfo = function (parsedContent, luResource, log) {
     let modelInfos = luResource.ModelInfos;
     if (modelInfos && modelInfos.length > 0) {
         for (const modelInfo of modelInfos) {
-            let kvPair = modelInfo.ModelInfo.split(/@(app|kb).(.*)=/g);
+            let kvPair = modelInfo.ModelInfo.split(/@(app|kb|intent|entity).(.*)=/g).map(item => item.trim());
             if (kvPair.length === 4) {
-                if (kvPair[1].trim().toLowerCase() === 'app') {
-                    parsedContent.LUISJsonStructure[kvPair[2].trim()] = kvPair[3].trim();
-                } else if (kvPair[1].trim().toLowerCase() === 'kb') {
-                    parsedContent.qnaJsonStructure[kvPair[2].trim()] = kvPair[3].trim();
-                } else {
-                    if (log) {
-                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
+                kvPair.forEach(item => {
+                    if (item.trim() === '') {
+                        if (log) {
+                            process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
+                        }
+                        return;
                     }
+                })
+                if (kvPair[1].toLowerCase() === 'app') {
+                    parsedContent.LUISJsonStructure[kvPair[2]] = kvPair[3];
+                } else if (kvPair[1].toLowerCase() === 'kb') {
+                    parsedContent.qnaJsonStructure[kvPair[2]] = kvPair[3];
+                } else if (kvPair[1].toLowerCase() === 'intent') {
+                    if (kvPair[2].toLowerCase() === 'inherits') {
+                        let inheritsProperties = kvPair[3].split(/[:;]/g).map(item => item.trim());
+                        if (inheritsProperties.length !== 6) {
+                            process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid intent inherits information found. Skipping "' + line + '"\n'));
+                        } else {
+                            // find the intent
+                            let intent = parsedContent.LUISJsonStructure.intents.find(item => item.name == inheritsProperties[1]);
+                            if (intent === undefined) {
+                                let newIntent = {
+                                    "name": inheritsProperties[1],
+                                    "inherits": {}
+                                };
+                                newIntent['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                                newIntent['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                                parsedContent.LUISJsonStructure.intents.push(newIntent);
+                            } else {
+                                if (intent['inherits'] === undefined) intent['inherits'] = {};
+                                intent['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                                intent['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                            }
+                        }
+                    } else {
+                        if (log) {
+                            process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid intent inherits information found. Skipping "' + line + '"\n'));
+                        }
+                    }
+                } else if (kvPair[1].toLowerCase() === 'entity') {
+                    if (kvPair[2].toLowerCase() === 'inherits') {
+                        let inheritsProperties = kvPair[3].split(/[:;]/g).map(item => item.trim());
+                        if (inheritsProperties.length !== 6) {
+                            process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid entity inherits information found. Skipping "' + line + '"\n'));
+                        } else {
+                            // find the intent
+                            let entity = parsedContent.LUISJsonStructure.entities.find(item => item.name == inheritsProperties[1]);
+                            if (entity === undefined) {
+                                let newEntity = {
+                                    "name": inheritsProperties[1],
+                                    "inherits": {}
+                                };
+                                newEntity['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                                newEntity['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                                parsedContent.LUISJsonStructure.entities.push(newEntity);
+                            } else {
+                                if (entity['inherits'] === undefined) entity['inherits'] = {};
+                                entity['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                                entity['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                            }
+                        }
+                    } else {
+                        if (log) {
+                            process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid entity inherits information found. Skipping "' + line + '"\n'));
+                        }
+                    }
+                }
+            } else {
+                if (log) {
+                    process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
                 }
             }
         }
@@ -1261,7 +1239,7 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
         // Fix for #1137.
         // Current behavior does not allow for simple and phrase list entities to have the same name. 
         if (entityType != 'Phrase List') {
-            for (var idx = 0; idx < parsedContent.LUISJsonStructure.entities.length; idx ++) {
+            for (var idx = 0; idx < parsedContent.LUISJsonStructure.entities.length; idx++) {
                 if (parsedContent.LUISJsonStructure.entities[idx].name === simpleEntityExists.name) {
                     parsedContent.LUISJsonStructure.entities.splice(idx, 1);
                 }
@@ -1303,7 +1281,7 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
  * @returns {string[]} resolved values to add to the parent list
  * @throws {exception} Throws on errors. exception object includes errCode and text.  
  */
-const flattenLists = function(list, retObj, parentIdx) {
+const flattenLists = function (list, retObj, parentIdx) {
     let retValue = []
     if (list.entity !== undefined) list.entity = list.entity.trim();
     if (list.role !== undefined) list.role = list.role.trim();
@@ -1320,10 +1298,10 @@ const flattenLists = function(list, retObj, parentIdx) {
             retValue.push(item);
             if (item === ' ') {
                 if (idx !== 0 && idx !== (list.value.length - 1)) {
-                    offset ++;
+                    offset++;
                 }
             } else {
-                offset ++;
+                offset++;
             }
         }
     });
