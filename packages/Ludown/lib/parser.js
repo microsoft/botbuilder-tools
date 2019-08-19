@@ -80,7 +80,7 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     }
 
     if(finalLUISJSON) {
-        finalLUISJSON.luis_schema_version = program.luis_schema_version || finalLUISJSON.luis_schema_version || "3.0.0";
+        finalLUISJSON.luis_schema_version = program.luis_schema_version || finalLUISJSON.luis_schema_version || "3.2.0";
         finalLUISJSON.versionId = program.luis_versionId || finalLUISJSON.versionId || "0.1";
         finalLUISJSON.name = program.luis_name || finalLUISJSON.name || path.basename(rootFile, path.extname(rootFile)),
         finalLUISJSON.desc = program.luis_desc || finalLUISJSON.desc || "";
