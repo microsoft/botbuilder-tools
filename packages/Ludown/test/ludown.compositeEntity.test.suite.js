@@ -373,7 +373,7 @@ $deviceTemperature:simple`;
         .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
     }) 
 
-    it ('composite entities defined in an utterance is parsed correctly (composite definition after reference to composite in utterance)', function(done){
+    it ('composite entities defined after utterances is parsed correctly', function(done){
       let testLUFile = `
       $device : thermostat=
           - Thermostat
