@@ -1,0 +1,1450 @@
+{
+  "intents": [
+    {
+      "name": "None"
+    },
+    {
+      "name": "Web.WebSearch",
+      "inherits": {
+        "domain_name": "Web",
+        "model_name": "WebSearch"
+      }
+    }
+  ],
+  "entities": [
+    {
+      "name": "Web.SearchText",
+      "roles": [],
+      "inherits": {
+        "domain_name": "Web",
+        "model_name": "SearchText"
+      }
+    }
+  ],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "Web.SearchEngine",
+      "subLists": [
+        {
+          "canonicalForm": "bing",
+          "list": []
+        },
+        {
+          "canonicalForm": "google",
+          "list": []
+        },
+        {
+          "canonicalForm": "youtube",
+          "list": []
+        },
+        {
+          "canonicalForm": "yahoo!",
+          "list": [
+            "yahoo"
+          ]
+        },
+        {
+          "canonicalForm": "baidu",
+          "list": []
+        },
+        {
+          "canonicalForm": "aol",
+          "list": []
+        },
+        {
+          "canonicalForm": "lycos",
+          "list": []
+        },
+        {
+          "canonicalForm": "msn",
+          "list": []
+        }
+      ],
+      "roles": [
+        "Web.google.com",
+        "Web.www.google.com"
+      ]
+    }
+  ],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "open pinterest.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "amazon.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "ancestry login",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "aramex .com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "bethesda .net",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "bing facebook webpage",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "can i go to wiki",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "can i see the instagram website",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 14,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "can you go to www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 14,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "can you navigate me to www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 23,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "can you open the website wiki for me",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 25,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "can you take me to outlook.com?",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 19,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "check house prices in the united states on bing.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "check the fox news website",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 10,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "could you go to www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 16,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "could you please go to www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 23,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "could you please navigate to www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 29,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "discover political books",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 9,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "explore aquarius in search engine",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "explore deep learning in google.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "explore movies in google.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "explore wechat in search engine",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "facebook.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "facebook.com open",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "find news in bing.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "get me to luis.ai",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 10,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "gmail.com please",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "go to amazon",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "go to bing",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "go to ebay",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "go to facebook",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "go to paypal",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "go to the fox news website",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 10,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "go to walmart.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "go to wiki",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "go to wikipedia",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "go to www.bankrate.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "go to www.smile.amazon.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "go to www.target.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "go to www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "go to www.yahoo.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "google maps website",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "google the website of tmall",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 22,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "google.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "how to buy bitcoin, msn it",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "i need the website www.wikipedia.com opened",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 19,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "i want to get the information about basketball",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 36,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "i want to get the information about sylvester stallone",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 36,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "i want to know the election results",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 19,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "i want to open amazon to search out books about sql server",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 15,
+          "endPos": 20
+        },
+        {
+          "entity": "Web.SearchText",
+          "startPos": 36,
+          "endPos": 57
+        }
+      ]
+    },
+    {
+      "text": "i want to open yahoo to search out cookbook",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 35,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "let us go to the google.com to search house prices in the united states",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 38,
+          "endPos": 70
+        }
+      ]
+    },
+    {
+      "text": "let us go to the google.com to search marvel movies",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 38,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "msn.com homepage",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "navigate me to website wiki",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 23,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "navigate to wiki at www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 12,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "navigate to www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 12,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "netflix.com for me",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "notre dame de paris, search it",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "open google drive website",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "open paypal in browser",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "amazon.com let s go back to it",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "open the page microsoft.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 14,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "open the web page for royal mail.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 22,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "open the web page yahoo.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 18,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "open the web windows phone.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 13,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "open the wiki website please",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "open to twitter.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "open up amazon.com for me",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "open up reddit.com in google chrome",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "open up the website arrow fastener.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 20,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "open up wigtypes.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "open video.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "open wiki for me",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "open wiki in google",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "open wikipedia homepage in bing",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "open www. amazon.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "open www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 5,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "open your browser and find a book to read",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 29,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "open your browser and find a song to listen to",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 29,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "outlook.com on edge",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "please go to www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 13,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "please navigate to aol",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 19,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "please navigate to www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 19,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "please open www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 12,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "please search prince harry’s last name on www.google.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 14,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "please turn to www.wikipedia.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 15,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "query 2019 in bing.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "query one refrigerator in taobao",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 10,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "query some books on amazon",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 11,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "search china in bing",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 7,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "search luis in bing",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 7,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "search skiing skills in bing",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 7,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "search teachers day in google.com.hk",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 7,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "search thanksgiving day on bing",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 7,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "search the cookbook named sweet paul",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 11,
+          "endPos": 18
+        },
+        {
+          "entity": "Web.SearchText",
+          "startPos": 26,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "search the movie named toy story",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 11,
+          "endPos": 15
+        },
+        {
+          "entity": "Web.SearchText",
+          "startPos": 23,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "seek the seasonal vegetables in bing",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 9,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "show me the aol homepage",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 12,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "start att.com website",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "start facebook.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "surf to google.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "switch to bing to find some rock books",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 28,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "take me to bing.com",
+      "intent": "Web.WebSearch",
+      "entities": []
+    },
+    {
+      "text": "take me to facebook",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 11,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "take me to facebook.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 11,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "take me to google maps.",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 11,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "take me to kanye west's website",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 11,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "take me to kohl's website please.",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 11,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "take me to the first citizens website.",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 15,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "take me to the wiki website",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "take me to wiki",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "take me to yahoo.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "visit the fox news homepage",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 10,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "visit www.foxnews.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 6,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "want to see historical exhibitions in bing",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 12,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "website fox news",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "what is fox news' top story",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "what is good friday",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 8,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "what is this election results",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 13,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "www.read.amazon.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "www.twitter.com",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "www.wikipedia.com please",
+      "intent": "Web.WebSearch",
+      "entities": [
+        {
+          "entity": "Web.SearchText",
+          "startPos": 0,
+          "endPos": 16
+        }
+      ]
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "[please] (open|start) {Web.SearchEngine} [and] (find|search|query) [out] [(a[n]|one)] {Web.SearchText} to",
+      "intent": "Web.WebSearch"
+    }
+  ],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "name": "imports",
+  "desc": "",
+  "culture": "en-us",
+  "versionId": "0.1",
+  "luis_schema_version": "3.2.0"
+}

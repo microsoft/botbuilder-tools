@@ -100,7 +100,7 @@ const helpers = {
     splitFileBySections : function(fileContent, log) {
         fileContent = helpers.sanitizeNewLines(fileContent);
         let linesInFile = fileContent.split(NEWLINE);
-        let currentSection = null;
+        let currentSection = '';
         let middleOfSection = false;
         let sectionsInFile = [];
         let currentSectionType = null; //PARSERCONSTS
@@ -118,7 +118,22 @@ const helpers = {
                 continue;
             }
             // skip line if it is just a comment
-            if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) continue;
+            if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) {
+                // Add support to parse application metadata if found
+                let info = currentLine.split(/>[ ]*!#/g);
+                if (info === undefined || info.length === 1) continue;
+                if (currentSection !== null) {
+                    let previousSection = currentSection.substring(0, currentSection.lastIndexOf(NEWLINE));
+                    try {
+                        sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
+                    } catch (err) {
+                        throw (err);
+                    }
+                }
+                currentSection = PARSERCONSTS.MODELINFO + info[1].trim() + NEWLINE;
+                currentSectionType = PARSERCONSTS.MODELINFO;
+                continue;
+            }
 
             // skip line if it is blank
             if(currentLine === '') continue;
@@ -339,6 +354,9 @@ var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, cur
             if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No synonyms list found for list entity:' + previousSection.split(NEWLINE)[0] + NEWLINE));
             --lineIndex;
         }
+        sectionsInFile.push(previousSection);
+        break;
+    case PARSERCONSTS.MODELINFO:
         sectionsInFile.push(previousSection);
         break;
     }

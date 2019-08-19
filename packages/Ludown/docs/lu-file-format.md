@@ -50,7 +50,7 @@ Entity in .lu file is denoted using {\<entityName\>=\<labelled value\>} notation
 ```
 
 LUDown tool supports the following [LUIS entity types](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-entity-types)
-- Prebuilt ("datetimeV2", "age", "dimension", "email", "money", "number", "ordinal", "percentage", "phoneNumber","temperature", "url", "datetime", "keyPhrase")
+- Prebuilt ("age", "datetimeV2", "dimension", "email", "geographyV2", "keyPhrase", "money", "number", "ordinal", "ordinalV2", "percentage", "personName", "phoneNumber", "temperature", "url", "datetime")
 - List
 - Simple
 - RegEx
@@ -417,4 +417,21 @@ You can add comments to your .lu document by prefixing the comment with >. Here'
 # Greeting
 - hi
 - hello
+```
+
+## Application/ KB information
+You can include configuration information for your LUIS application or QnA Maker KB via comments. 
+
+**Note** Any information explicitly passed in via CLI arguments will override information in the .lu file.
+
+```markdown
+> LUIS application description
+> !# @app.name = my luis application
+> !# @app.desc = description of my luis application
+> !# @app.versionId = 0.5
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 3.0.0
+
+> QnA Maker KB description
+> !# @kb.name = my qna maker kb name
 ```

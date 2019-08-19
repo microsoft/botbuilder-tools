@@ -256,6 +256,9 @@ const parseFileContentsModule = {
                     }
                 });
             }
+
+            if (blob.name !== undefined) FinalQnAJSON.name = blob.name;
+
         });
         return FinalQnAJSON;
     },
@@ -436,7 +439,91 @@ const parseFileContentsModule = {
         }
     }
 };
-
+/**
+ * Helper function to parse and handle model information specified via > !# info
+ * @param {Object} parsedContent 
+ * @param {string[]} chunkSplitByLine 
+ * @param {bool} log 
+ */
+const parseAndHandleModelInfo = function(parsedContent, chunkSplitByLine, log) {
+    // split each line by key value pair
+    (chunkSplitByLine || []).forEach(line => {
+        let kvPair = line.split(/@(app|kb|intent|entity).(.*)=/g).map(item => item.trim());
+        if (kvPair.length === 4) {
+            kvPair.forEach(item => {
+                if (item.trim() === '') {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
+                    }
+                    return;
+                }
+            })
+            if (kvPair[1].toLowerCase() === 'app') {
+                parsedContent.LUISJsonStructure[kvPair[2]] = kvPair[3];
+            } else if (kvPair[1].toLowerCase() === 'kb') {
+                parsedContent.qnaJsonStructure[kvPair[2]] = kvPair[3];
+            } else if (kvPair[1].toLowerCase() === 'intent') {
+                if (kvPair[2].toLowerCase() === 'inherits') {
+                    let inheritsProperties = kvPair[3].split(/[:;]/g).map(item => item.trim());
+                    if (inheritsProperties.length !== 6) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid intent inherits information found. Skipping "' + line + '"\n'));
+                    } else {
+                        // find the intent
+                        let intent = parsedContent.LUISJsonStructure.intents.find(item => item.name == inheritsProperties[1]);
+                        if (intent === undefined) {
+                            let newIntent = {
+                                "name": inheritsProperties[1],
+                                "inherits": {}
+                            };
+                            newIntent['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            newIntent['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                            parsedContent.LUISJsonStructure.intents.push(newIntent);
+                        } else {
+                            if (intent['inherits'] === undefined) intent['inherits'] = {};
+                            intent['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            intent['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                        }
+                    }
+                } else {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid intent inherits information found. Skipping "' + line + '"\n'));
+                    }
+                }
+            } else if (kvPair[1].toLowerCase() === 'entity') {
+                if (kvPair[2].toLowerCase() === 'inherits') {
+                    let inheritsProperties = kvPair[3].split(/[:;]/g).map(item => item.trim());
+                    if (inheritsProperties.length !== 6) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid entity inherits information found. Skipping "' + line + '"\n'));
+                    } else {
+                        // find the intent
+                        let entity = parsedContent.LUISJsonStructure.entities.find(item => item.name == inheritsProperties[1]);
+                        if (entity === undefined) {
+                            let newEntity = {
+                                "name": inheritsProperties[1],
+                                "inherits": {}
+                            };
+                            newEntity['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            newEntity['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                            parsedContent.LUISJsonStructure.entities.push(newEntity);
+                        } else {
+                            if (entity['inherits'] === undefined) entity['inherits'] = {};
+                            entity['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            entity['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                        }
+                    }
+                } else {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid entity inherits information found. Skipping "' + line + '"\n'));
+                    }
+                }
+            }
+        } else {
+            if (log) {
+                process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
+            }
+        }
+    })
+};
 /**
  * Main parser code to parse current file contents into LUIS and QNA sections.
  * @param {parserObj} Object with that contains list of additional files to parse, parsed LUIS object and parsed QnA object
