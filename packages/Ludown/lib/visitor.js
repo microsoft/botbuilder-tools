@@ -75,7 +75,7 @@ class Visitor {
                 // composite entities
                 let compositeEntityDefinition = updatedEntityValue.substring(compositeEntityLeftIndex + 1, compositeEntityRightIndex).trim();
                 let compositeEntityEqualIndex = compositeEntityDefinition.indexOf('=');
-                if (compositeEntityEqualIndex != -1) {
+                if (compositeEntityEqualIndex !== -1) {
                     let compositeEntityName = compositeEntityDefinition.substring(0, compositeEntityEqualIndex).trim();
                     let compositeEntityValue = compositeEntityDefinition.substring(compositeEntityEqualIndex + 1).trim();
                     entities.push({ entityName: compositeEntityName, entityValue: compositeEntityValue });
@@ -83,7 +83,7 @@ class Visitor {
                     compositeEntityRightIndex = updatedEntityValue.indexOf('}');
                     compositeEntityLeftIndex = updatedEntityValue.substring(0, compositeEntityRightIndex).lastIndexOf('{');
                 } else {
-                    errorMsg.push(`Composite entity "${entityName}" includes pattern.any entity "${compositeEntityDefinition}".\r\n\tComposites cannot include pattern.any entity as a child.`)
+                    errorMsgs.push(`Composite entity "${entityName}" includes pattern.any entity "${compositeEntityDefinition}".\r\n\tComposites cannot include pattern.any entity as a child.`)
                     break;
                 }
             }
