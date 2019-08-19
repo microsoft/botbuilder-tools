@@ -1070,7 +1070,6 @@ const parseAndHandleModelInfo = function (parsedContent, luResource, log) {
                         }
 
                         hasError = true;
-                        break;
                     }
                 })
 
