@@ -603,12 +603,23 @@ const parseAndHandleIntent = function (parsedContent, luResource) {
                             parsedContent.LUISJsonStructure.patterns.push(newPattern);
                         }
 
-                        // add all entities to pattern.Any.
+                        // add all entities to pattern.Any only if they do not have another type.
                         entitiesFound.forEach(entity => {
-                            if (entity.role && entity.role !== '') {
-                                addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()])
-                            } else {
-                                addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity);
+                            let simpleEntityInMaster = parsedContent.LUISJsonStructure.entities.find(item => item.name == entity.entity);
+                            let compositeInMaster = parsedContent.LUISJsonStructure.composites.find(item => item.name == entity.entity);
+                            let listEntityInMaster = parsedContent.LUISJsonStructure.closedLists.find(item => item.name == entity.entity);
+                            let regexEntityInMaster = parsedContent.LUISJsonStructure.regex_entities.find(item => item.name == entity.entity);
+                            let prebuiltInMaster = parsedContent.LUISJsonStructure.prebuiltEntities.find(item => item.name == entity.entity);
+                            if (!simpleEntityInMaster &&
+                                !compositeInMaster &&
+                                !listEntityInMaster &&
+                                !regexEntityInMaster &&
+                                !prebuiltInMaster) {
+                                if (entity.role && entity.role !== '') {
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()])
+                                } else {
+                                    addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity);
+                                }
                             }
                         });
 
