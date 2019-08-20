@@ -31,17 +31,7 @@ const parseFileContentsModule = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     validateLUISBlob: async function (LUISJSONBlob) {
-        // patterns can have references to any other entity types. 
-        // So if there is a pattern.any entity that is also defined as another type, remove the pattern.any entity
-        LUISJSONBlob.patternAnyEntities = (LUISJSONBlob.patternAnyEntities || []).filter(entity => {
-            if (itemExists(LUISJSONBlob.entities, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.closedLists, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.model_features, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.regex_entities, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
-            return true;
-        });
+        
 
         // look for entity name collisions - list, simple, patternAny, phraselist
         // look for list entities labelled
@@ -380,6 +370,40 @@ const parseFileContentsModule = {
                     }
                 }
             });
+
+            // do we have pattern.any entities here? 
+            (blob.patternAnyEntities || []).forEach(patternAny => {
+                let paIdx = -1;
+                let patternAnyInMaster = FinalLUISJSON.patternAnyEntities.find((item, idx) => {
+                    if (item.name === patternAny.name) {
+                        paIdx = idx;
+                        return true;
+                    }
+                    return false;
+                });
+                // verify that this patternAny entity does not exist as any other type
+                let simpleEntityInMaster = FinalLUISJSON.entities.find(item => item.name == patternAny.name);
+                let compositeInMaster = FinalLUISJSON.composites.find(item => item.name == patternAny.name);
+                let listEntityInMaster = FinalLUISJSON.closedLists.find(item => item.name == patternAny.name);
+                let regexEntityInMaster = FinalLUISJSON.regex_entities.find(item => item.name == patternAny.name);
+                let prebuiltInMaster = FinalLUISJSON.prebuiltEntities.find(item => item.name == patternAny.name);
+                if (!simpleEntityInMaster && 
+                    !compositeInMaster &&
+                    !listEntityInMaster &&
+                    !regexEntityInMaster &&
+                    !prebuiltInMaster) {
+                    if (patternAnyInMaster) {
+                        (patternAny.roles || []).forEach(role => !patternAnyInMaster.roles.includes(role) ? patternAnyInMaster.roles.push(role) : undefined);
+                    } else {
+                            FinalLUISJSON.patternAnyEntities.push(patternAny);
+                    }
+                } else {
+                    // remove the pattern.any from master if another entity type has this name.
+                    if (patternAnyInMaster) {
+                        if (paIdx !== -1) FinalLUISJSON.patternAnyEntities.splice(paIdx, 1);
+                    }
+                }
+            })
         });
         return FinalLUISJSON;
     },
@@ -645,16 +669,22 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
     let pEntityName = (entityName === 'PREBUILT') ? entityType : entityName;
     // see if we already have this as Pattern.Any entity
     // see if we already have this in patternAny entity collection; if so, remove it but remember the roles (if any)
-    for (let i in parsedContent.LUISJsonStructure.patternAnyEntities) {
-        if (parsedContent.LUISJsonStructure.patternAnyEntities[i].name === pEntityName) {
+    let patternAnyMatchIdx = new Array();
+    (parsedContent.LUISJsonStructure.patternAnyEntities || []).forEach((entity, idx) => {
+        if (entity.name === pEntityName || entity.name === entityType) {
             if (entityType.toLowerCase().trim().includes('phraselist')) {
                 throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR]: Phrase lists cannot be used as an entity in a pattern "' + pEntityName));
             }
-            if (parsedContent.LUISJsonStructure.patternAnyEntities[i].roles.length !== 0) entityRoles = parsedContent.LUISJsonStructure.patternAnyEntities[i].roles;
-            parsedContent.LUISJsonStructure.patternAnyEntities.splice(i, 1);
-            break;
+            if (entity.roles.length !== 0) entityRoles = entity.roles;
+            patternAnyMatchIdx.push(idx);
         }
-    }
+    });
+
+    // remove any found patternany entities.
+    patternAnyMatchIdx.sort().reverse().forEach(idx => {
+        parsedContent.LUISJsonStructure.patternAnyEntities.splice(idx, 1);
+    })
+
     // add this entity to appropriate place
     // is this a builtin type? 
     if (builtInTypes.consolidatedList.includes(entityType)) {
@@ -1076,13 +1106,24 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                     if (!parsedContent.LUISJsonStructure.patterns.find(item => deepEqual(item, newPattern))) {
                         parsedContent.LUISJsonStructure.patterns.push(newPattern);
                     } 
-                    // add all entities to pattern.Any.
+                    // add all entities to pattern.Any only if they do not have another type.
                     entitiesFound.forEach(entity => {
-                        if (entity.role !== '') {
-                            addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()])
-                        } else {
-                            addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity);
-                        }
+                        let simpleEntityInMaster = parsedContent.LUISJsonStructure.entities.find(item => item.name == entity.entity);
+                        let compositeInMaster = parsedContent.LUISJsonStructure.composites.find(item => item.name == entity.entity);
+                        let listEntityInMaster = parsedContent.LUISJsonStructure.closedLists.find(item => item.name == entity.entity);
+                        let regexEntityInMaster = parsedContent.LUISJsonStructure.regex_entities.find(item => item.name == entity.entity);
+                        let prebuiltInMaster = parsedContent.LUISJsonStructure.prebuiltEntities.find(item => item.name == entity.entity);
+                        if (!simpleEntityInMaster && 
+                            !compositeInMaster &&
+                            !listEntityInMaster &&
+                            !regexEntityInMaster &&
+                            !prebuiltInMaster) {
+                                if (entity.role !== '') {
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()])
+                                } else {
+                                    addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity);
+                                }                            
+                        }                         
                     });
 
                     // if this intent does not have any utterances, push this pattern as an utterance as well. 
