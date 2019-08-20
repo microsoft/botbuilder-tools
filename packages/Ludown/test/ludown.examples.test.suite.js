@@ -605,7 +605,7 @@ describe('The example lu files', function () {
     it('Prebuilt models are parsed correctly', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/verified/prebuilt_mode.lu --out prebuilt_model_parse.json -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/prebuilt_model_parse.json'), txtfile.readSync(TEST_ROOT + '/verified/prebuilt_model_parse.json'));
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/prebuilt_model_parse.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/prebuilt_model_parse.json'))));
                 done();
             } catch (err) {
                 done(err);
@@ -627,7 +627,7 @@ describe('The example lu files', function () {
     it('Multiple Prebuilt models are parsed correctly', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/verified/calendar_all_prebuilt.lu --out calendar_all_prebuilt_parsed.json -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/calendar_all_prebuilt_parsed.json'), txtfile.readSync(TEST_ROOT + '/verified/calendar_all_prebuilt_parsed.json'));
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/calendar_all_prebuilt_parsed.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/calendar_all_prebuilt_parsed.json'))));
                 done();
             } catch (err) {
                 done(err);

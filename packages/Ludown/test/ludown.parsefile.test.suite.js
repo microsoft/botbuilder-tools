@@ -902,8 +902,8 @@ describe('parseFile correctly parses utterances', function () {
                 let testLU = `> !# @app.name = all345
                 > !# @app.desc = this is a test
                 > !#  @app.culture = en-us
-                >  !# @app.versionId = 0.4
-                > !# @app.luis_schema_version = 3.0.0
+                > !# @app.versionId = 0.4
+                > !# @app.luis_schema_version = 3.2.0
                 
                 # test 
                 - greeting`;
@@ -914,7 +914,7 @@ describe('parseFile correctly parses utterances', function () {
                                 assert.equal(res.LUISJsonStructure.desc, 'this is a test');
                                 assert.equal(res.LUISJsonStructure.culture, 'en-us');
                                 assert.equal(res.LUISJsonStructure.versionId, '0.4');
-                                assert.equal(res.LUISJsonStructure.luis_schema_version, '3.0.0')
+                                assert.equal(res.LUISJsonStructure.luis_schema_version, '3.2.0')
                                 done();
                         })
                         .catch(err => done(err))

@@ -891,7 +891,7 @@ $test:[fromTime]`;
             "patterns": [],
             "patternAnyEntities": [],
             "prebuiltEntities": [],
-            "luis_schema_version": "3.0.0",
+            "luis_schema_version": "3.2.0",
             "versionId": "0.1",
             "name": "1",
             "desc": "",
@@ -927,7 +927,7 @@ $test:[fromTime]`;
                 let LUISJSon = res.LUISJsonStructure;
                 assert(LUISJSon.prebuiltEntities.length, 1);
                 assert(LUISJSon.prebuiltEntities[0].roles.length, 2);
-                assert.deepEqual(LUISJSon.prebuiltEntities[0].roles, ['from', 'to']);
+                assert.deepEqual(LUISJSon.prebuiltEntities[0].roles, ['to', 'from']);
                 done();
             })
             .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
@@ -952,7 +952,7 @@ $test:[fromTime]`;
                 let LUISJSon = res.LUISJsonStructure;
                 assert(LUISJSon.regex_entities.length, 1);
                 assert(LUISJSon.regex_entities[0].roles.length, 2);
-                assert.deepEqual(LUISJSon.regex_entities[0].roles, ['from', 'to']);
+                assert.deepEqual(LUISJSon.regex_entities[0].roles, ['to', 'from']);
                 done();
             })
             .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
@@ -979,7 +979,7 @@ $test:[fromTime]`;
                 let LUISJSon = res.LUISJsonStructure;
                 assert(LUISJSon.closedLists.length, 1);
                 assert(LUISJSon.closedLists[0].roles.length, 2);
-                assert.deepEqual(LUISJSon.closedLists[0].roles, ['from', 'to']);
+                assert.deepEqual(LUISJSon.closedLists[0].roles, ['to', 'from']);
                 done();
             })
             .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
