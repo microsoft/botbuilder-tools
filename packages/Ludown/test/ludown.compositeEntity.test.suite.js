@@ -373,66 +373,66 @@ $deviceTemperature:simple`;
         .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
     }) 
 
-    // it.skip ('composite entities defined in an utterance is parsed 2', function(done){
-    //   let testLUFile = `
-    //   $device : thermostat=
-    //       - Thermostat
-    //       - Heater
-    //       - AC
-    //       - Air conditioner
+    it ('composite entities defined in an utterance is parsed correctly (composite definition after reference to composite in utterance)', function(done){
+      let testLUFile = `
+      $device : thermostat=
+          - Thermostat
+          - Heater
+          - AC
+          - Air conditioner
       
-    //   $device : refrigerator=
-    //       - Fridge
-    //       - Cooler
+      $device : refrigerator=
+          - Fridge
+          - Cooler
       
-    //   $customDevice : simple
-    //   $PREBUILT : temperature
+      $customDevice : simple
+      $PREBUILT : temperature
 
-    //   # setThermostat
-    //       - Please set {deviceTemperature = thermostat to 72}
-    //       - Set {deviceTemperature = {customDevice = owen} to 72}
+      # setThermostat
+          - Please set {deviceTemperature = thermostat to 72}
+          - Set {deviceTemperature = {customDevice = owen} to 72}
       
-    //   $deviceTemperature: [device, customDevice, temperature]`;
+      $deviceTemperature: [device, customDevice, temperature]`;
 
-    //   parseFile(testLUFile, false)
-    //     .then(res => {
-    //       assert.equal(res.LUISJsonStructure.entities.length, 1);
-    //       assert.equal(res.LUISJsonStructure.composites.length, 1);
-    //       assert.equal(res.LUISJsonStructure.composites[0].name, 'deviceTemperature');
-    //       assert.deepEqual(res.LUISJsonStructure.composites[0].children, ['device', 'customDevice', 'temperature']);
-    //       assert.equal(res.LUISJsonStructure.utterances.length, 2);
-    //       assert.equal(res.LUISJsonStructure.utterances[1].text, 'Set owen to 72');
-    //       assert.equal(res.LUISJsonStructure.utterances[1].entities.length, 2);
-    //       done();
-    //     })
-    //     .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
-    // });
+      parseFile(testLUFile, false)
+        .then(res => {
+          assert.equal(res.LUISJsonStructure.entities.length, 1);
+          assert.equal(res.LUISJsonStructure.composites.length, 1);
+          assert.equal(res.LUISJsonStructure.composites[0].name, 'deviceTemperature');
+          assert.deepEqual(res.LUISJsonStructure.composites[0].children, ['device', 'customDevice', 'temperature']);
+          assert.equal(res.LUISJsonStructure.utterances.length, 2);
+          assert.equal(res.LUISJsonStructure.utterances[1].text, 'Set owen to 72');
+          assert.equal(res.LUISJsonStructure.utterances[1].entities.length, 2);
+          done();
+        })
+        .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
+    });
 
-    // it ('composites cannot include pattern.any entity', function(done) {
-    //   let luFile = `# Test
-    //   - {p = {q}}`;
-    //   parseFile(luFile, false)
-    //     .then(res => done(`Test failed - did not throw when expected. ${res}`))
-    //     .catch(err => done())
-    // });
+    it ('composites cannot include pattern.any entity', function(done) {
+      let luFile = `# Test
+      - {p = {q}}`;
+      parseFile(luFile, false)
+        .then(res => done(`Test failed - did not throw when expected. ${res}`))
+        .catch(err => done())
+    });
     
-    // it ('Correctly parses composites with text in between labels', function(done){
-    //   let luFile = `# Test
-    //   - zero {foo = one {one = two} three} four
+    it ('Correctly parses composites with text in between labels', function(done){
+      let luFile = `# Test
+      - zero {foo = one {one = two} three} four
       
-    //   $ foo : [one]`;
-    //   parseFile(luFile, false) 
-    //     .then(res => {
-    //       assert.equal(res.LUISJsonStructure.composites.length, 1);
-    //       assert.equal(res.LUISJsonStructure.utterances.length, 1);
-    //       assert.equal(res.LUISJsonStructure.utterances[0].text, "zero one two three four");
-    //       assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 2);
-    //       assert.equal(res.LUISJsonStructure.utterances[0].entities[0].startPos, 9);
-    //       assert.equal(res.LUISJsonStructure.utterances[0].entities[0].endPos, 11);
-    //       assert.equal(res.LUISJsonStructure.utterances[0].entities[1].startPos, 5);
-    //       assert.equal(res.LUISJsonStructure.utterances[0].entities[1].endPos, 17);
-    //       done();
-    //     })
-    //     .catch(err => done(err))
-    // })
+      $ foo : [one]`;
+      parseFile(luFile, false) 
+        .then(res => {
+          assert.equal(res.LUISJsonStructure.composites.length, 1);
+          assert.equal(res.LUISJsonStructure.utterances.length, 1);
+          assert.equal(res.LUISJsonStructure.utterances[0].text, "zero one two three four");
+          assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 2);
+          assert.equal(res.LUISJsonStructure.utterances[0].entities[0].startPos, 9);
+          assert.equal(res.LUISJsonStructure.utterances[0].entities[0].endPos, 11);
+          assert.equal(res.LUISJsonStructure.utterances[0].entities[1].startPos, 5);
+          assert.equal(res.LUISJsonStructure.utterances[0].entities[1].endPos, 17);
+          done();
+        })
+        .catch(err => done(err))
+    })
 });
