@@ -1,4 +1,4 @@
-﻿using AdaptiveCards.Rendering;
+using AdaptiveCards.Rendering;
 using System;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.Collections.Generic;

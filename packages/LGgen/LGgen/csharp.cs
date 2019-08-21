@@ -8,17 +8,17 @@ namespace LGgen
     class CSharp:LanguageBase
     {
         
-        public void generate(string outclass, string classname, List<string> lgtemplatename)
+        public void Generate(string outClass, string className, List<string> lgTemplateName)
         {
-            var w = new Writer(outclass);
+            var w = new Writer(outClass);
             w.WriteLine("namespace LGgen");
             w.WriteLine("{");
             w.Indent();
-            w.IndentLine($"public class {classname}");
+            w.IndentLine($"public class {className}");
             w.IndentLine("{");
             w.Indent();
 
-            foreach (var name in lgtemplatename)
+            foreach (var name in lgTemplateName)
                 w.IndentLine($"public const string {name} = \"{name}\";");
             w.Outdent();
             w.IndentLine("}");

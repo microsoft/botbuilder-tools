@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace LGgen
 {
     public interface LanguageBase
     {
-        void generate(string outclass, string classname, List<string> lgtemplatename);
+        void Generate(string outClass, string className, List<string> lgTemplateName);
     }
 
     public class Factory
     {
-        public static string[] LanguageList = { "cs", "ts" };
-        public static LanguageBase getInstance(string name)
+        public static string[] languageList = { "cs", "ts" };
+
+        public static LanguageBase GetInstance(string name)
         {
             if (name.Equals("cs"))
             {
@@ -26,7 +27,7 @@ namespace LGgen
             }
         }
 
-        public static string getSuffix(string name)
+        public static string GetSuffix(string name)
         {
             if (name.Equals("cs"))
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,11 +13,11 @@ namespace LGgen
         public static void Main(string[] args)
         {
             Handler.Import(args.ToList());
-            Handler.UseDashLHandler();
-            Handler.UseDashIHandler();
-            Handler.UseDashCHandler();
-            Handler.UseDashOHandler();
-            Handler.UseDashNHandler();
+            Handler.UseInputHandler();
+            Handler.UseCheckHandler();
+            Handler.UseLangHandler(); 
+            Handler.UseOutputHandler();
+            Handler.UseNameHandler();
             Handler.Generate();
         }
 
@@ -25,94 +25,132 @@ namespace LGgen
 
     public static class Handler
     {
-        static string InputPath = null;
+        static string inputPath = null;
         static List<string> LGFiles = new List<string>();
         static string lang = null;
-        static string OutputPath = null;
-        static string ClassName = null;
+        static string outputPath = null;
+        static string className = null;
         static List<string> Args = new List<string>();
-        static string[] Usage = null;
+        static List<string> Usage = new List<string>();
         static bool Dire = false;
 
         public static void Import(List<string> args)
         {
-            Args = args;          
+            Args = args;
+            Usage.Add("LGgen [-l cs/ts] [-i LG_FILE_PATH] [-o OUTPUT_PATH] [-n CLASS_NAME]");
+            Usage.Add("Generate a strongly typed class from a LG file");
+            Usage.Add("Options: ");
         }
 
-        public static void UseDashLHandler()
+        public static void Error_Usage()
         {
-            
+            Console.WriteLine("Error! Please Read the Usage. ");
+            Usage.ForEach(num => Console.Error.WriteLine(num));
+            Environment.Exit(-1);
+        }
+
+        public static string InputCheck(string arg)
+        {
+            if (Args.Count == Args.IndexOf(arg) + 1)
+            {
+                Error_Usage();
+                return null;
+            }
+            else
+            {
+                var temp = Args[Args.IndexOf(arg) + 1];
+                if (!temp.StartsWith('-'))
+                    return temp;
+                else
+                {
+                    Error_Usage();
+                    return null;
+                }
+            }
+        }
+
+        public static void UseLangHandler()
+        {
+            Usage.Add("-l cs/ts : select C# or Typescript.");
+
             if (Args.Contains("-l"))
             {
-                lang = Args[Args.IndexOf("-l") + 1];
+                lang = InputCheck("-l");
+                if (!Factory.languageList.Contains(Args[Args.IndexOf("-l") + 1])) Error_Usage();
+            }
+            else
+            {
+                Error_Usage();
             }
 
         }
 
-        public static void UseDashIHandler()
+        public static void UseInputHandler()
         {
-            
+            Usage.Add("-i : LG file path or file folder. ");
             if (Args.Contains("-i"))
             {
-                InputPath = Args[Args.IndexOf("-i") + 1];
+                inputPath = InputCheck("-i");            
 
-                if (Directory.Exists(InputPath))
+                if (Directory.Exists(inputPath))
                 {
                     Dire = true;
-                    Utils.GetAllFiles(InputPath, LGFiles);
+                    Utils.GetAllFiles(inputPath, LGFiles);
                 }
-                else if (File.Exists(InputPath) && InputPath.EndsWith(".lg"))
+                else if (File.Exists(inputPath) && inputPath.EndsWith(".lg"))
                 {
-                    LGFiles.Add(InputPath);
+                    LGFiles.Add(inputPath);
                 }
                 else
                 {
                     Console.WriteLine("Can't read your input");
+                    Error_Usage();
                 }                
-            }
-
-        }
-
-        public static void UseDashOHandler()
-        {
-            if (Args.Contains("-o"))
-            {
-                OutputPath = Args[Args.IndexOf("-o") + 1];
             }
             else
             {
-                if(Dire)
-                {
-                    OutputPath = InputPath + "/common" + Factory.getSuffix(lang);
-                }
-                else
-                {
-                    OutputPath = InputPath.Substring(0, InputPath.LastIndexOf('.')) + Factory.getSuffix(lang);
-                }
+                Error_Usage();
+            }
+
+        }
+
+        public static void UseOutputHandler()
+        {
+            Usage.Add("-o : output path, defaults to directory where LG file is and the same name with LG file");
+
+            
+            if (Args.Contains("-o"))
+            {
+                outputPath = InputCheck("-o");               
+            }
+            else
+            {
+                outputPath = Dire ? inputPath + "/common" + Factory.GetSuffix(lang) : inputPath.Substring(0, inputPath.LastIndexOf('.')) + Factory.GetSuffix(lang);
             }
         }
 
-        public static void UseDashNHandler()
+        public static void UseNameHandler()
         {
-            if(Args.Contains("-n"))
-            {
+            Usage.Add("-n : designate class name, defaults to the same name of LG file");
 
-                ClassName = Args[Args.IndexOf("-n") + 1];
-            }
-            else if(Dire)
+            if (Args.Contains("-n"))
             {
-                ClassName = "common";
+                className = InputCheck("-n");             
             }
-            else 
+            else
             {
-                ClassName = Utils.FindClassName(InputPath);
+                className = Dire ? "common": Utils.FindClassName(inputPath);
             }
         }
 
-        public static void UseDashCHandler()
+        public static void UseCheckHandler()
         {
+            Usage.Add("-c : LG file grammar check. In this mode, you only need to input '-c' and '[-i LG_FILE_PATH]' ");
+
             if (Args.Contains("-c"))
             {
+                if (LGFiles == null) Error_Usage();
+
                 TemplateEngine lgEngine = new TemplateEngine();
                 try
                 {
@@ -135,15 +173,17 @@ namespace LGgen
 
         public static void Generate()
         {
+            if (LGFiles == null) Error_Usage();
+
             TemplateEngine lgEngine = new TemplateEngine();
             lgEngine.AddFiles(LGFiles);
 
             List<string> lgtemplatename = new List<string>();
             lgEngine.Templates.ForEach(num => lgtemplatename.Add(num.Name));
-            Console.WriteLine($"generating class file {OutputPath}");
+            Console.WriteLine($"generating class file {outputPath}");
 
-            LanguageBase languagebase = Factory.getInstance(lang);
-            languagebase.generate(OutputPath, ClassName, lgtemplatename);
+            LanguageBase languagebase = Factory.GetInstance(lang);
+            languagebase.Generate(outputPath, className, lgtemplatename);
         }
 
     }
