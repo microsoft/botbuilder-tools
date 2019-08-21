@@ -289,7 +289,7 @@ describe('The example lu files', function () {
     it('writes out an error when invalid entity definition is found', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid-entity-definition.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes('[ERROR] line 1:9:'));
+                assert.ok(stderr.includes('[ERROR] line 1:9 - line 1:10:'));
                 assert.ok(stderr.includes("syntax error: missing ':' at '='"));
                 done();
             } catch (err) {
@@ -324,7 +324,7 @@ describe('The example lu files', function () {
     it('Throws when an invalid QnA Maker alteration is specified in the input .lu file', function (done) {
         exec(`node ${ludown} parse toqna -a --in ${TEST_ROOT}/testcases/invalid-alterations.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes("[ERROR] line 2:0:"));
+                assert.ok(stderr.includes("[ERROR] line 2:0 - line 2:1:"));
                 assert.ok(stderr.includes("syntax error: extraneous input 'b' expecting"));
                 done();
             } catch (err) {
