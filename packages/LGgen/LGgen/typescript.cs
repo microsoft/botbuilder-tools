@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace LGgen
 {
-    class Typescript
+    class Typescript:LanguageBase
     {
-        public static void generate(string outclass, string classname, List<string> lgtemplatename)
+        public void generate(string outclass, string classname, List<string> lgtemplatename)
         {
             var w = new Writer(outclass);
             w.WriteLine("export default class LGgen");

@@ -5,10 +5,10 @@ using System.IO;
 
 namespace LGgen
 {
-    class CSharp
+    class CSharp:LanguageBase
     {
         
-        public static void generate(string outclass, string classname, List<string> lgtemplatename)
+        public void generate(string outclass, string classname, List<string> lgtemplatename)
         {
             var w = new Writer(outclass);
             w.WriteLine("namespace LGgen");
@@ -27,7 +27,6 @@ namespace LGgen
 
             w.Flush();
             w.Close();
-
         }
     }
 }

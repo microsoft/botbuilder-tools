@@ -1,151 +1,151 @@
-using System;
-using System.Reflection;
-using System.Resources;
-using System.Runtime;
-using System.Runtime.Serialization.Formatters;
-using Microsoft.Bot.Builder.LanguageGeneration;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.Design;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection.Metadata;
+using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace LGgen
 {
-    class Program
+    public class Program
     {
-        static void Usage()
+        public static void Main(string[] args)
         {
-            Console.Error.WriteLine("LGgen [-l cs/ts] [-n CLASS_NAME] [-i LG_FILE_PATH] [-o OUTPUT_PATH]");
-            Console.Error.WriteLine("Generate a strongly typed class from a LG file");
-            Console.Error.WriteLine("-l cs/ts : select C# or Typescript.");
-            Console.Error.WriteLine("-i : LG file path");
-            Console.Error.WriteLine("-o : output path, defaults to directory where LG file is and the same name with LG file");
-            Console.Error.WriteLine("-n : designate class name, defaults to the same name of LG file");
-            Console.Error.WriteLine("-v : show the version");
-            Console.Error.WriteLine("-c : LG file grammar check. In this mode, you only need to input '-c' and '[-i LG_FILE_PATH]' ");
-            System.Environment.Exit(-1);
+            Handler.Import(args.ToList());
+            Handler.UseDashLHandler();
+            Handler.UseDashIHandler();
+            Handler.UseDashCHandler();
+            Handler.UseDashOHandler();
+            Handler.UseDashNHandler();
+            Handler.Generate();
         }
 
-        static void Main(string[] args)
+    }
+
+    public static class Handler
+    {
+        static string InputPath = null;
+        static List<string> LGFiles = new List<string>();
+        static string lang = null;
+        static string OutputPath = null;
+        static string ClassName = null;
+        static List<string> Args = new List<string>();
+        static string[] Usage = null;
+        static bool Dire = false;
+
+        public static void Import(List<string> args)
         {
-            string lang = null;
-            string input = null;
-            string output = null;
-            string classname = null;
-            bool grammarcheck = false;
+            Args = args;          
+        }
 
-            if (args == null) Usage();
-
-            if (args.Length == 1 && args[0] == "-v")
+        public static void UseDashLHandler()
+        {
+            
+            if (Args.Contains("-l"))
             {
-                Console.WriteLine("LGgen version 1.0.0");
-                return;
-            }          
-
-            for (var i = 0; i < args.Length; ++i)
-            {
-                var arg = args[i];
-                switch (arg)
-                {
-                    case "-l":
-                        lang = args[++i];
-                        break;
-
-                    case "-c":
-                        grammarcheck = true;
-                        break;
-
-                    case "-i":
-                        input = args[++i];
-                        break;
-
-                    case "-n":
-                        classname = args[++i];
-                        break;
-
-                    case "-o":
-                        output = args[++i];
-                        break;
-
-                    default:
-                        Usage();
-                        break;
-                }
-
-            };
-
-            if(output == null && grammarcheck == false)
-            {
-                output = input.Substring(0, input.IndexOf('.'));
-                switch (lang)
-                {
-                    case "cs":
-                        output += ".cs";
-                        break;
-                    case "ts":
-                        output += ".ts";
-                        break;
-                }
+                lang = Args[Args.IndexOf("-l") + 1];
             }
 
-            if(classname == null && grammarcheck == false)
+        }
+
+        public static void UseDashIHandler()
+        {
+            
+            if (Args.Contains("-i"))
             {
-                classname = FindClassName(input);
+                InputPath = Args[Args.IndexOf("-i") + 1];
+
+                if (Directory.Exists(InputPath))
+                {
+                    Dire = true;
+                    Utils.GetAllFiles(InputPath, LGFiles);
+                }
+                else if (File.Exists(InputPath) && InputPath.EndsWith(".lg"))
+                {
+                    LGFiles.Add(InputPath);
+                }
+                else
+                {
+                    Console.WriteLine("Can't read your input");
+                }                
             }
-           
 
-            TemplateEngine lgEngine = new TemplateEngine();
+        }
 
-            if (grammarcheck == true)
+        public static void UseDashOHandler()
+        {
+            if (Args.Contains("-o"))
             {
-                Check(lgEngine, input);
-                return;
+                OutputPath = Args[Args.IndexOf("-o") + 1];
             }
             else
             {
-                lgEngine.AddFile(input);
-            }         
+                if(Dire)
+                {
+                    OutputPath = InputPath + "/common" + Factory.getSuffix(lang);
+                }
+                else
+                {
+                    OutputPath = InputPath.Substring(0, InputPath.LastIndexOf('.')) + Factory.getSuffix(lang);
+                }
+            }
+        }
+
+        public static void UseDashNHandler()
+        {
+            if(Args.Contains("-n"))
+            {
+
+                ClassName = Args[Args.IndexOf("-n") + 1];
+            }
+            else if(Dire)
+            {
+                ClassName = "common";
+            }
+            else 
+            {
+                ClassName = Utils.FindClassName(InputPath);
+            }
+        }
+
+        public static void UseDashCHandler()
+        {
+            if (Args.Contains("-c"))
+            {
+                TemplateEngine lgEngine = new TemplateEngine();
+                try
+                {
+                    lgEngine.AddFiles(LGFiles);
+                    Console.WriteLine("Congratulations! No error in this LG file! ");
+                }
+                catch (Exception e)
+                {
+                    List<string> errors = e.Message.Split('\n').ToList();
+                    Console.WriteLine($"This LG file has {errors.Count} errors: ");
+                    errors.ForEach(i => Console.WriteLine(i));
+                }
+                finally
+                {
+                    Environment.Exit(0);
+                }
+            }
+            
+        }
+
+        public static void Generate()
+        {
+            TemplateEngine lgEngine = new TemplateEngine();
+            lgEngine.AddFiles(LGFiles);
+
             List<string> lgtemplatename = new List<string>();
             lgEngine.Templates.ForEach(num => lgtemplatename.Add(num.Name));
-            Console.WriteLine($"generating class file {output}");
+            Console.WriteLine($"generating class file {OutputPath}");
 
-            if(lang == "cs")
-            {
-                CSharp.generate(output, classname, lgtemplatename);
-            }
-            else if(lang == "ts")
-            {
-                Typescript.generate(output, classname, lgtemplatename);
-            }
-
+            LanguageBase languagebase = Factory.getInstance(lang);
+            languagebase.generate(OutputPath, ClassName, lgtemplatename);
         }
 
-        static string FindClassName(string input)
-        {
-            if(input.IndexOf('\\') == -1 && input.IndexOf('/') == -1)
-            {
-                return input.Substring(0, input.IndexOf('.'));
-            }
-            else
-            {
-                var index = Math.Max(input.LastIndexOf('\\'), input.LastIndexOf('/'));
-                return input.Substring(index + 1, input.LastIndexOf('.') - index - 1);
-            }
-        }
-
-        static void Check(TemplateEngine lgEngine, string input)
-        {
-            try
-            {
-                lgEngine.AddFile(input);
-                Console.WriteLine("Congratulations! No error in this LG file! ");
-            }
-            catch(Exception e)
-            {
-                List<string> errors = e.Message.Split('\n').ToList();
-                Console.WriteLine($"This LG file has {errors.Count} errors: ");
-                errors.ForEach(i => Console.WriteLine(i));    
-            }
-        }
     }
+
 }
