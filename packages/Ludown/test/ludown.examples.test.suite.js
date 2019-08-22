@@ -8,7 +8,7 @@ var assert = chai.assert;
 var path = require('path');
 const { exec } = require('child_process');
 const ludown = require.resolve('../bin/ludown');
-const txtfile = require('read-text-file');
+const txtfile = require('../lib/read-text-file');
 const fs = require('fs');
 const NEWLINE = require('os').EOL;
 const TEST_ROOT = path.join(__dirname);
@@ -531,4 +531,159 @@ describe('The example lu files', function () {
             }
         });
     });
+
+    it('With -r/ --sort option, ludown refresh correctly sorts a LUIS model', function(done) {
+        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/all.json -s -r -n luis_sorted.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                compareFiles(TEST_ROOT + '/output/luis_sorted.lu', TEST_ROOT + '/verified/luis_sorted.lu');
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('With -r/ --sort option, ludown refresh correctly sorts a QnA model', function(done) {
+        exec(`node ${ludown} refresh -q ${TEST_ROOT}/testcases/all_qna.json -s -r -n qna_sorted.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                compareFiles(TEST_ROOT + '/output/qna_sorted.lu', TEST_ROOT + '/verified/qna_sorted.lu');
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('With -r/ --sort option, ludown refresh correctly sorts a QnA Alteration model', function(done) {
+        exec(`node ${ludown} refresh -a ${TEST_ROOT}/testcases/qna-alterations_Alterations.json -s -r -n qna_a_sorted.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                compareFiles(TEST_ROOT + '/output/qna_a_sorted.lu', TEST_ROOT + '/verified/qna_a_sorted.lu');
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('With -r/ --sort option, ludown refresh correctly sorts with LUIS, QnA and QnA alternation models are specified as input', function(done){
+        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/all.json -q ${TEST_ROOT}/testcases/all_qna.json -a ${TEST_ROOT}/testcases/qna-alterations_Alterations.json -s -r -n sorted.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                compareFiles(TEST_ROOT + '/output/sorted.lu', TEST_ROOT + '/verified/sorted.lu');
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    });
+
+    it('With -m/ --model_info option, ludown refresh correctly writes out model information in output', function(done) {
+        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/all.json -m -s -r -n modelInfo.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                compareFiles(TEST_ROOT + '/output/modelInfo.lu', TEST_ROOT + '/verified/modelInfo.lu');
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Prebuilt models are handled correctly with ludown refresh', function(done) {
+        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/prebuilt_model.json -m -s -r -n prebuilt_mode.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/prebuilt_mode.lu'), txtfile.readSync(TEST_ROOT + '/verified/prebuilt_mode.lu'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Prebuilt models are parsed correctly', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/verified/prebuilt_mode.lu --out prebuilt_model_parse.json -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/prebuilt_model_parse.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/prebuilt_model_parse.json'))));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Multiple Prebuilt models are handled correctly with ludown refresh', function(done) {
+        exec(`node ${ludown} refresh -i ${TEST_ROOT}/testcases/calendar_all_prebuilt.json -m -s -r -n calendar_all_prebuilt.lu -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(txtfile.readSync(TEST_ROOT + '/output/calendar_all_prebuilt.lu'), txtfile.readSync(TEST_ROOT + '/verified/calendar_all_prebuilt.lu'));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Multiple Prebuilt models are parsed correctly', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/verified/calendar_all_prebuilt.lu --out calendar_all_prebuilt_parsed.json -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.deepEqual(JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/output/calendar_all_prebuilt_parsed.json'))), JSON.parse(sanitizeExampleJson(txtfile.readSync(TEST_ROOT + '/verified/calendar_all_prebuilt_parsed.json'))));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })    
+
+    it('Invalid entity inherits information is skipped', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_2.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.isTrue(stdout.includes(`Skipping "!#@entity.inherits = name : Web.WebSearch"`));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Invalid intent inherits information is skipped', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_1.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.isTrue(stdout.includes(`Skipping "!#@intent.inherits = name : Web.WebSearch"`));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+    
+    it('Invalid entity inherits information is skipped', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_3.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.isTrue(stdout.includes(`Skipping "!#@entity.inherits2 = name : Web.WebSearch"`));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Invalid intent inherits information is skipped', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_4.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.isTrue(stdout.includes(`Skipping "!#@intent.inherits2 = name : Web.WebSearch"`));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
+    it('Invalid intent inherits information is skipped', function(done) {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_model.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
+            try {
+                assert.isTrue(stdout.includes(`Skipping "!#@app = test"`));
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+    })
+
 });

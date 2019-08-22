@@ -27,7 +27,7 @@ Options:
 ```
 
 ## Encrypt a .bot file
-To encrypt an decrypted bot file, use
+To encrypt a decrypted bot file, use
 
 ```shell
 msbot secret --new
@@ -43,16 +43,16 @@ hWZp+rv5E+k4dqimok20Vh84M2tpvUcDfbOvZA27Cbk=
 Please save this secret in a secure place to keep your keys safe.
 ```
 
-This will encrypt all sensitive data and give you a new key which you can use with --secret switch to access the data again.
+This will encrypt all sensitive data and give you a new key which you can use with `--secret` switch to access the data again.
 
 ## Getting a new secret (rolling)
 
-You can get a new secret for your file by using the msbot secret command with the --new switch.
+You can get a new secret for your file by using the msbot secret command with the `--new` switch.
 
 ```shell
 msbot secret -b my.bot --secret OLDSECRET --new
 ```
-This will encrypt all sensitive data and give you a new secret key which you can use with --secret switch.
+This will encrypt all sensitive data and give you a new secret key which you can use with `--secret` switch.
 
 **NOTE** You can (re)set your bot file secret for Azure Bot Service by updating the botFileSecret application settings for your bot in the Azure portal. To do this, 
 - Navigate to https://portal.azure.com, sign in with your Azure account.
@@ -63,7 +63,7 @@ This will encrypt all sensitive data and give you a new secret key which you can
 
 ## Clearing the secret
 
-You can stop using encryption by passing in the secret with a --clear flag.
+You can stop using encryption by passing in the secret with a `--clear` flag.
 
 ```shell
 msbot secret -b my.bot --secret OLDSECRET --clear

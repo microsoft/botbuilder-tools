@@ -7,14 +7,6 @@ describe('The LUIS cli tool', () => {
 
     describe('should perform the correct action and display the contents', () => {
 
-        it('when using the "luis" arg', done =>{
-            exec(`node ${luis} luis list apps`, (error, stdout, stderr) => {
-                assert.equal(stdout, '');
-                assert(stderr.includes('luis list apps --skip <integer> --take <integer>'));
-                done();
-            });
-        });
-        
         it('should not prefix [luis-apis] to stdout when --prefix is not passed as an argument', done => {
             exec(`echo bot=LuliBot=joe | node ${luis} --prefix`, (error, stdout, stderr) => {
                 assert.notEqual(stdout.startsWith(`[${pkg.name}]`), `It should not show the tag '[${pkg.name}]' when not using the argument --prefix`);

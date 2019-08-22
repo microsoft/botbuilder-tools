@@ -1,0 +1,6875 @@
+{
+  "intents": [
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "Confirm"
+    },
+    {
+      "name": "Escalate"
+    },
+    {
+      "name": "FinishTask"
+    },
+    {
+      "name": "GoBack"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Logout"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "ReadAloud"
+    },
+    {
+      "name": "Reject"
+    },
+    {
+      "name": "Repeat"
+    },
+    {
+      "name": "SelectAny"
+    },
+    {
+      "name": "SelectItem"
+    },
+    {
+      "name": "SelectNone"
+    },
+    {
+      "name": "ShowNext"
+    },
+    {
+      "name": "ShowPrevious"
+    },
+    {
+      "name": "StartOver"
+    },
+    {
+      "name": "Stop"
+    },
+    {
+      "name": "AddToDo"
+    },
+    {
+      "name": "DeleteToDo"
+    },
+    {
+      "name": "MarkToDo"
+    },
+    {
+      "name": "ShowNextPage"
+    },
+    {
+      "name": "ShowPreviousPage"
+    },
+    {
+      "name": "ShowToDo"
+    }
+  ],
+  "entities": [
+    {
+      "name": "DirectionalReference",
+      "roles": []
+    },
+    {
+      "name": "ListType",
+      "roles": []
+    },
+    {
+      "name": "TaskContent",
+      "roles": []
+    },
+    {
+      "name": "ContainsAll",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "FoodOfGrocery",
+      "subLists": [
+        {
+          "canonicalForm": "air freshener",
+          "list": []
+        },
+        {
+          "canonicalForm": "apple",
+          "list": [
+            "apples"
+          ]
+        },
+        {
+          "canonicalForm": "bacon",
+          "list": []
+        },
+        {
+          "canonicalForm": "bagel",
+          "list": []
+        },
+        {
+          "canonicalForm": "bagels",
+          "list": []
+        },
+        {
+          "canonicalForm": "banana",
+          "list": [
+            "bananas"
+          ]
+        },
+        {
+          "canonicalForm": "beans",
+          "list": []
+        },
+        {
+          "canonicalForm": "beverages",
+          "list": []
+        },
+        {
+          "canonicalForm": "bread",
+          "list": []
+        },
+        {
+          "canonicalForm": "buns",
+          "list": []
+        },
+        {
+          "canonicalForm": "burgers",
+          "list": []
+        },
+        {
+          "canonicalForm": "butter",
+          "list": []
+        },
+        {
+          "canonicalForm": "carrot",
+          "list": [
+            "carrots"
+          ]
+        },
+        {
+          "canonicalForm": "celery",
+          "list": []
+        },
+        {
+          "canonicalForm": "cereal",
+          "list": []
+        },
+        {
+          "canonicalForm": "cheese",
+          "list": []
+        },
+        {
+          "canonicalForm": "chicken",
+          "list": []
+        },
+        {
+          "canonicalForm": "chili",
+          "list": []
+        },
+        {
+          "canonicalForm": "chips",
+          "list": []
+        },
+        {
+          "canonicalForm": "chocolate",
+          "list": [
+            "chocolates"
+          ]
+        },
+        {
+          "canonicalForm": "chocolate chip",
+          "list": [
+            "chocoloate chips"
+          ]
+        },
+        {
+          "canonicalForm": "chops",
+          "list": []
+        },
+        {
+          "canonicalForm": "cloves",
+          "list": []
+        },
+        {
+          "canonicalForm": "coffee",
+          "list": []
+        },
+        {
+          "canonicalForm": "corn",
+          "list": []
+        },
+        {
+          "canonicalForm": "crispy",
+          "list": []
+        },
+        {
+          "canonicalForm": "croissant",
+          "list": [
+            "croissants"
+          ]
+        },
+        {
+          "canonicalForm": "cupcakes",
+          "list": []
+        },
+        {
+          "canonicalForm": "dairy",
+          "list": []
+        },
+        {
+          "canonicalForm": "dishwashing detergent",
+          "list": []
+        },
+        {
+          "canonicalForm": "donuts",
+          "list": []
+        },
+        {
+          "canonicalForm": "drinks",
+          "list": []
+        },
+        {
+          "canonicalForm": "duck",
+          "list": []
+        },
+        {
+          "canonicalForm": "egg",
+          "list": [
+            "eggs"
+          ]
+        },
+        {
+          "canonicalForm": "flour",
+          "list": []
+        },
+        {
+          "canonicalForm": "fries",
+          "list": []
+        },
+        {
+          "canonicalForm": "frozen food",
+          "list": []
+        },
+        {
+          "canonicalForm": "fruit",
+          "list": [
+            "fruits"
+          ]
+        },
+        {
+          "canonicalForm": "garbage bag",
+          "list": [
+            "garbage bags"
+          ]
+        },
+        {
+          "canonicalForm": "garlic",
+          "list": []
+        },
+        {
+          "canonicalForm": "grilled",
+          "list": []
+        },
+        {
+          "canonicalForm": "ham",
+          "list": []
+        },
+        {
+          "canonicalForm": "hamburger",
+          "list": []
+        },
+        {
+          "canonicalForm": "ice cream",
+          "list": []
+        },
+        {
+          "canonicalForm": "jam",
+          "list": []
+        },
+        {
+          "canonicalForm": "lamb",
+          "list": []
+        },
+        {
+          "canonicalForm": "laundry detergent",
+          "list": []
+        },
+        {
+          "canonicalForm": "lemon",
+          "list": [
+            "lemons"
+          ]
+        },
+        {
+          "canonicalForm": "lettuce",
+          "list": []
+        },
+        {
+          "canonicalForm": "lettuce and salad",
+          "list": [
+            "salad",
+            "salads"
+          ]
+        },
+        {
+          "canonicalForm": "lobster",
+          "list": []
+        },
+        {
+          "canonicalForm": "marinated",
+          "list": []
+        },
+        {
+          "canonicalForm": "meat",
+          "list": []
+        },
+        {
+          "canonicalForm": "meatballs",
+          "list": []
+        },
+        {
+          "canonicalForm": "meatloaf",
+          "list": []
+        },
+        {
+          "canonicalForm": "milk",
+          "list": []
+        },
+        {
+          "canonicalForm": "onion",
+          "list": [
+            "onions"
+          ]
+        },
+        {
+          "canonicalForm": "oysters",
+          "list": []
+        },
+        {
+          "canonicalForm": "pancake mix",
+          "list": []
+        },
+        {
+          "canonicalForm": "pancakes",
+          "list": []
+        },
+        {
+          "canonicalForm": "pasta",
+          "list": []
+        },
+        {
+          "canonicalForm": "pastry",
+          "list": [
+            "pastries"
+          ]
+        },
+        {
+          "canonicalForm": "pear",
+          "list": [
+            "pears"
+          ]
+        },
+        {
+          "canonicalForm": "pepper",
+          "list": []
+        },
+        {
+          "canonicalForm": "pie",
+          "list": [
+            "pies"
+          ]
+        },
+        {
+          "canonicalForm": "pita",
+          "list": []
+        },
+        {
+          "canonicalForm": "potato",
+          "list": [
+            "potatoes"
+          ]
+        },
+        {
+          "canonicalForm": "poultry",
+          "list": []
+        },
+        {
+          "canonicalForm": "ribs",
+          "list": []
+        },
+        {
+          "canonicalForm": "rice",
+          "list": []
+        },
+        {
+          "canonicalForm": "roast",
+          "list": []
+        },
+        {
+          "canonicalForm": "rolls",
+          "list": []
+        },
+        {
+          "canonicalForm": "salads",
+          "list": []
+        },
+        {
+          "canonicalForm": "salmon",
+          "list": []
+        },
+        {
+          "canonicalForm": "salt",
+          "list": []
+        },
+        {
+          "canonicalForm": "sandwich",
+          "list": []
+        },
+        {
+          "canonicalForm": "sauce",
+          "list": []
+        },
+        {
+          "canonicalForm": "sausage",
+          "list": [
+            "sausages"
+          ]
+        },
+        {
+          "canonicalForm": "scones",
+          "list": []
+        },
+        {
+          "canonicalForm": "shellfish",
+          "list": []
+        },
+        {
+          "canonicalForm": "shrimp",
+          "list": []
+        },
+        {
+          "canonicalForm": "snacks",
+          "list": []
+        },
+        {
+          "canonicalForm": "sour cream",
+          "list": []
+        },
+        {
+          "canonicalForm": "steak",
+          "list": []
+        },
+        {
+          "canonicalForm": "strawberries",
+          "list": []
+        },
+        {
+          "canonicalForm": "sugar",
+          "list": []
+        },
+        {
+          "canonicalForm": "sushi",
+          "list": []
+        },
+        {
+          "canonicalForm": "sweets",
+          "list": []
+        },
+        {
+          "canonicalForm": "tenderloin",
+          "list": []
+        },
+        {
+          "canonicalForm": "tomato",
+          "list": [
+            "tomatoes"
+          ]
+        },
+        {
+          "canonicalForm": "toothpaste",
+          "list": []
+        },
+        {
+          "canonicalForm": "tortilla",
+          "list": []
+        },
+        {
+          "canonicalForm": "tuna",
+          "list": []
+        },
+        {
+          "canonicalForm": "turkey",
+          "list": []
+        },
+        {
+          "canonicalForm": "veal",
+          "list": []
+        },
+        {
+          "canonicalForm": "vegetable",
+          "list": [
+            "vegetables"
+          ]
+        },
+        {
+          "canonicalForm": "venison",
+          "list": []
+        },
+        {
+          "canonicalForm": "waffles",
+          "list": []
+        },
+        {
+          "canonicalForm": "yoghurt",
+          "list": []
+        },
+        {
+          "canonicalForm": "fish",
+          "list": []
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "ShopVerb",
+      "subLists": [
+        {
+          "canonicalForm": "buy",
+          "list": [
+            "bought",
+            "buys",
+            "buying"
+          ]
+        },
+        {
+          "canonicalForm": "purchase",
+          "list": [
+            "purchases"
+          ]
+        },
+        {
+          "canonicalForm": "shop",
+          "list": [
+            "shops"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel app",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel never mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel that one",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "canceled",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancelled",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "do nothing",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "don't do that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "don't do that anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "forget about it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "go away",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "just cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "just cancel it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "never mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "never mind cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "never mind cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no cancel cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no cancel it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no never mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no no cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no no cancel it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "nothing never mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "nothing please",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "oh cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please do nothing",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "quit",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "sorry, don't do it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "alright",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "come om",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "come on",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "come on baby",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "confirm",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "do it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "fine",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "go ahead",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "go for it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "great",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "i'm sure",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "it's fine",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "just do it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "nice",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "no doubt",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "of course",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "oh yeah",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "oh yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "ok",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "ok for now",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "okay",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "perfect",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "perfect thank you",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "right",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "right yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds good",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds good thank you",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds good thanks",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds good to me",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds great",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds perfect",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure does",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure is",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure thing",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "thank you very much",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "thank you yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that is correct",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that is right",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that right",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that sounds good",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that's all",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that's fine",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "this is good",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "very good",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "ya",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah baby",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah bro",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah buddy",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah cool",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah go ahead",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah go for it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah good",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "can i talk to a person",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "contact support",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "contact the customer service",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "customer service",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "human service",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i need a person",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i need manual customer service",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i need real human help",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i need support",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i want to talk to a human",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i want to talk to a real human",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "is there any person i can talk to",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "is there any real human",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "is there any real person",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "shift",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "talk to a human",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "all finished",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "all set",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "done",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "finish",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "finished",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "finished with",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "i am done",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "i am finished",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "it finished",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "it's done",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "it's finished",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "just be",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "submit",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "submit it",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "back",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "back please",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "back to",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "back to last",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "back to last step",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "get back",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "get back please",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "get back to last",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back on",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back please",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back to",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "last step",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "no go back to",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "no no go back to",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "please return",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "return",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "any help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "can you help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "can you help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "do me a favor",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "give me a favor",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "give me some help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "how can i get it",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "how to do it",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i don't understand",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i need some assistance",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i need some help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "is there any help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "open help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "please help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "some help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what should i do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "who can help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "signout",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "forget me",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "sign out",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "logout",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "log out",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "all of them",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i want them all",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i want to all of them",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "can you read it",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "can you read that",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "can you read that for me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "can you you read page aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "could you tell me what that says",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "detail aloud what that says",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "hey read that for me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "i need to hear this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "i would like you to read that for me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "make a reading of this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read it",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read me the page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read my latest email",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this page aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this page out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read all on the screen to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read aloud the current text onscreen",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read file aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it outloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it please",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read me this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read my to list",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read outloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read page aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read page outloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read sentence out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read text",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read text aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read that",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read that out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the page onscreen to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the page out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the page to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the text to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the words on this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read this for me please",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read this page aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read this page out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read this page to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read what is currently on the screen to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "speak of what is on this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "speak out",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "start reading this",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "state it",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "tell me about the information on the screen",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "tell me the current text on screen",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "vocalize what's on the page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "what does the page say",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "would you please read that for me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "would you read that out loud please",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "would you read that to me please",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "i don't like it",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "i don't need",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "i don't want it",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "i reject",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "negative",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "never",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no i don't want that",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no later",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no leave it",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no more no",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no no",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no no no",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no no thank you",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no not that one",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no reject it",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no thank you",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no thanks",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no way",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no wrong",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "nope",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not at all",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not even close",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not exactly",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not now",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not quite",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not right now",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not that",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "nothing much",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "oh no",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "reject",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "reject it",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "could you say it again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "i didn't hear repeat again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "i have not heard",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "pardon",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat please",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat that",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "say again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "say again please",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "say that again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "sorry",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "what",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "what did you say",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "what was that again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "any of it",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "any one is ok",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "anyone is fine",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "anything",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "choose anyone",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "choose one of it randomly",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "opt for a random one",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "opt for any of it",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "select a random choice",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "select a random one",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "select any",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "select any choice",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "select any of it",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "1",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "2",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "3",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "5",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose for no. four",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose last",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose last one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose no. six",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose no.2",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose the bottom left",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "choose the first choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose the fourth one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose the upper left choice",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "choose the upper right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "choose top right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "choose top right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "four",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like left one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "i like second",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like second one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like the bottom one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "i like the first one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like the third",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like the third choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like the top right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "i like the upper right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "i like upper right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "i want bottom",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "i want fourth",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want left",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "i want no. 5",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "i want the first",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want the fourth choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want the left",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "i want the lower choice",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "i want the right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "i want the second one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want third one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want to choose bottom one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 17,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "i want to choose lower right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 17,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "i want to choose right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 17,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "i want to choose second one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want to choose the first one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want to choose the fourth",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want to choose the last choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want to choose the left one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 21,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "i want to choose the lower choice",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "i want to choose the right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "i want to choose third",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "no. 1",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "no. 2",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "no. 3",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "no.4",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "number two",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for first one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for last",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for left",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "opt for number 7",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "opt for the last one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for the left one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "opt for the lower choice",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 12,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "opt for the right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 12,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "opt for the second",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for the second choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select five",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select fourth one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select lower one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "select no.5",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select the bottom choice",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "select the first",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select the last choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select the lower one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "select the right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "select the third one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select the upper right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "select third",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select upper",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "three",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "two",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "what about the last",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "what about the third one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i don't want to choose any one",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "i don't want to select any one",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "i want neither of them",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "i want none of them",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "neither",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "neither of those",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "neither one",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "neither one of them",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "neither thank you",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none none",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none none of them",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none of them",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none of them thank you",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none of these",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none of those",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "they look bad, can you give me other choices",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "and after that",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "display more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "displays more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "give me more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "go forward",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "go to the next one",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "go to the next three items",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "i need to go to the next one",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "i want more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "move to the next one",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "next",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "reveal more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show me the next",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show the next 3",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show the next 4 items",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show the next one",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show the next two options",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "tell me more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "tell more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what about next one",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what after that",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what's after that",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what's more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what's next",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what's the next 2",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what's up next",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "back to the last one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "bring the previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "display previously",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "get back to the last one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go back to last one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go back to previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go back to the last one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go previously",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go to the previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go to the previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "previous one please",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "return to the previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "reveal previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "reveal previously",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "show earlier",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "show me the previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "show previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "show the previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "the last five",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "the last two",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "what before that",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "what is the previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "what's before that",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "back to the beginning",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "clear and start again",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "could you start it over",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "please begin again",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "reopen a new page",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "restart",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "restart it",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "start again",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "start it over",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "start over",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "start over it",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "turn over a new leaf",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "baby just be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "be quiet now",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "come on stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "dismiss",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "end",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "end it",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "exit exit",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "exit stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "god shut up",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "hey stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "i don't want to see you anymore",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "i love you to stop talking",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "i mean stop listening",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "i said stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "just be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "my god shut up",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "never mind stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "no be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "no be quiet now",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "no no no no stop talking",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "no shut up",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "no stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "nobody cares stop talking",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "nowhere just be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "oh my god shut up",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "ok stop stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "quiet now",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "shut up",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "shut up be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "shut up quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "shut your mouth",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "silence",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "stop please",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "stop talking",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "turn off",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "turn off stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "add a few items to the grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 23,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "add a grocery item to buy fish",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 12
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 22,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "add a grocery item to buy fruit and vegetables",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 12
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 22,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "add a grocery item to buy vegetables",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 12
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 22,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "add a new shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 10,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "add a shopping item to buy dancing dresses",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 13
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 23,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "add a shopping item to buy orange juice",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 13
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 23,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "add a task for anna west to bring my swimsuit for my vacation",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 60
+        }
+      ]
+    },
+    {
+      "text": "add a task for jimmy to play xbox games with me after work",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 57
+        }
+      ]
+    },
+    {
+      "text": "add a task for li lei to bring my coat from home",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 47
+        }
+      ]
+    },
+    {
+      "text": "add a task for raghu to bring my chocolates from germany",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "add a task to purchase fruit and vegetables",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "add a task to finish driving test this week",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "add a task to pick mary up after work",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "add a task to shop at gnc after work",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "add a to do to purchase a nice sweater",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 10
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "add a to do to buy shoes",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 10
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "add a todo item to vacuum by october 3rd",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 9
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 16,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "add action item for khalifa to pack my school supplies in my list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 20,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "add an item to buy some snacks",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "add a task of chores to do around the house",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "add bronwnies to the grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 12
+        },
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "add buy gum",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "add buy milk to my shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 11
+        },
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "add call my mother to my todo list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 17
+        },
+        {
+          "entity": "ListType",
+          "startPos": 25,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "add go running to my to dos",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 13
+        },
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "add go to whole foods in my to do list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 20
+        },
+        {
+          "entity": "ListType",
+          "startPos": 28,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "add grocery add spinach my groceries list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 16,
+          "endPos": 22
+        },
+        {
+          "entity": "ListType",
+          "startPos": 27,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "add grocery items cream cheese and raisin to the list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 18,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "add grocery items dinners and storage bag to the shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 18,
+          "endPos": 40
+        },
+        {
+          "entity": "ListType",
+          "startPos": 49,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "add have a haircut to my tasks",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "add items as i speak",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "add juicer groceries list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 9
+        },
+        {
+          "entity": "ListType",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "add melon and sugars and brown sugar to shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 35
+        },
+        {
+          "entity": "ListType",
+          "startPos": 40,
+          "endPos": 47
+        }
+      ]
+    },
+    {
+      "text": "add more to grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "add peanuts the grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "ListType",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "add purchase a cinema ticket to my list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "add purchasing food and drinks to my shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 29
+        },
+        {
+          "entity": "ListType",
+          "startPos": 37,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "add reading to my to do list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "ListType",
+          "startPos": 18,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "add shoes to the shopping lists",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 8
+        },
+        {
+          "entity": "ListType",
+          "startPos": 17,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "add some items to that shopping notes",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 23,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "add some items to the grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 22,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "add some jeans on our shopping lists",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 9,
+          "endPos": 13
+        },
+        {
+          "entity": "ListType",
+          "startPos": 22,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "add something in this grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 22,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "add something to my list",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "add tapioca starch on my shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 17
+        },
+        {
+          "entity": "ListType",
+          "startPos": 25,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "add tapioca starch on our shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 17
+        },
+        {
+          "entity": "ListType",
+          "startPos": 26,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "add task to buy a coat",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 12,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "add task to set up dining room table",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 12,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "add this on our shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 16,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "add this stuff on my shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "add this thing in to do list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 18,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "add to my grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 10,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "add to my to do list pick up clothes",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 10,
+          "endPos": 14
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 21,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "add to my to do list print papers for 10 copies this afternoon",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 10,
+          "endPos": 14
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 21,
+          "endPos": 61
+        }
+      ]
+    },
+    {
+      "text": "add to my todos list mail the insurance forms out by saturday",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 10,
+          "endPos": 14
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 21,
+          "endPos": 60
+        }
+      ]
+    },
+    {
+      "text": "add to note shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 12,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "add to shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 7,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "add to the grocery note buy milk",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 11,
+          "endPos": 17
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 24,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "append a summer reading in my list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 9,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "append an task of guest to invite at the party",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 18,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "append this item onto my notes",
+      "intent": "AddToDo",
+      "entities": []
+    },
+    {
+      "text": "ask a task for kim to bring my coat from home",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "can i add shirts on the todos list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 10,
+          "endPos": 15
+        },
+        {
+          "entity": "ListType",
+          "startPos": 24,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "can i put on caramel cheese popcorn on my grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 13,
+          "endPos": 34
+        },
+        {
+          "entity": "ListType",
+          "startPos": 42,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "could i add medicine to the todos list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 12,
+          "endPos": 19
+        },
+        {
+          "entity": "ListType",
+          "startPos": 28,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "create a task to meet my friends",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 17,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "create task to go to the mall",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "create task to meet john after 5:00 p.m.",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "create task to cyber shop on nov. 11",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "create to do read a book tonight",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 18,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "create to do to go running in the park",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 16,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "need go to library this week, add this todo item",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 0,
+          "endPos": 27
+        },
+        {
+          "entity": "ListType",
+          "startPos": 39,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "put cheese on list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "put ham on my shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 6
+        },
+        {
+          "entity": "ListType",
+          "startPos": 14,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "put hikes on my to do list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 8
+        },
+        {
+          "entity": "ListType",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "put ice cream on the groceries list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 12
+        },
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "put milk on my grocery list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 7
+        },
+        {
+          "entity": "ListType",
+          "startPos": 15,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "put on caramel cheese popcorn on my grocery shopping list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 4,
+          "endPos": 28
+        },
+        {
+          "entity": "ListType",
+          "startPos": 36,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "remind me to attend the meeting tomorrow",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 13,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "remind me to buy first aid creams and berries",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 13,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "remind me to buy milk",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 13,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "remind me to meet my teacher",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 13,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "remind me to shop for a new carpet",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 22,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "to grocery list add milk",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 3,
+          "endPos": 9
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 20,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "to my shopping list add paper towels",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 6,
+          "endPos": 13
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 24,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "to my vacation to do list add buy sunblock",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 15,
+          "endPos": 19
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 30,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "would you add heavy cream to the todos list",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 24
+        },
+        {
+          "entity": "ListType",
+          "startPos": 33,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "would you please add todo item of all hands meeting next monday",
+      "intent": "AddToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 24
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 34,
+          "endPos": 62
+        }
+      ]
+    },
+    {
+      "text": "cancel adding the item",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel all",
+      "intent": "Cancel",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "cancel all of them",
+      "intent": "Cancel",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "drop it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "forget it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "i don't need it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "let's cancel it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no don't do that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no forget it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no need thanks",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no thanks",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please revert it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "sorry cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "sorry no",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "sorry no thank you",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop adding it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "wait cancel it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "^[(would you|could you|can you)] [please] cancel (previous|current|this) (step|operation)",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "confirm all of them",
+      "intent": "Confirm",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "confirm it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "confirmed.",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "good to go",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "i'm sure i want to add this task",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "it's ok, save it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "of course yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "ok, go ahead and delete it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "seems nice",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure add it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that's it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that's nice",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yes go ahead",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yes i want to do that",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yes just do that",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yes please",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yes, confirm",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "can you delete todo1",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "can you delete abc item",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "can you help to remove all tasks",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "cancel apples from shopping list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 7,
+          "endPos": 12
+        },
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "clear my todo list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "delete all from my grocery list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        },
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "delete eggs from list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 7,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "delete off pancake mix on the shopping list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 11,
+          "endPos": 21
+        },
+        {
+          "entity": "ListType",
+          "startPos": 30,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "delete shampoo from shopping list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 7,
+          "endPos": 13
+        },
+        {
+          "entity": "ListType",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "delete shirts from list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 7,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "delete task go fishing",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 12,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "delete task go to cinema tonight",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 12,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "delete the item buy socks from my to-do list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 16,
+          "endPos": 24
+        },
+        {
+          "entity": "ListType",
+          "startPos": 34,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "delete the second task in my shopping list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 29,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "delete the task house cleanup this weekend",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 16,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "delete the task hit the gym every morning",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 16,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "delete the to do meet my friends tomorrow",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 17,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "delete the to do daily practice piano",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 17,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "delete the to do meet john when he comes here the next friday",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 17,
+          "endPos": 60
+        }
+      ]
+    },
+    {
+      "text": "delete to do buy milk",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 13,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "delete to do go shopping",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 13,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "delete to do that go hiking tomorrow",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 18,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "erase bananas from shopping list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 6,
+          "endPos": 12
+        },
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "erase peanuts on the shopping list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 6,
+          "endPos": 12
+        },
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "no need to buy milk in grocery list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 11,
+          "endPos": 18
+        },
+        {
+          "entity": "ListType",
+          "startPos": 23,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "omit the milk in the grocery list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 9,
+          "endPos": 12
+        },
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "remove all",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "remove all tasks",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "remove all todo items tomorrow",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 7,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "remove asprin from shopping list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 7,
+          "endPos": 12
+        },
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "remove black shoes from shopping list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 7,
+          "endPos": 17
+        },
+        {
+          "entity": "ListType",
+          "startPos": 24,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "remove class from todo list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 7,
+          "endPos": 11
+        },
+        {
+          "entity": "ListType",
+          "startPos": 18,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "remove salad vegetables from grocery list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 7,
+          "endPos": 22
+        },
+        {
+          "entity": "ListType",
+          "startPos": 29,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "remove task buy dog food",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 12,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "remove task go shopping",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 12,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "remove task go shopping with john this saturday",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 15,
+          "endPos": 22
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 12,
+          "endPos": 46
+        }
+      ]
+    },
+    {
+      "text": "remove task that go hiking this weekend",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 17,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "remove task that lawn mowing",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 17,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "remove the item paris from my list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "remove the task that go to library after work",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 21,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "remove the to do physical examination",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 17,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "remove the to do that pick tom up at six p.m.",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 22,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "remove to do go to the gym",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 13,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "remove to do that go to the dentist tomorrow morning",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 18,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "shopping list delete a",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 0,
+          "endPos": 7
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 21,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "shopping list delete dog food",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 0,
+          "endPos": 7
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "shopping list delete eggs",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 0,
+          "endPos": 7
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 21,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "shopping list delete milk",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 0,
+          "endPos": 7
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 21,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "take coffee off my groceries list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 10
+        },
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "take lemons and onions off my shopping list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 21
+        },
+        {
+          "entity": "ListType",
+          "startPos": 30,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "take milk off grocery list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 8
+        },
+        {
+          "entity": "ListType",
+          "startPos": 14,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "take socks and shoes off my shopping list",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 19
+        },
+        {
+          "entity": "ListType",
+          "startPos": 28,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "todo list delete paris vacation",
+      "intent": "DeleteToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 0,
+          "endPos": 3
+        },
+        {
+          "entity": "TaskContent",
+          "startPos": 17,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "all have been done",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "all have been purchased in the shopping list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 0,
+          "endPos": 2
+        },
+        {
+          "entity": "ListType",
+          "startPos": 31,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "already complete the shopping items in the list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "check off apples from list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 10,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "check off bananas from my grocery list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 10,
+          "endPos": 16
+        },
+        {
+          "entity": "ListType",
+          "startPos": 26,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "check off garbage from grocery list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 10,
+          "endPos": 16
+        },
+        {
+          "entity": "ListType",
+          "startPos": 23,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "check off meet john at 8 am from to do list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 10,
+          "endPos": 26
+        },
+        {
+          "entity": "ListType",
+          "startPos": 33,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "check off shampoo from shopping list as done",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 10,
+          "endPos": 16
+        },
+        {
+          "entity": "ListType",
+          "startPos": 23,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "check the box shampoo in my shopping list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 20
+        },
+        {
+          "entity": "ListType",
+          "startPos": 28,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "complete all",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "complete pick up black shoes in my to-do list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 9,
+          "endPos": 27
+        },
+        {
+          "entity": "ListType",
+          "startPos": 35,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "complete task go shopping",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "done with the task abc in our shopping list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 19,
+          "endPos": 21
+        },
+        {
+          "entity": "ListType",
+          "startPos": 30,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "done with the task shopping",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "done with the task tapioca starch in our shopping list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 19,
+          "endPos": 32
+        },
+        {
+          "entity": "ListType",
+          "startPos": 41,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "finish hikes on my to do list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 7,
+          "endPos": 11
+        },
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "finish peanuts on the shopping list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 7,
+          "endPos": 13
+        },
+        {
+          "entity": "ListType",
+          "startPos": 22,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "i have finished the interview which is the last task in my to do list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 59,
+          "endPos": 63
+        }
+      ]
+    },
+    {
+      "text": "let me check off the groceries list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "mark buy fish as completed",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "mark fish as complete",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "mark happy on to dos list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 9
+        },
+        {
+          "entity": "ListType",
+          "startPos": 14,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "mark lemons and onions in grocery list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 21
+        },
+        {
+          "entity": "ListType",
+          "startPos": 26,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "mark pancake mix on my grocery shopping list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 15
+        },
+        {
+          "entity": "ListType",
+          "startPos": 23,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "mark peanuts on my grocery list as done",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 11
+        },
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "mark peanuts on my grocery shopping list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 11
+        },
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 25
+        },
+        {
+          "entity": "ListType",
+          "startPos": 27,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "mark pick mary up as finished",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "mark pick up milk on my to-do list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 16
+        },
+        {
+          "entity": "ListType",
+          "startPos": 24,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "mark play badminton with tom as finished",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "mark salad on my grocery shopping list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 9
+        },
+        {
+          "entity": "ListType",
+          "startPos": 17,
+          "endPos": 23
+        },
+        {
+          "entity": "ListType",
+          "startPos": 25,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "mark salad on the groceries list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 9
+        },
+        {
+          "entity": "ListType",
+          "startPos": 18,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "mark task buy a bottle of vinegar as finished",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 10,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "mark task go running as finished",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 10,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "mark task read a book as done",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 10,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "mark the first task as completed",
+      "intent": "MarkToDo",
+      "entities": []
+    },
+    {
+      "text": "mark the item garbage from grocery list",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 20
+        },
+        {
+          "entity": "ListType",
+          "startPos": 27,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "mark the task buy milk as done",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "mark the task get some food as complete",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "mark the task go shopping as finished",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 17,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "mark the task reserve a restaurant for tomorrow's dinner as finished",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "mark the task visit my grandma as completed",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 14,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "set the grocery list as finished",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "set the item as finished",
+      "intent": "MarkToDo",
+      "entities": []
+    },
+    {
+      "text": "shopping list completed",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "shopping list just done",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "task train has been done",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 5,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "task completed buy gum",
+      "intent": "MarkToDo",
+      "entities": [
+        {
+          "entity": "TaskContent",
+          "startPos": 15,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "the 3rd task finished",
+      "intent": "MarkToDo",
+      "entities": []
+    },
+    {
+      "text": "are there any other tasks",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "can you show next page in the shopping list",
+      "intent": "ShowNextPage",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 30,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "display the next page",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "displays more",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "displays the next",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "next",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "next task",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "reveal more",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "show greater",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "show more",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "show more tasks",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "show more work",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "show next",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "show next page",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "show next sheet",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "show next website",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "tell more",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "tell more tasks",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "what's more",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "what's next",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "what's on the next",
+      "intent": "ShowNextPage",
+      "entities": []
+    },
+    {
+      "text": "can you get previous for me",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "can you show previous for me",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "display the previous",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "display the previous page",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "displays previously",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "i need to check previous tasks",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "show back",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "show earlier",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "show last time",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "show me everthing on the previous page",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "show previous",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "show previous page",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "shows the prior",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "^[(can|could|would)] [you] [please] [(show|display|go back to)][the](first|previous)page",
+      "intent": "ShowPreviousPage",
+      "entities": []
+    },
+    {
+      "text": "access my shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 10,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "access my to do list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 10,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "access the groceries list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "all shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 0,
+          "endPos": 2
+        },
+        {
+          "entity": "ListType",
+          "startPos": 4,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "bring up everything on my shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 9,
+          "endPos": 18
+        },
+        {
+          "entity": "ListType",
+          "startPos": 26,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "bring up grocery notes",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 9,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "bring up shopping note",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 9,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "browse my groceries",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 10,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "can you show my to do list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "check my task list",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "check my to do list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "display all notes from last month",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "display groceries list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "display notes with groceries",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "display shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "display tasks note",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "display todo list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "do i have a list called grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 24,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "do i have any lists",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "find list about shopping",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 16,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "find my grocery items i saved on saturday",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "find my shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "find note labeled grocery",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 18,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "find notes called grocery",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 18,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "find notes for grocery shopping",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 15,
+          "endPos": 21
+        },
+        {
+          "entity": "ListType",
+          "startPos": 23,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "find notes with groceries",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 16,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "find shopping",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 5,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "find task list on shopping",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 18,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "find the list i create for shopping",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 27,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "find the to do list for me",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 9,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "get work items on my todo list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "help access my personal list",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "help show my to do list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 13,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "i have to see my tasks",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "i have to see the grocery list i created today",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 18,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "i want to check my shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "i want to see grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 14,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "is there anything on my to do list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 24,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "list grocery notes",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 5,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "look at my grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "pull grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 5,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "pull up grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "pull up my grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "pull up my notes",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "pull up to do list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "read aloud my grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 14,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "read out my tasks",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "review grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 7,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "show all my shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 5,
+          "endPos": 7
+        },
+        {
+          "entity": "ListType",
+          "startPos": 12,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "show me all tasks",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ContainsAll",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "show my to do list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "show my to dos",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "show my todos",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "take me to my shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 14,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "view my grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "view shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 5,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "what about grocery list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "what am i going to do next",
+      "intent": "ShowToDo",
+      "entities": []
+    },
+    {
+      "text": "what are my notes for the grocery store",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 26,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "what are my tasks for todo",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 22,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "what do i have to buy on the shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 29,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "what do i need to buy in the shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 29,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "what is on my shopping list",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 14,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "what is the last task on my to do list for tomorow",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 28,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "where is the grocery shopping notes i worked on last night",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 13,
+          "endPos": 19
+        },
+        {
+          "entity": "ListType",
+          "startPos": 21,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "would you bring up my new grocery notes",
+      "intent": "ShowToDo",
+      "entities": [
+        {
+          "entity": "ListType",
+          "startPos": 26,
+          "endPos": 32
+        }
+      ]
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "^(yes|sure)[[,]i want (that|the ({DirectionalReference}|{ordinal}) ({number}|one))]",
+      "intent": "Confirm"
+    },
+    {
+      "pattern": "^[(can you|could you|would you)] [please] (put|add|append) {TaskContent} [and] [{TaskContent}] (on|to)[my][(to do|todos|todo)]list",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "^(add|create|append) an item [(called|about|of)] \"{TaskContent.Any}\" [as (next|first|last) task][(in|on|to) my (to do|to-do|todos) list]",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "^[please] (add|put|append) [(items|item)] {FoodOfGrocery} [and] [{FoodOfGrocery}](on|to|in)[(my|the)]{ListType}list",
+      "intent": "AddToDo"
+    },
+    {
+      "pattern": "^(yes|ok|sure), [please][(add|delete|update)] [the] [(item|task|todo item)][(of|about|that)]{TaskContent}",
+      "intent": "Confirm"
+    },
+    {
+      "pattern": "^[task][(done|finished|completed)]{TaskContent},[please][(check off|mark it)][as][(done|finished|complete)]",
+      "intent": "MarkToDo"
+    },
+    {
+      "pattern": "^(what|anything)[do] i (need|should|have to) (buy|shop|purchase) for {TaskContent}",
+      "intent": "ShowToDo"
+    }
+  ],
+  "patternAnyEntities": [
+    {
+      "name": "TaskContent.Any",
+      "explicitList": [],
+      "roles": []
+    }
+  ],
+  "prebuiltEntities": [
+    {
+      "name": "number",
+      "roles": []
+    },
+    {
+      "name": "ordinal",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "General",
+  "desc": "",
+  "culture": "en-us"
+}

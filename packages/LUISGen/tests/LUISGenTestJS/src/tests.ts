@@ -14,16 +14,6 @@ const mockLuis = false;
 import 'mocha'
 import { Contoso_App } from './Contoso_App';
 
-class TestContext extends (TurnContext as { new(a: any, b: any): any }) {
-    constructor(request) {
-        super(new TestAdapter(), request);
-        this.sent = undefined;
-        this.onSendActivities((context, activities, next) => {
-            this.sent = activities;
-        });
-    }
-}
-
 function WithinDelta(token1, token2, delta, compare) {
     var within = true;
     if (Array.isArray(token1) && Array.isArray(token2)) {
@@ -63,12 +53,14 @@ function TestJson(file, done): any {
     {
         nock('https://westus.api.cognitive.microsoft.com')
         .post(/apps/)
-        .reply(200, expected.luisResult);
+        .reply(200, expected.v2);
     }
     var newPath = expectedPath + ".new";
-    var context = new TestContext({ text: expected.text });
+    var context = new TurnContext(new TestAdapter(), { text: expected.text });
     var recognizer = new LuisRecognizer({ applicationId: luisAppId, endpointKey: endpointKey}, {includeAllIntents: true }, true);
     recognizer.recognize(context).then(res => {
+        res.v2 = res.luisResult;
+        delete res.luisResult;
         if (!WithinDelta(expected, res, 0.01, false)) {
             fs.outputJSONSync(newPath, res, { spaces: 2 });
             assert(false, "\nReturned JSON\n  " + newPath + "\n!= expected JSON\n  " + expectedPath);
@@ -77,6 +69,10 @@ function TestJson(file, done): any {
             fs.unlinkSync(newPath);
         }
         done(res);
+    })
+    .catch(err => {
+        console.error
+        throw err;
     });
 }
 

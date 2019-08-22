@@ -20,7 +20,7 @@ namespace LUISGen
 * regenerated.
 * </auto-generated>
 */ 
-import {{DateTimeSpec, IntentData, InstanceData, NumberWithUnits}} from 'botbuilder-ai';");
+import {{DateTimeSpec, GeographyV2, IntentData, InstanceData, NumberWithUnits, OrdinalV2}} from 'botbuilder-ai';");
         }
 
         static void Intents(dynamic app, Writer w)
@@ -54,6 +54,12 @@ import {{DateTimeSpec, IntentData, InstanceData, NumberWithUnits}} from 'botbuil
                     case "temperature":
                         w.IndentLine($"{realName}?: NumberWithUnits[];");
                         break;
+                    case "geographyV2":
+                        w.IndentLine($"{realName}?: GeographyV2[];");
+                        break;
+                    case "ordinalV2":
+                        w.IndentLine($"{realName}?: OrdinalV2[];");
+                        break;
                     case "number":
                     case "ordinal":
                     case "percentage":
@@ -78,8 +84,17 @@ import {{DateTimeSpec, IntentData, InstanceData, NumberWithUnits}} from 'botbuil
             {
                 w.WriteLine();
                 w.IndentLine($"// {description}");
+                var first = true;
                 foreach (var entity in entities)
                 {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        w.WriteLine();
+                    }
                     WriteEntity(entity, Utils.IsList(entity.name, app) ? "list" : entity.name, app, w);
                 }
             }
@@ -88,7 +103,7 @@ import {{DateTimeSpec, IntentData, InstanceData, NumberWithUnits}} from 'botbuil
         static void Entities(dynamic app, Writer w)
         {
             // Composite instance and data
-            if (app?.composites != null)
+            if (app.composites != null)
             {
                 foreach (var composite in app.composites)
                 {
@@ -129,7 +144,7 @@ import {{DateTimeSpec, IntentData, InstanceData, NumberWithUnits}} from 'botbuil
             w.WriteLine();
             w.IndentLine("export interface _Entities {");
             w.Indent();
-            if (app?.entities != null && app.entities.Count > 0)
+            if (app.entities != null && app.entities.Count > 0)
             {
                 w.IndentLine("// Simple entities");
                 foreach (var entity in app.entities)
@@ -151,7 +166,7 @@ import {{DateTimeSpec, IntentData, InstanceData, NumberWithUnits}} from 'botbuil
             WriteEntities(app.patternAnyEntities, app, "Pattern.any", w);
 
             // Composites
-            if (app?.composites != null && app.composites.Count > 0)
+            if (app.composites != null && app.composites.Count > 0)
             {
                 w.WriteLine();
                 w.IndentLine("// Composites");

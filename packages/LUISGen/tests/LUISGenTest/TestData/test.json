@@ -1,41 +1,51 @@
 {
-  "Text": "12 years old and 3 days old and monday july 3rd and every monday and between 3am and 5:30am and 4 acres and 4 pico meters and chrimc@hotmail.com and $4 and $4.25 and also 32 and 210.4 and first and 10% and 10.5% and 425-555-1234 and 3 degrees and -27.5 degrees c",
-  "Intents": {
+  "text": "12 years old and 3 days old and monday july 3rd and every monday and between 3am and 5:30am and 4 acres and 4 pico meters and chrimc@hotmail.com and $4 and $4.25 and also 32 and 210.4 and first and 10% and 10.5% and 425-555-1234 and 3 degrees and -27.5 degrees c",
+  "intents": {
     "EntityTests": {
-      "score": 0.989627659
+      "score": 0.974806845
     },
     "Roles": {
-      "score": 0.180199549
+      "score": 0.18222037
     },
     "search": {
-      "score": 0.0275263824
-    },
-    "Weather_GetForecast": {
-      "score": 0.009608224
-    },
-    "None": {
-      "score": 0.00783522
+      "score": 0.137362465
     },
     "Travel": {
-      "score": 0.004344591
+      "score": 0.0103230635
+    },
+    "Weather_GetForecast": {
+      "score": 0.009000227
+    },
+    "None": {
+      "score": 0.00762349647
     },
     "Delivery": {
-      "score": 0.000295953825
+      "score": 0.000285018032
     },
     "SpecifyName": {
-      "score": 0.000167466555
+      "score": 7.640418E-05
     },
     "Help": {
-      "score": 5.885256E-06
+      "score": 6.221852E-06
     },
     "Cancel": {
-      "score": 2.01380772E-06
+      "score": 2.09438622E-06
     },
     "Greeting": {
-      "score": 1.080502E-06
+      "score": 1.14259672E-06
     }
   },
-  "Entities": {
+  "entities": {
+    "ordinalV2": [
+      {
+        "relativeTo": "start",
+        "offset": 3
+      },
+      {
+        "relativeTo": "start",
+        "offset": 1
+      }
+    ],
     "Composite1": [
       {
         "age": [
@@ -398,8 +408,22 @@
           "startIndex": 0,
           "endIndex": 262,
           "text": "12 years old and 3 days old and monday july 3rd and every monday and between 3am and 5 : 30am and 4 acres and 4 pico meters and chrimc @ hotmail . com and $ 4 and $ 4 . 25 and also 32 and 210 . 4 and first and 10 % and 10 . 5 % and 425 - 555 - 1234 and 3 degrees and - 27 . 5 degrees c",
-          "score": 0.4619997,
+          "score": 0.25042063,
           "type": "Composite1"
+        }
+      ],
+      "ordinalV2": [
+        {
+          "startIndex": 44,
+          "endIndex": 47,
+          "text": "3rd",
+          "type": "builtin.ordinalV2"
+        },
+        {
+          "startIndex": 188,
+          "endIndex": 193,
+          "text": "first",
+          "type": "builtin.ordinalV2"
         }
       ]
     }
@@ -412,52 +436,52 @@
     "query": "12 years old and 3 days old and monday july 3rd and every monday and between 3am and 5:30am and 4 acres and 4 pico meters and chrimc@hotmail.com and $4 and $4.25 and also 32 and 210.4 and first and 10% and 10.5% and 425-555-1234 and 3 degrees and -27.5 degrees c",
     "topScoringIntent": {
       "intent": "EntityTests",
-      "score": 0.989627659
+      "score": 0.974806845
     },
     "intents": [
       {
         "intent": "EntityTests",
-        "score": 0.989627659
+        "score": 0.974806845
       },
       {
         "intent": "Roles",
-        "score": 0.180199549
+        "score": 0.18222037
       },
       {
         "intent": "search",
-        "score": 0.0275263824
-      },
-      {
-        "intent": "Weather.GetForecast",
-        "score": 0.009608224
-      },
-      {
-        "intent": "None",
-        "score": 0.00783522
+        "score": 0.137362465
       },
       {
         "intent": "Travel",
-        "score": 0.004344591
+        "score": 0.0103230635
+      },
+      {
+        "intent": "Weather.GetForecast",
+        "score": 0.009000227
+      },
+      {
+        "intent": "None",
+        "score": 0.00762349647
       },
       {
         "intent": "Delivery",
-        "score": 0.000295953825
+        "score": 0.000285018032
       },
       {
         "intent": "SpecifyName",
-        "score": 0.000167466555
+        "score": 7.640418E-05
       },
       {
         "intent": "Help",
-        "score": 5.885256E-06
+        "score": 6.221852E-06
       },
       {
         "intent": "Cancel",
-        "score": 2.01380772E-06
+        "score": 2.09438622E-06
       },
       {
         "intent": "Greeting",
-        "score": 1.080502E-06
+        "score": 1.14259672E-06
       }
     ],
     "entities": [
@@ -466,7 +490,7 @@
         "type": "Composite1",
         "startIndex": 0,
         "endIndex": 261,
-        "score": 0.4619997
+        "score": 0.25042063
       },
       {
         "entity": "12",
@@ -794,6 +818,26 @@
         "endIndex": 192,
         "resolution": {
           "value": "1"
+        }
+      },
+      {
+        "entity": "3rd",
+        "type": "builtin.ordinalV2",
+        "startIndex": 44,
+        "endIndex": 46,
+        "resolution": {
+          "offset": "3",
+          "relativeTo": "start"
+        }
+      },
+      {
+        "entity": "first",
+        "type": "builtin.ordinalV2",
+        "startIndex": 188,
+        "endIndex": 192,
+        "resolution": {
+          "offset": "1",
+          "relativeTo": "start"
         }
       },
       {

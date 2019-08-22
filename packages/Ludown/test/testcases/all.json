@@ -1,0 +1,393 @@
+{
+  "intents": [
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "AskForUserName"
+    },
+    {
+      "name": "CreateAlarm"
+    },
+    {
+      "name": "DeleteAlarm"
+    },
+    {
+      "name": "CommunicationPreference"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "testIntent"
+    },
+    {
+      "name": "Buy chocolate"
+    },
+    {
+      "name": "setThermostat"
+    }
+  ],
+  "entities": [
+    {
+      "name": "userName",
+      "roles": []
+    },
+    {
+      "name": "customDevice",
+      "roles": []
+    }
+  ],
+  "composites": [
+    {
+      "name": "deviceTemperature",
+      "children": [
+        "device",
+        "customDevice",
+        "temperature"
+      ],
+      "roles": []
+    },
+    {
+      "name": "units",
+      "children": [
+        "temperature"
+      ],
+      "roles": []
+    }
+  ],
+  "closedLists": [
+    {
+      "name": "commPreference",
+      "subLists": [
+        {
+          "canonicalForm": "call",
+          "list": [
+            "phone call",
+            "give me a ring",
+            "ring",
+            "call",
+            "cell phone",
+            "phone"
+          ]
+        },
+        {
+          "canonicalForm": "text",
+          "list": [
+            "message",
+            "text",
+            "sms",
+            "text message"
+          ]
+        },
+        {
+          "canonicalForm": "fax",
+          "list": [
+            "fax",
+            "fascimile"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "device",
+      "subLists": [
+        {
+          "canonicalForm": "thermostat",
+          "list": [
+            "Thermostat",
+            "Heater",
+            "AC",
+            "Air conditioner"
+          ]
+        },
+        {
+          "canonicalForm": "refrigerator",
+          "list": [
+            "Fridge",
+            "Cooler"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "regex_entities": [
+    {
+      "name": "HRF-number",
+      "regexPattern": "hrf-[0-9]{6}",
+      "roles": []
+    },
+    {
+      "name": "zander",
+      "regexPattern": "z-[0-9]{3}",
+      "roles": []
+    }
+  ],
+  "model_features": [
+    {
+      "name": "ChocolateType",
+      "words": "m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix",
+      "mode": false,
+      "activated": true
+    },
+    {
+      "name": "question",
+      "words": "are you,you are",
+      "mode": true,
+      "activated": true
+    }
+  ],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Good morning",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Good evening",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "please help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "I'm vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "call me vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "my name is vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "vishwac is my name",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "you can call me vishwac",
+      "intent": "AskForUserName",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "create an alarm",
+      "intent": "CreateAlarm",
+      "entities": []
+    },
+    {
+      "text": "create an alarm for 7AM",
+      "intent": "CreateAlarm",
+      "entities": []
+    },
+    {
+      "text": "set an alarm for 7AM next thursday",
+      "intent": "CreateAlarm",
+      "entities": []
+    },
+    {
+      "text": "delete the {alarmTime} alarm",
+      "intent": "DeleteAlarm",
+      "entities": []
+    },
+    {
+      "text": "set phone call as my communication preference",
+      "intent": "CommunicationPreference",
+      "entities": []
+    },
+    {
+      "text": "I prefer to receive text message",
+      "intent": "CommunicationPreference",
+      "entities": []
+    },
+    {
+      "text": "can you help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "who is your ceo?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "santa wants a blue ribbon",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I need a flight from tomorrow and returning on next thursday",
+      "intent": "testIntent",
+      "entities": [
+        {
+          "entity": "datetimeV2",
+          "startPos": 21,
+          "endPos": 28,
+          "role": "fromDate"
+        },
+        {
+          "entity": "datetimeV2",
+          "startPos": 47,
+          "endPos": 59,
+          "role": "toDate"
+        }
+      ]
+    },
+    {
+      "text": "can I get some m&m",
+      "intent": "Buy chocolate",
+      "entities": []
+    },
+    {
+      "text": "I want some twix",
+      "intent": "Buy chocolate",
+      "entities": []
+    },
+    {
+      "text": "I would like to buy some kit kat",
+      "intent": "Buy chocolate",
+      "entities": []
+    },
+    {
+      "text": "Please set thermostat to 72",
+      "intent": "setThermostat",
+      "entities": [
+        {
+          "entity": "deviceTemperature",
+          "startPos": 11,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "Set owen to 72",
+      "intent": "setThermostat",
+      "entities": [
+        {
+          "entity": "customDevice",
+          "startPos": 4,
+          "endPos": 7
+        },
+        {
+          "entity": "deviceTemperature",
+          "startPos": 4,
+          "endPos": 13
+        }
+      ]
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "delete the {alarmTime} alarm",
+      "intent": "DeleteAlarm"
+    },
+    {
+      "pattern": "remove the {alarmTime} alarm",
+      "intent": "DeleteAlarm"
+    }
+  ],
+  "patternAnyEntities": [
+    {
+      "name": "alarmTime",
+      "explicitList": [],
+      "roles": []
+    }
+  ],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": [
+        "fromDate",
+        "toDate"
+      ]
+    },
+    {
+      "name": "age",
+      "roles": []
+    },
+    {
+      "name": "temperature",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "all",
+  "desc": "",
+  "culture": "en-us"
+}

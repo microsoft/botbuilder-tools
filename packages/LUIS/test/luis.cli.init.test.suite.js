@@ -1,7 +1,6 @@
 const assert = require('assert');
 const fs = require('fs-extra');
 const path = require('path');
-const txtfile = require('read-text-file');
 const { spawn } = require('child_process');
 const luis = require.resolve('../bin/luis');
 
@@ -73,7 +72,7 @@ describe('The LUIS cli init argument', () => {
             });
         });
 
-        const rc = JSON.parse(await txtfile.read(rcPath));
+        const rc = await fs.readJSON(rcPath);
         assert.equal(rc.appId, appId);
         assert.equal(rc.versionId, versionId);
         assert.equal(rc.region, region);

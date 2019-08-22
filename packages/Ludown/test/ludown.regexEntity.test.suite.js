@@ -30,6 +30,30 @@ describe('Regex entities in .lu files', function() {
             .catch(err => done(`Test failed - ${err}`))
     });
 
+    it('are parsed correctly when a valid regex pattern containing slash followed by colon is provided', function(done){
+        let luFileContent = `$slash-colon:/[/:]/`;
+        let regexEntity = new hClasses.regExEntity('slash-colon', '[/:]');
+        parseFile(luFileContent, false)
+            .then(res => {
+                const actualRegexEntity = res.LUISJsonStructure.regex_entities[0];
+                assert.deepEqual(actualRegexEntity, regexEntity, `Expected: ${JSON.stringify(regexEntity)} Actual: ${JSON.stringify(actualRegexEntity)}`);
+                done();
+            })
+            .catch(err => done(`Test failed - ${err} - ${JSON.stringify(err)}`))
+    });
+
+    it('are parsed correctly when a valid regex pattern containing only slash followed by colon is provided', function(done){
+        let luFileContent = `$slash-colon://:/`;
+        let regexEntity = new hClasses.regExEntity('slash-colon', '/:');
+        parseFile(luFileContent, false)
+            .then(res => {
+                const actualRegexEntity = res.LUISJsonStructure.regex_entities[0];
+                assert.deepEqual(actualRegexEntity, regexEntity, `Expected: ${JSON.stringify(regexEntity)} Actual: ${JSON.stringify(actualRegexEntity)}`);
+                done();
+            })
+            .catch(err => done(`Test failed - ${err} - ${JSON.stringify(err)}`))
+    });
+
     it('throws correctly when an empty regex pattern is specified', function(done){
         let luFileContent = `$test://`;
         parseFile(luFileContent, false) 
@@ -175,42 +199,5 @@ $hrf-number:/hrf-[0-9]{6}/`;
             .catch(err => done(err))
     });
 
-    it('correctly localizes regex entity definitions', function(done) {
-        if(!TRANSLATE_KEY) {
-            this.skip();
-        }
-        let luFile = helpers.sanitizeNewLines(`$hrf-number:/hrf-[0-9]{6}/`);
-        let expectedOutput = helpers.sanitizeNewLines(`$hrf-number:/hrf-[0-9]{6}/
-`);
-        translateHelpers.parseAndTranslate(luFile, TRANSLATE_KEY, 'de', null, false, false, false)
-            .then(res => {
-                assert.equal(res, expectedOutput);
-                done();
-            })
-            .catch(err => done(err))
-    });
-
-    it('are parsed correctly when a valid regex pattern containing slash followed by colon is provided', function(done){
-        let luFileContent = `$slash-colon:/[/:]/`;
-        let regexEntity = new hClasses.regExEntity('slash-colon', '[/:]');
-        parseFile(luFileContent, false)
-            .then(res => {
-                const actualRegexEntity = res.LUISJsonStructure.regex_entities[0];
-                assert.deepEqual(actualRegexEntity, regexEntity, `Expected: ${JSON.stringify(regexEntity)} Actual: ${JSON.stringify(actualRegexEntity)}`);
-                done();
-            })
-            .catch(err => done(`Test failed - ${err} - ${JSON.stringify(err)}`))
-    });
-
-    it('are parsed correctly when a valid regex pattern containing only slash followed by colon is provided', function(done){
-        let luFileContent = `$slash-colon://:/`;
-        let regexEntity = new hClasses.regExEntity('slash-colon', '/:');
-        parseFile(luFileContent, false)
-            .then(res => {
-                const actualRegexEntity = res.LUISJsonStructure.regex_entities[0];
-                assert.deepEqual(actualRegexEntity, regexEntity, `Expected: ${JSON.stringify(regexEntity)} Actual: ${JSON.stringify(actualRegexEntity)}`);
-                done();
-            })
-            .catch(err => done(`Test failed - ${err} - ${JSON.stringify(err)}`))
-    });
+    
 });

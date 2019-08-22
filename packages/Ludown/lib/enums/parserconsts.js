@@ -15,5 +15,6 @@ module.exports = {
     FILTER: "**",
     QNAALTERATIONS: "qna-alterations",
     LUFILEEXTENSION: ".lu",
-    QNAFILEEXTENSION: ".qna"
+    QNAFILEEXTENSION: ".qna",
+    MODELINFO: "!#"
 };

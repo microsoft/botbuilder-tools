@@ -32,17 +32,7 @@ const parseFileContentsModule = {
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
     validateLUISBlob: async function (LUISJSONBlob) {
-        // patterns can have references to any other entity types. 
-        // So if there is a pattern.any entity that is also defined as another type, remove the pattern.any entity
-        LUISJSONBlob.patternAnyEntities = (LUISJSONBlob.patternAnyEntities || []).filter(entity => {
-            if (itemExists(LUISJSONBlob.entities, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.closedLists, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.model_features, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.regex_entities, entity.name, entity.roles)) return false;
-            if (itemExists(LUISJSONBlob.prebuiltEntities, entity.name, entity.roles)) return false;
-            return true;
-        });
+        
 
         // look for entity name collisions - list, simple, patternAny, phraselist
         // look for list entities labelled
@@ -217,6 +207,12 @@ const parseFileContentsModule = {
                 }
             } else if (chunk.indexOf(PARSERCONSTS.QNA) === 0) {
                 parsedContent.qnaJsonStructure.qnaList.push(new qnaListObj(0, chunkSplitByLine[1], 'custom editorial', [chunkSplitByLine[0].replace(PARSERCONSTS.QNA, '').trim()], []));
+            } else if (chunk.indexOf(PARSERCONSTS.MODELINFO) === 0) {
+                try {
+                    parseAndHandleModelInfo(parsedContent, chunkSplitByLine, log);
+                } catch (err) {
+                    throw (err);
+                }
             }
         };
         return parsedContent;
@@ -269,6 +265,9 @@ const parseFileContentsModule = {
                     }
                 });
             }
+
+            if (blob.name !== undefined) FinalQnAJSON.name = blob.name;
+
         });
         return FinalQnAJSON;
     },
@@ -372,6 +371,40 @@ const parseFileContentsModule = {
                     }
                 }
             });
+
+            // do we have pattern.any entities here? 
+            (blob.patternAnyEntities || []).forEach(patternAny => {
+                let paIdx = -1;
+                let patternAnyInMaster = FinalLUISJSON.patternAnyEntities.find((item, idx) => {
+                    if (item.name === patternAny.name) {
+                        paIdx = idx;
+                        return true;
+                    }
+                    return false;
+                });
+                // verify that this patternAny entity does not exist as any other type
+                let simpleEntityInMaster = FinalLUISJSON.entities.find(item => item.name == patternAny.name);
+                let compositeInMaster = FinalLUISJSON.composites.find(item => item.name == patternAny.name);
+                let listEntityInMaster = FinalLUISJSON.closedLists.find(item => item.name == patternAny.name);
+                let regexEntityInMaster = FinalLUISJSON.regex_entities.find(item => item.name == patternAny.name);
+                let prebuiltInMaster = FinalLUISJSON.prebuiltEntities.find(item => item.name == patternAny.name);
+                if (!simpleEntityInMaster && 
+                    !compositeInMaster &&
+                    !listEntityInMaster &&
+                    !regexEntityInMaster &&
+                    !prebuiltInMaster) {
+                    if (patternAnyInMaster) {
+                        (patternAny.roles || []).forEach(role => !patternAnyInMaster.roles.includes(role) ? patternAnyInMaster.roles.push(role) : undefined);
+                    } else {
+                            FinalLUISJSON.patternAnyEntities.push(patternAny);
+                    }
+                } else {
+                    // remove the pattern.any from master if another entity type has this name.
+                    if (patternAnyInMaster) {
+                        if (paIdx !== -1) FinalLUISJSON.patternAnyEntities.splice(paIdx, 1);
+                    }
+                }
+            })
         });
         return FinalLUISJSON;
     },
@@ -449,7 +482,91 @@ const parseFileContentsModule = {
         }
     }
 };
-
+/**
+ * Helper function to parse and handle model information specified via > !# info
+ * @param {Object} parsedContent 
+ * @param {string[]} chunkSplitByLine 
+ * @param {bool} log 
+ */
+const parseAndHandleModelInfo = function(parsedContent, chunkSplitByLine, log) {
+    // split each line by key value pair
+    (chunkSplitByLine || []).forEach(line => {
+        let kvPair = line.split(/@(app|kb|intent|entity).(.*)=/g).map(item => item.trim());
+        if (kvPair.length === 4) {
+            kvPair.forEach(item => {
+                if (item.trim() === '') {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
+                    }
+                    return;
+                }
+            })
+            if (kvPair[1].toLowerCase() === 'app') {
+                parsedContent.LUISJsonStructure[kvPair[2]] = kvPair[3];
+            } else if (kvPair[1].toLowerCase() === 'kb') {
+                parsedContent.qnaJsonStructure[kvPair[2]] = kvPair[3];
+            } else if (kvPair[1].toLowerCase() === 'intent') {
+                if (kvPair[2].toLowerCase() === 'inherits') {
+                    let inheritsProperties = kvPair[3].split(/[:;]/g).map(item => item.trim());
+                    if (inheritsProperties.length !== 6) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid intent inherits information found. Skipping "' + line + '"\n'));
+                    } else {
+                        // find the intent
+                        let intent = parsedContent.LUISJsonStructure.intents.find(item => item.name == inheritsProperties[1]);
+                        if (intent === undefined) {
+                            let newIntent = {
+                                "name": inheritsProperties[1],
+                                "inherits": {}
+                            };
+                            newIntent['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            newIntent['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                            parsedContent.LUISJsonStructure.intents.push(newIntent);
+                        } else {
+                            if (intent['inherits'] === undefined) intent['inherits'] = {};
+                            intent['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            intent['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                        }
+                    }
+                } else {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid intent inherits information found. Skipping "' + line + '"\n'));
+                    }
+                }
+            } else if (kvPair[1].toLowerCase() === 'entity') {
+                if (kvPair[2].toLowerCase() === 'inherits') {
+                    let inheritsProperties = kvPair[3].split(/[:;]/g).map(item => item.trim());
+                    if (inheritsProperties.length !== 6) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid entity inherits information found. Skipping "' + line + '"\n'));
+                    } else {
+                        // find the intent
+                        let entity = parsedContent.LUISJsonStructure.entities.find(item => item.name == inheritsProperties[1]);
+                        if (entity === undefined) {
+                            let newEntity = {
+                                "name": inheritsProperties[1],
+                                "inherits": {}
+                            };
+                            newEntity['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            newEntity['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                            parsedContent.LUISJsonStructure.entities.push(newEntity);
+                        } else {
+                            if (entity['inherits'] === undefined) entity['inherits'] = {};
+                            entity['inherits'][inheritsProperties[2]] = inheritsProperties[3];
+                            entity['inherits'][inheritsProperties[4]] = inheritsProperties[5];
+                        }
+                    }
+                } else {
+                    if (log) {
+                        process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid entity inherits information found. Skipping "' + line + '"\n'));
+                    }
+                }
+            }
+        } else {
+            if (log) {
+                process.stdout.write(chalk.default.yellowBright('[WARN]: Invalid model info found. Skipping "' + line + '"\n'));
+            }
+        }
+    })
+};
 /**
  * Helper function to merge item if it does not already exist
  *
@@ -555,16 +672,22 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
     let pEntityName = (entityName === 'PREBUILT') ? entityType : entityName;
     // see if we already have this as Pattern.Any entity
     // see if we already have this in patternAny entity collection; if so, remove it but remember the roles (if any)
-    for (let i in parsedContent.LUISJsonStructure.patternAnyEntities) {
-        if (parsedContent.LUISJsonStructure.patternAnyEntities[i].name === pEntityName) {
+    let patternAnyMatchIdx = new Array();
+    (parsedContent.LUISJsonStructure.patternAnyEntities || []).forEach((entity, idx) => {
+        if (entity.name === pEntityName || entity.name === entityType) {
             if (entityType.toLowerCase().trim().includes('phraselist')) {
                 throw (new exception(retCode.errorCode.INVALID_INPUT, '[ERROR]: Phrase lists cannot be used as an entity in a pattern "' + pEntityName));
             }
-            if (parsedContent.LUISJsonStructure.patternAnyEntities[i].roles.length !== 0) entityRoles = parsedContent.LUISJsonStructure.patternAnyEntities[i].roles;
-            parsedContent.LUISJsonStructure.patternAnyEntities.splice(i, 1);
-            break;
+            if (entity.roles.length !== 0) entityRoles = entity.roles;
+            patternAnyMatchIdx.push(idx);
         }
-    }
+    });
+
+    // remove any found patternany entities.
+    patternAnyMatchIdx.sort().reverse().forEach(idx => {
+        parsedContent.LUISJsonStructure.patternAnyEntities.splice(idx, 1);
+    })
+
     // add this entity to appropriate place
     // is this a builtin type? 
     if (builtInTypes.consolidatedList.includes(entityType)) {
@@ -573,7 +696,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
         try {
             let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityType, entityName);
             if (rolesImport.length !== 0) {
-                rolesImport.forEach(role => entityRoles.push(role));
+                rolesImport.forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
             }
         } catch (err) { 
             throw (err);
@@ -603,7 +726,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
             try {
                 let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'RegEx');
                 if (rolesImport.length !== 0) {
-                    rolesImport.forEach(role => entityRoles.push(role));
+                    rolesImport.forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
                 }
             } catch (err) { 
                 throw (err);
@@ -654,7 +777,7 @@ const parseAndHandleEntity = function (parsedContent, chunkSplitByLine, locale, 
         try {
             let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'Phrase List');
             if (rolesImport.length !== 0) {
-                rolesImport.forEach(role => entityRoles.push(role));
+                rolesImport.forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
             }
         } catch (err) { 
             throw (err);
@@ -758,9 +881,7 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
     let simpleEntityExists = (parsedContent.LUISJsonStructure.entities || []).find(item => item.name == entityName);
     if (simpleEntityExists !== undefined) { 
         // take and add any roles into the roles list
-        (simpleEntityExists.roles || []).forEach(role => {
-            if (!entityRoles.includes(role)) entityRoles.push(role)
-        });
+        (simpleEntityExists.roles || []).forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
         // remove this simple entity definition
         // Fix for #1137.
         // Current behavior does not allow for simple and phrase list entities to have the same name. 
@@ -780,16 +901,13 @@ const VerifyAndUpdateSimpleEntityCollection = function (parsedContent, entityNam
     });
 
     if (entityExistsInUtteranceLabel !== undefined) {
-        if (entityType === 'Phrase List') {
-            throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
-        }
         let entityMatch = entityExistsInUtteranceLabel.entities.filter(item => item.entity == entityName);
         entityMatch.forEach(entity => {
             if (entity.role !== undefined) {
                 if (!entityRoles.includes(entity.role)) {
                     entityRoles.push(entity.role);
                 }
-            } else {
+            } else if (entityType !== 'Phrase List') {              // Fix for # 1151. Phrase lists can have same name as other entities.
                 throw (new exception(retCode.errorCode.INVALID_INPUT, `[ERROR]: '${entityType}' entity: "${entityName}" is added as a labelled entity in utterance "${entityExistsInUtteranceLabel.text}". ${entityType} cannot be added with explicit labelled values in utterances.`));
             }
         });
@@ -836,11 +954,7 @@ const parseAndHandleListEntity = function (parsedContent, chunkSplitByLine, enti
     let entityName = entityDef.split(':')[0].trim();
     let parsedEntityTypeAndRole = helpers.getRolesAndType(entityType);
     entityType = parsedEntityTypeAndRole.entityType;
-    (parsedEntityTypeAndRole.roles || []).forEach(role => {
-        if (!entityRoles.includes(role)) {
-            entityRoles.push(role)
-        }
-     });
+    (parsedEntityTypeAndRole.roles || []).forEach(role => !entityRoles.includes(role) ? entityRoles.push(role) : undefined);
     // check if this list entity is already labelled in an utterance and or added as a simple entity. if so, throw an error.
     try {
         let rolesImport = VerifyAndUpdateSimpleEntityCollection(parsedContent, entityName, 'List');
@@ -983,7 +1097,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
             // Deep references must have [link name](link-value) notation
             if (utterance.indexOf('[') == 0) {
                 let linkExp = (utterance || '').trim().match(new RegExp(/\(.*?\)/g));
-                if (linkExp && linkExp.length !== 0 && linkExp[0].split('|').length <= 1) {
+                if (linkExp && linkExp.length === 1) {
                     let parsedLinkUriInUtterance = helpers.parseLinkURI(utterance);
                     // examine and add these to filestoparse list.
                     parsedContent.additionalFilesToParse.push(new fileToParse(parsedLinkUriInUtterance.luFile, false));
@@ -1004,13 +1118,24 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                     if (!parsedContent.LUISJsonStructure.patterns.find(item => deepEqual(item, newPattern))) {
                         parsedContent.LUISJsonStructure.patterns.push(newPattern);
                     } 
-                    // add all entities to pattern.Any.
+                    // add all entities to pattern.Any only if they do not have another type.
                     entitiesFound.forEach(entity => {
-                        if (entity.role !== '') {
-                            addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()])
-                        } else {
-                            addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity);
-                        }
+                        let simpleEntityInMaster = parsedContent.LUISJsonStructure.entities.find(item => item.name == entity.entity);
+                        let compositeInMaster = parsedContent.LUISJsonStructure.composites.find(item => item.name == entity.entity);
+                        let listEntityInMaster = parsedContent.LUISJsonStructure.closedLists.find(item => item.name == entity.entity);
+                        let regexEntityInMaster = parsedContent.LUISJsonStructure.regex_entities.find(item => item.name == entity.entity);
+                        let prebuiltInMaster = parsedContent.LUISJsonStructure.prebuiltEntities.find(item => item.name == entity.entity);
+                        if (!simpleEntityInMaster && 
+                            !compositeInMaster &&
+                            !listEntityInMaster &&
+                            !regexEntityInMaster &&
+                            !prebuiltInMaster) {
+                                if (entity.role !== '') {
+                                    addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()])
+                                } else {
+                                    addItemIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity);
+                                }                            
+                        }                         
                     });
 
                     // if this intent does not have any utterances, push this pattern as an utterance as well. 
@@ -1081,7 +1206,7 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                                     patternAnyExists.roles.forEach(role => roles.push(role));
                                     addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.ENTITIES, entity.entity, roles);
                                     let patternAnyIdx = -1;
-                                    (parsedContent.LUISJsonStructure.entities || []).find((item, idx) => {
+                                    (parsedContent.LUISJsonStructure.patternAnyEntities || []).find((item, idx) => {
                                         if (item.name === entity.entity) {
                                             patternAnyIdx = idx;
                                             return true;
@@ -1089,7 +1214,8 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                                         return false;
                                     });
                                     // delete pattern any entity
-                                    parsedContent.LUISJsonStructure.patternAnyEntities.splice(patternAnyIdx, 1);
+                                    if( patternAnyIdx > -1) parsedContent.LUISJsonStructure.patternAnyEntities.splice(patternAnyIdx, 1);
+
                                 } else if (entity.role != '') {
                                     addItemOrRoleIfNotPresent(parsedContent.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity.entity, [entity.role.trim()]);
                                 } 

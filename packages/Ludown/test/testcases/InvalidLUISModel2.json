@@ -1,5 +1,5 @@
 {
-  "luis_schema_version": "3.0.0",
+  "luis_schema_version": "3.2.0",
   "versionId": "0.6.1668",
   "name": "Contoso Cafe App",
   "desc": "Default Intents for Azure Bot Service V2",

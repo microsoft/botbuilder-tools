@@ -13,8 +13,8 @@ const readerObj = {
         constructor(entity, value, start, end) {
             this.entity = entity?entity:'';
             this.value = value?value:'';
-            this.start = start?start:-1;
-            this.end = end?end:-1;
+            this.start = !isNaN(start)?start:-1;
+            this.end = !isNaN(end)?end:-1;
         }
     },
     intent: class {

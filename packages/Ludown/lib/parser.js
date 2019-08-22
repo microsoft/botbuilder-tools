@@ -7,7 +7,6 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const txtfile = require('read-text-file');
 const LUISObjNameEnum = require('./enums/luisobjenum');
 const parseFileContents = require('./parseFileContents');
 const retCode = require('./enums/CLI-errors');
@@ -23,6 +22,7 @@ const parseCommands = require('./enums/parsecommands');
 const suggestModels = require('./suggestModels');
 const haveLUISContent = require('./classes/LUIS').haveLUISContent;
 const AllParsedContent = require('./classes/allParsedContent');
+const txtfile = require('./read-text-file');
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -186,23 +186,21 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     } catch (err) {
         throw (err);
     }
-    if(!program.luis_versionId) program.luis_versionId = "0.1";
-    if(!program.luis_schema_version) program.luis_schema_version = "3.0.0";
-    if(!program.luis_name) program.luis_name = path.basename(rootFile, path.extname(rootFile));
-    if(!program.luis_desc) program.luis_desc = "";
-    if(!program.luis_culture) program.luis_culture = "en-us";   
-    if(!program.qna_name) program.qna_name = path.basename(rootFile, path.extname(rootFile));
-    if(program.luis_culture) program.luis_culture = program.luis_culture.toLowerCase();
 
     if(finalLUISJSON) {
-        finalLUISJSON.luis_schema_version = program.luis_schema_version;
-        finalLUISJSON.versionId = program.luis_versionId;
-        finalLUISJSON.name = program.luis_name.split('.')[0],
-        finalLUISJSON.desc = program.luis_desc;
-        finalLUISJSON.culture = program.luis_culture;
+        finalLUISJSON.luis_schema_version = program.luis_schema_version || finalLUISJSON.luis_schema_version || "3.2.0";
+        finalLUISJSON.versionId = program.luis_versionId || finalLUISJSON.versionId || "0.1";
+        finalLUISJSON.name = program.luis_name || finalLUISJSON.name || path.basename(rootFile, path.extname(rootFile)),
+        finalLUISJSON.desc = program.luis_desc || finalLUISJSON.desc || "";
+        finalLUISJSON.culture = program.luis_culture || finalLUISJSON.culture || "en-us";
+        finalLUISJSON.culture = finalLUISJSON.culture.toLowerCase();
     }
 
-    if (finalQnAJSON) finalQnAJSON.name = program.qna_name.split('.')[0];
+    if (!program.luis_name && finalLUISJSON && finalLUISJSON.name) program.luis_name = finalLUISJSON.name;    
+
+    if (finalQnAJSON) finalQnAJSON.name = program.qna_name || finalQnAJSON.name || path.basename(rootFile, path.extname(rootFile));
+
+    if (!program.qna_name && finalQnAJSON && finalQnAJSON.name) program.qna_name = finalQnAJSON.name || '';
 
     var writeQnAFile = (finalQnAJSON.qnaList.length > 0) || 
                         (finalQnAJSON.urls.length > 0) || 
@@ -422,13 +420,50 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
 
                 entitiesFound.forEach(function (entity) {
                     entity = entity.replace("{", "").replace("}", "");
-
+                    let entityName = entity;
+                    let roleName = '';
                     if (entity.includes(':')) {
                         // this is an entity with role
-                        const [entityName, roleName] = entity.split(':');
-                        parseFileContents.addItemOrRoleIfNotPresent(luisModel.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entityName, [roleName])
+                        [entityName, roleName] = entity.split(':');
+                    }
+                    // insert the entity only if it does not already exist
+                    let simpleEntityInMaster = luisModel.LUISJsonStructure.entities.find(item => item.name == entityName);
+                    let compositeInMaster = luisModel.LUISJsonStructure.composites.find(item => item.name == entityName);
+                    let listEntityInMaster = luisModel.LUISJsonStructure.closedLists.find(item => item.name == entityName);
+                    let regexEntityInMaster = luisModel.LUISJsonStructure.regex_entities.find(item => item.name == entityName);
+                    let prebuiltInMaster = luisModel.LUISJsonStructure.prebuiltEntities.find(item => item.name == entityName);
+                    let paIdx = -1;
+                    let patternAnyInMaster = luisModel.LUISJsonStructure.patternAnyEntities.find((item, idx) => {
+                        if (item.name === entityName) {
+                            paIdx = idx;
+                            return true;
+                        }
+                        return false;
+                    });
+                    if (!simpleEntityInMaster && 
+                        !compositeInMaster &&
+                        !listEntityInMaster &&
+                        !regexEntityInMaster &&
+                        !prebuiltInMaster) {
+                            if (!patternAnyInMaster) {
+                                // add a pattern.any entity
+                                if (roleName !== '') {
+                                    parseFileContents.addItemOrRoleIfNotPresent(luisModel.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entityName, [roleName])
+                                } else {
+                                    parseFileContents.addItemIfNotPresent(luisModel.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity);
+                                }
+                            } else {
+                                // add the role if it does not exist already.
+                                if (roleName !== '') {
+                                    !patternAnyInMaster.roles.includes(roleName) ? patternAnyInMaster.roles.push(roleName) : undefined;
+                                }
+                            }
                     } else {
-                        parseFileContents.addItemIfNotPresent(luisModel.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity);
+                        // we found this pattern.any entity as another type.
+                        if (patternAnyInMaster && paIdx !== -1) {
+                            // remove the patternAny entity from the list because it has been explicitly defined elsewhere.
+                            luisModel.LUISJsonStructure.patternAnyEntities.splice(paIdx, 1);
+                        }
                     }
                 });
             }

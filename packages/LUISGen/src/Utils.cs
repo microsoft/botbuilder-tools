@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace LUISGen
         public static bool IsPrebuilt(dynamic name, dynamic app)
         {
             bool isPrebuilt = false;
-            if (app?.prebuiltEntities != null)
+            if (app.prebuiltEntities != null)
             {
                 foreach (var child in app.prebuiltEntities)
                 {
@@ -32,10 +33,27 @@ namespace LUISGen
             return isPrebuilt;
         }
 
+        public static bool IsHierarchical(dynamic name, dynamic app)
+        {
+            bool IsHierarchical = false;
+            if (app.entities != null)
+            {
+                foreach (var child in app.entities)
+                {
+                    if (child.name == name)
+                    {
+                        IsHierarchical = child.children != null;
+                        break;
+                    }
+                }
+            }
+            return IsHierarchical;
+        }
+
         public static bool IsList(dynamic name, dynamic app)
         {
             bool isList = false;
-            if (app?.closedLists != null)
+            if (app.closedLists != null)
             {
                 foreach (var list in app.closedLists)
                 {
@@ -62,7 +80,7 @@ namespace LUISGen
         public static string JsonPropertyName(dynamic property, dynamic app)
         {
             var name = ((string)property).Split(':').Last();
-            if (name.EndsWith("V2"))
+            if (!name.StartsWith("geographyV2") && !name.StartsWith("ordinalV2") && name.EndsWith("V2"))
             {
                 name = name.Substring(0, name.Length - 2);
             }
@@ -76,7 +94,7 @@ namespace LUISGen
             action((string)dynEntity.name);
             if (dynEntity?.roles != null)
             {
-                foreach (string role in dynEntity.roles)
+                foreach (string role in from role in (JArray)dynEntity.roles orderby role select role)
                 {
                     action(role);
                 }
@@ -91,13 +109,15 @@ namespace LUISGen
             return obj;
         }
 
+        public static IEnumerable<JObject> OrderedEntities(dynamic entities) => from entity in (JArray)entities orderby entity["name"] select (JObject)entity;
+
         private static void WriteInstances(dynamic entities, Action<string> writeInstance)
         {
             if (entities != null)
             {
-                foreach (var entity in entities)
+                foreach (var entity in OrderedEntities(entities))
                 {
-                    Utils.EntityApply((JObject)entity, writeInstance);
+                    Utils.EntityApply(entity, writeInstance);
                 }
             }
         }
@@ -107,25 +127,27 @@ namespace LUISGen
             if (obj != null)
             {
                 dynamic app = obj;
-                if (app?.entities != null)
+                var empty = new JArray();
+                var lists = new List<JArray> {
+                    app.entities,
+                    app.prebuiltEntities,
+                    app.closedLists,
+                    app.regex_entities,
+                    app.patternAnyEntities,
+                    app.composites
+                };
+                var entities = OrderedEntities(new JArray(lists.SelectMany(a => a ?? empty)));
+                foreach (dynamic entity in entities)
                 {
-                    foreach (var entity in app.entities)
+                    Utils.EntityApply(entity, writeInstance);
+                    if (IsHierarchical(entity, app))
                     {
-                        Utils.EntityApply((JObject)entity, writeInstance);
-                        if (entity?.children != null)
+                        foreach (var child in entity.children)
                         {
-                            foreach (var child in entity.children)
-                            {
-                                writeInstance((string)child);
-                            }
+                            writeInstance((string)child);
                         }
                     }
                 }
-                WriteInstances(app?.prebuiltEntities, writeInstance);
-                WriteInstances(app?.closedLists, writeInstance);
-                WriteInstances(app?.regex_entities, writeInstance);
-                WriteInstances(app?.patternAnyEntities, writeInstance);
-                WriteInstances(app?.composites, writeInstance);
             }
         }
     }

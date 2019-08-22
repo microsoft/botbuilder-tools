@@ -334,6 +334,24 @@ describe('Roles in LU files', function() {
             .catch (err => done (err))
     });
 
+    it ('It should come back with one entity (taskcontent) and one pattern.any entity (taskcontent.any)', function(done){
+        let testLU = `# foo
+        - this is {taskcontent = bar}
+        - this is a {taskcontent.any}
+        - this is {taskcontent = orange}     
+        `;
+
+        parser.parseFile(testLU, false, null)
+            .then (res => {
+                assert.equal(res.LUISJsonStructure.entities.length, 1);
+                assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 1);
+                assert.equal(res.LUISJsonStructure.entities[0].name, 'taskcontent');
+                assert.equal(res.LUISJsonStructure.patternAnyEntities[0].name, 'taskcontent.any');
+                done ();
+            })
+            .catch (err => done (err))
+    });
+
     it ('explicit phrase list entity type definition after adding it implicitly via a labelled value in an utterance throws correctly', function(done){
         let testLU = `# test
         - this is a test of {test:fromTime = 7AM}
@@ -342,7 +360,16 @@ describe('Roles in LU files', function() {
 - m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix`;
 
         parser.parseFile(testLU, false, null)
-            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
+            .then (res => {
+                // This is fix for # 1151. LUIS allows phrase list names to be the same name as other entities in the model. 
+                assert.equal(res.LUISJsonStructure.entities.length, 1);
+                assert.equal(res.LUISJsonStructure.entities[0].name, 'test');
+                assert.equal(res.LUISJsonStructure.entities[0].roles.length, 1);
+                assert.deepEqual(res.LUISJsonStructure.entities[0].roles, ['fromTime']);
+                assert.equal(res.LUISJsonStructure.model_features.length, 1);
+                assert.equal(res.LUISJsonStructure.model_features[0].name, 'test');
+                done();
+            })
             .catch (err => done ())
     })
 
@@ -864,7 +891,7 @@ $test:[fromTime]`;
             "patterns": [],
             "patternAnyEntities": [],
             "prebuiltEntities": [],
-            "luis_schema_version": "3.0.0",
+            "luis_schema_version": "3.2.0",
             "versionId": "0.1",
             "name": "1",
             "desc": "",
@@ -879,6 +906,83 @@ $test:[fromTime]`;
                 done();
             })
             .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
+
+    })
+
+    it ('prebuilt entities with inline as well as explicit role definition is handled correctly', function(done){
+        let testLU = `> # Intent definitions
+
+        ## Intent
+        - holiday request to {datetimeV2:to=next day}
+        - holiday request vacation from {datetimeV2:from=today}
+        - i want vacation from {datetimeV2:from} until {datetimeV2:to}
+        
+        > # Entity definitions
+        
+        > # PREBUILT Entity definitions
+        
+        $PREBUILT:datetimeV2 Roles=to, from`;
+        parser.parseFile(testLU, false, null) 
+            .then (res => {
+                let LUISJSon = res.LUISJsonStructure;
+                assert(LUISJSon.prebuiltEntities.length, 1);
+                assert(LUISJSon.prebuiltEntities[0].roles.length, 2);
+                assert.deepEqual(LUISJSon.prebuiltEntities[0].roles, ['to', 'from']);
+                done();
+            })
+            .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
+
+    })
+
+    it ('regex entities with inline as well as explicit role definition is handled correctly', function(done){
+        let testLU = `> # Intent definitions
+
+        ## Intent
+        - holiday request to {regex1:to=32}
+        - holiday request vacation from {regex1:from=today}
+        - i want vacation from {regex1:from} until {regex1:to}
+        
+        > # Entity definitions
+        
+        > # PREBUILT Entity definitions
+        
+        $regex1:/[0-9]/ Roles=to, from`;
+        parser.parseFile(testLU, false, null) 
+            .then (res => {
+                let LUISJSon = res.LUISJsonStructure;
+                assert(LUISJSon.regex_entities.length, 1);
+                assert(LUISJSon.regex_entities[0].roles.length, 2);
+                assert.deepEqual(LUISJSon.regex_entities[0].roles, ['to', 'from']);
+                done();
+            })
+            .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
+
+    })
+
+    it ('closed list entities with inline as well as explicit role definition is handled correctly', function(done){
+        let testLU = `> # Intent definitions
+
+        ## Intent
+        - holiday request to {list1:to=32}
+        - holiday request vacation from {list1:from=today}
+        - i want vacation from {list1:from} until {list1:to}
+        
+        > # Entity definitions
+        
+        > # PREBUILT Entity definitions
+        
+        $list1: a = Roles = to, from
+            - 32
+        `;
+        parser.parseFile(testLU, false, null) 
+            .then (res => {
+                let LUISJSon = res.LUISJsonStructure;
+                assert(LUISJSon.closedLists.length, 1);
+                assert(LUISJSon.closedLists[0].roles.length, 2);
+                assert.deepEqual(LUISJSon.closedLists[0].roles, ['to', 'from']);
+                done();
+            })
+            .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
 
     })
 

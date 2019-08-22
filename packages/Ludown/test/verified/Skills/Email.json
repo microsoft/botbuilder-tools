@@ -1,0 +1,8949 @@
+{
+  "intents": [
+    {
+      "name": "AddFlag"
+    },
+    {
+      "name": "AddMore"
+    },
+    {
+      "name": "CancelMessages"
+    },
+    {
+      "name": "CheckMessages"
+    },
+    {
+      "name": "ConfirmMessages"
+    },
+    {
+      "name": "Delete"
+    },
+    {
+      "name": "Forward"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "QueryLastText"
+    },
+    {
+      "name": "ReadAloud"
+    },
+    {
+      "name": "Reply"
+    },
+    {
+      "name": "SearchMessages"
+    },
+    {
+      "name": "SendEmail"
+    },
+    {
+      "name": "ShowNext"
+    },
+    {
+      "name": "ShowPrevious"
+    },
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "Confirm"
+    },
+    {
+      "name": "Escalate"
+    },
+    {
+      "name": "FinishTask"
+    },
+    {
+      "name": "GoBack"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Logout"
+    },
+    {
+      "name": "Reject"
+    },
+    {
+      "name": "Repeat"
+    },
+    {
+      "name": "SelectAny"
+    },
+    {
+      "name": "SelectItem"
+    },
+    {
+      "name": "SelectNone"
+    },
+    {
+      "name": "StartOver"
+    },
+    {
+      "name": "Stop"
+    }
+  ],
+  "entities": [
+    {
+      "name": "OrderReference",
+      "roles": []
+    },
+    {
+      "name": "SenderName",
+      "roles": []
+    },
+    {
+      "name": "Category",
+      "roles": []
+    },
+    {
+      "name": "ContactName",
+      "roles": []
+    },
+    {
+      "name": "Attachment",
+      "roles": []
+    },
+    {
+      "name": "Message",
+      "roles": []
+    },
+    {
+      "name": "RelationshipName",
+      "roles": []
+    },
+    {
+      "name": "Time",
+      "roles": []
+    },
+    {
+      "name": "Line",
+      "roles": []
+    },
+    {
+      "name": "PositionReference",
+      "roles": []
+    },
+    {
+      "name": "Date",
+      "roles": []
+    },
+    {
+      "name": "FromRelationshipName",
+      "roles": []
+    },
+    {
+      "name": "EmailSubject",
+      "roles": []
+    },
+    {
+      "name": "SearchTexts",
+      "roles": []
+    },
+    {
+      "name": "DirectionalReference",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "add a flag",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "add a flag please",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "add a flag to the last email",
+      "intent": "AddFlag",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 18,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "add a flag to this email",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "add flag",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "add flag on it",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "add flag to it",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "add flag to the email john just sent to me",
+      "intent": "AddFlag",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 22,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "add flag to this email",
+      "intent": "AddFlag",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 4,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "add flag to this message",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "flag",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "flag it",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "flag on",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "flag the current email",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "flag the email",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "flag the email from davis",
+      "intent": "AddFlag",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "flag this email",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "flag this email as important for me",
+      "intent": "AddFlag",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 19,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "i want to add a flag",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "i want to add a flag on this email",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "make it flagged",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "mark as flag",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "mark the email flagged",
+      "intent": "AddFlag",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 15,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "put a flag",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "put a flag on the new email",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "the email from thomas should be flagged",
+      "intent": "AddFlag",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 15,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "the email to ruth needs to be flagged",
+      "intent": "AddFlag",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 13,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "this email need to be flagged",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "this email needs to be flagged",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "this email should be flagged",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "turn flag on",
+      "intent": "AddFlag",
+      "entities": []
+    },
+    {
+      "text": "add a file to the email",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "add a picture",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 6,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "add a subject",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add another line to the message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add did you enjoy the entire program",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 4,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "add file to email",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 4,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "add more",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more and change the message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more details to it",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more don't forget to bring beer",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 9,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "add more message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more please",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more text",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more text please",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more to email",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more to email body",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more to it",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more to message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more to roy 's email",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "add more to text",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more to the email",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add more to the last email",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 16,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "add more to the message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add photo",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 4,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "add some more",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add something",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add to body of email",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add, by the way, what's the plan of next step",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "add: call me tonight after work",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 5,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "append an attachment to this email",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 10,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "attach file",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 7,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "can i add more to the email",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "can i add more to the message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "edit email so i can type an additional message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i am not done yet. i need to add some more details",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i forgot to add an important part to that email to james . please set it up to edit",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 51,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "i need to add additional lines",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i need to add further contents",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i need to add more message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i need to add more text",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i need to add more to the email",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i need to add more to the email message i am sending to vincent",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 56,
+          "endPos": 62
+        }
+      ]
+    },
+    {
+      "text": "i need to add something else to my email to cheryl",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 44,
+          "endPos": 49
+        }
+      ]
+    },
+    {
+      "text": "i need to add something else to that email to donna before it is sent",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 46,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "i want to add more the email",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i wish to add more to the message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i would like to add more to the email",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i would like to add more to the email message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i would like to open a new line",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i'd like to add a bit more to the email.",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i'd like to add a bit more to the message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "i'd like to add more to the email",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "insert more lines for me please",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "insert more text in my email",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "is it ok if i add more to the email?",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "it isn't complete, need more contents",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "more text",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "need to add information to the previous email",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 31,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "ok, i need to add a few things to that",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "please add it was terrible",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 11,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "please add more",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "please add, please let me know what i can bring. i'd be happy to make a side dish or dessert",
+      "intent": "AddMore",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 12,
+          "endPos": 91
+        }
+      ]
+    },
+    {
+      "text": "put some additional lines to this message",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "wait, i need to write more",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "write more",
+      "intent": "AddMore",
+      "entities": []
+    },
+    {
+      "text": "abort deletion",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "can you cancel it",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "cancel email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "cancel email to natalie",
+      "intent": "CancelMessages",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "cancel message",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "cancel my email to jane",
+      "intent": "CancelMessages",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 19,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "cancel searching the messages",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "cancel the email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "cancel the email sent to alex",
+      "intent": "CancelMessages",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 25,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "cancel the email to my sister",
+      "intent": "CancelMessages",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 23,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "cancel the mail",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "cancel the message",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "cancel this email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "cancel this message",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "cancel this sending process",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don ' t read",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don ' t read it",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don 't send the email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don't email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don't email to her",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don't read the email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don't read the message",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don't send",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don't send it",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don't send out",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don't send that email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don't send this email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "don't show me",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "exit",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "forget about the email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "i want you to cancel the email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "neither of them",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "never mind cancel the mail",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "never mind cancel the message",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "never mind, forget about the mail",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "nevermind cancel",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "no cancel it, i don't want to send the mail",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "no don't send",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "no don't send it",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "no just cancel the email",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "no, i don't want to send this message",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "no, no, cancel the reading",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "okay cancel sending the mail",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "quit the sending",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "stop message",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "stop reading",
+      "intent": "CancelMessages",
+      "entities": []
+    },
+    {
+      "text": "any new email",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 4,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "any new email available",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 4,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "any new email now",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 4,
+          "endPos": 6
+        },
+        {
+          "entity": "Time",
+          "startPos": 14,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "any new message now",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 4,
+          "endPos": 6
+        },
+        {
+          "entity": "Time",
+          "startPos": 16,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "check email",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "check email please",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "check my email please",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "check my emails",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "check my gmail",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Line",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "check my inbox",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "check my mail box",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "check my message",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "check outlook please",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Line",
+          "startPos": 6,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "check up email",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "check up messages",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "could you please check my emails",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "could you please check my inbox",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "could you please check my messages",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "do i get new email",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "do i have any new mail",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 14,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "do i have new email",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 10,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "do i have new email now",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 10,
+          "endPos": 12
+        },
+        {
+          "entity": "Time",
+          "startPos": 20,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "do i have new message",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 10,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "do i receive new email",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "do i receive new mail in outlook?",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 13,
+          "endPos": 15
+        },
+        {
+          "entity": "Line",
+          "startPos": 25,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "do i receive new message",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "does anyone send email to me just then",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "does anyone send message to me just then",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Time",
+          "startPos": 31,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "does my outlook have new email",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Line",
+          "startPos": 8,
+          "endPos": 14
+        },
+        {
+          "entity": "Category",
+          "startPos": 21,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "i want to check my emails",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "i want to check my inbox",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "i'd like to check my inbox",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "is there new email",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "please check my emails",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "please check my inbox",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "please check my outlook",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Line",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "show latest emails",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "show my emails",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "show my unread mails",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "show the important emails in my inbox",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 9,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "whether i get new email",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 14,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "whether i get new message",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 14,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "whether i have new email",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 15,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "whether i have new message",
+      "intent": "CheckMessages",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 15,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "whether i receive new email",
+      "intent": "CheckMessages",
+      "entities": []
+    },
+    {
+      "text": "\"okay, send it\"",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "\"sure, go ahead\"",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "\"yes, you can\"",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "alright, just send the message",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "correct, please send it.",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "i confirm that i want to send this email",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "just do it",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "no problem, go ahead send the mail",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "of course, just delete the mail",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "ok send the mail to may",
+      "intent": "ConfirmMessages",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 20,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "ok, good to me, send it please",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "ok, good, just send it",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "okay",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "okay send it",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "okay, send it now",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "perfect thank you",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "right, send it please",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "yeah right, send to alex",
+      "intent": "ConfirmMessages",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 20,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "yes it's right",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "yes that's right",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "yes, send it",
+      "intent": "ConfirmMessages",
+      "entities": []
+    },
+    {
+      "text": "can you help me delete it",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "clear my inbox",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "delete all emails from tom",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "delete all emails received tonight",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "Time",
+          "startPos": 27,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "delete the email from my hotmail account",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "Line",
+          "startPos": 25,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "delete the email sent from mary jane",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 27,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "delete the first email for me",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "delete the last one",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "delete the previous 4 emails",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "delete the red ones",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 11,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "delete the second mail",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "delete the second one",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "delete the unread emails",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "delete this email",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "delete this message permanently",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "delete what i just wrote",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "empty the email inbox",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "put it in the recycle bin",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "put the email in the recycle bin",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "put the email to trash bin",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "put the emails from this file folder to trash bin",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "remove emails that are duplicate",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "remove emails with red flags",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 19,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "remove it from my inbox",
+      "intent": "Delete",
+      "entities": []
+    },
+    {
+      "text": "remove the email from mary",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 22,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "remove the emails received yesterday",
+      "intent": "Delete",
+      "entities": [
+        {
+          "entity": "Date",
+          "startPos": 27,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "could you forward this message to ronald and roy",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 34,
+          "endPos": 39
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 45,
+          "endPos": 47
+        }
+      ]
+    },
+    {
+      "text": "could you please forward this email to my sister",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 42,
+          "endPos": 47
+        }
+      ]
+    },
+    {
+      "text": "forward all files from sally to austin",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 12,
+          "endPos": 16
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 23,
+          "endPos": 27
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 32,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "forward by saying if you interest to rebecca",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 18,
+          "endPos": 32
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 37,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "forward email",
+      "intent": "Forward",
+      "entities": []
+    },
+    {
+      "text": "forward email to girlfriend",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 17,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "forward emails to gabriel",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 18,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "forward message to girlfriend",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 19,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "forward the email from john smith to michelle by saying fyi",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 23,
+          "endPos": 32
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 37,
+          "endPos": 44
+        },
+        {
+          "entity": "Message",
+          "startPos": 56,
+          "endPos": 58
+        }
+      ]
+    },
+    {
+      "text": "forward the email from melissa to peter",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 23,
+          "endPos": 29
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 34,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "forward the email to dad",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 21,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "forward the last email to susan",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "forward this email",
+      "intent": "Forward",
+      "entities": []
+    },
+    {
+      "text": "forward this email to eugene by typing what do you think",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 22,
+          "endPos": 27
+        },
+        {
+          "entity": "Message",
+          "startPos": 39,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "forward this email to gary brown please",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 22,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "forward this email to joseph",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 22,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "forward this email to partone dot parttwo at gmail dot com",
+      "intent": "Forward",
+      "entities": []
+    },
+    {
+      "text": "forward this email to patricia",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 22,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "forward to alan tonight",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 11,
+          "endPos": 14
+        },
+        {
+          "entity": "Time",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "forward to brian potter tonight",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 11,
+          "endPos": 22
+        },
+        {
+          "entity": "Time",
+          "startPos": 24,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "forward to deborah with a message saying that i don't want that",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 11,
+          "endPos": 17
+        },
+        {
+          "entity": "Message",
+          "startPos": 46,
+          "endPos": 62
+        }
+      ]
+    },
+    {
+      "text": "forward to dorothy by typing i agree with it",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 11,
+          "endPos": 17
+        },
+        {
+          "entity": "Message",
+          "startPos": 29,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "forward to mom",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 11,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "forward to my boss and attach the schedule file",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 14,
+          "endPos": 17
+        },
+        {
+          "entity": "Attachment",
+          "startPos": 34,
+          "endPos": 46
+        }
+      ]
+    },
+    {
+      "text": "forward to partoneparttwo@gmail.com next monday",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "Date",
+          "startPos": 36,
+          "endPos": 46
+        }
+      ]
+    },
+    {
+      "text": "forward to thomas please",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "forward to wife by saying i love you",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 11,
+          "endPos": 14
+        },
+        {
+          "entity": "Message",
+          "startPos": 26,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "please forward this email to albert by typing everything goes fine",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 29,
+          "endPos": 34
+        },
+        {
+          "entity": "Message",
+          "startPos": 46,
+          "endPos": 65
+        }
+      ]
+    },
+    {
+      "text": "please forward this email to partoneparttwo@163.com",
+      "intent": "Forward",
+      "entities": []
+    },
+    {
+      "text": "please forward this email to partoneparttwo@outlook.com",
+      "intent": "Forward",
+      "entities": []
+    },
+    {
+      "text": "please forward this message",
+      "intent": "Forward",
+      "entities": []
+    },
+    {
+      "text": "please forward to benjamin",
+      "intent": "Forward",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 18,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "1",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "2",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "3",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "the first one",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 4,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "the second one",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 4,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "the third one",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 4,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "can you tell me the last email i received",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 20,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "come to the last",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "go to the last one",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "i want to see the last email",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 18,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "last email",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "open the last email",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "open the lastest email i got",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "please tell me who emailed me last",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 30,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "show me the lastest email",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "show me the newest email",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "show the last email",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "the last email",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 4,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "what did mom just say",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "what eric watson just said",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 5,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "what harry last email said",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 5,
+          "endPos": 9
+        },
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "what henry just said",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 5,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "what is the last email i received today",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        },
+        {
+          "entity": "Date",
+          "startPos": 34,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "what is the lastest email i received from dad",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 18
+        },
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 42,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "what was the last email",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 13,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "what was the last email i got from dad",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 13,
+          "endPos": 16
+        },
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 35,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "what was the last email i got from steve edwards",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 13,
+          "endPos": 16
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 35,
+          "endPos": 47
+        }
+      ]
+    },
+    {
+      "text": "who email me just now",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "Time",
+          "startPos": 13,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "who emailed me",
+      "intent": "QueryLastText",
+      "entities": []
+    },
+    {
+      "text": "who emailed me just now",
+      "intent": "QueryLastText",
+      "entities": []
+    },
+    {
+      "text": "who emailed me last",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "who recently emailed me",
+      "intent": "QueryLastText",
+      "entities": []
+    },
+    {
+      "text": "who sent me the email lastly yesterday",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "Date",
+          "startPos": 29,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "who sent me the mail just now",
+      "intent": "QueryLastText",
+      "entities": []
+    },
+    {
+      "text": "who texted me",
+      "intent": "QueryLastText",
+      "entities": []
+    },
+    {
+      "text": "who texted me just now",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "Time",
+          "startPos": 14,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "whose email just then ?",
+      "intent": "QueryLastText",
+      "entities": []
+    },
+    {
+      "text": "whose email now ?",
+      "intent": "QueryLastText",
+      "entities": [
+        {
+          "entity": "Time",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "can you read my emails",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "can you read my last email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 16,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "could you read out the email on how to use the new tool?",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 32,
+          "endPos": 54
+        }
+      ]
+    },
+    {
+      "text": "please read my last email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "read aloud my new email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 14,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "read aloud the christmas party email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 15,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "read darren's mail on the movie",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 5,
+          "endPos": 10
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 22,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "read email",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read email from dawn",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 16,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "read email from kat",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 16,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "read email from mum",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 16,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "read email to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read emails",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read emails from clay",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 17,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "read first email in link box",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 5,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "read first email in the linked inbox",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 5,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "read google mail",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Line",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "read it",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read last email received",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "read last incoming emails",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "read last mail",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "read latest email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "read mary grace white email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 5,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "read me dylan's email sent on yesterday",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 8,
+          "endPos": 12
+        },
+        {
+          "entity": "Date",
+          "startPos": 30,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "read me jessica's email on dress code for the party",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 8,
+          "endPos": 14
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 27,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "read me my last hotmail email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        },
+        {
+          "entity": "Line",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "read me my latest emails",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "read me the email",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read me the email on apple",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "read me the email on thanksgiving day",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 21,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "read me the email sent on thanksgiving day",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Date",
+          "startPos": 26,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "read me the email titled happy new year",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 25,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "read me the emails from agatha",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 24,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "read me the last email claude sent",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 23,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "read me the last emails of the five minutes",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        },
+        {
+          "entity": "Time",
+          "startPos": 31,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "read me the newest email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "read me the recent email titled abcd from jessica",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 17
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 32,
+          "endPos": 35
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 42,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "read most recent email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "read my email from baby",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 19,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "read my email from hubby",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "read my email from tyler swift",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 19,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "read my email messages",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read my email please",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read my email to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read my emails",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read my emails from patty",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "read my inbox",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read my last email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "read my last email out to me",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "read my most recent email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "read my new email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "read my new emails",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "read my notification",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read my outlook email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Line",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "read my recent email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "read my recent email message please",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "read my recent email messages",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "read my recent email to me",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "read my second email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "read new email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "read new email from david ma",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 7
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "read new message",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "read out darren's mail",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 9,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "read out the email from liu about transfer",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 24,
+          "endPos": 26
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 34,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "read out xu's email about apple's news",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 9,
+          "endPos": 10
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 26,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "read please",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read recent email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "read the email",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the email on auto repair",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 18,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "read the first email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "read the first email in hotmail",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 9,
+          "endPos": 13
+        },
+        {
+          "entity": "Line",
+          "startPos": 24,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "read the last email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "read the last email message",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "read the latest email from mom",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 14
+        },
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 27,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "read the latest email from steve lip",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 14
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 27,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "read the latest email i sent",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "read todays mail",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Date",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "read today's mail",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Date",
+          "startPos": 5,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "read unread email",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "read unread message",
+      "intent": "ReadAloud",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "create a response to the email by saying pls send me the picture again",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 41,
+          "endPos": 69
+        }
+      ]
+    },
+    {
+      "text": "email back",
+      "intent": "Reply",
+      "entities": []
+    },
+    {
+      "text": "email back i will call you back",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 11,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "how to reply to an email",
+      "intent": "Reply",
+      "entities": []
+    },
+    {
+      "text": "make a response with thank you very much",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 21,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "reply",
+      "intent": "Reply",
+      "entities": []
+    },
+    {
+      "text": "reply by email thank you very much best regards jun",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 15,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "reply by saying i love you",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 16,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "reply by saying yes",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 16,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "reply by typing hello",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "reply required to an email",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 6,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "reply that i am busy",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "reply to edward",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "reply to email i am busy now",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 15,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "reply to my last email",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "reply to susan",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "reply to the email",
+      "intent": "Reply",
+      "entities": []
+    },
+    {
+      "text": "reply to the first one",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "PositionReference",
+          "startPos": 13,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "reply we'll see you later",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 6,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "reply with hello",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "reply yee ha",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 6,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "reply yee hello",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 6,
+          "endPos": 8
+        },
+        {
+          "entity": "Message",
+          "startPos": 10,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "reply yes boss.",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 6,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "respond i ' m sick i can ' t do it",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 8,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "respond to lore hound",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 11,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "respond to nathan",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "respond to the email by saying i am busy today",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 31,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "return barbara on mobile",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 7,
+          "endPos": 13
+        },
+        {
+          "entity": "Line",
+          "startPos": 18,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "return siberian huskies mobile",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 7,
+          "endPos": 22
+        },
+        {
+          "entity": "Line",
+          "startPos": 24,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "send email back",
+      "intent": "Reply",
+      "entities": []
+    },
+    {
+      "text": "send the response with i've already know",
+      "intent": "Reply",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 23,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "can you search my emails",
+      "intent": "SearchMessages",
+      "entities": []
+    },
+    {
+      "text": "detect emails from betty",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "detect the email containing keyword beauty",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 36,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "detect the email from lisa",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 22,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "did i get any email from tom",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 25,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "did i get emails from tom",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 22,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "did i get the email containing keyword lunch",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 39,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "email sent from lisa",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 16,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "emails contains bank",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 16,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "enumerate the emails with algroithm",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 26,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "find an email about new year's planning",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 20,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "find an email from abc123@outlook.com",
+      "intent": "SearchMessages",
+      "entities": []
+    },
+    {
+      "text": "find an email from angela",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 19,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "find an email from jay that contains halloween",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 19,
+          "endPos": 21
+        },
+        {
+          "entity": "SearchTexts",
+          "startPos": 37,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "find an email on the dinner reservation",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 21,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "find email titled new design",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 18,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "find email with title production tools",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 22,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "find emails from mom",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "find emails that contain malta",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 25,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "find emails with resume",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 17,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "find mails titled recommended courses",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 18,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "list the emails contain funny picture",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 24,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "looking for an email with hello",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "query emails with bill",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 18,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "search an email with subject background screening",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 29,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "search bla bla in my emails",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 7,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "search email contain outlook",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 21,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "search email with key words lunch",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 28,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "search emails about boating",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 20,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "search emails contain work items",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 22,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "search emails contains coupons",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 23,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "search emails from mike",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 19,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "search jensen's emails",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 7,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "search keywords keywordone keywordtwo in my emails",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 16,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "search keywordsone keywordstwo from inbox",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 7,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "search my emails",
+      "intent": "SearchMessages",
+      "entities": []
+    },
+    {
+      "text": "search text with words lunch together",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 23,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "search the email with keywords hello",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 31,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "search the emails contains microsoft",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 27,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "search the emails contains money",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 27,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "show emails contain words \"future plan\"",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 27,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "show emails with \"credit card\"",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SearchTexts",
+          "startPos": 18,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "show me emails from clara chan",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 20,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "show me emails from girlfriend",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 20,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "show me the email about spring festival",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 24,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "show me the email from tom and filtering with word lunch",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 23,
+          "endPos": 25
+        },
+        {
+          "entity": "SearchTexts",
+          "startPos": 51,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "show me the email sent from mom",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 28,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "tell me the email from lily wong",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 23,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "tell me the email with subject weekly report",
+      "intent": "SearchMessages",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 31,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "compose new email about spanish homework",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 24,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "create new mail titled urgent meeting information to jonathan",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 23,
+          "endPos": 48
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 53,
+          "endPos": 60
+        }
+      ]
+    },
+    {
+      "text": "email her the message \"fine, ok\"",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "email my brother",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 9,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "email my presentation",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 9,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "email the file to henry mathew",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 10,
+          "endPos": 13
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 18,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "email to amy cooper about haha saying hello",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 18
+        },
+        {
+          "entity": "Message",
+          "startPos": 26,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "email to cynthia and mike, that dinner last week was splendid.",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 15
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 21,
+          "endPos": 24
+        },
+        {
+          "entity": "OrderReference",
+          "startPos": 39,
+          "endPos": 42
+        },
+        {
+          "entity": "Message",
+          "startPos": 27,
+          "endPos": 60
+        }
+      ]
+    },
+    {
+      "text": "email to harry potter and hermione granger",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 20
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 26,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "email to lawrence about opening issue",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 16
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 24,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "email to mike waters : mike, that dinner last week was splendid.",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 19
+        },
+        {
+          "entity": "Message",
+          "startPos": 23,
+          "endPos": 63
+        }
+      ]
+    },
+    {
+      "text": "email to partoneparttwo@gmail.com",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "email to tom white about that flower saying beautiful",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 9,
+          "endPos": 17
+        },
+        {
+          "entity": "Message",
+          "startPos": 25,
+          "endPos": 52
+        }
+      ]
+    },
+    {
+      "text": "i need to send an email about the words to a song",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 34,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "make a new email about weather forecast",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 23,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "mark email for follow up and send to arthur",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 15,
+          "endPos": 23
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 37,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "new email about really good talk to michelle",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 16,
+          "endPos": 31
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 36,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "new email about writing documents",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 16,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "new email to kimberly about wingman",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 13,
+          "endPos": 20
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 28,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "send a email to leehom wong about the piano concert saying it's wonderful",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 16,
+          "endPos": 26
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 38,
+          "endPos": 50
+        },
+        {
+          "entity": "Message",
+          "startPos": 59,
+          "endPos": 72
+        }
+      ]
+    },
+    {
+      "text": "send a mail to daniel",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 15,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "send a new email about facebook",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 23,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "send a new email about the hockey tournament to marie jane, joseph , and john",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 27,
+          "endPos": 43
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 48,
+          "endPos": 57
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 60,
+          "endPos": 65
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 73,
+          "endPos": 76
+        }
+      ]
+    },
+    {
+      "text": "send a new email about the problem solving to andrea, angela, and ron",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 27,
+          "endPos": 41
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 46,
+          "endPos": 51
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 54,
+          "endPos": 59
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 66,
+          "endPos": 68
+        }
+      ]
+    },
+    {
+      "text": "send a new email to larry with a file attached",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 20,
+          "endPos": 24
+        },
+        {
+          "entity": "Attachment",
+          "startPos": 33,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "send a new email to nicholas and jesse about coupons",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 20,
+          "endPos": 27
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 33,
+          "endPos": 37
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 45,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "send a new email to partonepartwopartthree@yahoo.com",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "send a new high importance email to jordan",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 11,
+          "endPos": 25
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 36,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "send a read receipt email to samuel",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 7,
+          "endPos": 18
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 29,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "send alexander a red bang email",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 5,
+          "endPos": 13
+        },
+        {
+          "entity": "Category",
+          "startPos": 17,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "send an email",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "send an email about swim team practice",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 20,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "send an email about test status to mark",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 20,
+          "endPos": 30
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 35,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "send an email about the window that is broken",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 24,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "send an email for me",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "send an email marked follow up to jerry",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 21,
+          "endPos": 29
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 34,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "send an email marked for follow up to christian",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 25,
+          "endPos": 33
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 38,
+          "endPos": 46
+        }
+      ]
+    },
+    {
+      "text": "send an email marked with a bang to amy",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 28,
+          "endPos": 31
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 36,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "send an email to a.j.ron marked as important",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 23
+        },
+        {
+          "entity": "Category",
+          "startPos": 35,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "send an email to christopher carpenter about the hiking trip",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 37
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 49,
+          "endPos": 59
+        }
+      ]
+    },
+    {
+      "text": "send an email to harold and bob kappus about team lunch saying same team lunch this tuesday",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 22
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 28,
+          "endPos": 37
+        },
+        {
+          "entity": "Message",
+          "startPos": 45,
+          "endPos": 90
+        }
+      ]
+    },
+    {
+      "text": "send an email to harry potter",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "send an email to jacqueline and tianyu about the test result",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 26
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 32,
+          "endPos": 37
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 49,
+          "endPos": 59
+        }
+      ]
+    },
+    {
+      "text": "send an email to jimmy klein saying this is the message about weekend plans",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 27
+        },
+        {
+          "entity": "Message",
+          "startPos": 36,
+          "endPos": 74
+        }
+      ]
+    },
+    {
+      "text": "send an email to larry , joseph and billy larkson",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 21
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 25,
+          "endPos": 30
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 36,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "send an email to lily roth and abc123@microsoft.com",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "send an email to lu , yue and qiong about funding",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 18
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 22,
+          "endPos": 24
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 30,
+          "endPos": 34
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 42,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "send an email to mom",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "send an email to my brother",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 20,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "send an email to nathan with a red bang",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 22
+        },
+        {
+          "entity": "Category",
+          "startPos": 31,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "send an email to partone@gmail.com",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "send an email to partone_parttwo@microsoft.com",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "send an email to sean about weekend plans",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 20
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 28,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "send an email to zachary about we can plan things let's go hiking",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 17,
+          "endPos": 23
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 31,
+          "endPos": 64
+        }
+      ]
+    },
+    {
+      "text": "send an email today",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Date",
+          "startPos": 14,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "send an email with read receipt to peter",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 19,
+          "endPos": 30
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 35,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "send an important email to olivia",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 16
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 27,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "send an urgent email",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "send an urgent email from my work account to christian",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 13
+        },
+        {
+          "entity": "Line",
+          "startPos": 29,
+          "endPos": 40
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 45,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "send an urgent email from my work email to jack",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 13
+        },
+        {
+          "entity": "Line",
+          "startPos": 29,
+          "endPos": 32
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 43,
+          "endPos": 46
+        }
+      ]
+    },
+    {
+      "text": "send and email about swim team practice",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 21,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "send angela an email marked as high priority",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 5,
+          "endPos": 10
+        },
+        {
+          "entity": "Category",
+          "startPos": 31,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "send billy an email with a red bang",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 5,
+          "endPos": 9
+        },
+        {
+          "entity": "Category",
+          "startPos": 27,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "send email about homework plan to raymond and philip",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 17,
+          "endPos": 29
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 34,
+          "endPos": 40
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 46,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "send email marked priority to yun-sim and yi",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 18,
+          "endPos": 25
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 30,
+          "endPos": 36
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 42,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "send email to a and tian",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 14,
+          "endPos": 14
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 20,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "send email to hannah saying test",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 14,
+          "endPos": 19
+        },
+        {
+          "entity": "Message",
+          "startPos": 28,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "send email to heather about car",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 14,
+          "endPos": 20
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 28,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "send email to jiayi today",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 14,
+          "endPos": 18
+        },
+        {
+          "entity": "Date",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "send email to kai xu, mingming and my mother",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 14,
+          "endPos": 19
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 22,
+          "endPos": 29
+        },
+        {
+          "entity": "RelationshipName",
+          "startPos": 38,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "send email to louis and mark it important",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 14,
+          "endPos": 18
+        },
+        {
+          "entity": "Category",
+          "startPos": 32,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "send email to partone.parttwo@outlook.com",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "send important email to evelyn and gary",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 13
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 24,
+          "endPos": 29
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 35,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "send jacqueline an email with low priority",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 5,
+          "endPos": 14
+        },
+        {
+          "entity": "Category",
+          "startPos": 30,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "send large files through email",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 5,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "send lori a new flagged email",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 5,
+          "endPos": 8
+        },
+        {
+          "entity": "Category",
+          "startPos": 16,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "send mail to dorothy",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 13,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "send my housekeeping doc to jeffrey",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 8,
+          "endPos": 23
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 28,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "send my payment visio diagram to ronald",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 8,
+          "endPos": 28
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 33,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "send new email to christian and mark it high importance",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 18,
+          "endPos": 26
+        },
+        {
+          "entity": "Category",
+          "startPos": 40,
+          "endPos": 54
+        }
+      ]
+    },
+    {
+      "text": "send the email",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "send the email now",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Time",
+          "startPos": 15,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "send this document to an email",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Attachment",
+          "startPos": 10,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "send thomas an email",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "set an email today",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Date",
+          "startPos": 13,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "start a new email about marriage counselor appointments",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 24,
+          "endPos": 54
+        }
+      ]
+    },
+    {
+      "text": "start a new email from tracy saying here is my resume",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "SenderName",
+          "startPos": 23,
+          "endPos": 27
+        },
+        {
+          "entity": "Message",
+          "startPos": 36,
+          "endPos": 52
+        }
+      ]
+    },
+    {
+      "text": "start a new email saying lets go to the park",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Message",
+          "startPos": 25,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "start a new email to aaron about sleeping over tonight",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 21,
+          "endPos": 25
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 33,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "start an email to jason about speaking up",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 18,
+          "endPos": 22
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 30,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "start new email about taco blog to nicole and emily",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 22,
+          "endPos": 30
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 35,
+          "endPos": 40
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 46,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "start new email to friends about the club",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 19,
+          "endPos": 25
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 37,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "start up a new email to michelle about watching baseball",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "ContactName",
+          "startPos": 24,
+          "endPos": 31
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 39,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "the new email is high priority that is being sent to jacob",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 17,
+          "endPos": 29
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 53,
+          "endPos": 57
+        }
+      ]
+    },
+    {
+      "text": "will you send a marked non urgent email to james",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 23,
+          "endPos": 32
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 43,
+          "endPos": 47
+        }
+      ]
+    },
+    {
+      "text": "write an email about the fundraiser",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 25,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "write an email which title is hello and context is let's have meeting together",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "EmailSubject",
+          "startPos": 30,
+          "endPos": 34
+        },
+        {
+          "entity": "Message",
+          "startPos": 51,
+          "endPos": 77
+        }
+      ]
+    },
+    {
+      "text": "write an urgent email to bobby",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 9,
+          "endPos": 14
+        },
+        {
+          "entity": "ContactName",
+          "startPos": 25,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "write email",
+      "intent": "SendEmail",
+      "entities": []
+    },
+    {
+      "text": "write email to mom subject is babysit",
+      "intent": "SendEmail",
+      "entities": [
+        {
+          "entity": "RelationshipName",
+          "startPos": 15,
+          "endPos": 17
+        },
+        {
+          "entity": "EmailSubject",
+          "startPos": 30,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "are there any unread messages? show next",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "Category",
+          "startPos": 14,
+          "endPos": 19
+        },
+        {
+          "entity": "OrderReference",
+          "startPos": 36,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "go forward to next mails",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 14,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "go on, show me more mails",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "go to next mail",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "go to the next page",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "move forward",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "move on next mail by jason",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "move on to next mails",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "next email",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "next unread email",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 0,
+          "endPos": 3
+        },
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "next unread one",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 0,
+          "endPos": 3
+        },
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "show me next from mary",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 11
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 18,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "show me the next",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "show me the next five mails",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "show next email",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "show next unread",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 8
+        },
+        {
+          "entity": "Category",
+          "startPos": 10,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "show the next email from my boss",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 12
+        },
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 28,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "show the next emails by wong",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "show the next messages",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "the next email",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 4,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "the next important message",
+      "intent": "ShowNext",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 4,
+          "endPos": 7
+        },
+        {
+          "entity": "Category",
+          "startPos": 9,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "^(show|give|tell) [me] [the] next (email|message|mail)^",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "back to the last one from apple",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "bring the previous one, i want to read it again",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 10,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "go to previous mails",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 6,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "move back to last mails",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 13,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "previous email",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "previous one please",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "show me previous email from jack",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 8,
+          "endPos": 15
+        },
+        {
+          "entity": "SenderName",
+          "startPos": 28,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "show me the last three mails",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "show me the one before",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 16,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "show me the previous email",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "show previous in red category",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 12
+        },
+        {
+          "entity": "Category",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "show previous one in inbox",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 5,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "show the previous email from my mentor",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 16
+        },
+        {
+          "entity": "FromRelationshipName",
+          "startPos": 32,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "show the previous one",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 9,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "the previous email",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 4,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "what is the previous email",
+      "intent": "ShowPrevious",
+      "entities": [
+        {
+          "entity": "OrderReference",
+          "startPos": 12,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "^(show|give|tell) [me] [the] previous (email|message|mail)^",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel app",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel never mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel that one",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "canceled",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancelled",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "do nothing",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "don't do that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "don't do that anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "forget about it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "go away",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "just cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "just cancel it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "never mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "never mind cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "never mind cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no cancel cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no cancel it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no never mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no no cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no no cancel it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "nothing never mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "nothing please",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "oh cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please do nothing",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "quit",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "sorry, don't do it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "alright",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "come om",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "come on",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "come on baby",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "confirm",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "do it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "fine",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "go ahead",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "go for it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "great",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "i'm sure",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "it's fine",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "just do it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "nice",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "no doubt",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "of course",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "oh yeah",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "oh yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "ok",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "ok for now",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "okay",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "perfect",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "perfect thank you",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "right",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "right yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds good",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds good thank you",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds good thanks",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds good to me",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds great",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sounds perfect",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure does",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure is",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure thing",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "sure yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "thank you very much",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "thank you yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that is correct",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that is right",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that right",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that sounds good",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that's all",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "that's fine",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "this is good",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "very good",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "ya",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah baby",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah bro",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah buddy",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah cool",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah go ahead",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah go for it",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yeah good",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "yes",
+      "intent": "Confirm",
+      "entities": []
+    },
+    {
+      "text": "can i talk to a person",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "contact support",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "contact the customer service",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "customer service",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "human service",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i need a person",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i need manual customer service",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i need real human help",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i need support",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i want to talk to a human",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "i want to talk to a real human",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "is there any person i can talk to",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "is there any real human",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "is there any real person",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "shift",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "talk to a human",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "all finished",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "all set",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "done",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "finish",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "finished",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "finished with",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "i am done",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "i am finished",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "it finished",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "it's done",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "it's finished",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "just be",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "submit",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "submit it",
+      "intent": "FinishTask",
+      "entities": []
+    },
+    {
+      "text": "back",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "back please",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "back to",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "back to last",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "back to last step",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "get back",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "get back please",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "get back to last",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back on",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back please",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back to",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "last step",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "no go back to",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "no no go back to",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "please return",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "return",
+      "intent": "GoBack",
+      "entities": []
+    },
+    {
+      "text": "any help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "can you help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "can you help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "do me a favor",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "give me a favor",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "give me some help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "how can i get it",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "how to do it",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i don't understand",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i need some assistance",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i need some help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "is there any help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "open help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "please help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "some help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what should i do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "who can help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "signout",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "forget me",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "sign out",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "logout",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "log out",
+      "intent": "Logout",
+      "entities": []
+    },
+    {
+      "text": "all of them",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i want them all",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i want to all of them",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "can you read it",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "can you read that",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "can you read that for me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "can you you read page aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "could you tell me what that says",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "detail aloud what that says",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "hey read that for me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "i need to hear this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "i would like you to read that for me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "make a reading of this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read it",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read me the page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read my latest email",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this page aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this page out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "please read this to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read all on the screen to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read aloud the current text onscreen",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read file aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it outloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it please",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read it to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read me this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read my to list",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read outloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read page aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read page outloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read sentence out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read text",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read text aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read that",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read that out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the page onscreen to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the page out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the page to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the text to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read the words on this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read this for me please",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read this page aloud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read this page out loud",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read this page to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "read what is currently on the screen to me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "speak of what is on this page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "speak out",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "start reading this",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "state it",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "tell me about the information on the screen",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "tell me the current text on screen",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "vocalize what's on the page",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "what does the page say",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "would you please read that for me",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "would you read that out loud please",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "would you read that to me please",
+      "intent": "ReadAloud",
+      "entities": []
+    },
+    {
+      "text": "i don't like it",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "i don't need",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "i don't want it",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "i reject",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "negative",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "never",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no i don't want that",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no later",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no leave it",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no more no",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no no",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no no no",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no no thank you",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no not that one",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no reject it",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no thank you",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no thanks",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no way",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "no wrong",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "nope",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not at all",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not even close",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not exactly",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not now",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not quite",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not right now",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "not that",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "nothing much",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "oh no",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "reject",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "reject it",
+      "intent": "Reject",
+      "entities": []
+    },
+    {
+      "text": "again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "could you say it again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "i didn't hear repeat again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "i have not heard",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "pardon",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat please",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat that",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "say again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "say again please",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "say that again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "sorry",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "what",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "what did you say",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "what was that again",
+      "intent": "Repeat",
+      "entities": []
+    },
+    {
+      "text": "any of it",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "any one is ok",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "anyone is fine",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "anything",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "choose anyone",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "choose one of it randomly",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "opt for a random one",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "opt for any of it",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "select a random choice",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "select a random one",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "select any",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "select any choice",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "select any of it",
+      "intent": "SelectAny",
+      "entities": []
+    },
+    {
+      "text": "1",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "2",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "3",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "5",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose for no. four",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose last",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose last one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose no. six",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose no.2",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose the bottom left",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "choose the first choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose the fourth one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "choose the upper left choice",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "choose the upper right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "choose top right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "choose top right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "four",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like left one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "i like second",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like second one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like the bottom one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "i like the first one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like the third",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like the third choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i like the top right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "i like the upper right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "i like upper right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "i want bottom",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "i want fourth",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want left",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "i want no. 5",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "i want the first",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want the fourth choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want the left",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "i want the lower choice",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "i want the right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "i want the second one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want third one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want to choose bottom one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 17,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "i want to choose lower right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 17,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "i want to choose right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 17,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "i want to choose second one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want to choose the first one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want to choose the fourth",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want to choose the last choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i want to choose the left one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 21,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "i want to choose the lower choice",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "i want to choose the right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "i want to choose third",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "no. 1",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "no. 2",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "no. 3",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "no.4",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "number two",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for first one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for last",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for left",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "opt for number 7",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "opt for the last one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for the left one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "opt for the lower choice",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 12,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "opt for the right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 12,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "opt for the second",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "opt for the second choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select five",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select fourth one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select lower one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "select no.5",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select the bottom choice",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "select the first",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select the last choice",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select the lower one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "select the right one",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "select the third one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select the upper right",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 11,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "select third",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "select upper",
+      "intent": "SelectItem",
+      "entities": [
+        {
+          "entity": "DirectionalReference",
+          "startPos": 7,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "three",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "two",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "what about the last",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "what about the third one",
+      "intent": "SelectItem",
+      "entities": []
+    },
+    {
+      "text": "i don't want to choose any one",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "i don't want to select any one",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "i want neither of them",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "i want none of them",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "neither",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "neither of those",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "neither one",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "neither one of them",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "neither thank you",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none none",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none none of them",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none of them",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none of them thank you",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none of these",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "none of those",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "they look bad, can you give me other choices",
+      "intent": "SelectNone",
+      "entities": []
+    },
+    {
+      "text": "and after that",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "display more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "displays more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "give me more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "go forward",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "go to the next one",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "go to the next three items",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "i need to go to the next one",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "i want more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "move to the next one",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "next",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "reveal more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show me the next",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show the next 3",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show the next 4 items",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show the next one",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show the next two options",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "tell me more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "tell more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what about next one",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what after that",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what's after that",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what's more",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what's next",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what's the next 2",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "what's up next",
+      "intent": "ShowNext",
+      "entities": []
+    },
+    {
+      "text": "back to the last one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "bring the previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "display previously",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "get back to the last one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go back to last one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go back to previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go back to the last one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go previously",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go to the previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "go to the previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "previous one please",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "return to the previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "reveal previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "reveal previously",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "show earlier",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "show me the previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "show previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "show the previous one",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "the last five",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "the last two",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "what before that",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "what is the previous",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "what's before that",
+      "intent": "ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "back to the beginning",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "clear and start again",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "could you start it over",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "please begin again",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "reopen a new page",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "restart",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "restart it",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "start again",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "start it over",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "start over",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "start over it",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "turn over a new leaf",
+      "intent": "StartOver",
+      "entities": []
+    },
+    {
+      "text": "baby just be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "be quiet now",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "come on stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "dismiss",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "end",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "end it",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "exit exit",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "exit stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "god shut up",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "hey stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "i don't want to see you anymore",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "i love you to stop talking",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "i mean stop listening",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "i said stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "just be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "my god shut up",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "never mind stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "no be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "no be quiet now",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "no no no no stop talking",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "no shut up",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "no stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "nobody cares stop talking",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "nowhere just be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "oh my god shut up",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "ok stop stop",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "quiet now",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "shut up",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "shut up be quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "shut up quiet",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "shut your mouth",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "silence",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "stop please",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "stop talking",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "turn off",
+      "intent": "Stop",
+      "entities": []
+    },
+    {
+      "text": "turn off stop",
+      "intent": "Stop",
+      "entities": []
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "^cancel [sending] [(my|the)] (email|mail) to {ContactName}",
+      "intent": "CancelMessages"
+    },
+    {
+      "pattern": "show [(my|the)] [(unread|important|{Category})] (email|mail|emails)^",
+      "intent": "CheckMessages"
+    },
+    {
+      "pattern": "^(delete|remove) [the] [{OrderReference}] (email|emails|mails) [from {SenderName}]",
+      "intent": "Delete"
+    },
+    {
+      "pattern": "^read [(me|out)] [the] (email|emails) from {SenderName} [(about|on) {EmailSubject}]^",
+      "intent": "ReadAloud"
+    },
+    {
+      "pattern": "^read [me] [the] (email|mail|emails) (on|about|titled) {EmailSubject}",
+      "intent": "ReadAloud"
+    },
+    {
+      "pattern": "^read [me] [the] (email|mail|emails) (on|about|titled) {EmailSubject} [sent] from {SenderName}^",
+      "intent": "ReadAloud"
+    },
+    {
+      "pattern": "^read [me] the (email|mail) (titled|about|on) [the] {EmailSubject}^",
+      "intent": "ReadAloud"
+    },
+    {
+      "pattern": "^reply [back] with [the] (title|subject) {EmailSubject}",
+      "intent": "Reply"
+    },
+    {
+      "pattern": "^reply [back] [the] message [that] {Message}^",
+      "intent": "Reply"
+    },
+    {
+      "pattern": "^reply [back] [with] [the] [message] [that] \"{Message.Any}\"",
+      "intent": "Reply"
+    },
+    {
+      "pattern": "^(tell|find|show) [me] [(an|the)] email (with the title|with title|titled) {EmailSubject}",
+      "intent": "SearchMessages"
+    },
+    {
+      "pattern": "^(tell|find|show) [me] [(an|the)] email (with the title|with title|titled) \"{EmailSubject.Any}\"",
+      "intent": "SearchMessages"
+    },
+    {
+      "pattern": "^(search|find|show) [me] [(an|the)] (email|emails|mail) [(containing|filtering)] [with] [the] [(texts|text|word)] \"{SearchTexts.Any}\"",
+      "intent": "SearchMessages"
+    },
+    {
+      "pattern": "^(show|search|find) [me] [(an|the)] [{Category}] email[s] (on|about|titled) {EmailSubject} [sent] [(by|from) {SenderName}]^",
+      "intent": "SearchMessages"
+    },
+    {
+      "pattern": "^(write|send|start) [(a|an|the)] [new] email to {ContactName}^",
+      "intent": "SendEmail"
+    },
+    {
+      "pattern": "^[(send|write)] [(the|a)] [new] [(email|mail)] [to {ContactName}] [with message \"{Message.Any}\"]",
+      "intent": "SendEmail"
+    },
+    {
+      "pattern": "^(write|send|start) [(a|an|the)] [new] email to {ContactName} (about|on|with) [the subject] [that] {EmailSubject}^",
+      "intent": "SendEmail"
+    },
+    {
+      "pattern": "^(yes|sure)[[,]i want (that|the ({DirectionalReference}|{ordinal}) ({number}|one))]",
+      "intent": "Confirm"
+    }
+  ],
+  "patternAnyEntities": [
+    {
+          "explicitList": [],
+          "name": "Message.Any",
+          "roles": []
+        },
+        {
+          "explicitList": [],
+          "name": "EmailSubject.Any",
+          "roles": []
+        },
+        {
+          "explicitList": [],
+          "name": "SearchTexts.Any",
+          "roles": []
+        }
+      ],
+  "prebuiltEntities": [
+    {
+      "name": "email",
+      "roles": []
+    },
+    {
+      "name": "ordinal",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "Email",
+  "desc": "",
+  "culture": "en-us"
+}

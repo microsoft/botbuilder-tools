@@ -101,7 +101,7 @@ const helpers = {
     splitFileBySections : function(fileContent, log) {
         fileContent = helpers.sanitizeNewLines(fileContent);
         let linesInFile = fileContent.split(NEWLINE);
-        let currentSection = null;
+        let currentSection = '';
         let middleOfSection = false;
         let sectionsInFile = [];
         let currentSectionType = null; //PARSERCONSTS
@@ -119,7 +119,22 @@ const helpers = {
                 continue;
             }
             // skip line if it is just a comment
-            if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) continue;
+            if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) {
+                // Add support to parse application metadata if found
+                let info = currentLine.split(/>[ ]*!#/g);
+                if (info === undefined || info.length === 1) continue;
+                if (currentSection !== null) {
+                    let previousSection = currentSection.substring(0, currentSection.lastIndexOf(NEWLINE));
+                    try {
+                        sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
+                    } catch (err) {
+                        throw (err);
+                    }
+                }
+                currentSection = PARSERCONSTS.MODELINFO + info[1].trim() + NEWLINE;
+                currentSectionType = PARSERCONSTS.MODELINFO;
+                continue;
+            }
 
             // skip line if it is blank
             if(currentLine === '') continue;
@@ -269,26 +284,6 @@ const helpers = {
         return returnValue;
     },
     /**
-     * Helper function to get output folder
-     * @param {object} program Parsed program object from commander
-     * @returns {string} Output folder
-     * @throws {exception} Throws on errors. exception object includes errCode and text. 
-     */
-    getOutputFolder : function(program) {
-        let outFolder = process.cwd();
-        if(program.out_folder) {
-            if(path.isAbsolute(program.out_folder)) {
-                outFolder = program.out_folder;
-            } else {
-                outFolder = path.resolve('', program.out_folder);
-            }
-            if(!fs.existsSync(outFolder)) {
-                throw(new exception(retCode.errorCode.NO_LU_FILES_FOUND, 'Output folder ' + outFolder + ' does not exist'));     
-            }
-        }
-        return outFolder;
-    },
-    /**
      * Custom implementation of the String.split() function that does not drop parts of the string if a limit is used.
      * If a string can be split into more substrings than the provided limit,
      * the left-over text is returned as part of the last array element.
@@ -359,6 +354,9 @@ var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, cur
             if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No synonyms list found for list entity:' + previousSection.split(NEWLINE)[0] + NEWLINE));
             --lineIndex;
         }
+        sectionsInFile.push(previousSection);
+        break;
+    case PARSERCONSTS.MODELINFO:
         sectionsInFile.push(previousSection);
         break;
     }

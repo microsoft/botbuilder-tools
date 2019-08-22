@@ -1,0 +1,25 @@
+{
+  "wordAlterations": [
+    {
+      "alterations": [
+        "webchat",
+        "web chat"
+      ]
+    },
+    {
+      "alterations": [
+        "botframework",
+        "bot framework",
+        "Azure bot service"
+      ]
+    },
+    {
+      "alterations": [
+        "qnamaker",
+        "qna maker",
+        "QnA Maker",
+        "question and answer pairs"
+      ]
+    }
+  ]
+}

@@ -3,7 +3,6 @@ const fs = require('fs-extra');
 const path = require('path');
 const { spawn } = require('child_process');
 const qnamaker = require.resolve('../bin/qnamaker');
-const txtfile = require('read-text-file');
 
 describe('The QnA Maker cli --init argument', () => {
     const rcPath = path.resolve('.qnamakerrc');
@@ -54,7 +53,7 @@ describe('The QnA Maker cli --init argument', () => {
             });
         });
         
-        const rc = JSON.parse(await txtfile.read(rcPath));
+        const rc =  await fs.readJSON(rcPath);
         assert.equal(rc.subscriptionKey, subscriptionKey);
         assert.equal(rc.kbId, knowledgeBaseId);
     });

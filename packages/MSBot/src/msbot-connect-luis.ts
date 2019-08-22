@@ -7,7 +7,7 @@
 import { BotConfiguration, ILuisService, LuisService } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as txtfile from 'read-text-file';
+import * as fs from 'fs-extra';
 import { stdoutAsync } from './stdioAsync';
 import { getStdin, uuidValidate } from './utils';
 
@@ -77,7 +77,7 @@ async function processConnectLuisArgs(config: BotConfiguration): Promise<BotConf
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
     } else if (args.input) {
-        Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
+        Object.assign(args, await fs.readJSON(<string>args.input));
     }
 
     if (!args.hasOwnProperty('name')) {
