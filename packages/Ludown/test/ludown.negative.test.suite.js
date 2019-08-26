@@ -15,12 +15,11 @@ describe('Negative tests', function() {
     it('should show ERR message when no utterances are found for an intent', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/bad3.lu`, (error, stdout, stderr) => {
             try {
-                assert.equal(stderr.includes("[ERROR] line 4:0 - line 4:1: syntax error: extraneous input 'i' expecting {<EOF>, MODEL_INFO, NEWLINE, QNA, HASH, DOLLAR, IMPORT_DESC}"), true);
+                assert.equal(stderr.includes("[ERROR] line 4:0 - line 4:1: syntax error: invalid input 'i' detected. Expecting one of this - end of file, model description, new line, QnA definition, Intent definition, Entity definition, Import statement"), true);
                 done();
             } catch (err) {
                 done(err);
             }
-            
         });
     });
 
@@ -32,31 +31,28 @@ describe('Negative tests', function() {
             } catch (err) {
                 done(err);
             }
-            
         });
     });
 
     it('should show ERROR when no parser decorations are found in a line', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/bad2.lu`, (error, stdout, stderr) => {
             try {
-                assert.equal(stderr.includes("[ERROR] line 1:0 - line 1:1: syntax error: mismatched input 'f' expecting {<EOF>, MODEL_INFO, NEWLINE, QNA, HASH, DOLLAR, IMPORT_DESC}"), true);
+                assert.equal(stderr.includes("[ERROR] line 1:0 - line 1:1: syntax error: invalid input 'f' detected. Expecting one of this - end of file, model description, new line, QnA definition, Intent definition, Entity definition, Import statement"), true);
                 done();
             } catch (err) {
                 done(err);
             }
-            
         });
     });
 
     it('should show WARN message when an answer is missing for qna pair', function(done) {
         exec(`node ${ludown} parse toqna --in ${TEST_ROOT}/testcases/bad.lu`, (error, stdout, stderr) => {
             try {
-                assert.equal(stderr.includes("[ERROR] line 3:0 - line 3:1: syntax error: mismatched input '$' expecting {'**Filters:**', MULTI_LINE_TEXT}"), true);    
+                assert.equal(stderr.includes("[ERROR] line 3:0 - line 3:1: syntax error: invalid input '$' detected. Expecting one of this - QnA filtering section, multiple line text"), true);    
                 done();
             } catch (err) {
                 done(err);
             }
-            
         });
     });
 });

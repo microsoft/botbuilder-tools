@@ -318,7 +318,7 @@ LUFileLexer.DASH = 7;
 LUFileLexer.DOLLAR = 8;
 LUFileLexer.IMPORT_DESC = 9;
 LUFileLexer.IMPORT_PATH = 10;
-LUFileLexer.Filter_MARK = 11;
+LUFileLexer.FILTER_MARK = 11;
 LUFileLexer.MULTI_LINE_TEXT = 12;
 LUFileLexer.INVALID_TOKEN_DEFAULT_MODE = 13;
 LUFileLexer.WS_IN_NAME_IGNORED = 14;
@@ -356,7 +356,7 @@ LUFileLexer.prototype.literalNames = [ null, null, null, null, null, null,
 LUFileLexer.prototype.symbolicNames = [ null, "MODEL_INFO", "COMMENT", "WS", 
                                         "NEWLINE", "QNA", "HASH", "DASH", 
                                         "DOLLAR", "IMPORT_DESC", "IMPORT_PATH", 
-                                        "Filter_MARK", "MULTI_LINE_TEXT", 
+                                        "FILTER_MARK", "MULTI_LINE_TEXT", 
                                         "INVALID_TOKEN_DEFAULT_MODE", "WS_IN_NAME_IGNORED", 
                                         "IDENTIFIER", "DOT", "WS_IN_BODY_IGNORED", 
                                         "ESCAPE_CHARACTER", "EXPRESSION", 
@@ -368,7 +368,7 @@ LUFileLexer.prototype.symbolicNames = [ null, "MODEL_INFO", "COMMENT", "WS",
 LUFileLexer.prototype.ruleNames = [ "LETTER", "NUMBER", "WHITESPACE", "UTTERANCE_MARK", 
                                     "MODEL_INFO", "COMMENT", "WS", "NEWLINE", 
                                     "QNA", "HASH", "DASH", "DOLLAR", "IMPORT_DESC", 
-                                    "IMPORT_PATH", "Filter_MARK", "MULTI_LINE_TEXT", 
+                                    "IMPORT_PATH", "FILTER_MARK", "MULTI_LINE_TEXT", 
                                     "INVALID_TOKEN_DEFAULT_MODE", "WS_IN_NAME_IGNORED", 
                                     "WS_IN_NAME", "NEWLINE_IN_NAME", "IDENTIFIER", 
                                     "DOT", "WS_IN_BODY_IGNORED", "WS_IN_BODY", 

@@ -161,7 +161,7 @@ var literalNames = [ null, null, null, null, null, null, null, null, null,
 
 var symbolicNames = [ null, "MODEL_INFO", "COMMENT", "WS", "NEWLINE", "QNA", 
                       "HASH", "DASH", "DOLLAR", "IMPORT_DESC", "IMPORT_PATH", 
-                      "Filter_MARK", "MULTI_LINE_TEXT", "INVALID_TOKEN_DEFAULT_MODE", 
+                      "FILTER_MARK", "MULTI_LINE_TEXT", "INVALID_TOKEN_DEFAULT_MODE", 
                       "WS_IN_NAME_IGNORED", "IDENTIFIER", "DOT", "WS_IN_BODY_IGNORED", 
                       "ESCAPE_CHARACTER", "EXPRESSION", "TEXT", "WS_IN_ENTITY_IGNORED", 
                       "ENTITY_IDENTIFIER", "COMPOSITE_ENTITY", "REGEX_ENTITY", 
@@ -207,7 +207,7 @@ LUFileParser.DASH = 7;
 LUFileParser.DOLLAR = 8;
 LUFileParser.IMPORT_DESC = 9;
 LUFileParser.IMPORT_PATH = 10;
-LUFileParser.Filter_MARK = 11;
+LUFileParser.FILTER_MARK = 11;
 LUFileParser.MULTI_LINE_TEXT = 12;
 LUFileParser.INVALID_TOKEN_DEFAULT_MODE = 13;
 LUFileParser.WS_IN_NAME_IGNORED = 14;
@@ -2692,7 +2692,7 @@ LUFileParser.prototype.qnaAnswerBody = function() {
         this.state = 198;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
-        if(_la===LUFileParser.Filter_MARK) {
+        if(_la===LUFileParser.FILTER_MARK) {
             this.state = 197;
             this.filterSection();
         }
@@ -2730,8 +2730,8 @@ function FilterSectionContext(parser, parent, invokingState) {
 FilterSectionContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
 FilterSectionContext.prototype.constructor = FilterSectionContext;
 
-FilterSectionContext.prototype.Filter_MARK = function() {
-    return this.getToken(LUFileParser.Filter_MARK, 0);
+FilterSectionContext.prototype.FILTER_MARK = function() {
+    return this.getToken(LUFileParser.FILTER_MARK, 0);
 };
 
 FilterSectionContext.prototype.filterLine = function(i) {
@@ -2778,7 +2778,7 @@ LUFileParser.prototype.filterSection = function() {
     try {
         this.enterOuterAlt(localctx, 1);
         this.state = 202;
-        this.match(LUFileParser.Filter_MARK);
+        this.match(LUFileParser.FILTER_MARK);
         this.state = 204; 
         this._errHandler.sync(this);
         _la = this._input.LA(1);

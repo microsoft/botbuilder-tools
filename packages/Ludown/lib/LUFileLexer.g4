@@ -53,7 +53,7 @@ IMPORT_PATH
   : '(' .*? ')'
   ;
 
-Filter_MARK
+FILTER_MARK
   : '**Filters:**'
   ;
 

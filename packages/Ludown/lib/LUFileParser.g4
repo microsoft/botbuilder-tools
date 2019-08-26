@@ -116,7 +116,7 @@ qnaAnswerBody
     ;
 
 filterSection
-    : Filter_MARK filterLine+
+    : FILTER_MARK filterLine+
     ;
 
 filterLine

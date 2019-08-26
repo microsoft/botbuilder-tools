@@ -59,6 +59,20 @@ const DiagnosticSeverity = {
     WARN: 'WARN'
 }
 
+const AntlrTokens = {
+    '<EOF>': 'end of file',
+    'MODEL_INFO': 'model description',
+    'NEWLINE': 'new line',
+    'QNA': 'QnA definition',
+    'HASH': 'Intent definition',
+    'DOLLAR': 'Entity definition',
+    'IMPORT_DESC': 'Import statement',
+    'WS': 'Whitespace',
+    'FILTER_MARK': 'QnA filtering section',
+    "'**Filters:**'": 'QnA filtering section',
+    'MULTI_LINE_TEXT': 'multiple line text'
+}
+
 const BuildDiagnostic =function(parameter) {
     let message = parameter.message;
     const severity = parameter.severity === undefined ? DiagnosticSeverity.ERROR : parameter.severity;
@@ -79,5 +93,6 @@ module.exports = {
     Range: Range,
     Position: Position,
     DiagnosticSeverity: DiagnosticSeverity,
+    AntlrTokens: AntlrTokens,
     BuildDiagnostic: BuildDiagnostic
 }
