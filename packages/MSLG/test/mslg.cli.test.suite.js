@@ -95,7 +95,8 @@ describe('The mslg cli tool', function () {
             let filePath = resolvePath('examples/exceptionExamples/EmptyTemplate.lg');
             exec(`node ${mslg} parse --in ${filePath}`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stderr.includes('[Error] line 1:0 - line 1:2: There is no template body in template template'), true);
+                    assert.equal(stderr.includes('[Error] line 2:0 - line 2:10:'), true);
+                    assert.equal(stderr.includes('error message: There is no template body in template template'), true);
                     done();
                 } catch (err) {
                     done(err);
@@ -200,7 +201,6 @@ describe('The mslg cli tool', function () {
         });
 
         it('should expand inline expression successfully', function (done) {
-            let filePath = resolvePath('examples/validExamples/simple.lg');
             exec(`node ${mslg} expand --inline '{1+1}'`, (error, stdout, stderr) => {
                 try {
                     assert.equal(stdout.includes('2'), true);

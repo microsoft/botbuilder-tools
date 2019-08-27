@@ -82,6 +82,7 @@ export class Expander {
 
     private parseFile(fileName: string, inlineExpression: any = undefined): string[] {
         let fileContent: string = '';
+        let filePath: string = '';
         if (fileName !== undefined) {
             if (!fs.existsSync(path.resolve(fileName))) {
                 throw new Error('unable to open file: ' + fileName);
@@ -91,15 +92,18 @@ export class Expander {
             if (!fileContent) {
                 throw new Error('unable to read file: ' + fileName);
             }
+
+            filePath = path.resolve(fileName)
         }
 
         if (inlineExpression !== undefined) {
             const fakeTemplateId: string = '__temp__';
             const wrappedStr: string = `\n# ${fakeTemplateId} \r\n - ${inlineExpression}`;
             fileContent += wrappedStr;
+            filePath = path.resolve('./');
         }
 
-        const errors: string[] = this.tool.ValidateFile(fileContent);
+        const errors: string[] = this.tool.ValidateFile(fileContent, filePath);
         if (errors.length > 0) {
             errors.forEach(error => {
                 if (error.startsWith(ErrorType.Error)) {
