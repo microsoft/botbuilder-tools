@@ -1,17 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace LGgen
 {
     public static class LanguageRegister
     {
-        private static Dictionary<string, ILanguage> generateDict = new Dictionary<string, ILanguage>();
+        private static Dictionary<string, Type> generateDict = new Dictionary<string, Type>();
         private static Dictionary<string, string> suffixDict = new Dictionary<string, string>();
         public static List<string> languageList = new List<string>();
-        private static void Register(string name, string suffix, ILanguage Language)
+        private static void Register(string name, string suffix, Type type)
         {
-            generateDict.Add(name, Language);
+            generateDict.Add(name, type);
             suffixDict.Add(name, suffix);
             languageList.Add(name);
         }
@@ -23,7 +22,7 @@ namespace LGgen
 
         public static ILanguage GetGenerate(string name)
         {
-            return generateDict[name];
+            return (ILanguage)Activator.CreateInstance(generateDict[name]);
         }
 
         public static string GetSuffix(string name)
@@ -33,8 +32,8 @@ namespace LGgen
 
         public static void RegisterAllLanguages()
         {
-            Register("cs", ".cs", new CSharp());
-            Register("ts", ".ts", new Typescript());
+            Register("cs", ".cs", typeof(CSharp));
+            Register("ts", ".ts", typeof(Typescript));
         }
 
     }

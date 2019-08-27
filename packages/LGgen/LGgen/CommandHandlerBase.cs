@@ -13,7 +13,7 @@ namespace LGgen
             this.args = args;
             LanguageRegister.RegisterAllLanguages();
             Usage_Init();
-        }
+        }        
 
         protected void Usage_Init()
         {
@@ -25,7 +25,6 @@ namespace LGgen
             Usage.Add("-o : output path, defaults to directory where LG file is and the same name with LG file");
             Usage.Add("-n : designate class name, defaults to the same name of LG file");
             Usage.Add("-c : LG file grammar check. In this mode, you only need to input '-c' and '[-i LG_FILE_PATH]' ");
-
         }
 
         protected string CommandGrammarCheck(string arg)

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace LGgen
@@ -13,17 +11,13 @@ namespace LGgen
         private string inputPath = null;
         private string lang = null;
         private string outputPath = null;
-        private new List<string> args = new List<string>();
+        private string className = null;
         private List<string> LGFiles = new List<string>();
         private bool Dire = false;
         private bool GrammarCheckMode = false;
-        LgTemplate template = new LgTemplate();
         public static List<string> Message = new List<string>();
 
-        public CommandHandler(List<string> args) : base(args)
-        {
-            this.args = args;
-        }
+        public CommandHandler(List<string> args) : base(args) { }
 
         public CommandHandler UseLangHandler()
         {
@@ -69,21 +63,6 @@ namespace LGgen
             return this;
 
         }
-        public CommandHandler UseOutputHandler()
-        {
-            if (GrammarCheckMode) return this;
-
-            if (args.Contains("-o"))
-            {
-                outputPath = CommandGrammarCheck("-o");
-            }
-            else
-            {
-                outputPath = Dire ? Path.Join(inputPath, "common" + LanguageRegister.GetSuffix(lang)) : Path.ChangeExtension(inputPath, LanguageRegister.GetSuffix(lang));
-            }
-
-            return this;
-        }
 
         public CommandHandler UseNameHandler()
         {
@@ -91,11 +70,27 @@ namespace LGgen
 
             if (args.Contains("-n"))
             {
-                template.className = CommandGrammarCheck("-n");
+                className = CommandGrammarCheck("-n");
             }
             else
             {
-                template.className = Dire ? "common" : Path.GetFileNameWithoutExtension(inputPath);
+                className = Dire ? "common" : Path.GetFileNameWithoutExtension(inputPath);
+            }
+
+            return this;
+        }
+
+        public CommandHandler UseOutputHandler()
+        {
+            if (GrammarCheckMode) return this;
+
+            if (args.Contains("-o"))
+            {
+                outputPath = Dire ? Path.Join(CommandGrammarCheck("-o"), "common" + LanguageRegister.GetSuffix(lang)) : Path.Join(CommandGrammarCheck("-o"), Path.GetFileNameWithoutExtension(inputPath) + LanguageRegister.GetSuffix(lang));
+            }
+            else
+            {
+                outputPath = Dire ? Path.Join(inputPath, "common" + LanguageRegister.GetSuffix(lang)) : Path.ChangeExtension(inputPath, LanguageRegister.GetSuffix(lang));
             }
 
             return this;
@@ -136,11 +131,10 @@ namespace LGgen
             TemplateEngine lgEngine = new TemplateEngine();
             lgEngine.AddFiles(LGFiles);
 
-            lgEngine.Templates.ForEach(num => template.lgTemplateName.Add(num.Name));
             Message.Add($"generating class file {outputPath}");
 
             ILanguage languagebase = LanguageRegister.GetGenerate(lang);
-            languagebase.Generate(outputPath, template);
+            languagebase.Generate(outputPath, className, lgEngine.Templates);
 
             return this;
         }

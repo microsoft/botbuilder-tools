@@ -1,6 +1,6 @@
 #  README
 
-LGgen is a tool for generating strongly typed C# and typescript class file from a LG file.
+LGgen is a tool for generating strongly typed C# and typescript class file from a LG file or a folder.
 
 ## Usage
 

@@ -1,25 +1,23 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
+using Microsoft.Bot.Builder.LanguageGeneration;
+
 
 namespace LGgen
 {
     class CSharp:ILanguage
     {
         
-        public void Generate(string outPath, LgTemplate temp)
+        public void Generate(string outPath, string className, List<LGTemplate> temp)
         {
             var w = new Writer(outPath);
             w.WriteLine("namespace LGgen");
             w.WriteLine("{");
             w.Indent();
-            w.IndentLine($"public class {temp.className}");
+            w.IndentLine($"public class {className}");
             w.IndentLine("{");
             w.Indent();
 
-            foreach (var name in temp.lgTemplateName)
-                w.IndentLine($"public const string {name} = \"{name}\";");
+            temp.ForEach(num => w.IndentLine($"public const string {num.Name} = \"{num.Name}\";"));               
             w.Outdent();
             w.IndentLine("}");
             w.Outdent();
@@ -30,3 +28,5 @@ namespace LGgen
         }
     }
 }
+
+

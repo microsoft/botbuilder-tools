@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Linq;
 
 
@@ -16,8 +14,8 @@ namespace LGgen
                     .UseInputHandler()
                     .UseCheckHandler()
                     .UseLangHandler()
-                    .UseOutputHandler()
                     .UseNameHandler()
+                    .UseOutputHandler()
                     .Generate();
 
                 CommandHandler.Message.ForEach(num => Console.WriteLine(num));
@@ -28,7 +26,7 @@ namespace LGgen
                 CommandHandlerBase.Usage.ForEach(num => Console.Error.WriteLine(num));
                 Environment.Exit(-1);
             }
-
+            
         }
 
     }
