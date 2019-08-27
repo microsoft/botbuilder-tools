@@ -142,7 +142,7 @@ export class Parser {
 
         if (verbose) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + fileName + '\n'));
 
-        const errors: string[] = this.tool.ValidateFile(fileContent);
+        const errors: string[] = this.tool.ValidateFile(fileContent, path.resolve(fileName));
         if (errors.length > 0) {
             errors.forEach(error => {
                 if (error.startsWith(ErrorType.Error)) {
@@ -159,7 +159,7 @@ export class Parser {
     private parseStream(fileContent: string, verbose: boolean): string[] {
         if (verbose) process.stdout.write(chalk.default.whiteBright('Parsing from stdin.\n'));
 
-        const errors: string[] = this.tool.ValidateFile(fileContent);
+        const errors: string[] = this.tool.ValidateFile(fileContent, path.resolve('./'));
         if (errors.length > 0) {
             errors.forEach(error => {
                 process.stderr.write(chalk.default.redBright(error + '\n'));

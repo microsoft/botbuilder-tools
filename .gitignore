@@ -308,3 +308,4 @@ packages/lubuild/bin/**
 packages/lubuild/lib/**
 packages/lubuild/typings/**
 
+packages/MSLG/.vscode/launch.json
