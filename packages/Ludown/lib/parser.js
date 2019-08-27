@@ -18,6 +18,7 @@ const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
 const txtfile = require('./read-text-file');
+const BuildDiagnostic = require('./diagnostic').BuildDiagnostic;
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -268,13 +269,21 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
             continue;
         }
         if(!fs.existsSync(path.resolve(file))) {
-            throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));     
+            let error = BuildDiagnostic({
+                message: `Sorry unable to open [${file}]`
+            });
+
+            throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, error.toString()));     
         }
       
         let fileContent = txtfile.readSync(file);
 
         if (!fileContent) {
-            throw(new exception(retCode.errorCode.FILE_OPEN_ERROR,'Sorry, error reading file:' + file));
+            let error = BuildDiagnostic({
+                message: `Sorry, error reading file: ${file}`
+            });
+
+            throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, error.toString()));
         }
         if(log) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
         try {
@@ -283,7 +292,11 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
             throw(err);
         }
         if (!parsedContent) {
-            throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, file ' + file + 'had invalid content'));
+            let error = BuildDiagnostic({
+                message: `Sorry, file ${file} had invalid content`
+            });
+
+            throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, error.toString()));
         } 
         parsedFiles.push(file);
         try {
@@ -360,12 +373,26 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                 if (parsedUtterance.ref.endsWith('?')) {
                     if( parsedUtterance.luFile.endsWith('*')) {
                     let parsedQnABlobs = (allParsedContent.QnAContent || []).filter(item => item.srcFile.includes(parsedUtterance.luFile.replace(/\*/g, '')));
-                    if(parsedQnABlobs === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
+                    if(parsedQnABlobs === undefined) {
+                        let error = BuildDiagnostic({
+                            message: `Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`
+                        });
+
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
+                    }
+
                     parsedQnABlobs.forEach(blob => blob.qnaJsonStructure.qnaList.forEach(item => item.questions.forEach(question => newUtterancesToAdd.push(new hClasses.uttereances(question, utterance.intent)))));
                     } else {
                         // look for QnA
                         let parsedQnABlob = (allParsedContent.QnAContent || []).find(item => item.srcFile == parsedUtterance.luFile);
-                        if(parsedQnABlob === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
+                        if(parsedQnABlob === undefined) {
+                            let error = BuildDiagnostic({
+                                message: `Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`
+                            });
+
+                            throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
+                        }
+
                         // get questions list from .lu file and update list
                         parsedQnABlob.qnaJsonStructure.qnaList.forEach(item => item.questions.forEach(question => newUtterancesToAdd.push(new hClasses.uttereances(question, utterance.intent))));
                     }
@@ -373,7 +400,14 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                 } else {
                     // find the parsed file
                     let parsedLUISBlob = (allParsedContent.LUISContent || []).find(item => item.srcFile == parsedUtterance.luFile);
-                    if(parsedLUISBlob === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
+                    if(parsedLUISBlob === undefined) {
+                        let error = BuildDiagnostic({
+                            message: `Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`
+                        });
+
+                        throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
+                    }
+
                     let utterances = [], patterns = [];
                     if (parsedUtterance.ref.toLowerCase().includes('utterancesandpatterns')) {
                         // get all utterances and add them

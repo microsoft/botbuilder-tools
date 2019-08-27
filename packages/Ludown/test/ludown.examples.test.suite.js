@@ -277,7 +277,7 @@ describe('The example lu files', function () {
     it('writes out a warning when no utterances are found for an intent', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/missing-utterance.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout) => {
             try {
-                assert.ok(stdout.includes('[WARN] No utterances found for intent: # Greeting'));
+                assert.ok(stdout.includes('[WARN] line 1:0 - line 1:10: no utterances found for intent definition: "# Greeting"'));
                 done();
             } catch (err) {
                 done(err);
@@ -286,9 +286,9 @@ describe('The example lu files', function () {
     });
 
     it('writes out an error when invalid entity definition is found', function (done) {
-        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/missing-utterance.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
+        exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid-entity-definition.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes('Invalid entity definition'));
+                assert.ok(stderr.includes("[ERROR] line 1:9 - line 1:10: syntax error: missing ':' at '='"));
                 done();
             } catch (err) {
                 done(err);
@@ -299,7 +299,7 @@ describe('The example lu files', function () {
     it('writes out a warning when no synonym definitions are found for a list entity', function (done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/missing-synonyms.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout) => {
             try {
-                assert.ok(stdout.includes('[WARN] No synonyms list found'));
+                assert.ok(stdout.includes('[WARN] line 1:0 - line 1:14: no synonyms list found for list entity definition: "$TestList:one="'));
                 done();
             } catch (err) {
                 done(err);
@@ -321,7 +321,7 @@ describe('The example lu files', function () {
     it('Throws when an invalid QnA Maker alteration is specified in the input .lu file', function (done) {
         exec(`node ${ludown} parse toqna -a --in ${TEST_ROOT}/testcases/invalid-alterations.lu -o ${TEST_ROOT}/output --verbose`, (error, stdout, stderr) => {
             try {
-                assert.ok(stderr.includes('[ERROR]: QnA alteration list value'));
+                assert.ok(stderr.includes("[ERROR] line 2:0 - line 2:1: syntax error: invalid input 'b' detected. Expecting one of this - end of file, model description, new line, QnA definition, Intent definition, Entity definition, Import statement"));
                 done();
             } catch (err) {
                 done(err);
@@ -634,7 +634,7 @@ describe('The example lu files', function () {
     it('Invalid entity inherits information is skipped', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_2.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.isTrue(stdout.includes(`Skipping "!#@entity.inherits = name : Web.WebSearch"`));
+                assert.isTrue(stdout.includes(`Skipping "> !# @entity.inherits = name : Web.WebSearch"`));
                 done();
             } catch (err) {
                 done(err);
@@ -645,7 +645,7 @@ describe('The example lu files', function () {
     it('Invalid intent inherits information is skipped', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_1.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.isTrue(stdout.includes(`Skipping "!#@intent.inherits = name : Web.WebSearch"`));
+                assert.isTrue(stdout.includes(`Skipping "> !# @intent.inherits = name : Web.WebSearch"`));
                 done();
             } catch (err) {
                 done(err);
@@ -656,7 +656,7 @@ describe('The example lu files', function () {
     it('Invalid entity inherits information is skipped', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_3.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.isTrue(stdout.includes(`Skipping "!#@entity.inherits2 = name : Web.WebSearch"`));
+                assert.isTrue(stdout.includes(`Skipping "> !# @entity.inherits2 = name : Web.WebSearch"`));
                 done();
             } catch (err) {
                 done(err);
@@ -667,7 +667,7 @@ describe('The example lu files', function () {
     it('Invalid intent inherits information is skipped', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_prebuilt_4.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.isTrue(stdout.includes(`Skipping "!#@intent.inherits2 = name : Web.WebSearch"`));
+                assert.isTrue(stdout.includes(`Skipping "> !# @intent.inherits2 = name : Web.WebSearch"`));
                 done();
             } catch (err) {
                 done(err);
@@ -678,7 +678,7 @@ describe('The example lu files', function () {
     it('Invalid intent inherits information is skipped', function(done) {
         exec(`node ${ludown} parse toluis --in ${TEST_ROOT}/testcases/invalid_model.lu --verbose -o ${TEST_ROOT}/output`, (error, stdout, stderr) => {
             try {
-                assert.isTrue(stdout.includes(`Skipping "!#@app = test"`));
+                assert.isTrue(stdout.includes(`Skipping "> !# @app = test"`));
                 done();
             } catch (err) {
                 done(err);

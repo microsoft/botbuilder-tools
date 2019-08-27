@@ -634,14 +634,14 @@ describe('parseFile correctly parses utterances', function () {
                 let testLUFile = `# test
                 - {p = x {q = y}}
                 
-                $ p : [y]`;
+                $ p : [q]`;
                 parseFile.parseFile(testLUFile, false)
                         .then(res => {
                                 assert.equal(res.LUISJsonStructure.utterances.length, 1);
                                 assert.equal(res.LUISJsonStructure.utterances[0].text, "x y");
                                 assert.equal(res.LUISJsonStructure.composites.length, 1);
                                 assert.equal(res.LUISJsonStructure.composites[0].name, 'p');
-                                assert.deepEqual(res.LUISJsonStructure.composites[0].children, ["y"]);
+                                assert.deepEqual(res.LUISJsonStructure.composites[0].children, ["q"]);
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities.length, 2);
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities[0].startPos, 2);
                                 assert.equal(res.LUISJsonStructure.utterances[0].entities[0].endPos, 2);

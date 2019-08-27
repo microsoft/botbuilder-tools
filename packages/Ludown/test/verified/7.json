@@ -144,10 +144,10 @@
       "intent": "CreateAlarm",
       "entities": []
     },
-    {
-      "text": "delete the {alarmTime} alarm",
-      "intent": "DeleteAlarm",
-      "entities": []
+    {	
+      "text": "delete the {alarmTime} alarm",	
+      "intent": "DeleteAlarm",	
+      "entities": []	
     }
   ],
   "patterns": [
