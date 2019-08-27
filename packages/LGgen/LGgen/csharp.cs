@@ -5,20 +5,20 @@ using System.IO;
 
 namespace LGgen
 {
-    class CSharp:LanguageBase
+    class CSharp:ILanguage
     {
         
-        public void Generate(string outClass, string className, List<string> lgTemplateName)
+        public void Generate(string outPath, LgTemplate temp)
         {
-            var w = new Writer(outClass);
+            var w = new Writer(outPath);
             w.WriteLine("namespace LGgen");
             w.WriteLine("{");
             w.Indent();
-            w.IndentLine($"public class {className}");
+            w.IndentLine($"public class {temp.className}");
             w.IndentLine("{");
             w.Indent();
 
-            foreach (var name in lgTemplateName)
+            foreach (var name in temp.lgTemplateName)
                 w.IndentLine($"public const string {name} = \"{name}\";");
             w.Outdent();
             w.IndentLine("}");

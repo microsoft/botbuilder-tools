@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LGgen", "LGgen\LGgen.csproj", "{E2C1ED1B-3B9C-460F-A686-BFE583FD85AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LGgen", "LGgen\LGgen.csproj", "{E2C1ED1B-3B9C-460F-A686-BFE583FD85AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LGgen_Test", "LGgen_Test\LGgen_Test.csproj", "{2DFEA06F-C6A5-46E9-AAB1-D2E8087BD915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LGgen_Test", "LGgen_Test\LGgen_Test.csproj", "{2DFEA06F-C6A5-46E9-AAB1-D2E8087BD915}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

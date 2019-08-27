@@ -22,8 +22,8 @@ For Typescript file, use "import CLASS_NAME from './FILENAME'.
 
 ### Add command line arguments
 
-Implement the method in the "Handler" class and add to Main function.
+Implement the method in the "CommandHandler" class and add to Main function.
 
 ### Add language support
 
-Build a class base on interface "LanguageBase" and update the "Factory" class.
+Build a class base on interface "ILanguage" and update the "RegisterAllLanguage" method in "LanguageRegister" class.

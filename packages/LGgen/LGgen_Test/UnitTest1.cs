@@ -1,14 +1,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LGgen_Test
+namespace LGgen
 {
-    [TestClass]
     public class UnitTest1
     {
-        [TestMethod]
-        public void TestMethod1()
+        public void Main(string[] args)
         {
-            LGgen.Program.Main(new string[] { "-i", "C:/Users/t-hahan/Desktop/Newfolder/mytest1.lg", "-l", "-cs" });
+            LGgenTool.Main(args);
         }
     }
 }

@@ -2,16 +2,16 @@ using System.Collections.Generic;
 
 namespace LGgen
 {
-    class Typescript:LanguageBase
+    class Typescript:ILanguage
     {
-        public void Generate(string outClass, string className, List<string> lgTemplateName)
+        public void Generate(string outPath, LgTemplate temp)
         {
-            var w = new Writer(outClass);
-            w.WriteLine($"export default class {className}");
+            var w = new Writer(outPath);
+            w.WriteLine($"export default class {temp.className}");
             w.WriteLine("{");
             w.Indent();
 
-            foreach (var name in lgTemplateName)
+            foreach (var name in temp.lgTemplateName)
                 w.IndentLine($"static {name}:string = \"{name}\";");
             w.Outdent();
             w.IndentLine("}");

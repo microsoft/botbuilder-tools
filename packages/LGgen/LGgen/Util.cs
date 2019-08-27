@@ -9,20 +9,6 @@ namespace LGgen
 {
     class Utils
     {
-        public static string FindClassName(string input)
-        {
-            
-            if (input.IndexOf('\\') == -1 && input.IndexOf('/') == -1)
-            {
-                return input.Substring(0, input.IndexOf('.'));
-            }
-            else
-            {
-                var index = Math.Max(input.LastIndexOf('\\'), input.LastIndexOf('/'));
-                return input.Substring(index + 1, input.LastIndexOf('.') - index - 1);
-            }
-        }
-
         public static void GetAllFiles(string dir, List<string> LGfiles)
         {
             DirectoryInfo d = new DirectoryInfo(dir);
@@ -35,12 +21,25 @@ namespace LGgen
                 }
                 else
                 {
-                    if(fsinfo.FullName.EndsWith(".lg"))
+                    if(Path.GetExtension(fsinfo.FullName) == ".lg")
                     {
                         LGfiles.Add(fsinfo.FullName);
                     }
                 }
             }
+        }
+
+        public static string SupportLanguage()
+        {
+            string s = "Support Language: ";
+            foreach (var temp in LanguageRegister.languageList)
+            {
+                s += temp;
+                s += " ";
+            }
+            s += ". ";
+
+            return s;
         }
     }
 }
