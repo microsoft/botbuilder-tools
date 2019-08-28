@@ -1,6 +1,7 @@
 using System;
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
-
+using System.Runtime.InteropServices;
 
 namespace LGgen
 {
@@ -8,27 +9,27 @@ namespace LGgen
     {
         public static void Main(string[] args)
         {
-            try
-            {
-                _ = new CommandHandler(args.ToList())
-                    .UseInputHandler()
-                    .UseCheckHandler()
-                    .UseLangHandler()
-                    .UseNameHandler()
-                    .UseOutputHandler()
-                    .Generate();
+            var handler = new CommandHandler(args.ToList())
+                .AddCommand(new InputHandler())
+                .AddCommand(new CheckHandler())
+                .AddCommand(new LangHandler())
+                .AddCommand(new OutputHandler())
+                .AddCommand(new NameHandler())
+                .AddCommand(new VersionHandler());
+                
+            var usage = handler.GetUsage();
 
-                CommandHandler.Message.ForEach(num => Console.WriteLine(num));
+            try
+            { 
+                handler.Generate();
+                handler.Message.ForEach(num => Console.WriteLine(num));
             }
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
-                CommandHandlerBase.Usage.ForEach(num => Console.Error.WriteLine(num));
+                Console.WriteLine(usage);
                 Environment.Exit(-1);
-            }
-            
+            }           
         }
-
     }
-
 }

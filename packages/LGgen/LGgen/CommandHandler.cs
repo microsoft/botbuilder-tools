@@ -1,146 +1,72 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Text;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using System.Linq;
+using System;
 
 namespace LGgen
 {
     public class CommandHandler : CommandHandlerBase
     {
-        private string inputPath = null;
-        private string lang = null;
-        private string outputPath = null;
-        private string className = null;
-        private List<string> LGFiles = new List<string>();
-        private bool Dire = false;
-        private bool GrammarCheckMode = false;
-        public static List<string> Message = new List<string>();
+        public string InputPath { get; set; } = null;
+        public string Language { get; set; } = null;
+        public string OutputPath { get; set; } = null;
+        public string ClassName { get; set; } = null;     
+        public bool Dire { get; set; } = false;
+        public bool ExitBeforeGenerate { get; set; } = false;
+        public List<string> Message { get; set; } = new List<string>();
+        public List<string> LGFiles { get; set; } = new List<string>();
+        public List<ICommandMiddleware> MiddleWares { get; set; } = new List<ICommandMiddleware>();
 
         public CommandHandler(List<string> args) : base(args) { }
 
-        public CommandHandler UseLangHandler()
+        public CommandHandler AddCommand (ICommandMiddleware middleWare)
         {
-            if (GrammarCheckMode) return this;
-
-            if (args.Contains("-l"))
-            {
-                lang = CommandGrammarCheck("-l");
-                if (!LanguageRegister.IsLanguage(lang)) throw new Exception("Not Support this Language. " + Utils.SupportLanguage());
-            }
-            else
-            {
-                throw new Exception("-l Command is Complosory. ");
-            }
-            return this;
-        }
-
-        public CommandHandler UseInputHandler()
-        {
-            if (args.Contains("-i"))
-            {
-                inputPath = CommandGrammarCheck("-i");
-
-                if (Directory.Exists(inputPath))
-                {
-                    Dire = true;
-                    Utils.GetAllFiles(inputPath, LGFiles);
-                }
-                else if (File.Exists(inputPath) && Path.GetExtension(inputPath) == ".lg")
-                {
-                    LGFiles.Add(inputPath);
-                }
-                else
-                {
-                    throw new Exception("Can't Read your Input. ");
-                }
-            }
-            else
-            {
-                throw new Exception("-i Command is Complosory. ");
-            }
-
-            return this;
-
-        }
-
-        public CommandHandler UseNameHandler()
-        {
-            if (GrammarCheckMode) return this;
-
-            if (args.Contains("-n"))
-            {
-                className = CommandGrammarCheck("-n");
-            }
-            else
-            {
-                className = Dire ? "common" : Path.GetFileNameWithoutExtension(inputPath);
-            }
+            MiddleWares.Add(middleWare);
 
             return this;
         }
 
-        public CommandHandler UseOutputHandler()
+        public string GetUsage()
         {
-            if (GrammarCheckMode) return this;
-
-            if (args.Contains("-o"))
+            var stringbuilder = new StringBuilder();
+            var usagebuilder = new StringBuilder();
+            var usagesamplebuilder = new StringBuilder();
+            usagesamplebuilder.Append("LGgen ");
+            foreach (var handler in MiddleWares)
             {
-                outputPath = Dire ? Path.Join(CommandGrammarCheck("-o"), "common" + LanguageRegister.GetSuffix(lang)) : Path.Join(CommandGrammarCheck("-o"), Path.GetFileNameWithoutExtension(inputPath) + LanguageRegister.GetSuffix(lang));
+                usagesamplebuilder.Append($"[{handler.UsageSample}] ");
+                usagebuilder.Append(handler.Usage);
+                usagebuilder.Append("\r\n");
             }
-            else
-            {
-                outputPath = Dire ? Path.Join(inputPath, "common" + LanguageRegister.GetSuffix(lang)) : Path.ChangeExtension(inputPath, LanguageRegister.GetSuffix(lang));
-            }
-
-            return this;
+            stringbuilder.Append(usagesamplebuilder.ToString());
+            stringbuilder.Append("\n\rGenerate a strongly typed class from a LG file \n\rOptions: \n\r");
+            stringbuilder.Append(usagebuilder);
+            return stringbuilder.ToString();
         }
 
-        public CommandHandler UseCheckHandler()
+        private void Compile()
         {
-            if (args.Contains("-c"))
+            foreach (var command in MiddleWares)
             {
-                if (LGFiles == null) throw new Exception("Fail to Read any LG File. ");
-
-                TemplateEngine lgEngine = new TemplateEngine();
-                try
-                {
-                    lgEngine.AddFiles(LGFiles);
-                    Message.Add("Congratulations! No error in this LG file! ");
-                }
-                catch (Exception e)
-                {
-                    List<string> errors = e.Message.Split('\n').ToList();
-                    Message.Add($"This LG file has {errors.Count} errors: ");
-                    errors.ForEach(i => Message.Add(i));
-                }
-
-                GrammarCheckMode = true;
+                command.Compile(this);
+                if (ExitBeforeGenerate) return;
             }
-
-            return this;
-
+            if (InputPath == "" || OutputPath == "" || !LGFiles.Any() || ClassName == "" || Language == "") throw new Exception("Fail to Enter Generate Class File Mode. Check your Input.");
         }
 
-        public CommandHandler Generate()
+        public void Generate()
         {
-            if (GrammarCheckMode) return this;
-
-            if (LGFiles == null) throw new Exception("Fail to Read any LG File. ");
+            Compile();
+            if (ExitBeforeGenerate) return;
 
             TemplateEngine lgEngine = new TemplateEngine();
             lgEngine.AddFiles(LGFiles);
 
-            Message.Add($"generating class file {outputPath}");
+            Message.Add($"generating class file {OutputPath}");
 
-            ILanguage languagebase = LanguageRegister.GetGenerate(lang);
-            languagebase.Generate(outputPath, className, lgEngine.Templates);
-
-            return this;
+            LanguageRegister.GetGenerate(Language).Generate(OutputPath, ClassName, lgEngine.Templates);
         }
-
     }
-
-
 }
 

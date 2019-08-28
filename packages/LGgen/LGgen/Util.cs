@@ -32,7 +32,7 @@ namespace LGgen
         public static string SupportLanguage()
         {
             string s = "Support Language: ";
-            foreach (var temp in LanguageRegister.languageList)
+            foreach (var temp in LanguageRegister.LanguageList)
             {
                 s += temp;
                 s += " ";

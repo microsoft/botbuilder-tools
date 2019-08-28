@@ -5,29 +5,29 @@ namespace LGgen
 {
     public static class LanguageRegister
     {
-        private static Dictionary<string, Type> generateDict = new Dictionary<string, Type>();
-        private static Dictionary<string, string> suffixDict = new Dictionary<string, string>();
-        public static List<string> languageList = new List<string>();
+        private static Dictionary<string, Type> GenerateDict { get; set; } = new Dictionary<string, Type>();
+        private static Dictionary<string, string> SuffixDict { get; set; } = new Dictionary<string, string>();
+        public static List<string> LanguageList { get; set; } = new List<string>();
         private static void Register(string name, string suffix, Type type)
         {
-            generateDict.Add(name, type);
-            suffixDict.Add(name, suffix);
-            languageList.Add(name);
+            GenerateDict.Add(name, type);
+            SuffixDict.Add(name, suffix);
+            LanguageList.Add(name);
         }
 
         public static bool IsLanguage(string name)
         {
-            return languageList.Contains(name);
+            return LanguageList.Contains(name);
         }
 
         public static ILanguage GetGenerate(string name)
         {
-            return (ILanguage)Activator.CreateInstance(generateDict[name]);
+            return (ILanguage)Activator.CreateInstance(GenerateDict[name]);
         }
 
         public static string GetSuffix(string name)
         {
-            return suffixDict[name];
+            return SuffixDict[name];
         }
 
         public static void RegisterAllLanguages()
