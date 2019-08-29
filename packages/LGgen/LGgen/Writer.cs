@@ -6,7 +6,7 @@ namespace LGgen
     {
         public int IndentSize = 4;
         public int IndentLevel = 0;
-        private StreamWriter _output;
+        private readonly StreamWriter _output;
 
         public void Indent()
         {

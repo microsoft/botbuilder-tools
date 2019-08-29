@@ -15,14 +15,14 @@ namespace LGgen
             LanguageList.Add(name);
         }
 
-        public static bool IsLanguage(string name)
+        public static bool CheckLanguage(string name)
         {
             return LanguageList.Contains(name);
         }
 
-        public static ILanguage GetGenerate(string name)
+        public static ILanguageGenerator GetGenerate(string name)
         {
-            return (ILanguage)Activator.CreateInstance(GenerateDict[name]);
+            return (ILanguageGenerator)Activator.CreateInstance(GenerateDict[name]);
         }
 
         public static string GetSuffix(string name)
@@ -32,8 +32,8 @@ namespace LGgen
 
         public static void RegisterAllLanguages()
         {
-            Register("cs", ".cs", typeof(CSharp));
-            Register("ts", ".ts", typeof(Typescript));
+            Register("cs", ".cs", typeof(CSharpGenerator));
+            Register("ts", ".ts", typeof(TypescriptGenerator));
         }
 
     }

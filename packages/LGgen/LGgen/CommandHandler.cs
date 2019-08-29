@@ -1,29 +1,38 @@
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace LGgen
 {
-    public class CommandHandler : CommandHandlerBase
+    public class CommandHandler
     {
-        public string InputPath { get; set; } = null;
-        public string Language { get; set; } = null;
-        public string OutputPath { get; set; } = null;
-        public string ClassName { get; set; } = null;     
-        public bool Dire { get; set; } = false;
-        public bool ExitBeforeGenerate { get; set; } = false;
-        public List<string> Message { get; set; } = new List<string>();
-        public List<string> LGFiles { get; set; } = new List<string>();
-        public List<ICommandMiddleware> MiddleWares { get; set; } = new List<ICommandMiddleware>();
+        public List<string> Args { get; set; }
+        public string InputPath { get; set; }
+        public string Language { get; set; }
+        public string OutputPath { get; set; }
+        public string ClassName { get; set; }
+        public bool Dire { get; set; }
+        public bool ExitBeforeGenerate { get; set; }
+        public List<string> Messages { get; set; }
+        public List<string> LGFiles { get; set; }
+        public List<BaseCommand> Commands { get; set; } 
 
-        public CommandHandler(List<string> args) : base(args) { }
-
-        public CommandHandler AddCommand (ICommandMiddleware middleWare)
+        public CommandHandler()
         {
-            MiddleWares.Add(middleWare);
+            Messages = new List<string>();
+            LGFiles = new List<string>();
+            Commands = new List<BaseCommand>();
+            Language = "cs"; // default cs
+            LanguageRegister.RegisterAllLanguages();
+        }
 
+
+        public CommandHandler AddCommand (BaseCommand command)
+        {
+            Commands.Add(command);
             return this;
         }
 
@@ -33,12 +42,14 @@ namespace LGgen
             var usagebuilder = new StringBuilder();
             var usagesamplebuilder = new StringBuilder();
             usagesamplebuilder.Append("LGgen ");
-            foreach (var handler in MiddleWares)
+
+            foreach (var command in Commands)
             {
-                usagesamplebuilder.Append($"[{handler.UsageSample}] ");
-                usagebuilder.Append(handler.Usage);
+                usagesamplebuilder.Append($"[{command.UsageSample}] ");
+                usagebuilder.Append(command.Usage);
                 usagebuilder.Append("\r\n");
             }
+
             stringbuilder.Append(usagesamplebuilder.ToString());
             stringbuilder.Append("\n\rGenerate a strongly typed class from a LG file \n\rOptions: \n\r");
             stringbuilder.Append(usagebuilder);
@@ -47,7 +58,7 @@ namespace LGgen
 
         private void Compile()
         {
-            foreach (var command in MiddleWares)
+            foreach (var command in Commands)
             {
                 command.Compile(this);
                 if (ExitBeforeGenerate) return;
@@ -55,17 +66,25 @@ namespace LGgen
             if (InputPath == "" || OutputPath == "" || !LGFiles.Any() || ClassName == "" || Language == "") throw new Exception("Fail to Enter Generate Class File Mode. Check your Input.");
         }
 
-        public void Generate()
+        public void Execute()
         {
-            Compile();
             if (ExitBeforeGenerate) return;
 
-            TemplateEngine lgEngine = new TemplateEngine();
-            lgEngine.AddFiles(LGFiles);
-
-            Message.Add($"generating class file {OutputPath}");
-
+            var lgEngine = new TemplateEngine().AddFiles(LGFiles);
+            Messages.Add($"generating class file {OutputPath}");
             LanguageRegister.GetGenerate(Language).Generate(OutputPath, ClassName, lgEngine.Templates);
+        }
+
+        public void Build(List<string> args)
+        {
+            Args = args;
+            Compile();
+        }
+
+        public void Build(string argsStr)
+        {
+            Args = new List<string>(Regex.Split(argsStr, @"\s{1,}"));
+            Compile();
         }
     }
 }

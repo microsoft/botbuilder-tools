@@ -3,7 +3,7 @@ using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace LGgen
 {
-    public interface ILanguage
+    public interface ILanguageGenerator
     {
         void Generate(string outPath, string clssName, List<LGTemplate> temp);
     }
