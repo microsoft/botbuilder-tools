@@ -63,7 +63,7 @@ namespace LGgen
                 command.Compile(this);
                 if (ExitBeforeGenerate) return;
             }
-            if (InputPath == "" || OutputPath == "" || !LGFiles.Any() || ClassName == "" || Language == "") throw new Exception("Fail to Enter Generate Class File Mode. Check your Input.");
+            if (InputPath == "" || OutputPath == "" || !LGFiles.Any() || ClassName == "" || Language == "") throw new Exception("Fail to Do Anything. Check your Input.");
         }
 
         public void Execute()

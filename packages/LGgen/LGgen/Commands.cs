@@ -67,7 +67,7 @@ namespace LGgen
                 return;
             }
 
-            if (context.InputPath == "") throw new Exception("-i command is complosory for Grammar Check Mode. ");
+            if (context.InputPath == null) throw new Exception("-i command is complosory for Grammar Check Mode. ");
             if (context.LGFiles == null) throw new Exception("Fail to Read any LG File. ");
 
             TemplateEngine lgEngine = new TemplateEngine();
@@ -89,7 +89,7 @@ namespace LGgen
 
     class LangCommand : BaseCommand
     {
-        public LangCommand() : base("-l : Generate Class File Mode. Please Choose Language. {Utils.SupportLanguage()}", "-l {Utils.SupportLanguage()}", "-l", false)
+        public LangCommand() : base($"-l : Generate Class File Mode. Default to C#. Please Choose Language. {SupportLanguage()}", $"-l {SupportLanguage()}", "-l", false)
         { }
 
         public override void Compile(CommandHandler context)
@@ -99,17 +99,17 @@ namespace LGgen
                 return;
             }
 
-            if (context.InputPath == "") throw new Exception("-i command is complosory for Class File Generation Mode. ");
+            if (context.InputPath == null) throw new Exception("-i command is complosory for Class File Generation Mode. ");
           
             if (!LanguageRegister.CheckLanguage(commandValue)) throw new Exception("Not Support this Language. " + SupportLanguage());
             context.Language = commandValue;
         }
 
-        private string SupportLanguage()
+        private static string SupportLanguage()
         {
             string s = "Support Language: ";
             s += string.Join(" ", LanguageRegister.LanguageList);
-            s += ". ";
+            s += ".";
             return s;
         }
     }
@@ -123,7 +123,7 @@ namespace LGgen
         {
             var hasCommandValue = TryGetCommandValue(context.Args, out string commandValue);
 
-            if (context.InputPath == "" || context.Language == "") return;
+            if (context.InputPath == null || context.Language == null) return;
 
             if (hasCommandValue) context.OutputPath = context.Dire ?
                     Path.Join(commandValue, "common" + LanguageRegister.GetSuffix(context.Language)) :
@@ -143,7 +143,7 @@ namespace LGgen
         {
             var hasCommandValue = TryGetCommandValue(context.Args, out string commandValue);
 
-            if (context.InputPath == "" || context.Language == "") return;
+            if (context.InputPath == null || context.Language == null ) return;
 
             if (hasCommandValue) context.ClassName = commandValue;
             else context.ClassName = context.Dire ? "common" : Path.GetFileNameWithoutExtension(context.InputPath);

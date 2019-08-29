@@ -26,7 +26,7 @@ namespace LGgen
 
             if (!args.Contains(Command)) return false;
 
-            if (SingleCommand) return false;
+            if (SingleCommand) return true;
             else if (args.Count == args.IndexOf(Command) + 1)
             {
                 throw new Exception($"End with Command {Command} without Value. ");

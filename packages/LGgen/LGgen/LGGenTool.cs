@@ -14,22 +14,10 @@ namespace LGgen
 
         public void Generate(string[] args)
         {
-            commandHandler.Build(new List<string>(args));
-            Execute();
-        }
-
-        public void Generate(string argsStr)
-        {
-            commandHandler.Build(argsStr);
-            Execute();
-        }
-
-        private void Execute()
-        {
             try
             {
-                commandHandler.Execute();
-                commandHandler.Messages.ForEach(num => Console.WriteLine(num));
+                commandHandler.Build(new List<string>(args));
+                Execute();
             }
             catch (Exception e)
             {
@@ -37,6 +25,28 @@ namespace LGgen
                 Console.WriteLine(commandHandler.GetUsage());
                 Environment.Exit(-1);
             }
+        }
+
+        public void Generate(string argsStr)
+        {
+            try
+            {
+                commandHandler.Build(argsStr);
+                Execute();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(commandHandler.GetUsage());
+                Environment.Exit(-1);
+            }
+        }
+
+
+        private void Execute()
+        {
+                commandHandler.Execute();
+                commandHandler.Messages.ForEach(num => Console.WriteLine(num));
         }
 
         private void InitHandler()
