@@ -527,7 +527,7 @@ async function runProgram() {
                     result = await client.settings.list(args.appId, args.versionId, args);
                     break;
                 case "userazureaccounts":
-                    result = await client.azureAccounts.getUserLUISAccounts(args);
+                    result = await client.azureAccounts.listUserLUISAccounts(args);
                     break;
                 case "appazureaccounts":
                     result = await client.azureAccounts.getAssigned(args.appId, args);
