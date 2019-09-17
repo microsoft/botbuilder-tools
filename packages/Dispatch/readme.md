@@ -12,7 +12,7 @@ Use the Dispatch model in cases when:
 
 - [Node.js](https://nodejs.org/) version 8.5 or higher
 - For installation on Linux, please pre-install .NET Core runtime by following instructions on this page: https://docs.microsoft.com/en-us/dotnet/core/linux-prerequisites?tabs=netcore2x.
-- If install fails, try this workaround described here: https://github.com/fearthecowboy/dotnet/issues/2
+- If install fails, try the workaround described here: https://github.com/fearthecowboy/dotnet/issues/2
 
 ## Installation
 To install:
