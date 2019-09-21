@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as msRest from '@azure/ms-rest-js';
 import * as fs from 'async-file';
+import * as fsExtra from 'fs-extra';
 import * as chalk from 'chalk';
 import * as latestVersion from 'latest-version';
 import { LuisAuthoring } from 'luis-apis';
@@ -203,8 +204,11 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
     let rootFolder = path.dirname(modelPath);
     let rootFile = path.basename(modelPath, '.lu');
     let rootCulture = getCultureFromPath(modelPath) || config.defaultLanguage;
-    if (rootFile.indexOf(rootCulture) > 0) {
-        rootFile = rootFile.replace(rootCulture, '');
+    let i = rootFile.indexOf(rootCulture);
+    if (i > 0) {
+        // assuming rootCulture is always at the end of rootFile at this point
+        // we also remove any trailing .
+        rootFile = rootFile.slice(0, i).replace(/\.+$/, "");
     }
 
     // get all lu variations from same folder as the .lu file
@@ -284,6 +288,10 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
 
         let training = await updateModel(config, client, recognizer, appInfo);
         if (training) {
+            let cachedResponsesDir = path.join(path.dirname(rootFolder), "cachedResponses");
+            if (await fs.exists(cachedResponsesDir)) {
+                fsExtra.removeSync(cachedResponsesDir);
+            }
             recognizersToPublish.push(recognizer);
         }
 
@@ -297,7 +305,9 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
 
     // save multirecognizer
     if (config.dialogs) {
-        let multiLanguageDialog = path.join(rootFolder, `${rootFile}.lu.dialog`);
+        // the multilingual dialog file should be saved one level up from the locale-specific folder
+        // ASSUMPTION: rootFolder is local-specific
+        let multiLanguageDialog = path.join(path.dirname(rootFolder), `${rootFile}.lu.dialog`);
         await fs.writeTextFile(<string>multiLanguageDialog, JSON.stringify(multiRecognizer, null, 4), 'utf8');
     } 
 
