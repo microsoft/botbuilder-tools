@@ -214,8 +214,9 @@ async function processLuVariants(client: LuisAuthoring, config: IConfig, modelPa
     // get all lu variations from same folder as the .lu file
     let files = await fs.readdir(rootFolder);
     let luFileVariants: string[] = [];
+    let rootPrefix = rootFile + '.';
     files.forEach(file => {
-        if (path.extname(file) == '.lu' && file.startsWith(rootFile)) {
+        if (path.extname(file) == '.lu' && file.startsWith(rootPrefix)) {
             luFileVariants.push(path.join(rootFolder, path.basename(file)));
         }
     })

@@ -9,11 +9,12 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}/bin/index.js",
+            "cwd": "${env:TEMP}/sandwich.out",
             "args": [
-                "--authoringKey",
-                "736465dedefd479093d666ab661d7b31"
+                "--dialogs"
             ],
             "preLaunchTask": "tsc: build - tsconfig.json",
+            "internalConsoleOptions": "openOnSessionStart",
             "outFiles": [
                 "${workspaceFolder}/bin/**/*.js"
             ]
