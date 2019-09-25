@@ -519,8 +519,6 @@ describe('parseFile correctly parses utterances', function () {
                 - I want {foodType}`;
                 parseFile.parseFile(testLUFile, false)
                         .then(res => {
-                                assert.equal(res.LUISJsonStructure.utterances.length, 1);
-                                assert.equal(res.LUISJsonStructure.utterances[0].text, "I want {foodType}");
                                 assert.equal(res.LUISJsonStructure.patterns.length, 1);
                                 assert.equal(res.LUISJsonStructure.patterns[0].pattern, "I want {foodType}");
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 1);
@@ -571,8 +569,6 @@ describe('parseFile correctly parses utterances', function () {
                 - I want {foodType} and {foodType}`;
                 parseFile.parseFile(testLUFile, false)
                         .then(res => {
-                                assert.equal(res.LUISJsonStructure.utterances.length, 1);
-                                assert.equal(res.LUISJsonStructure.utterances[0].text, "I want {foodType} and {foodType}");
                                 assert.equal(res.LUISJsonStructure.patterns.length, 1);
                                 assert.equal(res.LUISJsonStructure.patterns[0].pattern, "I want {foodType} and {foodType}");
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 1);
@@ -619,8 +615,6 @@ describe('parseFile correctly parses utterances', function () {
                 - {userName}`;
                 parseFile.parseFile(testLUFile, false)
                         .then(res => {
-                                assert.equal(res.LUISJsonStructure.utterances.length, 1);
-                                assert.equal(res.LUISJsonStructure.utterances[0].text, "{userName}");
                                 assert.equal(res.LUISJsonStructure.patterns.length, 1);
                                 assert.equal(res.LUISJsonStructure.patterns[0].pattern, "{userName}");
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 1);
@@ -967,6 +961,38 @@ describe('parseFile correctly parses utterances', function () {
                 parseFile.parseFile(testLU)
                         .then(res => done(`Did not throw when expected`))
                         .catch(err => done())
+        })
+
+        it ('patterns are handled correctly', function(done){
+                let testLU = `# intent1
+                - this is a {number}
+                
+                $ prebuilt : number`;
+
+                parseFile.parseFile(testLU)
+                        .then(res => {
+                                assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 0);
+                                assert.equal(res.LUISJsonStructure.prebuiltEntities.length, 1);
+                                done();
+                        })
+                        .catch(err => done('Fail!'))
+        })
+
+        it ('patterns are handled correctly (with roles)', function(done){
+                let testLU = `# intent1
+                - this is a {number:one}
+                
+                $ prebuilt : number`;
+
+                parseFile.parseFile(testLU)
+                        .then(res => {
+                                assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 0);
+                                assert.equal(res.LUISJsonStructure.prebuiltEntities.length, 1);
+                                assert.equal(res.LUISJsonStructure.prebuiltEntities[0].roles.length, 1);
+                                done();
+                        })
+                        .catch(err => done('Fail!'))
+
         })
 
 })

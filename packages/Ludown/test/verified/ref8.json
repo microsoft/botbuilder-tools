@@ -90,26 +90,6 @@
       "text": "set an alarm for 7AM next thursday",
       "intent": "All",
       "entities": []
-    },
-    {
-      "text": "delete the {alarmTime} alarm",
-      "intent": "All",
-      "entities": []
-    },
-    {
-      "text": "set {commPreference} as my communication preference",
-      "intent": "All",
-      "entities": []
-    },
-    {
-      "text": "delete the {alarmTime} alarm",
-      "intent": "All",
-      "entities": []
-    },
-    {
-      "text": "set {commPreference} as my communication preference",
-      "intent": "All",
-      "entities": []
     }
   ],
   "patterns": [],

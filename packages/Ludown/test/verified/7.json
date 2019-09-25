@@ -143,11 +143,6 @@
       "text": "set an alarm for 7AM next thursday",
       "intent": "CreateAlarm",
       "entities": []
-    },
-    {	
-      "text": "delete the {alarmTime} alarm",	
-      "intent": "DeleteAlarm",	
-      "entities": []	
     }
   ],
   "patterns": [
