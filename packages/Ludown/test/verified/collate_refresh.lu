@@ -31,8 +31,8 @@
 
 
 ## DeleteAlarm
-- delete the {alarmTime} alarm
 - delete alarm
+- delete the {alarmTime} alarm
 - remove the {alarmTime} alarm
 
 

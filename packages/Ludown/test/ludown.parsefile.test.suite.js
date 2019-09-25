@@ -519,10 +519,6 @@ describe('parseFile correctly parses utterances', function () {
                 - I want {foodType}`;
                 parseFile.parseFile(testLUFile, false)
                         .then(res => {
-                                assert.equal(res.LUISJsonStructure.utterances.length, 1);
-                                assert.equal(res.LUISJsonStructure.utterances[0].text, "I want {foodType}");
-                                assert.equal(res.LUISJsonStructure.patterns.length, 1);
-                                assert.equal(res.LUISJsonStructure.patterns[0].pattern, "I want {foodType}");
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 1);
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities[0].name, "foodType");
                                 done();
@@ -571,10 +567,6 @@ describe('parseFile correctly parses utterances', function () {
                 - I want {foodType} and {foodType}`;
                 parseFile.parseFile(testLUFile, false)
                         .then(res => {
-                                assert.equal(res.LUISJsonStructure.utterances.length, 1);
-                                assert.equal(res.LUISJsonStructure.utterances[0].text, "I want {foodType} and {foodType}");
-                                assert.equal(res.LUISJsonStructure.patterns.length, 1);
-                                assert.equal(res.LUISJsonStructure.patterns[0].pattern, "I want {foodType} and {foodType}");
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 1);
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities[0].name, "foodType");
                                 done();
@@ -619,10 +611,6 @@ describe('parseFile correctly parses utterances', function () {
                 - {userName}`;
                 parseFile.parseFile(testLUFile, false)
                         .then(res => {
-                                assert.equal(res.LUISJsonStructure.utterances.length, 1);
-                                assert.equal(res.LUISJsonStructure.utterances[0].text, "{userName}");
-                                assert.equal(res.LUISJsonStructure.patterns.length, 1);
-                                assert.equal(res.LUISJsonStructure.patterns[0].pattern, "{userName}");
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities.length, 1);
                                 assert.equal(res.LUISJsonStructure.patternAnyEntities[0].name, "userName");
                                 done();
