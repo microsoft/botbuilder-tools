@@ -117,7 +117,7 @@ describe('The ludown cli tool', function() {
         it('should prefix [ludown] to stdout when --prefix is passed as an argument', function(done) {
             exec(`node ${ludown} --prefix`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stdout.startsWith(`[${package.name}]`), true);
+                    assert.equal(stdout.includes(`[${package.name}]`), true);
                     done(); 
                 } catch (err) {
                     done(err);
@@ -250,7 +250,7 @@ describe('The ludown cli tool', function() {
         it('should prefix [ludown] to stdout when --prefix is passed as an argument', function(done) {
             exec(`node ${ludown} translate --prefix`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stdout.startsWith(`[${package.name}]`), true);
+                    assert.equal(stdout.includes(`[${package.name}]`), true);
                     done(); 
                 } catch (err) {
                     done(err);
@@ -382,7 +382,7 @@ describe('The ludown cli tool', function() {
         it('should prefix [ludown] to stdout when --prefix is passed as an argument', function(done) {
             exec(`node ${ludown} parse toluis --prefix`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stdout.startsWith(`[${package.name}]`), true);
+                    assert.equal(stdout.includes(`[${package.name}]`), true);
                     done(); 
                 } catch (err) {
                     done(err);
@@ -507,7 +507,7 @@ describe('The ludown cli tool', function() {
         it('should prefix [ludown] to stdout when --prefix is passed as an argument', function(done) {
             exec(`node ${ludown} parse toqna --prefix`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stdout.startsWith(`[${package.name}]`), true);
+                    assert.equal(stdout.includes(`[${package.name}]`), true);
                     done(); 
                 } catch (err) {
                     done(err);
@@ -634,7 +634,7 @@ describe('The ludown cli tool', function() {
         it('should prefix [ludown] to stdout when --prefix is passed as an argument', function(done) {
             exec(`node ${ludown} refresh --prefix`, (error, stdout, stderr) => {
                 try {
-                    assert.equal(stdout.startsWith(`[${package.name}]`), true);
+                    assert.equal(stdout.includes(`[${package.name}]`), true);
                     done(); 
                 } catch (err) {
                     done(err);
