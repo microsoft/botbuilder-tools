@@ -201,11 +201,6 @@
       "entities": []
     },
     {
-      "text": "delete the {alarmTime} alarm",
-      "intent": "DeleteAlarm",
-      "entities": []
-    },
-    {
       "text": "set phone call as my communication preference",
       "intent": "CommunicationPreference",
       "entities": []

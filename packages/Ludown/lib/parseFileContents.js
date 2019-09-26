@@ -622,12 +622,6 @@ const parseAndHandleIntent = function (parsedContent, luResource) {
                                 }
                             }
                         });
-
-                        // if this intent does not have any utterances, push this pattern as an utterance as well. 
-                        let intentInUtterance = helpers.filterMatch(parsedContent.LUISJsonStructure.utterances, 'intent', intentName);
-                        if (intentInUtterance.length === 0) {
-                            parsedContent.LUISJsonStructure.utterances.push(new helperClass.uttereances(utterance, intentName, []));
-                        }
                     } else {
                         entitiesFound.forEach(entity => {
                             // throw an error if phraselist entity is explicitly labelled in an utterance
@@ -779,7 +773,7 @@ const parseAndHandleEntity = function (parsedContent, luResource, log, locale) {
             let parsedRoleAndType = helpers.getRolesAndType(entityType);
             let entityRoles = parsedRoleAndType.roles;
             entityType = parsedRoleAndType.entityType;
-            let pEntityName = (entityName === 'PREBUILT') ? entityType : entityName;
+            let pEntityName = (entityName.toLowerCase() === 'prebuilt') ? entityType : entityName;
             // see if we already have this as Pattern.Any entity
             // see if we already have this in patternAny entity collection; if so, remove it but remember the roles (if any)
             for (let i in parsedContent.LUISJsonStructure.patternAnyEntities) {
