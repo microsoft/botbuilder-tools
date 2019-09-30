@@ -995,11 +995,6 @@ const parseAndHandleIntent = function (parsedContent, chunkSplitByLine) {
                         }
                     });
 
-                    // if this intent does not have any utterances, push this pattern as an utterance as well. 
-                    let intentInUtterance = helpers.filterMatch(parsedContent.LUISJsonStructure.utterances, 'intent', intentName);
-                    if (intentInUtterance.length === 0) {
-                        parsedContent.LUISJsonStructure.utterances.push(new helperClass.uttereances(utteranceWithoutEntityLabel, intentName, []));
-                    }
                 } else {
 
                     // add entities
