@@ -72,6 +72,13 @@ namespace LUISGen
 
         public static void Main(string[] args)
         {
+            Console.Error.WriteLine("\n\n---------------------------------------------------------- -\n");
+            Console.Error.WriteLine(" NOTICE:\n");
+            Console.Error.WriteLine(" This tool has been deprecated.\n");
+            Console.Error.WriteLine(" All functionality was ported over to the new BF CLI.\n");
+            Console.Error.WriteLine(" To learn more visit ");
+            Console.Error.WriteLine("https://aka.ms/NewBFCLI\n");
+            Console.Error.WriteLine("-----------------------------------------------------------\n\n");
             string path = null;
             string outPath = null;
             string outType = null;
