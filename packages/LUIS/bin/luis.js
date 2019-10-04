@@ -898,12 +898,12 @@ async function waitForTrainingToComplete(client, args) {
  * @param args
  * @returns {Promise<*>}
  */
-async function getFileInput(args) {
-    if (typeof args.in !== 'string') {
+async function getFileInput(filename) {
+    if (typeof filename !== 'string') {
         return null;
     }
     // Let any errors fall through to the runProgram() promise
-    return await fs.readJSON(path.resolve(args.in));
+    return await fs.readJSON(path.resolve(filename));
 }
 
 /**
@@ -987,6 +987,8 @@ async function validateArguments(args, operation) {
                 case "list":
                     if (args.hasOwnProperty("armToken")) {
                         args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
+                        operation.entityName = null;
+                        operation.entityType = null;
                     }
                     break;
             }
@@ -997,18 +999,22 @@ async function validateArguments(args, operation) {
                 case "delete":
                     if (args.hasOwnProperty("armToken")) {
                         args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
+                        operation.entityName = null;
+                        operation.entityType = null;
                     }
                     break;
             }
             break;
     }
 
-    const entitySpecified = typeof args.in === 'string';
-    const entityRequired = !!operation.entityName;
-
-    if (entityRequired) {
+    const extractEntities = async (entitySpecified) => {
         if (entitySpecified) {
-            body = await getFileInput(args);
+            const files = args.in.split(',');
+            const getFileInputPromises = files.map(async (file) => {
+                return await getFileInput(file);
+            });
+            const fileInput = await Promise.all(getFileInputPromises);
+            body = fileInput.reduce((accumulator, currentValue) => ({...accumulator,...currentValue}), {});
             if (body.armToken) {
                 args.customHeaders["Authorization"] = `Bearer ${body.armToken}`;
             }
@@ -1077,6 +1083,14 @@ async function validateArguments(args, operation) {
             }
         }
     }
+
+    const entitySpecified = typeof args.in === 'string';
+    const entityRequired = !!operation.entityName;
+    
+    if (entityRequired) {
+      await extractEntities(entitySpecified);
+    }
+
     return body;
     // Note that the ServiceBase will validate params that may be required.
 }
