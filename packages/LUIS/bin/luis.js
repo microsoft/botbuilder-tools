@@ -987,8 +987,8 @@ async function validateArguments(args, operation) {
                 case "list":
                     if (args.hasOwnProperty("armToken")) {
                         args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
-                        operation.entityName = null;
-                        operation.entityType = null;
+                        operation.entityName = operation.entityName.replace('armToken', '');
+                        operation.entityType = operation.entityType.replace('armToken', '');
                     }
                     break;
             }
@@ -999,8 +999,8 @@ async function validateArguments(args, operation) {
                 case "delete":
                     if (args.hasOwnProperty("armToken")) {
                         args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
-                        operation.entityName = null;
-                        operation.entityType = null;
+                        operation.entityName = operation.entityName.replace('armToken', '');
+                        operation.entityType = operation.entityType.replace('armToken', '');
                     }
                     break;
             }
