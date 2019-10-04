@@ -48,6 +48,7 @@ export {
   PatternAnyModelCreateObject,
   EntityRoleCreateObject,
   ExplicitListItemCreateObject,
+  ArmTokenObject,
   RegexModelUpdateObject,
   PatternAnyModelUpdateObject,
   EntityRoleUpdateObject,

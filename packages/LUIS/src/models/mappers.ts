@@ -3345,6 +3345,23 @@ export const AppVersionSettingObject: msRest.CompositeMapper = {
   }
 };
 
+export const ArmTokenObject: msRest.CompositeMapper = {
+  serializedName: "ArmTokenObject",
+  type: {
+    name: "Composite",
+    className: "ArmTokenObject",
+    modelProperties: {
+      armToken: {
+        required: true,
+        serializedName: "armToken",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AzureAccountInfoObject: msRest.CompositeMapper = {
   serializedName: "AzureAccountInfoObject",
   type: {

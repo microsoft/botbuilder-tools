@@ -143,10 +143,13 @@ async function runProgram() {
                 case "application":
                     result = await client.apps.add(requestBody, args);
                     result = await client.apps.get(result.body, args);
-
                     // Write output to console and return
                     await writeAppToConsole(config, args, requestBody, result);
                     return;
+                case "appazureaccount":
+                    var options = Object.assign({}, { azureAccountInfoObject: requestBody }, args);
+                    result = await client.azureAccounts.assignToApp(args.appId, options);
+                    break;
                 case "closedlist":
                     result = await client.model.addClosedList(args.appId, args.versionId, requestBody, args);
                     break;
@@ -230,10 +233,6 @@ async function runProgram() {
                     break;
                 case "sublist":
                     result = await client.model.addSubList(args.appId, args.versionId, args.clEntityId, requestBody, args);
-                    break;
-                case "appazureaccount":
-                    var options = Object.assign({}, { azureAccountInfoObject: requestBody }, args);
-                    result = await client.azureAccounts.assignToApp(args.appId, options);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -1010,6 +1009,9 @@ async function validateArguments(args, operation) {
     if (entityRequired) {
         if (entitySpecified) {
             body = await getFileInput(args);
+            if (body.armToken) {
+                args.customHeaders["Authorization"] = `Bearer ${body.armToken}`;
+            }
         }
         else {
             // make up a request body from command line args

@@ -265,20 +265,13 @@
         "target": [
             "userazureaccounts"
         ],
-        "command": "luis list userazureaccounts --armToken <string>",
+        "command": "luis list userazureaccounts --in armToken.json",
         "pathFragment": "",
-        "params": [
-            {
-                "name": "armToken",
-                "in": "path",
-                "required": true,
-                "type": "string",
-                "description": "The user's ARM token from https://resources.azure.com/api/token?plaintext=true.",
-                "x-ms-parameter-location": "method"
-            }
-        ],
+        "params": [],
         "description": "Returns the list of Azure accounts belonging to the user.",
-        "name": "ListUserAzureAccounts"
+        "name": "ListUserAzureAccounts",
+        "entityName": "armToken",
+        "entityType": "ArmTokenObject"
     },
     {
         "method": "get",
