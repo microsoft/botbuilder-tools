@@ -1014,7 +1014,7 @@ async function validateArguments(args, operation) {
                 return await getFileInput(file);
             });
             const fileInput = await Promise.all(getFileInputPromises);
-            body = fileInput.reduce((accumulator, currentValue) => ({...accumulator,...currentValue}), {});
+            body = fileInput.reduce((accumulator, currentValue) => (Object.assign(accumulator, currentValue)), {});
             if (body.armToken) {
                 args.customHeaders["Authorization"] = `Bearer ${body.armToken}`;
             }
