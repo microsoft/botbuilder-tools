@@ -131,7 +131,13 @@ async function runProgram() {
         process.stderr.write(chalk.default.white(`to update.\n`));
     }
 
-    process.stderr.write(chalk.default.yellow(`\nWARNING:  chatdown is deprecated.  For more information refer to https://aka.ms/botframework-cli.\n`));
+    process.stdout.write(chalk.default.white(`\n\n-----------------------------------------------------------\n`));
+    process.stdout.write(chalk.default.redBright(` NOTICE:\n`));
+    process.stdout.write(chalk.default.whiteBright(` This tool has been deprecated.\n`));
+    process.stdout.write(chalk.default.white(` All functionality was ported over to the new BF CLI.\n`));
+    process.stdout.write(chalk.default.white(` To learn more visit `));
+    process.stdout.write(chalk.default.blueBright(`https://aka.ms/NewBFCLI\n`));
+    process.stdout.write(chalk.default.white(`-----------------------------------------------------------\n\n`));
 
 
     if (args.version || args.v) {
