@@ -266,3 +266,5 @@ __pycache__/
 *.js.map
 **/LUISGenTestJS/**/*.js
 
+# Settings 
+**/Settings.*
