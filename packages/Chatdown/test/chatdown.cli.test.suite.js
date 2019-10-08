@@ -7,7 +7,7 @@ const latestVersion = require('latest-version');
 
 const chatdown = require.resolve('../bin/chatdown.js');
 
-describe('The Chatdown cli tool', () => {
+xdescribe('The Chatdown cli tool', () => {
     it('should print the help contents when --help is passed as an argument', done => {
         exec(`node ${chatdown} --help`, async (error, stdout, stderr) => {
             try
