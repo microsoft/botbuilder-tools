@@ -5,7 +5,7 @@ Language Generation vscode extension.
 Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder-Samples/tree/master/experimental/language-generation)
 
 # how to use for customer
-- `npm install` to install packages
+- `npm install` to install packagesnpm run compile
 - `npm run compile`
 - `npm install -g vsce`, if `vsce` is not installed globally.
 - use `vsce package` to export vsix file
@@ -17,6 +17,7 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 
 # how to use for developer
 - `npm install` to install packages
+- `npm run compile`
 - press `F5` to debug
 - open lg file to debug
 - reference doc: [vscode extension](https://code.visualstudio.com/api/language-extensions/overview)

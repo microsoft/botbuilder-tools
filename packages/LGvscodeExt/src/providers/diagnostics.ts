@@ -54,12 +54,12 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     }
     
 	if (util.IsLgFile(document.fileName)) {
-        var diagnostics = StaticChecker.checkFile(document.uri.fsPath);
+        var diagnostics = new StaticChecker().checkFile(document.uri.fsPath);
         var vscodeDiagnostics: vscode.Diagnostic[] = diagnostics.map(u => 
             new vscode.Diagnostic(
                 new vscode.Range(
-                    new vscode.Position(u.Range.Start.Line, u.Range.Start.Character),
-                    new vscode.Position(u.Range.End.Line, u.Range.End.Character)),
+                    new vscode.Position(u.Range.Start.Line - 1, u.Range.Start.Character),
+                    new vscode.Position(u.Range.End.Line - 1, u.Range.End.Character)),
                 u.Message,
                 u.Severity
             )
