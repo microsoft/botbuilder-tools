@@ -99,16 +99,16 @@
 			"end": "(?:\\s*\\]\\s*\\n)",
 			"patterns": [
 				{"match":"\\s*[a-zA-Z0-9]+\\s*\\n",
-				"name": "entity.name.structure-name"},
+				"name": "markup.heading.structure_name"},
 				{
 				"match": "([a-zA-Z0-9_]+\\s*)=([^\\n]+)\\n",
 				"name": "entity.name.expression",
 				"captures": {
 					"1": {
-						"name": "entity.name.property"
+						"name": "markup.bold.property"
 					},
 					"2": {
-						"name": "entity.name.value"
+						"name": "markup.italic.value"
 					}
 				}
 				}
