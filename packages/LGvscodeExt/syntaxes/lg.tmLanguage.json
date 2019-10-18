@@ -5,7 +5,8 @@
 		{"include": "#template_name_line"},
 		{"include": "#comments"},
 		{"include": "#imports"},
-		{"include": "#template_body"}
+		{"include": "#template_body"},
+		{"include": "#Structure_LG"}
 	],
 	"repository": {
 		"comments": {
@@ -90,6 +91,27 @@
 			"end": "}",
 			"patterns": [
 				{"include": "#params"}
+			]
+		},
+		"Structure_LG" : {
+			"name" : "Structure_LG",			
+			"begin": "(?:^\\s*\\[\\s*)",
+			"end": "(?:\\s*\\]\\s*\\n)",
+			"patterns": [
+				{"match":"\\s*[a-zA-Z0-9]+\\s*\\n",
+				"name": "markup.heading.structure_name"},
+				{
+				"match": "([a-zA-Z0-9_]+\\s*)=([^\\n]+)\\n",
+				"name": "entity.name.expression",
+				"captures": {
+					"1": {
+						"name": "markup.bold.property"
+					},
+					"2": {
+						"name": "markup.italic.value"
+					}
+				}
+				}
 			]
 		}
 	},
