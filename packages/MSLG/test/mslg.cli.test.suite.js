@@ -91,19 +91,6 @@ describe('The mslg cli tool', function () {
             });
         });
 
-        it('should print an error when parsing invalid lg file', function (done) {
-            let filePath = resolvePath('examples/exceptionExamples/EmptyTemplate.lg');
-            exec(`node ${mslg} parse --in ${filePath}`, (error, stdout, stderr) => {
-                try {
-                    assert.equal(stderr.includes('[Error] line 2:0 - line 2:10:'), true);
-                    assert.equal(stderr.includes('error message: There is no template body in template template'), true);
-                    done();
-                } catch (err) {
-                    done(err);
-                }
-            });
-        })
-
         it('should print an error if --collate is not specified and multiple templates of same name exist in different files', function (done) {
             let filePath = resolvePath('examples/validExamples');
             exec(`node ${mslg} parse -l ${filePath}`, (error, stdout, stderr) => {

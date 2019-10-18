@@ -123,7 +123,12 @@ export class Expander {
             result += '# ' + template[0] + '\n';
             if (template[1] instanceof Array) {
                 (template[1]).forEach(templateStr => {
-                    result += '- ' + templateStr + '\n';
+                    if (templateStr.trim().startsWith('[') && templateStr.trim().endsWith(']'))
+                    {
+                        result += templateStr + '\n';
+                    } else {
+                        result += '- ' + templateStr + '\n';
+                    }
                 });
             } else {
                 throw new Error(`generating expanded lg file failed`);

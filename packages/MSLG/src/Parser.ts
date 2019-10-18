@@ -117,14 +117,13 @@ export class Parser {
                 }
                 const filePath = outFolder + '\\' + fileName;
                 if (fs.existsSync(filePath)) {
-                    throw new Error(`a file named ${fileName} already exists in the folder ${outFolder}.`);
+                    fs.removeSync(filePath);
+                } 
+                if (program.stdout) {
+                    process.stdout.write(chalk.default.whiteBright(mergedLgFileContent));
                 } else {
-                    if (program.stdout) {
-                        process.stdout.write(chalk.default.whiteBright(mergedLgFileContent));
-                    } else {
-                        fs.writeFileSync(filePath, mergedLgFileContent);
-                        process.stdout.write(chalk.default.whiteBright(`Collated lg file is generated here: ${filePath}.\n`));
-                    }
+                    fs.writeFileSync(filePath, mergedLgFileContent);
+                    process.stdout.write(chalk.default.whiteBright(`Collated lg file is generated here: ${filePath}.\n`));
                 }
             }
         }
