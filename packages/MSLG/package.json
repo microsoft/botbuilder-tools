@@ -32,7 +32,7 @@
   "dependencies": {
     "@types/fs-extra": "^5.0.5",
     "@types/lru-cache": "^5.1.0",
-    "botbuilder-lg": "https://botbuilder.myget.org/F/botbuilder-declarative/npm/botbuilder-lg/-/4.6.9.tgz",
+    "botbuilder-lg": "https://botbuilder.myget.org/F/botbuilder-declarative/npm/botbuilder-lg/-/4.6.10.tgz",
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
     "fs-extra": "^7.0.1",
