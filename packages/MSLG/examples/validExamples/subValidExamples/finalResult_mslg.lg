@@ -1,0 +1,11 @@
+# Greeting
+- Hi
+- Hello
+
+# TimeOfDay
+- Morning
+- Evening
+
+# FinalGreeting
+- [Greeting] [TimeOfDay]
+

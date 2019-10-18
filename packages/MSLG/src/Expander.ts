@@ -122,14 +122,16 @@ export class Expander {
         for (const template of expandedTemplates) {
             result += '# ' + template[0] + '\n';
             if (template[1] instanceof Array) {
-                (template[1]).forEach(templateStr => {
+
+                for (const templateStr of template[1]) {
                     if (templateStr.trim().startsWith('[') && templateStr.trim().endsWith(']'))
                     {
                         result += templateStr + '\n';
+                        break;
                     } else {
                         result += '- ' + templateStr + '\n';
                     }
-                });
+                }
             } else {
                 throw new Error(`generating expanded lg file failed`);
             }

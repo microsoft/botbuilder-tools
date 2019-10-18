@@ -1,0 +1,38 @@
+# Greeting
+- Hi
+- Hello
+- Hey
+
+# TimeOfDay
+- Morning
+- Evening
+- Afternoon
+
+# FinalGreeting
+- [Greeting] [TimeOfDay]
+
+# TimeOfDayWithCondition
+- IF: {time == 'morning'}
+   - [Greeting] Morning
+   - Hi, good {time}, [Weather]
+- ELSEIF: {time == 'evening'}
+   - [Greeting] Evening
+   - Hi, good {time}, [Weather]
+- ELSE:
+   - [Greeting] Afternoon
+   - Hi, good {time}, [Weather]
+
+# Weather
+- How about the weather today
+- What is the weather today
+
+# MultiLineTemplate
+- ```
+[Herocard   
+    title=Cheese gromit!
+    subtitle=Hero Card
+    text=This is some text describing the card, it's cool because it's cool
+    images=https://memegenerator.net/img/instances/500x/73055378/cheese-gromit.jpg
+    buttons=Option 1| Option 2| Option 3]
+```
+
