@@ -283,16 +283,18 @@ function getHelpContentsForOperation(operation) {
                 head: `Command arguments are:`,
                 table: params.map(param => [chalk.cyan.bold(`--${param.name} <${param.type}>${param.required ? ' (required)' : ''}`), param.description])
             };
-            if (operation.entityName) {
-                paramsHelp.table.unshift([chalk.cyan.bold('--in (required)'), `The object to send in the body of the request`],
-                    ['', chalk.dim(getEntityTypeExample(operation.entityType))]);
+            if (operation.entityType) {
+                const entityTypeExamples = getEntityTypeExample(operation.entityType);
+                paramsHelp.table.unshift([chalk.cyan.bold('--in (required)'), `The object(s) to send in the body of the request`],
+                    ...entityTypeExamples);
             }
-        } else if (operation.entityName) {
+        } else if (operation.entityType) {
+            const entityTypeExamples = getEntityTypeExample(operation.entityType);
             paramsHelp = {
                 head: `Command arguments are:`,
                 table: [
-                    [chalk.cyan.bold('--in (required)'), `The object to send in the body of the request`],
-                    ['', chalk.dim(getEntityTypeExample(operation.entityType))]
+                    [chalk.cyan.bold('--in (required)'), `The object(s) to send in the body of the request`],
+                    ...entityTypeExamples
                 ]
             };
         }
@@ -315,7 +317,11 @@ function getHelpContentsForOperation(operation) {
 }
 
 function getEntityTypeExample(entityType) {
-    var examplePath = path.join(__dirname, `../examples/${entityType}.json`);
-    let json = txtfile.readSync(examplePath).replace(/[\r\f]+/g, '\n');
-    return json;
+    const enitiyTypes = entityType.split(',');
+    const formattedExamples = enitiyTypes.map(entityType => {
+        var examplePath = path.join(__dirname, `../examples/${entityType}.json`);
+        let json = txtfile.readSync(examplePath).replace(/[\r\f]+/g, '\n');
+        return ['', chalk.dim(json)];
+    });
+    return formattedExamples;
 }

@@ -204,6 +204,13 @@
 			"resource": ["WordListObject.json"]
 		},
 		{
+			"title": "and 'appazureaccount'",
+			"args": "add appazureaccount --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["AzureAccountInfoObject.json", "ArmTokenObject.json"]
+		},
+		{
 			"title": "and invalid resource",
 			"args": "add invalidResource --authoringKey dummyKey --region westus",
 			"stdout": "",

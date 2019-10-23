@@ -143,10 +143,13 @@ async function runProgram() {
                 case "application":
                     result = await client.apps.add(requestBody, args);
                     result = await client.apps.get(result.body, args);
-
                     // Write output to console and return
                     await writeAppToConsole(config, args, requestBody, result);
                     return;
+                case "appazureaccount":
+                    var options = Object.assign({}, { azureAccountInfoObject: requestBody }, args);
+                    result = await client.azureAccounts.assignToApp(args.appId, options);
+                    break;
                 case "closedlist":
                     result = await client.model.addClosedList(args.appId, args.versionId, requestBody, args);
                     break;
@@ -230,10 +233,6 @@ async function runProgram() {
                     break;
                 case "sublist":
                     result = await client.model.addSubList(args.appId, args.versionId, args.clEntityId, requestBody, args);
-                    break;
-                case "appazureaccount":
-                    var options = Object.assign({}, { azureAccountInfoObject: requestBody }, args);
-                    result = await client.azureAccounts.assignToApp(args.appId, options);
                     break;
                 default:
                     throw new Error(`Unknown resource: ${target}`);
@@ -899,12 +898,12 @@ async function waitForTrainingToComplete(client, args) {
  * @param args
  * @returns {Promise<*>}
  */
-async function getFileInput(args) {
-    if (typeof args.in !== 'string') {
+async function getFileInput(filename) {
+    if (typeof filename !== 'string') {
         return null;
     }
     // Let any errors fall through to the runProgram() promise
-    return await fs.readJSON(path.resolve(args.in));
+    return await fs.readJSON(path.resolve(filename));
 }
 
 /**
@@ -988,6 +987,8 @@ async function validateArguments(args, operation) {
                 case "list":
                     if (args.hasOwnProperty("armToken")) {
                         args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
+                        operation.entityName = operation.entityName.replace('armToken', '');
+                        operation.entityType = operation.entityType.replace('armToken', '');
                     }
                     break;
             }
@@ -998,18 +999,25 @@ async function validateArguments(args, operation) {
                 case "delete":
                     if (args.hasOwnProperty("armToken")) {
                         args.customHeaders["Authorization"] = `Bearer ${args.armToken}`;
+                        operation.entityName = operation.entityName.replace('armToken', '');
+                        operation.entityType = operation.entityType.replace('armToken', '');
                     }
                     break;
             }
             break;
     }
 
-    const entitySpecified = typeof args.in === 'string';
-    const entityRequired = !!operation.entityName;
-
-    if (entityRequired) {
+    const extractEntities = async (entitySpecified) => {
         if (entitySpecified) {
-            body = await getFileInput(args);
+            const files = args.in.split(',');
+            const getFileInputPromises = files.map(async (file) => {
+                return await getFileInput(file);
+            });
+            const fileInput = await Promise.all(getFileInputPromises);
+            body = fileInput.reduce((accumulator, currentValue) => (Object.assign(accumulator, currentValue)), {});
+            if (body.armToken) {
+                args.customHeaders["Authorization"] = `Bearer ${body.armToken}`;
+            }
         }
         else {
             // make up a request body from command line args
@@ -1075,6 +1083,14 @@ async function validateArguments(args, operation) {
             }
         }
     }
+
+    const entitySpecified = typeof args.in === 'string';
+    const entityRequired = !!operation.entityName;
+    
+    if (entityRequired) {
+      await extractEntities(entitySpecified);
+    }
+
     return body;
     // Note that the ServiceBase will validate params that may be required.
 }

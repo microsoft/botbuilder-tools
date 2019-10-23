@@ -2311,6 +2311,18 @@ export interface AppVersionSettingObject {
 
 /**
  * @interface
+ * An interface representing ArmTokenObject.
+ * Holds the arm token value.
+ *
+ */
+export interface ArmTokenObject {
+  /**
+   * @member {string} armToken The arm token value.
+   */
+}
+
+/**
+ * @interface
  * An interface representing AzureAccountInfoObject.
  * Defines the Azure account information object.
  *
