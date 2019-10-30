@@ -10,7 +10,7 @@ import { TextDocument, Range, Position, workspace } from "vscode";
 import { LGTemplate, TemplateEngine } from "botbuilder-lg";
 import { DataStorage, TemplateEngineEntity } from "./dataStorage";
 import * as vscode from 'vscode';
-import { ReturnType } from "botbuilder-expression";
+import { ReturnType } from "botframework-expressions";
 import { buildInfunctionsMap, FunctionEntity } from './buildinFunctions';
 import { stringify } from "querystring";
 

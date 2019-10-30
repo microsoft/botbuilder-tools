@@ -6,7 +6,7 @@
  * Licensed under the MIT License.
  */
 
-import { ReturnType } from "botbuilder-expression";
+import { ReturnType } from "botframework-expressions";
 export class FunctionEntity {
     public constructor(params: string[], returntype: ReturnType, introduction: string) {
         this.Params = params;
@@ -124,5 +124,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     ['uriPort', new FunctionEntity(['uri: string'], ReturnType.String, 'Return the port value for a unified resource identifier(URI).')],
     ['coalesce', new FunctionEntity(['...object: any[]'], ReturnType.Number, 'Return the first non-null value from one or more parameters. Empty strings, empty arrays, and empty objects are not null.')],
     ['xpath', new FunctionEntity(['xml: any', 'xpath: any'], ReturnType.Object, 'Check XML for nodes or values that match an XPath (XML Path Language) expression, and return the matching nodes or values. An XPath expression, or just "XPath", helps you navigate an XML document structure so that you can select nodes or compute values in the XML content.')],
+    ['sortBy', new FunctionEntity(['collection: Array', 'property?: string'], ReturnType.Object, 'Sort elements in the collection with ascending order and return the sorted collection')],
+    ['sortByDescending', new FunctionEntity(['collection: Array', 'property?: string'], ReturnType.Object, 'Sort elements in the collection with descending order and return the sorted collection')],
 ]);
 
