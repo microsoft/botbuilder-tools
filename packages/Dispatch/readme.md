@@ -126,6 +126,7 @@ To create, train and publish your new dispatch model:
 
 ```shell
 dispatch create [options]
+dispatch create --publishToStaging true --useAllTrainingData true
 dispatch create --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
 ```
 
@@ -160,6 +161,7 @@ To train and publish your existing dispatch model after modification:
 
 ```shell
 dispatch refresh [options]
+dispatch refresh --publishToStaging true --useAllTrainingData true
 dispatch refresh --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
 ```
 
