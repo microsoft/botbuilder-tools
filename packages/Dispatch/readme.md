@@ -67,9 +67,11 @@ dispatch add -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n TestLuisApp -v 0
 dispatch add -t luis -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n TestLuisApp --intentName foo -v 0.1 -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --includeAnswersForTraining true
+dispatch add -t qna -i xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -n Faq -k xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --includeAnswersForTraining true --includePrompts true
 dispatch add -t file -n TestModule -f c:\src\testmodule.tsv
 dispatch add -t file -n TestModule2 -f c:\src\testmodule2.txt
 dispatch add -t file -n TestModule3 -f c:\src\testmodule3.json
+dispatch add -t file -f c:\src\testmodule.tsv --intentName l_Foo
 ```
 
 Arguments
@@ -84,8 +86,10 @@ Arguments
 | -f, --filePath| (Required only if type is file) Path to tsv file containing tab delimited intent and utterance fields or .txt file with an utterance on each line |
 | --intentName  | (optional) Dispatch intent name for this source, name param value will be used otherwise |
 | --includedIntents  | (optional) Comma separated list of intents to be included in the Dispatch model, all intents are included otherwise |
-| --ignoreWordAlterations | (optional) Disable expansions of QnA kb questions with QnA word alterations |
-| --includeAnswersForTraining | (optional for QnA only) If set to true, QnA KB answers will be included in the training set |
+| --ignoreWordAlterations | (optional) Default to false. Disable expansions of QnA kb questions with QnA word alterations |
+| --includeAnswersForTraining | (optional for QnA only) Default to false. If set to true, QnA KB answers will be included in the training set |
+| --includeMetadata | (optional for QnA only) Default to false. If set to true, QnA KB metadata will be included in the training set |
+| --includePrompts | (optional for QnA only) Default to false. If set to true, QnA KB prompt questions will be included in the training set |
 | --dispatch    | (optional) Path to .dispatch file |
 | --dataFolder  | (optional) Dispatch working directory |
 | -h, --help    | Output usage information |
@@ -128,6 +132,7 @@ To create, train and publish your new dispatch model:
 dispatch create [options]
 dispatch create --publishToStaging true --useAllTrainingData true
 dispatch create --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
+dispatch create --dontImport true --useAllTrainingData true
 ```
 
 Options:
@@ -136,14 +141,17 @@ Options:
 | ---------------------- | ------------------------------------------------------------ |
 | -b, --bot              | (optional) Path to .bot file or bot services json file |
 | -s, --secret           | (optional) Secret used to encrypt/decrypt .bot file |
-| -c, --culture          | (optional) Used to set LUIS app culture for dispatch. Required if none of dispatch source(s) is LUIS app. |
+| -c, --culture          | (optional) Used to set LUIS app culture for dispatch. Required if none of dispatch source(s) is LUIS app |
 | --dispatch             | (optional) Path to .dispatch file |
 | --dataFolder           | (optional) Dispatch working directory |
 | --hierarchical         | (optional) Default to true, set to false when evaluating a single LUIS model |
 | --useAllTrainingData   | (optional) Default to false. LUIS UseAllTrainingData flag (see https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/versions-update-application-version-settings) |
 | --dontReviseUtterance  | (optional) Default to false. Dispatch sometimes minorly revises an utterance for generalization. If false, utterances won't be revised |
 | --publishToStaging     | (optional) Default to false. Publish to LUIS staging instead of production platform |
-| --dedupeTrainingSet    |  (optional) Default to false. If false, Dispatch won't dedupe duplicated training instances |
+| --dedupeTrainingSet    | (optional) Default to false. If false, Dispatch won't dedupe duplicated training instances |
+| --gov                  | (optional) Set to true to target Azure goverment |
+| --remote               | (optional) Set to true if invoking tool remotely |
+| --dontImport           | (optional) Default to false. If set to true, do not communicate with luis.ai for importing, training, and publishing the Dispatch LUIS app |
 | --doAutoActiveLearning | (optional) Default to false. LUIS limit on training-set size is 15000. When a LUIS app has much more utterances for training, Dispatch's auto active learning process can intelligently down sample the utterances |
 | --aalNumberOfInstancesPerIteration         | (optional) Default to 2500. Max #instances processed during each auto-active-learning down-sampling iteration |
 | --aalMaxNumberOfActiveLearningIterations   | (optional) Default to -1. Max number of auto active learning iterations, each processes a fixed batch of instances. Negative setting enables scanning through all available instances. |
@@ -172,6 +180,13 @@ With the following options
 | -v, --version        | (optional) Dispatch LUIS app version. A new version will be created if param value is different than previously created version.  |
 | -b, --bot            | (optional) .bot file path         |
 | -s, --secret         | (optional) .bot file secret       |
+| --useAllTrainingData   | (optional) Default to false. LUIS UseAllTrainingData flag (see https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/versions-update-application-version-settings) |
+| --dontReviseUtterance  | (optional) Default to false. Dispatch sometimes minorly revises an utterance for generalization. If false, utterances won't be revised |
+| --publishToStaging     | (optional) Default to false. Publish to LUIS staging instead of production platform |
+| --dedupeTrainingSet    | (optional) Default to false. If false, Dispatch won't dedupe duplicated training instances |
+| --gov                  | (optional) Set to true to target Azure goverment |
+| --remote               | (optional) Set to true if invoking tool remotely |
+| --dontImport           | (optional) Default to false. If set to true, do not communicate with luis.ai for importing, training, and publishing the Dispatch LUIS app |
 | --dispatch           | (optional) .dispatch file path    |
 | --dataFolder         | (optional) Dispatch working directory |
 | -h, --help           | Output usage information |
