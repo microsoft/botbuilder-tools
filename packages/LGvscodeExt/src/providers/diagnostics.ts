@@ -55,15 +55,39 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     
 	if (util.IsLgFile(document.fileName)) {
         var diagnostics = new StaticChecker().checkFile(document.uri.fsPath);
-        var vscodeDiagnostics: vscode.Diagnostic[] = diagnostics.map(u => 
-            new vscode.Diagnostic(
-                new vscode.Range(
-                    new vscode.Position(u.Range.Start.Line - 1, u.Range.Start.Character),
-                    new vscode.Position(u.Range.End.Line - 1, u.Range.End.Character)),
-                u.Message,
-                u.Severity
-            )
-            );
+        var vscodeDiagnostics: vscode.Diagnostic[] = [];
+        const confDiagLevel = vscode.workspace.getConfiguration().get('conf.view.ignoreUnknownFunction');
+        diagnostics.forEach(u => {
+            const isUnkownFuncDiag: boolean = u.Message.includes("it's not a built-in function or a customized function in expression");
+            let ignored = false;
+            switch (confDiagLevel) {
+                case "ignore":
+                    if (isUnkownFuncDiag) {
+                        ignored = true;
+                    }
+                    break;
+            
+                case "warn":
+                        if (isUnkownFuncDiag) {
+                            u.Severity = DiagnosticSeverity.Warning;
+                        }
+                    break;
+                default:
+                    break;
+            }
+
+            if (!ignored){
+                const diagItem = new vscode.Diagnostic(
+                    new vscode.Range(
+                        new vscode.Position(u.Range.Start.Line - 1, u.Range.Start.Character),
+                        new vscode.Position(u.Range.End.Line - 1, u.Range.End.Character)),
+                    u.Message,
+                    u.Severity
+                );
+                vscodeDiagnostics.push(diagItem);
+            }
+        });
+        
         collection.set(document.uri, vscodeDiagnostics);
     } else {
         collection.clear();

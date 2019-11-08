@@ -17,6 +17,24 @@
         "Other"
     ],
     "contributes": {
+        "configuration": [
+			{
+				"title": "LG",
+				"properties": {
+					"conf.view.ignoreUnknownFunction": {
+						"type": "string",
+						"enum": [
+							"error",
+							"warn",
+							"ignore"
+						],
+						"default": "error",
+						"description": "Configure Diagnostics: Show diagnostic severity level of unknow functions in a LG file",
+						"scope": "window"
+					}
+				}
+			}
+		],
         "commands": [
             {
                 "command": "lgLiveTest.start",
@@ -71,7 +89,7 @@
         "postinstall": "node ./node_modules/vscode/bin/install"
     },
     "dependencies": {
-        "botbuilder-lg": "https://botbuilder.myget.org/F/botbuilder-declarative/npm/botbuilder-lg/-/4.7.0-preview1.tgz"
+        "botbuilder-lg": "https://botbuilder.myget.org/F/botbuilder-declarative/npm/botbuilder-lg/-/4.7.0-preview2.tgz"
     },
     "devDependencies": {
         "@types/mocha": "^2.2.42",
