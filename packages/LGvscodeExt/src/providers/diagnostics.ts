@@ -56,24 +56,34 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
 	if (util.IsLgFile(document.fileName)) {
         var diagnostics = new StaticChecker().checkFile(document.uri.fsPath);
         var vscodeDiagnostics: vscode.Diagnostic[] = [];
-        const confDiagLevel = vscode.workspace.getConfiguration().get('conf.view.ignoreUnknownFunction');
+        const confDiagLevel = vscode.workspace.getConfiguration().get('LG.Expression.ignoreUnknownFunction');
+        const confCustomFuncListSetting: string = vscode.workspace.getConfiguration().get('LG.Expression.customFunctionList');
+        var customFunctionList: string[] = [];
+        if (confCustomFuncListSetting.length >= 1) {
+            customFunctionList = confCustomFuncListSetting.split(",").map(u => u.trim());
+        }
         diagnostics.forEach(u => {
             const isUnkownFuncDiag: boolean = u.Message.includes("it's not a built-in function or a customized function in expression");
             let ignored = false;
-            switch (confDiagLevel) {
-                case "ignore":
-                    if (isUnkownFuncDiag) {
-                        ignored = true;
-                    }
-                    break;
-            
-                case "warn":
+            const funcName = extractFuncName(u.Message);
+            if (customFunctionList.includes(funcName)) {
+                ignored = true;
+            } else {
+                switch (confDiagLevel) {
+                    case "ignore":
                         if (isUnkownFuncDiag) {
-                            u.Severity = DiagnosticSeverity.Warning;
+                            ignored = true;
                         }
-                    break;
-                default:
-                    break;
+                        break;
+                
+                    case "warn":
+                            if (isUnkownFuncDiag) {
+                                u.Severity = DiagnosticSeverity.Warning;
+                            }
+                        break;
+                    default:
+                        break;
+                }
             }
 
             if (!ignored){
@@ -92,4 +102,9 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     } else {
         collection.clear();
     }
+}
+
+function extractFuncName(errorMessage: string): string {
+    const message = errorMessage.split("error message:")[1].split("does not have an evaluator")[0].trim();
+    return message;
 }
