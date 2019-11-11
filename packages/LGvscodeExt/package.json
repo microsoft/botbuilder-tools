@@ -21,7 +21,7 @@
 			{
 				"title": "LG",
 				"properties": {
-					"conf.view.ignoreUnknownFunction": {
+					"LG.Expression.ignoreUnknownFunction": {
 						"type": "string",
 						"enum": [
 							"error",
@@ -31,8 +31,13 @@
 						"default": "error",
 						"description": "Configure Diagnostics: Show diagnostic severity level of unknow functions in a LG file",
 						"scope": "window"
-					}
-				}
+                    },
+                    "LG.Expression.customFunctionList": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Customized function list, should be separated by comma, eg. a, b, c"
+                    }
+                }
 			}
 		],
         "commands": [
