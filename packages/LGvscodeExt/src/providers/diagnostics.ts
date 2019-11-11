@@ -66,6 +66,7 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
             const isUnkownFuncDiag: boolean = u.Message.includes("it's not a built-in function or a customized function in expression");
             let ignored = false;
             const funcName = extractFuncName(u.Message);
+            console.log(funcName);
             if (customFunctionList.includes(funcName)) {
                 ignored = true;
             } else {
@@ -105,6 +106,6 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
 }
 
 function extractFuncName(errorMessage: string): string {
-    const message = errorMessage.split("error message:")[1].split("does not have an evaluator")[0].trim();
+    const message = errorMessage.match(/error message:\s+([\w][\w0-9_]*)\s+does\snot\shave/)[1];
     return message;
 }
