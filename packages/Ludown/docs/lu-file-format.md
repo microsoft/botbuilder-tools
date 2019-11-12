@@ -1,101 +1,6 @@
 # .lu File Format
 .lu files contain markdown-like, simple text based definitions for [LUIS](http://luis.ai) or [QnAmaker.ai](http://qnamaker.ai) concepts. 
 
-Supported concepts: 
-
-- General
-	- [Comments](#Adding-comments)
-	- [References](#External-references)
-	- [Model description](#Model-description)
-- LUIS concepts
-	- [Intent](#Intent)
-	- [Entities](#Entity)
-	- [Phrase lists features](#Phrase-List-features)
-	- [Patterns](#Patterns)
-	- [Roles](#Roles)
-- QnA concepts
-	- [QnA pairs](#Question-and-Answer-pairs)
-	- [Filters](#QnAMaker-Filters)
-	- [QnA Alterations](#QnA-Maker-alterations)
-	- [File references](#QnA-Maker-pdf-file-ingestion)
-
-## Adding comments
-You can add comments to your .lu document by prefixing the comment with >. Here's an example: 
-
-```markdown
-> This is a comment and will be ignored
-
-# Greeting
-- hi
-- hello
-```
-
-## Model description
-You can include configuration information for your LUIS application or QnA Maker KB in the .lu file using this notation. This will help direct the parser to handle the LU content correctly -
-
-```markdown
-> !# @\<property> = \<value>
-> !# @\<scope>-\<property> = \<value>
-> !# @\<scope>-\<property> = \<semicolon-delimited-key-value-pairs>
-```
-
-**Note** Any information explicitly passed in via CLI arguments will override information in the .lu file.
-
-```markdown
-> Parser instruction - this is optional; unless specified, ludown will default to the latest version.
-> !# @version = 1.0
-
-> LUIS application description
-> !# @app.name = my luis application
-> !# @app.desc = description of my luis application
-> !# @app.versionId = 0.5
-> !# @app.culture = en-us
-> !# @app.luis_schema_version = 3.2.0
-
-> QnA Maker KB description
-> !# @kb.name = my qna maker kb name
-```
-
-## External references
-
-Few different references are supported in the .lu file. These follow Markdown link syntax.
-- Reference to another .lu file via `\[link name](\<.lu file name\>)`. Reference can be an absolute path or a relative path from the containing .lu file.
-- Reference to a folder with other .lu files is supported through 
-	- `\[link name](\<.lu file path\>/*)` - will look for .lu files under the specified absolute or relative path
-	- `\[link name](\<.lu file path\>/**)` - will recursively look for .lu files under the specified absolute or relative path including sub-folders.
-- Reference to URL for QnAMaker to ingest during KB creation via `\[link name](\<URL\>)`
-- You can also add references to utterances defined in a specific file under an Intent section or as QnA pairs.
-	- `\[link name](\<.lu file path\>#\<INTENT-NAME\>) will find all utterances found under \<INTENT-NAME\> in the .lu file and add them to the list of utterances where this reference is specified
-	- `\[link name](\<.lu file path\>#*utterances*) will find all utterances in the .lu file and add them to the list of utterances where this reference is specified
-    - `\[link name](\<.lu file path\>#*patterns*) will find all patterns in the .lu file and add them to the list of utterances where this reference is specified
-	- `\[link name](\<.lu file path\>#*utterancesAndPatterns*) will find all utterances and patterns in the .lu file and add them to the list of utterances where this reference is specified
-	- `\[link name](\<.lu file path\>#?) will find questions from all QnA pairs defined in the .lu file and add them to the list of utterances where this reference is specified.
-	- `\[link name](\<.lu folder\>/*#?) will find all questions from all .lu files in the specified folder and add them to the list of utterances where this reference is specified. 
-
-Here's an example of those references: 
-
-```markdown
-> QnA URL reference
-[QnaURL](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
-
-> Include all content in ./none.lu
-[none intent definition](./none.lu)
-
-> Look for all .lu files under a path
-[Cafe model](./cafeModels/*)
-
-> Recursively look for .lu files under a path including sub-folders.
-[Chit chat](../chitchat/resources/**)
-```
-
-Take a look at these additional example .lu files to learn more about external references.
-
-- [Simple external reference](../examples/luFileReference1.lu)
-- [References with wild cards](../examples/luFileReference2.lu)
-- [Deep reference to an intent](../examples/luFileReference3.lu)
-- [Deep reference to QnA questions](../examples/luFileReference4.lu)
-- [Deep reference to QnA questions with wild card](../examples/luFileReference5.lu)
-
 ## Intent
 An intent represents an action the user wants to perform. The intent is a purpose or goal expressed in a user's input, such as booking a flight, paying a bill, or finding a news article. You define and name intents that correspond to these actions. A travel app may define an intent named "BookFlight."
 
@@ -145,17 +50,24 @@ Entity in .lu file is denoted using {\<entityName\>=\<labelled value\>} notation
 ```
 
 LUDown tool supports the following [LUIS entity types](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-entity-types)
-- [Simple](#Simple-entity)
-- [Prebuilt](#Prebuilt-entity)
-- [List](#List-entity)
-- [RegEx](#RegEx-entity)
-- [Composite](#Composite-entity)
+- Prebuilt ("datetimeV2", "age", "dimension", "email", "money", "number", "ordinal", "percentage", "phoneNumber","temperature", "url", "datetime", "keyPhrase")
+- List
+- Simple
+- RegEx
 
 LUDown tool **does not** support the following LUIS entity types:
 - Hierarchical
 
-### Simple entity
-You can define [Simple](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-primary-and-secondary-data) entities using $\<entityName\>:simple notation. 
+You can define: 
+- [Simple](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-primary-and-secondary-data) entities by using $\<entityName\>:simple notation. Note that the parser defaults to simple entity type.
+- [PREBUILT](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/pre-builtentities) entities by using $PREBUILT:\<entityType\> notation. 
+- [List](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-intent-and-list-entity) entities by using $\<entityName\>:\<CanonicalValue\>**=**<List of values> notation.
+- [Composite](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-tutorial-composite-entity) entities using $\<entityName\>:[childEntity1, childEntity2, ...] notation. See [here](../examples/compositeEntities.lu) for an example.
+
+**Note:**
+```markdown
+Entity names in Ludown cannot include a colon ':'. E.g. $Country:Office:Simple is invalid.  
+```
 
 Here's an example: 
 
@@ -166,39 +78,7 @@ Here's an example:
 
 $alarmTime:Simple
 ```
-
-**Note** For any labelled entity that is not explicitly assigned a type, the ludown parser defaults to simple entity type for that entity.
-
-```markdown
-# getUserName
-- my name is {username=vishwac}
-
-> Without an explicit entity definition, userName defaults to 'simple' entity type.
-```
-
-### Prebuilt entity
-You can define [PREBUILT](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/pre-builtentities) entities by using $PREBUILT:\<entityType\> notation.
-
-The following LUIS prebuilt entity types are supported by ludown - 
-- age, 
-- datetimeV2, 
-- dimension, 
-- email, 
-- geographyV2
-- keyPhrase
-- money
-- number
-- ordinal
-- ordinalV2
-- percentage
-- personName
-- phoneNumber
-- temperature
-- url
-- datetime
-
-Here's an example: 
-
+Pre-built entities only need to be defined once and are applicable to your entire application. Here's an example: 
 ```markdown 
 # Add
 - 1 + 1
@@ -215,11 +95,7 @@ $PREBUILT:number
 $PREBUILT:datetimeV2
 ```
 
-**Note:** Not all prebuilt entity types are available across all locales. See [here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-prebuilt-entities) for prebuilt entity support by locale.
-
-### List entity
-You can define [List](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-intent-and-list-entity) entities using the following notation:
-
+You can describe list entities using the following notation:
 $listEntity:\<normalized-value\>=
     - \<synonym1\>
     - \<synonym2\>
@@ -245,8 +121,6 @@ $commPreference:text=
 	- text message
 ```
 
-### RegEx entity
-
 [RegEx entities](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-quickstart-intents-regex-entity) are defined by a regular expression the user provides as part of the entity definition.
 
 In the .lu file format, these are represented using 
@@ -260,11 +134,7 @@ Here's an example of regex entity:
 $HRF-number:/hrf-[0-9]{6}/
 ```
 
-### Composite entity
-
 [Composite entities](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-tutorial-composite-entity) enable grouping related entities into a parent category entity. 
-
-You can define [Composite](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-tutorial-composite-entity) entities using $\<entityName\>:[childEntity1, childEntity2, ...] notation. See [here](../examples/compositeEntities.lu) for an example.
 
 ```markdown
 # setThermostat
@@ -291,7 +161,30 @@ $customDevice : simple
 $PREBUILT : temperature
 ```
 
-**Note:** Entity names in Ludown cannot include a colon ':'. E.g. $Country:Office:Simple is invalid.  
+### Roles
+
+Every entity type except Phrase Lists can have [roles](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-roles). Roles are named, contextual subtypes of an entity. 
+
+Roles in .lu file format can be explicitly or implicity defined. 
+
+Explicit definition follow the following notation - $\<entityName>:\<entityType> Roles=role1, role2, ...
+```markdown
+> # Simple entity definition with roles
+
+$userName:simple Roles=firstName,lastName
+```
+
+Implicit definition: You can refer to roles directly in patterns as well as in labelled utterances via {\<entityName>:\<roleName>} format. 
+```markdown
+# AskForUserName
+- {userName:firstName=vishwac} {userName:lastName=kannan}
+- I'm {userName:firstName=vishwac}
+- my first name is {userName:firstName=vishwac}
+- {userName=vishwac} is my name
+
+> This definition is same as including an explicit defintion for userName with 'lastName', 'firstName' as roles
+> $userName : simple Roles=lastName, firstName
+```
 
 ## Phrase List features
 
@@ -338,14 +231,12 @@ This example would be treated as an utterance since it has a labelled value with
 - delete the {alarmTime=7AM} alarm
 ```
 
-**Notes:**
-1. Any utterance without at least one labelled value will be treated as a pattern
-2. Any entity without an explicit labelled value will default to a Pattern.Any entity type. 
+Note: By default any entity that is left un-described in a pattern will be mapped to Pattern.Any entity type.
 
 ## Roles
-[Roles](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-roles) are named, contextual subtypes of an entity.
+[Roles](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-roles) are named, contextual subtypes of an entity used only in [Patterns](#Patterns).
 
-Every entity type except Phrase Lists can have [roles](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-roles). 
+For example, in the utterance buy a ticket from New York to London, both New York and London are cities but each has a different meaning in the sentence. New York is the origin city and London is the destination city.
 
 Roles give a name to those differences:
 
@@ -353,26 +244,6 @@ Roles give a name to those differences:
 |-------|-------|-------|
 |Location	|origin	|where the plane leaves from|
 |Location	|destination	|where the plane lands|
-
-Roles in .lu file format can be explicitly or implicity defined. 
-
-Explicit definition follow the following notation - $\<entityName>:\<entityType> Roles=role1, role2, ...
-```markdown
-> # Simple entity definition with roles
-$userName:simple Roles=firstName,lastName
-```
-
-Implicit definition: You can refer to roles directly in patterns as well as in labelled utterances via {\<entityName>:\<roleName>} format. 
-```markdown
-# AskForUserName
-- {userName:firstName=vishwac} {userName:lastName=kannan}
-- I'm {userName:firstName=vishwac}
-- my first name is {userName:firstName=vishwac}
-- {userName=vishwac} is my name
-
-> This definition is same as including an explicit defintion for userName with 'lastName', 'firstName' as roles
-> $userName : simple Roles=lastName, firstName
-```
 
 In patterns, you can use roles using the {\<entityName\>:\<roleName\>} notation. Here's an example: 
 
@@ -444,10 +315,47 @@ You can add multiple questions to the same answer by simply adding variations to
 		Vishwac
 	```
 ```
+
+## External references
+
+Few different references are supported in the .lu file. These follow Markdown link syntax.
+- Reference to another .lu file via `\[link name](\<.lu file name\>)`. Reference can be an absolute path or a relative path from the containing .lu file.
+- Reference to a folder with other .lu files is supported through 
+	- `\[link name](\<.lu file path\>/*)` - will look for .lu files under the specified absolute or relative path
+	- `\[link name](\<.lu file path\>/**)` - will recursively look for .lu files under the specified absolute or relative path including sub-folders.
+- Reference to URL for QnAMaker to ingest during KB creation via `\[link name](\<URL\>)`
+- You can also add references to utterances defined in a specific file under an Intent section or as QnA pairs.
+	- `\[link name](\<.lu file path\>#\<INTENT-NAME\>) will find all utterances found under \<INTENT-NAME\> in the .lu file and add them to the list of utterances where this reference is specified
+	- `\[link name](\<.lu file path\>#*utterances*) will find all utterances in the .lu file and add them to the list of utterances where this reference is specified
+    - `\[link name](\<.lu file path\>#*patterns*) will find all patterns in the .lu file and add them to the list of utterances where this reference is specified
+	- `\[link name](\<.lu file path\>#*utterancesAndPatterns*) will find all utterances and patterns in the .lu file and add them to the list of utterances where this reference is specified
+	- `\[link name](\<.lu file path\>#?) will find questions from all QnA pairs defined in the .lu file and add them to the list of utterances where this reference is specified.
+	- `\[link name](\<.lu folder\>/*#?) will find all questions from all .lu files in the specified folder and add them to the list of utterances where this reference is specified. 
+
+
+Here's an example of those references: 
+
+```markdown
+[QnaURL](https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs)
+
+[none intent definition](./none.lu)
+
+> Look for all .lu files under a path
+[Cafe model](./cafeModels/*)
+
+> Recursively look for .lu files under a path including sub-folders.
+[Chit chat](../chitchat/resources/**)
 ```
 
-## QnAMaker Filters
+Take a look at these additional example .lu files to learn more about external references.
 
+- [Simple external reference](../examples/luFileReference1.lu)
+- [References with wild cards](../examples/luFileReference2.lu)
+- [Deep reference to an intent](../examples/luFileReference3.lu)
+- [Deep reference to QnA questions](../examples/luFileReference4.lu)
+- [Deep reference to QnA questions with wild card](../examples/luFileReference5.lu)
+
+## QnAMaker Filters
 Filters in QnA Maker are simple key value pairs that can be used to narrow search results, boost answers and store context. You can add filters using the following notation: 
 ```markdown
 ***Filters:***
@@ -500,3 +408,49 @@ QnA Maker also supports ingesting pdf files during KB creation. You can add file
 ```markdown
 [SurfaceManual.pdf](https://download.microsoft.com/download/2/9/B/29B20383-302C-4517-A006-B0186F04BE28/surface-pro-4-user-guide-EN.pdf)
 ```
+## Adding comments
+You can add comments to your .lu document by prefixing the comment with >. Here's an example: 
+
+```markdown
+> This is a comment and will be ignored
+
+# Greeting
+- hi
+- hello
+```
+
+## Adding ID to QnA maker Questions
+You can add Id to question in QnA ludown file using the decorator '@', necessary for the next feature which is add followup prompts in QnA Ludown file
+
+```markdown
+### ? Where can I get coffee? 
+@ 1 
+- I need coffee
+- I want coffee
+
+```
+
+
+## Adding Follow Up prompts to QnA maker Questions
+You can add follow up prompts to QnA questions in QnA ludown file using the decorator '%'. Please see the usage below
+
+```markdown
+### ? Where can I get coffee? 
+@ 1 
+- I need coffee
+- I want coffee
+QnA ans here in markdown(same as before)
+
+### ? Where can I get Tea? 
+@ 2 
+- I need tea
+- I want tea
+% 1     (ID of the question(s) goes here and it will be added as followup prompt to this question)
+QnA ans here in markdown (same as before)
+
+```
+
+Note:- 
+1) You cannot have circular references eg:-   1->2->1 , 1->2->3->1,  etc. where 1,2... are the QnA Question pairs 
+2) You can have chain like 1->2->3->4......
+2) You can use Replace knowledgebase QnA maker API call and you will see the changes reflected Link:-  https://westus.dev.cognitive.microsoft.com/docs/services/5a93fcf85b4ccd136866eb37/operations/knowledgebases_publish
