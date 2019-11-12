@@ -100,7 +100,7 @@ Supported file types:
 | -----------  | ----------- |
 | .tsv | Lines of tab delimited fields of intent and utterance (in that order) |
 | .txt | Lines of utterances with intent as file name |
-| .json | Exported LUIS or QnA Maker json file | 
+| .json | Exported LUIS or QnA Maker json file |
 
 ### Removing dispatch source
 
@@ -294,6 +294,14 @@ If any of your LUIS/QnA Maker models have changed or if you have added more LUIS
 dispatch refresh --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
 dispatch eval --luisSubscriptionKey <azure_luis_key> --luisSubscriptionRegion <azure_luis_region>
 ```
+
+In some scenarios, utterances might need to be added directly to the Dispatch app to improve Dispatch intent classification.  Instead of adding them directly to Dispatch app via LUIS portal, we recommend adding these utterances into a text file (one text file per Dispatch intent) and add the file(s) as source to Dispatch.  The utterances will be persisted across dispatch refresh.   To add/modify the utterances, simply edit the file where utterances are added and run "dispatch refresh" command.
+
+```shell
+dispatch add -t file -f <file_path> --intentName <dispatch_target_intent_name, ie l_LUISAppName or q_QnAKbName>
+```
+
+
 
 ### Create and evaluate bot dispatch
 
