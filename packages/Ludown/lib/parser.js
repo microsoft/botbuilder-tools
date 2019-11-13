@@ -18,7 +18,6 @@ const parserObject = require('./classes/parserObject');
 const hClasses = require('./classes/hclasses');
 const deepEqual = require('deep-equal');
 const txtfile = require('./read-text-file');
-const BuildDiagnostic = require('./diagnostic').BuildDiagnostic;
 const parser = {
     /**
      * Handle parsing the root file that was passed in command line args
@@ -79,21 +78,23 @@ const writeOutFiles = function(program,finalLUISJSON,finalQnAJSON, finalQnAAlter
     } catch (err) {
         throw (err);
     }
+    if(!program.luis_versionId) program.luis_versionId = "0.1";
+    if(!program.luis_schema_version) program.luis_schema_version = "3.0.0";
+    if(!program.luis_name) program.luis_name = path.basename(rootFile, path.extname(rootFile));
+    if(!program.luis_desc) program.luis_desc = "";
+    if(!program.luis_culture) program.luis_culture = "en-us";   
+    if(!program.qna_name) program.qna_name = path.basename(rootFile, path.extname(rootFile));
+    if(program.luis_culture) program.luis_culture = program.luis_culture.toLowerCase();
 
     if(finalLUISJSON) {
-        finalLUISJSON.luis_schema_version = program.luis_schema_version || finalLUISJSON.luis_schema_version || "3.2.0";
-        finalLUISJSON.versionId = program.luis_versionId || finalLUISJSON.versionId || "0.1";
-        finalLUISJSON.name = program.luis_name || finalLUISJSON.name || path.basename(rootFile, path.extname(rootFile)),
-        finalLUISJSON.desc = program.luis_desc || finalLUISJSON.desc || "";
-        finalLUISJSON.culture = program.luis_culture || finalLUISJSON.culture || "en-us";
-        finalLUISJSON.culture = finalLUISJSON.culture.toLowerCase();
+        finalLUISJSON.luis_schema_version = program.luis_schema_version;
+        finalLUISJSON.versionId = program.luis_versionId;
+        finalLUISJSON.name = program.luis_name.split('.')[0],
+        finalLUISJSON.desc = program.luis_desc;
+        finalLUISJSON.culture = program.luis_culture;
     }
 
-    if (!program.luis_name && finalLUISJSON && finalLUISJSON.name) program.luis_name = finalLUISJSON.name;    
-
-    if (finalQnAJSON) finalQnAJSON.name = program.qna_name || finalQnAJSON.name || path.basename(rootFile, path.extname(rootFile));
-
-    if (!program.qna_name && finalQnAJSON && finalQnAJSON.name) program.qna_name = finalQnAJSON.name || '';
+    if (finalQnAJSON) finalQnAJSON.name = program.qna_name.split('.')[0];
 
     var writeQnAFile = (finalQnAJSON.qnaList.length > 0) || 
                         (finalQnAJSON.urls.length > 0) || 
@@ -269,39 +270,30 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
             continue;
         }
         if(!fs.existsSync(path.resolve(file))) {
-            let error = BuildDiagnostic({
-                message: `Sorry unable to open [${file}]`
-            });
-
-            throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, error.toString()));     
+            throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, 'Sorry unable to open [' + file + ']'));     
         }
       
         let fileContent = txtfile.readSync(file);
 
         if (!fileContent) {
-            let error = BuildDiagnostic({
-                message: `Sorry, error reading file: ${file}`
-            });
-
-            throw(new exception(retCode.errorCode.FILE_OPEN_ERROR, error.toString()));
+            throw(new exception(retCode.errorCode.FILE_OPEN_ERROR,'Sorry, error reading file:' + file));
         }
         if(log) process.stdout.write(chalk.default.whiteBright('Parsing file: ' + file + '\n'));
         try {
             parsedContent = await parseFileContents.parseFile(fileContent, log, luis_culture);
+            //console.log("Now in parser.js and", parsedContent)
         } catch (err) {
+            console.log(err)
             throw(err);
         }
         if (!parsedContent) {
-            let error = BuildDiagnostic({
-                message: `Sorry, file ${file} had invalid content`
-            });
-
-            throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, error.toString()));
+            throw(new exception(retCode.errorCode.INVALID_INPUT_FILE, 'Sorry, file ' + file + 'had invalid content'));
         } 
         parsedFiles.push(file);
         try {
             if (haveLUISContent(parsedContent.LUISJsonStructure) && await parseFileContents.validateLUISBlob(parsedContent.LUISJsonStructure)) allParsedLUISContent.push(parserObject.create(parsedContent.LUISJsonStructure, undefined, undefined, file, filesToParse[0].includeInCollate));
         } catch (err) {
+            console.log(err)
             throw (err);
         }
         allParsedQnAContent.push(parserObject.create(undefined, parsedContent.qnaJsonStructure, undefined, file, filesToParse[0].includeInCollate));
@@ -340,6 +332,7 @@ const parseAllFiles = async function(filesToParse, log, luis_culture) {
                 }
             });
         }
+        //console.log("End of Parse all files")
     }
     return {
         LUISContent: allParsedLUISContent,
@@ -373,26 +366,12 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                 if (parsedUtterance.ref.endsWith('?')) {
                     if( parsedUtterance.luFile.endsWith('*')) {
                     let parsedQnABlobs = (allParsedContent.QnAContent || []).filter(item => item.srcFile.includes(parsedUtterance.luFile.replace(/\*/g, '')));
-                    if(parsedQnABlobs === undefined) {
-                        let error = BuildDiagnostic({
-                            message: `Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`
-                        });
-
-                        throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
-                    }
-
+                    if(parsedQnABlobs === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
                     parsedQnABlobs.forEach(blob => blob.qnaJsonStructure.qnaList.forEach(item => item.questions.forEach(question => newUtterancesToAdd.push(new hClasses.uttereances(question, utterance.intent)))));
                     } else {
                         // look for QnA
                         let parsedQnABlob = (allParsedContent.QnAContent || []).find(item => item.srcFile == parsedUtterance.luFile);
-                        if(parsedQnABlob === undefined) {
-                            let error = BuildDiagnostic({
-                                message: `Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`
-                            });
-
-                            throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
-                        }
-
+                        if(parsedQnABlob === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
                         // get questions list from .lu file and update list
                         parsedQnABlob.qnaJsonStructure.qnaList.forEach(item => item.questions.forEach(question => newUtterancesToAdd.push(new hClasses.uttereances(question, utterance.intent))));
                     }
@@ -400,14 +379,7 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
                 } else {
                     // find the parsed file
                     let parsedLUISBlob = (allParsedContent.LUISContent || []).find(item => item.srcFile == parsedUtterance.luFile);
-                    if(parsedLUISBlob === undefined) {
-                        let error = BuildDiagnostic({
-                            message: `Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`
-                        });
-
-                        throw (new exception(retCode.errorCode.INVALID_INPUT, error.toString()));
-                    }
-
+                    if(parsedLUISBlob === undefined) throw (new exception(retCode.errorCode.INVALID_INPUT,`[ERROR] Unable to parse ${utterance.text} in file: ${luisModel.srcFile}`));
                     let utterances = [], patterns = [];
                     if (parsedUtterance.ref.toLowerCase().includes('utterancesandpatterns')) {
                         // get all utterances and add them
@@ -452,50 +424,13 @@ const resolveReferencesInUtterances = async function(allParsedContent) {
 
                 entitiesFound.forEach(function (entity) {
                     entity = entity.replace("{", "").replace("}", "");
-                    let entityName = entity;
-                    let roleName = '';
+
                     if (entity.includes(':')) {
                         // this is an entity with role
-                        [entityName, roleName] = entity.split(':');
-                    }
-                    // insert the entity only if it does not already exist
-                    let simpleEntityInMaster = luisModel.LUISJsonStructure.entities.find(item => item.name == entityName);
-                    let compositeInMaster = luisModel.LUISJsonStructure.composites.find(item => item.name == entityName);
-                    let listEntityInMaster = luisModel.LUISJsonStructure.closedLists.find(item => item.name == entityName);
-                    let regexEntityInMaster = luisModel.LUISJsonStructure.regex_entities.find(item => item.name == entityName);
-                    let prebuiltInMaster = luisModel.LUISJsonStructure.prebuiltEntities.find(item => item.name == entityName);
-                    let paIdx = -1;
-                    let patternAnyInMaster = luisModel.LUISJsonStructure.patternAnyEntities.find((item, idx) => {
-                        if (item.name === entityName) {
-                            paIdx = idx;
-                            return true;
-                        }
-                        return false;
-                    });
-                    if (!simpleEntityInMaster && 
-                        !compositeInMaster &&
-                        !listEntityInMaster &&
-                        !regexEntityInMaster &&
-                        !prebuiltInMaster) {
-                            if (!patternAnyInMaster) {
-                                // add a pattern.any entity
-                                if (roleName !== '') {
-                                    parseFileContents.addItemOrRoleIfNotPresent(luisModel.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entityName, [roleName])
-                                } else {
-                                    parseFileContents.addItemIfNotPresent(luisModel.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity);
-                                }
-                            } else {
-                                // add the role if it does not exist already.
-                                if (roleName !== '') {
-                                    !patternAnyInMaster.roles.includes(roleName) ? patternAnyInMaster.roles.push(roleName) : undefined;
-                                }
-                            }
+                        const [entityName, roleName] = entity.split(':');
+                        parseFileContents.addItemOrRoleIfNotPresent(luisModel.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entityName, [roleName])
                     } else {
-                        // we found this pattern.any entity as another type.
-                        if (patternAnyInMaster && paIdx !== -1) {
-                            // remove the patternAny entity from the list because it has been explicitly defined elsewhere.
-                            luisModel.LUISJsonStructure.patternAnyEntities.splice(paIdx, 1);
-                        }
+                        parseFileContents.addItemIfNotPresent(luisModel.LUISJsonStructure, LUISObjNameEnum.PATTERNANYENTITY, entity);
                     }
                 });
             }

@@ -199,5 +199,18 @@ $hrf-number:/hrf-[0-9]{6}/`;
             .catch(err => done(err))
     });
 
-    
+    it('correctly localizes regex entity definitions', function(done) {
+        if(!TRANSLATE_KEY) {
+            this.skip();
+        }
+        let luFile = helpers.sanitizeNewLines(`$hrf-number:/hrf-[0-9]{6}/`);
+        let expectedOutput = helpers.sanitizeNewLines(`$hrf-number:/hrf-[0-9]{6}/
+`);
+        translateHelpers.parseAndTranslate(luFile, TRANSLATE_KEY, 'de', null, false, false, false)
+            .then(res => {
+                assert.equal(res, expectedOutput);
+                done();
+            })
+            .catch(err => done(err))
+    });
 });

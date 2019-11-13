@@ -1,26 +1,38 @@
 {
-  "name": "ludown",
-  "version": "1.4.0",
-  "description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
-  "main": "lib/exports.js",
-  "scripts": {
-    "test": "cd test/ && mocha --opts mocha.opts"
+  "_from": "ludown",
+  "_id": "ludown@1.3.3",
+  "_inBundle": false,
+  "_integrity": "sha512-k9pGcB9B9Dw8icr4L34yPXP6hfNWgh03muXgkVW9buV0lLkY/XEr2m+nss9+GecaQ0+pALFn2j1e+D3V3lLkow==",
+  "_location": "/ludown",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "ludown",
+    "name": "ludown",
+    "escapedName": "ludown",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/ludown/-/ludown-1.3.3.tgz",
+  "_shasum": "ca41e204eace2747de4c1f31f9d7e8ccb46ddde5",
+  "_spec": "ludown",
+  "_where": "C:\\Users\\sshiroor\\Documents\\Microsoft Bots V4 Projects\\LUDOWN_branches\\many_intents",
+  "author": {
+    "name": "Microsoft"
   },
   "bin": {
     "ludown": "./bin/ludown"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
-  },
-  "author": "Microsoft",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Microsoft/botbuilder-tools/issues"
   },
-  "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
+  "bundleDependencies": false,
   "dependencies": {
-    "antlr4": "^4.7.2",
     "chai": "^4.1.2",
     "chalk": "2.4.1",
     "commander": "^2.15.1",
@@ -31,5 +43,19 @@
     "mocha": "^5.2.0",
     "node-fetch": "^2.1.2",
     "semver": "^5.5.1"
-  }
+  },
+  "deprecated": false,
+  "description": "Command line tool to convert .lu files to LUIS JSON and QnA maker JSON files",
+  "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
+  "license": "MIT",
+  "main": "lib/exports.js",
+  "name": "ludown",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microsoft/botbuilder-tools.git"
+  },
+  "scripts": {
+    "test": "cd test/ && mocha --opts mocha.opts"
+  },
+  "version": "1.3.3"
 }

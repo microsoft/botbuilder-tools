@@ -9,26 +9,17 @@ const chalk = require('chalk');
 const pkg = require('../package.json');
 const semver = require('semver');
 const getLatestVersion = require('latest-version');
-
-process.stdout.write(chalk.default.white(`\n\n-----------------------------------------------------------\n`));
-process.stdout.write(chalk.default.redBright(` NOTICE:\n`));
-process.stdout.write(chalk.default.whiteBright(` This tool has been deprecated.\n`));
-process.stdout.write(chalk.default.white(` All functionality was ported over to the new BF CLI.\n`));
-process.stdout.write(chalk.default.white(` To learn more visit `));
-process.stdout.write(chalk.default.blueBright(`https://aka.ms/NewBFCLI\n`));
-process.stdout.write(chalk.default.white(`-----------------------------------------------------------\n\n`));
-
 getLatestVersion(pkg.name, { version: `>${pkg.version}` })
     .catch((error) => pkg.version)
     .then((latest) => {
         if (semver.gt(latest, pkg.version)) {
-            process.stdout.write(chalk.default.white(`\n     Update available `));
-            process.stdout.write(chalk.default.grey(`${pkg.version}`));
-            process.stdout.write(chalk.default.white(` -> `));
-            process.stdout.write(chalk.default.greenBright(`${latest}\n`));
-            process.stdout.write(chalk.default.white(`     Run `));
-            process.stdout.write(chalk.default.blueBright(`npm i -g ${pkg.name} `));
-            process.stdout.write(chalk.default.white(`to update.\n`));
+            process.stderr.write(chalk.default.white(`\n     Update available `));
+            process.stderr.write(chalk.default.grey(`${pkg.version}`));
+            process.stderr.write(chalk.default.white(` -> `));
+            process.stderr.write(chalk.default.greenBright(`${latest}\n`));
+            process.stderr.write(chalk.default.white(`     Run `));
+            process.stderr.write(chalk.default.blueBright(`npm i -g ${pkg.name} `));
+            process.stderr.write(chalk.default.white(`to update.\n`));
         }
 
 

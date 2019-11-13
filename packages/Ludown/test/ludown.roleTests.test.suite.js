@@ -288,11 +288,11 @@ describe('Roles in LU files', function() {
         parser.parseFile(testLU, false, null) 
             .then (res => {
                 let LUISJSon = res.LUISJsonStructure;
-                assert.equal(LUISJSon.entities.length, 2);
-                assert.equal(LUISJSon.composites.length, 1);
-                assert.equal(LUISJSon.composites[0].roles.length, 1);
-                assert.equal(LUISJSon.utterances.length, 1);
-                assert.equal(LUISJSon.utterances[0].entities[1].role, 'fromCity');
+                assert(LUISJSon.entities.length, 2);
+                assert(LUISJSon.composites.length, 1);
+                assert(LUISJSon.composites[0].roles.length, 1);
+                assert(LUISJSon.utterances.length, 1);
+                assert(LUISJSon.utterances[0].entities[1].role, 'fromCity');
                 done();
             })
             .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
@@ -306,10 +306,10 @@ describe('Roles in LU files', function() {
         parser.parseFile(testLU, false, null)
             .then (res => {
                 let LUISJson = res.LUISJsonStructure;
-                assert.equal(LUISJson.entities[0].name, 'test');
-                assert.equal(LUISJson.entities[0].roles[0], 'role1');
-                assert.equal(LUISJson.utterances[0].text, 'this is a test utterance');
-                assert.equal(LUISJson.utterances[0].entities[0].role, 'role1');
+                assert(LUISJson.entities[0].name, 'test');
+                assert(LUISJson.entities[0].roles[0], 'test');
+                assert(LUISJson.utterances[0].text, 'this is a test utterance');
+                assert(LUISJson.utterances[0].entities[0].role, 'test');
                 done();
             })
             .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
@@ -360,16 +360,7 @@ describe('Roles in LU files', function() {
 - m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix`;
 
         parser.parseFile(testLU, false, null)
-            .then (res => {
-                // This is fix for # 1151. LUIS allows phrase list names to be the same name as other entities in the model. 
-                assert.equal(res.LUISJsonStructure.entities.length, 1);
-                assert.equal(res.LUISJsonStructure.entities[0].name, 'test');
-                assert.equal(res.LUISJsonStructure.entities[0].roles.length, 1);
-                assert.deepEqual(res.LUISJsonStructure.entities[0].roles, ['fromTime']);
-                assert.equal(res.LUISJsonStructure.model_features.length, 1);
-                assert.equal(res.LUISJsonStructure.model_features[0].name, 'test');
-                done();
-            })
+            .then (res => done(`Test failed - ${JSON.stringify(res)}`))
             .catch (err => done ())
     })
 
@@ -382,13 +373,13 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then (res => {
                 let LUISJson = res.LUISJsonStructure;
-                assert.equal(LUISJson.composites.length, 1);
-                assert.equal(LUISJson.composites[0].roles.length, 1);
-                assert.equal(LUISJson.composites[0].roles[0], 'role1');
-                assert.equal(LUISJson.entities.length, 1);
-                assert.equal(LUISJson.utterances.length, 1);
-                assert.equal(LUISJson.utterances[0].entities.length, 2);
-                assert.equal(LUISJson.utterances[0].entities[1].role, 'role1');
+                assert(LUISJson.composites.length, 1);
+                assert(LUISJson.composites[0].roles.length, 1);
+                assert(LUISJson.composites[0].roles[0], 'role1');
+                assert(LUISJson.entities.length, 1);
+                assert(LUISJson.utterances.length, 1);
+                assert(LUISJson.utterances[0].entities.length, 2);
+                assert(LUISJson.utterances[0].entities[1].role, 'role1');
                 done();
             })
             .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
@@ -401,9 +392,9 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then (res => {
                 let LUISJSon = res.LUISJsonStructure;
-                assert.equal(LUISJSon.entities.length, 1);
-                assert.equal(LUISJSon.entities[0].roles.length, 2);
-                assert.deepEqual(LUISJSon.entities[0].roles, ["firstname", "lastname"]);
+                assert(LUISJSon.entities.length, 1);
+                assert(LUISJSon.entities[0].roles, 2);
+                assert.deepEqual(LUISJSon.entities[0].roles, ['firstname', 'lastname']);
                 done();
             })
             .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
@@ -418,9 +409,9 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then (res => {
                 let LUISJSon = res.LUISJsonStructure;
-                assert.equal(LUISJSon.entities.length, 1);
-                assert.equal(LUISJSon.entities[0].roles.length, 3);
-                assert.deepEqual(LUISJSon.entities[0].roles, ['middlename', 'firstname', 'lastname']);
+                assert(LUISJSon.entities.length, 1);
+                assert(LUISJSon.entities[0].roles, 3);
+                assert.deepEqual(LUISJSon.entities[0].roles, ['firstname', 'lastname', 'middlename']);
                 done();
             })
             .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
@@ -437,8 +428,8 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then (res => {
                 let LUISJSon = res.LUISJsonStructure;
-                assert.equal(LUISJSon.entities.length, 1);
-                assert.equal(LUISJSon.entities[0].roles.length, 3);
+                assert(LUISJSon.entities.length, 1);
+                assert(LUISJSon.entities[0].roles, 3);
                 assert.deepEqual(LUISJSon.entities[0].roles, ['middlename', 'firstname', 'lastname']);
                 done();
             })
@@ -452,8 +443,8 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then (res => {
                 let LUISJSon = res.LUISJsonStructure;
-                assert.equal(LUISJSon.prebuiltEntities.length, 1);
-                assert.equal(LUISJSon.prebuiltEntities[0].roles.length, 2);
+                assert(LUISJSon.prebuiltEntities.length, 1);
+                assert(LUISJSon.prebuiltEntities[0].roles, 2);
                 assert.deepEqual(LUISJSon.prebuiltEntities[0].roles, ['fromDate', 'toDate']);
                 done();
             })
@@ -471,8 +462,8 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then (res => {
                 let LUISJSon = res.LUISJsonStructure;
-                assert.equal(LUISJSon.prebuiltEntities.length, 1);
-                assert.equal(LUISJSon.prebuiltEntities[0].roles.length, 3);
+                assert(LUISJSon.prebuiltEntities.length, 1);
+                assert(LUISJSon.prebuiltEntities[0].roles, 3);
                 assert.deepEqual(LUISJSon.prebuiltEntities[0].roles, ['fromDate', 'toDate', 'tempDate']);
                 done();
             })
@@ -490,8 +481,8 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then (res => {
                 let LUISJSon = res.LUISJsonStructure;
-                assert.equal(LUISJSon.prebuiltEntities.length, 2);
-                assert.equal(LUISJSon.prebuiltEntities[0].roles.length, 2);
+                assert(LUISJSon.prebuiltEntities.length, 2);
+                assert(LUISJSon.prebuiltEntities[0].roles, 2);
                 assert.deepEqual(LUISJSon.prebuiltEntities[0].roles, ['fromDate', 'toDate']);
                 done();
             })
@@ -506,11 +497,11 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then(res => {
                 let LUISJson = res.LUISJsonStructure;
-                assert.equal(LUISJson.closedLists.length, 1);
-                assert.equal(LUISJson.closedLists[0].subLists.length, 1);
-                assert.equal(LUISJson.closedLists[0].subLists[0].canonicalForm, 'seattle');
+                assert(LUISJson.closedLists.length, 1);
+                assert(LUISJson.closedLists[0].subLists.length, 1);
+                assert(LUISJson.closedLists[0].subLists[0].canonicalForm, 'seattle');
                 assert.deepEqual(LUISJson.closedLists[0].subLists[0].list, ['seattle']);
-                assert.equal(LUISJson.closedLists[0].roles.length, 2);
+                assert(LUISJson.closedLists[0].roles.length, 2);
                 assert.deepEqual(LUISJson.closedLists[0].roles, ['fromCity', 'toCity']);
                 done();
             })
@@ -531,11 +522,11 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then(res => {
                 let LUISJson = res.LUISJsonStructure;
-                assert.equal(LUISJson.closedLists.length, 1);
-                assert.equal(LUISJson.closedLists[0].subLists.length, 2);
-                assert.equal(LUISJson.closedLists[0].subLists[0].canonicalForm, 'seattle');
+                assert(LUISJson.closedLists.length, 1);
+                assert(LUISJson.closedLists[0].subLists.length, 2);
+                assert(LUISJson.closedLists[0].subLists[0].canonicalForm, 'seattle');
                 assert.deepEqual(LUISJson.closedLists[0].subLists[0].list, ['seattle']);
-                assert.equal(LUISJson.closedLists[0].roles.length, 2);
+                assert(LUISJson.closedLists[0].roles.length, 2);
                 assert.deepEqual(LUISJson.closedLists[0].roles, ['fromCity', 'toCity']);
                 done();
             })
@@ -549,9 +540,9 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then(res => {
                 let LUISJson = res.LUISJsonStructure;
-                assert.equal(LUISJson.regex_entities.length, 1);
-                assert.equal(LUISJson.regex_entities[0].name, 'HRF-number');
-                assert.equal(LUISJson.regex_entities[0].roles.length, 2);
+                assert(LUISJson.regex_entities.length, 1);
+                assert(LUISJson.regex_entities[0].name, 'HRF-number');
+                assert(LUISJson.regex_entities[0].roles.length, 2);
                 assert.deepEqual(LUISJson.regex_entities[0].roles, ['fromNumber', 'toNumber']);
                 done();
             })
@@ -566,9 +557,9 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null)
             .then(res => {
                 let LUISJson = res.LUISJsonStructure;
-                assert.equal(LUISJson.regex_entities.length, 1);
-                assert.equal(LUISJson.regex_entities[0].name, 'HRF-number');
-                assert.equal(LUISJson.regex_entities[0].roles.length, 2);
+                assert(LUISJson.regex_entities.length, 1);
+                assert(LUISJson.regex_entities[0].name, 'HRF-number');
+                assert(LUISJson.regex_entities[0].roles.length, 2);
                 assert.deepEqual(LUISJson.regex_entities[0].roles, ['fromNumber', 'toNumber']);
                 done();
             })
@@ -584,8 +575,8 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null) 
             .then (res => {
                 let LUISJSon = res.LUISJsonStructure;
-                assert.equal(LUISJSon.composites.length, 1);
-                assert.equal(LUISJSon.composites[0].roles.length, 2);
+                assert(LUISJSon.composites.length, 1);
+                assert(LUISJSon.composites[0].roles.length, 2);
                 assert.deepEqual(LUISJSon.composites[0].roles, ['from', 'to']);
                 done();
             })
@@ -602,8 +593,8 @@ $test:[fromTime]`;
         parser.parseFile(testLU, false, null) 
             .then (res => {
                 let LUISJSon = res.LUISJsonStructure;
-                assert.equal(LUISJSon.composites.length, 1);
-                assert.equal(LUISJSon.composites[0].roles.length, 2);
+                assert(LUISJSon.composites.length, 1);
+                assert(LUISJSon.composites[0].roles.length, 2);
                 assert.deepEqual(LUISJSon.composites[0].roles, ['from', 'to']);
                 done();
             })
@@ -630,8 +621,8 @@ $test:[fromTime]`;
                     .then(res2 => {
                         parser.collateLUISFiles([res1, res2])
                             .then(res => {
-                                assert.equal(res.entities.length, 1);
-                                assert.equal(res.entities[0].roles.length, 2);
+                                assert(res.entities.length, 1);
+                                assert(res.entities[0].roles.length, 2);
                                 assert.deepEqual(res.entities[0].roles, ['firstName', 'lastName']);
                                 done();
                             })
@@ -652,8 +643,8 @@ $test:[fromTime]`;
                     .then(res2 => {
                         parser.collateLUISFiles([res1, res2])
                             .then(res => {
-                                assert.equal(res.prebuiltEntities.length, 1);
-                                assert.equal(res.prebuiltEntities[0].roles.length, 2);
+                                assert(res.prebuiltEntities.length, 1);
+                                assert(res.prebuiltEntities[0].roles.length, 2);
                                 assert.deepEqual(res.prebuiltEntities[0].roles, ['fromDate', 'toDate']);
                                 done();
                             })
@@ -676,8 +667,8 @@ $test:[fromTime]`;
                     .then(res2 => {
                         parser.collateLUISFiles([res1, res2])
                             .then(res => {
-                                assert.equal(res.closedLists.length, 1);
-                                assert.equal(res.closedLists[0].roles.length, 2);
+                                assert(res.closedLists.length, 1);
+                                assert(res.closedLists[0].roles.length, 2);
                                 assert.deepEqual(res.closedLists[0].roles, ['fromCity', 'toCity']);
                                 done();
                             })
@@ -699,8 +690,8 @@ $test:[fromTime]`;
                     .then(res2 => {
                         parser.collateLUISFiles([res1, res2])
                             .then(res => {
-                                assert.equal(res.regex_entities.length, 1);
-                                assert.equal(res.regex_entities[0].roles.length, 2);
+                                assert(res.regex_entities.length, 1);
+                                assert(res.regex_entities[0].roles.length, 2);
                                 assert.deepEqual(res.regex_entities[0].roles, ['fromNumber', 'toNumber']);
                                 done();
                             })
@@ -721,8 +712,8 @@ $test:[fromTime]`;
                     .then(res2 => {
                         parser.collateLUISFiles([res1, res2])
                             .then(res => {
-                                assert.equal(res.composites.length, 1);
-                                assert.equal(res.composites[0].roles.length, 2);
+                                assert(res.composites.length, 1);
+                                assert(res.composites[0].roles.length, 2);
                                 assert.deepEqual(res.composites[0].roles, ['from', 'to']);
                                 done();
                             })
@@ -745,8 +736,8 @@ $test:[fromTime]`;
                     .then(res2 => {
                         parser.collateLUISFiles([res1, res2])
                             .then(res => {
-                                assert.equal(res.patternAnyEntities.length, 1);
-                                assert.equal(res.patternAnyEntities[0].roles.length, 2);
+                                assert(res.patternAnyEntities.length, 1);
+                                assert(res.patternAnyEntities[0].roles.length, 2);
                                 assert.deepEqual(res.patternAnyEntities[0].roles, ['fromTime', 'toTime']);
                                 done();
                             })
@@ -891,7 +882,7 @@ $test:[fromTime]`;
             "patterns": [],
             "patternAnyEntities": [],
             "prebuiltEntities": [],
-            "luis_schema_version": "3.2.0",
+            "luis_schema_version": "3.0.0",
             "versionId": "0.1",
             "name": "1",
             "desc": "",
@@ -899,90 +890,13 @@ $test:[fromTime]`;
           }`;
           toLU(JSON.parse(testModel))
             .then(res => {
-                assert.isTrue(res.includes(`- my name is {userName:firstName=vishwac}`));
-                assert.isTrue(res.includes(`- book a flight to {location:toCity=london}`));
-                assert.isTrue(res.includes(`$userName:simple Roles=firstName`));
-                assert.isTrue(res.includes(`$location:[city] Roles=fromCity, toCity`));
+                assert(res.includes(`- my name is {userName:firstName=vishwac}`));
+                assert(res.includes(`- book a flight to {location:toCity=london}`));
+                assert(res.includes(`$userName:simple Roles=firstName`));
+                assert(res.includes(`$location:[city] Roles=fromCity, toCity`));
                 done();
             })
             .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
-
-    })
-
-    it ('prebuilt entities with inline as well as explicit role definition is handled correctly', function(done){
-        let testLU = `> # Intent definitions
-
-        ## Intent
-        - holiday request to {datetimeV2:to=next day}
-        - holiday request vacation from {datetimeV2:from=today}
-        - i want vacation from {datetimeV2:from} until {datetimeV2:to}
-        
-        > # Entity definitions
-        
-        > # PREBUILT Entity definitions
-        
-        $PREBUILT:datetimeV2 Roles=to, from`;
-        parser.parseFile(testLU, false, null) 
-            .then (res => {
-                let LUISJSon = res.LUISJsonStructure;
-                assert(LUISJSon.prebuiltEntities.length, 1);
-                assert(LUISJSon.prebuiltEntities[0].roles.length, 2);
-                assert.deepEqual(LUISJSon.prebuiltEntities[0].roles, ['to', 'from']);
-                done();
-            })
-            .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
-
-    })
-
-    it ('regex entities with inline as well as explicit role definition is handled correctly', function(done){
-        let testLU = `> # Intent definitions
-
-        ## Intent
-        - holiday request to {regex1:to=32}
-        - holiday request vacation from {regex1:from=today}
-        - i want vacation from {regex1:from} until {regex1:to}
-        
-        > # Entity definitions
-        
-        > # PREBUILT Entity definitions
-        
-        $regex1:/[0-9]/ Roles=to, from`;
-        parser.parseFile(testLU, false, null) 
-            .then (res => {
-                let LUISJSon = res.LUISJsonStructure;
-                assert(LUISJSon.regex_entities.length, 1);
-                assert(LUISJSon.regex_entities[0].roles.length, 2);
-                assert.deepEqual(LUISJSon.regex_entities[0].roles, ['to', 'from']);
-                done();
-            })
-            .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
-
-    })
-
-    it ('closed list entities with inline as well as explicit role definition is handled correctly', function(done){
-        let testLU = `> # Intent definitions
-
-        ## Intent
-        - holiday request to {list1:to=32}
-        - holiday request vacation from {list1:from=today}
-        - i want vacation from {list1:from} until {list1:to}
-        
-        > # Entity definitions
-        
-        > # PREBUILT Entity definitions
-        
-        $list1: a = Roles = to, from
-            - 32
-        `;
-        parser.parseFile(testLU, false, null) 
-            .then (res => {
-                let LUISJSon = res.LUISJsonStructure;
-                assert(LUISJSon.closedLists.length, 1);
-                assert(LUISJSon.closedLists[0].roles.length, 2);
-                assert.deepEqual(LUISJSon.closedLists[0].roles, ['to', 'from']);
-                done();
-            })
-            .catch (err => done(`Test failed - ${JSON.stringify(err)}`))
 
     })
 

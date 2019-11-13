@@ -39,6 +39,7 @@ if (process.argv.length < 4) {
             process.exit(retCode.errorCode.SUCCESS);
         })
         .catch(function (err) {
+            process.stderr.write(chalk.default.redBright(err));
             process.stderr.write(chalk.default.redBright(err.text + '\n'));
             process.stderr.write(chalk.default.redBright('Stopping further processing. \n'));
             process.exit(err.errCode);
