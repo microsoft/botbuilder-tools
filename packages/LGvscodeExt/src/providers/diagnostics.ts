@@ -19,28 +19,28 @@ export function activate(context: vscode.ExtensionContext) {
 
     setInterval(() => {
         const editer = vscode.window.activeTextEditor;
-        if (editer !== undefined && util.IsLgFile(editer.document.fileName)) {
+        if (editer !== undefined && util.isLgFile(editer.document.fileName)) {
             updateDiagnostics(editer.document, collection);
          }
     }, 3000);
 
     // if you want to trigger the event for each text change, use: vscode.workspace.onDidChangeTextDocument
     context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(e => {
-        if (util.IsLgFile(vscode.window.activeTextEditor.document.fileName))
+        if (util.isLgFile(vscode.window.activeTextEditor.document.fileName))
         {
             updateDiagnostics(e, collection);
         }
     }));
     
     context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(e => {
-        if (util.IsLgFile(e.fileName))
+        if (util.isLgFile(e.fileName))
         {
             updateDiagnostics(e, collection);
         }
     }));
 
     context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => {
-        if (util.IsLgFile(e.document.fileName))
+        if (util.isLgFile(e.document.fileName))
         {
             updateDiagnostics(e.document, collection);
         }
@@ -53,7 +53,7 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
         return;
     }
     
-	if (util.IsLgFile(document.fileName)) {
+	if (util.isLgFile(document.fileName)) {
         var diagnostics = new StaticChecker().checkFile(document.uri.fsPath);
         var vscodeDiagnostics: vscode.Diagnostic[] = [];
         const confDiagLevel = vscode.workspace.getConfiguration().get('LG.Expression.ignoreUnknownFunction');
@@ -63,9 +63,9 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
             customFunctionList = confCustomFuncListSetting.split(",").map(u => u.trim());
         }
         diagnostics.forEach(u => {
-            const isUnkownFuncDiag: boolean = u.Message.includes("it's not a built-in function or a customized function in expression");
+            const isUnkownFuncDiag: boolean = u.message.includes("it's not a built-in function or a customized function in expression");
             let ignored = false;
-            const funcName = extractFuncName(u.Message);
+            const funcName = extractFuncName(u.message);
             console.log(funcName);
             if (customFunctionList.includes(funcName)) {
                 ignored = true;
@@ -79,7 +79,7 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
                 
                     case "warn":
                             if (isUnkownFuncDiag) {
-                                u.Severity = DiagnosticSeverity.Warning;
+                                u.severity = DiagnosticSeverity.Warning;
                             }
                         break;
                     default:
@@ -90,10 +90,10 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
             if (!ignored){
                 const diagItem = new vscode.Diagnostic(
                     new vscode.Range(
-                        new vscode.Position(u.Range.Start.Line - 1, u.Range.Start.Character),
-                        new vscode.Position(u.Range.End.Line - 1, u.Range.End.Character)),
-                    u.Message,
-                    u.Severity
+                        new vscode.Position(u.range.start.line - 1, u.range.start.character),
+                        new vscode.Position(u.range.end.line - 1, u.range.end.character)),
+                    u.message,
+                    u.severity
                 );
                 vscodeDiagnostics.push(diagItem);
             }

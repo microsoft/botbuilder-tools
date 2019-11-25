@@ -23,15 +23,15 @@ export function activate(context: vscode.ExtensionContext) {
 
 class LGSignatureHelpProvider implements vscode.SignatureHelpProvider  {
     provideSignatureHelp(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<vscode.SignatureHelp> {
-        if (!util.IsLgFile(document.fileName)) {
+        if (!util.isLgFile(document.fileName)) {
             return;
         }
 
-        const functions = util.GetAllFunctions(document.uri);
+        const functions = util.getAllFunctions(document.uri);
 
         let signatureHelp: vscode.SignatureHelp = new vscode.SignatureHelp();
 
-        const {functionName, paramIndex} = this.ParseFunction(document, position);
+        const {functionName, paramIndex} = this.parseFunction(document, position);
         if (!functions.has(functionName)) {
             return undefined;
         }
@@ -42,10 +42,10 @@ class LGSignatureHelpProvider implements vscode.SignatureHelpProvider  {
 
         const functionEntity = functions.get(functionName);
         let paramInfoList: vscode.ParameterInformation[] = [];
-        functionEntity.Params.forEach(u => paramInfoList.push(new vscode.ParameterInformation(u)));
+        functionEntity.params.forEach(u => paramInfoList.push(new vscode.ParameterInformation(u)));
         
-        const returnType = util.GetreturnTypeStrFromReturnType(functionEntity.Returntype);
-        const sigLabel = `${functionName}(${functionEntity.Params.join(", ")}): ${returnType}`;
+        const returnType = util.getreturnTypeStrFromReturnType(functionEntity.returntype);
+        const sigLabel = `${functionName}(${functionEntity.params.join(", ")}): ${returnType}`;
         var sigInfo = new vscode.SignatureInformation(sigLabel);
         sigInfo.parameters = paramInfoList;
         
@@ -56,7 +56,7 @@ class LGSignatureHelpProvider implements vscode.SignatureHelpProvider  {
 
     
 
-    ParseFunction(document: vscode.TextDocument, position: vscode.Position) : {functionName:string, paramIndex: number}
+    parseFunction(document: vscode.TextDocument, position: vscode.Position) : {functionName:string, paramIndex: number}
     {
         let functionName: string = "";
         let paramIndex: number = 0;

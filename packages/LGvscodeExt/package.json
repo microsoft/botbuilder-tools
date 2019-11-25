@@ -18,19 +18,19 @@
     ],
     "contributes": {
         "configuration": [
-			{
-				"title": "LG",
-				"properties": {
-					"LG.Expression.ignoreUnknownFunction": {
-						"type": "string",
-						"enum": [
-							"error",
-							"warn",
-							"ignore"
-						],
-						"default": "error",
-						"description": "Configure Diagnostics: Show diagnostic severity level of unknow functions in a LG file",
-						"scope": "window"
+            {
+                "title": "LG",
+                "properties": {
+                    "LG.Expression.ignoreUnknownFunction": {
+                        "type": "string",
+                        "enum": [
+                            "error",
+                            "warn",
+                            "ignore"
+                        ],
+                        "default": "error",
+                        "description": "Configure Diagnostics: Show diagnostic severity level of unknow functions in a LG file",
+                        "scope": "window"
                     },
                     "LG.Expression.customFunctionList": {
                         "type": "string",
@@ -38,8 +38,8 @@
                         "description": "Customized function list, should be separated by comma, eg. a, b, c"
                     }
                 }
-			}
-		],
+            }
+        ],
         "commands": [
             {
                 "command": "lgLiveTest.start",
@@ -93,14 +93,14 @@
         "watch": "tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install"
     },
-    "dependencies": {
-        "botbuilder-lg": "https://botbuilder.myget.org/F/botbuilder-declarative/npm/botbuilder-lg/-/4.7.0-preview2.tgz"
-    },
     "devDependencies": {
         "@types/mocha": "^2.2.42",
         "@types/node": "^7.0.43",
         "tslint": "^5.11.0",
         "typescript": "^3.4.5",
         "vscode": "^1.1.36"
+    },
+    "dependencies": {
+        "botbuilder-lg": "^4.7.0-preview.92070"
     }
 }

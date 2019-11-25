@@ -25,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 class LGHoverProvider implements vscode.HoverProvider {
     provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<vscode.Hover> {
-        if (!util.IsLgFile(document.fileName)) {
+        if (!util.isLgFile(document.fileName)) {
             return;
         }
 
@@ -37,12 +37,12 @@ class LGHoverProvider implements vscode.HoverProvider {
         let wordName = document.getText(wordRange);
 
         // template reference hover
-        const templates: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri);
-        const template: LGTemplate = templates.find(u=>u.Name === wordName);
+        const templates: LGTemplate[] = util.getAllTemplatesFromCurrentLGFile(document.uri);
+        const template: LGTemplate = templates.find(u=>u.name === wordName);
         if (template !== undefined) {
             const contents = [];
-            contents.push(new vscode.MarkdownString(template.Source));
-            contents.push(new vscode.MarkdownString(template.Body));
+            contents.push(new vscode.MarkdownString(template.source));
+            contents.push(new vscode.MarkdownString(template.body));
             return new vscode.Hover(contents, wordRange);
         }
 
@@ -55,12 +55,12 @@ class LGHoverProvider implements vscode.HoverProvider {
         if (buildInfunctionsMap.has(wordName))
         {   
             const functionEntity = buildInfunctionsMap.get(wordName);
-            const returnType = util.GetreturnTypeStrFromReturnType(functionEntity.Returntype);
-            const functionIntroduction = `${wordName}(${functionEntity.Params.join(", ")}): ${returnType}`;
+            const returnType = util.getreturnTypeStrFromReturnType(functionEntity.returntype);
+            const functionIntroduction = `${wordName}(${functionEntity.params.join(", ")}): ${returnType}`;
 
             const contents = [];
             contents.push(new vscode.MarkdownString(functionIntroduction));
-            contents.push(new vscode.MarkdownString(functionEntity.Introduction));
+            contents.push(new vscode.MarkdownString(functionEntity.introduction));
             return new vscode.Hover(contents, wordRange);
         }
 
