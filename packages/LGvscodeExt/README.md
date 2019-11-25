@@ -6,6 +6,10 @@ Get more detail -> [Language Generation](https://github.com/microsoft/BotBuilder
 
 # how to use for customer
 - into LGvscodeExt folder
+- To get access to the daily builds of this library, configure npm to use the MyGet feed before installing.
+    - `npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/`
+- To reset the registry in order to get the latest published version, run:
+    - `npm config set registry https://registry.npmjs.org/`
 - `npm install` to install packagesnpm run compile
 - `npm run build`
 - `npm install -g vsce`, if `vsce` is not installed globally.

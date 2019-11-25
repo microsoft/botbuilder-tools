@@ -64,30 +64,41 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
         }
         diagnostics.forEach(u => {
             const isUnkownFuncDiag: boolean = u.message.includes("it's not a built-in function or a customized function in expression");
-            let ignored = false;
-            const funcName = extractFuncName(u.message);
-            console.log(funcName);
-            if (customFunctionList.includes(funcName)) {
-                ignored = true;
-            } else {
-                switch (confDiagLevel) {
-                    case "ignore":
-                        if (isUnkownFuncDiag) {
-                            ignored = true;
-                        }
-                        break;
-                
-                    case "warn":
+            if (isUnkownFuncDiag === true){
+                let ignored = false;
+                const funcName = extractFuncName(u.message);
+                console.log(funcName);
+                if (customFunctionList.includes(funcName)) {
+                    ignored = true;
+                } else {
+                    switch (confDiagLevel) {
+                        case "ignore":
                             if (isUnkownFuncDiag) {
-                                u.severity = DiagnosticSeverity.Warning;
+                                ignored = true;
                             }
-                        break;
-                    default:
-                        break;
+                            break;
+                    
+                        case "warn":
+                                if (isUnkownFuncDiag) {
+                                    u.severity = DiagnosticSeverity.Warning;
+                                }
+                            break;
+                        default:
+                            break;
+                    }
                 }
-            }
-
-            if (!ignored){
+    
+                if (ignored === false){
+                    const diagItem = new vscode.Diagnostic(
+                        new vscode.Range(
+                            new vscode.Position(u.range.start.line - 1, u.range.start.character),
+                            new vscode.Position(u.range.end.line - 1, u.range.end.character)),
+                        u.message,
+                        u.severity
+                    );
+                    vscodeDiagnostics.push(diagItem);
+                }
+            } else {
                 const diagItem = new vscode.Diagnostic(
                     new vscode.Range(
                         new vscode.Position(u.range.start.line - 1, u.range.start.character),
@@ -96,7 +107,7 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
                     u.severity
                 );
                 vscodeDiagnostics.push(diagItem);
-            }
+            }    
         });
         
         collection.set(document.uri, vscodeDiagnostics);
