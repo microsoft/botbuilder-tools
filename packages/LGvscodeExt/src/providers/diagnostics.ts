@@ -19,28 +19,28 @@ export function activate(context: vscode.ExtensionContext) {
 
     setInterval(() => {
         const editer = vscode.window.activeTextEditor;
-        if (editer !== undefined && util.IsLgFile(editer.document.fileName)) {
+        if (editer !== undefined && util.isLgFile(editer.document.fileName)) {
             updateDiagnostics(editer.document, collection);
          }
     }, 3000);
 
     // if you want to trigger the event for each text change, use: vscode.workspace.onDidChangeTextDocument
     context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(e => {
-        if (util.IsLgFile(vscode.window.activeTextEditor.document.fileName))
+        if (util.isLgFile(vscode.window.activeTextEditor.document.fileName))
         {
             updateDiagnostics(e, collection);
         }
     }));
     
     context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(e => {
-        if (util.IsLgFile(e.fileName))
+        if (util.isLgFile(e.fileName))
         {
             updateDiagnostics(e, collection);
         }
     }));
 
     context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => {
-        if (util.IsLgFile(e.document.fileName))
+        if (util.isLgFile(e.document.fileName))
         {
             updateDiagnostics(e.document, collection);
         }
@@ -53,7 +53,7 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
         return;
     }
     
-	if (util.IsLgFile(document.fileName)) {
+	if (util.isLgFile(document.fileName)) {
         var diagnostics = new StaticChecker().checkFile(document.uri.fsPath);
         var vscodeDiagnostics: vscode.Diagnostic[] = [];
         const confDiagLevel = vscode.workspace.getConfiguration().get('LG.Expression.ignoreUnknownFunction');

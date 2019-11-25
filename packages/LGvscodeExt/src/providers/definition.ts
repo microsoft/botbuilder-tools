@@ -25,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
  */
 class LGDefinitionProvider implements vscode.DefinitionProvider{
     provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<vscode.Definition> {
-        if (!util.IsLgFile(document.fileName)) {
+        if (!util.isLgFile(document.fileName)) {
             return;
         }
         
@@ -37,19 +37,19 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             }
             const templateName = document.getText(wordRange);
 
-            const templates: LGTemplate[] = util.GetAllTemplatesFromCurrentLGFile(document.uri);
-            const template: LGTemplate = templates.find(u=>u.Name === templateName);
+            const templates: LGTemplate[] = util.getAllTemplatesFromCurrentLGFile(document.uri);
+            const template: LGTemplate = templates.find(u=>u.name === templateName);
             if (template === undefined)
                 return undefined;
             
             
-            const lineNumber: number = template.ParseTree.start.line - 1;
-            const columnNumber: number = template.ParseTree.start.charPositionInLine;
+            const lineNumber: number = template.parseTree.start.line - 1;
+            const columnNumber: number = template.parseTree.start.charPositionInLine;
             const definitionPosition: vscode.Position = new vscode.Position(lineNumber, columnNumber);
 
             let definitionUri: vscode.Uri = undefined;
             DataStorage.templateEngineMap.forEach((value, key) => {
-                if (template.Source === key) {
+                if (template.source === key) {
                     definitionUri = value.uri;
                 }
             });

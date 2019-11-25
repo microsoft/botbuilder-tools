@@ -1,13 +1,14 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es6",
+		"target": "ESNext",
 		"outDir": "out",
 		"lib": [
 			"es6"
 		],
 		"sourceMap": true,
-		"rootDir": "src"
+		"rootDir": "src",
+		"types" : ["node"]
 	},
 	"exclude": [
 		"node_modules",

@@ -12,9 +12,8 @@ import { DataStorage, TemplateEngineEntity } from "./dataStorage";
 import * as vscode from 'vscode';
 import { ReturnType } from "botframework-expressions";
 import { buildInfunctionsMap, FunctionEntity } from './buildinFunctions';
-import { stringify } from "querystring";
 
-export function IsLgFile(fileName: string): boolean {
+export function isLgFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.endsWith('.lg')) {
         return false;
     }
@@ -31,7 +30,7 @@ export function isInFencedCodeBlock(doc: TextDocument, position: Position): bool
     }
 }
 
-export function GetAllTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) :LGTemplate[] {
+export function getAllTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) :LGTemplate[] {
     let engineEntity: TemplateEngineEntity = DataStorage.templateEngineMap.get(lgFileUri.fsPath);
     if (engineEntity === undefined || engineEntity.templateEngine === undefined) {
         return [];
@@ -40,21 +39,21 @@ export function GetAllTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) :LGTempl
     return engineEntity.templateEngine.templates;
 }
 
-export function GetAllTemplateFromCurrentWorkspace() :LGTemplate[] {
+export function getAllTemplateFromCurrentWorkspace() :LGTemplate[] {
     let templates: LGTemplate[] = [];
 
     DataStorage.templateEngineMap.forEach(u => templates = templates.concat(u.templateEngine.templates));
 
     templates = templates.filter((resource: LGTemplate, index: number, self: LGTemplate[]) =>
         index === self.findIndex((t: LGTemplate) => (
-            t.Name === resource.Name && t.Source === resource.Source
+            t.name === resource.name && t.source === resource.source
         ))
     );
 
     return templates;
 }
 
-export function GetreturnTypeStrFromReturnType(returnType: ReturnType): string {
+export function getreturnTypeStrFromReturnType(returnType: ReturnType): string {
     let result = '';
     switch(returnType) {
         case ReturnType.Boolean: result = "boolean";break;
@@ -66,18 +65,18 @@ export function GetreturnTypeStrFromReturnType(returnType: ReturnType): string {
     return result;
 }
 
-export function GetAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEntity> {
+export function getAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEntity> {
     const functions: Map<string, FunctionEntity> = new Map<string, FunctionEntity>();
 
     for (const func of buildInfunctionsMap) {
         functions.set(func[0],func[1]);
     }
 
-    const templates: LGTemplate[] = GetAllTemplatesFromCurrentLGFile(lgFileUri);
+    const templates: LGTemplate[] = getAllTemplatesFromCurrentLGFile(lgFileUri);
 
     for (const template of templates) {
-        var functionEntity = new FunctionEntity(template.Parameters, ReturnType.Object, 'Template reference');
-        functions.set(template.Name, functionEntity);
+        var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, 'Template reference');
+        functions.set(template.name, functionEntity);
     }
 
     return functions;

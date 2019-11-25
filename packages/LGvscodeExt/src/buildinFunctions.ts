@@ -9,13 +9,13 @@
 import { ReturnType } from "botframework-expressions";
 export class FunctionEntity {
     public constructor(params: string[], returntype: ReturnType, introduction: string) {
-        this.Params = params;
-        this.Returntype = returntype;
-        this.Introduction = introduction;
+        this.params = params;
+        this.returntype = returntype;
+        this.introduction = introduction;
     }
-    public Params: string[];
-    public Returntype: ReturnType;
-    public Introduction: string;
+    public params: string[];
+    public returntype: ReturnType;
+    public introduction: string;
 }
 
 // todo should add params info and other info og the function

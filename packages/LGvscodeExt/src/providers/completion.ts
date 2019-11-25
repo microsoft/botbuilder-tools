@@ -30,7 +30,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         position: vscode.Position,
         token: vscode.CancellationToken,
         context: vscode.CompletionContext): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
-        if (!util.IsLgFile(document.fileName)) {
+        if (!util.isLgFile(document.fileName)) {
             return;
         }
         
@@ -42,7 +42,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             return new Promise((res, _) => {
                 let paths: string[] = [];
 
-                DataStorage.templateEngineMap.forEach(u => paths = paths.concat(u.templateEngine.templates.map(u => u.Source)));
+                DataStorage.templateEngineMap.forEach(u => paths = paths.concat(u.templateEngine.templates.map(u => u.source)));
                 paths = Array.from(new Set(paths));
 
                 const headingCompletions = paths.reduce((prev, curr) => {
@@ -58,17 +58,17 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         } else if (/\[[^\]]*$/.test(lineTextBefore) && !util.isInFencedCodeBlock(document, position)) {
             // input [ ] prompt template suggestion
             return new Promise((res, _) => {
-                let templates: LGTemplate[] = util.GetAllTemplateFromCurrentWorkspace();
+                let templates: LGTemplate[] = util.getAllTemplateFromCurrentWorkspace();
 
                 const headingCompletions = templates.reduce((prev, curr) => {
-                    let item = new vscode.CompletionItem(curr.Name, vscode.CompletionItemKind.Reference);
+                    let item = new vscode.CompletionItem(curr.name, vscode.CompletionItemKind.Reference);
                     
-                    item.detail = `${curr.Source}`;
+                    item.detail = `${curr.source}`;
                     
                     const lgParser = LGParser.parse(document.getText());
-                    var relativePath = path.relative(path.dirname(document.uri.fsPath), curr.Source);
+                    var relativePath = path.relative(path.dirname(document.uri.fsPath), curr.source);
 
-                    if (curr.Source !== document.uri.fsPath && !lgParser.Imports.map(u => path.normalize(u.Id)).includes(path.normalize(relativePath))) {
+                    if (curr.source !== document.uri.fsPath && !lgParser.imports.map(u => path.normalize(u.id)).includes(path.normalize(relativePath))) {
                         var edit =  vscode.TextEdit.insert(new vscode.Position(0,0), `[import](${relativePath})\r\n`);
                         item.additionalTextEdits = [edit];
                     }
@@ -84,12 +84,12 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         } else if (/\{[^\}]*$/.test(lineTextBefore)) {
             // buildin function prompt in expression
             let items: vscode.CompletionItem[] = [];
-            var functions = util.GetAllFunctions(document.uri);
+            var functions = util.getAllFunctions(document.uri);
             functions.forEach((value, key) => {
                 let completionItem = new vscode.CompletionItem(key);
-                const returnType = util.GetreturnTypeStrFromReturnType(value.Returntype);
-                completionItem.detail = `${key}(${value.Params.join(", ")}): ${returnType}`;
-                completionItem.documentation = value.Introduction;
+                const returnType = util.getreturnTypeStrFromReturnType(value.returntype);
+                completionItem.detail = `${key}(${value.params.join(", ")}): ${returnType}`;
+                completionItem.documentation = value.introduction;
                 items.push(completionItem);
             });
 
@@ -99,9 +99,9 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             let items: vscode.CompletionItem[] = [];
             buildInfunctionsMap.forEach((value, key) => {
                 let completionItem = new vscode.CompletionItem(key);
-                const returnType = util.GetreturnTypeStrFromReturnType(value.Returntype);
-                completionItem.detail = `${key}(${value.Params.join(", ")}): ${returnType}`;
-                completionItem.documentation = value.Introduction;
+                const returnType = util.getreturnTypeStrFromReturnType(value.returntype);
+                completionItem.detail = `${key}(${value.params.join(", ")}): ${returnType}`;
+                completionItem.documentation = value.introduction;
                 items.push(completionItem);
             });
         } else {

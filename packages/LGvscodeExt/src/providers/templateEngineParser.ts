@@ -18,13 +18,13 @@ export function activate(context: vscode.ExtensionContext) {
 
     setInterval(() => {
         const editer = vscode.window.activeTextEditor;
-        if (editer !== undefined && util.IsLgFile(editer.document.fileName)) {
+        if (editer !== undefined && util.isLgFile(editer.document.fileName)) {
             updateTemplateEngine(editer.document.uri);
          }
     }, 3000);
 
     context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(e => {
-        if (util.IsLgFile(e.fileName))
+        if (util.isLgFile(e.fileName))
         {
             updateTemplateEngine(e.uri);
         }
