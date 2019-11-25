@@ -38,11 +38,11 @@ class LGHoverProvider implements vscode.HoverProvider {
 
         // template reference hover
         const templates: LGTemplate[] = util.getAllTemplatesFromCurrentLGFile(document.uri);
-        const template: LGTemplate = templates.find(u=>u.name === wordName);
+        const template: LGTemplate = templates.find(u=>u.Name === wordName);
         if (template !== undefined) {
             const contents = [];
-            contents.push(new vscode.MarkdownString(template.source));
-            contents.push(new vscode.MarkdownString(template.body));
+            contents.push(new vscode.MarkdownString(template.Source));
+            contents.push(new vscode.MarkdownString(template.Body));
             return new vscode.Hover(contents, wordRange);
         }
 

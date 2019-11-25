@@ -126,8 +126,8 @@ export class LGDebugPanel {
                             vscode.window.showErrorMessage("please fix all errors first.");
                         } else {
                             for (const template of templates) {
-                                if (!result.includes(template.name)) {
-                                    result.push(template.name);
+                                if (!result.includes(template.Name)) {
+                                    result.push(template.Name);
                                 }
                                 
                             }
@@ -151,7 +151,7 @@ export class LGDebugPanel {
                             vscode.window.showErrorMessage("please fix all errors first.");
                         } else {
                             for (const template of templates) {
-                                result.push(template.name);
+                                result.push(template.Name);
                             }
                         }
 

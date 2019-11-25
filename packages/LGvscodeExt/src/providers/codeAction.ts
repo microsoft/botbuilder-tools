@@ -48,18 +48,18 @@ class LGCodeActionProvider implements vscode.CodeActionProvider  {
             const allTemplates: LGTemplate[] = util.getAllTemplateFromCurrentWorkspace(); // all tempaltes in the workspace
             const currentTemplates: LGTemplate[] = util.getAllTemplatesFromCurrentLGFile(document.uri); // templates that this lg file have/import
 
-            if (currentTemplates.find(u=>u.name == templateName) !== undefined) {
+            if (currentTemplates.find(u=>u.Name == templateName) !== undefined) {
                 // has imported
                 continue;
             }
 
-            const template = allTemplates.find(u=>u.name == templateName);
+            const template = allTemplates.find(u=>u.Name == templateName);
             if (template === undefined) {
                 // not find this template in the whole workspace
                 continue;
             }
 
-            var relativePath = path.relative(path.dirname(document.uri.fsPath), template.source);
+            var relativePath = path.relative(path.dirname(document.uri.fsPath), template.Source);
 
             codeActions.push({
                 title: `Import from ${relativePath}`,

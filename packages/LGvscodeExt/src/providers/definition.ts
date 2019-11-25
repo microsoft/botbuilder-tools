@@ -38,18 +38,18 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             const templateName = document.getText(wordRange);
 
             const templates: LGTemplate[] = util.getAllTemplatesFromCurrentLGFile(document.uri);
-            const template: LGTemplate = templates.find(u=>u.name === templateName);
+            const template: LGTemplate = templates.find(u=>u.Name === templateName);
             if (template === undefined)
                 return undefined;
             
             
-            const lineNumber: number = template.parseTree.start.line - 1;
-            const columnNumber: number = template.parseTree.start.charPositionInLine;
+            const lineNumber: number = template.ParseTree.start.line - 1;
+            const columnNumber: number = template.ParseTree.start.charPositionInLine;
             const definitionPosition: vscode.Position = new vscode.Position(lineNumber, columnNumber);
 
             let definitionUri: vscode.Uri = undefined;
             DataStorage.templateEngineMap.forEach((value, key) => {
-                if (template.source === key) {
+                if (template.Source === key) {
                     definitionUri = value.uri;
                 }
             });

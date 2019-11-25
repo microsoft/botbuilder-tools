@@ -42,7 +42,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             return new Promise((res, _) => {
                 let paths: string[] = [];
 
-                DataStorage.templateEngineMap.forEach(u => paths = paths.concat(u.templateEngine.templates.map(u => u.source)));
+                DataStorage.templateEngineMap.forEach(u => paths = paths.concat(u.templateEngine.templates.map(u => u.Source)));
                 paths = Array.from(new Set(paths));
 
                 const headingCompletions = paths.reduce((prev, curr) => {
@@ -61,14 +61,14 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                 let templates: LGTemplate[] = util.getAllTemplateFromCurrentWorkspace();
 
                 const headingCompletions = templates.reduce((prev, curr) => {
-                    let item = new vscode.CompletionItem(curr.name, vscode.CompletionItemKind.Reference);
+                    let item = new vscode.CompletionItem(curr.Name, vscode.CompletionItemKind.Reference);
                     
-                    item.detail = `${curr.source}`;
+                    item.detail = `${curr.Source}`;
                     
                     const lgParser = LGParser.parse(document.getText());
-                    var relativePath = path.relative(path.dirname(document.uri.fsPath), curr.source);
+                    var relativePath = path.relative(path.dirname(document.uri.fsPath), curr.Source);
 
-                    if (curr.source !== document.uri.fsPath && !lgParser.imports.map(u => path.normalize(u.id)).includes(path.normalize(relativePath))) {
+                    if (curr.Source !== document.uri.fsPath && !lgParser.Imports.map(u => path.normalize(u.Id)).includes(path.normalize(relativePath))) {
                         var edit =  vscode.TextEdit.insert(new vscode.Position(0,0), `[import](${relativePath})\r\n`);
                         item.additionalTextEdits = [edit];
                     }

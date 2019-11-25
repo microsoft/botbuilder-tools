@@ -46,7 +46,7 @@ export function getAllTemplateFromCurrentWorkspace() :LGTemplate[] {
 
     templates = templates.filter((resource: LGTemplate, index: number, self: LGTemplate[]) =>
         index === self.findIndex((t: LGTemplate) => (
-            t.name === resource.name && t.source === resource.source
+            t.Name === resource.Name && t.Source === resource.Source
         ))
     );
 
@@ -75,8 +75,8 @@ export function getAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEnti
     const templates: LGTemplate[] = getAllTemplatesFromCurrentLGFile(lgFileUri);
 
     for (const template of templates) {
-        var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, 'Template reference');
-        functions.set(template.name, functionEntity);
+        var functionEntity = new FunctionEntity(template.Parameters, ReturnType.Object, 'Template reference');
+        functions.set(template.Name, functionEntity);
     }
 
     return functions;
