@@ -101,6 +101,6 @@
         "vscode": "^1.1.36"
     },
     "dependencies": {
-        "botbuilder-lg": "^4.7.0-preview.92070"
+        "botbuilder-lg": "^4.7.0-preview.92771"
     }
 }

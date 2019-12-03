@@ -126,5 +126,10 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     ['xpath', new FunctionEntity(['xml: any', 'xpath: any'], ReturnType.Object, 'Check XML for nodes or values that match an XPath (XML Path Language) expression, and return the matching nodes or values. An XPath expression, or just "XPath", helps you navigate an XML document structure so that you can select nodes or compute values in the XML content.')],
     ['sortBy', new FunctionEntity(['collection: Array', 'property?: string'], ReturnType.Object, 'Sort elements in the collection with ascending order and return the sorted collection')],
     ['sortByDescending', new FunctionEntity(['collection: Array', 'property?: string'], ReturnType.Object, 'Sort elements in the collection with descending order and return the sorted collection')],
+
+    // LG functions
+    ['template', new FunctionEntity(['templateName: string', 'scope?: any'], ReturnType.Object, 'Evaluate another la template')],
+    ['fromFile', new FunctionEntity(['filePath: string'], ReturnType.String, 'Get content from absolute/relative file path')],
+    ['ActivityAttachment', new FunctionEntity(['jsonObject: any', 'type: string'], ReturnType.Object, 'Get the attachment from json object.')],
 ]);
 
