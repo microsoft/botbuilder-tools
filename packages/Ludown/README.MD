@@ -50,6 +50,10 @@ Also see the [here](ChitChat) to add Small talk/ chit-chat capabilities to your 
 - [Adding small talk/ chit-chat capabilities to your bot](ChitChat/README.MD)
 - [Ludown as a library](docs/ludown-library.md)
 
+## Updates
+- Added new features to 'QnA maker' part of LUdown package. Check docs for '.lu File Format' 
+
+
 ## Use ludown as a library
 Ludown can be used within a Node.js application as an imported library. Install locally:
 

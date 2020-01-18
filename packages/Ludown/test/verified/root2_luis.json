@@ -178,6 +178,11 @@
       "entities": []
     },
     {
+      "text": "delete the {alarmTime} alarm",
+      "intent": "DeleteAlarm",
+      "entities": []
+    },
+    {
       "text": "set phone call as my communication preference",
       "intent": "CommunicationPreference",
       "entities": []
@@ -221,7 +226,7 @@
       "roles": []
     }
   ],
-  "luis_schema_version": "3.2.0",
+  "luis_schema_version": "3.0.0",
   "versionId": "0.1",
   "name": "root2",
   "desc": "",

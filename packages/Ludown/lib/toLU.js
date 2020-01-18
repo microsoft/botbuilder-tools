@@ -86,13 +86,8 @@ const toLUModules = {
                 throw (new exception(retCode.errorCode.INVALID_INPUT, `Sorry, unable to parse stdin as LUIS or QnA Maker model!`));
             }
         }
-
-        if(program.sort) {
-            // sort LUIS, QnA and QnAAltJson
-            await toLUHelpers.sortCollections(LUISJSON, QnAJSON, QnAAltJSON);
-        }
         // construct the markdown file content
-        outFileContent = await toLUHelpers.constructMdFileHelper(LUISJSON, QnAJSON, QnAAltJSON, program.LUIS_File, program.QNA_FILE, program.skip_header, program.model_info)
+        outFileContent = await toLUHelpers.constructMdFileHelper(LUISJSON, QnAJSON, QnAAltJSON, program.LUIS_File, program.QNA_FILE, program.skip_header)
         if(!outFileContent) {
             throw(new exception(retCode.errorCode.UNKNOWN_ERROR,'Sorry, Unable to generate .lu file content!'));
         }
