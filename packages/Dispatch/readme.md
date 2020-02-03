@@ -361,10 +361,9 @@ To fix this, make sure you are using the correct agent pool. In order to success
 
 ## <a name="faq"></a>Frequently Asked Questions
 ### Are entities in LUIS sub models transferred to Dispatch model?
-Dispatch's main purpose is to route intent across multiple bot modules, thus it concerns only with intent classification.  Unless entities are used for intent classification, they won't be transferred to Dispatch app. Patterns in LUIS sub models are transferred 
-to the Dispatch model since they are used for intent classification. If patterns make use of entities, those entities will be transferred as well.  Since Dispatch produces a LUIS model, it needs to follow the 
-[boundaries](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-boundaries) for a LUIS model. Dispatch creation will fail if total entities used in pattern exceed the entities limits. The only workaround is to reduce that the total number of 
-entities used in patterns in the sub LUIS models.
+Dispatch's main purpose is to route intent across multiple bot modules, thus it concerns only with intent classification.  Unless entities are used for intent classification, they won't be transferred to Dispatch app.  Since patterns are used for intent classification, 
+they are transferred to the Dispatch model, and if they make use of entities, those entities will be transferred as well.  Dispatch creation will fail if total entities used in pattern exceed the entities limits [here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-boundaries). 
+The only workaround is to reduce that the total number of entities used in patterns in the sub LUIS models.
 
 ### What happen if combined utterances in the LUIS sub models and QnA kbs exceed the 15,000 utterance limit in LUIS?
 Dispatch CLI will proportionally down sample utterances from each sub model so it won't exceed the 15,000 utterance limit.  Use the optional parameter "--doAutoActiveLearning true" for the create/refresh commands for intelligent down sampling, where only relevant 
