@@ -23,7 +23,7 @@ npm install -g botdispatch
 
 This will install dispatch into your global path.
 
-## Usage
+## <a name="usage"></a>Usage
 
 ### Initializing dispatch
 
@@ -279,7 +279,7 @@ With the following options
 | --dataFolder         | (optional) Dispatch working directory |
 | -h, --help           | Output usage information |
 
-## Common Tasks
+## <a name="commontasks"></a>Common Tasks
 
 ### Create bot dispatch using bot file
 If you have a .bot file containing one or more LUIS model(s) and/or one or more QnA Maker knowledge base(s), you could create Dispatch model without having to initialize Dispatch and add all of the sources separately. Running the eval command is optional but it provides insight into how well the newly created or updated Dispatch model will perform.  In addition, it provides suggestions for improving the bot components.
@@ -347,7 +347,7 @@ JS Sample: https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/j
 
 Tutorial: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch
 
-## Troubleshooting
+## <a name="troubleshooting"></a>Troubleshooting
 
 If you are using the Dispatch command line tool in Azure Pipelines with a [Microsoft-hosted agent](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#use-a-microsoft-hosted-agent), you may encounter the following error:
 
