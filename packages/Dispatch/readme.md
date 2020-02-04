@@ -279,6 +279,7 @@ With the following options
 | --dataFolder         | (optional) Dispatch working directory |
 | -h, --help           | Output usage information |
 
+
 ## Common Tasks
 
 ### Create bot dispatch using bot file
@@ -288,6 +289,8 @@ If you have a .bot file containing one or more LUIS model(s) and/or one or more 
 dispatch create --bot c:\src\bot\testbot.bot --secret <your_bot_file_secret>
 dispatch eval --luisSubscriptionKey <azure_luis_key> --luisSubscriptionRegion <azure_luis_region>
 ```
+
+### Updating dispatch
 If any of your LUIS/QnA Maker models have changed or if you have added more LUIS/QnA maker component(s) to your bot, update your Dispatch model with refresh command.
 
 ```shell
@@ -300,7 +303,6 @@ In some scenarios, utterances might need to be added directly to the Dispatch ap
 ```shell
 dispatch add -t file -f <file_path> --intentName <dispatch_target_intent_name, ie l_LUISAppName or q_QnAKbName>
 ```
-
 
 
 ### Create and evaluate bot dispatch
@@ -356,6 +358,19 @@ If you are using the Dispatch command line tool in Azure Pipelines with a [Micro
 To fix this, make sure you are using the correct agent pool. In order to successfully run the .NET commands that Dispatch relies on, you will need to use Visual Studio 2017 on Windows Server 2016 (`vs2017-win2016`). In the web UI, you would select "Hosted VS2017":
 
 ![azurepipelinesagentpoolvmimages](https://user-images.githubusercontent.com/41968495/52246146-8ea81c00-2899-11e9-8ed1-5a0347ad12a5.jpg)
+
+## FAQ
+### Are entities in LUIS sub models transferred to Dispatch model?
+Dispatch's main purpose is to route intent across multiple bot modules, thus it concerns only with intent classification.  Unless entities are used for intent classification, they won't be transferred to Dispatch app.  Since patterns are used for intent classification, they are transferred to the Dispatch model, and if they make use of entities, those entities will be transferred as well.  Dispatch creation will fail if total entities used in pattern exceed the entities limits [here](https://docs.microsoft.com/azure/cognitive-services/luis/luis-boundaries). The only workaround is to reduce that the total number of entities used in patterns in the sub LUIS models.
+
+### What happen if combined utterances in the LUIS sub models and QnA kbs exceed the 15,000 utterance limit in LUIS?
+Dispatch CLI will proportionally down sample utterances from each sub model so it won't exceed the 15,000 utterance limit.  Use the optional parameter "--doAutoActiveLearning true" for the create/refresh commands for intelligent down sampling, where only relevant 
+examples will be retained.
+
+### How do we update Dispatch model when LUIS sub models or QnA kbs are updated?
+Use the refresh command to update your Dispatch model.
+
+
 
 ## Nightly builds
 
