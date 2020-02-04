@@ -23,7 +23,7 @@ npm install -g botdispatch
 
 This will install dispatch into your global path.
 
-## <a name="usage"></a>Usage
+## Usage
 
 ### Initializing dispatch
 
@@ -280,7 +280,7 @@ With the following options
 | -h, --help           | Output usage information |
 
 
-## <a name="commontasks"></a>Common Tasks
+## Common Tasks
 
 ### Create bot dispatch using bot file
 If you have a .bot file containing one or more LUIS model(s) and/or one or more QnA Maker knowledge base(s), you could create Dispatch model without having to initialize Dispatch and add all of the sources separately. Running the eval command is optional but it provides insight into how well the newly created or updated Dispatch model will perform.  In addition, it provides suggestions for improving the bot components.
@@ -342,14 +342,14 @@ dispatch test --testFilePath <text_file>
 
 The output, Summary.html, contains all the evaluation results. The file is located in the location of the test file.
 
-## <a name="samples"></a>Sample Code and Tutorial
+## Sample Code and Tutorial
 C# Sample: https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/14.nlp-with-dispatch
 
 JS Sample: https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/14.nlp-with-dispatch 
 
 Tutorial: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch
 
-## <a name="troubleshooting"></a>Troubleshooting
+## Troubleshooting
 
 If you are using the Dispatch command line tool in Azure Pipelines with a [Microsoft-hosted agent](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#use-a-microsoft-hosted-agent), you may encounter the following error:
 
@@ -359,11 +359,9 @@ To fix this, make sure you are using the correct agent pool. In order to success
 
 ![azurepipelinesagentpoolvmimages](https://user-images.githubusercontent.com/41968495/52246146-8ea81c00-2899-11e9-8ed1-5a0347ad12a5.jpg)
 
-## <a name="faq"></a>Frequently Asked Questions
+## FAQ
 ### Are entities in LUIS sub models transferred to Dispatch model?
-Dispatch's main purpose is to route intent across multiple bot modules, thus it concerns only with intent classification.  Unless entities are used for intent classification, they won't be transferred to Dispatch app.  Since patterns are used for intent classification, 
-they are transferred to the Dispatch model, and if they make use of entities, those entities will be transferred as well.  Dispatch creation will fail if total entities used in pattern exceed the entities limits [here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-boundaries). 
-The only workaround is to reduce that the total number of entities used in patterns in the sub LUIS models.
+Dispatch's main purpose is to route intent across multiple bot modules, thus it concerns only with intent classification.  Unless entities are used for intent classification, they won't be transferred to Dispatch app.  Since patterns are used for intent classification, they are transferred to the Dispatch model, and if they make use of entities, those entities will be transferred as well.  Dispatch creation will fail if total entities used in pattern exceed the entities limits [here](https://docs.microsoft.com/azure/cognitive-services/luis/luis-boundaries). The only workaround is to reduce that the total number of entities used in patterns in the sub LUIS models.
 
 ### What happen if combined utterances in the LUIS sub models and QnA kbs exceed the 15,000 utterance limit in LUIS?
 Dispatch CLI will proportionally down sample utterances from each sub model so it won't exceed the 15,000 utterance limit.  Use the optional parameter "--doAutoActiveLearning true" for the create/refresh commands for intelligent down sampling, where only relevant 
@@ -372,7 +370,7 @@ examples will be retained.
 ### How do we update Dispatch model when LUIS sub models or QnA kbs are updated?
 Use the refresh command to update your Dispatch model.
 
-###
+
 
 ## Nightly builds
 
