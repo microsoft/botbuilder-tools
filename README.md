@@ -3,13 +3,20 @@
 
 ### [Click here to find out what's new for //build2019!](https://github.com/Microsoft/botframework/blob/master/whats-new.md#whats-new)
 
+## The new BF CLI replaces legacy standalone tools
+
+The Bot Framework SDK team is happy to announce the General Availability of the consolidated bot framework CLI tool [bf-cli](https://aka.ms/bfcli). The new BF CLI tool will replace legacy standalone tools to manage Bot Framework bots and related services. The old tools will be ported over in phases and all new features, bug fixes, and further investments will focus on the new BF CLI.  Old tools will still work for the time being, but they are going to be deprecated in future releases.
+
+Upon the release of Bot Framework SDK version 4.6 the following legacy tools have been ported: Chatdown, QnAMaker, LuisGen, and LuDown.
+
+To learn more about the BF CLI please visit the [BF CLI github repository](https://aka.ms/bfcli).
+
+__The following page is about the legacy tools.__
+
 # Bot Framework Tools 
 [![Build Status](https://fuselabs.visualstudio.com/SDK_v4/_apis/build/status/Tools/Botbuilder-tools-js-daily?branchName=master)](https://fuselabs.visualstudio.com/SDK_v4/_build/latest?definitionId=467&branchName=master) [![Coverage Status](https://coveralls.io/repos/github/Microsoft/botbuilder-tools/badge.svg?branch=master)](https://coveralls.io/github/Microsoft/botbuilder-tools?branch=master) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 
 The Bot Framework tools are a collection of cross-platform command line tools designed to cover end-to-end bot development workflow. This repo is part the [Microsoft Bot Framework](https://github.com/Microsoft/botframework) -  a comprehensive framework for building enterprise-grade conversational AI experiences.
-
-This repo is part the [Microsoft Bot Framework](https://github.com/microsoft/botframework) - a comprehensive framework for building enterprise-grade conversational AI experiences.
-
 
 | Stable release   | Tool | Description |
 |-----------------|------|--------------|
@@ -20,10 +27,6 @@ This repo is part the [Microsoft Bot Framework](https://github.com/microsoft/bot
 | [![npm version](https://badge.fury.io/js/qnamaker.svg)](https://badge.fury.io/js/qnamaker) |[QnAMaker](packages/QnAMaker) | Create and manage [QnAMaker.ai](http://qnamaker.ai) Knowledge Bases. |
 | [![npm version](https://badge.fury.io/js/botdispatch.svg)](https://badge.fury.io/js/botdispatch) | [Dispatch](packages/Dispatch) | Build language models allowing you to dispatch between disparate components (such as QnA, LUIS and custom code)|
 | [![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)| [LUISGen](packages/LUISGen) | Auto generate backing C#/Typescript classes for your LUIS intents and entities.|
-| [![npm version](https://badge.fury.io/js/dialogtracker.svg)](https://badge.fury.io/js/dialogtracker)| [DialogTracker](packages/DialogTracker) | PREVIEW - Library for tracking .schema, .dialog and .lg files.|
-| [![npm version](https://badge.fury.io/js/dialogschema.svg)](https://badge.fury.io/js/dialogschema)| [DialogSchema](packages/DialogSchema) | PREVIEW - Merge together and check .schema and .lg files into a composite .schema file.|
-| [![npm version](https://badge.fury.io/js/dialoglint.svg)](https://badge.fury.io/js/dialoglint)| [DialogLint](packages/DialogLint) | PREVIEW - Check .dialog files for errors and compile .lg files.|
-| [![npm version](https://badge.fury.io/js/mslg.svg)](https://badge.fury.io/js/mslg)| [MSLG](packages/MSLG) | PREVIEW - Parse and collate lg files, expand lg templates or translate lg files.|
 ## Install CLI tools:
 Pre-requisite:
 - [Node.js](https://nodejs.org/) version 10.14.1 or higher

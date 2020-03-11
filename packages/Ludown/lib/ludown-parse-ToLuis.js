@@ -23,8 +23,8 @@ program
     .option('-s, --subfolder', '[Optional] Include sub-folders as well when looking for .lu files')
     .option('-n, --luis_name <luis_appName>', '[Optional] LUIS app name')
     .option('-d, --luis_desc <luis_appDesc>', '[Optional] LUIS app description')
-    .option('-i, --luis_versionId <luis_versionId>', '[Optional] LUIS app version', '0.1')
-    .option('-c, --luis_culture <luis_appCulture>', '[Optional] LUIS app culture', 'en-us')
+    .option('-i, --luis_versionId <luis_versionId>', '[Optional] LUIS app version')
+    .option('-c, --luis_culture <luis_appCulture>', '[Optional] LUIS app culture')
     .option('-t, --write_luis_batch_tests', '[Optional] Write out LUIS batch test json file')
     .option('--out <OutFileName>', '[Optional] Output file name for the LUIS model')
     .option('--verbose', '[Optional] Get verbose messages from parser')
@@ -36,7 +36,7 @@ if (process.argv.length < 4) {
     if (program.luis_culture) {
         // List of supported LUIS.ai locales. 
         // From: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-language-support
-        const LUISLocales = ['en-us', 'fr-ca', 'zh-cn', 'nl-nl', 'fr-fr', 'de-de', 'it-it', 'ja-jp', 'ko-kr', 'pt-br', 'es-es', 'es-mx'];
+        const LUISLocales = ['en-us', 'fr-ca', 'zh-cn', 'nl-nl', 'fr-fr', 'de-de', 'it-it', 'ja-jp', 'ko-kr', 'pt-br', 'es-es', 'es-mx', 'tr-tr'];
         if (!(LUISLocales.includes(program.luis_culture.toLowerCase()))) {
             process.stderr.write(chalk.default.yellowBright(`\nWARN: Unrecognized LUIS locale. Supported locales are - ${LUISLocales.toString()} \n\n`));
         }

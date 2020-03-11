@@ -4,7 +4,7 @@
 			"title": "and 'application'",
 			"args": "add app --in %s --authoringKey dummyKey --region westus",
 			"stdout": "",
-			"stderr": "Access denied due to invalid subscription key.",
+			"stderr": "Access denied due to invalid subscription key or wrong API endpoint. Make sure to provide a valid key for an active subscription and use a correct regional API endpoint for your resource.",
 			"resource": ["ApplicationCreateObject.json"]
 		},
 		{
@@ -202,6 +202,13 @@
 			"stdout": "",
 			"stderr": "appId cannot be null or undefined.",
 			"resource": ["WordListObject.json"]
+		},
+		{
+			"title": "and 'appazureaccount'",
+			"args": "add appazureaccount --in %s --authoringKey dummyKey --region westus",
+			"stdout": "",
+			"stderr": "appId cannot be null or undefined.",
+			"resource": ["AzureAccountInfoObject.json", "ArmTokenObject.json"]
 		},
 		{
 			"title": "and invalid resource",

@@ -10,14 +10,20 @@ const packageName = "luis-apis";
 const packageVersion = "4.0.0";
 
 export class LuisAuthoringContext extends msRest.ServiceClient {
+  endpoint: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the LuisAuthoringContext class.
+   * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
+   * https://westus.api.cognitive.microsoft.com).
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
+  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
+    if (endpoint === null || endpoint === undefined) {
+      throw new Error('\'endpoint\' cannot be null.');
+    }
     if (credentials === null || credentials === undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -32,8 +38,9 @@ export class LuisAuthoringContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "https://{AzureRegion}.api.cognitive.microsoft.{AzureCloud}";
+    this.baseUri = "{Endpoint}";
     this.requestContentType = "application/json; charset=utf-8";
+    this.endpoint = endpoint;
     this.credentials = credentials;
 
   }

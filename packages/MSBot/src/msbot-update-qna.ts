@@ -7,7 +7,7 @@
 import { BotConfiguration, IQnAService, ServiceTypes } from 'botframework-config';
 import * as chalk from 'chalk';
 import * as program from 'commander';
-import * as txtfile from 'read-text-file';
+import * as fs from 'fs-extra';
 import { stdoutAsync } from './stdioAsync';
 import { getStdin } from './utils';
 
@@ -76,7 +76,7 @@ async function processArgs(config: BotConfiguration): Promise<BotConfiguration> 
     if (args.stdin) {
         Object.assign(args, JSON.parse(await getStdin()));
     } else if (args.input != null) {
-        Object.assign(args, JSON.parse(await txtfile.read(<string>args.input)));
+        Object.assign(args, await fs.readJSON(<string>args.input));
     }
 
     if (!args.id && !args.kbId) {

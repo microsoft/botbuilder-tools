@@ -28,48 +28,28 @@ export class Train {
    * request to get training status. Note: The application version is not fully trained unless all
    * the models (intents and entities) are trained successfully or are up to date. To verify training
    * success, get the training status at least once after training is complete.
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.TrainTrainVersionResponse>
    */
-  trainVersion(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.TrainTrainVersionResponse>;
+  trainVersion(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.TrainTrainVersionResponse>;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  trainVersion(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
+  trainVersion(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  trainVersion(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
-  trainVersion(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnqueueTrainingResponse>, callback?: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): Promise<Models.TrainTrainVersionResponse> {
+  trainVersion(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
+  trainVersion(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnqueueTrainingResponse>, callback?: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): Promise<Models.TrainTrainVersionResponse> {
     return this.client.sendOperationRequest(
       {
-        azureRegion,
-        azureCloud,
         appId,
         versionId,
         options
@@ -83,48 +63,28 @@ export class Train {
    * must call the train API to train the LUIS app before you call this API to get training status.
    * "appID" specifies the LUIS app ID. "versionId" specifies the version number of the LUIS app. For
    * example, "0.1".
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.TrainGetStatusResponse>
    */
-  getStatus(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.TrainGetStatusResponse>;
+  getStatus(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.TrainGetStatusResponse>;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  getStatus(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
+  getStatus(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatus(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
-  getStatus(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelTrainingInfo[]>, callback?: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): Promise<Models.TrainGetStatusResponse> {
+  getStatus(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
+  getStatus(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelTrainingInfo[]>, callback?: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): Promise<Models.TrainGetStatusResponse> {
     return this.client.sendOperationRequest(
       {
-        azureRegion,
-        azureCloud,
         appId,
         versionId,
         options
@@ -138,10 +98,9 @@ export class Train {
 const serializer = new msRest.Serializer(Mappers);
 const trainVersionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/train",
+  path: "apps/{appId}/versions/{versionId}/train",
   urlParameters: [
-    Parameters.azureRegion,
-    Parameters.azureCloud,
+    Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -158,10 +117,9 @@ const trainVersionOperationSpec: msRest.OperationSpec = {
 
 const getStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/train",
+  path: "apps/{appId}/versions/{versionId}/train",
   urlParameters: [
-    Parameters.azureRegion,
-    Parameters.azureCloud,
+    Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
   ],

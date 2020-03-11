@@ -33,6 +33,12 @@ export const EntityLabelObject: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      role: {
+        serializedName: "role",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -223,6 +229,12 @@ export const JSONEntity: msRest.CompositeMapper = {
       entity: {
         required: true,
         serializedName: "entity",
+        type: {
+          name: "String"
+        }
+      },
+      role: {
+        serializedName: "role",
         type: {
           name: "String"
         }
@@ -1311,6 +1323,18 @@ export const EntityLabel: msRest.CompositeMapper = {
         serializedName: "endTokenIndex",
         type: {
           name: "Number"
+        }
+      },
+      role: {
+        serializedName: "role",
+        type: {
+          name: "String"
+        }
+      },
+      roleId: {
+        serializedName: "roleId",
+        type: {
+          name: "Uuid"
         }
       }
     }
@@ -3313,6 +3337,23 @@ export const AppVersionSettingObject: msRest.CompositeMapper = {
       },
       value: {
         serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ArmTokenObject: msRest.CompositeMapper = {
+  serializedName: "ArmTokenObject",
+  type: {
+    name: "Composite",
+    className: "ArmTokenObject",
+    modelProperties: {
+      armToken: {
+        required: true,
+        serializedName: "armToken",
         type: {
           name: "String"
         }

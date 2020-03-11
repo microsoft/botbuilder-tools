@@ -308,3 +308,6 @@ packages/lubuild/bin/**
 packages/lubuild/lib/**
 packages/lubuild/typings/**
 
+# Eclipse IDE
+.project
+.settings/

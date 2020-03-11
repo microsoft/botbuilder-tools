@@ -29,6 +29,10 @@ export interface EntityLabelObject {
    * extracted entity ends.
    */
   endCharIndex: number;
+  /**
+   * @member {string} [role] The role the entity plays in the utterance.
+   */
+  role?: string;
 }
 
 /**
@@ -123,7 +127,7 @@ export interface PrebuiltDomainModelCreateObject {
 /**
  * @interface
  * An interface representing HierarchicalEntityModel.
- * A Hierarchical Entity Extractor.
+ * A hierarchical entity extractor.
  *
  */
 export interface HierarchicalEntityModel {
@@ -140,7 +144,7 @@ export interface HierarchicalEntityModel {
 /**
  * @interface
  * An interface representing CompositeEntityModel.
- * A composite entity.
+ * A composite entity extractor.
  *
  */
 export interface CompositeEntityModel {
@@ -175,6 +179,10 @@ export interface JSONEntity {
    * @member {string} entity The entity name.
    */
   entity: string;
+  /**
+   * @member {string} [role] The role the entity plays in the utterance.
+   */
+  role?: string;
 }
 
 /**
@@ -218,22 +226,22 @@ export interface PublishSettingUpdateObject {
 /**
  * @interface
  * An interface representing ExampleLabelObject.
- * A labeled example.
+ * A labeled example utterance.
  *
  */
 export interface ExampleLabelObject {
   /**
-   * @member {string} [text] The sample's utterance.
+   * @member {string} [text] The example utterance.
    */
   text?: string;
   /**
    * @member {EntityLabelObject[]} [entityLabels] The identified entities
-   * within the utterance.
+   * within the example utterance.
    */
   entityLabels?: EntityLabelObject[];
   /**
    * @member {string} [intentName] The identified intent representing the
-   * utterance.
+   * example utterance.
    */
   intentName?: string;
 }
@@ -255,17 +263,14 @@ export interface PhraselistCreateObject {
    */
   name?: string;
   /**
-   * @member {boolean} [isExchangeable] An exchangeable phrase list feature are
-   * serves as single feature to the LUIS underlying training algorithm. It is
+   * @member {boolean} [isExchangeable] An interchangeable phrase list feature
+   * serves as a list of synonyms for training. A non-exchangeable phrase list
+   * serves as separate features for training. So, if your non-interchangeable
+   * phrase list contains 5 phrases, they will be mapped to 5 separate
+   * features. You can think of the non-interchangeable phrase list as an
+   * additional bag of words to add to LUIS existing vocabulary features. It is
    * used as a lexicon lookup feature where its value is 1 if the lexicon
-   * contains a given word or 0 if it doesn’t. Think of an exchangeable as a
-   * synonyms list. A non-exchangeable phrase list feature has all the phrases
-   * in the list serve as separate features to the underlying training
-   * algorithm. So, if you your phrase list feature contains 5 phrases, they
-   * will be mapped to 5 separate features. You can think of the
-   * non-exchangeable phrase list feature as an additional bag of words that
-   * you are willing to add to LUIS existing vocabulary features. Think of a
-   * non-exchangeable as set of different words. Default value is true. Default
+   * contains a given word or 0 if it doesn’t.  Default value is true. Default
    * value: true .
    */
   isExchangeable?: boolean;
@@ -274,7 +279,7 @@ export interface PhraselistCreateObject {
 /**
  * @interface
  * An interface representing SubClosedList.
- * Sublist of items for a Closed list.
+ * Sublist of items for a list entity.
  *
  */
 export interface SubClosedList {
@@ -292,7 +297,7 @@ export interface SubClosedList {
 /**
  * @interface
  * An interface representing SubClosedListResponse.
- * Sublist of items for a Closed list.
+ * Sublist of items for a list entity.
  *
  * @extends SubClosedList
  */
@@ -366,16 +371,16 @@ export interface PatternUpdateObject {
 /**
  * @interface
  * An interface representing ClosedList.
- * Exported Model - A Closed List.
+ * Exported Model - A list entity.
  *
  */
 export interface ClosedList {
   /**
-   * @member {string} [name] Name of the closed list feature.
+   * @member {string} [name] Name of the list entity.
    */
   name?: string;
   /**
-   * @member {SubClosedList[]} [subLists] Sublists for the feature.
+   * @member {SubClosedList[]} [subLists] Sublists for the list entity.
    */
   subLists?: SubClosedList[];
   /**
@@ -387,7 +392,7 @@ export interface ClosedList {
 /**
  * @interface
  * An interface representing WordListObject.
- * Sublist of items for a Closed list.
+ * Sublist of items for a list entity.
  *
  */
 export interface WordListObject {
@@ -405,7 +410,7 @@ export interface WordListObject {
 /**
  * @interface
  * An interface representing ClosedListModelPatchObject.
- * Object model for adding a batch of sublists to an existing closedlist.
+ * Object model for adding a batch of sublists to an existing list entity.
  *
  */
 export interface ClosedListModelPatchObject {
@@ -436,17 +441,14 @@ export interface JSONModelFeature {
    */
   words?: string;
   /**
-   * @member {boolean} [mode] An exchangeable phrase list feature are serves as
-   * single feature to the LUIS underlying training algorithm. It is used as a
-   * lexicon lookup feature where its value is 1 if the lexicon contains a
-   * given word or 0 if it doesn’t. Think of an exchangeable as a synonyms
-   * list. A non-exchangeable phrase list feature has all the phrases in the
-   * list serve as separate features to the underlying training algorithm. So,
-   * if you your phrase list feature contains 5 phrases, they will be mapped to
-   * 5 separate features. You can think of the non-exchangeable phrase list
-   * feature as an additional bag of words that you are willing to add to LUIS
-   * existing vocabulary features. Think of a non-exchangeable as set of
-   * different words. Default value is true.
+   * @member {boolean} [mode] An interchangeable phrase list feature serves as
+   * a list of synonyms for training. A non-exchangeable phrase list serves as
+   * separate features for training. So, if your non-interchangeable phrase
+   * list contains 5 phrases, they will be mapped to 5 separate features. You
+   * can think of the non-interchangeable phrase list as an additional bag of
+   * words to add to LUIS existing vocabulary features. It is used as a lexicon
+   * lookup feature where its value is 1 if the lexicon contains a given word
+   * or 0 if it doesn’t.  Default value is true.
    */
   mode?: boolean;
 }
@@ -484,7 +486,7 @@ export interface PatternCreateObject {
 /**
  * @interface
  * An interface representing WordListBaseUpdateObject.
- * Object model for updating one of the closed list's sublists.
+ * Object model for updating one of the list entity's sublists.
  *
  */
 export interface WordListBaseUpdateObject {
@@ -536,7 +538,7 @@ export interface ModelUpdateObject {
 /**
  * @interface
  * An interface representing ClosedListModelUpdateObject.
- * Object model for updating a closed list.
+ * Object model for updating a list entity.
  *
  */
 export interface ClosedListModelUpdateObject {
@@ -545,7 +547,7 @@ export interface ClosedListModelUpdateObject {
    */
   subLists?: WordListObject[];
   /**
-   * @member {string} [name] The new name of the closed list feature.
+   * @member {string} [name] The new name of the list entity.
    */
   name?: string;
 }
@@ -553,7 +555,7 @@ export interface ClosedListModelUpdateObject {
 /**
  * @interface
  * An interface representing ClosedListModelCreateObject.
- * Object model for creating a closed list.
+ * Object model for creating a list entity.
  *
  */
 export interface ClosedListModelCreateObject {
@@ -562,7 +564,7 @@ export interface ClosedListModelCreateObject {
    */
   subLists?: WordListObject[];
   /**
-   * @member {string} [name] Name of the closed list feature.
+   * @member {string} [name] Name of the list entity.
    */
   name?: string;
 }
@@ -845,7 +847,7 @@ export interface LuisApp {
    */
   entities?: HierarchicalModel[];
   /**
-   * @member {ClosedList[]} [closedLists] List of closed lists.
+   * @member {ClosedList[]} [closedLists] List of list entities.
    */
   closedLists?: ClosedList[];
   /**
@@ -878,7 +880,7 @@ export interface LuisApp {
    */
   patterns?: PatternRule[];
   /**
-   * @member {JSONUtterance[]} [utterances] List of sample utterances.
+   * @member {JSONUtterance[]} [utterances] List of example utterances.
    */
   utterances?: JSONUtterance[];
   /**
@@ -910,6 +912,14 @@ export interface EntityLabel {
    * extracted entity ends.
    */
   endTokenIndex: number;
+  /**
+   * @member {string} [role] The role of the predicted entity.
+   */
+  role?: string;
+  /**
+   * @member {string} [roleId] The role id for the predicted entity.
+   */
+  roleId?: string;
 }
 
 /**
@@ -969,8 +979,8 @@ export interface LabeledUtterance {
    */
   id?: number;
   /**
-   * @member {string} [text] The utterance. E.g.: what's the weather like in
-   * seattle?
+   * @member {string} [text] The utterance. For example, "What's the weather
+   * like in seattle?"
    */
   text?: string;
   /**
@@ -1005,12 +1015,12 @@ export interface LabeledUtterance {
  */
 export interface IntentsSuggestionExample {
   /**
-   * @member {string} [text] The utterance. E.g.: what's the weather like in
-   * seattle?
+   * @member {string} [text] The utterance. For example, "What's the weather
+   * like in seattle?"
    */
   text?: string;
   /**
-   * @member {string[]} [tokenizedText] The utterance tokenized.
+   * @member {string[]} [tokenizedText] The tokenized utterance.
    */
   tokenizedText?: string[];
   /**
@@ -1033,8 +1043,8 @@ export interface IntentsSuggestionExample {
  */
 export interface EntitiesSuggestionExample {
   /**
-   * @member {string} [text] The utterance. E.g.: what's the weather like in
-   * seattle?
+   * @member {string} [text] The utterance. For example, "What's the weather
+   * like in seattle?"
    */
   text?: string;
   /**
@@ -1093,9 +1103,9 @@ export interface ModelInfo {
   /**
    * @member {ReadableType} readableType Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType;
 }
@@ -1137,7 +1147,7 @@ export interface ChildEntity {
 /**
  * @interface
  * An interface representing ExplicitListItem.
- * Explicit list item
+ * Explicit (exception) list item
  *
  */
 export interface ExplicitListItem {
@@ -1173,9 +1183,9 @@ export interface ModelInfoResponse {
   /**
    * @member {ReadableType1} readableType Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType1;
   /**
@@ -1187,7 +1197,7 @@ export interface ModelInfoResponse {
    */
   children?: ChildEntity[];
   /**
-   * @member {SubClosedListResponse[]} [subLists] List of sub-lists.
+   * @member {SubClosedListResponse[]} [subLists] List of sublists.
    */
   subLists?: SubClosedListResponse[];
   /**
@@ -1199,7 +1209,7 @@ export interface ModelInfoResponse {
    */
   customPrebuiltModelName?: string;
   /**
-   * @member {string} [regexPattern] The Regex entity pattern.
+   * @member {string} [regexPattern] The Regular Expression entity pattern.
    */
   regexPattern?: string;
   /**
@@ -1244,9 +1254,9 @@ export interface HierarchicalEntityExtractor {
   /**
    * @member {ReadableType2} readableType Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType2;
   /**
@@ -1281,9 +1291,9 @@ export interface CompositeEntityExtractor {
   /**
    * @member {ReadableType3} readableType Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType3;
   /**
@@ -1299,7 +1309,7 @@ export interface CompositeEntityExtractor {
 /**
  * @interface
  * An interface representing ClosedListEntityExtractor.
- * Closed List Entity Extractor.
+ * List Entity Extractor.
  *
  */
 export interface ClosedListEntityExtractor {
@@ -1318,9 +1328,9 @@ export interface ClosedListEntityExtractor {
   /**
    * @member {ReadableType4} readableType Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType4;
   /**
@@ -1328,7 +1338,7 @@ export interface ClosedListEntityExtractor {
    */
   roles?: EntityRole[];
   /**
-   * @member {SubClosedListResponse[]} [subLists] List of sub-lists.
+   * @member {SubClosedListResponse[]} [subLists] List of sublists.
    */
   subLists?: SubClosedListResponse[];
 }
@@ -1355,9 +1365,9 @@ export interface PrebuiltEntityExtractor {
   /**
    * @member {ReadableType5} readableType Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType5;
   /**
@@ -1381,9 +1391,9 @@ export interface HierarchicalChildEntity extends ChildEntity {
   /**
    * @member {ReadableType6} [readableType] Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType?: ReadableType6;
 }
@@ -1410,9 +1420,9 @@ export interface CustomPrebuiltModel {
   /**
    * @member {ReadableType7} readableType Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType7;
   /**
@@ -1469,9 +1479,9 @@ export interface EntityExtractor {
   /**
    * @member {ReadableType8} readableType Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType8;
   /**
@@ -1571,12 +1581,12 @@ export interface FeaturesResponseObject {
 /**
  * @interface
  * An interface representing LabelExampleResponse.
- * Response when adding a labeled example.
+ * Response when adding a labeled example utterance.
  *
  */
 export interface LabelExampleResponse {
   /**
-   * @member {string} [utteranceText] The sample's utterance.
+   * @member {string} [utteranceText] The example utterance.
    */
   utteranceText?: string;
   /**
@@ -1606,7 +1616,7 @@ export interface OperationStatus {
 /**
  * @interface
  * An interface representing BatchLabelExample.
- * Response when adding a batch of labeled examples.
+ * Response when adding a batch of labeled example utterances.
  *
  */
 export interface BatchLabelExample {
@@ -1644,17 +1654,18 @@ export interface ApplicationInfoResponse {
    */
   description?: string;
   /**
-   * @member {string} [culture] The culture of the application. E.g.: en-us.
+   * @member {string} [culture] The culture of the application. For example,
+   * "en-us".
    */
   culture?: string;
   /**
    * @member {string} [usageScenario] Defines the scenario for the new
-   * application. Optional. E.g.: IoT.
+   * application. Optional. For example, IoT.
    */
   usageScenario?: string;
   /**
    * @member {string} [domain] The domain for the new application. Optional.
-   * E.g.: Comics.
+   * For example, Comics.
    */
   domain?: string;
   /**
@@ -1764,7 +1775,8 @@ export interface ApplicationSettings {
   id: string;
   /**
    * @member {boolean} isPublic Setting your application as public allows other
-   * people to use your application's endpoint using their own keys.
+   * people to use your application's endpoint using their own keys for billing
+   * purposes.
    */
   isPublic: boolean;
 }
@@ -1782,17 +1794,16 @@ export interface PublishSettings {
   id: string;
   /**
    * @member {boolean} isSentimentAnalysisEnabled Setting sentiment analysis as
-   * true returns the Sentiment of the input utterance along with the response
+   * true returns the sentiment of the input utterance along with the response
    */
   isSentimentAnalysisEnabled: boolean;
   /**
-   * @member {boolean} isSpeechEnabled Setting speech as public enables speech
-   * priming in your app
+   * @member {boolean} isSpeechEnabled Enables speech priming in your app
    */
   isSpeechEnabled: boolean;
   /**
-   * @member {boolean} isSpellCheckerEnabled Setting spell checker as public
-   * enables spell checking the input utterance.
+   * @member {boolean} isSpellCheckerEnabled Enables spell checking of the
+   * utterance.
    */
   isSpellCheckerEnabled: boolean;
 }
@@ -2027,12 +2038,12 @@ export interface EntityRoleCreateObject {
 /**
  * @interface
  * An interface representing RegexModelCreateObject.
- * Model object for creating a regex entity model.
+ * Model object for creating a regular expression entity model.
  *
  */
 export interface RegexModelCreateObject {
   /**
-   * @member {string} [regexPattern] The regex entity pattern.
+   * @member {string} [regexPattern] The regular expression entity pattern.
    */
   regexPattern?: string;
   /**
@@ -2061,7 +2072,7 @@ export interface PatternAnyModelCreateObject {
 /**
  * @interface
  * An interface representing ExplicitListItemCreateObject.
- * Object model for creating an explicit list item.
+ * Object model for creating an explicit (exception) list item.
  *
  */
 export interface ExplicitListItemCreateObject {
@@ -2074,12 +2085,12 @@ export interface ExplicitListItemCreateObject {
 /**
  * @interface
  * An interface representing RegexModelUpdateObject.
- * Model object for updating a regex entity model.
+ * Model object for updating a regular expression entity model.
  *
  */
 export interface RegexModelUpdateObject {
   /**
-   * @member {string} [regexPattern] The regex entity pattern.
+   * @member {string} [regexPattern] The regular expression entity pattern.
    */
   regexPattern?: string;
   /**
@@ -2121,7 +2132,7 @@ export interface EntityRoleUpdateObject {
 /**
  * @interface
  * An interface representing ExplicitListItemUpdateObject.
- * Model object for updating an explicit list item.
+ * Model object for updating an explicit (exception) list item.
  *
  */
 export interface ExplicitListItemUpdateObject {
@@ -2172,7 +2183,7 @@ export interface PatternRuleUpdateObject {
 /**
  * @interface
  * An interface representing RegexEntityExtractor.
- * Regex Entity Extractor.
+ * Regular Expression Entity Extractor.
  *
  */
 export interface RegexEntityExtractor {
@@ -2191,9 +2202,9 @@ export interface RegexEntityExtractor {
   /**
    * @member {ReadableType9} readableType Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType9;
   /**
@@ -2201,7 +2212,7 @@ export interface RegexEntityExtractor {
    */
   roles?: EntityRole[];
   /**
-   * @member {string} [regexPattern] The Regex entity pattern.
+   * @member {string} [regexPattern] The Regular Expression entity pattern.
    */
   regexPattern?: string;
 }
@@ -2228,9 +2239,9 @@ export interface PatternAnyEntityExtractor {
   /**
    * @member {ReadableType10} readableType Possible values include: 'Entity
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
-   * Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor',
+   * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType10;
   /**
@@ -2267,7 +2278,7 @@ export interface PatternRuleInfo {
 /**
  * @interface
  * An interface representing LabelTextObject.
- * An object containing the example's text.
+ * An object containing the example utterance's text.
  *
  */
 export interface LabelTextObject {
@@ -2300,21 +2311,33 @@ export interface AppVersionSettingObject {
 
 /**
  * @interface
+ * An interface representing ArmTokenObject.
+ * Holds the arm token value.
+ *
+ */
+export interface ArmTokenObject {
+  /**
+   * @member {string} armToken The arm token value.
+   */
+}
+
+/**
+ * @interface
  * An interface representing AzureAccountInfoObject.
- * Defines the azure account information object.
+ * Defines the Azure account information object.
  *
  */
 export interface AzureAccountInfoObject {
   /**
-   * @member {string} azureSubscriptionId The id for the azure subscription.
+   * @member {string} azureSubscriptionId The id for the Azure subscription.
    */
   azureSubscriptionId: string;
   /**
-   * @member {string} resourceGroup The azure resource group name.
+   * @member {string} resourceGroup The Azure resource group name.
    */
   resourceGroup: string;
   /**
-   * @member {string} accountName The azure account name.
+   * @member {string} accountName The Azure account name.
    */
   accountName: string;
 }
@@ -2354,12 +2377,12 @@ export interface CompositeChildModelCreateObject {
 
 /**
  * @interface
- * An interface representing FeaturesGetApplicationVersionPatternFeaturesOptionalParams.
+ * An interface representing FeaturesListApplicationVersionPatternFeaturesOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface FeaturesGetApplicationVersionPatternFeaturesOptionalParams extends msRest.RequestOptionsBase {
+export interface FeaturesListApplicationVersionPatternFeaturesOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [skip] The number of entries to skip. Default value is 0.
    * Default value: 0 .
@@ -2618,21 +2641,21 @@ export interface ModelExamplesMethodOptionalParams extends msRest.RequestOptions
  */
 export interface ModelDeleteIntentOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {boolean} [deleteUtterances] Also delete the intent's utterances
-   * (true). Or move the utterances to the None intent (false - the default
-   * value). Default value: false .
+   * @member {boolean} [deleteUtterances] If true, deletes the intent's example
+   * utterances. If false, moves the example utterances to the None intent. The
+   * default value is false. Default value: false .
    */
   deleteUtterances?: boolean;
 }
 
 /**
  * @interface
- * An interface representing ModelGetIntentSuggestionsOptionalParams.
+ * An interface representing ModelListIntentSuggestionsOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ModelGetIntentSuggestionsOptionalParams extends msRest.RequestOptionsBase {
+export interface ModelListIntentSuggestionsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [take] The number of entries to return. Maximum page size
    * is 500. Default is 100. Default value: 100 .
@@ -2642,12 +2665,12 @@ export interface ModelGetIntentSuggestionsOptionalParams extends msRest.RequestO
 
 /**
  * @interface
- * An interface representing ModelGetEntitySuggestionsOptionalParams.
+ * An interface representing ModelListEntitySuggestionsOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ModelGetEntitySuggestionsOptionalParams extends msRest.RequestOptionsBase {
+export interface ModelListEntitySuggestionsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [take] The number of entries to return. Maximum page size
    * is 500. Default is 100. Default value: 100 .
@@ -2657,12 +2680,12 @@ export interface ModelGetEntitySuggestionsOptionalParams extends msRest.RequestO
 
 /**
  * @interface
- * An interface representing ModelGetRegexEntityInfosOptionalParams.
+ * An interface representing ModelListRegexEntityInfosOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ModelGetRegexEntityInfosOptionalParams extends msRest.RequestOptionsBase {
+export interface ModelListRegexEntityInfosOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [skip] The number of entries to skip. Default value is 0.
    * Default value: 0 .
@@ -2677,12 +2700,12 @@ export interface ModelGetRegexEntityInfosOptionalParams extends msRest.RequestOp
 
 /**
  * @interface
- * An interface representing ModelGetPatternAnyEntityInfosOptionalParams.
+ * An interface representing ModelListPatternAnyEntityInfosOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ModelGetPatternAnyEntityInfosOptionalParams extends msRest.RequestOptionsBase {
+export interface ModelListPatternAnyEntityInfosOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [skip] The number of entries to skip. Default value is 0.
    * Default value: 0 .
@@ -2725,7 +2748,8 @@ export interface AppsListOptionalParams extends msRest.RequestOptionsBase {
 export interface AppsImportMethodOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [appName] The application name to create. If not
-   * specified, the application name will be read from the imported object.
+   * specified, the application name will be read from the imported object. If
+   * the application name already exists, an error is returned.
    */
   appName?: string;
 }
@@ -2782,12 +2806,12 @@ export interface VersionsImportMethodOptionalParams extends msRest.RequestOption
 
 /**
  * @interface
- * An interface representing PatternGetPatternsOptionalParams.
+ * An interface representing PatternListPatternsOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface PatternGetPatternsOptionalParams extends msRest.RequestOptionsBase {
+export interface PatternListPatternsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [skip] The number of entries to skip. Default value is 0.
    * Default value: 0 .
@@ -2802,12 +2826,12 @@ export interface PatternGetPatternsOptionalParams extends msRest.RequestOptionsB
 
 /**
  * @interface
- * An interface representing PatternGetIntentPatternsOptionalParams.
+ * An interface representing PatternListIntentPatternsOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface PatternGetIntentPatternsOptionalParams extends msRest.RequestOptionsBase {
+export interface PatternListIntentPatternsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [skip] The number of entries to skip. Default value is 0.
    * Default value: 0 .
@@ -2829,7 +2853,7 @@ export interface PatternGetIntentPatternsOptionalParams extends msRest.RequestOp
  */
 export interface AzureAccountsAssignToAppOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
+   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The Azure
    * account information object.
    */
   azureAccountInfoObject?: AzureAccountInfoObject;
@@ -2844,7 +2868,7 @@ export interface AzureAccountsAssignToAppOptionalParams extends msRest.RequestOp
  */
 export interface AzureAccountsRemoveFromAppOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The azure
+   * @member {AzureAccountInfoObject} [azureAccountInfoObject] The Azure
    * account information object.
    */
   azureAccountInfoObject?: AzureAccountInfoObject;
@@ -2867,112 +2891,103 @@ export type TrainingStatus = 'NeedsTraining' | 'InProgress' | 'Trained';
 export type OperationStatusType = 'Failed' | 'FAILED' | 'Success';
 
 /**
- * Defines values for AzureRegions.
- * Possible values include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus',
- * 'westus2', 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast',
- * 'brazilsouth', 'virginia'
- * @readonly
- * @enum {string}
- */
-export type AzureRegions = 'westus' | 'westeurope' | 'southeastasia' | 'eastus2' | 'westcentralus' | 'westus2' | 'eastus' | 'southcentralus' | 'northeurope' | 'eastasia' | 'australiaeast' | 'brazilsouth' | 'virginia';
-
-/**
- * Defines values for AzureClouds.
- * Possible values include: 'com', 'us'
- * @readonly
- * @enum {string}
- */
-export type AzureClouds = 'com' | 'us';
-
-/**
  * Defines values for ReadableType.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType1.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType1 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType1 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType2.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType2 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType2 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType3.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType3 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType3 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType4.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType4 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType4 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType5.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType5 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType5 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType6.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType6 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType6 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType7.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType7 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType7 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType8.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType8 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType8 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for Status.
@@ -2993,22 +3008,24 @@ export type Status1 = 'Queued' | 'InProgress' | 'UpToDate' | 'Fail' | 'Success';
 /**
  * Defines values for ReadableType9.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType9 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType9 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType10.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
- * Child Entity Extractor', 'Composite Entity Extractor', 'Closed List Entity Extractor', 'Prebuilt
- * Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regex Entity Extractor'
+ * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType10 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'Closed List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType10 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Contains response data for the createPatternFeature operation.
@@ -3034,9 +3051,9 @@ export type FeaturesCreatePatternFeatureResponse = {
 };
 
 /**
- * Contains response data for the getApplicationVersionPatternFeatures operation.
+ * Contains response data for the listApplicationVersionPatternFeatures operation.
  */
-export type FeaturesGetApplicationVersionPatternFeaturesResponse = Array<PatternFeatureInfo> & {
+export type FeaturesListApplicationVersionPatternFeaturesResponse = Array<PatternFeatureInfo> & {
   /**
    * The underlying HTTP response.
    */
@@ -3989,9 +4006,9 @@ export type ModelUpdateSubListResponse = OperationStatus & {
 };
 
 /**
- * Contains response data for the getIntentSuggestions operation.
+ * Contains response data for the listIntentSuggestions operation.
  */
-export type ModelGetIntentSuggestionsResponse = Array<IntentsSuggestionExample> & {
+export type ModelListIntentSuggestionsResponse = Array<IntentsSuggestionExample> & {
   /**
    * The underlying HTTP response.
    */
@@ -4008,9 +4025,9 @@ export type ModelGetIntentSuggestionsResponse = Array<IntentsSuggestionExample> 
 };
 
 /**
- * Contains response data for the getEntitySuggestions operation.
+ * Contains response data for the listEntitySuggestions operation.
  */
-export type ModelGetEntitySuggestionsResponse = Array<EntitiesSuggestionExample> & {
+export type ModelListEntitySuggestionsResponse = Array<EntitiesSuggestionExample> & {
   /**
    * The underlying HTTP response.
    */
@@ -4313,9 +4330,9 @@ export type ModelDeleteCompositeEntityChildResponse = OperationStatus & {
 };
 
 /**
- * Contains response data for the getRegexEntityInfos operation.
+ * Contains response data for the listRegexEntityInfos operation.
  */
-export type ModelGetRegexEntityInfosResponse = Array<RegexEntityExtractor> & {
+export type ModelListRegexEntityInfosResponse = Array<RegexEntityExtractor> & {
   /**
    * The underlying HTTP response.
    */
@@ -4355,9 +4372,9 @@ export type ModelCreateRegexEntityModelResponse = {
 };
 
 /**
- * Contains response data for the getPatternAnyEntityInfos operation.
+ * Contains response data for the listPatternAnyEntityInfos operation.
  */
-export type ModelGetPatternAnyEntityInfosResponse = Array<PatternAnyEntityExtractor> & {
+export type ModelListPatternAnyEntityInfosResponse = Array<PatternAnyEntityExtractor> & {
   /**
    * The underlying HTTP response.
    */
@@ -4397,9 +4414,9 @@ export type ModelCreatePatternAnyEntityModelResponse = {
 };
 
 /**
- * Contains response data for the getEntityRoles operation.
+ * Contains response data for the listEntityRoles operation.
  */
-export type ModelGetEntityRolesResponse = Array<EntityRole> & {
+export type ModelListEntityRolesResponse = Array<EntityRole> & {
   /**
    * The underlying HTTP response.
    */
@@ -4439,9 +4456,9 @@ export type ModelCreateEntityRoleResponse = {
 };
 
 /**
- * Contains response data for the getPrebuiltEntityRoles operation.
+ * Contains response data for the listPrebuiltEntityRoles operation.
  */
-export type ModelGetPrebuiltEntityRolesResponse = Array<EntityRole> & {
+export type ModelListPrebuiltEntityRolesResponse = Array<EntityRole> & {
   /**
    * The underlying HTTP response.
    */
@@ -4481,9 +4498,9 @@ export type ModelCreatePrebuiltEntityRoleResponse = {
 };
 
 /**
- * Contains response data for the getClosedListEntityRoles operation.
+ * Contains response data for the listClosedListEntityRoles operation.
  */
-export type ModelGetClosedListEntityRolesResponse = Array<EntityRole> & {
+export type ModelListClosedListEntityRolesResponse = Array<EntityRole> & {
   /**
    * The underlying HTTP response.
    */
@@ -4523,9 +4540,9 @@ export type ModelCreateClosedListEntityRoleResponse = {
 };
 
 /**
- * Contains response data for the getRegexEntityRoles operation.
+ * Contains response data for the listRegexEntityRoles operation.
  */
-export type ModelGetRegexEntityRolesResponse = Array<EntityRole> & {
+export type ModelListRegexEntityRolesResponse = Array<EntityRole> & {
   /**
    * The underlying HTTP response.
    */
@@ -4565,9 +4582,9 @@ export type ModelCreateRegexEntityRoleResponse = {
 };
 
 /**
- * Contains response data for the getCompositeEntityRoles operation.
+ * Contains response data for the listCompositeEntityRoles operation.
  */
-export type ModelGetCompositeEntityRolesResponse = Array<EntityRole> & {
+export type ModelListCompositeEntityRolesResponse = Array<EntityRole> & {
   /**
    * The underlying HTTP response.
    */
@@ -4607,9 +4624,9 @@ export type ModelCreateCompositeEntityRoleResponse = {
 };
 
 /**
- * Contains response data for the getPatternAnyEntityRoles operation.
+ * Contains response data for the listPatternAnyEntityRoles operation.
  */
-export type ModelGetPatternAnyEntityRolesResponse = Array<EntityRole> & {
+export type ModelListPatternAnyEntityRolesResponse = Array<EntityRole> & {
   /**
    * The underlying HTTP response.
    */
@@ -4649,9 +4666,9 @@ export type ModelCreatePatternAnyEntityRoleResponse = {
 };
 
 /**
- * Contains response data for the getHierarchicalEntityRoles operation.
+ * Contains response data for the listHierarchicalEntityRoles operation.
  */
-export type ModelGetHierarchicalEntityRolesResponse = Array<EntityRole> & {
+export type ModelListHierarchicalEntityRolesResponse = Array<EntityRole> & {
   /**
    * The underlying HTTP response.
    */
@@ -4691,9 +4708,9 @@ export type ModelCreateHierarchicalEntityRoleResponse = {
 };
 
 /**
- * Contains response data for the getCustomPrebuiltEntityRoles operation.
+ * Contains response data for the listCustomPrebuiltEntityRoles operation.
  */
-export type ModelGetCustomPrebuiltEntityRolesResponse = Array<EntityRole> & {
+export type ModelListCustomPrebuiltEntityRolesResponse = Array<EntityRole> & {
   /**
    * The underlying HTTP response.
    */
@@ -6145,9 +6162,9 @@ export type PatternAddPatternResponse = PatternRuleInfo & {
 };
 
 /**
- * Contains response data for the getPatterns operation.
+ * Contains response data for the listPatterns operation.
  */
-export type PatternGetPatternsResponse = Array<PatternRuleInfo> & {
+export type PatternListPatternsResponse = Array<PatternRuleInfo> & {
   /**
    * The underlying HTTP response.
    */
@@ -6259,9 +6276,9 @@ export type PatternDeletePatternResponse = OperationStatus & {
 };
 
 /**
- * Contains response data for the getIntentPatterns operation.
+ * Contains response data for the listIntentPatterns operation.
  */
-export type PatternGetIntentPatternsResponse = Array<PatternRuleInfo> & {
+export type PatternListIntentPatternsResponse = Array<PatternRuleInfo> & {
   /**
    * The underlying HTTP response.
    */
@@ -6373,9 +6390,9 @@ export type AzureAccountsRemoveFromAppResponse = OperationStatus & {
 };
 
 /**
- * Contains response data for the getUserLUISAccounts operation.
+ * Contains response data for the listUserLUISAccounts operation.
  */
-export type AzureAccountsGetUserLUISAccountsResponse = Array<AzureAccountInfoObject> & {
+export type AzureAccountsListUserLUISAccountsResponse = Array<AzureAccountInfoObject> & {
   /**
    * The underlying HTTP response.
    */

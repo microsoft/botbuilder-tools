@@ -143,11 +143,6 @@
       "text": "set an alarm for 7AM next thursday",
       "intent": "CreateAlarm",
       "entities": []
-    },
-    {
-      "text": "delete the {alarmTime} alarm",
-      "intent": "DeleteAlarm",
-      "entities": []
     }
   ],
   "patterns": [
@@ -173,7 +168,7 @@
       "roles": []
     }
   ],
-  "luis_schema_version": "3.0.0",
+  "luis_schema_version": "3.2.0",
   "versionId": "0.1",
   "name": "7",
   "desc": "",

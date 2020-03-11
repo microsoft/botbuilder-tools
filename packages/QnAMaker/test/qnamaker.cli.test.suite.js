@@ -10,7 +10,7 @@ const path = require('path');
 
 const subscriptionKey = process.env.QNA_SUBSCRIPTION_KEY;
 
-describe('The QnA Maker cli bin', () => {
+xdescribe('The QnA Maker cli bin', () => {
 
     it('should set an httpsProxy agent in the fetch operation when the HTTPS_PROXY env variable is set', async () => {
         const mockNodeFetch = `(function() {

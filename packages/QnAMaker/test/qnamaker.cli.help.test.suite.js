@@ -2,7 +2,7 @@ const assert = require('assert');
 const { exec } = require('child_process');
 const qnamaker = require.resolve('../bin/qnamaker');
 
-describe('The QnA Maker cli --help -h argument', () => {
+xdescribe('The QnA Maker cli --help -h argument', () => {
 
     it('should print the help contents when no args', done => {
         exec(`node ${qnamaker}`, (error, stdout) => {

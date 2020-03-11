@@ -1,0 +1,135 @@
+
+> LUIS application information
+> !# @app.name = all
+> !# @app.desc = 
+> !# @app.culture = en-us
+> !# @app.versionId = 0.1
+> !# @app.luis_schema_version = 3.2.0
+
+> # Intent definitions
+
+## AskForUserName
+- {userName=vishwac}
+- I'm {userName=vishwac}
+- call me {userName=vishwac}
+- my name is {userName=vishwac}
+- {userName=vishwac} is my name
+- you can call me {userName=vishwac}
+
+
+## Buy chocolate
+- I would like to buy some kit kat
+- I want some twix
+- can I get some m&m
+
+
+## CommunicationPreference
+- set phone call as my communication preference
+- I prefer to receive text message
+
+
+## CreateAlarm
+- create an alarm for 7AM
+- create an alarm
+- set an alarm for 7AM next thursday
+
+
+## DeleteAlarm
+- delete the {alarmTime} alarm
+- remove the {alarmTime} alarm
+
+
+## Greeting
+- Hi
+- Good morning
+- Good evening
+- Hello
+
+
+## Help
+- can you help
+- please help
+- I need help
+- help
+
+
+## None
+- who is your ceo?
+- santa wants a blue ribbon
+
+
+## setThermostat
+- Please set {deviceTemperature=thermostat to 72}
+- Set {deviceTemperature={customDevice=owen} to 72}
+
+
+## testIntent
+- I need a flight from {datetimeV2:fromDate=tomorrow} and returning on {datetimeV2:toDate=next thursday}
+
+
+> # Entity definitions
+
+$customDevice:simple
+
+$userName:simple
+
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:age
+
+$PREBUILT:datetimeV2 Roles=fromDate, toDate
+
+$PREBUILT:temperature
+
+
+> # Phrase list definitions
+
+$ChocolateType:phraseList
+- m&m,mars,mints,spearmings,payday,jelly,kit kat,kitkat,twix
+$question:phraseList interchangeable
+- are you,you are
+
+> # List entities
+
+$commPreference:call=
+- phone call
+- give me a ring
+- ring
+- call
+- cell phone
+- phone
+
+$commPreference:text=
+- message
+- text
+- sms
+- text message
+
+$commPreference:fax=
+- fax
+- fascimile
+
+
+
+$device:thermostat=
+- Thermostat
+- Heater
+- AC
+- Air conditioner
+
+$device:refrigerator=
+- Fridge
+- Cooler
+
+
+
+> # RegEx entities
+
+$HRF-number:/hrf-[0-9]{6}/
+$zander:/z-[0-9]{3}/
+
+> # Composite entities
+
+$deviceTemperature:[device, customDevice, temperature]
+$units:[temperature]

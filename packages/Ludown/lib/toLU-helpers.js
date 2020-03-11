@@ -10,6 +10,32 @@ const NEWLINE = require('os').EOL;
 const exception = require('./classes/exception');
 const toLUHelpers = {
     /**
+     * Helper function to construct model description information from LUIS JSON
+     * @param {Object} LUISJSON 
+     * @returns {string} model description
+     */
+    constructModelDescFromLUISJSON : async function(LUISJSON) {
+        let modelDesc = NEWLINE;
+        modelDesc += '> LUIS application information' + NEWLINE;
+        modelDesc += '> !# @app.name = ' + LUISJSON.name + NEWLINE;
+        modelDesc += '> !# @app.desc = ' + LUISJSON.desc + NEWLINE;
+        modelDesc += '> !# @app.culture = ' + LUISJSON.culture + NEWLINE;
+        modelDesc += '> !# @app.versionId = ' + LUISJSON.versionId + NEWLINE;
+        modelDesc += '> !# @app.luis_schema_version = ' + LUISJSON.luis_schema_version + NEWLINE;
+        return modelDesc;
+    },
+    /**
+     * Helper function to construct model description information from QnA JSON
+     * @param {Object} QnAJSON 
+     * @returns {string} model description
+     */
+    constructModelDescFromQnAJSON : async function(QnAJSON) {
+        let modelDesc = NEWLINE;
+        modelDesc += '> QnA KB information' + NEWLINE;
+        modelDesc += '> !# @kb.name = ' + QnAJSON.name + NEWLINE;
+        return modelDesc;
+    },
+    /**
      * Construct lu file content from LUIS JSON object
      * @param {object} LUISJSON LUIS JSON object
      * @returns {String} Generated lu content 
@@ -29,6 +55,18 @@ const toLUHelpers = {
             fileContent += '> # Intent definitions' + NEWLINE + NEWLINE;
             // write out intents and utterances..
             luisObj.intents.forEach(function(intent) {
+                // Add inherits information if any
+                if (intent.intent.inherits !== undefined) {
+                    // > !# @intent.inherits = {name = Web.WebSearch; domain_name = Web; model_name = WebSearch}
+                    fileContent += '> !# @intent.inherits = name : ' + intent.intent.name;
+                    if (intent.intent.inherits.domain_name !== undefined) {
+                        fileContent += '; domain_name : ' + intent.intent.inherits.domain_name;
+                    }
+                    if (intent.intent.inherits.model_name !== undefined) {
+                        fileContent += '; model_name : ' + intent.intent.inherits.model_name;
+                    }
+                    fileContent += NEWLINE + NEWLINE;
+                }
                 fileContent += '## ' + intent.intent.name + NEWLINE;
                 intent.utterances.forEach(function(utterance) {
                     let updatedText = utterance.text;
@@ -66,6 +104,18 @@ const toLUHelpers = {
         if(LUISJSON.entities && LUISJSON.entities.length >= 0) {
             fileContent += '> # Entity definitions' + NEWLINE + NEWLINE;
             LUISJSON.entities.forEach(function(entity) {
+                // Add inherits information if any
+                if (entity.inherits !== undefined) {
+                    // > !# @intent.inherits = {name = Web.WebSearch; domain_name = Web; model_name = WebSearch}
+                    fileContent += '> !# @entity.inherits = name : ' + entity.name;
+                    if (entity.inherits.domain_name !== undefined) {
+                        fileContent += '; domain_name : ' + entity.inherits.domain_name;
+                    }
+                    if (entity.inherits.model_name !== undefined) {
+                        fileContent += '; model_name : ' + entity.inherits.model_name;
+                    }
+                    fileContent += NEWLINE + NEWLINE;
+                }
                 fileContent += '$' + entity.name + ':simple';
                 if (entity.roles.length > 0) {
                     fileContent += ` Roles=${entity.roles.join(', ')}`;
@@ -90,7 +140,7 @@ const toLUHelpers = {
         if(LUISJSON.model_features && LUISJSON.model_features.length >= 0) {
             fileContent += '> # Phrase list definitions' + NEWLINE + NEWLINE;
             LUISJSON.model_features.forEach(function(entity) {
-                fileContent += '$' + entity.name + ':phraseList' + NEWLINE;
+                fileContent += '$' + entity.name + ':phraseList' + (entity.mode ? ' interchangeable' : '') + NEWLINE;
                 fileContent += '- ' + entity.words + NEWLINE;
             });
             fileContent += NEWLINE;
@@ -203,33 +253,119 @@ const toLUHelpers = {
      * @param {String} luisFile input LUIS JSON file name
      * @param {String} QnAFile input QnA TSV file name
      * @param {boolean} skip_header If true, header information in the generated output text will be skipped. 
+     * @param {boolean} include_model_info If true, information about the LUIS/ QnA models are included.
      * @returns {String} Generated Markdown file content to flush to disk
      * @throws {exception} Throws on errors. exception object includes errCode and text. 
      */
-    constructMdFileHelper : async function(LUISJSON, QnAJSONFromTSV, QnAAltJSON, luisFile, QnAFile, skip_header) {
+    constructMdFileHelper : async function(LUISJSON, QnAJSONFromTSV, QnAAltJSON, luisFile, QnAFile, skip_header, include_model_info) {
         let fileContent = '';
+        let modelDesc = '';
+        let fileHeader = '';
+        let now = new Date();
+        fileHeader += '> ! Automatically generated by [LUDown CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/Ludown), ' + now.toString() + NEWLINE + NEWLINE;
+        fileHeader += '> ! Source LUIS JSON file: ' + (LUISJSON.sourceFile?LUISJSON.sourceFile:'Not Specified') + NEWLINE + NEWLINE;
+        fileHeader += '> ! Source QnA TSV file: ' + (QnAJSONFromTSV.sourceFile?QnAJSONFromTSV.sourceFile:'Not Specified') + NEWLINE + NEWLINE;
+        fileHeader += '> ! Source QnA Alterations file: ' + (QnAAltJSON.sourceFile?QnAAltJSON.sourceFile:'Not Specified') + NEWLINE + NEWLINE;
+
         if(LUISJSON.sourceFile) {
             fileContent += await toLUHelpers.constructMdFromLUISJSON(LUISJSON.model);
+            modelDesc += await toLUHelpers.constructModelDescFromLUISJSON(LUISJSON.model);
         }
         if(QnAJSONFromTSV.sourceFile) {
             fileContent += await toLUHelpers.constructMdFromQnAJSON(QnAJSONFromTSV.model)
+            modelDesc += await toLUHelpers.constructModelDescFromQnAJSON(QnAJSONFromTSV.model);
         }
         if(QnAAltJSON.sourceFile) {
             fileContent += await toLUHelpers.constructMdFromQnAAlterationJSON(QnAAltJSON.model)
         }
         if(fileContent) {
-            let now = new Date();
-            if(skip_header) return fileContent
-            let t = fileContent; 
-            fileContent = '> ! Automatically generated by [LUDown CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/Ludown), ' + now.toString() + NEWLINE + NEWLINE;
-            fileContent += '> ! Source LUIS JSON file: ' + (LUISJSON.sourceFile?LUISJSON.sourceFile:'Not Specified') + NEWLINE + NEWLINE;
-            fileContent += '> ! Source QnA TSV file: ' + (QnAJSONFromTSV.sourceFile?QnAJSONFromTSV.sourceFile:'Not Specified') + NEWLINE + NEWLINE;
-            fileContent += '> ! Source QnA Alterations file: ' + (QnAAltJSON.sourceFile?QnAAltJSON.sourceFile:'Not Specified') + NEWLINE + NEWLINE;
-            fileContent += t;
+            if (include_model_info) {
+                fileContent = modelDesc + fileContent;
+            }
+            if(skip_header) {
+                return fileContent
+            } else {
+                return fileHeader + fileContent;
+            }
         }
         return fileContent;
+    },
+    /**
+     * Sorts all collectios within LUIS, QnA and QnA alteration models.
+     * @param {object} LUISJSON 
+     * @param {object} QnAJSON 
+     * @param {object} QnAAltJSON 
+     */
+    sortCollections : async function(LUISJSON, QnAJSON, QnAAltJSON) {
+        // sort respective collections LUIS model
+        if (LUISJSON.model != "") await sortLUISJSON(LUISJSON.model);
+        if (QnAJSON.model != "") await sortQnAJSON(QnAJSON.model);
+        if (QnAAltJSON.model != "") await sortQnAAltJSON(QnAAltJSON.model);
     }
 };
+
+/**
+ * Helper function to return sorted LUIS JSON model
+ * @param {Object} LUISJSON 
+ */
+const sortLUISJSON = async function(LUISJSON) {
+    // sort intents first
+    LUISJSON.intents.sort(sortComparers.compareNameFn);
+    LUISJSON.composites.sort(sortComparers.compareNameFn);
+    LUISJSON.entities.sort(sortComparers.compareNameFn);
+    LUISJSON.closedLists.sort(sortComparers.compareNameFn);
+    LUISJSON.regex_entities.sort(sortComparers.compareNameFn);
+    LUISJSON.model_features.sort(sortComparers.compareNameFn);
+    LUISJSON.patternAnyEntities.sort(sortComparers.compareNameFn);
+    LUISJSON.prebuiltEntities.sort(sortComparers.compareNameFn);
+    LUISJSON.utterances.sort(sortComparers.compareIntentFn);
+};
+
+/**
+ * Helper function to return sorted QnA JSON model
+ * @param {Object} QnAJSON 
+ */
+const sortQnAJSON = async function(QnAJSON) {
+    (QnAJSON.qnaList || []).forEach(pair => {
+        pair.questions.sort(sortComparers.compareFn);
+    });
+    QnAJSON.qnaList.sort(sortComparers.compareQn);
+};
+
+/**
+ * Helper function to return sorted QnA Alterations pair
+ * @param {Object} QnAAltJSON 
+ */
+const sortQnAAltJSON = async function(QnAAltJSON) {
+    (QnAAltJSON.wordAlterations || []).forEach(word => {
+        word.alterations.sort(sortComparers.compareFn);
+    });
+    QnAAltJSON.wordAlterations.sort(sortComparers.compareAltName);
+}; 
+
+/**
+ * Helper set of comparer functions that help with sort by examining a specific comparison logic.
+ */
+const sortComparers = {
+    
+    compareAltName : function(a, b) {
+        return a.alterations[0].toUpperCase() > b.alterations[0].toUpperCase();
+    },    
+    compareFn : function(a, b) {
+        return a.toUpperCase() > b.toUpperCase();
+    },    
+    compareQn : function(a, b) {
+        return a.questions[0].toUpperCase() > b.questions[0].toUpperCase();
+    },    
+    compareNameFn : function(a, b) {
+        return a.name.toUpperCase() > b.name.toUpperCase();
+    },    
+    compareIntentFn : function(a, b) {
+        return a.intent.toUpperCase() > b.intent.toUpperCase();
+    }
+}
+
+
 /**
  * helper function sort entities list by starting position
  * @param {object} objectArray array of entity objects

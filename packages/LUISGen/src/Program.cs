@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace LUISGen
 {
@@ -59,8 +61,24 @@ namespace LUISGen
             return arg?.Trim();
         }
 
+        public static void ReorderEntities(dynamic app, string name)
+        {
+            var entities = (JArray) app[name];
+            if (entities != null)
+            {
+                app[name] = new JArray(Utils.OrderedEntities(entities));
+            }
+        }
+
         public static void Main(string[] args)
         {
+            Console.WriteLine("\n\n---------------------------------------------------------- -\n");
+            Console.WriteLine(" NOTICE:\n");
+            Console.WriteLine(" This tool has been deprecated.\n");
+            Console.WriteLine(" All functionality was ported over to the new BF CLI.\n");
+            Console.WriteLine(" To learn more visit ");
+            Console.WriteLine("https://aka.ms/NewBFCLI\n");
+            Console.WriteLine("-----------------------------------------------------------\n\n");
             string path = null;
             string outPath = null;
             string outType = null;
@@ -142,16 +160,31 @@ namespace LUISGen
             {
                 app = JsonConvert.DeserializeObject(inFile.ReadToEnd());
             }
-            className = className ?? ((string)app.name).Replace(' ', '_');
-            if (outType == "cs")
+
+            if (app == null)
             {
-                var description = $"LUISGen {path} -cs {space}.{className} -o {outPath}";
-                CSharp.Generate(description, app, className, space, outPath);
+                Usage();
             }
-            else if (outType == "ts")
+            else
             {
-                var description = $"LUISGen {path} -ts {className} -o {outPath}";
-                Typescript.Generate(description, app, className, outPath);
+                ReorderEntities(app, "entities");
+                ReorderEntities(app, "prebuiltEntities");
+                ReorderEntities(app, "closedLists");
+                ReorderEntities(app, "regex_entities");
+                ReorderEntities(app, "patternAnyEntities");
+                ReorderEntities(app, "composites");
+
+                className = className ?? ((string)app.name).Replace(' ', '_');
+                if (outType == "cs")
+                {
+                    var description = $"LUISGen {path} -cs {space}.{className} -o {outPath}";
+                    CSharp.Generate(description, app, className, space, outPath);
+                }
+                else if (outType == "ts")
+                {
+                    var description = $"LUISGen {path} -ts {className} -o {outPath}";
+                    Typescript.Generate(description, app, className, outPath);
+                }
             }
         }
     }

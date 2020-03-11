@@ -1,4 +1,0 @@
--r test/ts-node-register.js
-test/*.ts
---timeout 999999
---colors

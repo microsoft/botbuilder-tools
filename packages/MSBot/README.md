@@ -1,6 +1,18 @@
 [![npm version](https://badge.fury.io/js/msbot.svg)](https://badge.fury.io/js/msbot)
 
-# MSBot Command Line tool
+## The new BF CLI replaces legacy standalone tools
+
+The Bot Framework SDK team is happy to announce the General Availability of the consolidated bot framework CLI tool [bf-cli](https://aka.ms/bfcli). The new BF CLI tool will replace legacy standalone tools to manage Bot Framework bots and related services. The old tools will be ported over in phases and all new features, bug fixes, and further investments will focus on the new BF CLI.  Old tools will still work for the time being, but they are going to be deprecated in future releases.
+
+Upon the release of Bot Framework SDK version 4.6 the following legacy tools have been ported: Chatdown, QnAMaker, LuisGen, and LuDown.
+
+To learn more about the BF CLI please visit the [BF CLI github repository](https://aka.ms/bfcli).
+
+MSBot is no longer needed with the latest Bot Framework SDK.
+
+__The following page is about a legacy tool.__
+
+## MSBot Command Line tool
 
 The MSBot tool is a command line tool to create and manage bot resources described via a .bot file. See [here](./docs/bot-file.md) to learn more about the .bot file. 
 

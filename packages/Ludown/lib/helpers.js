@@ -100,7 +100,7 @@ const helpers = {
     splitFileBySections : function(fileContent, log) {
         fileContent = helpers.sanitizeNewLines(fileContent);
         let linesInFile = fileContent.split(NEWLINE);
-        let currentSection = null;
+        let currentSection = '';
         let middleOfSection = false;
         let sectionsInFile = [];
         let currentSectionType = null; //PARSERCONSTS
@@ -118,7 +118,22 @@ const helpers = {
                 continue;
             }
             // skip line if it is just a comment
-            if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) continue;
+            if(currentLine.indexOf(PARSERCONSTS.COMMENT) === 0) {
+                // Add support to parse application metadata if found
+                let info = currentLine.split(/>[ ]*!#/g);
+                if (info === undefined || info.length === 1) continue;
+                if (currentSection !== null) {
+                    let previousSection = currentSection.substring(0, currentSection.lastIndexOf(NEWLINE));
+                    try {
+                        sectionsInFile = validateAndPushCurrentBuffer(previousSection, sectionsInFile, currentSectionType, lineIndex, log);
+                    } catch (err) {
+                        throw (err);
+                    }
+                }
+                currentSection = PARSERCONSTS.MODELINFO + info[1].trim() + NEWLINE;
+                currentSectionType = PARSERCONSTS.MODELINFO;
+                continue;
+            }
 
             // skip line if it is blank
             if(currentLine === '') continue;
@@ -173,8 +188,10 @@ const helpers = {
                 // only list entity and phrase list entity types can have multi-line definition
                 if(currentLine.toLowerCase().includes(':')) {
                     // get entity name and type
-                    let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
-                    let entityType = entityDef[1].trim();
+                    // Fix for #1137. 
+                    // Current code did not account for ':' in normalized values of list entities
+                    let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '');
+                    let entityType = entityDef.slice(entityDef.indexOf(':') + 1).trim();
                     // is entityType a phraseList? 
                     if(entityType.trim().toLowerCase().includes('phraselist') || entityType.trim().toLowerCase().includes('qna-alterations')) {
                         middleOfSection = true;
@@ -186,8 +203,6 @@ const helpers = {
                         middleOfSection = false;
                         currentSection = null;
                     } else if((currentLine.indexOf('=') >= 0)) {
-                        let entityDef = currentLine.replace(PARSERCONSTS.ENTITY, '').split(':');
-                        let entityType = entityDef[1].trim();
                         let getRolesAndType = this.getRolesAndType(entityType);
                         // this is a list entity type
                         if(getRolesAndType.entityType.trim().endsWith('=')){
@@ -266,7 +281,43 @@ const helpers = {
             returnValue.roles = parsedRoleDefinition.replace('[', '').replace(']', '').split(RolesSplitRegEx).map(item => item.trim());
         }
         return returnValue;
-    }
+    },
+
+    /**
+     * Custom implementation of the String.split() function that does not drop parts of the string if a limit is used.
+     * If a string can be split into more substrings than the provided limit,
+     * the left-over text is returned as part of the last array element.
+     * @param {String} string The string to split.
+     * @param {String} separator The separator string to split on.
+     * @param {Number} limit The maximum number of substrings to return.
+     */
+    split: function (string, separator, limit) {
+        const parts = [];
+        let i = 0;
+        if (separator.length === 0) {
+            while (i < string.length && (limit === undefined || parts.length < limit)) {
+                parts.push(string.substring(i, i + 1));
+                ++i;
+            }
+            if (i < string.length && parts.length !== 0) {
+                parts[parts.length - 1] += string.substring(i);
+            }
+        } else {
+            let found;
+            while (i < string.length
+                    && (limit === undefined || parts.length < limit)
+                    && (found = string.indexOf(separator, i)) >= 0) {
+                parts.push(string.substring(i, found));
+                i = found + separator.length;
+            }
+            if (limit === undefined || parts.length < limit) {
+                parts.push(string.substring(i));
+            } else if (parts.length !== 0) {
+                parts[parts.length - 1] += string.substring(i - separator.length);
+            }
+        }
+        return parts;
+    },
 };
 
 /**
@@ -303,6 +354,9 @@ var validateAndPushCurrentBuffer = function(previousSection, sectionsInFile, cur
             if(log) process.stdout.write(chalk.yellow('Line #' + lineIndex + ': [WARN] No synonyms list found for list entity:' + previousSection.split(NEWLINE)[0] + NEWLINE));
             --lineIndex;
         }
+        sectionsInFile.push(previousSection);
+        break;
+    case PARSERCONSTS.MODELINFO:
         sectionsInFile.push(previousSection);
         break;
     }

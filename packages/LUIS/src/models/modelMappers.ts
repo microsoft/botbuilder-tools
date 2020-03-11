@@ -6,9 +6,9 @@
 
 export {
   ModelCreateObject,
+  ErrorResponse,
   IntentClassifier,
   ModelInfo,
-  ErrorResponse,
   EntityExtractor,
   EntityRole,
   HierarchicalEntityModel,
@@ -48,6 +48,7 @@ export {
   PatternAnyModelCreateObject,
   EntityRoleCreateObject,
   ExplicitListItemCreateObject,
+  ArmTokenObject,
   RegexModelUpdateObject,
   PatternAnyModelUpdateObject,
   EntityRoleUpdateObject,

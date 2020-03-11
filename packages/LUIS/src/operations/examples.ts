@@ -23,52 +23,32 @@ export class Examples {
   }
 
   /**
-   * Adds a labeled example to the application.
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
+   * Adds a labeled example utterance in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObject An example label with the expected intent and entities.
+   * @param exampleLabelObject A labeled example utterance with the expected intent and entities.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExamplesAddResponse>
    */
-  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase): Promise<Models.ExamplesAddResponse>;
+  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase): Promise<Models.ExamplesAddResponse>;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObject An example label with the expected intent and entities.
+   * @param exampleLabelObject A labeled example utterance with the expected intent and entities.
    * @param callback The callback
    */
-  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
+  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObject An example label with the expected intent and entities.
+   * @param exampleLabelObject A labeled example utterance with the expected intent and entities.
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
-  add(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabelExampleResponse>, callback?: msRest.ServiceCallback<Models.LabelExampleResponse>): Promise<Models.ExamplesAddResponse> {
+  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
+  add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabelExampleResponse>, callback?: msRest.ServiceCallback<Models.LabelExampleResponse>): Promise<Models.ExamplesAddResponse> {
     return this.client.sendOperationRequest(
       {
-        azureRegion,
-        azureCloud,
         appId,
         versionId,
         exampleLabelObject,
@@ -79,52 +59,32 @@ export class Examples {
   }
 
   /**
-   * Adds a batch of labeled examples to the application.
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
+   * Adds a batch of labeled example utterances to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObjectArray Array of examples.
+   * @param exampleLabelObjectArray Array of example utterances.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExamplesBatchResponse>
    */
-  batch(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase): Promise<Models.ExamplesBatchResponse>;
+  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase): Promise<Models.ExamplesBatchResponse>;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObjectArray Array of examples.
+   * @param exampleLabelObjectArray Array of example utterances.
    * @param callback The callback
    */
-  batch(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
+  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObjectArray Array of examples.
+   * @param exampleLabelObjectArray Array of example utterances.
    * @param options The optional parameters
    * @param callback The callback
    */
-  batch(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
-  batch(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchLabelExample[]>, callback?: msRest.ServiceCallback<Models.BatchLabelExample[]>): Promise<Models.ExamplesBatchResponse> {
+  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
+  batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchLabelExample[]>, callback?: msRest.ServiceCallback<Models.BatchLabelExample[]>): Promise<Models.ExamplesBatchResponse> {
     return this.client.sendOperationRequest(
       {
-        azureRegion,
-        azureCloud,
         appId,
         versionId,
         exampleLabelObjectArray,
@@ -135,49 +95,29 @@ export class Examples {
   }
 
   /**
-   * Returns examples to be reviewed.
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
+   * Returns example utterances to be reviewed from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExamplesListResponse>
    */
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ExamplesListOptionalParams): Promise<Models.ExamplesListResponse>;
+  list(appId: string, versionId: string, options?: Models.ExamplesListOptionalParams): Promise<Models.ExamplesListResponse>;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.LabeledUtterance[]>): void;
+  list(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.LabeledUtterance[]>): void;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ExamplesListOptionalParams, callback: msRest.ServiceCallback<Models.LabeledUtterance[]>): void;
-  list(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ExamplesListOptionalParams | msRest.ServiceCallback<Models.LabeledUtterance[]>, callback?: msRest.ServiceCallback<Models.LabeledUtterance[]>): Promise<Models.ExamplesListResponse> {
+  list(appId: string, versionId: string, options: Models.ExamplesListOptionalParams, callback: msRest.ServiceCallback<Models.LabeledUtterance[]>): void;
+  list(appId: string, versionId: string, options?: Models.ExamplesListOptionalParams | msRest.ServiceCallback<Models.LabeledUtterance[]>, callback?: msRest.ServiceCallback<Models.LabeledUtterance[]>): Promise<Models.ExamplesListResponse> {
     return this.client.sendOperationRequest(
       {
-        azureRegion,
-        azureCloud,
         appId,
         versionId,
         options
@@ -187,52 +127,32 @@ export class Examples {
   }
 
   /**
-   * Deletes the labeled example with the specified ID.
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
+   * Deletes the labeled example utterances with the specified ID from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param exampleId The example ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExamplesDeleteMethodResponse>
    */
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase): Promise<Models.ExamplesDeleteMethodResponse>;
+  deleteMethod(appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase): Promise<Models.ExamplesDeleteMethodResponse>;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param exampleId The example ID.
    * @param callback The callback
    */
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteMethod(appId: string, versionId: string, exampleId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
-   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
-   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
-   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
-   * 'virginia'
-   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
-   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param exampleId The example ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ExamplesDeleteMethodResponse> {
+  deleteMethod(appId: string, versionId: string, exampleId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteMethod(appId: string, versionId: string, exampleId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ExamplesDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
-        azureRegion,
-        azureCloud,
         appId,
         versionId,
         exampleId,
@@ -247,10 +167,9 @@ export class Examples {
 const serializer = new msRest.Serializer(Mappers);
 const addOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/example",
+  path: "apps/{appId}/versions/{versionId}/example",
   urlParameters: [
-    Parameters.azureRegion,
-    Parameters.azureCloud,
+    Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -274,10 +193,9 @@ const addOperationSpec: msRest.OperationSpec = {
 
 const batchOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples",
+  path: "apps/{appId}/versions/{versionId}/examples",
   urlParameters: [
-    Parameters.azureRegion,
-    Parameters.azureCloud,
+    Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -335,10 +253,9 @@ const batchOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples",
+  path: "apps/{appId}/versions/{versionId}/examples",
   urlParameters: [
-    Parameters.azureRegion,
-    Parameters.azureCloud,
+    Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -370,10 +287,9 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "luis/api/v2.0/apps/{appId}/versions/{versionId}/examples/{exampleId}",
+  path: "apps/{appId}/versions/{versionId}/examples/{exampleId}",
   urlParameters: [
-    Parameters.azureRegion,
-    Parameters.azureCloud,
+    Parameters.endpoint,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.exampleId

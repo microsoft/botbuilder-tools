@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,19 +33,36 @@ namespace LUISGen
             return isPrebuilt;
         }
 
+        public static bool IsHierarchical(dynamic name, dynamic app)
+        {
+            bool IsHierarchical = false;
+            if (app.entities != null)
+            {
+                foreach (var child in app.entities)
+                {
+                    if (child.name == name)
+                    {
+                        IsHierarchical = child.children != null;
+                        break;
+                    }
+                }
+            }
+            return IsHierarchical;
+        }
+
         public static bool IsList(dynamic name, dynamic app)
         {
             bool isList = false;
             if (app.closedLists != null)
             {
-                foreach(var list in app.closedLists)
+                foreach (var list in app.closedLists)
                 {
                     if (list.name == name)
                     {
                         isList = true;
                         break;
                     }
-                    foreach(var role in list.roles)
+                    foreach (var role in list.roles)
                     {
                         if (role == name)
                         {
@@ -62,7 +80,7 @@ namespace LUISGen
         public static string JsonPropertyName(dynamic property, dynamic app)
         {
             var name = ((string)property).Split(':').Last();
-            if (name.EndsWith("V2"))
+            if (!name.StartsWith("geographyV2") && !name.StartsWith("ordinalV2") && name.EndsWith("V2"))
             {
                 name = name.Substring(0, name.Length - 2);
             }
@@ -73,10 +91,10 @@ namespace LUISGen
         public static void EntityApply(JObject entity, Action<string> action)
         {
             dynamic dynEntity = entity;
-            action((string) dynEntity.name);
-            if (dynEntity.roles != null)
+            action((string)dynEntity.name);
+            if (dynEntity?.roles != null)
             {
-                foreach (string role in dynEntity.roles)
+                foreach (string role in from role in (JArray)dynEntity.roles orderby role select role)
                 {
                     action(role);
                 }
@@ -91,26 +109,38 @@ namespace LUISGen
             return obj;
         }
 
+        public static IEnumerable<JObject> OrderedEntities(dynamic entities) => from entity in (JArray)entities orderby entity["name"] select (JObject)entity;
+
         private static void WriteInstances(dynamic entities, Action<string> writeInstance)
         {
             if (entities != null)
             {
-                foreach (var entity in entities)
+                foreach (var entity in OrderedEntities(entities))
                 {
-                    Utils.EntityApply((JObject)entity, writeInstance);
+                    Utils.EntityApply(entity, writeInstance);
                 }
             }
         }
 
         public static void WriteInstances(JObject obj, Action<string> writeInstance)
         {
-            dynamic app = obj;
-            if (app.entities != null)
+            if (obj != null)
             {
-                foreach (var entity in app.entities)
+                dynamic app = obj;
+                var empty = new JArray();
+                var lists = new List<JArray> {
+                    app.entities,
+                    app.prebuiltEntities,
+                    app.closedLists,
+                    app.regex_entities,
+                    app.patternAnyEntities,
+                    app.composites
+                };
+                var entities = OrderedEntities(new JArray(lists.SelectMany(a => a ?? empty)));
+                foreach (dynamic entity in entities)
                 {
-                    Utils.EntityApply((JObject)entity, writeInstance);
-                    if (entity.children != null)
+                    Utils.EntityApply(entity, writeInstance);
+                    if (IsHierarchical(entity, app))
                     {
                         foreach (var child in entity.children)
                         {
@@ -119,11 +149,6 @@ namespace LUISGen
                     }
                 }
             }
-            WriteInstances(app.prebuiltEntities, writeInstance);
-            WriteInstances(app.closedLists, writeInstance);
-            WriteInstances(app.regex_entities, writeInstance);
-            WriteInstances(app.patternAnyEntities, writeInstance);
-            WriteInstances(app.composites, writeInstance);
         }
     }
 }

@@ -40,7 +40,6 @@ const minimist = require('minimist');
 const chalk = require('chalk');
 const help = require('../lib/help');
 const qnamaker = require('../lib');
-const txtfile = require('read-text-file');
 const {getServiceManifest} = require('../lib/utils/argsUtil');
 const Knowledgebase = require('../lib/api/knowledgebase');
 const Knowledgebases = require('../lib/api/knowledgebases');
@@ -67,6 +66,14 @@ async function runProgram() {
     if (argvFragment.length === 0) {
         argvFragment = ['-h'];
     }
+
+//     process.stdout.write(chalk.default.white(`\n\n-----------------------------------------------------------\n`));
+//     process.stdout.write(chalk.default.redBright(` NOTICE:\n`));
+//     process.stdout.write(chalk.default.whiteBright(` This tool has been deprecated.\n`));
+//     process.stdout.write(chalk.default.white(` All functionality was ported over to the new BF CLI.\n`));
+//     process.stdout.write(chalk.default.white(` To learn more visit `));
+//     process.stdout.write(chalk.default.blueBright(`https://aka.ms/NewBFCLI\n`));
+//     process.stdout.write(chalk.default.white(`-----------------------------------------------------------\n\n`));
 
     const latest = await latestVersion(pkg.name, {version: `>${pkg.version}`})
         .catch(() => pkg.version);
@@ -333,7 +340,7 @@ async function getFileInput(args) {
         return null;
     }
     // Let any errors fall through to the runProgram() promise
-    return JSON.parse(await txtfile.read(path.resolve(args.in)));
+    return await fs.readJSON(path.resolve(args.in))
 }
 
 /**
@@ -350,7 +357,7 @@ async function composeConfig() {
     let config;
     try {
         await fs.access(path.join(process.cwd(), '.qnamakerrc'), fs.R_OK);
-        qnamakerrcJson = JSON.parse(await txtfile.read(path.join(process.cwd(), '.qnamakerrc')));
+        qnamakerrcJson = await fs.readJSON(path.join(process.cwd(), '.qnamakerrc'));
     } catch (e) {
         // Do nothing
     } finally {

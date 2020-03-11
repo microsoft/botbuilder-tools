@@ -200,7 +200,7 @@ $deviceTemperature:simple`;
             "patterns": [],
             "patternAnyEntities": [],
             "prebuiltEntities": [],
-            "luis_schema_version": "3.0.0",
+            "luis_schema_version": "3.2.0",
             "versionId": "0.1",
             "name": "compositeEntities",
             "desc": "",
@@ -408,14 +408,14 @@ $deviceTemperature:simple`;
         .catch(err => done(`Test failed - ${JSON.stringify(err)}`))
     });
 
-    it ('Nested composites are not allowed', function(done) {
+    it ('composites cannot include pattern.any entity', function(done) {
       let luFile = `# Test
-      - {a = b {c = d {e = f}}}`;
+      - {p = {q}}`;
       parseFile(luFile, false)
         .then(res => done(`Test failed - did not throw when expected. ${res}`))
         .catch(err => done())
     });
-
+    
     it ('Correctly parses composites with text in between labels', function(done){
       let luFile = `# Test
       - zero {foo = one {one = two} three} four

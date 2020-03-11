@@ -7,9 +7,9 @@ import * as chalk from 'chalk';
 import * as child_process from 'child_process';
 import * as program from 'commander';
 import * as fs from 'fs';
+import * as fsExtra from 'fs-extra';
 import * as path from 'path';
 import * as process from 'process';
-import * as txtfile from 'read-text-file';
 import * as readline from 'readline-sync';
 import * as url from 'url';
 import * as util from 'util';
@@ -18,12 +18,12 @@ import { spawnAsync } from './processUtils';
 import { logAsync } from './stdioAsync';
 import { luisPublishRegions, RegionCodes, regionToAppInsightRegionNameMap, regionToLuisAuthoringRegionMap, regionToLuisPublishRegionMap, regionToSearchRegionMap } from './utils';
 import  { ServiceVersion  } from './msbot-clone-service-version'
+import {readTextFile} from './read-text-file';
 
 const Table = require('cli-table3');
 const opn = require('opn');
 const commandExistsSync = require('command-exists').sync;
 const exec = util.promisify(child_process.exec);
-
 const AZCLIMINVERSION = '(2.0.53)'; // This corresponds to the AZ CLI version that shipped after the Bot Builder 4.2 release (December 2018).
 
 program.Command.prototype.unknownOption = (flag: string): void => {
@@ -192,8 +192,7 @@ async function processConfiguration(): Promise<void> {
         await checkDotNetRequirement();
     }
 
-    let recipeJson = await txtfile.read(path.join(args.folder, `bot.recipe`));
-    let recipe = <BotRecipe>JSON.parse(recipeJson);
+    let recipe = <BotRecipe> await fsExtra.readJson(path.join(args.folder, `bot.recipe`));
 
     // get subscription account data
     let command: string = `az account show `;
@@ -928,7 +927,7 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
         // update local environment settings
         if (fs.existsSync('appsettings.json')) {
             console.log(`Updating appsettings.json with botFilePath=${config.getPath()}`);
-            let settings = JSON.parse(txtfile.readSync('appsettings.json'));
+            let settings = fsExtra.readJsonSync('appsettings.json');
             settings.botFilePath = config.getPath();
             fs.writeFileSync('appsettings.json', JSON.stringify(settings, null, 4), { encoding: 'utf8' });
 
@@ -936,7 +935,7 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
 
                 // some projfiles won't have a userSecret set, check for it
                 if (args.projFile) {
-                    let proj = txtfile.readSync(args.projFile);
+                    let proj = readTextFile.readSync(args.projFile);
                     if (proj.indexOf('<UserSecretsId>') < 0) {
                         // doesn't have it, add one
                         let end = proj.indexOf('</Project');
@@ -952,7 +951,7 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
 
                 // make sure that startup.cs has configuration information
                 if (fs.existsSync('startup.cs')) {
-                    let startup = txtfile.readSync('startup.cs');
+                    let startup = readTextFile.readSync('startup.cs');
                     // if it doesn't have .AddUserSecrets call
                     if (startup.indexOf('.AddUserSecrets') < 0) {
                         let i = startup.indexOf('Configuration = builder.Build();');
@@ -970,7 +969,7 @@ async function updateLocalSafeSettings(azBot?: IBotService): Promise<void> {
             }
         } else if (fs.existsSync('.env')) {
             console.log(`Updating .env with path and secret`);
-            let lines = txtfile.readSync('.env').split('\n');
+            let lines = readTextFile.readSync('.env').split('\n');
             let newEnv = '';
             let pathLine = `botFilePath="${config.getPath()}"\n`;
             let secretLine = `botFileSecret="${args.secret}"\n`;

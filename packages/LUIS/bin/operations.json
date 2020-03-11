@@ -265,7 +265,7 @@
         "target": [
             "userazureaccounts"
         ],
-        "command": "luis list userazureaccounts --armToken <string>",
+        "command": "luis list userazureaccounts --armToken <string> --in armToken.json",
         "pathFragment": "",
         "params": [
             {
@@ -278,6 +278,8 @@
             }
         ],
         "description": "Returns the list of Azure accounts belonging to the user.",
+        "entityName": "armToken",
+        "entityType": "ArmTokenObject",
         "name": "ListUserAzureAccounts"
     },
     {
@@ -286,7 +288,7 @@
         "target": [
             "appazureaccounts"
         ],
-        "command": "luis list appazureaccounts --armToken <string> --appId <string>",
+        "command": "luis list appazureaccounts --armToken <string> --appId <string> --in armToken.json",
         "pathFragment": "",
         "params": [
             {
@@ -308,6 +310,8 @@
             }
         ],
         "description": "Returns the list of Azure accounts asigned to the application.",
+        "entityName": "armToken",
+        "entityType": "ArmTokenObject",
         "name": "ListAppAzureAccounts"
     },
     {
@@ -316,7 +320,7 @@
         "target": [
             "appazureaccount"
         ],
-        "command": "luis add appazureaccount --in accountToAdd.json --appId <string>",
+        "command": "luis add appazureaccount --in accountToAdd.json,armToken.json --appId <string>",
         "pathFragment": "",
         "params": [
             {
@@ -339,8 +343,8 @@
       ],
         "description": "Assigns a LUIS Azure account to the application.",
         "name": "AddLuisAccount",
-        "entityName": "accountToAdd",
-        "entityType": "AzureAccountInfoObject"
+        "entityName": "accountToAdd,armToken",
+        "entityType": "AzureAccountInfoObject,ArmTokenObject"
     },
     {
         "method": "delete",
