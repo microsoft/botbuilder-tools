@@ -8,7 +8,7 @@
 
 import * as vscode from 'vscode';
 import * as util from '../util';
-import { LGTemplate } from 'botbuilder-lg';
+import { Template, Templates } from 'botbuilder-lg';
 import { buildInfunctionsMap } from '../buildinFunctions';
 
 /**
@@ -37,8 +37,8 @@ class LGHoverProvider implements vscode.HoverProvider {
         let wordName = document.getText(wordRange);
 
         // template reference hover
-        const templates: LGTemplate[] = util.getAllTemplatesFromCurrentLGFile(document.uri);
-        const template: LGTemplate = templates.find(u=>u.name === wordName);
+        const templates: Templates = util.getAllTemplatesFromCurrentLGFile(document.uri);
+        const template: Template = templates.toArray().find(u=>u.name === wordName);
         if (template !== undefined) {
             const contents = [];
             contents.push(new vscode.MarkdownString(template.source));

@@ -6,18 +6,18 @@
  * Licensed under the MIT License.
  */
 
-import { TemplateEngine } from 'botbuilder-lg';
+import { Templates } from 'botbuilder-lg';
 import * as vscode from 'vscode';
 
 export class DataStorage {
-    public static templateEngineMap: Map<string, TemplateEngineEntity> = new Map<string, TemplateEngineEntity>(); // file path -> templateEngine
+    public static templatesMap: Map<string, TemplatesEntity> = new Map<string, TemplatesEntity>(); // file path -> templates
 }
 
-export class TemplateEngineEntity {
-    public constructor(uri: vscode.Uri, templateEngine: TemplateEngine) {
-        this.templateEngine = templateEngine;
+export class TemplatesEntity {
+    public constructor(uri: vscode.Uri, templates: Templates) {
+        this.templates = templates;
         this.uri = uri;
     }
     public uri: vscode.Uri;
-    public templateEngine: TemplateEngine;
+    public templates: Templates;
 }

@@ -7,10 +7,10 @@
  */
 
 import * as vscode from 'vscode';
-import { TemplateEngine } from 'botbuilder-lg';
+import { Templates } from 'botbuilder-lg';
 import * as path from 'path';
 import * as fs from 'fs';
-import { DataStorage, TemplateEngineEntity } from '../dataStorage';
+import { DataStorage, TemplatesEntity } from '../dataStorage';
 import * as util from '../util';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -91,11 +91,11 @@ export class LGDebugPanel {
                         let results = [];
                         
                         //let engineEntity: TemplateEngineEntity = DataStorage.templateEngineMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
-                        let engineEntity: TemplateEngineEntity = DataStorage.templateEngineMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
+                        let engineEntity: TemplatesEntity = DataStorage.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
                         if (engineEntity === undefined) {
                             vscode.window.showErrorMessage("please fix errors first.");
                         } else {
-                            const engine: TemplateEngine = engineEntity.templateEngine;
+                            const engine: Templates = engineEntity.templates;
 
                             if(engine === undefined) {
                                 vscode.window.showErrorMessage("please fix all errors first.");
@@ -121,7 +121,7 @@ export class LGDebugPanel {
                     try {
                         const source: any = message.source;
                         let result: string[] = [];
-                        let templates = util.getAllTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri);
+                        let templates = util.getAllTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri).toArray();
                         if (templates.length === 0) {
                             vscode.window.showErrorMessage("please fix all errors first.");
                         } else {
@@ -146,7 +146,7 @@ export class LGDebugPanel {
                         const source: any = message.source;
                         let result: string[] = [];
                         if (source === "Template Name"){
-                            let templates = util.getAllTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri);
+                            let templates = util.getAllTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri).toArray();
                         if (templates.length === 0) {
                             vscode.window.showErrorMessage("please fix all errors first.");
                         } else {

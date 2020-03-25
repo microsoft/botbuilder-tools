@@ -7,7 +7,7 @@
  */
 
 import * as vscode from 'vscode';
-import { TemplateEngine, LGTemplate} from 'botbuilder-lg';
+import { Templates, Template} from 'botbuilder-lg';
 import * as util from '../util';
 import { DataStorage } from '../dataStorage';
 
@@ -37,8 +37,8 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             }
             const templateName = document.getText(wordRange);
 
-            const templates: LGTemplate[] = util.getAllTemplatesFromCurrentLGFile(document.uri);
-            const template: LGTemplate = templates.find(u=>u.name === templateName);
+            const templates: Templates = util.getAllTemplatesFromCurrentLGFile(document.uri);
+            const template: Template = templates.toArray().find(u=>u.name === templateName);
             if (template === undefined)
                 return undefined;
             
@@ -48,7 +48,7 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             const definitionPosition: vscode.Position = new vscode.Position(lineNumber, columnNumber);
 
             let definitionUri: vscode.Uri = undefined;
-            DataStorage.templateEngineMap.forEach((value, key) => {
+            DataStorage.templatesMap.forEach((value, key) => {
                 if (template.source === key) {
                     definitionUri = value.uri;
                 }

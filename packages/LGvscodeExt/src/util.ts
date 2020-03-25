@@ -6,11 +6,11 @@
  * Licensed under the MIT License.
  */
 
-import { TextDocument, Range, Position, workspace } from "vscode";
-import { LGTemplate, TemplateEngine } from "botbuilder-lg";
-import { DataStorage, TemplateEngineEntity } from "./dataStorage";
+import { TextDocument, Range, Position } from "vscode";
+import { Template, Templates, } from "botbuilder-lg";
+import { DataStorage, TemplatesEntity } from "./dataStorage";
 import * as vscode from 'vscode';
-import { ReturnType } from "botframework-expressions";
+import { ReturnType } from "adaptive-expressions";
 import { buildInfunctionsMap, FunctionEntity } from './buildinFunctions';
 
 export function isLgFile(fileName: string): boolean {
@@ -30,27 +30,13 @@ export function isInFencedCodeBlock(doc: TextDocument, position: Position): bool
     }
 }
 
-export function getAllTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) :LGTemplate[] {
-    let engineEntity: TemplateEngineEntity = DataStorage.templateEngineMap.get(lgFileUri.fsPath);
-    if (engineEntity === undefined || engineEntity.templateEngine === undefined) {
-        return [];
+export function getAllTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) : Templates {
+    let engineEntity: TemplatesEntity = DataStorage.templatesMap.get(lgFileUri.fsPath);
+    if (engineEntity === undefined || engineEntity.templates === undefined) {
+        return new Templates();
     }
 
-    return engineEntity.templateEngine.templates;
-}
-
-export function getAllTemplateFromCurrentWorkspace() :LGTemplate[] {
-    let templates: LGTemplate[] = [];
-
-    DataStorage.templateEngineMap.forEach(u => templates = templates.concat(u.templateEngine.templates));
-
-    templates = templates.filter((resource: LGTemplate, index: number, self: LGTemplate[]) =>
-        index === self.findIndex((t: LGTemplate) => (
-            t.name === resource.name && t.source === resource.source
-        ))
-    );
-
-    return templates;
+    return engineEntity.templates;
 }
 
 export function getreturnTypeStrFromReturnType(returnType: ReturnType): string {
@@ -72,7 +58,7 @@ export function getAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEnti
         functions.set(func[0],func[1]);
     }
 
-    const templates: LGTemplate[] = getAllTemplatesFromCurrentLGFile(lgFileUri);
+    const templates: Templates = getAllTemplatesFromCurrentLGFile(lgFileUri);
 
     for (const template of templates) {
         var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, 'Template reference');

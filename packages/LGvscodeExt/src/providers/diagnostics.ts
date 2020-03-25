@@ -7,7 +7,7 @@
  */
 
 import * as vscode from 'vscode';
-import { LGTemplate, StaticChecker, Diagnostic, LGParser, Position, Range, TemplateEngine, DiagnosticSeverity} from 'botbuilder-lg';
+import { Templates, DiagnosticSeverity} from 'botbuilder-lg';
 import * as util from '../util';
 
 /**
@@ -54,7 +54,7 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     }
     
 	if (util.isLgFile(document.fileName)) {
-        var diagnostics = new StaticChecker().checkFile(document.uri.fsPath);
+        var diagnostics = Templates.parseFile(document.uri.fsPath).diagnostics;
         var vscodeDiagnostics: vscode.Diagnostic[] = [];
         const confDiagLevel = vscode.workspace.getConfiguration().get('LG.Expression.ignoreUnknownFunction');
         const confCustomFuncListSetting: string = vscode.workspace.getConfiguration().get('LG.Expression.customFunctionList');

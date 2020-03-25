@@ -15,7 +15,6 @@ import * as definition from './providers/definition';
 import * as hover from './providers/hover';
 import * as signature from './providers/signature';
 import * as debugPanel from './providers/debugPanel';
-import * as codeAction from './providers/codeAction';
 
 /**
  * Main vs code Extension code part
@@ -32,5 +31,4 @@ export function activate(context: vscode.ExtensionContext) {
     hover.activate(context);
     signature.activate(context);
     debugPanel.activate(context);
-    codeAction.activate(context);
 }

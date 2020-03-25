@@ -7,9 +7,9 @@
  */
 
 import * as vscode from 'vscode';
-import { TemplateEngine } from 'botbuilder-lg';
+import { Templates } from 'botbuilder-lg';
 import * as util from '../util';
-import { DataStorage, TemplateEngineEntity } from '../dataStorage';
+import { DataStorage, TemplatesEntity } from '../dataStorage';
 
 export function activate(context: vscode.ExtensionContext) {
     if (vscode.window.activeTextEditor) {
@@ -38,7 +38,7 @@ function triggerLGFileFinder() {
 }
 
 function updateTemplateEngineMap(uris: vscode.Uri[]) {
-    DataStorage.templateEngineMap.clear();
+    DataStorage.templatesMap.clear();
     uris.forEach(uri => {
         updateTemplateEngine(uri);
     });
@@ -46,16 +46,7 @@ function updateTemplateEngineMap(uris: vscode.Uri[]) {
 }
 
 function updateTemplateEngine(uri: vscode.Uri) {
-    let engine: TemplateEngine = new TemplateEngine();
+    let engine: Templates = Templates.parseFile(uri.fsPath);
 
-    try {
-        engine = engine.addFile(uri.fsPath);
-    }
-    catch(e)
-    {
-        // ignore it
-        //vscode.window.showWarningMessage(e.message);
-    }
-
-    DataStorage.templateEngineMap.set(uri.fsPath, new TemplateEngineEntity(uri, engine));
+    DataStorage.templatesMap.set(uri.fsPath, new TemplatesEntity(uri, engine));
 }

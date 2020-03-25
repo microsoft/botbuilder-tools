@@ -1,16 +1,19 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
-		"target": "ESNext",
-		"outDir": "out",
-		"lib": [
-			"es6"
-		],
-		"sourceMap": true,
-		"rootDir": "src",
-		"types" : ["node"]
+	  "target": "es6",
+	  "lib": ["es2015"],
+	  "module": "commonjs",
+	  "declaration": true,
+	  "declarationMap": true,
+	  "sourceMap": true,
+	  "outDir": "out",
+	  "rootDir": "src",
+	  "types" : ["node"]
 	},
+	"include": [
+	  "src/**/*"
+	],
 	"exclude": [
 		"node_modules",
 	]
-}
+  }
