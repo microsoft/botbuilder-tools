@@ -5,7 +5,7 @@
     "description": "lg file",
     "version": "0.6.5",
     "license": "MIT",
-    "publisher": "bot-framework",
+    "publisher": "Microsoft",
     "repository": {
         "type": "git",
         "url": "https://github.com/microsoft/botbuilder-tools.git"
@@ -15,7 +15,12 @@
     },
     "categories": [
         "Programming Languages",
-        "Other"
+        "Debuggers"
+    ],
+    "keywords": [
+        "debuggers",
+        "bot",
+        "lg"
     ],
     "contributes": {
         "configuration": [
@@ -59,6 +64,12 @@
                     ".lg"
                 ],
                 "configuration": "./language-configuration.json"
+            },
+            {
+                "id": "json",
+                "extensions": [
+                    ".dialog"
+                ]
             }
         ],
         "grammars": [
@@ -74,11 +85,97 @@
                 "key": "enter",
                 "when": "editorTextFocus && !editorReadonly && editorLangId == lg && !suggestWidgetVisible && vim.mode != 'Normal' && vim.mode != 'Visual' && vim.mode != 'VisualBlock' && vim.mode != 'VisualLine' && vim.mode != 'SearchInProgressMode' && vim.mode != 'CommandlineInProgress' && vim.mode != 'Replace' && vim.mode != 'EasyMotionMode' && vim.mode != 'EasyMotionInputMode' && vim.mode != 'SurroundInputMode'"
             }
+        ],
+        "debuggers": [
+            {
+                "type": "bot",
+                "label": "Bot Framework Debugger",
+                "languages": [
+                    "json",
+                    "lg"
+                ],
+                "configurationAttributes": {
+                    "launch": {
+                        "required": [
+                            "command"
+                        ],
+                        "properties": {
+                            "command": {
+                                "type": "string",
+                                "description": "The command to launch the Bot."
+                            },
+                            "args": {
+                                "type": "array",
+                                "description": "The arguments to launch the Bot."
+                            }
+                        }
+                    }
+                },
+                "initialConfigurations": [
+                    {
+                        "type": "bot",
+                        "request": "attach",
+                        "name": "Attach to Bot",
+                        "debugServer": 4712
+                    },
+                    {
+                        "type": "bot",
+                        "request": "launch",
+                        "name": "Launch Bot (.NET Core)",
+                        "command": "dotnet",
+                        "args": [
+                            "run",
+                            "--no-build",
+                            "--",
+                            "--debugport",
+                            "0"
+                        ]
+                    }
+                ],
+                "configurationSnippets": [
+                    {
+                        "label": "Bot: Attach Configuration",
+                        "description": "A new configuration for attaching to a bot web service process.",
+                        "body": {
+                            "type": "bot",
+                            "request": "attach",
+                            "name": "Attach to Bot",
+                            "debugServer": 4712
+                        }
+                    },
+                    {
+                        "label": "Bot: Launch .NET Core Configuration",
+                        "description": "A new configuration for launching a bot web service process.",
+                        "body": {
+                            "type": "bot",
+                            "request": "launch",
+                            "name": "Debug Bot (.NET Core)",
+                            "command": "dotnet",
+                            "args": [
+                                "run",
+                                "--no-build",
+                                "--",
+                                "--debugport",
+                                "0"
+                            ]
+                        }
+                    }
+                ]
+            }
+        ],
+        "breakpoints": [
+            {
+                "language": "json"
+            },
+            {
+                "language": "lg"
+            }
         ]
     },
     "activationEvents": [
         "onCommand:lgLiveTest.start",
         "onWebviewPanel:lgLiveTest",
+        "onDebug",
         "*"
     ],
     "main": "./out/extension.js",
@@ -90,7 +187,7 @@
     "devDependencies": {
         "@types/mocha": "^7.0.2",
         "@types/node": "^13.9.3",
-        "@types/vscode": "^1.43.0",
+        "@types/vscode": "^1.25.0",
         "vscode-test": "^1.3.0",
         "typescript": "^3.8.3"
     },
