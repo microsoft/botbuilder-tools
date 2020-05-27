@@ -145,7 +145,7 @@ Options:
 | --dispatch             | (optional) Path to .dispatch file |
 | --dataFolder           | (optional) Dispatch working directory |
 | --hierarchical         | (optional) Default to true, set to false when evaluating a single LUIS model |
-| --useAllTrainingData   | (optional) Default to false. LUIS UseAllTrainingData flag (see https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/versions-update-application-version-settings) |
+| --useAllTrainingData   | (optional) Default to true. LUIS UseAllTrainingData flag (see https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-application-settings) |
 | --dontReviseUtterance  | (optional) Default to false. Dispatch sometimes minorly revises an utterance for generalization. If false, utterances won't be revised |
 | --publishToStaging     | (optional) Default to false. Publish to LUIS staging instead of production platform |
 | --dedupeTrainingSet    | (optional) Default to false. If false, Dispatch won't dedupe duplicated training instances |
@@ -180,7 +180,7 @@ With the following options
 | -v, --version        | (optional) Dispatch LUIS app version. A new version will be created if param value is different than previously created version.  |
 | -b, --bot            | (optional) .bot file path         |
 | -s, --secret         | (optional) .bot file secret       |
-| --useAllTrainingData   | (optional) Default to false. LUIS UseAllTrainingData flag (see https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/versions-update-application-version-settings) |
+| --useAllTrainingData   | (optional) Default to true. LUIS UseAllTrainingData flag (see https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-application-settings) |
 | --dontReviseUtterance  | (optional) Default to false. Dispatch sometimes minorly revises an utterance for generalization. If false, utterances won't be revised |
 | --publishToStaging     | (optional) Default to false. Publish to LUIS staging instead of production platform |
 | --dedupeTrainingSet    | (optional) Default to false. If false, Dispatch won't dedupe duplicated training instances |
