@@ -126,7 +126,17 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     ['xpath', new FunctionEntity(['xml: any', 'xpath: any'], ReturnType.Object, 'Check XML for nodes or values that match an XPath (XML Path Language) expression, and return the matching nodes or values. An XPath expression, or just "XPath", helps you navigate an XML document structure so that you can select nodes or compute values in the XML content.')],
     ['sortBy', new FunctionEntity(['collection: Array', 'property?: string'], ReturnType.Object, 'Sort elements in the collection with ascending order and return the sorted collection')],
     ['sortByDescending', new FunctionEntity(['collection: Array', 'property?: string'], ReturnType.Object, 'Sort elements in the collection with descending order and return the sorted collection')],
+    ['isInteger', new FunctionEntity(['input: any'], ReturnType.Boolean, 'Return true if a given input is an integer number.')],
+    ['isFloat', new FunctionEntity(['input: any'], ReturnType.Boolean, 'Return true if a given input is an floating-point number.')],
+    ['isBoolean', new FunctionEntity(['input: any'], ReturnType.Boolean, 'Return true if a given input is a Boolean.')],
+    ['isArray', new FunctionEntity(['input: any'], ReturnType.Boolean, 'Return true if a given input is an array.')],
+    ['isObject', new FunctionEntity(['input: any'], ReturnType.Boolean, 'Return true if a given input is a complex object or return false if it is a primitive object.')],
+    ['isDateTime', new FunctionEntity(['input: any'], ReturnType.Boolean, 'Return true if a given input is a UTC ISO format (YYYY-MM-DDTHH:mm:ss.fffZ) timestamp string.')],
+    ['isString', new FunctionEntity(['input: any'], ReturnType.Boolean, 'Return true if a given input is a string.')],
+    ['where', new FunctionEntity(['collection: Array', 'iteratorName: string', 'function: any'], ReturnType.Object, 'Filter on each element and return the new collection of filtered elements which match a specific condition.')],
+    ['select', new FunctionEntity(['collection: Array', 'iteratorName: string', 'function: any'], ReturnType.Object, 'Operate on each element and return the new collection of transformed elements.')],
 
+    
     // LG functions
     ['template', new FunctionEntity(['templateName: string', 'scope?: any'], ReturnType.Object, 'Evaluate another la template')],
     ['fromFile', new FunctionEntity(['filePath: string'], ReturnType.String, 'Get content from absolute/relative file path')],

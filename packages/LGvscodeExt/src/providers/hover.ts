@@ -41,7 +41,7 @@ class LGHoverProvider implements vscode.HoverProvider {
         const template: Template = templates.toArray().find(u=>u.name === wordName);
         if (template !== undefined) {
             const contents = [];
-            contents.push(new vscode.MarkdownString(template.source));
+            contents.push(new vscode.MarkdownString(template.sourceRange.source));
             contents.push(new vscode.MarkdownString(template.body));
             return new vscode.Hover(contents, wordRange);
         }
