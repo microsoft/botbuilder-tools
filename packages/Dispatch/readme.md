@@ -8,6 +8,18 @@ Use the Dispatch model in cases when:
 2. Evaluate quality of intents classification of a single LUIS model.
 3. Create a text classification model from text files.
 
+## Deprecation Roadmap
+Dispatch command line is on path to be replaced with [Orchestrator](https://aka.ms/bf-orchestrator) recognizer. Orchestrator is an independent technology from LUIS and QnAMaker. 
+
+To migrate your dispatch models to Orchestrator we recommend the following documentation:
+
+* See [Dispatch migration example](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/DispatchMigrationExample.md)
+* Examine Orchestrator [samples](https://github.com/microsoft/BotBuilder-Samples/tree/main/experimental/orchestrator).
+* Use [BF CLI Orchestrator](https://github.com/microsoft/BotBuilder-Samples/tree/main/experimental/orchestrator/CLI/ModelTuning) command to evaluate your language models.
+
+The exact roadmap timeline hasn't been finalized yet but now is a good time to start evaluating Orchestrator as an alternative to dispatch.
+
+
 ## Prerequisite
 
 - [Node.js](https://nodejs.org/) version 8.5 or higher
