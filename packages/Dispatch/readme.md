@@ -17,7 +17,7 @@ To migrate your dispatch models to Orchestrator we recommend the following docum
 * Examine Orchestrator [samples](https://github.com/microsoft/BotBuilder-Samples/tree/main/experimental/orchestrator).
 * Use [BF CLI Orchestrator](https://github.com/microsoft/BotBuilder-Samples/tree/main/experimental/orchestrator/CLI/ModelTuning) command to evaluate your language models.
 
-The exact roadmap timeline hasn't been finalized yet but now is a good time to start evaluating Orchestrator as an alternative to dispatch.
+Dispatch CLI will be deprecated on **December 31, 2021** so now is a good time to start evaluating Orchestrator as an alternative to dispatch. See more on Virtual Assistant migration guidance [here](https://docs.microsoft.com/en-us/composer/how-to-migrate-va-to-composer#support-for-virtual-assistant-bots).
 
 
 ## Prerequisite
