@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="parameters.json" />
+    <None Remove="template.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="parameters.json" />
+    <EmbeddedResource Include="template.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Management.Relay" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Azure.Management.ResourceManager" Version="2.0.0-preview" />
+    <PackageReference Include="Microsoft.Azure.Management.ResourceManager.Fluent" Version="1.23.0" />
+    <PackageReference Include="Microsoft.Azure.Relay" Version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+</Project>
