@@ -550,10 +550,10 @@ async function runProgram() {
         case "suggest":
             switch (target) {
                 case "intents":
-                    result = await client.model.getIntentSuggestions(args.appId, args.versionId, args.intentId, args);
+                    result = await client.model.listIntentSuggestions(args.appId, args.versionId, args.intentId, args);
                     break;
                 case "entities":
-                    result = await client.model.getEntitySuggestions(args.appId, args.versionId, args.entityId, args);
+                    result = await client.model.listEntitySuggestions(args.appId, args.versionId, args.entityId, args);
                     break;
 
                 default:
