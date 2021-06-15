@@ -1,7 +1,7 @@
 
 # ![Bot Framework Tools](./docs/media/BotFrameWorkTools-header.png)
 
-### [Click here to find out what's new for //build2019!](https://github.com/Microsoft/botframework/blob/master/whats-new.md#whats-new)
+### [Find out what's new!](https://github.com/Microsoft/botframework/blob/master/whats-new.md#whats-new)
 
 ## The new BF CLI replaces legacy standalone tools
 
