@@ -60,7 +60,7 @@
     "window-size": "^1.1.0"
   },
   "devDependencies": {
-    "enum-files": "^1.1.0",
+    "enum-files": "git+https://github.com/hirowaki/enum-files.git",
     "mocha": "^5.2.0",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
