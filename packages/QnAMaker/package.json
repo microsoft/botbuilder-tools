@@ -38,7 +38,7 @@
     "hoek": "^5.0.3",
     "https-proxy-agent": "^2.2.1",
     "intercept-stdout": "^0.1.2",
-    "latest-version": "^4.0.0",
+    "latest-version": "^7.0.0",
     "md5": "^2.2.1",
     "minimist": "^1.2.0",
     "node-fetch": "^2.1.2",
