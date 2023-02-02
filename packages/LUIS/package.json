@@ -48,7 +48,7 @@
     "fs-extra": "^5.0.0",
     "get-stdin": "^6.0.0",
     "intercept-stdout": "^0.1.2",
-    "latest-version": "^4.0.0",
+    "latest-version": "^7.0.0",
     "minimist": "^1.2.0",
     "node-fetch": "^2.6.0",
     "perf_hooks": "0.0.1",
