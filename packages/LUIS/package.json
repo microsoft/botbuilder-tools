@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/Microsoft/botbuilder-tools#readme",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.8.13",
+    "@azure/ms-rest-js": "^2.6.6",
     "await-delay": "^1.0.0",
     "chalk": "2.4.1",
     "cli-position": "^1.0.1",
