@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Version Condition=" '$(PackageVersion)' == '' ">2.0.1-local</Version>
 		<Version Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</Version>
@@ -49,7 +49,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
 </Project>
