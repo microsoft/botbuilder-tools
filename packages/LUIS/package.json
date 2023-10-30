@@ -55,7 +55,7 @@
     "readline-sync": "^1.4.9",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "semver": "^5.7.0",
+    "semver": "^7.5.2",
     "tslib": "^1.10.0",
     "window-size": "^1.1.0"
   },
