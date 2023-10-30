@@ -46,7 +46,7 @@
     "@types/uuid": "^3.4.3",
     "@types/valid-url": "^1.0.2",
     "enum-files": "git+https://github.com/hirowaki/enum-files.git",
-    "mocha": "^5.2.0",
+    "mocha": "^10.2.0",
     "targz": "^1.0.1"
   },
   "dependencies": {
