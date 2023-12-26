@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureReverseProxy", "AzureReverseProxy\AzureReverseProxy.csproj", "{D1C4F881-15B9-48FF-A57E-EED9564A3D8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureReverseProxyCMD", "AzureReverseProxyCMD\AzureReverseProxyCMD.csproj", "{1FA33C29-CE71-4448-A790-94CEB768EA08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1C4F881-15B9-48FF-A57E-EED9564A3D8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1C4F881-15B9-48FF-A57E-EED9564A3D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1C4F881-15B9-48FF-A57E-EED9564A3D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1C4F881-15B9-48FF-A57E-EED9564A3D8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FA33C29-CE71-4448-A790-94CEB768EA08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FA33C29-CE71-4448-A790-94CEB768EA08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FA33C29-CE71-4448-A790-94CEB768EA08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FA33C29-CE71-4448-A790-94CEB768EA08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F436B7A8-80C5-4F97-8C75-395601F23CA2}
+	EndGlobalSection
+EndGlobal
